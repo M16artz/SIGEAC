@@ -1,0 +1,3 @@
+﻿# Manual de usuario
+
+Esta sección documentará las funcionalidades aprobadas y disponibles.

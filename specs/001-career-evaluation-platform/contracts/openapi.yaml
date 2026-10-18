@@ -1,0 +1,967 @@
+openapi: 3.1.0
+info:
+  title: SEC-UNL API
+  version: 1.0.0
+  description: API REST del Sistema de Evaluación de Carreras. I0-I6 son MVP; I7-I8 son extensiones opcionales.
+servers:
+  - url: /api/v1
+security:
+  - sessionCookie: []
+tags:
+  - name: Access
+  - name: Models
+  - name: Processes
+  - name: Evidence
+  - name: DocumentReview
+  - name: AcademicEvaluation
+  - name: Reporting
+  - name: Audit
+  - name: Extensions
+paths:
+  /sessions:
+    post:
+      tags: [Access]
+      operationId: createSession
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/LoginRequest'}
+      responses:
+        '201':
+          description: Sesión creada; establece cookie opaca y devuelve token CSRF.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/SessionView'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '429': {$ref: '#/components/responses/TooManyRequests'}
+    delete:
+      tags: [Access]
+      operationId: revokeCurrentSession
+      parameters: [{$ref: '#/components/parameters/CsrfToken'}]
+      responses:
+        '204': {description: Sesión revocada}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+  /me:
+    get:
+      tags: [Access]
+      operationId: getCurrentIdentity
+      responses:
+        '200':
+          description: Identidad, funciones y ámbitos vigentes.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/CurrentIdentity'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+  /users:
+    get:
+      tags: [Access]
+      operationId: listUsers
+      parameters: [{$ref: '#/components/parameters/Page'}, {$ref: '#/components/parameters/Size'}]
+      responses:
+        '200': {$ref: '#/components/responses/PagedResult'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+    post:
+      tags: [Access]
+      operationId: createUser
+      parameters: [{$ref: '#/components/parameters/CsrfToken'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/UserCommand'}
+      responses:
+        '201': {$ref: '#/components/responses/CreatedResource'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /users/{userId}/assignments:
+    post:
+      tags: [Access]
+      operationId: assignUserScope
+      parameters:
+        - {$ref: '#/components/parameters/UserId'}
+        - {$ref: '#/components/parameters/CsrfToken'}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/AssignmentCommand'}
+      responses:
+        '201': {$ref: '#/components/responses/CreatedResource'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /models:
+    get:
+      tags: [Models]
+      operationId: listModels
+      parameters: [{$ref: '#/components/parameters/Page'}, {$ref: '#/components/parameters/Size'}]
+      responses:
+        '200': {$ref: '#/components/responses/PagedResult'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+    post:
+      tags: [Models]
+      operationId: createModel
+      parameters: [{$ref: '#/components/parameters/CsrfToken'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/ModelCommand'}
+      responses:
+        '201': {$ref: '#/components/responses/CreatedResource'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+  /models/{modelId}/versions:
+    get:
+      tags: [Models]
+      operationId: listModelVersions
+      parameters:
+        - {$ref: '#/components/parameters/ModelId'}
+        - {$ref: '#/components/parameters/Page'}
+        - {$ref: '#/components/parameters/Size'}
+      responses:
+        '200': {$ref: '#/components/responses/PagedResult'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+    post:
+      tags: [Models]
+      operationId: createModelVersion
+      parameters:
+        - {$ref: '#/components/parameters/ModelId'}
+        - {$ref: '#/components/parameters/CsrfToken'}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/ModelVersionCommand'}
+      responses:
+        '201': {$ref: '#/components/responses/CreatedResource'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /models/{modelId}/versions/{versionId}/publish:
+    post:
+      tags: [Models]
+      operationId: publishModelVersion
+      parameters:
+        - {$ref: '#/components/parameters/ModelId'}
+        - {$ref: '#/components/parameters/VersionId'}
+        - {$ref: '#/components/parameters/CsrfToken'}
+        - {$ref: '#/components/parameters/IfMatch'}
+      responses:
+        '200': {$ref: '#/components/responses/Resource'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '412': {$ref: '#/components/responses/PreconditionFailed'}
+  /model-versions/{versionId}:
+    get:
+      tags: [Models]
+      operationId: getModelVersion
+      parameters: [{$ref: '#/components/parameters/VersionId'}]
+      responses:
+        '200':
+          description: Versión completa del modelo filtrada por ámbito.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ModelVersionView'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /processes:
+    get:
+      tags: [Processes]
+      operationId: listProcesses
+      responses:
+        '200': {$ref: '#/components/responses/PagedResult'}
+    post:
+      tags: [Processes]
+      operationId: createProcess
+      parameters: [{$ref: '#/components/parameters/CsrfToken'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/ProcessCommand'}
+      responses:
+        '201': {$ref: '#/components/responses/CreatedResource'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+  /processes/{processId}:
+    get:
+      tags: [Processes]
+      operationId: getProcess
+      parameters: [{$ref: '#/components/parameters/ProcessId'}]
+      responses:
+        '200':
+          description: Proceso y referencia inmutable de modelo.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ProcessView'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /processes/{processId}/indicators:
+    get:
+      tags: [Processes]
+      operationId: listProcessIndicators
+      parameters:
+        - {$ref: '#/components/parameters/ProcessId'}
+        - {$ref: '#/components/parameters/Page'}
+        - {$ref: '#/components/parameters/Size'}
+      responses:
+        '200': {$ref: '#/components/responses/PagedResult'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /processes/{processId}/activate:
+    post:
+      tags: [Processes]
+      operationId: activateProcess
+      parameters: [{$ref: '#/components/parameters/ProcessId'}, {$ref: '#/components/parameters/CsrfToken'}, {$ref: '#/components/parameters/IfMatch'}]
+      responses:
+        '200': {$ref: '#/components/responses/Resource'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '412': {$ref: '#/components/responses/PreconditionFailed'}
+  /processes/{processId}/assignments:
+    post:
+      tags: [Processes]
+      operationId: createProcessAssignment
+      parameters: [{$ref: '#/components/parameters/ProcessId'}, {$ref: '#/components/parameters/CsrfToken'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/AssignmentCommand'}
+      responses:
+        '201': {$ref: '#/components/responses/CreatedResource'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /processes/{processId}/reopen:
+    post:
+      tags: [Processes]
+      operationId: reopenProcess
+      parameters: [{$ref: '#/components/parameters/ProcessId'}, {$ref: '#/components/parameters/CsrfToken'}, {$ref: '#/components/parameters/IfMatch'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/ReasonCommand'}
+      responses:
+        '200': {$ref: '#/components/responses/Resource'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /processes/{processId}/close:
+    post:
+      tags: [Reporting]
+      operationId: closeProcess
+      parameters: [{$ref: '#/components/parameters/ProcessId'}, {$ref: '#/components/parameters/CsrfToken'}, {$ref: '#/components/parameters/IfMatch'}]
+      responses:
+        '201': {$ref: '#/components/responses/CreatedResource'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '412': {$ref: '#/components/responses/PreconditionFailed'}
+  /processes/{processId}/progress:
+    get:
+      tags: [Reporting]
+      operationId: getProcessProgress
+      parameters: [{$ref: '#/components/parameters/ProcessId'}]
+      responses:
+        '200':
+          description: Avance separado por recopilación, revisión y valoración.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ProgressView'}
+  /processes/{processId}/reports:
+    get:
+      tags: [Reporting]
+      operationId: listProcessReports
+      parameters:
+        - {$ref: '#/components/parameters/ProcessId'}
+        - {$ref: '#/components/parameters/Page'}
+        - {$ref: '#/components/parameters/Size'}
+      responses:
+        '200': {$ref: '#/components/responses/PagedResult'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+    post:
+      tags: [Reporting]
+      operationId: requestProcessReport
+      parameters: [{$ref: '#/components/parameters/ProcessId'}, {$ref: '#/components/parameters/CsrfToken'}]
+      responses:
+        '202': {$ref: '#/components/responses/CreatedResource'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /reports/{reportId}:
+    get:
+      tags: [Reporting]
+      operationId: getReport
+      parameters: [{$ref: '#/components/parameters/ReportId'}]
+      responses:
+        '200':
+          description: Estado y metadatos del informe.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ReportView'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /reports/{reportId}/content:
+    get:
+      tags: [Reporting]
+      operationId: downloadReport
+      parameters: [{$ref: '#/components/parameters/ReportId'}]
+      responses:
+        '200':
+          description: Contenido del informe autorizado.
+          content:
+            application/pdf:
+              schema: {type: string, format: binary}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /evidences:
+    get:
+      tags: [Evidence]
+      operationId: listEvidences
+      parameters:
+        - {name: processId, in: query, required: true, schema: {type: string, format: uuid}}
+        - {name: indicatorId, in: query, schema: {type: string, format: uuid}}
+        - {$ref: '#/components/parameters/Page'}
+        - {$ref: '#/components/parameters/Size'}
+      responses:
+        '200': {$ref: '#/components/responses/PagedResult'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+    post:
+      tags: [Evidence]
+      operationId: createEvidence
+      parameters: [{$ref: '#/components/parameters/CsrfToken'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/EvidenceCommand'}
+      responses:
+        '201': {$ref: '#/components/responses/CreatedResource'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /evidences/{evidenceId}:
+    get:
+      tags: [Evidence]
+      operationId: getEvidence
+      parameters: [{$ref: '#/components/parameters/EvidenceId'}]
+      responses:
+        '200':
+          description: Evidencia con estado documental derivado, nunca académico.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/EvidenceView'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /evidences/{evidenceId}/versions:
+    get:
+      tags: [Evidence]
+      operationId: listEvidenceVersions
+      parameters:
+        - {$ref: '#/components/parameters/EvidenceId'}
+        - {$ref: '#/components/parameters/Page'}
+        - {$ref: '#/components/parameters/Size'}
+      responses:
+        '200': {$ref: '#/components/responses/PagedResult'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+    post:
+      tags: [Evidence]
+      operationId: createEvidenceVersion
+      parameters: [{$ref: '#/components/parameters/EvidenceId'}, {$ref: '#/components/parameters/CsrfToken'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/EvidenceVersionCommand'}
+      responses:
+        '201': {$ref: '#/components/responses/CreatedResource'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /evidence-versions/{versionId}:
+    get:
+      tags: [Evidence]
+      operationId: getEvidenceVersion
+      parameters: [{$ref: '#/components/parameters/VersionId'}]
+      responses:
+        '200':
+          description: Versión y metadatos de archivos/referencias.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/EvidenceVersionView'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /evidences/{evidenceId}/versions/{versionId}/files:
+    post:
+      tags: [Evidence]
+      operationId: uploadEvidenceFile
+      parameters: [{$ref: '#/components/parameters/EvidenceId'}, {$ref: '#/components/parameters/VersionId'}, {$ref: '#/components/parameters/CsrfToken'}]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file: {type: string, format: binary}
+      responses:
+        '201': {$ref: '#/components/responses/CreatedResource'}
+        '413': {$ref: '#/components/responses/PayloadTooLarge'}
+        '422': {$ref: '#/components/responses/Unprocessable'}
+  /evidence-versions/{versionId}/files/{fileId}:
+    get:
+      tags: [Evidence]
+      operationId: downloadEvidenceFile
+      parameters:
+        - {$ref: '#/components/parameters/VersionId'}
+        - {$ref: '#/components/parameters/FileId'}
+      responses:
+        '200':
+          description: Archivo autorizado; el servidor revalida ámbito en cada descarga.
+          content:
+            application/octet-stream:
+              schema: {type: string, format: binary}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /evidences/{evidenceId}/versions/{versionId}/submit:
+    post:
+      tags: [Evidence]
+      operationId: submitEvidenceVersion
+      parameters: [{$ref: '#/components/parameters/EvidenceId'}, {$ref: '#/components/parameters/VersionId'}, {$ref: '#/components/parameters/CsrfToken'}, {$ref: '#/components/parameters/IfMatch'}]
+      responses:
+        '200': {$ref: '#/components/responses/Resource'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /evidence-versions/{versionId}/document-reviews:
+    get:
+      tags: [DocumentReview]
+      operationId: listDocumentReviewHistory
+      parameters: [{$ref: '#/components/parameters/VersionId'}]
+      responses:
+        '200':
+          description: Historial documental append-only.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: '#/components/schemas/DocumentReviewView'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+    post:
+      tags: [DocumentReview]
+      operationId: decideDocumentReview
+      parameters: [{$ref: '#/components/parameters/VersionId'}, {$ref: '#/components/parameters/CsrfToken'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/DocumentReviewCommand'}
+      responses:
+        '201': {$ref: '#/components/responses/CreatedResource'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /document-review-inbox:
+    get:
+      tags: [DocumentReview]
+      operationId: listDocumentReviewInbox
+      parameters: [{$ref: '#/components/parameters/Page'}, {$ref: '#/components/parameters/Size'}]
+      responses:
+        '200': {$ref: '#/components/responses/PagedResult'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /processes/{processId}/indicators/{indicatorId}/academic-evaluations:
+    get:
+      tags: [AcademicEvaluation]
+      operationId: listAcademicEvaluationHistory
+      parameters:
+        - {$ref: '#/components/parameters/ProcessId'}
+        - {$ref: '#/components/parameters/IndicatorId'}
+      responses:
+        '200':
+          description: Historial académico separado del documental.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: '#/components/schemas/AcademicEvaluationView'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+    post:
+      tags: [AcademicEvaluation]
+      operationId: decideAcademicEvaluation
+      parameters:
+        - {$ref: '#/components/parameters/ProcessId'}
+        - {$ref: '#/components/parameters/IndicatorId'}
+        - {$ref: '#/components/parameters/CsrfToken'}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/AcademicEvaluationCommand'}
+      responses:
+        '201': {$ref: '#/components/responses/CreatedResource'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /academic-evaluation-inbox:
+    get:
+      tags: [AcademicEvaluation]
+      operationId: listAcademicEvaluationInbox
+      parameters: [{$ref: '#/components/parameters/Page'}, {$ref: '#/components/parameters/Size'}]
+      responses:
+        '200': {$ref: '#/components/responses/PagedResult'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /audit-events:
+    get:
+      tags: [Audit]
+      operationId: searchAuditEvents
+      parameters:
+        - {name: objectType, in: query, schema: {type: string}}
+        - {name: objectId, in: query, schema: {type: string, format: uuid}}
+        - {$ref: '#/components/parameters/Page'}
+        - {$ref: '#/components/parameters/Size'}
+      responses:
+        '200': {$ref: '#/components/responses/PagedResult'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /exchange-packages/validate:
+    post:
+      tags: [Extensions]
+      operationId: validateExchangePackage
+      description: Extensión I7; no requerida para operar I0-I6.
+      parameters: [{$ref: '#/components/parameters/CsrfToken'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/ExchangePackage'}
+      responses:
+        '200': {$ref: '#/components/responses/Resource'}
+        '422': {$ref: '#/components/responses/Unprocessable'}
+components:
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: SEC_SESSION
+  parameters:
+    CsrfToken: {name: X-CSRF-TOKEN, in: header, required: true, schema: {type: string, minLength: 32}}
+    IfMatch: {name: If-Match, in: header, required: true, schema: {type: string}}
+    Page: {name: page, in: query, schema: {type: integer, minimum: 0, default: 0}}
+    Size: {name: size, in: query, schema: {type: integer, minimum: 1, maximum: 100, default: 20}}
+    UserId: {name: userId, in: path, required: true, schema: {type: string, format: uuid}}
+    ModelId: {name: modelId, in: path, required: true, schema: {type: string, format: uuid}}
+    ProcessId: {name: processId, in: path, required: true, schema: {type: string, format: uuid}}
+    EvidenceId: {name: evidenceId, in: path, required: true, schema: {type: string, format: uuid}}
+    VersionId: {name: versionId, in: path, required: true, schema: {type: string, format: uuid}}
+    IndicatorId: {name: indicatorId, in: path, required: true, schema: {type: string, format: uuid}}
+    FileId: {name: fileId, in: path, required: true, schema: {type: string, format: uuid}}
+    ReportId: {name: reportId, in: path, required: true, schema: {type: string, format: uuid}}
+  schemas:
+    LoginRequest:
+      type: object
+      additionalProperties: false
+      required: [username, password]
+      properties:
+        username: {type: string, minLength: 3, maxLength: 100}
+        password: {type: string, minLength: 12, maxLength: 256}
+    SessionView:
+      type: object
+      required: [userId, expiresAt, csrfToken]
+      properties:
+        userId: {type: string, format: uuid}
+        expiresAt: {type: string, format: date-time}
+        csrfToken: {type: string}
+    CurrentIdentity:
+      type: object
+      required: [id, displayName, assignments]
+      properties:
+        id: {type: string, format: uuid}
+        displayName: {type: string}
+        assignments: {type: array, items: {$ref: '#/components/schemas/AssignmentCommand'}}
+    UserCommand:
+      type: object
+      additionalProperties: false
+      required: [username, displayName, initialPassword]
+      properties:
+        username: {type: string, minLength: 3, maxLength: 100}
+        displayName: {type: string, minLength: 1, maxLength: 200}
+        initialPassword: {type: string, minLength: 12, maxLength: 256}
+    AssignmentCommand:
+      type: object
+      additionalProperties: false
+      required: [roleCode, validFrom]
+      properties:
+        roleCode: {type: string}
+        careerId: {type: [string, 'null'], format: uuid}
+        processId: {type: [string, 'null'], format: uuid}
+        indicatorId: {type: [string, 'null'], format: uuid}
+        validFrom: {type: string, format: date-time}
+        validUntil: {type: [string, 'null'], format: date-time}
+        exceptionReason: {type: [string, 'null'], minLength: 10, maxLength: 1000}
+    ModelCommand:
+      type: object
+      additionalProperties: false
+      required: [code, name]
+      properties:
+        code: {type: string, pattern: '^[A-Z0-9_-]{2,40}$'}
+        name: {type: string, minLength: 3, maxLength: 200}
+    ModelVersionCommand:
+      type: object
+      additionalProperties: false
+      required: [sourceReference, criteria, ratingOptions, progressFormula]
+      properties:
+        sourceReference: {type: string, minLength: 3, maxLength: 500}
+        criteria: {type: array, minItems: 1, items: {$ref: '#/components/schemas/CriterionCommand'}}
+        ratingOptions: {type: array, minItems: 1, items: {$ref: '#/components/schemas/RatingOptionCommand'}}
+        progressFormula: {$ref: '#/components/schemas/ProgressFormulaCommand'}
+    CriterionCommand:
+      type: object
+      additionalProperties: false
+      required: [code, title, ordinal, standards]
+      properties:
+        code: {type: string, pattern: '^[A-Z0-9_.-]{1,40}$'}
+        title: {type: string, minLength: 3, maxLength: 300}
+        description: {type: string, maxLength: 4000}
+        ordinal: {type: integer, minimum: 1}
+        standards: {type: array, minItems: 1, items: {$ref: '#/components/schemas/StandardCommand'}}
+    StandardCommand:
+      type: object
+      additionalProperties: false
+      required: [code, title, ordinal, indicators]
+      properties:
+        code: {type: string, pattern: '^[A-Z0-9_.-]{1,40}$'}
+        title: {type: string, minLength: 3, maxLength: 300}
+        description: {type: string, maxLength: 4000}
+        ordinal: {type: integer, minimum: 1}
+        indicators: {type: array, minItems: 1, items: {$ref: '#/components/schemas/IndicatorCommand'}}
+    IndicatorCommand:
+      type: object
+      additionalProperties: false
+      required: [code, title, ordinal, mandatory]
+      properties:
+        code: {type: string, pattern: '^[A-Z0-9_.-]{1,40}$'}
+        title: {type: string, minLength: 3, maxLength: 300}
+        description: {type: string, maxLength: 4000}
+        ordinal: {type: integer, minimum: 1}
+        mandatory: {type: boolean}
+        weight: {type: [number, 'null'], minimum: 0}
+    RatingOptionCommand:
+      type: object
+      additionalProperties: false
+      required: [code, label, ordinal]
+      properties:
+        code: {type: string, pattern: '^[A-Z0-9_.-]{1,40}$'}
+        label: {type: string, minLength: 1, maxLength: 200}
+        ordinal: {type: integer, minimum: 1}
+        numericValue: {type: [number, 'null']}
+    ProgressFormulaCommand:
+      type: object
+      additionalProperties: false
+      required: [formulaVersion, collectionRule, reviewRule, evaluationRule, closurePolicyVersion]
+      properties:
+        formulaVersion: {type: string, minLength: 1, maxLength: 40}
+        collectionRule: {type: string, enum: [SUBMITTED_MANDATORY_INDICATORS]}
+        reviewRule: {type: string, enum: [ACCEPTED_MANDATORY_INDICATORS]}
+        evaluationRule: {type: string, enum: [FINAL_MANDATORY_INDICATORS]}
+        closurePolicyVersion: {type: string, minLength: 1, maxLength: 40}
+    ProcessCommand:
+      type: object
+      required: [careerId, modelVersionId, code, name, periodStart, periodEnd]
+      properties:
+        careerId: {type: string, format: uuid}
+        modelVersionId: {type: string, format: uuid}
+        code: {type: string, minLength: 2, maxLength: 40}
+        name: {type: string, minLength: 3, maxLength: 200}
+        periodStart: {type: string, format: date}
+        periodEnd: {type: string, format: date}
+    ReasonCommand:
+      type: object
+      additionalProperties: false
+      required: [reason]
+      properties:
+        reason: {type: string, minLength: 10, maxLength: 2000}
+    EvidenceCommand:
+      type: object
+      additionalProperties: false
+      required: [processId, indicatorIds, title, description, source, coveredFrom, coveredTo]
+      properties:
+        processId: {type: string, format: uuid}
+        indicatorIds: {type: array, minItems: 1, uniqueItems: true, items: {type: string, format: uuid}}
+        title: {type: string, minLength: 3, maxLength: 300}
+        description: {type: string, maxLength: 4000}
+        source: {type: string, minLength: 3, maxLength: 500}
+        coveredFrom: {type: string, format: date}
+        coveredTo: {type: string, format: date}
+    EvidenceVersionCommand:
+      allOf:
+        - {$ref: '#/components/schemas/EvidenceCommand'}
+        - type: object
+          properties:
+            predecessorId: {type: [string, 'null'], format: uuid}
+            externalReferences: {type: array, items: {type: string, format: uri}}
+    DocumentReviewCommand:
+      type: object
+      additionalProperties: false
+      required: [outcome, justification]
+      properties:
+        outcome: {type: string, enum: [ACCEPTED, OBSERVED, REJECTED]}
+        justification: {type: string, minLength: 10, maxLength: 4000}
+        predecessorId: {type: [string, 'null'], format: uuid}
+    AcademicEvaluationCommand:
+      type: object
+      additionalProperties: false
+      required: [ratingOptionId, evidenceVersionIds, justification]
+      properties:
+        ratingOptionId: {type: string, format: uuid}
+        evidenceVersionIds: {type: array, minItems: 1, uniqueItems: true, items: {type: string, format: uuid}}
+        justification: {type: string, minLength: 10, maxLength: 4000}
+        predecessorId: {type: [string, 'null'], format: uuid}
+    ProgressView:
+      type: object
+      required: [formulaVersion, calculatedAt, collection, documentReview, academicEvaluation]
+      properties:
+        formulaVersion: {type: string}
+        calculatedAt: {type: string, format: date-time}
+        collection: {$ref: '#/components/schemas/ProgressMeasure'}
+        documentReview: {$ref: '#/components/schemas/ProgressMeasure'}
+        academicEvaluation: {$ref: '#/components/schemas/ProgressMeasure'}
+    ProgressMeasure:
+      type: object
+      required: [completed, total, percentage]
+      properties:
+        completed: {type: integer, minimum: 0}
+        total: {type: integer, minimum: 0}
+        percentage: {type: number, minimum: 0, maximum: 100}
+    ModelVersionView:
+      type: object
+      additionalProperties: false
+      required: [id, modelId, versionNumber, status, sourceReference, criteria, ratingOptions, progressFormula]
+      properties:
+        id: {type: string, format: uuid}
+        modelId: {type: string, format: uuid}
+        versionNumber: {type: integer, minimum: 1}
+        status: {type: string, enum: [DRAFT, PUBLISHED, SUPERSEDED]}
+        sourceReference: {type: string}
+        criteria: {type: array, items: {$ref: '#/components/schemas/CriterionCommand'}}
+        ratingOptions: {type: array, items: {$ref: '#/components/schemas/RatingOptionCommand'}}
+        progressFormula: {$ref: '#/components/schemas/ProgressFormulaCommand'}
+    ProcessView:
+      type: object
+      additionalProperties: false
+      required: [id, careerId, modelVersionId, code, name, periodStart, periodEnd, status, version]
+      properties:
+        id: {type: string, format: uuid}
+        careerId: {type: string, format: uuid}
+        modelVersionId: {type: string, format: uuid}
+        code: {type: string}
+        name: {type: string}
+        periodStart: {type: string, format: date}
+        periodEnd: {type: string, format: date}
+        status: {type: string, enum: [DRAFT, ACTIVE, CLOSING, CLOSED, REOPENED]}
+        version: {type: integer, minimum: 0}
+    FileMetadataView:
+      type: object
+      additionalProperties: false
+      required: [id, originalName, detectedMediaType, sizeBytes, sha256, status]
+      properties:
+        id: {type: string, format: uuid}
+        originalName: {type: string}
+        detectedMediaType: {type: string}
+        sizeBytes: {type: integer, minimum: 1, maximum: 26214400}
+        sha256: {type: string, pattern: '^[a-f0-9]{64}$'}
+        status: {type: string, enum: [STAGED, AVAILABLE, QUARANTINED, MISSING]}
+    EvidenceView:
+      type: object
+      additionalProperties: false
+      required: [id, processId, title, source, indicatorIds, documentaryState, version]
+      properties:
+        id: {type: string, format: uuid}
+        processId: {type: string, format: uuid}
+        title: {type: string}
+        source: {type: string}
+        indicatorIds: {type: array, items: {type: string, format: uuid}}
+        documentaryState:
+          type: string
+          description: Proyección derivada de la decisión vigente; no es estado académico ni campo persistido de Evidence.
+          enum: [NOT_SUBMITTED, PENDING_REVIEW, ACCEPTED, OBSERVED, REJECTED]
+        version: {type: integer, minimum: 0}
+    EvidenceVersionView:
+      type: object
+      additionalProperties: false
+      required: [id, evidenceId, revisionNumber, status, submittedAt, files, externalReferences]
+      properties:
+        id: {type: string, format: uuid}
+        evidenceId: {type: string, format: uuid}
+        revisionNumber: {type: integer, minimum: 1}
+        predecessorId: {type: [string, 'null'], format: uuid}
+        status: {type: string, enum: [DRAFT, SUBMITTED]}
+        submittedAt: {type: [string, 'null'], format: date-time}
+        files: {type: array, items: {$ref: '#/components/schemas/FileMetadataView'}}
+        externalReferences: {type: array, items: {type: string, format: uri}}
+    DocumentReviewView:
+      type: object
+      additionalProperties: false
+      required: [id, evidenceVersionId, revisionNumber, outcome, justification, reviewerId, decidedAt, status]
+      properties:
+        id: {type: string, format: uuid}
+        evidenceVersionId: {type: string, format: uuid}
+        revisionNumber: {type: integer, minimum: 1}
+        outcome: {type: string, enum: [ACCEPTED, OBSERVED, REJECTED]}
+        justification: {type: string, minLength: 10, maxLength: 4000}
+        reviewerId: {type: string, format: uuid}
+        decidedAt: {type: string, format: date-time}
+        status: {type: string, enum: [FINAL, SUPERSEDED]}
+    AcademicEvaluationView:
+      type: object
+      additionalProperties: false
+      required: [id, processId, indicatorId, revisionNumber, ratingOptionId, evidenceVersionIds, justification, evaluatorId, status]
+      properties:
+        id: {type: string, format: uuid}
+        processId: {type: string, format: uuid}
+        indicatorId: {type: string, format: uuid}
+        revisionNumber: {type: integer, minimum: 1}
+        ratingOptionId: {type: string, format: uuid}
+        evidenceVersionIds: {type: array, minItems: 1, items: {type: string, format: uuid}}
+        justification: {type: string, minLength: 10, maxLength: 4000}
+        evaluatorId: {type: string, format: uuid}
+        status: {type: string, enum: [DRAFT, FINAL, SUPERSEDED]}
+    ReportView:
+      type: object
+      additionalProperties: false
+      required: [id, closureSnapshotId, format, status, requestedAt]
+      properties:
+        id: {type: string, format: uuid}
+        closureSnapshotId: {type: string, format: uuid}
+        format: {type: string, enum: [PDF]}
+        status: {type: string, enum: [PENDING, COMPLETED, FAILED]}
+        requestedAt: {type: string, format: date-time}
+        completedAt: {type: [string, 'null'], format: date-time}
+        errorCode: {type: [string, 'null']}
+    ExchangePackage:
+      type: object
+      additionalProperties: false
+      required: [contractVersion, source, records]
+      properties:
+        contractVersion: {type: string, const: '1.0'}
+        source: {type: string, minLength: 1, maxLength: 200}
+        records: {type: array, items: {$ref: '#/components/schemas/ExchangeRecord'}}
+    ExchangeRecord:
+      type: object
+      additionalProperties: false
+      required: [recordType, externalId, recordVersion, checksum, payload]
+      properties:
+        recordType: {type: string, enum: [CAREER, MODEL, RESULT]}
+        externalId: {type: string, minLength: 1, maxLength: 200}
+        recordVersion: {type: string, minLength: 1, maxLength: 40}
+        checksum: {type: string, pattern: '^[a-f0-9]{64}$'}
+        payload:
+          type: object
+          description: Contenido interpretado según recordType y contractVersion; no se aplica hasta validar el paquete completo.
+          minProperties: 1
+    UserSummaryView:
+      type: object
+      additionalProperties: false
+      required: [id, username, displayName, status]
+      properties:
+        id: {type: string, format: uuid}
+        username: {type: string}
+        displayName: {type: string}
+        status: {type: string, enum: [ACTIVE, DISABLED, LOCKED]}
+    ModelSummaryView:
+      type: object
+      additionalProperties: false
+      required: [id, code, name, status]
+      properties:
+        id: {type: string, format: uuid}
+        code: {type: string}
+        name: {type: string}
+        status: {type: string}
+        latestPublishedVersionId: {type: [string, 'null'], format: uuid}
+    IndicatorView:
+      type: object
+      additionalProperties: false
+      required: [id, code, title, mandatory]
+      properties:
+        id: {type: string, format: uuid}
+        code: {type: string}
+        title: {type: string}
+        mandatory: {type: boolean}
+    DocumentReviewInboxItem:
+      type: object
+      additionalProperties: false
+      required: [evidenceVersionId, processId, evidenceTitle, submittedAt]
+      properties:
+        evidenceVersionId: {type: string, format: uuid}
+        processId: {type: string, format: uuid}
+        evidenceTitle: {type: string}
+        submittedAt: {type: string, format: date-time}
+    AcademicEvaluationInboxItem:
+      type: object
+      additionalProperties: false
+      required: [processId, indicatorId, indicatorCode, indicatorTitle, acceptedEvidenceCount]
+      properties:
+        processId: {type: string, format: uuid}
+        indicatorId: {type: string, format: uuid}
+        indicatorCode: {type: string}
+        indicatorTitle: {type: string}
+        acceptedEvidenceCount: {type: integer, minimum: 0}
+    AuditEventView:
+      type: object
+      additionalProperties: false
+      required: [id, occurredAt, correlationId, action, objectType, objectId, outcome]
+      properties:
+        id: {type: string, format: uuid}
+        occurredAt: {type: string, format: date-time}
+        correlationId: {type: string, format: uuid}
+        action: {type: string}
+        objectType: {type: string}
+        objectId: {type: string, format: uuid}
+        outcome: {type: string}
+    ResourceView:
+      type: object
+      required: [id]
+      properties:
+        id: {type: string, format: uuid}
+        version: {type: integer, minimum: 0}
+        status: {type: string}
+    PageView:
+      type: object
+      required: [items, page, size, total]
+      properties:
+        items:
+          type: array
+          items:
+            oneOf:
+              - {$ref: '#/components/schemas/UserSummaryView'}
+              - {$ref: '#/components/schemas/ModelSummaryView'}
+              - {$ref: '#/components/schemas/ModelVersionView'}
+              - {$ref: '#/components/schemas/ProcessView'}
+              - {$ref: '#/components/schemas/IndicatorView'}
+              - {$ref: '#/components/schemas/EvidenceView'}
+              - {$ref: '#/components/schemas/EvidenceVersionView'}
+              - {$ref: '#/components/schemas/DocumentReviewInboxItem'}
+              - {$ref: '#/components/schemas/AcademicEvaluationInboxItem'}
+              - {$ref: '#/components/schemas/ReportView'}
+              - {$ref: '#/components/schemas/AuditEventView'}
+        page: {type: integer}
+        size: {type: integer}
+        total: {type: integer}
+    Problem:
+      type: object
+      required: [type, title, status, code, correlationId]
+      properties:
+        type: {type: string, format: uri}
+        title: {type: string}
+        status: {type: integer}
+        detail: {type: string}
+        code: {type: string}
+        correlationId: {type: string, format: uuid}
+        errors: {type: array, items: {$ref: '#/components/schemas/ValidationError'}}
+    ValidationError:
+      type: object
+      additionalProperties: false
+      required: [field, code, message]
+      properties:
+        field: {type: string}
+        code: {type: string}
+        message: {type: string}
+  responses:
+    Resource:
+      description: Recurso
+      content: {application/json: {schema: {$ref: '#/components/schemas/ResourceView'}}}
+    CreatedResource:
+      description: Recurso creado
+      content: {application/json: {schema: {$ref: '#/components/schemas/ResourceView'}}}
+    PagedResult:
+      description: Resultado paginado y filtrado por ámbito
+      content: {application/json: {schema: {$ref: '#/components/schemas/PageView'}}}
+    BadRequest: {description: Solicitud inválida, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    Unauthorized: {description: Sesión ausente o inválida, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    Forbidden: {description: Operación fuera de función o ámbito, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    NotFound: {description: Recurso inexistente o no visible en el ámbito, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    Conflict: {description: Estado, versión o función incompatible, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    PreconditionFailed: {description: ETag desactualizado, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    PayloadTooLarge: {description: Archivo excede 25 MiB, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    Unprocessable: {description: Contenido bien formado pero inválido, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    TooManyRequests: {description: Límite temporal aplicado, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}

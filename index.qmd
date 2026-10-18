@@ -1,0 +1,5 @@
+﻿# Sistema de Evaluación de Carreras
+
+Documentación del proyecto SEC-UNL.
+
+Estado: preparación del desarrollo.

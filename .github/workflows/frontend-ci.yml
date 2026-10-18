@@ -1,0 +1,11 @@
+﻿name: frontend-ci
+
+on:
+  workflow_dispatch:
+
+jobs:
+  preparation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Preparation placeholder
+        run: echo "Workflow preparado. Validaciones pendientes de configurar."

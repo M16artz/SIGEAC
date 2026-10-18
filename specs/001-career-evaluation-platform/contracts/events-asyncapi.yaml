@@ -1,0 +1,37 @@
+asyncapi: 3.0.0
+info:
+  title: SEC-UNL Extension Events
+  version: 1.0.0
+  description: Contrato I8 opcional. No existe dependencia operativa del MVP sobre un broker o consumidor.
+channels:
+  domainEvents:
+    address: sec.domain-events.v1
+    messages:
+      taskChanged:
+        $ref: '#/components/messages/TaskChanged'
+operations:
+  publishTaskChanged:
+    action: send
+    channel:
+      $ref: '#/channels/domainEvents'
+    messages:
+      - $ref: '#/channels/domainEvents/messages/taskChanged'
+components:
+  messages:
+    TaskChanged:
+      name: TaskChanged
+      title: Evento mínimo para canales complementarios
+      contentType: application/json
+      payload:
+        type: object
+        additionalProperties: false
+        required: [eventId, eventVersion, eventType, occurredAt, recipientId, subjectType, subjectId]
+        properties:
+          eventId: {type: string, format: uuid}
+          eventVersion: {type: string, const: '1.0'}
+          eventType: {type: string, enum: [ASSIGNMENT_CREATED, EVIDENCE_OBSERVED, REVIEW_REQUIRED, EVALUATION_REQUIRED]}
+          occurredAt: {type: string, format: date-time}
+          recipientId: {type: string, format: uuid}
+          subjectType: {type: string, enum: [ASSIGNMENT, EVIDENCE, INDICATOR]}
+          subjectId: {type: string, format: uuid}
+          processId: {type: string, format: uuid}

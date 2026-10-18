@@ -1,0 +1,50 @@
+
+@'
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Java / Spring Boot
+.gradle/
+build/
+target/
+*.class
+
+# Angular / Node
+node_modules/
+dist/
+.angular/
+coverage/
+
+# Kotlin / Android
+mobile/.gradle/
+mobile/build/
+mobile/local.properties
+*.apk
+*.aab
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Quarto
+#.quarto/
+#_site/
+#_book/
+
+# Graphify
+#graphify-out/
+
+# Python auxiliary tools
+__pycache__/
+.venv/
+*.pyc
+
+# OS
+.DS_Store
+Thumbs.db
+'@ | Set-Content -Path ".gitignore" -Encoding utf8

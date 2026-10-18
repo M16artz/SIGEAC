@@ -2,11 +2,26 @@
   "version": "1.1.4.dev0",
   "integration_state_schema": 1,
   "installed_integrations": [
+    "claude",
+    "gemini",
+    "codex",
     "opencode"
   ],
   "integration_settings": {
+    "claude": {
+      "script": "ps",
+      "invoke_separator": "-"
+    },
+    "gemini": {
+      "script": "ps",
+      "invoke_separator": "."
+    },
+    "codex": {
+      "script": "ps",
+      "invoke_separator": "-"
+    },
     "opencode": {
-      "script": "sh",
+      "script": "ps",
       "invoke_separator": "."
     }
   },

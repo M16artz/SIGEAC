@@ -1,0 +1,22 @@
+﻿project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "SEC-UNL — Documentación"
+  sidebar:
+    contents:
+      - index.qmd
+      - section: "Documentación técnica"
+        contents:
+          - docs/technical/index.qmd
+      - section: "Manual de usuario"
+        contents:
+          - docs/user/index.qmd
+
+format:
+  html:
+    toc: true
+
+execute:
+  enabled: false
