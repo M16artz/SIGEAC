@@ -32,5 +32,7 @@
 ## Notas
 
 - I0–I6 conforman el MVP; I7–I8 son extensiones no bloqueantes.
+- RF-051–RF-057 se reconciliaron mediante la tabla de equivalencias: cinco se fusionan con FR-007–FR-012 y dos crean FR-041–FR-042, porque el catálogo real previo contenía 40 FR.
+- Las pruebas representativas de cinco modelos validan configurabilidad estructural y no presuponen la implementación de todos sus cálculos académicos.
 - CL-001–CL-010 quedan registradas para validación institucional con valores sintéticos configurables para el piloto.
 - La validación inicial se completó en una iteración y no se detectaron marcadores de plantilla pendientes.

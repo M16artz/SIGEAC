@@ -22,6 +22,8 @@ website:
             contents:
               - docs/adr/0001-modular-monolith.md
               - docs/adr/0002-file-storage-port.md
+              - docs/adr/0015-configurable-evaluation-models.md
+              - docs/adr/0016-evaluation-strategies-import-adapters.md
       - section: "Documentación técnica"
         contents:
           - docs/technical/index.qmd

@@ -31,8 +31,6 @@ I0–I6 constituyen el MVP. I7–I8 definen contratos de extensión y recorridos
 
 Como administrador funcional quiero habilitar usuarios con funciones y ámbitos explícitos para que cada persona solo opere sobre la carrera, proceso e indicadores que le corresponden.
 
-**Por qué esta prioridad**: toda capacidad posterior requiere identidad, separación de funciones y autorización en el servidor.
-
 **Prueba independiente**: con datos sintéticos se crean usuarios y asignaciones; cada actor accede únicamente a las operaciones y objetos incluidos en su ámbito, y los intentos fuera de ámbito quedan rechazados y auditados.
 
 **Escenarios de aceptación**:
@@ -46,8 +44,6 @@ Como administrador funcional quiero habilitar usuarios con funciones y ámbitos 
 ### Historia de usuario 2 — I1: Modelo de evaluación versionado (Prioridad: P0)
 
 Como administrador funcional quiero registrar y publicar una versión inmutable del modelo de evaluación para que un proceso utilice criterios, estándares e indicadores identificables y trazables.
-
-**Por qué esta prioridad**: el modelo define la estructura que guía todas las evidencias y valoraciones.
 
 **Prueba independiente**: se crea un modelo borrador con su jerarquía, se valida, se publica y se comprueba que la versión publicada no puede modificarse; una corrección genera otra versión.
 
@@ -63,8 +59,6 @@ Como administrador funcional quiero registrar y publicar una versión inmutable 
 
 Como coordinador quiero abrir un proceso para una carrera usando una versión concreta del modelo y asignar responsables por indicador para organizar la autoevaluación sin perder el contexto de las decisiones.
 
-**Por qué esta prioridad**: vincula actores, carrera y modelo en una unidad de trabajo auditable.
-
 **Prueba independiente**: se crea un proceso con período y modelo publicado, se asignan responsables y revisores y se activa; el proceso conserva la versión elegida aunque exista otra posterior.
 
 **Escenarios de aceptación**:
@@ -78,8 +72,6 @@ Como coordinador quiero abrir un proceso para una carrera usando una versión co
 ### Historia de usuario 4 — I3: Recopilación y remisión de evidencias (Prioridad: P0)
 
 Como responsable de evidencia quiero registrar archivos o referencias, describir su procedencia y remitir una versión completa para revisión documental.
-
-**Por qué esta prioridad**: aporta la base verificable del proceso sin confundir recopilación con aceptación o cumplimiento.
 
 **Prueba independiente**: un responsable crea un borrador, adjunta un archivo sintético, remite la versión y luego corrige una observación creando una nueva versión sin modificar la anterior.
 
@@ -95,8 +87,6 @@ Como responsable de evidencia quiero registrar archivos o referencias, describir
 
 Como revisor documental quiero aceptar, observar o rechazar una versión remitida con una justificación para decidir su suficiencia documental sin emitir una valoración académica.
 
-**Por qué esta prioridad**: protege la separación de competencias exigida y controla qué evidencia puede valorarse.
-
 **Prueba independiente**: el revisor decide sobre una versión remitida; la decisión registra actor, fecha y motivo, no cambia la evidencia y no marca el indicador como cumplido.
 
 **Escenarios de aceptación**:
@@ -110,8 +100,6 @@ Como revisor documental quiero aceptar, observar o rechazar una versión remitid
 ### Historia de usuario 6 — I5: Valoración académica (Prioridad: P0)
 
 Como evaluador académico quiero valorar un indicador usando evidencia documental aceptada y una escala vigente para sustentar el resultado sin modificar la revisión documental.
-
-**Por qué esta prioridad**: produce el resultado académico del proceso respetando la separación entre evidencia y juicio.
 
 **Prueba independiente**: el evaluador selecciona evidencia aceptada, aplica una opción de la escala configurada, justifica la valoración y el sistema conserva todas las referencias utilizadas.
 
@@ -127,8 +115,6 @@ Como evaluador académico quiero valorar un indicador usando evidencia documenta
 
 Como coordinador quiero consultar el avance trazable, detectar pendientes y cerrar el proceso para obtener un informe interno reproducible de la autoevaluación.
 
-**Por qué esta prioridad**: completa el MVP con control del trabajo y resultados comprensibles, sin convertir el reporte en una acreditación.
-
 **Prueba independiente**: con un proceso sintético se visualiza avance por estado, se navega desde cada resultado hasta sus evidencias y decisiones, se bloquea un cierre incompleto y se genera un informe al completar los requisitos.
 
 **Escenarios de aceptación**:
@@ -143,8 +129,6 @@ Como coordinador quiero consultar el avance trazable, detectar pendientes y cerr
 
 Como administrador funcional quiero disponer de contratos versionados para importar o exportar catálogos y resultados autorizados sin acoplar el MVP a servicios institucionales todavía no confirmados.
 
-**Por qué esta prioridad**: prepara evolución controlada sin introducir dependencias externas en I0–I6.
-
 **Prueba independiente**: mediante datos sintéticos se valida un paquete de intercambio versionado, se rechazan registros inválidos y el MVP continúa funcionando cuando no existe integración.
 
 **Escenarios de aceptación**:
@@ -157,8 +141,6 @@ Como administrador funcional quiero disponer de contratos versionados para impor
 ### Historia de usuario 9 — I8: Notificaciones y acceso complementario (Prioridad: P2, fuera del MVP)
 
 Como participante quiero recibir recordatorios y consultar tareas desde canales futuros sin trasladar decisiones ni permisos fuera de la autoridad central.
-
-**Por qué esta prioridad**: mejora oportunidad y alcance después de validar el flujo principal, sin convertirse en requisito del MVP.
 
 **Prueba independiente**: se genera un evento sintético y un canal desacoplado consume solo la información permitida; una falla del canal no cambia el proceso ni impide usar la aplicación principal.
 

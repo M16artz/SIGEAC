@@ -34,7 +34,7 @@
 
 ## Calidad de criterios de aceptación
 
-- [ ] CHK016 ¿Cada requisito FR-001–FR-040 puede vincularse a por lo menos un escenario o resultado observable? [Trazabilidad, Spec §Escenarios, §Criterios de éxito]
+- [ ] CHK016 ¿Cada requisito FR-001–FR-042 y cada alias RF-051–RF-057 puede vincularse a por lo menos un escenario o resultado observable? [Trazabilidad, Spec §Escenarios, §Criterios de éxito]
 - [ ] CHK017 ¿SC-003 define actores, datos de inicio y final del cronometraje necesarios para medir los 45 minutos? [Measurabilidad, Spec SC-003]
 - [ ] CHK018 ¿SC-007 define muestra, perfil de participantes y qué constituye “tarea principal” y “primer intento”? [Measurabilidad, Spec SC-007]
 - [ ] CHK019 ¿Los criterios p95 especifican carga, dataset, calentamiento y entorno de referencia suficientes para reproducir la medición? [Measurabilidad, Spec RNF-006–RNF-008, SC-008]

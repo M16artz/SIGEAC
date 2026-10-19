@@ -36,6 +36,18 @@
 
 **Alternativas consideradas**: microservicios, descartados por complejidad y porque contradirían la constitución; arquitectura por capas globales, descartada por facilitar acoplamiento transversal.
 
+### Decisión: catálogo configurable y versionado de modelos
+
+**Razonamiento**: una jerarquía común de nodos y definiciones de indicadores representa modelos generales y específicos sin duplicar servicios por carrera. La versión asociada a un proceso queda inmutable y los modelos nunca se combinan por coincidencia de códigos.
+
+**Alternativas consideradas**: cinco implementaciones independientes, descartadas por duplicación; herencia implícita desde un modelo general, descartada por ambigüedad histórica. Véase ADR-0015.
+
+### Decisión: Strategy para valoración y Adapter para fronteras externas
+
+**Razonamiento**: I7 necesita Strategy con Factory/Registry solo cuando existan algoritmos de valoración distintos y validados. I8 necesita Adapter solo para traducir formatos o servicios externos al contrato interno. El catálogo selecciona modelos sin Adapter.
+
+**Alternativas consideradas**: condicionales por carrera, estrategias para cada indicador y un importador universal, descartados por acoplamiento y complejidad. Véase ADR-0016.
+
 ### Decisión: API REST síncrona y eventos internos post-commit
 
 **Razonamiento**: REST es el contrato constitucional. Los casos de uso críticos requieren respuesta transaccional; los eventos internos sirven para auditoría y futuros puertos I7–I8 sin convertir un bus externo en dependencia.

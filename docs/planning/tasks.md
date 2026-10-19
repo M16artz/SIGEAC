@@ -6,7 +6,24 @@
 
 **Pruebas**: obligatorias para contratos y reglas críticas según la constitución. En cada historia, escribir primero las pruebas y comprobar que fallan antes de implementar.
 
-**Organización**: US1–US9 corresponden a I0–I8. El MVP completo requiere US1–US7; US8–US9 son extensiones posteriores no bloqueantes.
+**Organización**: US1–US9 corresponden a I0–I8. El MVP completo requiere US1–US7; US8 introduce Strategy en I7 y US9 reserva Adapter para importaciones/integraciones de I8. Ambas extensiones son posteriores y no bloqueantes.
+
+### Equivalencia con el paquete de tareas propuesto
+
+Los IDs con guion recibidos en la propuesta se mapean a tareas canónicas existentes para conservar la numeración ejecutable T001–T133 y sus dependencias.
+
+| ID propuesto | Incremento propuesto | Tarea canónica | Incremento efectivo |
+|---|---|---|---|
+| T-001 | I2 | T043 | I1; el esquema bloquea las pruebas de configuración de I2. |
+| T-002 | I2 | T044 | I1; la jerarquía bloquea las pruebas de configuración de I2. |
+| T-003 | I2 | T045 | I1; las fuentes y mecanismos bloquean las pruebas de configuración de I2. |
+| T-004 | I2 | T042 | I2 |
+| T-005 | I2 | T048 | I2 |
+| T-006 | I3 | T054 | I2, conforme al incremento vigente de procesos. |
+| T-007 | I4 | T066 | I3, conforme al incremento vigente de evidencias; los requisitos proceden del modelo asociado. |
+| T-008 | I7 | T112 | I7 |
+| T-009 | I7 | T113 | I7 |
+| T-010 | I8/integración | T118–T119 | I8 |
 
 ## Fase 1: Preparación compartida
 
@@ -72,20 +89,20 @@
 
 ## Fase 4: US2 — I1 Modelo de evaluación versionado (P0)
 
-**Objetivo**: crear, validar y publicar versiones inmutables del modelo.
+**Objetivo**: crear, validar y publicar un catálogo versionado de modelos con jerarquías flexibles e indicadores configurables.
 
-**Prueba independiente**: publicar v1, rechazar su modificación y crear v2 relacionada.
+**Prueba independiente**: configurar el modelo general 2024 y estructuras sintéticas representativas de Medicina, Enfermería, Odontología y Derecho; publicar v1, rechazar su modificación, crear v2 relacionada y comprobar que ningún indicador se combina entre modelos.
 
-- [ ] T040 [P] [US2] Escribir pruebas de dominio para jerarquía, unicidad, aprobación separada e inmutabilidad en `backend/src/test/java/ec/edu/unl/sec/evaluationmodel/domain/ModelVersionTest.java` (FR-007–FR-010)
-- [ ] T041 [P] [US2] Escribir pruebas contractuales de listado, detalle, versiones y publicación con esquemas cerrados en `backend/src/test/java/ec/edu/unl/sec/evaluationmodel/api/ModelContractTest.java`
-- [ ] T042 [P] [US2] Escribir recorrido E2E de publicación y sucesión en `tests/e2e/i1-model-versioning.spec.ts`
-- [ ] T043 [US2] Crear esquema de modelo, versiones, criterios, estándares, indicadores, escala, opciones y fórmula en `backend/src/main/resources/db/migration/V004__evaluation_models.sql`; aplicar literalmente códigos únicos por tipo y versión, al menos una opción y `(model_id, version_number)` único
-- [ ] T044 [US2] Implementar agregados `EvaluationModel`, `ModelVersion` y snapshots jerárquicos en `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/`
-- [ ] T045 [US2] Implementar validador de completitud/unicidad y publicación append-only con aprobador distinto del autor en `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/PublishModelVersionService.java`
+- [ ] T040 [P] [US2] Escribir pruebas de dominio para jerarquía flexible, unicidad por versión, separación general/específica, aprobación e inmutabilidad en `backend/src/test/java/ec/edu/unl/sec/evaluationmodel/domain/ModelVersionTest.java` (FR-007–FR-010, FR-042; RF-051, RF-052, RF-055, RF-057)
+- [ ] T041 [P] [US2] Escribir pruebas contractuales de listado, detalle, versiones y publicación que exijan organismo emisor, denominación, fecha, documento fuente y, por indicador, fuentes, período, naturaleza y mecanismo en `backend/src/test/java/ec/edu/unl/sec/evaluationmodel/api/ModelContractTest.java` (FR-008; RF-051, RF-054)
+- [ ] T042 [P] [US2] Registrar fixture del modelo general 2024 y probar publicación/sucesión sin mezcla de indicadores en `tests/fixtures/models/general-2024/` y `tests/e2e/i1-model-versioning.spec.ts` (FR-009, FR-042; T-004)
+- [ ] T043 [US2] Definir el esquema relacional de catálogo, versiones, nodos jerárquicos, indicadores, fuentes, períodos, escalas, mecanismos y fórmulas en `backend/src/main/resources/db/migration/V004__evaluation_models.sql`; aplicar literalmente `(model_id, version_number)` único y pertenencia de cada nodo/indicador a una sola versión (FR-007–FR-009, FR-042; T-001)
+- [ ] T044 [US2] Implementar `EvaluationModel`, `ModelVersion` y una jerarquía arbitraria ordenada de nodos tipados, sin clases por carrera, en `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/` (FR-007; T-002)
+- [ ] T045 [US2] Implementar fuentes de información, período, naturaleza cualitativa/cuantitativa, mecanismo de valoración y validador de publicación append-only en `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/PublishModelVersionService.java` (FR-008, FR-009; T-003)
 - [ ] T046 [US2] Implementar repositorios y mapeos inmutables en `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/infrastructure/persistence/`
 - [ ] T047 [US2] Implementar endpoints de listado/detalle de modelos y versiones, creación y publicación conforme a OpenAPI, auditando publicaciones y rechazos, en `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/api/`
-- [ ] T048 [P] [US2] Implementar editor jerárquico con errores de validación y control ETag en `frontend/src/app/features/models/editor/`
-- [ ] T049 [P] [US2] Implementar consulta y comparación de versiones publicadas en `frontend/src/app/features/models/versions/`
+- [ ] T048 [P] [US2] Probar configuraciones sintéticas representativas de Medicina, Enfermería, Odontología y Derecho, verificando estructuras diferentes sin exigir todos sus cálculos académicos, en `tests/fixtures/models/careers/` y `backend/src/test/java/ec/edu/unl/sec/evaluationmodel/application/RepresentativeModelConfigurationTest.java` (FR-007, FR-008, FR-042; T-005)
+- [ ] T049 [P] [US2] Implementar editor jerárquico, consulta y comparación de versiones con errores de validación y control ETag en `frontend/src/app/features/models/editor/` y `frontend/src/app/features/models/versions/`
 - [ ] T050 [US2] Documentar I1 y actualizar trazabilidad en `docs/technical/i1-models.qmd`, `docs/user/i1-models.qmd` y `docs/testing/traceability.md`
 
 ---
@@ -97,9 +114,9 @@
 **Prueba independiente**: activar proceso v1, asignar participantes y comprobar que publicar v2 no cambia su referencia.
 
 - [ ] T051 [P] [US3] Escribir pruebas de estados `DRAFT→ACTIVE→CLOSING→CLOSED` y reapertura autorizada en `backend/src/test/java/ec/edu/unl/sec/selfassessment/domain/ProcessStateTest.java` (FR-014, FR-015)
-- [ ] T052 [P] [US3] Escribir pruebas de pertenencia del indicador, modelo inmutable y conflictos de asignación en `backend/src/test/java/ec/edu/unl/sec/selfassessment/application/ProcessAssignmentTest.java` (FR-011–FR-013)
+- [ ] T052 [P] [US3] Escribir pruebas de pertenencia del indicador, asociación histórica e inmutable de la versión del modelo y conflictos de asignación en `backend/src/test/java/ec/edu/unl/sec/selfassessment/application/ProcessAssignmentTest.java` (FR-011–FR-013; RF-053)
 - [ ] T053 [P] [US3] Escribir recorrido E2E de creación, asignación y activación en `tests/e2e/i2-process.spec.ts`
-- [ ] T054 [US3] Crear esquema de `career`, `self_assessment_process`, `process_assignment` y `reopening_decision` en `backend/src/main/resources/db/migration/V005__self_assessment.sql`; aplicar literalmente modelo publicado e inmutable tras activación e indicador perteneciente al modelo del proceso
+- [ ] T054 [US3] Crear esquema de `career`, `self_assessment_process`, `process_assignment` y `reopening_decision` en `backend/src/main/resources/db/migration/V005__self_assessment.sql`; aplicar literalmente una versión publicada por proceso, asociación inmutable desde el inicio e indicador perteneciente a esa versión (FR-011, FR-012; RF-053; T-006)
 - [ ] T055 [US3] Implementar agregados de carrera, proceso, asignación y reapertura en `backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/`
 - [ ] T056 [US3] Implementar políticas de transición, asignación y autorización por ámbito en `backend/src/main/java/ec/edu/unl/sec/selfassessment/application/`
 - [ ] T057 [US3] Implementar persistencia y bloqueo optimista del proceso en `backend/src/main/java/ec/edu/unl/sec/selfassessment/infrastructure/persistence/`
@@ -120,7 +137,7 @@
 - [ ] T063 [P] [US4] Escribir pruebas de archivo para tamaño 1–26 214 400 bytes, SHA-256 de 64 hexadecimales, tipo detectado y fallas de promoción en `backend/src/test/java/ec/edu/unl/sec/filestorage/LocalFileStorageTest.java` (RNF-004, RNF-010)
 - [ ] T064 [P] [US4] Escribir pruebas contractuales de listado/detalle, historial, descarga autorizada, multipart y errores 403/413/422 en `backend/src/test/java/ec/edu/unl/sec/evidence/api/EvidenceContractTest.java`
 - [ ] T065 [P] [US4] Escribir recorrido E2E de borrador, carga, remisión y corrección en `tests/e2e/i3-evidence.spec.ts`
-- [ ] T066 [US4] Crear esquema de evidencia sin estados documentales persistidos, indicador, versión, archivo y referencia en `backend/src/main/resources/db/migration/V006__evidence.sql`; aplicar literalmente versión remitida inmutable, predecesora de la misma evidencia y al menos un archivo o referencia antes de remitir
+- [ ] T066 [US4] Crear esquema de evidencia sin estados documentales persistidos, indicador, versión, archivo y referencia en `backend/src/main/resources/db/migration/V006__evidence.sql`; validar los requisitos documentales y fuentes declarados por el indicador de la versión asociada al proceso, además de versión remitida inmutable, predecesora de la misma evidencia y al menos un archivo o referencia antes de remitir (FR-008, FR-016–FR-020; RF-054; T-007)
 - [ ] T067 [US4] Implementar agregados y estados de evidencia/versiones en `backend/src/main/java/ec/edu/unl/sec/evidence/domain/`
 - [ ] T068 [US4] Implementar adaptador local con claves opacas, staging, SHA-256, promoción y reconciliación en `backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/local/`
 - [ ] T069 [US4] Implementar casos de uso de borrador, archivo, referencia, remisión y sucesión en `backend/src/main/java/ec/edu/unl/sec/evidence/application/`
@@ -194,33 +211,33 @@
 
 ---
 
-## Fase 10: US8 — I7 Interoperabilidad futura (P1, fuera del MVP)
+## Fase 10: US8 — I7 Estrategias de valoración (P1, fuera del MVP)
 
-**Objetivo**: validar paquetes versionados sin acoplar el MVP a servicios externos.
+**Objetivo**: seleccionar algoritmos de valoración distintos mediante una interfaz común y ejecutar solo implementaciones registradas, versionadas y validadas.
 
-**Prueba independiente**: validar paquete sintético correcto/incorrecto y ejecutar I0–I6 con integración deshabilitada.
+**Prueba independiente**: registrar una estrategia sintética validada, resolverla por clave/versión, rechazar estrategias ausentes o no validadas y ejecutar I0–I6 con el registro de estrategias deshabilitado.
 
-- [ ] T110 [P] [US8] Escribir pruebas contractuales de validación completa y ausencia de cambios parciales en `backend/src/test/java/ec/edu/unl/sec/integration/api/ExchangeContractTest.java` (FR-035, FR-036)
-- [ ] T111 [P] [US8] Escribir prueba de arquitectura que prohíba dependencias desde módulos I0–I6 hacia `integration` en `backend/src/test/java/ec/edu/unl/sec/architecture/ExtensionIsolationTest.java`
-- [ ] T112 [US8] Crear esquema opcional `exchange_job` con procedencia, versión, resultado, errores y actor en `backend/src/main/resources/db/migration/V010__exchange_jobs.sql`
-- [ ] T113 [US8] Implementar validador de paquete 1.0 y endpoint sin adaptador institucional en `backend/src/main/java/ec/edu/unl/sec/integration/application/` y `backend/src/main/java/ec/edu/unl/sec/integration/api/`
-- [ ] T114 [P] [US8] Crear fixture y validación de contrato en `tests/fixtures/exchange/v1/` y `tests/acceptance/i7-exchange.ps1`
-- [ ] T115 [US8] Documentar extensión I7 y actualizar trazabilidad en `docs/technical/i7-interoperability.qmd` y `docs/testing/traceability.md`
+- [ ] T110 [P] [US8] Escribir pruebas de resolución por clave/versión, compatibilidad de mecanismo y rechazo de estrategias ausentes o no validadas en `backend/src/test/java/ec/edu/unl/sec/academicevaluation/strategy/EvaluationStrategyRegistryTest.java` (FR-041; RF-056)
+- [ ] T111 [P] [US8] Escribir prueba de arquitectura que impida dependencias desde I0–I6 hacia implementaciones de estrategia I7 y prohíba Adapter dentro de la selección de modelos en `backend/src/test/java/ec/edu/unl/sec/architecture/ExtensionIsolationTest.java`
+- [ ] T112 [US8] Diseñar `EvaluationStrategy`, entrada/salida canónica y Factory/Registry por clave y versión en `backend/src/main/java/ec/edu/unl/sec/academicevaluation/strategy/EvaluationStrategy.java` y `backend/src/main/java/ec/edu/unl/sec/academicevaluation/strategy/EvaluationStrategyRegistry.java` (FR-041; T-008)
+- [ ] T113 [US8] Implementar las estrategias de valoración validadas y su registro explícito, sin interpretar scripts o expresiones arbitrarias, en `backend/src/main/java/ec/edu/unl/sec/academicevaluation/strategy/validated/` (FR-041; T-009)
+- [ ] T114 [P] [US8] Crear fixtures de mecanismos compatibles/incompatibles y recorrido de aceptación del registro en `tests/fixtures/evaluation-strategies/` y `tests/acceptance/i7-evaluation-strategies.ps1`
+- [ ] T115 [US8] Documentar I7, registro/validación y actualizar trazabilidad en `docs/technical/i7-evaluation-strategies.qmd` y `docs/testing/traceability.md`
 
 ---
 
-## Fase 11: US9 — I8 Notificaciones y acceso complementario (P2, fuera del MVP)
+## Fase 11: US9 — I8 Importaciones e integraciones (P2, fuera del MVP)
 
-**Objetivo**: publicar eventos mínimos versionados sin transferir autoridad ni disponibilidad.
+**Objetivo**: traducir formatos o servicios externos mediante adaptadores específicos, validar paquetes completos y conservar eventos complementarios sin transferir autoridad ni disponibilidad.
 
-**Prueba independiente**: consumir evento sintético; una falla del consumidor no cambia el agregado fuente.
+**Prueba independiente**: importar un paquete sintético mediante su adaptador, rechazar atómicamente formatos inválidos o no soportados y comprobar que una falla de integración o notificación no cambia el agregado fuente.
 
-- [ ] T116 [P] [US9] Escribir prueba de esquema AsyncAPI y minimización de payload en `backend/src/test/java/ec/edu/unl/sec/integration/events/NotificationEventContractTest.java` (FR-037, RNF-005)
-- [ ] T117 [P] [US9] Escribir prueba de falla del publicador/consumidor sin cambio de estado en `backend/src/test/java/ec/edu/unl/sec/integration/events/NotificationFailureIsolationTest.java` (FR-038, RNF-009)
-- [ ] T118 [US9] Crear esquema `notification_event` con versión, destinatario, sujeto, payload mínimo y estado en `backend/src/main/resources/db/migration/V011__notification_events.sql`
-- [ ] T119 [US9] Implementar puerto y adaptador inerte/local de eventos en `backend/src/main/java/ec/edu/unl/sec/integration/events/`
-- [ ] T120 [P] [US9] Crear consumidor de demostración desacoplado y fixture sintético en `tests/acceptance/i8-notification-consumer/`
-- [ ] T121 [US9] Documentar extensión I8 y actualizar trazabilidad en `docs/technical/i8-notifications.qmd` y `docs/testing/traceability.md`
+- [ ] T116 [P] [US9] Escribir pruebas contractuales de validación completa, formato no soportado y ausencia de cambios parciales en `backend/src/test/java/ec/edu/unl/sec/integration/api/ExchangeContractTest.java` (FR-035, FR-036)
+- [ ] T117 [P] [US9] Escribir pruebas de esquema AsyncAPI, minimización de payload y falla de publicador/consumidor sin cambio de estado en `backend/src/test/java/ec/edu/unl/sec/integration/events/NotificationEventContractTest.java` y `backend/src/test/java/ec/edu/unl/sec/integration/events/NotificationFailureIsolationTest.java` (FR-037, FR-038, RNF-005, RNF-009)
+- [ ] T118 [US9] Crear esquema `exchange_job` y `notification_event` con procedencia, versión, resultado, errores, actor y payload mínimo en `backend/src/main/resources/db/migration/V011__integrations.sql` (FR-035–FR-038; T-010)
+- [ ] T119 [US9] Implementar el contrato interno de importación y adaptadores específicos solo para formatos necesarios en `backend/src/main/java/ec/edu/unl/sec/integration/imports/`; cada adaptador debe traducir al modelo canónico antes de aplicar cambios (FR-035, FR-036; T-010)
+- [ ] T120 [P] [US9] Implementar puerto/adaptador inerte de eventos y crear fixtures de importación y consumidor desacoplado en `backend/src/main/java/ec/edu/unl/sec/integration/events/`, `tests/fixtures/exchange/v1/` y `tests/acceptance/i8-integration/`
+- [ ] T121 [US9] Documentar I8, criterios para crear adaptadores y actualizar trazabilidad en `docs/technical/i8-integrations.qmd` y `docs/testing/traceability.md`
 
 ---
 
@@ -235,7 +252,7 @@
 - [ ] T128 [P] Ejecutar pruebas de accesibilidad/compatibilidad RNF-014–RNF-015 y guardar resultados en `tests/acceptance/results/accessibility.md`
 - [ ] T129 Validar que no existen secretos ni datos reales y guardar resultado en `tests/acceptance/results/synthetic-data.md` (RNF-019)
 - [ ] T130 [P] Completar guía técnica y manual de usuario I0–I6 en `docs/technical/index.qmd` y `docs/user/index.qmd`
-- [ ] T131 Reconciliar FR-001–FR-040, RNF-001–RNF-019 y SC-001–SC-010 con pruebas/resultados en `docs/testing/traceability.md`
+- [ ] T131 Reconciliar FR-001–FR-042, alias RF-051–RF-057, RNF-001–RNF-019 y SC-001–SC-010 con pruebas/resultados en `docs/testing/traceability.md`
 - [ ] T132 Ejecutar todos los escenarios de `docs/technical/quickstart.md` y registrar el acta final en `tests/acceptance/results/quickstart.md`
 - [ ] T133 Revisar constitución, CL-001–CL-010 y puertas humanas antes de aceptar el incremento en `tests/acceptance/results/review-gate.md`
 
@@ -281,7 +298,7 @@ Completar Fases 1–2 y US1–US7, detenerse y validar quickstart, seguridad, re
 
 ### Extensiones
 
-US8 y US9 se programan como entregas independientes después de validar CL-010. Sus fallas o ausencia no pueden romper pruebas del MVP.
+US8 y US9 se programan como entregas independientes después de validar el MVP. US8 requiere validar CL-005 y solo introduce Strategy para algoritmos realmente distintos; US9 requiere validar CL-010 y solo introduce Adapter ante una fuente externa concreta. Sus fallas o ausencia no pueden romper pruebas del MVP.
 
 ## Reglas de ejecución
 

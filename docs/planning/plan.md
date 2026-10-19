@@ -4,7 +4,7 @@
 
 ## Resumen
 
-Construir una aplicación web cliente-servidor para ejecutar el recorrido I0–I6 de una autoevaluación interna: acceso por función y ámbito, modelos publicados e inmutables, procesos y asignaciones, evidencia versionada, revisión documental separada, valoración académica, seguimiento y cierre reproducible. I7–I8 se limitan a puertos y contratos de extensión sin introducir dependencias operativas en el MVP.
+Construir una aplicación web cliente-servidor para ejecutar el recorrido I0–I6 de una autoevaluación interna: acceso por función y ámbito, catálogo configurable de modelos publicados e inmutables, procesos y asignaciones, evidencia versionada, revisión documental separada, valoración académica, seguimiento y cierre reproducible. I7 incorpora estrategias de valoración solo para algoritmos distintos y validados; I8 reserva adaptadores para importaciones o integraciones heterogéneas. Ninguna extensión introduce dependencias operativas en el MVP.
 
 La solución será un backend monolítico modular con API REST y un cliente web. La persistencia relacional mantendrá metadatos, estados, decisiones y auditoría; los binarios se gestionarán detrás de un puerto de almacenamiento, con adaptador local para desarrollo y compatibilidad futura con S3. La seguridad se aplicará en backend con sesión revocable, autorización por política y ámbito, protección CSRF y auditoría.
 
@@ -24,7 +24,7 @@ La solución será un backend monolítico modular con API REST y un cliente web.
 
 **Objetivos de rendimiento**: p95 ≤ 2 s en operaciones interactivas; p95 ≤ 15 s para archivos de hasta 25 MiB; 30 sesiones concurrentes y escala piloto de RNF-008
 
-**Restricciones**: una carrera, un modelo y un proceso piloto; datos sintéticos; archivos fuera de PostgreSQL; I7–I8 no bloquean I0–I6; GitHub Actions solo manual; sin despliegue productivo; sin dependencia obligatoria de Docker
+**Restricciones**: una carrera, una versión de modelo y un proceso en ejecución para el piloto; configuraciones sintéticas representativas de cinco modelos; archivos fuera de PostgreSQL; I7–I8 no bloquean I0–I6; GitHub Actions solo manual; sin despliegue productivo; sin dependencia obligatoria de Docker
 
 **Escala/alcance**: 100 usuarios, 500 indicadores, 10 000 versiones de evidencia y 100 GiB de archivos en el entorno piloto
 
@@ -46,7 +46,7 @@ No se solicitan excepciones. Ninguna decisión CL-001–CL-010 se codifica como 
 
 ### Puerta posterior al diseño
 
-**Resultado**: CUMPLE. El modelo de datos mantiene conceptos separados, OpenAPI aplica seguridad uniforme, el contrato de errores evita filtración, la estrategia de archivos preserva atomicidad y el diseño reserva extensiones I7–I8 sin dependencias inversas hacia el MVP. Los ADR documentan el monolito modular y el puerto de archivos.
+**Resultado**: CUMPLE. El modelo de datos mantiene conceptos separados, OpenAPI aplica seguridad uniforme, el contrato de errores evita filtración, la estrategia de archivos preserva atomicidad y el diseño reserva extensiones I7–I8 sin dependencias inversas hacia el MVP. Los ADR documentan el monolito modular, el puerto de archivos, el catálogo configurable de modelos y la separación entre estrategias de valoración y adaptadores de importación.
 
 ## Arquitectura
 
@@ -59,13 +59,13 @@ El cliente Angular consume exclusivamente la API REST. El backend aplica autenti
 | Módulo | Responsabilidad | Puede depender de |
 |---|---|---|
 | `identityaccess` | usuarios, credenciales, sesiones, funciones, ámbitos y conflictos | `shared`, `audit` |
-| `evaluationmodel` | borradores y versiones publicadas de criterios, estándares, indicadores y escalas | `shared`, `audit` |
+| `evaluationmodel` | catálogo de modelos generales/específicos, versiones publicadas, jerarquías flexibles, indicadores, fuentes y escalas | `shared`, `audit` |
 | `selfassessment` | carrera, proceso, estados, asignaciones y cierre | `identityaccess` (puertos), `evaluationmodel` (puertos), `audit` |
 | `evidence` | borradores, versiones remitidas, metadatos e integridad de archivos | `selfassessment` (puertos), `filestorage`, `audit` |
 | `documentreview` | decisiones documentales append-only | `evidence` (puertos), `identityaccess` (políticas), `audit` |
-| `academicevaluation` | valoraciones y revisiones académicas | `documentreview` y `evaluationmodel` (puertos), `identityaccess`, `audit` |
+| `academicevaluation` | valoraciones y revisiones académicas; registro/fábrica de estrategias opcional en I7 | `documentreview` y `evaluationmodel` (puertos), `identityaccess`, `audit` |
 | `reporting` | avance, trazabilidad, resumen de cierre y exportaciones | vistas/puertos de los módulos, nunca repositorios internos |
-| `integration` | validación de paquetes I7 y publicación de eventos I8 | puertos públicos; ningún módulo MVP depende de él |
+| `integration` | adaptadores de importación e integraciones externas I8 y publicación de eventos complementarios | puertos públicos; ningún módulo MVP depende de él |
 | `audit` | eventos inmutables y consulta autorizada | `shared` |
 | `shared` | identificadores, reloj, errores, correlación y tipos transversales mínimos | ninguno |
 
@@ -84,6 +84,7 @@ Cada módulo se divide en `api`, `application`, `domain` e `infrastructure`. Los
 
 - Bloqueo optimista con campo `version` en agregados editables.
 - Publicación/remisión/finalización crea registros inmutables; rectificaciones añaden revisiones y no actualizan el registro histórico.
+- Cada proceso conserva la referencia inmutable a la versión de modelo seleccionada al iniciarse; publicar otra versión nunca migra procesos existentes de manera implícita.
 - La carga usa archivo temporal, cálculo SHA-256, validación y promoción; una transacción fallida deja el temporal elegible para limpieza, nunca una evidencia remitida falsa.
 - El cierre toma un bloqueo del proceso, revalida prerrequisitos y guarda un resumen inmutable dentro de la misma transacción de dominio.
 - Los eventos de auditoría se insertan con cada cambio crítico; no existe operación ordinaria de actualización o eliminación.
@@ -103,7 +104,9 @@ docs/
 │   └── data-model.md
 ├── adr/
 │   ├── 0001-modular-monolith.md
-│   └── 0002-file-storage-port.md
+│   ├── 0002-file-storage-port.md
+│   ├── 0015-configurable-evaluation-models.md
+│   └── 0016-evaluation-strategies-import-adapters.md
 ├── technical/
 │   ├── quickstart.md
 │   └── contracts/
@@ -169,19 +172,22 @@ docs/
 1. **Fase 0 — Investigación**: cerrar decisiones técnicas en [research.md](../architecture/research.md), sin resolver normativas CL como si fueran reglas oficiales.
 2. **Fase 1 — Diseño**: aprobar [data-model.md](../architecture/data-model.md), contratos, ADR, quickstart y matriz de trazabilidad.
 3. **I0 — Acceso**: identidad, sesiones, funciones, ámbitos, conflictos y auditoría base.
-4. **I1 — Modelos**: edición, validación, publicación y consulta de versiones.
-5. **I2 — Procesos**: carrera piloto, proceso, asignaciones, estados y reapertura.
+4. **I1 — Modelos**: catálogo común, jerarquía flexible, edición, validación, publicación y consulta de versiones; sus pruebas de aceptación quedan disponibles para la apertura de procesos de I2.
+5. **I2 — Procesos**: configuraciones representativas de modelos, carrera piloto, asociación inmutable proceso–versión, asignaciones, estados y reapertura.
 6. **I3 — Evidencias**: borradores, archivos, remisión, sucesión e integridad.
 7. **I4 — Revisión documental**: decisiones separadas y rectificación append-only.
 8. **I5 — Valoración académica**: escala, sustentos aceptados y revisiones.
 9. **I6 — Seguimiento y cierre**: cálculo, tablero, resumen, informe y exportación.
-10. **I7–I8 — Extensiones**: implementar solo después de aceptar el MVP; contratos sin dependencia inversa.
+10. **I7 — Estrategias de valoración**: interfaz común, registro/fábrica y estrategias verificadas; una fórmula no registrada o no validada nunca se ejecuta.
+11. **I8 — Importaciones e integraciones**: adaptadores únicamente para traducir formatos o servicios externos a contratos internos; no se usan para elegir entre modelos del catálogo.
 
 Cada incremento actualiza migración, OpenAPI, pruebas, trazabilidad, guía Quarto y quickstart. Las migraciones se validan desde base limpia y con un recorrido documentado de respaldo/restauración cuando corresponda.
 
 ## Estrategia de pruebas
 
 - **Dominio**: transiciones, separación de funciones, versionado, inmutabilidad y fórmula.
+- **Configurabilidad de modelos**: fixtures del modelo general 2024 y estructuras sintéticas representativas de Medicina, Enfermería, Odontología y Derecho; se valida estructura, no la totalidad de sus cálculos académicos.
+- **Extensiones**: pruebas del registro de estrategias en I7 y pruebas contractuales por adaptador de importación en I8, siempre con I0–I6 ejecutable sin ambos.
 - **Arquitectura**: dependencias entre módulos/capas con ArchUnit.
 - **Persistencia/migración**: PostgreSQL real mediante Testcontainers cuando esté disponible y PostgreSQL local como camino sin Docker; nunca H2 para aceptación de SQL.
 - **Contrato**: OpenAPI lint y pruebas de endpoint/errores/autorización.
@@ -212,7 +218,19 @@ Cada incremento actualiza migración, OpenAPI, pruebas, trazabilidad, guía Quar
 | Autorización filtrada solo en UI | Pruebas negativas de backend y políticas sobre cada caso de uso. |
 | Crecimiento de dependencias internas | Puertos públicos, ArchUnit y ADR obligatorio para excepciones. |
 | I7–I8 contaminan el MVP | Módulo de integración periférico y pruebas del MVP sin sus componentes. |
+| Un modelo por carrera deriva en cinco implementaciones | Catálogo versionado, jerarquía de nodos y servicios compartidos; las diferencias se expresan como configuración. |
+| Uso indiscriminado de patrones | Strategy solo para algoritmos de valoración validados; Adapter solo en límites de importación o integración externa. |
 
 ## Seguimiento de complejidad
 
-No existen violaciones constitucionales que requieran justificación. El patrón de puertos se limita a límites externos y dependencias entre módulos; no se introduce una capa genérica adicional para cada entidad.
+No existen violaciones constitucionales que requieran justificación. El patrón de puertos se limita a límites externos y dependencias entre módulos; no se introduce una capa genérica adicional para cada entidad. El catálogo resuelve la selección de modelos del MVP sin Adapter. Strategy aparece en I7 solo si hay algoritmos distintos y verificados; Adapter aparece en I8 solo ante formatos o servicios externos heterogéneos.
+
+## Decisiones de diseño para modelos y valoración
+
+- El catálogo de modelos es versionado y configurable; cada modelo declara organismo emisor, denominación, versión, fecha y documento fuente.
+- La estructura se representa como una jerarquía flexible de nodos tipados, sin tablas o servicios independientes por carrera.
+- Las definiciones de indicadores pertenecen a una versión del modelo; las ejecuciones, evidencias y valoraciones pertenecen a un proceso que referencia esa versión.
+- La asociación proceso–versión queda inmutable desde el inicio del proceso y se conserva históricamente.
+- I7 usa `EvaluationStrategy` con Factory/Registry para seleccionar únicamente implementaciones registradas y validadas.
+- I8 usa Adapter en cada límite de importación o integración heterogénea; el dominio recibe un contrato interno común.
+- ADR-015 y ADR-016 contienen la justificación, beneficios, costes y alternativas de estas decisiones.

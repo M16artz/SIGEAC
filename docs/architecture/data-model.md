@@ -46,17 +46,27 @@ Reglas: excepción siempre temporal, justificada y autorizada; no se concede a c
 
 ### EvaluationModel / ModelVersion
 
-Modelo: `id`, `code` (único), `name`, `status`.
+Modelo: `id`, `code` (único), `name`, `issuer_organization`, `scope` (`GENERAL|SPECIFIC`), `status`.
 
-Versión: `id`, `model_id`, `version_number`, `status` (`DRAFT|PUBLISHED|SUPERSEDED`), `predecessor_id`, `created_by`, `published_by`, `published_at`, `source_reference`, `version`.
+Versión: `id`, `model_id`, `version_number`, `version_date`, `status` (`DRAFT|PUBLISHED|SUPERSEDED`), `predecessor_id`, `created_by`, `published_by`, `published_at`, `source_document`, `version`.
 
-Reglas: `(model_id, version_number)` único; solo borrador editable; publicación exige aprobador distinto del autor para el piloto; una versión publicada no cambia.
+Reglas: `(model_id, version_number)` único; solo borrador editable; publicación exige organismo emisor, denominación, fecha, documento fuente y aprobador distinto del autor para el piloto; una versión publicada no cambia. Los modelos generales y específicos son independientes aunque compartan códigos.
 
-### CriterionSnapshot / StandardSnapshot / IndicatorSnapshot
+### EvaluationNodeSnapshot / IndicatorDefinition
 
-Campos comunes: `id`, `model_version_id`, `code`, `title`, `description`, `ordinal`, `mandatory`, `weight` opcional.
+Nodo: `id`, `model_version_id`, `parent_id` opcional, `node_type` (`CRITERION|SUBCRITERION|STANDARD|INDICATOR`), `code`, `title`, `description`, `ordinal`, `mandatory`, `weight` opcional.
 
-Relaciones: criterio 1–N estándar; estándar 1–N indicador. Códigos únicos por tipo dentro de la versión. Todos son inmutables al publicar.
+Indicador: `node_id`, `value_nature` (`QUALITATIVE|QUANTITATIVE`), `evaluation_period_definition`, `valuation_mechanism_key` opcional, `rating_scale_id` opcional.
+
+Relaciones: una versión posee un bosque ordenado de nodos; `parent_id` pertenece a la misma versión y no puede formar ciclos. Solo un nodo `INDICATOR` posee `IndicatorDefinition`. Códigos únicos por tipo dentro de la versión. Todos son inmutables al publicar.
+
+Convención referencial: los campos existentes denominados `indicator_snapshot_id` apuntan a un `EvaluationNodeSnapshot` cuyo `node_type=INDICATOR`; se conserva el nombre para expresar el rol de la referencia, no una tabla jerárquica separada.
+
+### IndicatorInformationSource
+
+Campos: `id`, `indicator_node_id`, `source_type`, `name`, `description`, `required`, `ordinal`.
+
+Reglas: cada indicador publicado declara al menos una fuente; las fuentes pertenecen a un solo indicador y versión.
 
 ### RatingScale / RatingOption / ProgressFormula
 
@@ -64,9 +74,9 @@ Escala: `id`, `model_version_id`, `name`, `version_label`.
 
 Opción: `id`, `scale_id`, `code`, `label`, `ordinal`, `numeric_value` opcional.
 
-Fórmula: `id`, `model_version_id`, `formula_version`, `definition`, `closure_policy_version`, `closure_policy_definition`, `published_at`.
+Fórmula: `id`, `model_version_id`, `formula_version`, `definition`, `strategy_key` opcional, `strategy_version` opcional, `closure_policy_version`, `closure_policy_definition`, `published_at`.
 
-Reglas: al menos una opción; códigos y ordinales únicos; la fórmula del piloto calcula separadamente recopilación, revisión y valoración. La política de cierre versionada exige indicadores obligatorios con valoración final válida, ausencia de rectificaciones pendientes y archivos referenciados en estado `AVAILABLE`.
+Reglas: al menos una opción; códigos y ordinales únicos; la fórmula del piloto calcula separadamente recopilación, revisión y valoración. Si declara estrategia automática, clave y versión son obligatorias y deben existir como registro validado en I7 antes de ejecutar. La política de cierre versionada exige indicadores obligatorios con valoración final válida, ausencia de rectificaciones pendientes y archivos referenciados en estado `AVAILABLE`.
 
 ## Proceso y asignaciones (I2)
 
@@ -100,7 +110,7 @@ Regla: append-only y obligatoria para salir de `CLOSED`.
 
 Campos: `id`, `process_id`, `title`, `description`, `source`, `covered_from`, `covered_to`, `owner_id`, `archived_at` opcional, `version`.
 
-Relación: N–M con `IndicatorSnapshot` mediante `EvidenceIndicator`.
+Relación: N–M con `EvaluationNodeSnapshot` de tipo `INDICATOR` mediante `EvidenceIndicator`.
 
 Reglas: la evidencia no persiste estados `ACCEPTED`, `OBSERVED` ni `REJECTED`. El estado documental mostrado es una proyección derivada de la última `DocumentReviewDecision` vigente para cada `EvidenceVersion`; nunca es una propiedad académica ni una fuente de verdad duplicada.
 
@@ -168,7 +178,13 @@ Campos: `id`, `occurred_at`, `actor_user_id` opcional, `technical_account_id` op
 
 Reglas: append-only; actor humano o técnico obligatorio; no guarda secretos ni contenido de archivo.
 
-### ExchangeJob (I7)
+### EvaluationStrategyRegistration (I7)
+
+Campos: `id`, `strategy_key`, `strategy_version`, `compatible_mechanism`, `status` (`DRAFT|VALIDATED|RETIRED`), `implementation_reference`, `validated_by`, `validated_at`.
+
+Reglas: `(strategy_key, strategy_version)` único; solo `VALIDATED` puede resolverse; retirar una estrategia impide nuevas ejecuciones pero conserva trazabilidad histórica; no contiene scripts o expresiones ejecutables aportadas por usuarios.
+
+### ExchangeJob (I8)
 
 Campos: `id`, `contract_version`, `direction`, `source`, `requested_by`, `status`, `validation_result`, `created_at`, `completed_at`.
 
