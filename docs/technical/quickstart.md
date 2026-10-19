@@ -102,4 +102,4 @@ Testcontainers puede acelerar pruebas si hay un runtime compatible, pero nunca e
 
 ## Resultado y evidencia
 
-Guardar resultados bajo `tests/acceptance/results/` sin datos reales: versión de código, fecha, entorno, requisitos cubiertos, comandos, resultado y vínculos a logs sanitizados. Actualizar [traceability.md](./traceability.md) y la documentación Quarto antes de aceptar cada incremento.
+Guardar resultados bajo `tests/acceptance/results/` sin datos reales: versión de código, fecha, entorno, requisitos cubiertos, comandos, resultado y vínculos a logs sanitizados. Actualizar [traceability.md](../testing/traceability.md) y la documentación Quarto antes de aceptar cada incremento.

@@ -2,7 +2,7 @@
 
 **Propósito**: Validar completitud y calidad antes de la planificación
 **Creada**: 2026-10-18
-**Funcionalidad**: [spec.md](../spec.md)
+**Funcionalidad**: [spec.md](../../requirements/spec.md)
 
 ## Calidad del contenido
 

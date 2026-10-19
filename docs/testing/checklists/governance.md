@@ -2,7 +2,7 @@
 
 **Propósito**: Revisar que los requisitos expresen de forma completa, clara, consistente y medible las separaciones del dominio, seguridad por ámbito, versionado, trazabilidad y límites del MVP.
 **Creada**: 2026-10-18
-**Funcionalidad**: [spec.md](../spec.md)
+**Funcionalidad**: [spec.md](../../requirements/spec.md)
 
 **Nota**: Esta lista valida la calidad de los requisitos, no la implementación.
 **Propiedad de revisión**: Es un artefacto del revisor. Marcar `[x]` solo cuando el revisor determine que el criterio de calidad de requisitos está satisfecho.

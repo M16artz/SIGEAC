@@ -1,8 +1,8 @@
 # Tareas: Sistema de Evaluación de Carreras
 
-**Entrada**: artefactos de diseño en `specs/001-career-evaluation-platform/`
+**Entrada**: artefactos de diseño organizados bajo `docs/`
 
-**Prerrequisitos**: `spec.md`, `plan.md`, `research.md`, `data-model.md`, `contracts/`, `quickstart.md`
+**Prerrequisitos**: `docs/requirements/spec.md`, `docs/planning/plan.md`, `docs/architecture/research.md`, `docs/architecture/data-model.md`, `docs/technical/contracts/`, `docs/technical/quickstart.md`
 
 **Pruebas**: obligatorias para contratos y reglas críticas según la constitución. En cada historia, escribir primero las pruebas y comprobar que fallan antes de implementar.
 
@@ -16,7 +16,7 @@
 - [ ] T004 Crear paquetes `shared`, `audit`, `identityaccess`, `evaluationmodel`, `selfassessment`, `evidence`, `documentreview`, `academicevaluation`, `reporting`, `integration` y `filestorage` bajo `backend/src/main/java/ec/edu/unl/sec/`
 - [ ] T005 [P] Crear estructura `core`, `shared` y features I0–I6 bajo `frontend/src/app/` con rutas lazy en `frontend/src/app/app.routes.ts`
 - [ ] T006 [P] Configurar perfiles locales/prueba sin Docker y variables sin secretos en `backend/src/main/resources/application.yml`, `backend/src/test/resources/application-test.yml` y `backend/.env.example`
-- [ ] T007 [P] Configurar herramientas OpenAPI/AsyncAPI lint y validación contra `specs/001-career-evaluation-platform/contracts/` en `scripts/validate-contracts.ps1` y `scripts/validate-contracts.sh`
+- [ ] T007 [P] Configurar herramientas OpenAPI/AsyncAPI lint y validación contra `docs/technical/contracts/` en `scripts/validate-contracts.ps1` y `scripts/validate-contracts.sh`
 - [ ] T008 [P] Crear fixtures sintéticos base y prohibición de datos reales para pruebas en `tests/fixtures/pilot/README.md` y `tests/fixtures/pilot/manifest.json` (RNF-019)
 - [ ] T009 Ajustar backend, frontend y documentación para ejecutar comandos reales conservando exclusivamente `workflow_dispatch` y sin despliegue en `.github/workflows/backend-ci.yml`, `.github/workflows/frontend-ci.yml` y `.github/workflows/documentation-ci.yml`; mantener `.github/workflows/android-ci.yml` como marcador manual sin convertir móvil en alcance del MVP
 - [ ] T010 [P] Incorporar los artefactos SDD y ADR al sitio Quarto en `_quarto.yml` y `docs/technical/index.qmd` (FR-040)
@@ -41,7 +41,7 @@
 - [ ] T022 Crear prueba que aplique todas las migraciones desde una base PostgreSQL limpia en `backend/src/test/java/ec/edu/unl/sec/migration/CleanDatabaseMigrationTest.java`
 - [ ] T023 [P] Crear validación de contrato OpenAPI y errores comunes en `backend/src/test/java/ec/edu/unl/sec/contract/OpenApiContractTest.java`
 - [ ] T024 [P] Crear comprobación de secretos/datos reales en fixtures y artefactos en `scripts/verify-synthetic-data.ps1` y `scripts/verify-synthetic-data.sh` (RNF-019)
-- [ ] T025 Actualizar matriz inicial con IDs de pruebas y comandos fundacionales en `specs/001-career-evaluation-platform/traceability.md`
+- [ ] T025 Actualizar matriz inicial con IDs de pruebas y comandos fundacionales en `docs/testing/traceability.md`
 
 **Punto de control**: migraciones, errores, auditoría, arquitectura, almacenamiento por puerto y harness de pruebas funcionan antes de historias.
 
@@ -66,7 +66,7 @@
 - [ ] T036 [P] [US1] Implementar login, expiración y cierre de sesión accesibles en `frontend/src/app/features/access/session/`
 - [ ] T037 [P] [US1] Implementar administración de usuarios/asignaciones y explicación de conflictos en `frontend/src/app/features/access/assignments/`
 - [ ] T038 [US1] Emitir auditoría para sesión, autenticación fallida/limitada, permisos, asignaciones/excepciones, rechazos por función/ámbito, conflictos y transiciones u operaciones críticas fallidas desde `backend/src/main/java/ec/edu/unl/sec/identityaccess/application/` (FR-006)
-- [ ] T039 [US1] Documentar configuración y recorrido I0 en `docs/technical/i0-access.qmd`, `docs/user/i0-access.qmd` y `specs/001-career-evaluation-platform/traceability.md`
+- [ ] T039 [US1] Documentar configuración y recorrido I0 en `docs/technical/i0-access.qmd`, `docs/user/i0-access.qmd` y `docs/testing/traceability.md`
 
 ---
 
@@ -86,7 +86,7 @@
 - [ ] T047 [US2] Implementar endpoints de listado/detalle de modelos y versiones, creación y publicación conforme a OpenAPI, auditando publicaciones y rechazos, en `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/api/`
 - [ ] T048 [P] [US2] Implementar editor jerárquico con errores de validación y control ETag en `frontend/src/app/features/models/editor/`
 - [ ] T049 [P] [US2] Implementar consulta y comparación de versiones publicadas en `frontend/src/app/features/models/versions/`
-- [ ] T050 [US2] Documentar I1 y actualizar trazabilidad en `docs/technical/i1-models.qmd`, `docs/user/i1-models.qmd` y `specs/001-career-evaluation-platform/traceability.md`
+- [ ] T050 [US2] Documentar I1 y actualizar trazabilidad en `docs/technical/i1-models.qmd`, `docs/user/i1-models.qmd` y `docs/testing/traceability.md`
 
 ---
 
@@ -106,7 +106,7 @@
 - [ ] T058 [US3] Implementar endpoints de listado/detalle de procesos e indicadores, activación, asignaciones y reapertura, auditando transiciones y rechazos, en `backend/src/main/java/ec/edu/unl/sec/selfassessment/api/`
 - [ ] T059 [P] [US3] Implementar asistente accesible para crear/activar proceso en `frontend/src/app/features/processes/setup/`
 - [ ] T060 [P] [US3] Implementar matriz de asignaciones por indicador en `frontend/src/app/features/processes/assignments/`
-- [ ] T061 [US3] Documentar I2 y actualizar trazabilidad en `docs/technical/i2-processes.qmd`, `docs/user/i2-processes.qmd` y `specs/001-career-evaluation-platform/traceability.md`
+- [ ] T061 [US3] Documentar I2 y actualizar trazabilidad en `docs/technical/i2-processes.qmd`, `docs/user/i2-processes.qmd` y `docs/testing/traceability.md`
 
 ---
 
@@ -128,7 +128,7 @@
 - [ ] T071 [US4] Implementar endpoints de listado/detalle de evidencia, historial, carga/descarga autorizada y remisión, auditando remisiones y fallos de carga/descarga, en `backend/src/main/java/ec/edu/unl/sec/evidence/api/`
 - [ ] T072 [P] [US4] Implementar formulario accesible de evidencia y metadatos en `frontend/src/app/features/evidence/editor/`
 - [ ] T073 [P] [US4] Implementar carga con progreso/errores recuperables e historial de versiones en `frontend/src/app/features/evidence/files/` y `frontend/src/app/features/evidence/history/`
-- [ ] T074 [US4] Documentar I3, recuperación de archivos y trazabilidad en `docs/technical/i3-evidence.qmd`, `docs/user/i3-evidence.qmd` y `specs/001-career-evaluation-platform/traceability.md`
+- [ ] T074 [US4] Documentar I3, recuperación de archivos y trazabilidad en `docs/technical/i3-evidence.qmd`, `docs/user/i3-evidence.qmd` y `docs/testing/traceability.md`
 
 ---
 
@@ -146,7 +146,7 @@
 - [ ] T080 [US5] Implementar caso de uso autorizado y puerto público de elegibilidad documental en `backend/src/main/java/ec/edu/unl/sec/documentreview/application/`
 - [ ] T081 [US5] Implementar persistencia y endpoints de bandeja, historial, detalle y decisión conforme OpenAPI, auditando decisiones y rechazos, en `backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/persistence/` y `backend/src/main/java/ec/edu/unl/sec/documentreview/api/`
 - [ ] T082 [P] [US5] Implementar bandeja, visor seguro y formulario accesible de decisión/historial en `frontend/src/app/features/reviews/`
-- [ ] T083 [US5] Documentar I4 y actualizar trazabilidad en `docs/technical/i4-document-review.qmd`, `docs/user/i4-document-review.qmd` y `specs/001-career-evaluation-platform/traceability.md`
+- [ ] T083 [US5] Documentar I4 y actualizar trazabilidad en `docs/technical/i4-document-review.qmd`, `docs/user/i4-document-review.qmd` y `docs/testing/traceability.md`
 
 ---
 
@@ -164,7 +164,7 @@
 - [ ] T089 [US6] Implementar casos de uso de borrador, finalización y rectificación en `backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/`
 - [ ] T090 [US6] Implementar persistencia y endpoints de bandeja, detalle, historial y decisión conforme OpenAPI, auditando finalizaciones y rechazos, en `backend/src/main/java/ec/edu/unl/sec/academicevaluation/infrastructure/persistence/` y `backend/src/main/java/ec/edu/unl/sec/academicevaluation/api/`
 - [ ] T091 [P] [US6] Implementar área accesible de valoración con sustentos y escala configurada en `frontend/src/app/features/evaluations/`
-- [ ] T092 [US6] Documentar I5 y actualizar trazabilidad en `docs/technical/i5-academic-evaluation.qmd`, `docs/user/i5-academic-evaluation.qmd` y `specs/001-career-evaluation-platform/traceability.md`
+- [ ] T092 [US6] Documentar I5 y actualizar trazabilidad en `docs/technical/i5-academic-evaluation.qmd`, `docs/user/i5-academic-evaluation.qmd` y `docs/testing/traceability.md`
 
 ---
 
@@ -190,7 +190,7 @@
 - [ ] T106 [P] [US7] Crear dataset RNF-008 y prueba k6 p95≤2 s / carga 25 MiB p95≤15 s en `tests/performance/pilot-data.js` y `tests/performance/mvp-thresholds.js` (RNF-006–RNF-008, SC-008)
 - [ ] T107 [P] [US7] Diseñar y ejecutar prueba moderada con al menos 20 participantes sintéticos de los cinco perfiles, una tarea representativa por función y registro de inicio, fin, ayuda y primer intento en `tests/usability/i0-i6-protocol.md` y `tests/acceptance/results/usability.md` (SC-007)
 - [ ] T108 [US7] Ejecutar quickstart I0–I6 sin componentes I7/I8 y registrar evidencia en `tests/acceptance/results/mvp-validation.md` (SC-003, SC-010)
-- [ ] T109 [US7] Documentar I6, resultados de rendimiento/usabilidad y actualizar trazabilidad en `docs/technical/i6-reporting.qmd`, `docs/user/i6-reporting.qmd` y `specs/001-career-evaluation-platform/traceability.md`
+- [ ] T109 [US7] Documentar I6, resultados de rendimiento/usabilidad y actualizar trazabilidad en `docs/technical/i6-reporting.qmd`, `docs/user/i6-reporting.qmd` y `docs/testing/traceability.md`
 
 ---
 
@@ -205,7 +205,7 @@
 - [ ] T112 [US8] Crear esquema opcional `exchange_job` con procedencia, versión, resultado, errores y actor en `backend/src/main/resources/db/migration/V010__exchange_jobs.sql`
 - [ ] T113 [US8] Implementar validador de paquete 1.0 y endpoint sin adaptador institucional en `backend/src/main/java/ec/edu/unl/sec/integration/application/` y `backend/src/main/java/ec/edu/unl/sec/integration/api/`
 - [ ] T114 [P] [US8] Crear fixture y validación de contrato en `tests/fixtures/exchange/v1/` y `tests/acceptance/i7-exchange.ps1`
-- [ ] T115 [US8] Documentar extensión I7 y actualizar trazabilidad en `docs/technical/i7-interoperability.qmd` y `specs/001-career-evaluation-platform/traceability.md`
+- [ ] T115 [US8] Documentar extensión I7 y actualizar trazabilidad en `docs/technical/i7-interoperability.qmd` y `docs/testing/traceability.md`
 
 ---
 
@@ -220,7 +220,7 @@
 - [ ] T118 [US9] Crear esquema `notification_event` con versión, destinatario, sujeto, payload mínimo y estado en `backend/src/main/resources/db/migration/V011__notification_events.sql`
 - [ ] T119 [US9] Implementar puerto y adaptador inerte/local de eventos en `backend/src/main/java/ec/edu/unl/sec/integration/events/`
 - [ ] T120 [P] [US9] Crear consumidor de demostración desacoplado y fixture sintético en `tests/acceptance/i8-notification-consumer/`
-- [ ] T121 [US9] Documentar extensión I8 y actualizar trazabilidad en `docs/technical/i8-notifications.qmd` y `specs/001-career-evaluation-platform/traceability.md`
+- [ ] T121 [US9] Documentar extensión I8 y actualizar trazabilidad en `docs/technical/i8-notifications.qmd` y `docs/testing/traceability.md`
 
 ---
 
@@ -235,8 +235,8 @@
 - [ ] T128 [P] Ejecutar pruebas de accesibilidad/compatibilidad RNF-014–RNF-015 y guardar resultados en `tests/acceptance/results/accessibility.md`
 - [ ] T129 Validar que no existen secretos ni datos reales y guardar resultado en `tests/acceptance/results/synthetic-data.md` (RNF-019)
 - [ ] T130 [P] Completar guía técnica y manual de usuario I0–I6 en `docs/technical/index.qmd` y `docs/user/index.qmd`
-- [ ] T131 Reconciliar FR-001–FR-040, RNF-001–RNF-019 y SC-001–SC-010 con pruebas/resultados en `specs/001-career-evaluation-platform/traceability.md`
-- [ ] T132 Ejecutar todos los escenarios de `specs/001-career-evaluation-platform/quickstart.md` y registrar el acta final en `tests/acceptance/results/quickstart.md`
+- [ ] T131 Reconciliar FR-001–FR-040, RNF-001–RNF-019 y SC-001–SC-010 con pruebas/resultados en `docs/testing/traceability.md`
+- [ ] T132 Ejecutar todos los escenarios de `docs/technical/quickstart.md` y registrar el acta final en `tests/acceptance/results/quickstart.md`
 - [ ] T133 Revisar constitución, CL-001–CL-010 y puertas humanas antes de aceptar el incremento en `tests/acceptance/results/review-gate.md`
 
 ---

@@ -1,6 +1,6 @@
 # Plan de implementación: Sistema de Evaluación de Carreras
 
-**Feature**: `001-career-evaluation-platform` | **Fecha**: 2026-10-18 | **Especificación**: [spec.md](./spec.md)
+**Feature**: `001-career-evaluation-platform` | **Fecha**: 2026-10-18 | **Especificación**: [spec.md](../requirements/spec.md)
 
 ## Resumen
 
@@ -93,22 +93,27 @@ Cada módulo se divide en `api`, `application`, `domain` e `infrastructure`. Los
 ### Documentación de la funcionalidad
 
 ```text
-specs/001-career-evaluation-platform/
-├── spec.md
-├── plan.md
-├── research.md
-├── data-model.md
-├── quickstart.md
-├── traceability.md
-├── contracts/
-│   ├── openapi.yaml
-│   └── events-asyncapi.yaml
-├── adrs/
+docs/
+├── requirements/spec.md
+├── planning/
+│   ├── plan.md
+│   └── tasks.md
+├── architecture/
+│   ├── research.md
+│   └── data-model.md
+├── adr/
 │   ├── 0001-modular-monolith.md
 │   └── 0002-file-storage-port.md
-├── checklists/
-│   └── requirements.md
-└── tasks.md
+├── technical/
+│   ├── quickstart.md
+│   └── contracts/
+│       ├── openapi.yaml
+│       └── events-asyncapi.yaml
+└── testing/
+    ├── traceability.md
+    └── checklists/
+        ├── governance.md
+        └── requirements.md
 ```
 
 ### Código fuente
@@ -161,8 +166,8 @@ docs/
 
 ## Fases de entrega
 
-1. **Fase 0 — Investigación**: cerrar decisiones técnicas en [research.md](./research.md), sin resolver normativas CL como si fueran reglas oficiales.
-2. **Fase 1 — Diseño**: aprobar [data-model.md](./data-model.md), contratos, ADR, quickstart y matriz de trazabilidad.
+1. **Fase 0 — Investigación**: cerrar decisiones técnicas en [research.md](../architecture/research.md), sin resolver normativas CL como si fueran reglas oficiales.
+2. **Fase 1 — Diseño**: aprobar [data-model.md](../architecture/data-model.md), contratos, ADR, quickstart y matriz de trazabilidad.
 3. **I0 — Acceso**: identidad, sesiones, funciones, ámbitos, conflictos y auditoría base.
 4. **I1 — Modelos**: edición, validación, publicación y consulta de versiones.
 5. **I2 — Procesos**: carrera piloto, proceso, asignaciones, estados y reapertura.

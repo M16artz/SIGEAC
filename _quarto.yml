@@ -7,9 +7,30 @@ website:
   sidebar:
     contents:
       - index.qmd
+      - section: "Requisitos"
+        contents:
+          - docs/requirements/spec.md
+      - section: "Planificación"
+        contents:
+          - docs/planning/plan.md
+          - docs/planning/tasks.md
+      - section: "Arquitectura"
+        contents:
+          - docs/architecture/research.md
+          - docs/architecture/data-model.md
+          - section: "Decisiones de arquitectura"
+            contents:
+              - docs/adr/0001-modular-monolith.md
+              - docs/adr/0002-file-storage-port.md
       - section: "Documentación técnica"
         contents:
           - docs/technical/index.qmd
+          - docs/technical/quickstart.md
+      - section: "Pruebas y calidad"
+        contents:
+          - docs/testing/traceability.md
+          - docs/testing/checklists/requirements.md
+          - docs/testing/checklists/governance.md
       - section: "Manual de usuario"
         contents:
           - docs/user/index.qmd
