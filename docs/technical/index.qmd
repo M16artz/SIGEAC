@@ -1,3 +1,17 @@
-﻿# Documentación técnica
+# Documentación técnica
 
-Esta sección se completará por fase del proceso SDD.
+## Artefactos de diseño
+
+- [Especificación](../requirements/spec.md)
+- [Plan de implementación](../planning/plan.md)
+- [Tareas](../planning/tasks.md)
+- [Investigación](../architecture/research.md)
+- [Modelo de datos](../architecture/data-model.md)
+- [ADR-0001: monolito modular](../adr/0001-modular-monolith.md)
+- [ADR-0002: almacenamiento de archivos](../adr/0002-file-storage-port.md)
+- [ADR-0015: modelos configurables](../adr/0015-configurable-evaluation-models.md)
+- [ADR-0016: estrategias y adaptadores](../adr/0016-evaluation-strategies-import-adapters.md)
+
+## Validación
+
+La [guía de validación rápida](quickstart.md) contiene los comandos locales sin Docker. Los contratos fuente se conservan en `docs/technical/contracts/` y se validan mediante `scripts/validate-contracts.ps1` o `scripts/validate-contracts.sh`.

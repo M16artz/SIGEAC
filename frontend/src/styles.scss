@@ -1,0 +1,10 @@
+:root { color-scheme: light; font-family: system-ui, sans-serif; line-height: 1.5; color: #172033; background: #f7f8fb; }
+body { margin: 0; }
+header, nav, main, footer { padding: 1rem max(1rem, calc((100vw - 72rem) / 2)); }
+nav { display: flex; flex-wrap: wrap; gap: 1rem; background: #133b5c; }
+nav a { color: white; padding: .5rem; }
+nav a.active { text-decoration-thickness: .2rem; }
+main { min-height: 60vh; }
+.skip-link { position: absolute; left: -10000px; top: auto; }
+.skip-link:focus { left: 1rem; top: 1rem; z-index: 1000; background: white; padding: .75rem; }
+:focus-visible { outline: .2rem solid #ffbf47; outline-offset: .2rem; }

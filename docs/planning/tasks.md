@@ -27,16 +27,16 @@ Los IDs con guion recibidos en la propuesta se mapean a tareas canónicas existe
 
 ## Fase 1: Preparación compartida
 
-- [ ] T001 Crear el proyecto Maven Java 25/Spring Boot 4.1.x y fijar dependencias aprobadas en `backend/pom.xml`
-- [ ] T002 [P] Crear el workspace Angular 22 con versiones bloqueadas, scripts de lint/test/build y accesibilidad en `frontend/package.json`, `frontend/angular.json` y `frontend/package-lock.json`
-- [ ] T003 [P] Configurar EditorConfig y reglas de formato/análisis para Java y TypeScript en `.editorconfig`, `backend/pom.xml` y `frontend/eslint.config.js`
-- [ ] T004 Crear paquetes `shared`, `audit`, `identityaccess`, `evaluationmodel`, `selfassessment`, `evidence`, `documentreview`, `academicevaluation`, `reporting`, `integration` y `filestorage` bajo `backend/src/main/java/ec/edu/unl/sec/`
-- [ ] T005 [P] Crear estructura `core`, `shared` y features I0–I6 bajo `frontend/src/app/` con rutas lazy en `frontend/src/app/app.routes.ts`
-- [ ] T006 [P] Configurar perfiles locales/prueba sin Docker y variables sin secretos en `backend/src/main/resources/application.yml`, `backend/src/test/resources/application-test.yml` y `backend/.env.example`
-- [ ] T007 [P] Configurar herramientas OpenAPI/AsyncAPI lint y validación contra `docs/technical/contracts/` en `scripts/validate-contracts.ps1` y `scripts/validate-contracts.sh`
-- [ ] T008 [P] Crear fixtures sintéticos base y prohibición de datos reales para pruebas en `tests/fixtures/pilot/README.md` y `tests/fixtures/pilot/manifest.json` (RNF-019)
-- [ ] T009 Ajustar backend, frontend y documentación para ejecutar comandos reales conservando exclusivamente `workflow_dispatch` y sin despliegue en `.github/workflows/backend-ci.yml`, `.github/workflows/frontend-ci.yml` y `.github/workflows/documentation-ci.yml`; mantener `.github/workflows/android-ci.yml` como marcador manual sin convertir móvil en alcance del MVP
-- [ ] T010 [P] Incorporar los artefactos SDD y ADR al sitio Quarto en `_quarto.yml` y `docs/technical/index.qmd` (FR-040)
+- [X] T001 Crear el proyecto Maven Java 25/Spring Boot 4.1.x y fijar dependencias aprobadas en `backend/pom.xml`
+- [X] T002 [P] Crear el workspace Angular 22 con versiones bloqueadas, scripts de lint/test/build y accesibilidad en `frontend/package.json`, `frontend/angular.json` y `frontend/package-lock.json`
+- [X] T003 [P] Configurar EditorConfig y reglas de formato/análisis para Java y TypeScript en `.editorconfig`, `backend/pom.xml` y `frontend/eslint.config.js`
+- [X] T004 Crear paquetes `shared`, `audit`, `identityaccess`, `evaluationmodel`, `selfassessment`, `evidence`, `documentreview`, `academicevaluation`, `reporting`, `integration` y `filestorage` bajo `backend/src/main/java/ec/edu/unl/sec/`
+- [X] T005 [P] Crear estructura `core`, `shared` y features I0–I6 bajo `frontend/src/app/` con rutas lazy en `frontend/src/app/app.routes.ts`
+- [X] T006 [P] Configurar perfiles locales/prueba sin Docker y variables sin secretos en `backend/src/main/resources/application.yml`, `backend/src/test/resources/application-test.yml` y `backend/.env.example`
+- [X] T007 [P] Configurar herramientas OpenAPI/AsyncAPI lint y validación contra `docs/technical/contracts/` en `scripts/validate-contracts.ps1` y `scripts/validate-contracts.sh`
+- [X] T008 [P] Crear fixtures sintéticos base y prohibición de datos reales para pruebas en `tests/fixtures/pilot/README.md` y `tests/fixtures/pilot/manifest.json` (RNF-019)
+- [X] T009 Ajustar backend, frontend y documentación para ejecutar comandos reales conservando exclusivamente `workflow_dispatch` y sin despliegue en `.github/workflows/backend-ci.yml`, `.github/workflows/frontend-ci.yml` y `.github/workflows/documentation-ci.yml`; mantener `.github/workflows/android-ci.yml` como marcador manual sin convertir móvil en alcance del MVP
+- [X] T010 [P] Incorporar los artefactos SDD y ADR al sitio Quarto en `_quarto.yml` y `docs/technical/index.qmd` (FR-040)
 
 ---
 
@@ -44,21 +44,21 @@ Los IDs con guion recibidos en la propuesta se mapean a tareas canónicas existe
 
 **Propósito**: infraestructura común que bloquea todas las historias.
 
-- [ ] T011 Crear migración inicial para extensiones, convenciones UUID/UTC y tabla de historial Flyway en `backend/src/main/resources/db/migration/V001__foundation.sql`
-- [ ] T012 [P] Implementar tipos compartidos de identificador, reloj y bloqueo optimista en `backend/src/main/java/ec/edu/unl/sec/shared/domain/` (RNF-011)
-- [ ] T013 [P] Implementar RFC 9457 con `code`, `correlationId` y detalles seguros en `backend/src/main/java/ec/edu/unl/sec/shared/api/ApiProblemHandler.java` (FR-039, RNF-005)
-- [ ] T014 [P] Implementar filtro de correlación y sanitización de logs en `backend/src/main/java/ec/edu/unl/sec/shared/infrastructure/CorrelationFilter.java` y `backend/src/main/resources/logback-spring.xml` (RNF-013)
-- [ ] T015 Crear migración y permisos append-only de auditoría en `backend/src/main/resources/db/migration/V002__audit.sql` (RNF-012: eventos inmutables para usuarios ordinarios)
-- [ ] T016 Implementar puerto y servicio transaccional de auditoría en `backend/src/main/java/ec/edu/unl/sec/audit/application/AuditPort.java` y `backend/src/main/java/ec/edu/unl/sec/audit/infrastructure/JpaAuditAdapter.java`
-- [ ] T017 [P] Implementar `FileStoragePort` y tipos de archivo sin adaptador concreto en `backend/src/main/java/ec/edu/unl/sec/filestorage/application/FileStoragePort.java` y `backend/src/main/java/ec/edu/unl/sec/filestorage/domain/StoredFile.java`
-- [ ] T018 [P] Crear validación automática de dependencias api/application/domain/infrastructure y módulos en `backend/src/test/java/ec/edu/unl/sec/architecture/ModuleArchitectureTest.java` (RNF-017)
-- [ ] T019 [P] Configurar pruebas con PostgreSQL local y Testcontainers opcional, sin H2, en `backend/src/test/java/ec/edu/unl/sec/support/PostgresTestSupport.java` y `backend/src/test/resources/application-test.yml`
-- [ ] T020 [P] Crear cliente HTTP, manejo de Problem Details y propagación CSRF en `frontend/src/app/core/http/api-client.ts`, `frontend/src/app/core/http/problem.ts` y `frontend/src/app/core/http/csrf.interceptor.ts`
-- [ ] T021 [P] Crear layout accesible con salto de contenido, foco visible y regiones etiquetadas en `frontend/src/app/core/layout/` y `frontend/src/styles.scss` (RNF-014)
-- [ ] T022 Crear prueba que aplique todas las migraciones desde una base PostgreSQL limpia en `backend/src/test/java/ec/edu/unl/sec/migration/CleanDatabaseMigrationTest.java`
-- [ ] T023 [P] Crear validación de contrato OpenAPI y errores comunes en `backend/src/test/java/ec/edu/unl/sec/contract/OpenApiContractTest.java`
-- [ ] T024 [P] Crear comprobación de secretos/datos reales en fixtures y artefactos en `scripts/verify-synthetic-data.ps1` y `scripts/verify-synthetic-data.sh` (RNF-019)
-- [ ] T025 Actualizar matriz inicial con IDs de pruebas y comandos fundacionales en `docs/testing/traceability.md`
+- [X] T011 Crear migración inicial para extensiones, convenciones UUID/UTC y tabla de historial Flyway en `backend/src/main/resources/db/migration/V001__foundation.sql`
+- [X] T012 [P] Implementar tipos compartidos de identificador, reloj y bloqueo optimista en `backend/src/main/java/ec/edu/unl/sec/shared/domain/` (RNF-011)
+- [X] T013 [P] Implementar RFC 9457 con `code`, `correlationId` y detalles seguros en `backend/src/main/java/ec/edu/unl/sec/shared/api/ApiProblemHandler.java` (FR-039, RNF-005)
+- [X] T014 [P] Implementar filtro de correlación y sanitización de logs en `backend/src/main/java/ec/edu/unl/sec/shared/infrastructure/CorrelationFilter.java` y `backend/src/main/resources/logback-spring.xml` (RNF-013)
+- [X] T015 Crear migración y permisos append-only de auditoría en `backend/src/main/resources/db/migration/V002__audit.sql` (RNF-012: eventos inmutables para usuarios ordinarios)
+- [X] T016 Implementar puerto y servicio transaccional de auditoría en `backend/src/main/java/ec/edu/unl/sec/audit/application/AuditPort.java` y `backend/src/main/java/ec/edu/unl/sec/audit/infrastructure/JpaAuditAdapter.java`
+- [X] T017 [P] Implementar `FileStoragePort` y tipos de archivo sin adaptador concreto en `backend/src/main/java/ec/edu/unl/sec/filestorage/application/FileStoragePort.java` y `backend/src/main/java/ec/edu/unl/sec/filestorage/domain/StoredFile.java`
+- [X] T018 [P] Crear validación automática de dependencias api/application/domain/infrastructure y módulos en `backend/src/test/java/ec/edu/unl/sec/architecture/ModuleArchitectureTest.java` (RNF-017)
+- [X] T019 [P] Configurar pruebas con PostgreSQL local y Testcontainers opcional, sin H2, en `backend/src/test/java/ec/edu/unl/sec/support/PostgresTestSupport.java` y `backend/src/test/resources/application-test.yml`
+- [X] T020 [P] Crear cliente HTTP, manejo de Problem Details y propagación CSRF en `frontend/src/app/core/http/api-client.ts`, `frontend/src/app/core/http/problem.ts` y `frontend/src/app/core/http/csrf.interceptor.ts`
+- [X] T021 [P] Crear layout accesible con salto de contenido, foco visible y regiones etiquetadas en `frontend/src/app/core/layout/` y `frontend/src/styles.scss` (RNF-014)
+- [X] T022 Crear prueba que aplique todas las migraciones desde una base PostgreSQL limpia en `backend/src/test/java/ec/edu/unl/sec/migration/CleanDatabaseMigrationTest.java`
+- [X] T023 [P] Crear validación de contrato OpenAPI y errores comunes en `backend/src/test/java/ec/edu/unl/sec/contract/OpenApiContractTest.java`
+- [X] T024 [P] Crear comprobación de secretos/datos reales en fixtures y artefactos en `scripts/verify-synthetic-data.ps1` y `scripts/verify-synthetic-data.sh` (RNF-019)
+- [X] T025 Actualizar matriz inicial con IDs de pruebas y comandos fundacionales en `docs/testing/traceability.md`
 
 **Punto de control**: migraciones, errores, auditoría, arquitectura, almacenamiento por puerto y harness de pruebas funcionan antes de historias.
 

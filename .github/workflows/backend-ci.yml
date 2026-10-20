@@ -4,8 +4,33 @@ on:
   workflow_dispatch:
 
 jobs:
-  preparation:
+  verify:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_DB: sec_unl_test
+          POSTGRES_USER: sec_test
+          POSTGRES_PASSWORD: synthetic-ci-password
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U sec_test -d sec_unl_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      SEC_TEST_DB_URL: jdbc:postgresql://localhost:5432/sec_unl_test
+      SEC_TEST_DB_USER: sec_test
+      SEC_TEST_DB_PASSWORD: synthetic-ci-password
+      SEC_RUN_DATABASE_TESTS: 'true'
     steps:
-      - name: Preparation placeholder
-        run: echo "Workflow preparado. Validaciones pendientes de configurar."
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+      - name: Verify backend
+        working-directory: backend
+        run: ./mvnw --batch-mode verify

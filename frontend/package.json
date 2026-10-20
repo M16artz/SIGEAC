@@ -1,0 +1,44 @@
+{
+  "name": "sec-unl-web",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {"node": "^22.22.3 || ^24.15.0 || ^26.0.0"},
+  "scripts": {
+    "start": "ng serve",
+    "build": "ng build",
+    "lint": "eslint \"src/**/*.ts\"",
+    "test": "ng test --watch=false",
+    "test:watch": "ng test",
+    "contracts": "node ../scripts/validate-contracts.mjs"
+  },
+  "dependencies": {
+    "@angular/common": "22.2.3",
+    "@angular/compiler": "22.2.3",
+    "@angular/core": "22.2.3",
+    "@angular/forms": "22.2.3",
+    "@angular/platform-browser": "22.2.3",
+    "@angular/router": "22.2.3",
+    "rxjs": "7.8.2",
+    "tslib": "2.8.1",
+    "zone.js": "0.16.3"
+  },
+  "devDependencies": {
+    "@angular-eslint/eslint-plugin": "22.6.0",
+    "@angular-eslint/eslint-plugin-template": "22.6.0",
+    "@angular-eslint/template-parser": "22.6.0",
+    "@angular/build": "22.2.3",
+    "@angular/cli": "22.2.3",
+    "@angular/compiler-cli": "22.2.3",
+    "@asyncapi/cli": "6.2.1",
+    "@redocly/cli": "2.65.0",
+    "@testing-library/angular": "19.6.0",
+    "@types/node": "24.10.0",
+    "@typescript-eslint/eslint-plugin": "8.72.0",
+    "@typescript-eslint/parser": "8.72.0",
+    "@vitest/coverage-v8": "5.0.5",
+    "eslint": "10.13.0",
+    "jsdom": "27.0.1",
+    "typescript": "6.0.3",
+    "vitest": "5.0.5"
+  }
+}

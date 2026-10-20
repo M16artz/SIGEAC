@@ -14,3 +14,17 @@
 | Transversal | Todas | FR-039–FR-040; RNF-005–RNF-006, RNF-013–RNF-019; SC-001–SC-010 | Problem Details y seguridad global | T001–T025, T122–T133 | Arquitectura, migración, E2E, k6, usabilidad, accesibilidad y documentación |
 
 Cada prueba crítica debe declarar los FR/RNF/SC que valida y cada resultado de aceptación debe conservar entorno, fecha y versión ejecutada.
+
+## Fundamentos ejecutables (T001–T025)
+
+| Regla | Evidencia automatizada | Comando |
+|---|---|---|
+| RNF-011, RNF-017 | `ModuleArchitectureTest` y tipos `DomainId`, `DomainClock`, `OptimisticLockVersion` | `cd backend && ./mvnw verify` |
+| FR-039, RNF-005 | `OpenApiContractTest`, `ApiProblemHandler` y tipos frontend `ApiProblem` | `cd backend && ./mvnw test`; `cd frontend && npm test` |
+| RNF-012 | V002, trigger append-only y `JpaAuditAdapter` transaccional | `CleanDatabaseMigrationTest` con `SEC_RUN_DATABASE_TESTS=true` sobre base descartable |
+| RNF-013 | `CorrelationFilter` y sanitización de Logback | `cd backend && ./mvnw verify` |
+| RNF-014 | layout con enlace de salto, foco visible y regiones semánticas | `cd frontend && npm run build` |
+| RNF-019 | manifiesto sintético y detector de datos/secretos | `scripts/verify-synthetic-data.ps1` o `scripts/verify-synthetic-data.sh` |
+| Contratos | OpenAPI 3.1 y AsyncAPI | `scripts/validate-contracts.ps1` o `scripts/validate-contracts.sh` |
+
+La prueba de migración limpia nunca usa la base de desarrollo: permanece omitida salvo que se habilite explícitamente contra una base PostgreSQL descartable mediante `SEC_RUN_DATABASE_TESTS=true` y credenciales `SEC_TEST_DB_*`, o mediante `SEC_USE_TESTCONTAINERS=true`.

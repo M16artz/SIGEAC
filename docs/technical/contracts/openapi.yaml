@@ -960,7 +960,7 @@ components:
     Unauthorized: {description: Sesión ausente o inválida, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
     Forbidden: {description: Operación fuera de función o ámbito, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
     NotFound: {description: Recurso inexistente o no visible en el ámbito, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
-    Conflict: {description: Estado, versión o función incompatible, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    Conflict: {description: 'Estado, versión o función incompatible', content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
     PreconditionFailed: {description: ETag desactualizado, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
     PayloadTooLarge: {description: Archivo excede 25 MiB, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
     Unprocessable: {description: Contenido bien formado pero inválido, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}

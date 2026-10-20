@@ -1,0 +1,8 @@
+{
+  "schemaVersion": "1.0",
+  "synthetic": true,
+  "dataset": "sec-unl-pilot",
+  "description": "Datos completamente ficticios para recorridos I0-I6.",
+  "containsRealPersonalData": false,
+  "fixtures": []
+}

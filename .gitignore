@@ -1,5 +1,3 @@
-
-@'
 # Secrets and local configuration
 .env
 .env.*
@@ -7,17 +5,18 @@
 *.pem
 *.key
 
-# Java / Spring Boot
-.gradle/
-build/
+# Java / Maven
+.mvn/apache-maven-*/
 target/
 *.class
+*.jar
 
 # Angular / Node
 node_modules/
 dist/
 .angular/
 coverage/
+*.log
 
 # Kotlin / Android
 mobile/.gradle/
@@ -26,25 +25,22 @@ mobile/local.properties
 *.apk
 *.aab
 
-# IDE
+# IDE and operating system
 .idea/
 .vscode/
 *.iml
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
 
-# Quarto
-#.quarto/
-#_site/
-#_book/
-
-# Graphify
-#graphify-out/
-
-# Python auxiliary tools
+# Quarto and auxiliary tools
+.quarto/
+_site/
+_book/
 __pycache__/
 .venv/
 *.pyc
 
-# OS
-.DS_Store
-Thumbs.db
-'@ | Set-Content -Path ".gitignore" -Encoding utf8
+/.quarto/
+**/*.quarto_ipynb

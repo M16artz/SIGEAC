@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: sec-unl
+  datasource:
+    url: ${SEC_DB_URL:jdbc:postgresql://localhost:5432/sec_unl}
+    username: ${SEC_DB_USER:sec_app}
+    password: ${SEC_DB_PASSWORD:}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.jdbc.time_zone: UTC
+  flyway:
+    enabled: true
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 26MB
+server:
+  servlet:
+    context-path: /api/v1
+management:
+  endpoints.web.exposure.include: health,info
+sec:
+  files.root: ${SEC_FILE_ROOT:./var/files}
+  demo-data: ${SEC_DEMO_DATA:false}
