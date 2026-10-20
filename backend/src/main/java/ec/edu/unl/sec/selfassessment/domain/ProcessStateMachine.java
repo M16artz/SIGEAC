@@ -1,0 +1,3 @@
+package ec.edu.unl.sec.selfassessment.domain;
+import java.util.Map;import java.util.Set;
+public final class ProcessStateMachine {private static final Map<ProcessState,Set<ProcessState>> ALLOWED=Map.of(ProcessState.DRAFT,Set.of(ProcessState.ACTIVE),ProcessState.ACTIVE,Set.of(ProcessState.CLOSING),ProcessState.CLOSING,Set.of(ProcessState.CLOSED),ProcessState.CLOSED,Set.of(ProcessState.REOPENED),ProcessState.REOPENED,Set.of(ProcessState.ACTIVE));private ProcessStateMachine(){}public static void require(ProcessState from,ProcessState to){if(!ALLOWED.getOrDefault(from,Set.of()).contains(to))throw new IllegalStateException("INVALID_PROCESS_TRANSITION");}}

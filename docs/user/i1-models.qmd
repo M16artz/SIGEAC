@@ -1,0 +1,7 @@
+---
+title: "I1 — Modelos de evaluación"
+---
+
+En **Modelos**, cree el modelo y una versión en borrador con fuente, jerarquía, escala y fórmula declarativa. Antes de publicar se informan todas las condiciones pendientes y la persona aprobadora debe ser distinta de la autora.
+
+Una versión publicada es inmutable. Para corregirla use **Crear sucesora**; **Comparar** clasifica cambios y **Auditoría** muestra eventos autorizados. Los ejemplos son sintéticos y no constituyen escala, fórmula ni aprobación institucional.

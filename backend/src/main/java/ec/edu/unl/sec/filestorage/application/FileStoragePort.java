@@ -1,12 +1,14 @@
 package ec.edu.unl.sec.filestorage.application;
 
-import ec.edu.unl.sec.filestorage.domain.StoredFile;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.UUID;
 
 public interface FileStoragePort {
-    StoredFile prepare(String originalName, String declaredMediaType, InputStream content) throws IOException;
-    StoredFile promote(String storageKey) throws IOException;
+    PreparedObject prepare(UUID uploadId, InputStream content) throws IOException;
+    String promote(PreparedObject prepared) throws IOException;
     InputStream open(String storageKey) throws IOException;
-    void markForReconciliation(String storageKey, String reason);
+    Verification verify(String storageKey) throws IOException;
+    record PreparedObject(UUID uploadId,String stagingKey,long sizeBytes,String sha256){}
+    record Verification(long sizeBytes,String sha256){}
 }

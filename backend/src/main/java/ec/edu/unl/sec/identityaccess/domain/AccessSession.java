@@ -1,0 +1,3 @@
+package ec.edu.unl.sec.identityaccess.domain;
+import java.time.*;import java.util.*;
+public record AccessSession(UUID id,UUID identityId,String tokenHash,String csrfHash,Instant createdAt,Instant lastActivityAt,Instant expiresAt,Instant revokedAt){public AccessSession{Objects.requireNonNull(id);Objects.requireNonNull(identityId);if(!hex(tokenHash)||!hex(csrfHash))throw new IllegalArgumentException("invalid hash");}private static boolean hex(String v){return v!=null&&v.matches("[0-9a-f]{64}");}public boolean activeAt(Instant now,Duration idle){return revokedAt==null&&now.isBefore(expiresAt)&&lastActivityAt.plus(idle).isAfter(now);}}

@@ -1,0 +1,3 @@
+package ec.edu.unl.sec.identityaccess.domain;
+import java.time.Instant;import java.util.*;
+public record FunctionalAssignment(UUID id,UUID identityId,UUID functionId,AuthorizationScope scope,Instant validFrom,Instant validTo,UUID grantedBy,Instant revokedAt,long revision){public FunctionalAssignment{Objects.requireNonNull(id);Objects.requireNonNull(identityId);Objects.requireNonNull(functionId);Objects.requireNonNull(scope);Objects.requireNonNull(validFrom);Objects.requireNonNull(validTo);Objects.requireNonNull(grantedBy);if(!validFrom.isBefore(validTo)||revision<0)throw new IllegalArgumentException("invalid assignment");}public boolean activeAt(Instant now){return revokedAt==null&&!now.isBefore(validFrom)&&now.isBefore(validTo);}}

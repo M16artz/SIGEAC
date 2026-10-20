@@ -1,3 +1,7 @@
-﻿# Manual de usuario
+# Manual de usuario
 
-Esta sección documentará las funcionalidades aprobadas y disponibles.
+Esta sección documenta las funcionalidades aprobadas y disponibles.
+
+## Módulos
+
+- [Acceso y ámbitos autorizados](i0-access.qmd)

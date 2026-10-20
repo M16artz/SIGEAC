@@ -75,7 +75,39 @@ paths:
         '201': {$ref: '#/components/responses/CreatedResource'}
         '400': {$ref: '#/components/responses/BadRequest'}
         '403': {$ref: '#/components/responses/Forbidden'}
+  /users/{userId}:
+    patch:
+      tags: [Access]
+      operationId: changeUserState
+      parameters:
+        - {$ref: '#/components/parameters/UserId'}
+        - {$ref: '#/components/parameters/CsrfToken'}
+        - {$ref: '#/components/parameters/IfMatch'}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/UserStateCommand'}
+      responses:
+        '200': {$ref: '#/components/responses/Resource'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '412': {$ref: '#/components/responses/PreconditionFailed'}
   /users/{userId}/assignments:
+    get:
+      tags: [Access]
+      operationId: listUserAssignments
+      parameters: [{$ref: '#/components/parameters/UserId'}]
+      responses:
+        '200':
+          description: Asignaciones del usuario visibles en el ámbito administrativo.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: '#/components/schemas/AssignmentView'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
     post:
       tags: [Access]
       operationId: assignUserScope
@@ -91,6 +123,21 @@ paths:
         '201': {$ref: '#/components/responses/CreatedResource'}
         '409': {$ref: '#/components/responses/Conflict'}
         '403': {$ref: '#/components/responses/Forbidden'}
+  /conflict-exceptions:
+    post:
+      tags: [Access]
+      operationId: createConflictException
+      parameters: [{$ref: '#/components/parameters/CsrfToken'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/ConflictExceptionCommand'}
+      responses:
+        '201': {$ref: '#/components/responses/CreatedResource'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
   /models:
     get:
       tags: [Models]
@@ -136,12 +183,11 @@ paths:
       responses:
         '201': {$ref: '#/components/responses/CreatedResource'}
         '409': {$ref: '#/components/responses/Conflict'}
-  /models/{modelId}/versions/{versionId}/publish:
+  /model-versions/{versionId}/publish:
     post:
       tags: [Models]
       operationId: publishModelVersion
       parameters:
-        - {$ref: '#/components/parameters/ModelId'}
         - {$ref: '#/components/parameters/VersionId'}
         - {$ref: '#/components/parameters/CsrfToken'}
         - {$ref: '#/components/parameters/IfMatch'}
@@ -162,6 +208,50 @@ paths:
               schema: {$ref: '#/components/schemas/ModelVersionView'}
         '403': {$ref: '#/components/responses/Forbidden'}
         '404': {$ref: '#/components/responses/NotFound'}
+    put:
+      tags: [Models]
+      operationId: replaceModelVersionDraft
+      parameters: [{$ref: '#/components/parameters/VersionId'}, {$ref: '#/components/parameters/CsrfToken'}, {$ref: '#/components/parameters/IfMatch'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/ModelVersionCommand'}
+      responses:
+        '200': {$ref: '#/components/responses/Resource'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '412': {$ref: '#/components/responses/PreconditionFailed'}
+  /model-versions/{versionId}/successors:
+    post:
+      tags: [Models]
+      operationId: createModelVersionSuccessor
+      parameters: [{$ref: '#/components/parameters/VersionId'}, {$ref: '#/components/parameters/CsrfToken'}]
+      responses:
+        '201': {$ref: '#/components/responses/CreatedResource'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /model-versions/compare:
+    get:
+      tags: [Models]
+      operationId: compareModelVersions
+      parameters:
+        - {name: from, in: query, required: true, schema: {type: string, format: uuid}}
+        - {name: to, in: query, required: true, schema: {type: string, format: uuid}}
+      responses:
+        '200': {description: 'Diferencias agregadas, eliminadas, modificadas y sin cambio'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /model-audit-events:
+    get:
+      tags: [Models, Audit]
+      operationId: searchModelAuditEvents
+      parameters:
+        - {name: modelId, in: query, required: false, schema: {type: string, format: uuid}}
+        - {name: versionId, in: query, required: false, schema: {type: string, format: uuid}}
+        - {$ref: '#/components/parameters/Page'}
+        - {$ref: '#/components/parameters/Size'}
+      responses:
+        '200': {$ref: '#/components/responses/PagedResult'}
+        '403': {$ref: '#/components/responses/Forbidden'}
   /processes:
     get:
       tags: [Processes]
@@ -214,10 +304,16 @@ paths:
         '409': {$ref: '#/components/responses/Conflict'}
         '412': {$ref: '#/components/responses/PreconditionFailed'}
   /processes/{processId}/assignments:
+    get:
+      tags: [Processes]
+      operationId: listProcessAssignments
+      parameters: [{$ref: '#/components/parameters/ProcessId'}]
+      responses:
+        '200': {description: Historial de asignaciones del proceso}
     post:
       tags: [Processes]
       operationId: createProcessAssignment
-      parameters: [{$ref: '#/components/parameters/ProcessId'}, {$ref: '#/components/parameters/CsrfToken'}]
+      parameters: [{$ref: '#/components/parameters/ProcessId'}, {$ref: '#/components/parameters/CsrfToken'}, {$ref: '#/components/parameters/IfMatch'}]
       requestBody:
         required: true
         content:
@@ -239,6 +335,29 @@ paths:
       responses:
         '200': {$ref: '#/components/responses/Resource'}
         '409': {$ref: '#/components/responses/Conflict'}
+        '412': {$ref: '#/components/responses/PreconditionFailed'}
+  /processes/{processId}/transitions:
+    post:
+      tags: [Processes]
+      operationId: transitionProcess
+      parameters: [{$ref: '#/components/parameters/ProcessId'}, {$ref: '#/components/parameters/CsrfToken'}, {$ref: '#/components/parameters/IfMatch'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {type: object, required: [target], properties: {target: {enum: [ACTIVE, CLOSING, CLOSED]}, reason: {type: string}}}
+      responses:
+        '200': {$ref: '#/components/responses/Resource'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '412': {$ref: '#/components/responses/PreconditionFailed'}
+  /processes/{processId}/audit-events:
+    get:
+      tags: [Processes, Audit]
+      operationId: listProcessAuditEvents
+      parameters: [{$ref: '#/components/parameters/ProcessId'}]
+      responses:
+        '200': {description: Eventos inmutables autorizados del proceso}
+        '403': {$ref: '#/components/responses/Forbidden'}
   /processes/{processId}/close:
     post:
       tags: [Reporting]
@@ -554,11 +673,55 @@ components:
         csrfToken: {type: string}
     CurrentIdentity:
       type: object
-      required: [id, displayName, assignments]
+      required: [id, displayName, technical, assignments]
       properties:
         id: {type: string, format: uuid}
         displayName: {type: string}
-        assignments: {type: array, items: {$ref: '#/components/schemas/AssignmentCommand'}}
+        technical: {type: boolean}
+        assignments: {type: array, items: {$ref: '#/components/schemas/AssignmentView'}}
+    UserView:
+      type: object
+      additionalProperties: false
+      required: [id, username, displayName, technical, active, revision]
+      properties:
+        id: {type: string, format: uuid}
+        username: {type: string}
+        displayName: {type: string}
+        technical: {type: boolean}
+        active: {type: boolean}
+        revision: {type: integer, minimum: 0}
+    AssignmentView:
+      type: object
+      additionalProperties: false
+      required: [id, roleCode, roleName, careerId, validFrom, validTo]
+      properties:
+        id: {type: string, format: uuid}
+        roleCode: {type: string}
+        roleName: {type: string}
+        careerId: {type: string, format: uuid}
+        processId: {type: [string, 'null'], format: uuid}
+        indicatorId: {type: [string, 'null'], format: uuid}
+        validFrom: {type: string, format: date-time}
+        validTo: {type: string, format: date-time}
+    UserStateCommand:
+      type: object
+      additionalProperties: false
+      required: [active]
+      properties:
+        active: {type: boolean}
+    ConflictExceptionCommand:
+      type: object
+      additionalProperties: false
+      required: [policyId, targetUserId, careerId, justification, validFrom, validTo]
+      properties:
+        policyId: {type: string, format: uuid}
+        targetUserId: {type: string, format: uuid}
+        careerId: {type: string, format: uuid}
+        processId: {type: [string, 'null'], format: uuid}
+        indicatorId: {type: [string, 'null'], format: uuid}
+        justification: {type: string, minLength: 10, maxLength: 1000}
+        validFrom: {type: string, format: date-time}
+        validTo: {type: string, format: date-time}
     UserCommand:
       type: object
       additionalProperties: false
@@ -567,13 +730,14 @@ components:
         username: {type: string, minLength: 3, maxLength: 100}
         displayName: {type: string, minLength: 1, maxLength: 200}
         initialPassword: {type: string, minLength: 12, maxLength: 256}
+        technical: {type: boolean}
     AssignmentCommand:
       type: object
       additionalProperties: false
-      required: [roleCode, validFrom]
+      required: [roleCode, careerId, validFrom]
       properties:
         roleCode: {type: string}
-        careerId: {type: [string, 'null'], format: uuid}
+        careerId: {type: string, format: uuid}
         processId: {type: [string, 'null'], format: uuid}
         indicatorId: {type: [string, 'null'], format: uuid}
         validFrom: {type: string, format: date-time}
@@ -898,6 +1062,9 @@ components:
         objectType: {type: string}
         objectId: {type: string, format: uuid}
         outcome: {type: string}
+        reasonCode: {type: [string, 'null']}
+        scopeCareerId: {type: [string, 'null'], format: uuid}
+        scopeProcessId: {type: [string, 'null'], format: uuid}
     ResourceView:
       type: object
       required: [id]
@@ -914,6 +1081,7 @@ components:
           items:
             oneOf:
               - {$ref: '#/components/schemas/UserSummaryView'}
+              - {$ref: '#/components/schemas/UserView'}
               - {$ref: '#/components/schemas/ModelSummaryView'}
               - {$ref: '#/components/schemas/ModelVersionView'}
               - {$ref: '#/components/schemas/ProcessView'}
@@ -929,14 +1097,17 @@ components:
         total: {type: integer}
     Problem:
       type: object
-      required: [type, title, status, code, correlationId]
+      additionalProperties: false
+      required: [type, title, status, detail, instance, code, correlationId, details]
       properties:
         type: {type: string, format: uri}
         title: {type: string}
         status: {type: integer}
         detail: {type: string}
+        instance: {type: string, format: uri-reference}
         code: {type: string}
-        correlationId: {type: string, format: uuid}
+        correlationId: {type: string, minLength: 8, maxLength: 64}
+        details: {type: object, additionalProperties: {type: string}}
         errors: {type: array, items: {$ref: '#/components/schemas/ValidationError'}}
     ValidationError:
       type: object

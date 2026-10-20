@@ -45,9 +45,8 @@ public class ApiProblemHandler {
         problem.setTitle(status.getReasonPhrase());
         problem.setProperty("code", code);
         problem.setProperty("correlationId", correlationId(request));
-        if (!details.isEmpty()) {
-            problem.setProperty("details", details);
-        }
+        problem.setInstance(URI.create(request.getRequestURI()));
+        problem.setProperty("details", details);
         return problem;
     }
 

@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 class OpenApiContractTest {
     private final Path contract = Path.of("..", "docs", "technical", "contracts", "openapi.yaml");
+    private final Path evidenceContract = Path.of("..", "specs", "004-submit-evidence", "contracts", "openapi.yaml");
 
     @Test
     void declaresOpenApi31AndStableProblemDetails() throws IOException {
@@ -17,8 +18,8 @@ class OpenApiContractTest {
         assertAll(
                 () -> assertTrue(yaml.startsWith("openapi: 3.1.0")),
                 () -> assertTrue(yaml.contains("application/problem+json")),
-                () -> assertTrue(yaml.contains("required: [type, title, status, code, correlationId]")),
-                () -> assertTrue(yaml.contains("correlationId: {type: string, format: uuid}")),
+                () -> assertTrue(yaml.contains("required: [type, title, status, detail, instance, code, correlationId, details]")),
+                () -> assertTrue(yaml.contains("correlationId: {type: string, minLength: 8, maxLength: 64}")),
                 () -> assertTrue(yaml.contains("sessionCookie:")));
     }
 
@@ -33,5 +34,34 @@ class OpenApiContractTest {
                 () -> assertTrue(yaml.contains("/document-review-inbox:")),
                 () -> assertTrue(yaml.contains("/academic-evaluation-inbox:")),
                 () -> assertTrue(yaml.contains("/progress:")));
+    }
+
+    @Test
+    void exposesIdentityAccessCapabilityPaths() throws IOException {
+        String yaml = Files.readString(contract);
+        assertAll(
+                () -> assertTrue(yaml.contains("/users:")),
+                () -> assertTrue(yaml.contains("/users/{userId}:")),
+                () -> assertTrue(yaml.contains("/users/{userId}/assignments:")),
+                () -> assertTrue(yaml.contains("/conflict-exceptions:")),
+                () -> assertTrue(yaml.contains("/audit-events:")));
+    }
+
+    @Test
+    void evidenceContractRequiresConcurrencyIntegrityAndCompleteProblems() throws IOException {
+        String yaml = Files.readString(evidenceContract);
+        assertAll(
+                () -> assertTrue(yaml.contains("/evidences:")),
+                () -> assertTrue(yaml.contains("/evidence-versions/{versionId}/files:")),
+                () -> assertTrue(yaml.contains("/evidence-versions/{versionId}/files/{fileId}/content:")),
+                () -> assertTrue(yaml.contains("/evidence-versions/{versionId}/external-references:")),
+                () -> assertTrue(yaml.contains("/evidence-versions/{versionId}/submit:")),
+                () -> assertTrue(yaml.contains("/evidence-versions/{versionId}/successor:")),
+                () -> assertTrue(yaml.contains("If-Match")),
+                () -> assertTrue(yaml.contains("'412'")),
+                () -> assertTrue(yaml.contains("'428'")),
+                () -> assertTrue(yaml.contains("declaredMediaType")),
+                () -> assertTrue(yaml.contains("detectedMediaType")),
+                () -> assertTrue(yaml.contains("required: [type, title, status, detail, instance, code, correlationId, details]")));
     }
 }

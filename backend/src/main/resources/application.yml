@@ -23,5 +23,21 @@ server:
 management:
   endpoints.web.exposure.include: health,info
 sec:
-  files.root: ${SEC_FILE_ROOT:./var/files}
+  evaluation-model:
+    formula-schema: ${SEC_FORMULA_SCHEMA:sec.progress/v1}
+    code-normalization: ${SEC_MODEL_CODE_NORMALIZATION:TRIM_UPPER}
+  identity-access:
+    session-idle-timeout: PT30M
+    failed-attempt-window: PT15M
+    failed-attempt-limit: 5
+    bcrypt-strength: 12
+    cookie-secure: ${SEC_COOKIE_SECURE:false}
+    subject-hmac-secret: ${SEC_AUTH_HMAC_SECRET:synthetic-development-only-change-me}
+  files:
+    root: ${SEC_FILE_ROOT:./var/files}
+    max-bytes: 26214400
+    validation-policy-id: ${SEC_FILE_VALIDATION_POLICY:pilot-synthetic-v1}
+    reconciliation:
+      grace: ${SEC_FILE_RECONCILIATION_GRACE:PT15M}
+      lease: ${SEC_FILE_RECONCILIATION_LEASE:PT2M}
   demo-data: ${SEC_DEMO_DATA:false}

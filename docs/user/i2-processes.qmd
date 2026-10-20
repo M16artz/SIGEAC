@@ -1,0 +1,5 @@
+---
+title: "I2 — Procesos de autoevaluación"
+---
+
+Cree el borrador con carrera, período y una versión publicada. Al activar, el sistema fija esa versión y sus indicadores; publicar otra versión no cambia el proceso. Asigne responsable, revisor o evaluador con vigencia explícita. Los cambios en procesos activos requieren motivo. El ciclo permitido es borrador, activo, en cierre, cerrado, reabierto y nuevamente activo.

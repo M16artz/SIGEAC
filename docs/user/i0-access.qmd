@@ -1,0 +1,56 @@
+# Acceso y ámbitos autorizados
+
+## Para qué sirve
+
+Este módulo permite iniciar sesión, consultar las funciones y ámbitos vigentes, administrar identidades y asignaciones, registrar excepciones temporales de conflicto y revisar la auditoría de acceso. Cada persona opera únicamente sobre la carrera, el proceso y el indicador que tenga asignados y vigentes.
+
+## Iniciar y cerrar sesión
+
+1. Abra la aplicación y entre en **Acceso**.
+2. Seleccione **Iniciar sesión**.
+3. Ingrese su usuario y contraseña.
+4. Al ingresar verá su nombre y la lista de asignaciones vigentes.
+5. Use **Cerrar sesión** al terminar. La sesión también expira tras 30 minutos sin actividad.
+
+Si la sesión expira o se cierra, la siguiente operación protegida solicita autenticación nuevamente. Desactivar una identidad impide todo uso posterior de sus sesiones.
+
+## Usuarios y asignaciones
+
+La opción **Usuarios y asignaciones** está disponible para quien tenga la capacidad de administración funcional.
+
+- **Registrar usuario**: cree una identidad sintética con usuario, nombre visible, contraseña inicial y tipo de cuenta. Las cuentas técnicas no reciben funciones de proceso.
+- **Activar o desactivar**: cambie el estado de una identidad. La desactivación conserva el historial y no elimina la identidad.
+- **Asignaciones**: seleccione un usuario y registre función, carrera, proceso e indicador opcionales, vigencia y, si corresponde, la justificación de una excepción.
+
+La carrera es obligatoria. El proceso es opcional y el indicador solo puede informarse cuando existe un proceso. La vigencia final debe ser posterior a la inicial.
+
+## Conflictos y excepciones
+
+Una combinación de funciones incompatible se rechaza. Si la política vigente lo permite, registre una **excepción temporal** con:
+
+- política aplicable;
+- usuario destino;
+- carrera y, opcionalmente, proceso e indicador;
+- justificación de al menos 10 caracteres;
+- fecha y hora de inicio y fin.
+
+La excepción solo habilita la combinación durante ese intervalo y ámbito. Al vencer o revocarse, la combinación vuelve a quedar impedida. La excepción no cambia la política base.
+
+## Auditoría de acceso
+
+**Auditoría de acceso** muestra los eventos visibles dentro de sus ámbitos: inicios y cierres de sesión, intentos fallidos o limitados, cambios de permisos, asignaciones, excepciones, conflictos y rechazos. Puede filtrar por tipo e identificador de objeto. Los eventos no se pueden modificar ni eliminar desde la interfaz.
+
+## Mensajes de error y privacidad
+
+- Un usuario inexistente y una contraseña incorrecta reciben el mismo mensaje.
+- Una operación fuera de ámbito se rechaza sin confirmar si el objeto existe.
+- Los mensajes no muestran contraseñas, secretos ni datos de otras carreras, procesos o indicadores.
+- Cada respuesta de error incluye un identificador de correlación para soporte.
+
+## Datos sintéticos
+
+El piloto usa identidades, carreras, procesos, indicadores, políticas y eventos ficticios. Las credenciales de demostración solo se cargan con `SEC_DEMO_DATA=true` y no deben reutilizarse en producción.
+
+## Requisitos relacionados
+
+FR-001 a FR-006; RNF-001 a RNF-003, RNF-005, RNF-012, RNF-013 y RNF-019.

@@ -1,0 +1,44 @@
+openapi: 3.1.0
+info: {title: SEC-UNL I0 Access API, version: 1.0.0}
+servers: [{url: /api/v1}]
+paths:
+  /sessions:
+    post:
+      operationId: createSession
+      security: []
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/LoginRequest'}}}}
+      responses: {'201': {description: Session created, content: {application/json: {schema: {$ref: '#/components/schemas/SessionView'}}}}, '401': {$ref: '#/components/responses/Unauthorized'}, '429': {$ref: '#/components/responses/TooManyRequests'}}
+    delete: {operationId: revokeCurrentSession, responses: {'204': {description: Revoked}, '401': {$ref: '#/components/responses/Unauthorized'}}}
+  /me:
+    get: {operationId: getCurrentIdentity, responses: {'200': {description: Current identity, content: {application/json: {schema: {$ref: '#/components/schemas/CurrentIdentity'}}}}, '401': {$ref: '#/components/responses/Unauthorized'}}}
+  /users:
+    get: {operationId: listUsers, responses: {'200': {description: Scope filtered users}, '403': {$ref: '#/components/responses/Forbidden'}}}
+    post: {operationId: createUser, requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/UserCommand'}}}}, responses: {'201': {description: Created}, '403': {$ref: '#/components/responses/Forbidden'}}}
+  /users/{userId}:
+    patch: {operationId: updateUserState, parameters: [{$ref: '#/components/parameters/UserId'}, {$ref: '#/components/parameters/IfMatch'}], responses: {'200': {description: Updated}, '404': {$ref: '#/components/responses/NotFound'}, '412': {$ref: '#/components/responses/PreconditionFailed'}}}
+  /users/{userId}/assignments:
+    get: {operationId: listUserAssignments, parameters: [{$ref: '#/components/parameters/UserId'}], responses: {'200': {description: Assignments}, '404': {$ref: '#/components/responses/NotFound'}}}
+    post: {operationId: createUserAssignment, parameters: [{$ref: '#/components/parameters/UserId'}], requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/AssignmentCommand'}}}}, responses: {'201': {description: Created}, '404': {$ref: '#/components/responses/NotFound'}, '409': {description: Conflict}}}
+  /conflict-exceptions:
+    post: {operationId: createConflictException, responses: {'201': {description: Finite authorized exception}, '403': {$ref: '#/components/responses/Forbidden'}, '409': {description: No applicable conflict}}}
+  /audit-events:
+    get: {operationId: searchAccessAuditEvents, responses: {'200': {description: Scope-filtered immutable events}, '403': {$ref: '#/components/responses/Forbidden'}}}
+components:
+  securitySchemes: {sessionCookie: {type: apiKey, in: cookie, name: SEC_SESSION}}
+  parameters:
+    UserId: {name: userId, in: path, required: true, schema: {type: string, format: uuid}}
+    IfMatch: {name: If-Match, in: header, required: true, schema: {type: string}}
+  schemas:
+    LoginRequest: {type: object, additionalProperties: false, required: [login, password], properties: {login: {type: string, maxLength: 254}, password: {type: string, maxLength: 256}}}
+    SessionView: {type: object, required: [csrfToken, expiresAt], properties: {csrfToken: {type: string}, expiresAt: {type: string, format: date-time}}}
+    CurrentIdentity: {type: object, required: [id, displayName, assignments], properties: {id: {type: string, format: uuid}, displayName: {type: string}, assignments: {type: array, items: {type: object}}}}
+    UserCommand: {type: object, required: [login, displayName, password], properties: {login: {type: string}, displayName: {type: string}, password: {type: string, minLength: 12}, technical: {type: boolean, default: false}}}
+    AssignmentCommand: {type: object, required: [functionId, careerId, validFrom, validTo], properties: {functionId: {type: string, format: uuid}, careerId: {type: string, format: uuid}, processId: {type: [string, 'null'], format: uuid}, indicatorId: {type: [string, 'null'], format: uuid}, validFrom: {type: string, format: date-time}, validTo: {type: string, format: date-time}}}
+    Problem: {type: object, required: [type, title, status, detail, instance, code, correlationId, details], properties: {type: {type: string}, title: {type: string}, status: {type: integer}, detail: {type: string}, instance: {type: string}, code: {type: string}, correlationId: {type: string}, details: {type: object}}}
+  responses:
+    Unauthorized: {description: Authentication required, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    Forbidden: {description: Collection capability denied, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    NotFound: {description: Unknown or hidden, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    TooManyRequests: {description: Temporarily limited, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    PreconditionFailed: {description: Stale revision, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+security: [{sessionCookie: []}]

@@ -17,6 +17,9 @@ dist/
 .angular/
 coverage/
 *.log
+tests/fixtures/pilot/evidence/generated/
+tests/acceptance/results/playwright-artifacts/
+tests/acceptance/results/playwright-report/
 
 # Kotlin / Android
 mobile/.gradle/

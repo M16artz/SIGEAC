@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0",
+  "synthetic": true,
+  "dataset": "sec-unl-i0-access",
+  "description": "Identidades, funciones, ambitos y politicas completamente ficticias para I0.",
+  "containsRealPersonalData": false,
+  "credentialSource": "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SyntheticAccessData.java",
+  "careers": [
+    {
+      "id": "11111111-1111-1111-1111-111111111111",
+      "name": "Carrera Sintetica Piloto"
+    }
+  ],
+  "functions": [
+    {"id": "20000000-0000-0000-0000-000000000001", "code": "FUNCTIONAL_ADMIN", "name": "Administrador funcional"},
+    {"id": "20000000-0000-0000-0000-000000000002", "code": "COORDINATOR", "name": "Coordinador de autoevaluacion"},
+    {"id": "20000000-0000-0000-0000-000000000003", "code": "RESPONSIBLE", "name": "Responsable de evidencia"},
+    {"id": "20000000-0000-0000-0000-000000000004", "code": "REVIEWER", "name": "Revisor documental"},
+    {"id": "20000000-0000-0000-0000-000000000005", "code": "EVALUATOR", "name": "Evaluador academico"}
+  ],
+  "identities": [
+    {"username": "admin", "displayName": "Administrador Sintetico", "technical": false, "function": "FUNCTIONAL_ADMIN"},
+    {"username": "coordinador", "displayName": "Coordinador Sintetico", "technical": false, "function": "COORDINATOR"},
+    {"username": "responsable", "displayName": "Responsable Sintetico", "technical": false, "function": "RESPONSIBLE"},
+    {"username": "revisor", "displayName": "Revisor Sintetico", "technical": false, "function": "REVIEWER"},
+    {"username": "evaluador", "displayName": "Evaluador Sintetico", "technical": false, "function": "EVALUATOR"}
+  ],
+  "conflictPolicies": [
+    {
+      "id": "30000000-0000-0000-0000-000000000001",
+      "leftFunction": "RESPONSIBLE",
+      "rightFunction": "REVIEWER",
+      "description": "Separacion entre quien aporta evidencia y quien la revisa."
+    }
+  ],
+  "notes": [
+    "Los UUID pertenecen al espacio sintetico reservado del piloto.",
+    "Las contrasenas iniciales solo existen en el cargador de datos sinteticos y no se versionan aqui.",
+    "CL-001 a CL-010 permanecen abiertos; estos valores no representan decisiones institucionales."
+  ]
+}

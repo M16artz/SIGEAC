@@ -1,0 +1,94 @@
+# I0 — Acceso y ámbitos autorizados
+
+## Alcance
+
+I0 entrega autenticación con sesiones opacas, identidades históricas, funciones de proceso, asignaciones con carrera/proceso/indicador y vigencia, autorización reevaluada en cada operación, conflictos configurables con excepciones temporales y auditoría consultable por ámbito. No incorpora reglas de modelos, procesos, evidencias, revisión documental ni valoración académica.
+
+## Componentes
+
+| Capa | Elemento | Responsabilidad |
+|---|---|---|
+| Dominio | `AccessIdentity`, `AccessSession`, `FunctionalAssignment`, `AuthorizationScope`, `AuthorizationDecision` | Reglas de identidad, vigencia y ámbito sin dependencias de infraestructura |
+| Aplicación | `SessionService` | BCrypt, token opaco, hash SHA-256, ventana de intentos y revocación |
+| Aplicación | `ScopeAuthorizationService` | Decisión por operación y ámbito vigente; rechazo sin revelar objetos ajenos |
+| Aplicación | `IdentityAdministrationService` | Usuarios, asignaciones, conflictos y excepciones con auditoría obligatoria |
+| Aplicación | `IdentityAccessAuditService` | Catálogo de acciones permitidas y saneamiento de metadatos |
+| Infraestructura | `JpaIdentityAccessRepository`, `JpaAuditAdapter` | Persistencia PostgreSQL y consulta de auditoría |
+| API | `SessionController`, `IdentityAdministrationController`, `AccessAuditController` | Contrato REST y Problem Details |
+| Frontend | `features/access` | Inicio de sesión, panel, usuarios/asignaciones, excepciones y auditoría |
+
+## Endpoints
+
+| Método | Ruta | Uso |
+|---|---|---|
+| POST | `/api/v1/sessions` | Iniciar sesión; cookie opaca y token CSRF en la respuesta |
+| DELETE | `/api/v1/sessions` | Cerrar la sesión actual |
+| GET | `/api/v1/me` | Identidad, funciones y ámbitos vigentes |
+| GET/POST | `/api/v1/users` | Listar o registrar identidades |
+| PATCH | `/api/v1/users/{userId}` | Activar o desactivar con `If-Match` de revisión |
+| GET/POST | `/api/v1/users/{userId}/assignments` | Consultar o crear asignaciones |
+| POST | `/api/v1/conflict-exceptions` | Registrar una excepción temporal justificada |
+| GET | `/api/v1/audit-events` | Consultar eventos dentro del ámbito autorizado |
+
+El contrato fuente es `docs/technical/contracts/openapi.yaml`. Los endpoints de administración y auditoría se documentan además en `specs/001-identity-access-scopes/`.
+
+## Sesión y CSRF
+
+- La cookie `SEC_SESSION` contiene un token opaco; la base conserva únicamente su hash SHA-256 y el hash del token CSRF.
+- Las solicitudes mutantes deben enviar `X-CSRF-TOKEN`; el frontend lo recibe al iniciar sesión y lo conserva en `sessionStorage`.
+- La sesión expira tras 30 minutos de inactividad y se renueva con actividad válida.
+- Cinco fallos consecutivos dentro de una ventana móvil de 15 minutos limitan nuevos intentos sin confirmar si la identidad existe.
+- Desactivar una identidad invalida sus sesiones en la siguiente operación protegida.
+
+## Autorización por ámbito
+
+`AuthorizationScope` combina carrera obligatoria y, opcionalmente, proceso e indicador. Una asignación contiene función, ámbito, vigencia y otorgante. Cada operación protegida vuelve a evaluar función, vigencia y ámbito; una asignación vencida o revocada deja de conceder permisos de inmediato. Las colecciones se filtran por los ámbitos vigentes y las consultas por identificador directo no distinguen entre objeto inexistente y objeto fuera de ámbito.
+
+Las decisiones administrativas usan capacidades globales (`ACCESS_MANAGE_USERS`, `ACCESS_MANAGE_EXCEPTIONS`, `ACCESS_READ_AUDIT`). Las operaciones funcionales usan `decide(...)` sobre el ámbito solicitado.
+
+## Conflictos y excepciones
+
+La política piloto declara incompatibles `RESPONSIBLE` y `REVIEWER` sobre el mismo ámbito. Una asignación conflictiva se rechaza salvo que exista una excepción vigente, autorizada, con justificación de al menos 10 caracteres, responsable, ámbito e intervalo explícitos. La excepción no modifica la política base y deja de conceder permisos al vencer o revocarse. Los identificadores sintéticos de la política piloto están en `tests/fixtures/pilot/access/manifest.json`.
+
+## Auditoría
+
+Los eventos son append-only y contienen actor, fecha, acción, objeto, resultado, motivo y correlación. Las acciones se validan contra una lista blanca y los metadatos se sanean. La consulta se filtra por las carreras autorizadas del actor y no expone eventos, conteos ni indicios de ámbitos ajenos.
+
+La auditoría de una operación aceptada participa de su transacción (`MANDATORY`). Los rechazos se registran en una transacción independiente (`REQUIRES_NEW`) para conservar el evento aunque la operación no se complete.
+
+## Configuración
+
+```yaml
+sec:
+  identity-access:
+    session-idle-timeout: PT30M
+    failed-attempt-window: PT15M
+    failed-attempt-limit: 5
+    bcrypt-strength: 12
+    cookie-secure: ${SEC_COOKIE_SECURE:false}
+    subject-hmac-secret: ${SEC_AUTH_HMAC_SECRET:synthetic-development-only-change-me}
+  demo-data: ${SEC_DEMO_DATA:false}
+```
+
+`SEC_AUTH_HMAC_SECRET` debe sustituirse en entornos compartidos. `SEC_DEMO_DATA=true` carga únicamente identidades y catálogos sintéticos.
+
+## Verificación
+
+```powershell
+cd backend
+.\mvnw.cmd test
+
+cd ..\frontend
+npm run build
+npm run lint
+npm test
+npm run test:acceptance
+```
+
+Las pruebas de migración con PostgreSQL requieren una base descartable y `SEC_RUN_DATABASE_TESTS=true` (o `SEC_USE_TESTCONTAINERS=true`). La aceptación I0 requiere backend y frontend en ejecución con `SEC_DEMO_DATA=true`.
+
+## Límites
+
+- Los catálogos piloto son sintéticos; CL-001 a CL-010 siguen abiertos.
+- La integración con directorios institucionales o inicio de sesión único no forma parte de I0.
+- Los plazos de conservación de auditoría dependen de CL-009.

@@ -20,12 +20,16 @@ export class ApiClient {
     return this.http.get<T>(this.url(path), {params: httpParams}).pipe(catchError((error: unknown) => this.handle(error)));
   }
 
-  post<T>(path: string, body: unknown): Observable<T> {
-    return this.http.post<T>(this.url(path), body).pipe(catchError((error: unknown) => this.handle(error)));
+  post<T>(path: string, body: unknown, headers?: Readonly<Record<string, string>>): Observable<T> {
+    return this.http.post<T>(this.url(path), body, {headers}).pipe(catchError((error: unknown) => this.handle(error)));
   }
 
-  put<T>(path: string, body: unknown): Observable<T> {
-    return this.http.put<T>(this.url(path), body).pipe(catchError((error: unknown) => this.handle(error)));
+  put<T>(path: string, body: unknown, headers?: Readonly<Record<string, string>>): Observable<T> {
+    return this.http.put<T>(this.url(path), body, {headers}).pipe(catchError((error: unknown) => this.handle(error)));
+  }
+
+  patch<T>(path: string, body: unknown, headers?: Readonly<Record<string, string>>): Observable<T> {
+    return this.http.patch<T>(this.url(path), body, {headers}).pipe(catchError((error: unknown) => this.handle(error)));
   }
 
   delete<T>(path: string): Observable<T> {

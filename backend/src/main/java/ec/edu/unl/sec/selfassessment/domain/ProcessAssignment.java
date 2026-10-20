@@ -1,0 +1,3 @@
+package ec.edu.unl.sec.selfassessment.domain;
+import java.time.*;import java.util.*;
+public record ProcessAssignment(UUID id,UUID processId,UUID indicatorId,UUID identityId,Function function,Instant validFrom,Instant validTo,UUID createdBy,String reason,Instant revokedAt,long revision){public enum Function{RESPONSIBLE,REVIEWER,EVALUATOR}public ProcessAssignment{id=id==null?UUID.randomUUID():id;Objects.requireNonNull(processId);Objects.requireNonNull(indicatorId);Objects.requireNonNull(identityId);Objects.requireNonNull(function);Objects.requireNonNull(createdBy);if(validFrom==null||validTo==null||!validFrom.isBefore(validTo))throw new IllegalArgumentException("invalid vigency");reason=reason==null?"":reason.strip();}}

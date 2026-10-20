@@ -1,0 +1,24 @@
+package ec.edu.unl.sec.identityaccess.domain;
+
+public record OperationCode(String value) {
+    public static final OperationCode ACCESS_READ_SELF = new OperationCode("ACCESS_READ_SELF");
+    public static final OperationCode ACCESS_MANAGE_USERS = new OperationCode("ACCESS_MANAGE_USERS");
+    public static final OperationCode ACCESS_ASSIGN_SCOPE = new OperationCode("ACCESS_ASSIGN_SCOPE");
+    public static final OperationCode ACCESS_MANAGE_EXCEPTIONS = new OperationCode("ACCESS_MANAGE_EXCEPTIONS");
+    public static final OperationCode ACCESS_READ_AUDIT = new OperationCode("ACCESS_READ_AUDIT");
+    public static final OperationCode EVIDENCE_COLLECT = new OperationCode("EVIDENCE_COLLECT");
+    public static final OperationCode EVIDENCE_REVIEW = new OperationCode("EVIDENCE_REVIEW");
+    public static final OperationCode INDICATOR_EVALUATE = new OperationCode("INDICATOR_EVALUATE");
+    public static final OperationCode PROCESS_COORDINATE = new OperationCode("PROCESS_COORDINATE");
+    public static final OperationCode PROCESS_MANAGE = new OperationCode("PROCESS_MANAGE");
+    public static final OperationCode MODEL_MANAGE = new OperationCode("MODEL_MANAGE");
+    public static final OperationCode MODEL_READ = new OperationCode("MODEL_READ");
+    public static final OperationCode MODEL_PUBLISH = new OperationCode("MODEL_PUBLISH");
+    public static final OperationCode MODEL_AUDIT_READ = new OperationCode("MODEL_AUDIT_READ");
+
+    public OperationCode {
+        if (value == null || !value.matches("[A-Z][A-Z0-9_.-]{2,149}")) {
+            throw new IllegalArgumentException("invalid operation code");
+        }
+    }
+}

@@ -9,8 +9,13 @@
 - [Modelo de datos](../architecture/data-model.md)
 - [ADR-0001: monolito modular](../adr/0001-modular-monolith.md)
 - [ADR-0002: almacenamiento de archivos](../adr/0002-file-storage-port.md)
+- [ADR-0004: sesiones opacas y autorización por ámbito](../adr/0004-opaque-sessions-scope-authorization.md)
 - [ADR-0015: modelos configurables](../adr/0015-configurable-evaluation-models.md)
 - [ADR-0016: estrategias y adaptadores](../adr/0016-evaluation-strategies-import-adapters.md)
+
+## Incrementos implementados
+
+- [I0 — Acceso y ámbitos autorizados](i0-access.qmd)
 
 ## Validación
 

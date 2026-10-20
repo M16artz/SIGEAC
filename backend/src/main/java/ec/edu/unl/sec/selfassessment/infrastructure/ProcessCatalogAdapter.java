@@ -1,0 +1,3 @@
+package ec.edu.unl.sec.selfassessment.infrastructure;
+import ec.edu.unl.sec.selfassessment.application.*;import java.util.*;import org.springframework.stereotype.Component;
+@Component public class ProcessCatalogAdapter implements ProcessCatalogPort{private final SelfAssessmentRepository repository;public ProcessCatalogAdapter(SelfAssessmentRepository repository){this.repository=repository;}public Optional<ProcessView> process(UUID id){return repository.find(id).map(p->new ProcessView(p.id(),p.careerId(),p.modelVersionId(),p.modelVersionNumber(),p.state(),p.indicators().stream().map(i->new Indicator(i.id(),i.code(),i.name())).toList()));}}

@@ -1,0 +1,3 @@
+package ec.edu.unl.sec.evidence.domain;
+import java.time.Instant;import java.util.*;
+public record Evidence(UUID id,UUID processId,UUID ownerId,Instant createdAt,UUID correlationId,int latestRevision){public Evidence{id=id==null?UUID.randomUUID():id;Objects.requireNonNull(processId);Objects.requireNonNull(ownerId);createdAt=createdAt==null?Instant.now():createdAt;Objects.requireNonNull(correlationId);if(latestRevision<0)throw new IllegalArgumentException("latest revision must be non-negative");}public Evidence advance(){return new Evidence(id,processId,ownerId,createdAt,correlationId,latestRevision+1);}}

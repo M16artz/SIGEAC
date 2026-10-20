@@ -1,0 +1,9 @@
+---
+title: "I1 — Diseño técnico del modelo versionado"
+---
+
+`evaluationmodel` implementa `ModelVersion` como instantánea autocontenida. `If-Match` evita sobrescrituras; V004 añade restricciones y guardas. Publicar valida FR-008/FR-008a; corregir copia a una sucesora.
+
+La fórmula es JSON declarativo allowlisted (`sec.progress/v1`), nunca código ejecutable, e I1 no calcula avance. Autorización y auditoría se consumen por puertos públicos.
+
+Validación: `cd backend && .\mvnw.cmd verify`; `cd frontend && npm test && npm run lint && npm run build`; `node scripts/validate-contracts.mjs`.

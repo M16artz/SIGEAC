@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1.0",
+  "synthetic": true,
+  "dataset": "sec-unl-i3-evidence",
+  "containsRealPersonalData": false,
+  "generatorVersion": "1.0",
+  "fixtures": [
+    {"name": "synthetic-evidence.txt", "sizeBytes": 58, "declaredMediaType": "text/plain", "expected": "accepted"},
+    {"name": "exact-25-mib.bin", "sizeBytes": 26214400, "declaredMediaType": "application/octet-stream", "expected": "policy-dependent-type"},
+    {"name": "over-25-mib.bin", "sizeBytes": 26214401, "declaredMediaType": "application/octet-stream", "expected": "FILE_TOO_LARGE"},
+    {"name": "declared-pdf-mismatch.pdf", "sizeBytes": 50, "declaredMediaType": "application/pdf", "expected": "FILE_TYPE_MISMATCH"}
+  ]
+}

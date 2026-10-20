@@ -1,0 +1,6 @@
+package ec.edu.unl.sec.migration;
+import static org.assertj.core.api.Assertions.*;import ec.edu.unl.sec.support.PostgresTestSupport;import java.nio.file.*;import org.flywaydb.core.*;import org.junit.jupiter.api.*;
+class EvidenceMigrationTest extends PostgresTestSupport{
+ @Test void migrationDeclaresMetadataOnlyRestrictedHistoryAndRecoveryIndexes()throws Exception{String sql=Files.readString(Path.of("src/main/resources/db/migration/V006__evidence.sql")).toLowerCase();assertThat(sql).contains("create table evidence ","create table evidence_version ","create table evidence_version_indicator","create table file_asset","create table evidence_version_file","create table evidence_external_reference","create table file_validation_policy","create table file_recovery_operation","on delete restrict","ix_file_recovery_due","ix_file_recovery_lease").doesNotContain(" bytea"," oid","large object","on delete cascade");}
+ @Test void migratesV006OnDisposablePostgres(){Assumptions.assumeTrue(Boolean.parseBoolean(System.getenv().getOrDefault("SEC_RUN_DATABASE_TESTS","false")));var f=Flyway.configure().dataSource(jdbcUrl(),username(),password()).cleanDisabled(false).load();f.clean();assertThat(f.migrate().migrationsExecuted).isEqualTo(6);}
+}

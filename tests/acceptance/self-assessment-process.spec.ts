@@ -1,0 +1,1 @@
+import {expect,test} from '@playwright/test';test('I2 muestra creación y modelo fijado',async({page})=>{await page.goto('/processes');await expect(page.getByRole('heading',{name:'Crear proceso de autoevaluación'})).toBeVisible();await expect(page.getByText(/versión publicada se fijará/i)).toBeVisible();});

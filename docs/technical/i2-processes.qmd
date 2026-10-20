@@ -1,0 +1,5 @@
+---
+title: "I2 — Diseño técnico de procesos"
+---
+
+I2 consume `ModelCatalogPort` para copiar indicadores al activar y los puertos I0 para autorización y política de asignación. V005 persiste instantánea, historial de asignaciones, transiciones y cierres. Todas las mutaciones usan `If-Match`; un proceso cerrado solo cambia mediante reapertura motivada.
