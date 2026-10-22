@@ -1,0 +1,67 @@
+{
+  "name": "@hyperjump/json-schema-core",
+  "version": "0.28.5",
+  "description": "A framework for building JSON Schema tools",
+  "main": "lib/index.js",
+  "exports": {
+    "require": "./lib/index.js",
+    "import": "./lib/index.mjs"
+  },
+  "browser": {
+    "./lib/fetch.js": "./lib/fetch.browser.js"
+  },
+  "scripts": {
+    "clean": "xargs -a .gitignore rm -rf",
+    "lint": "eslint lib",
+    "test": "mocha --require ts-node/register 'lib/**/*.spec.ts'",
+    "build": "rollup --config rollup.config.js",
+    "prepublishOnly": "npm run build",
+    "postinstall": "node -e \"require('fs').rmSync('dist', { recursive: true })\""
+  },
+  "repository": "github:hyperjump-io/json-schema-core",
+  "keywords": [
+    "JSON Schema",
+    "vocabulary",
+    "$ref",
+    "$recursiveRef",
+    "$recursiveAnchor",
+    "$id"
+  ],
+  "author": "Jason Desrosiers <jdesrosi@gmail.com>",
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/jdesrosiers"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "*",
+    "@rollup/plugin-node-resolve": "*",
+    "@types/chai": "*",
+    "@types/mocha": "*",
+    "@types/nock": "*",
+    "@typescript-eslint/eslint-plugin": "*",
+    "@typescript-eslint/parser": "*",
+    "chai": "*",
+    "eslint": "*",
+    "eslint-import-resolver-node": "*",
+    "eslint-import-resolver-typescript": "*",
+    "eslint-plugin-import": "*",
+    "mocha": "*",
+    "nock": "*",
+    "rimraf": "*",
+    "rollup": "*",
+    "rollup-plugin-terser": "*",
+    "ts-node": "*",
+    "typescript": "*",
+    "yaml": "*"
+  },
+  "dependencies": {
+    "@hyperjump/json-pointer": "^0.9.4",
+    "@hyperjump/pact": "^0.2.3",
+    "@hyperjump/json": "^0.1.0",
+    "content-type": "^1.0.4",
+    "node-fetch": "^2.6.5",
+    "pubsub-js": "^1.9.4",
+    "uri-js": "^4.4.1"
+  }
+}

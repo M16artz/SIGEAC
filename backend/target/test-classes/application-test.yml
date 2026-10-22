@@ -1,0 +1,5 @@
+spring:
+  profiles.include: sqlite-test
+sec:
+  files.root: ${SEC_TEST_FILE_ROOT:${java.io.tmpdir}/sec-unl-test-files}
+  demo-data: true
