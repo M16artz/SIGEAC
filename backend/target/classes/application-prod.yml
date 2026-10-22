@@ -1,0 +1,7 @@
+sec:
+  demo-data: false
+  identity-access:
+    cookie-secure: true
+    subject-hmac-secret: ${SEC_AUTH_HMAC_SECRET}
+springdoc:
+  api-docs.enabled: false

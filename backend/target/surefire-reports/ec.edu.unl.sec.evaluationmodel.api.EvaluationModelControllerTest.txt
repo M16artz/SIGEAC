@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: ec.edu.unl.sec.evaluationmodel.api.EvaluationModelControllerTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.615 s -- in ec.edu.unl.sec.evaluationmodel.api.EvaluationModelControllerTest
