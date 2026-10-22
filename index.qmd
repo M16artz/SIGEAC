@@ -1,5 +1,15 @@
 ﻿# Sistema de Evaluación de Carreras
 
-Documentación del proyecto SEC-UNL.
+Documentación del proyecto SEC-UNL para un único sistema configurable que soporta
+los modelos General 2024, Medicina, Enfermería, Odontología y Derecho.
 
-Estado: preparación del desarrollo.
+La referencia funcional canónica comprende los procesos P01–P16, sus actores,
+flujos principales y alternativos, requisitos y criterios de aceptación. El MVP
+documental cubre P01–P11 y consulta histórica básica; la valoración académica,
+informes institucionales, mejora y cierre integral evolucionan después sin
+confundirse con acreditación.
+
+- [Especificación general](docs/requirements/spec.md)
+- [Catálogo de procesos P01–P16](docs/requirements/process-flows.md)
+- [Plan de implementación](docs/planning/plan.md)
+- [Especificación de reconciliación](specs/005-complete-evaluation-workflows/spec.md)

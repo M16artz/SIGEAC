@@ -4,7 +4,9 @@
 
 ## Resumen
 
-Construir una aplicación web cliente-servidor para ejecutar el recorrido I0–I6 de una autoevaluación interna: acceso por función y ámbito, catálogo configurable de modelos publicados e inmutables, procesos y asignaciones, evidencia versionada, revisión documental separada, valoración académica, seguimiento y cierre reproducible. I7 incorpora estrategias de valoración solo para algoritmos distintos y validados; I8 reserva adaptadores para importaciones o integraciones heterogéneas. Ninguna extensión introduce dependencias operativas en el MVP.
+La secuencia operativa actual, basada en la revisión de código del 2026-10-21, está en [Siguientes pasos de implementación](next-steps.md), con módulos, funcionalidades y criterios de cierre vinculados al backlog canónico de 005.
+
+Construir una aplicación web cliente-servidor para ejecutar P01–P16 con un único catálogo configurable. D1–D6 entregan el MVP documental: acceso, carreras, modelos, procesos autorizados, planificación, evidencias por fuente requerida, revisión y seguimiento. D7 añade valoración, hallazgos e informes; D8 añade mejora y cierre integral. P12–P15 no son dependencias del MVP documental.
 
 La solución será un backend monolítico modular con API REST y un cliente web. La persistencia relacional mantendrá metadatos, estados, decisiones y auditoría; los binarios se gestionarán detrás de un puerto de almacenamiento, con adaptador local para desarrollo y compatibilidad futura con S3. La seguridad se aplicará en backend con sesión revocable, autorización por política y ámbito, protección CSRF y auditoría.
 
@@ -24,7 +26,7 @@ La solución será un backend monolítico modular con API REST y un cliente web.
 
 **Objetivos de rendimiento**: p95 ≤ 2 s en operaciones interactivas; p95 ≤ 15 s para archivos de hasta 25 MiB; 30 sesiones concurrentes y escala piloto de RNF-008
 
-**Restricciones**: una carrera, una versión de modelo y un proceso en ejecución para el piloto; configuraciones sintéticas representativas de cinco modelos; archivos fuera de PostgreSQL; I7–I8 no bloquean I0–I6; GitHub Actions solo manual; sin despliegue productivo; sin dependencia obligatoria de Docker
+**Restricciones**: una carrera y un proceso piloto; cinco configuraciones representativas; archivos fuera de PostgreSQL; P12–P15 no bloquean D1–D6; GitHub Actions solo manual; sin despliegue productivo; sin dependencia obligatoria de Docker
 
 **Escala/alcance**: 100 usuarios, 500 indicadores, 10 000 versiones de evidencia y 100 GiB de archivos en el entorno piloto
 
@@ -36,7 +38,7 @@ La solución será un backend monolítico modular con API REST y un cliente web.
 |---|---|---|
 | I. Separación estricta del dominio | CUMPLE | Módulos y entidades distintos para evidencia, decisión documental y valoración académica; no hay transición implícita de aceptación a cumplimiento. |
 | II. SDD y trazabilidad | CUMPLE | IDs FR/RNF/SC, OpenAPI, matriz de trazabilidad y tareas/pruebas vinculadas. |
-| III. Incrementos verticales | CUMPLE | I0–I6 son recorridos demostrables; I7–I8 solo exponen contratos opcionales. |
+| III. Incrementos verticales | CUMPLE | D1–D6 forman un MVP documental demostrable; D7–D8 son posteriores y no bloqueantes. |
 | IV. Seguridad por función y ámbito | CUMPLE | Autorización en aplicación/dominio por función, carrera, proceso e indicador; frontend no decide permisos. |
 | V. Inmutabilidad, versionado y auditoría | CUMPLE | Modelos publicados, evidencias remitidas y decisiones finales usan revisión append-only y auditoría. |
 | VI. Arquitectura modular | CUMPLE | Monolito modular con capas por capacidad y pruebas ArchUnit de dependencias. |
@@ -64,7 +66,10 @@ El cliente Angular consume exclusivamente la API REST. El backend aplica autenti
 | `evidence` | borradores, versiones remitidas, metadatos e integridad de archivos | `selfassessment` (puertos), `filestorage`, `audit` |
 | `documentreview` | decisiones documentales append-only | `evidence` (puertos), `identityaccess` (políticas), `audit` |
 | `academicevaluation` | valoraciones y revisiones académicas; registro/fábrica de estrategias opcional en I7 | `documentreview` y `evaluationmodel` (puertos), `identityaccess`, `audit` |
-| `reporting` | avance, trazabilidad, resumen de cierre y exportaciones | vistas/puertos de los módulos, nunca repositorios internos |
+| `reporting` | avance por fuente, trazabilidad, corte documental, resumen de cierre y exportaciones | vistas/puertos de los módulos, nunca repositorios internos |
+| `governance` | hallazgos, versiones de informe, observaciones y decisiones de aprobación | puertos de evaluación, reporting, identidad y auditoría |
+| `improvement` | planes, acciones, avances y verificaciones | puertos de governance, identidad, evidencia y auditoría |
+| `archive` | políticas de cierre, instantáneas y consulta histórica | puertos públicos de todos los módulos de proceso |
 | `integration` | adaptadores de importación e integraciones externas I8 y publicación de eventos complementarios | puertos públicos; ningún módulo MVP depende de él |
 | `audit` | eventos inmutables y consulta autorizada | `shared` |
 | `shared` | identificadores, reloj, errores, correlación y tipos transversales mínimos | ninguno |
@@ -86,7 +91,7 @@ Cada módulo se divide en `api`, `application`, `domain` e `infrastructure`. Los
 - Publicación/remisión/finalización crea registros inmutables; rectificaciones añaden revisiones y no actualizan el registro histórico.
 - Cada proceso conserva la referencia inmutable a la versión de modelo seleccionada al iniciarse; publicar otra versión nunca migra procesos existentes de manera implícita.
 - La carga usa archivo temporal, cálculo SHA-256, validación y promoción; una transacción fallida deja el temporal elegible para limpieza, nunca una evidencia remitida falsa.
-- El cierre toma un bloqueo del proceso, revalida prerrequisitos y guarda un resumen inmutable dentro de la misma transacción de dominio.
+- El corte documental y el cierre integral usan políticas diferentes. Ambos toman un bloqueo breve, revalidan sus prerrequisitos y guardan una instantánea inmutable; el primero nunca exige valoración académica.
 - Los eventos de auditoría se insertan con cada cambio crítico; no existe operación ordinaria de actualización o eliminación.
 
 ## Estructura del proyecto
@@ -169,25 +174,27 @@ docs/
 
 ## Fases de entrega
 
-1. **Fase 0 — Investigación**: cerrar decisiones técnicas en [research.md](../architecture/research.md), sin resolver normativas CL como si fueran reglas oficiales.
-2. **Fase 1 — Diseño**: aprobar [data-model.md](../architecture/data-model.md), contratos, ADR, quickstart y matriz de trazabilidad.
-3. **I0 — Acceso**: identidad, sesiones, funciones, ámbitos, conflictos y auditoría base.
-4. **I1 — Modelos**: catálogo común, jerarquía flexible, edición, validación, publicación y consulta de versiones; sus pruebas de aceptación quedan disponibles para la apertura de procesos de I2.
-5. **I2 — Procesos**: configuraciones representativas de modelos, carrera piloto, asociación inmutable proceso–versión, asignaciones, estados y reapertura.
-6. **I3 — Evidencias**: borradores, archivos, remisión, sucesión e integridad.
-7. **I4 — Revisión documental**: decisiones separadas y rectificación append-only.
-8. **I5 — Valoración académica**: escala, sustentos aceptados y revisiones.
-9. **I6 — Seguimiento y cierre**: cálculo, tablero, resumen, informe y exportación.
-10. **I7 — Estrategias de valoración**: interfaz común, registro/fábrica y estrategias verificadas; una fórmula no registrada o no validada nunca se ejecuta.
-11. **I8 — Importaciones e integraciones**: adaptadores únicamente para traducir formatos o servicios externos a contratos internos; no se usan para elegir entre modelos del catálogo.
+1. **Fase 0 — Reconciliación**: aprobar FR-041–FR-070, P01–P16, ADR, contratos y estrategia de migración.
+2. **D1 — Identidad y carreras (P01–P02)**: completar catálogo de unidades/carreras y ámbitos.
+3. **D2 — Modelos (P03–P04)**: jerarquía flexible, cinco configuraciones, fuentes y reglas por indicador.
+4. **D3 — Procesos (P05–P06)**: autorización institucional, suspensión, equipos, actividades y fechas.
+5. **D4 — Evidencias (P07–P08)**: cobertura explícita de fuentes y remisión inmutable.
+6. **D5 — Revisión (P09–P10)**: decisión documental y subsanación enlazada.
+7. **D6 — Seguimiento (P11 y P16 básico)**: métricas exactas y corte documental; aceptación del MVP.
+8. **D7 — Evaluación e informes (P12–P14)**: valoración manual/cuantitativa, hallazgos e informes versionados.
+9. **D8 — Mejora y archivo (P15–P16)**: acciones, cierre integral, restauración y consulta histórica.
+
+Los identificadores I0–I8 existentes se conservan como historia de implementación. La correspondencia canónica y las tareas nuevas están en [`specs/005-complete-evaluation-workflows`](../../specs/005-complete-evaluation-workflows/plan.md).
 
 Cada incremento actualiza migración, OpenAPI, pruebas, trazabilidad, guía Quarto y quickstart. Las migraciones se validan desde base limpia y con un recorrido documentado de respaldo/restauración cuando corresponda.
 
 ## Estrategia de pruebas
 
 - **Dominio**: transiciones, separación de funciones, versionado, inmutabilidad y fórmula.
-- **Configurabilidad de modelos**: fixtures del modelo general 2024 y estructuras sintéticas representativas de Medicina, Enfermería, Odontología y Derecho; se valida estructura, no la totalidad de sus cálculos académicos.
-- **Extensiones**: pruebas del registro de estrategias en I7 y pruebas contractuales por adaptador de importación en I8, siempre con I0–I6 ejecutable sin ambos.
+- **Configurabilidad de modelos**: fixtures de General 2024, Medicina 2018, Enfermería 2016, Odontología 2018 y Derecho matricial; se valida estructura, procedencia, fuentes y mecanismos sin presumir vigencia institucional.
+- **Métricas documentales**: comparación contra cálculo manual por fuentes aplicables; cero fuentes nunca produce 100 % por defecto.
+- **Independencia del MVP**: D1–D6 se ejecuta con valoración, informes y mejora deshabilitados.
+- **Extensiones**: pruebas de estrategias validadas y adaptadores externos, siempre con D1–D6 ejecutable sin P12–P15 ni integraciones.
 - **Arquitectura**: dependencias entre módulos/capas con ArchUnit.
 - **Persistencia/migración**: PostgreSQL real mediante Testcontainers cuando esté disponible y PostgreSQL local como camino sin Docker; nunca H2 para aceptación de SQL.
 - **Contrato**: OpenAPI lint y pruebas de endpoint/errores/autorización.

@@ -20,6 +20,7 @@ class IdentityAccessMigrationTest extends PostgresTestSupport {
         Flyway flyway = Flyway.configure()
                 .dataSource(jdbcUrl(), username(), password())
                 .cleanDisabled(false)
+                .target("3")
                 .load();
         flyway.clean();
         assertThat(flyway.migrate().migrationsExecuted).isEqualTo(3);
@@ -60,6 +61,7 @@ class IdentityAccessMigrationTest extends PostgresTestSupport {
                 identity,
                 "SUCCESS");
         assertThatThrownBy(() -> jdbc.update("update audit_event set outcome='FAILED' where id=?", event))
-                .isInstanceOf(org.springframework.dao.DataIntegrityViolationException.class);
+                .isInstanceOf(org.springframework.dao.DataAccessException.class)
+                .hasRootCauseMessage("ERROR: audit_event is append-only\n  Where: PL/pgSQL function reject_audit_mutation() line 3 at RAISE");
     }
 }

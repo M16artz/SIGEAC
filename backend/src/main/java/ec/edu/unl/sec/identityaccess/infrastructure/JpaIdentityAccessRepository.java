@@ -2,6 +2,7 @@ package ec.edu.unl.sec.identityaccess.infrastructure;
 
 import ec.edu.unl.sec.identityaccess.application.IdentityAccessRepository;
 import ec.edu.unl.sec.identityaccess.domain.*;
+import ec.edu.unl.sec.shared.infrastructure.JdbcValueSupport;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -27,7 +28,7 @@ public class JpaIdentityAccessRepository implements IdentityAccessRepository {
                                 + "from access_identity i join access_credential c on c.identity_id=i.id and c.active "
                                 + "where i.login_normalized=?",
                         (r, n) -> new LoginRecord(
-                                r.getObject(1, UUID.class),
+                                uuid(r, 1),
                                 r.getString(2),
                                 "TECHNICAL".equals(r.getString(3)),
                                 r.getBoolean(4),
@@ -79,14 +80,14 @@ public class JpaIdentityAccessRepository implements IdentityAccessRepository {
                         "select s.id,i.id,i.display_name,i.identity_type,i.active,s.last_activity_at,s.expires_at,s.revoked_at,s.csrf_token_hash "
                                 + "from access_session s join access_identity i on i.id=s.identity_id where s.token_hash=?",
                         (r, n) -> new SessionIdentity(
-                                r.getObject(1, UUID.class),
-                                r.getObject(2, UUID.class),
+                                uuid(r, 1),
+                                uuid(r, 2),
                                 r.getString(3),
                                 "TECHNICAL".equals(r.getString(4)),
                                 r.getBoolean(5),
-                                r.getTimestamp(6).toInstant(),
-                                r.getTimestamp(7).toInstant(),
-                                instant(r, 8),
+                                JdbcValueSupport.instant(r, 6),
+                                JdbcValueSupport.instant(r, 7),
+                                JdbcValueSupport.instant(r, 8),
                                 r.getString(9)),
                         hash)
                 .stream()
@@ -128,15 +129,15 @@ public class JpaIdentityAccessRepository implements IdentityAccessRepository {
                         + "from functional_assignment a join process_function f on f.id=a.function_id "
                         + "where a.identity_id=? and a.revoked_at is null and a.valid_from<=? and a.valid_to>? order by f.code",
                 (r, n) -> new AssignmentRecord(
-                        r.getObject(1, UUID.class),
-                        r.getObject(2, UUID.class),
+                        uuid(r, 1),
+                        uuid(r, 2),
                         r.getString(3),
                         r.getString(4),
                         new AuthorizationScope(
-                                r.getObject(5, UUID.class), r.getObject(6, UUID.class), r.getObject(7, UUID.class)),
-                        r.getTimestamp(8).toInstant(),
-                        r.getTimestamp(9).toInstant(),
-                        instant(r, 10),
+                                uuid(r, 5), uuid(r, 6), uuid(r, 7)),
+                        JdbcValueSupport.instant(r, 8),
+                        JdbcValueSupport.instant(r, 9),
+                        JdbcValueSupport.instant(r, 10),
                         r.getLong(11)),
                 identityId,
                 Timestamp.from(at),
@@ -175,9 +176,9 @@ public class JpaIdentityAccessRepository implements IdentityAccessRepository {
                 "select count(*) from conflict_policy p "
                         + "join functional_assignment a on a.identity_id=? and a.revoked_at is null "
                         + "and a.valid_from<=? and a.valid_to>? and a.career_id=? "
-                        + "and (a.function_id=p.left_function_id or a.function_id=p.right_function_id) "
                         + "where p.active and p.valid_from<=? and p.valid_to>? "
-                        + "and (?=p.left_function_id or ?=p.right_function_id) "
+                        + "and ((?=p.left_function_id and a.function_id=p.right_function_id) "
+                        + "or (?=p.right_function_id and a.function_id=p.left_function_id)) "
                         + "and not exists (select 1 from conflict_exception e where e.policy_id=p.id and e.identity_id=? "
                         + "and e.revoked_at is null and e.valid_from<=? and e.valid_to>? and e.career_id=? "
                         + "and (e.process_id is null or e.process_id is not distinct from ?) "
@@ -276,10 +277,10 @@ public class JpaIdentityAccessRepository implements IdentityAccessRepository {
     public List<UserRecord> listUsers(int offset, int limit) {
         return jdbc.query(
                 "select id,login_normalized,display_name,identity_type,active,revision from access_identity "
-                        + "order by created_at,id offset ? limit ?",
+                        + "order by created_at,id limit ? offset ?",
                 (r, n) -> user(r),
-                offset,
-                limit);
+                limit,
+                offset);
     }
 
     @Override
@@ -292,7 +293,7 @@ public class JpaIdentityAccessRepository implements IdentityAccessRepository {
     public Optional<UUID> findFunctionIdByCode(String code) {
         return jdbc.query(
                         "select id from process_function where code=? and active",
-                        (r, n) -> r.getObject(1, UUID.class),
+                        (r, n) -> uuid(r, 1),
                         code)
                 .stream()
                 .findFirst();
@@ -335,7 +336,7 @@ public class JpaIdentityAccessRepository implements IdentityAccessRepository {
                                 + "and e.revoked_at is null and e.valid_from<? and e.valid_to>? and e.career_id=? "
                                 + "and (e.process_id is null or e.process_id is not distinct from ?) "
                                 + "and (e.indicator_id is null or e.indicator_id is not distinct from ?)) limit 1",
-                        (r, n) -> r.getObject(1, UUID.class),
+                        (r, n) -> uuid(r, 1),
                         identityId,
                         scope.careerId(),
                         Timestamp.from(to),
@@ -359,12 +360,12 @@ public class JpaIdentityAccessRepository implements IdentityAccessRepository {
         return jdbc.query(
                         "select id,left_function_id,right_function_id,active,valid_from,valid_to from conflict_policy where id=?",
                         (r, n) -> new PolicyRecord(
-                                r.getObject(1, UUID.class),
-                                r.getObject(2, UUID.class),
-                                r.getObject(3, UUID.class),
+                                uuid(r, 1),
+                                uuid(r, 2),
+                                uuid(r, 3),
                                 r.getBoolean(4),
-                                r.getTimestamp(5).toInstant(),
-                                r.getTimestamp(6).toInstant()),
+                                JdbcValueSupport.instant(r, 5),
+                                JdbcValueSupport.instant(r, 6)),
                         policyId)
                 .stream()
                 .findFirst();
@@ -375,7 +376,7 @@ public class JpaIdentityAccessRepository implements IdentityAccessRepository {
         return jdbc.query(
                         "select id from conflict_policy where active and valid_from<=? and valid_to>? "
                                 + "and ((left_function_id=? and right_function_id=?) or (left_function_id=? and right_function_id=?)) limit 1",
-                        (r, n) -> r.getObject(1, UUID.class),
+                        (r, n) -> uuid(r, 1),
                         Timestamp.from(at),
                         Timestamp.from(at),
                         leftFunctionId,
@@ -411,21 +412,20 @@ public class JpaIdentityAccessRepository implements IdentityAccessRepository {
                         + "join process_function f on f.id=a.function_id and f.active "
                         + "join function_operation o on o.function_id=f.id and o.operation_code=? "
                         + "where a.identity_id=? and a.revoked_at is null and a.valid_from<=? and a.valid_to>?",
-                (r, n) -> r.getObject(1, UUID.class),
+                (r, n) -> uuid(r, 1),
                 op.value(),
                 identityId,
                 Timestamp.from(at),
                 Timestamp.from(at));
     }
 
-    private static Instant instant(ResultSet r, int index) throws SQLException {
-        Timestamp t = r.getTimestamp(index);
-        return t == null ? null : t.toInstant();
+    private static UUID uuid(ResultSet r, int index) throws SQLException {
+        return JdbcValueSupport.uuid(r, index);
     }
 
     private static UserRecord user(ResultSet r) throws SQLException {
         return new UserRecord(
-                r.getObject(1, UUID.class),
+                uuid(r, 1),
                 r.getString(2),
                 r.getString(3),
                 "TECHNICAL".equals(r.getString(4)),
@@ -435,15 +435,15 @@ public class JpaIdentityAccessRepository implements IdentityAccessRepository {
 
     private static FunctionalAssignment assignment(ResultSet r) throws SQLException {
         return new FunctionalAssignment(
-                r.getObject(1, UUID.class),
-                r.getObject(2, UUID.class),
-                r.getObject(3, UUID.class),
+                uuid(r, 1),
+                uuid(r, 2),
+                uuid(r, 3),
                 new AuthorizationScope(
-                        r.getObject(4, UUID.class), r.getObject(5, UUID.class), r.getObject(6, UUID.class)),
-                r.getTimestamp(7).toInstant(),
-                r.getTimestamp(8).toInstant(),
-                r.getObject(9, UUID.class),
-                instant(r, 10),
+                        uuid(r, 4), uuid(r, 5), uuid(r, 6)),
+                JdbcValueSupport.instant(r, 7),
+                JdbcValueSupport.instant(r, 8),
+                uuid(r, 9),
+                JdbcValueSupport.instant(r, 10),
                 r.getLong(11));
     }
 }

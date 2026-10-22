@@ -4,9 +4,11 @@
 
 **Created**: 2026-10-20
 
-**Status**: Draft
+**Status**: Reconciled by feature 005
 
 **Input**: User description: "Módulo I3 evidence — Recopilación y remisión de evidencias del Sistema de Evaluación de Carreras SEC-UNL. Un responsable de evidencia crea borradores con título, descripción, procedencia, período cubierto y uno o más indicadores dentro de su ámbito; adjunta archivos o referencias externas; y remite versiones inmutables. Incluye validación de archivos (tipos permitidos, máximo 25 MiB, tipo detectado y SHA-256), almacenamiento fuera de PostgreSQL mediante un puerto reemplazable, carga con staging y promoción atómica, corrección mediante versión sucesora sin sobrescritura, historial completo, descarga autorizada y auditoría de remisiones y fallos. Excluye revisión documental, valoración académica, cálculo de avance y cierre de proceso. Requisitos de referencia: FR-016 a FR-020; RNF-004, RNF-005, RNF-010, RNF-011, RNF-019. Resultado medible: remitir v1 con archivo sintético, impedir su modificación y crear v2 sucesora conservando todo el historial. Usar datos sintéticos y no codificar decisiones institucionales CL-001 a CL-010 como reglas fijas."
+
+> **Reconciliación**: `specs/005-complete-evaluation-workflows/spec.md` exige que cada versión remitida declare las `FuenteRequerida` que cubre mediante relaciones explícitas. La asociación genérica con indicadores no basta para P07–P08 ni para calcular P11.
 
 ## User Scenarios & Testing *(mandatory)*
 

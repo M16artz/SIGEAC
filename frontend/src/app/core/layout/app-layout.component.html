@@ -2,12 +2,16 @@
 <header><h1>SEC-UNL</h1><p>Sistema de Evaluación de Carreras</p></header>
 <nav aria-label="Navegación principal">
   <a routerLink="/access" routerLinkActive="active">Acceso</a>
-  <a routerLink="/models" routerLinkActive="active">Modelos</a>
-  <a routerLink="/processes" routerLinkActive="active">Procesos</a>
-  <a routerLink="/evidence" routerLinkActive="active">Evidencias</a>
-  <a routerLink="/reviews" routerLinkActive="active">Revisión</a>
-  <a routerLink="/evaluations" routerLinkActive="active">Valoración</a>
-  <a routerLink="/reporting" routerLinkActive="active">Seguimiento</a>
+  <a routerLink="/careers" routerLinkActive="active">Carreras</a>
+  @if (hasRole('FUNCTIONAL_ADMIN', 'COORDINATOR')) {
+    <a routerLink="/models" routerLinkActive="active">Modelos</a>
+  }
+  @if (hasRole('FUNCTIONAL_ADMIN', 'COORDINATOR', 'PROCESS_AUTHORITY')) {
+    <a routerLink="/processes" routerLinkActive="active">Procesos</a>
+  }
+  @if (hasRole('RESPONSIBLE')) {
+    <a routerLink="/evidence" routerLinkActive="active">Evidencias</a>
+  }
 </nav>
 <main id="main-content" tabindex="-1"><router-outlet /></main>
 <footer>Herramienta interna de apoyo a la autoevaluación; no constituye acreditación.</footer>

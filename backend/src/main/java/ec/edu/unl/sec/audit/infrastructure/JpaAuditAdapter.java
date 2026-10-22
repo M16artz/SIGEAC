@@ -3,6 +3,7 @@ package ec.edu.unl.sec.audit.infrastructure;
 import ec.edu.unl.sec.audit.application.AuditEventCommand;
 import ec.edu.unl.sec.audit.application.AuditPort;
 import ec.edu.unl.sec.audit.application.AuditQueryPort;
+import ec.edu.unl.sec.shared.infrastructure.JdbcValueSupport;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -71,19 +72,19 @@ class AuditQueryRepository implements AuditQueryPort {
                 "select id,occurred_at,correlation_id,action,object_type,object_id,outcome,reason_code,scope_career_id,scope_process_id "
                         + "from audit_event "
                         + filter
-                        + " order by occurred_at desc,id offset ? limit ?",
+                        + " order by occurred_at desc,id limit ? offset ?",
                 (r, n) -> new AuditEventView(
-                        r.getObject(1, UUID.class),
-                        r.getTimestamp(2).toInstant(),
-                        r.getObject(3, UUID.class),
+                        JdbcValueSupport.uuid(r, 1),
+                        JdbcValueSupport.instant(r, 2),
+                        JdbcValueSupport.uuid(r, 3),
                         r.getString(4),
                         r.getString(5),
-                        r.getObject(6, UUID.class),
+                        JdbcValueSupport.uuid(r, 6),
                         r.getString(7),
                         r.getString(8),
-                        r.getObject(9, UUID.class),
-                        r.getObject(10, UUID.class)),
-                parameters(careerIds, objectType, objectId, offset, limit));
+                        JdbcValueSupport.uuid(r, 9),
+                        JdbcValueSupport.uuid(r, 10)),
+                parameters(careerIds, objectType, objectId, limit, offset));
     }
 
     @Override
@@ -99,7 +100,9 @@ class AuditQueryRepository implements AuditQueryPort {
             List<UUID> careerIds, boolean includeUnscoped, String objectType, UUID objectId) {
         StringBuilder where = new StringBuilder(" where 1=1");
         if (!careerIds.isEmpty()) {
-            where.append(" and (scope_career_id = any(?::uuid[])");
+            where.append(" and (scope_career_id in (")
+                    .append(String.join(",", java.util.Collections.nCopies(careerIds.size(), "?")))
+                    .append(')');
             if (includeUnscoped) where.append(" or scope_career_id is null");
             where.append(')');
         } else if (includeUnscoped) {
@@ -114,7 +117,7 @@ class AuditQueryRepository implements AuditQueryPort {
 
     private static Object[] parameters(List<UUID> careerIds, String objectType, UUID objectId, Object... tail) {
         java.util.ArrayList<Object> values = new java.util.ArrayList<>();
-        if (!careerIds.isEmpty()) values.add(careerIds.toArray(UUID[]::new));
+        values.addAll(careerIds);
         if (objectType != null && !objectType.isBlank()) values.add(objectType);
         if (objectId != null) values.add(objectId);
         values.addAll(List.of(tail));

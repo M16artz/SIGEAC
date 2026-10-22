@@ -6,6 +6,7 @@ import java.time.Clock;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,7 +15,7 @@ public class EvaluationModelAuditService {
             "MODEL_PUBLISHED","MODEL_SUCCESSOR_CREATED","MODEL_VERSION_READ","MODEL_VERSIONS_COMPARED","MODEL_OPERATION_REJECTED");
     private final AuditPort audit;
     private final Clock clock;
-    public EvaluationModelAuditService(AuditPort audit){this(audit,Clock.systemUTC());}
+    @Autowired public EvaluationModelAuditService(AuditPort audit){this(audit,Clock.systemUTC());}
     EvaluationModelAuditService(AuditPort audit,Clock clock){this.audit=audit;this.clock=clock;}
     public UUID record(UUID actor,UUID correlation,String action,String type,UUID object,Map<String,Object> metadata){
         if(!ACTIONS.contains(action)) throw new IllegalArgumentException("unsupported model audit action");

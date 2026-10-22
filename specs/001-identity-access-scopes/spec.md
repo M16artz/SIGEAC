@@ -4,7 +4,7 @@
 
 **Created**: 2026-10-19
 
-**Status**: Draft
+**Status**: Reconciled by feature 005
 
 **Input**: User description: "Módulo I0 identityaccess — Acceso y ámbitos autorizados del Sistema de Evaluación de Carreras SEC-UNL. Un administrador funcional habilita usuarios con función de proceso y ámbito explícito (carrera, proceso e indicador) con vigencia, para que cada persona opere solo sobre lo que le corresponde. Incluye inicio y cierre de sesión, expiración por 30 minutos de inactividad, limitación tras cinco intentos fallidos en 15 minutos, separación estricta entre actores institucionales, funciones de proceso y privilegios técnicos, detección de conflictos de funciones con excepciones temporales justificadas y auditadas, y auditoría de accesos, cambios de permisos, asignaciones, rechazos por función o ámbito y conflictos. Excluye modelo de evaluación, procesos, evidencias, revisión documental y valoración académica. Requisitos de referencia: FR-001 a FR-006; RNF-001 a RNF-003, RNF-005, RNF-012, RNF-013, RNF-019. Resultado medible: 100% de operaciones dentro del ámbito permitidas y 100% de intentos fuera de ámbito rechazados sin revelar datos, con auditoría registrada. Usar datos sintéticos y no codificar decisiones institucionales CL-001 a CL-010 como reglas fijas."
 

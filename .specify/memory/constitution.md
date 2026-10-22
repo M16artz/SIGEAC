@@ -1,10 +1,10 @@
 <!--
 Sync Impact Report
-- Version change: template sin versión -> 1.0.0
-- Modified principles: marcadores iniciales -> siete principios vinculantes del proyecto
-- Added sections: Restricciones del producto y tecnología; Flujo de desarrollo y puertas de calidad
+- Version change: 1.0.0 -> 1.1.0
+- Modified principles: MVP documental independiente; cobertura por fuente requerida
+- Added sections: ninguna
 - Removed sections: ninguna; se sustituyeron todos los marcadores de la plantilla
-- Follow-up TODOs: ninguno
+- Follow-up TODOs: validar institucionalmente vigencia de las cinco versiones documentales y competencias configuradas
 -->
 # Constitución del Sistema de Evaluación de Carreras
 
@@ -15,8 +15,9 @@ Sync Impact Report
 El sistema DEBE representar como conceptos distintos la recopilación de información, la revisión
 documental y la valoración académica del cumplimiento. Aceptar una evidencia documental NO DEBE
 implicar que el estándar académico está cumplido. Los actores institucionales, los roles de proceso
-y los roles técnicos DEBEN modelarse por separado. Esta separación evita atribuir competencias a
-personas u órganos que no las poseen.
+  y los roles técnicos DEBEN modelarse por separado. Esta separación evita atribuir competencias a
+  personas u órganos que no las poseen. El MVP documental DEBE poder concluir sin una valoración
+  académica final y sin procesos de informe, mejora o acreditación.
 
 ### II. Desarrollo guiado por especificaciones y trazabilidad
 
@@ -31,8 +32,8 @@ DEBE registrarse como decisión abierta y conservar su procedencia.
 Cada incremento DEBE entregar un recorrido comprobable que incluya, cuando corresponda, interfaz,
 contrato REST, lógica de aplicación, reglas de dominio, persistencia, migración y pruebas. Las
 historias de un incremento DEBEN poder demostrarse sin depender de funcionalidades planificadas para
-incrementos posteriores. I0 a I6 conforman el MVP; I7 e I8 NO DEBEN convertirse en dependencias del
-MVP salvo en contratos de extensión expresamente documentados.
+  incrementos posteriores. El MVP documental comprende P01–P11 y la consulta histórica básica de
+  P16. P12–P15 y el cierre integral de P16 NO DEBEN convertirse en dependencias de ese MVP.
 
 ### IV. Seguridad por función y ámbito
 
@@ -70,8 +71,11 @@ terminado mientras existan incumplimientos críticos de su especificación o de 
 
 - El producto es un apoyo a la autoevaluación; NO emite acreditaciones, NO sustituye comisiones
   oficiales y NO presume acceso directo de CACES o CES.
-- El MVP DEBE usar datos sintéticos y una carrera piloto, un modelo versionado y un proceso de
-  autoevaluación. Las decisiones CL-001 a CL-010 permanecen sujetas a validación institucional.
+- El MVP DEBE usar datos sintéticos y una carrera piloto, las cinco estructuras de modelo
+  representativas y un proceso de autoevaluación. Las decisiones institucionales abiertas permanecen
+  sujetas a validación y nunca se convierten en normativa por defecto.
+- La cobertura documental DEBE calcularse sobre fuentes requeridas aplicables. Una evidencia DEBE
+  declarar qué fuente cubre; no se permite inferir que cualquier archivo cubre todas las fuentes de un indicador.
 - La base tecnológica aprobada para planificación es Angular, Java LTS con Spring Boot, PostgreSQL,
   Spring Data JPA/Hibernate, Spring Security, Flyway y OpenAPI 3.x.
 - Los archivos DEBEN almacenarse fuera de PostgreSQL; la base conserva metadatos, integridad y
@@ -117,4 +121,4 @@ y plan de eliminación. La complejidad adicional DEBE justificarse en el plan o 
 constitución DEBE revisarse al cerrar cada incremento y antes de aceptar cambios que afecten seguridad,
 trazabilidad o competencias institucionales.
 
-**Version**: 1.0.0 | **Ratified**: 2026-10-18 | **Last Amended**: 2026-10-18
+**Version**: 1.1.0 | **Ratified**: 2026-10-18 | **Last Amended**: 2026-10-21

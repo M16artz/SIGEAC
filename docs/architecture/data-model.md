@@ -1,5 +1,7 @@
 # Modelo de datos
 
+**Referencia canónica complementaria**: [modelo de datos 005](../../specs/005-complete-evaluation-workflows/data-model.md) y [reglas de dominio](../requirements/domain-rules.md). Los nombres I0–I8 de las secciones conservan su origen histórico; la secuencia actual es D1–D8.
+
 ## Convenciones
 
 - Identificadores UUID generados por la aplicación; fechas en UTC (`timestamptz`).
@@ -56,7 +58,7 @@ Reglas: `(model_id, version_number)` único; solo borrador editable; publicació
 
 Nodo: `id`, `model_version_id`, `parent_id` opcional, `node_type` (`CRITERION|SUBCRITERION|STANDARD|INDICATOR`), `code`, `title`, `description`, `ordinal`, `mandatory`, `weight` opcional.
 
-Indicador: `node_id`, `value_nature` (`QUALITATIVE|QUANTITATIVE`), `evaluation_period_definition`, `valuation_mechanism_key` opcional, `rating_scale_id` opcional.
+Indicador: `node_id`, `value_nature` (`QUALITATIVE|QUANTITATIVE`), `standard_text`, `evaluation_period_definition`, `valuation_rule_id` opcional, `rating_scale_id` opcional.
 
 Relaciones: una versión posee un bosque ordenado de nodos; `parent_id` pertenece a la misma versión y no puede formar ciclos. Solo un nodo `INDICATOR` posee `IndicatorDefinition`. Códigos únicos por tipo dentro de la versión. Todos son inmutables al publicar.
 
@@ -68,15 +70,25 @@ Campos: `id`, `indicator_node_id`, `source_type`, `name`, `description`, `requir
 
 Reglas: cada indicador publicado declara al menos una fuente; las fuentes pertenecen a un solo indicador y versión.
 
-### RatingScale / RatingOption / ProgressFormula
+### ValuationRule / ValuationVariable / Threshold
+
+Regla: `id`, `indicator_node_id`, `rule_type` (`MANUAL_QUALITATIVE|QUANTITATIVE`), `strategy_key`, `strategy_version`, `formula_definition`, `missing_data_policy`, `status` (`DRAFT|VALIDATED|RETIRED`).
+
+Variable: `id`, `rule_id`, `code`, `name`, `unit`, `data_type`, `required`, `validation_definition`.
+
+Umbral: `id`, `rule_id`, `rating_option_id`, límites, inclusividad y orden.
+
+Reglas: la regla pertenece a un indicador y versión; solo `VALIDATED` puede ejecutarse automáticamente; no existe fórmula universal para los cinco modelos.
+
+### RatingScale / RatingOption / DocumentaryProgressFormula
 
 Escala: `id`, `model_version_id`, `name`, `version_label`.
 
 Opción: `id`, `scale_id`, `code`, `label`, `ordinal`, `numeric_value` opcional.
 
-Fórmula: `id`, `model_version_id`, `formula_version`, `definition`, `strategy_key` opcional, `strategy_version` opcional, `closure_policy_version`, `closure_policy_definition`, `published_at`.
+Fórmula documental: `id`, `formula_version`, `collection_definition`, `review_definition`, `zero_denominator_policy`, `published_at`.
 
-Reglas: al menos una opción; códigos y ordinales únicos; la fórmula del piloto calcula separadamente recopilación, revisión y valoración. Si declara estrategia automática, clave y versión son obligatorias y deben existir como registro validado en I7 antes de ejecutar. La política de cierre versionada exige indicadores obligatorios con valoración final válida, ausencia de rectificaciones pendientes y archivos referenciados en estado `AVAILABLE`.
+Reglas: al menos una opción; códigos y ordinales únicos. La fórmula documental calcula recopilación y revisión por fuentes aplicables. El cumplimiento académico se calcula o registra por indicador mediante `ValuationRule`; no forma un índice global salvo metodología validada.
 
 ## Proceso y asignaciones (I2)
 
@@ -88,9 +100,17 @@ Regla MVP: exactamente una carrera `synthetic=true` en los fixtures de aceptaci�
 
 ### SelfAssessmentProcess
 
-Campos: `id`, `career_id`, `model_version_id`, `code`, `name`, `period_start`, `period_end`, `status` (`DRAFT|ACTIVE|CLOSING|CLOSED|REOPENED`), `opened_at`, `closed_at`, `version`.
+Campos: `id`, `career_id`, `model_version_id`, `code`, `name`, `period_start`, `period_end`, `status` (`PREPARATION|ACTIVE|SUSPENDED|DOCUMENTARY_CLOSED|CLOSING|CLOSED|REOPENED`), `opened_at`, `closed_at`, `version`.
 
-Reglas: `model_version_id` debe estar publicado y no cambia tras activación; transición válida: `DRAFT→ACTIVE→CLOSING→CLOSED`, `CLOSED→REOPENED→ACTIVE` solo con autorización.
+Reglas: `model_version_id` debe estar publicado y aplicable; no cambia tras activación. `PREPARATION→ACTIVE` exige `ProcessAuthorization`; suspensión, reanudación, cierre y reapertura requieren decisiones auditadas.
+
+### ProcessAuthorization / ProcessActivity
+
+Autorización: proceso, tipo de decisión, función/autoridad, actor, fundamento, documento, decisión, motivo, fecha y predecesora.
+
+Actividad: proceso, indicador o fuente opcional, tipo, título, equipo, responsable, fecha límite, estado y versión.
+
+Reglas: las competencias se resuelven mediante política configurable; cambiar responsable o actividad conserva historial.
 
 ### ProcessAssignment
 
@@ -110,7 +130,7 @@ Regla: append-only y obligatoria para salir de `CLOSED`.
 
 Campos: `id`, `process_id`, `title`, `description`, `source`, `covered_from`, `covered_to`, `owner_id`, `archived_at` opcional, `version`.
 
-Relación: N–M con `EvaluationNodeSnapshot` de tipo `INDICATOR` mediante `EvidenceIndicator`.
+Relación: N–M con `EvaluationNodeSnapshot` de tipo `INDICATOR` mediante `EvidenceIndicator` y con fuentes requeridas mediante `SourceCoverage` versionada.
 
 Reglas: la evidencia no persiste estados `ACCEPTED`, `OBSERVED` ni `REJECTED`. El estado documental mostrado es una proyección derivada de la última `DocumentReviewDecision` vigente para cada `EvidenceVersion`; nunca es una propiedad académica ni una fuente de verdad duplicada.
 
@@ -124,13 +144,21 @@ Reglas: `(evidence_id, revision_number)` único; una versión remitida es inmuta
 
 Campos: `id`, `evidence_version_id`, `storage_key` (único y opaco), `original_name`, `declared_media_type`, `detected_media_type`, `size_bytes`, `sha256`, `status` (`STAGED|AVAILABLE|QUARANTINED|MISSING`), `created_at`.
 
-Reglas: `size_bytes` entre 1 y 26 214 400; SHA-256 de 64 caracteres hexadecimales; no se persiste contenido binario.
+Reglas: `size_bytes` entre 0 y 26 214 400; tamaño cero solo si lo admite la política de tipo. SHA-256 de 64 caracteres hexadecimales; no se persiste contenido binario.
 
 ### ExternalReference
 
 Campos: `id`, `evidence_version_id`, `uri`, `label`, `accessed_at`, `integrity_note`.
 
-Reglas: URI válida; una versión debe tener al menos un archivo o referencia antes de remitirse.
+Reglas: URI válida; una versión debe contener información válida de alguna modalidad admitida por sus fuentes (archivo, enlace, dato estructurado o referencia institucional). Una URL válida estructuralmente no prueba disponibilidad ni aceptación.
+
+### SourceCoverage / ApplicabilityDecision
+
+Cobertura: `id`, `evidence_version_id`, `required_source_id`, `coverage_note`, `declared_by`, `declared_at`. La aceptación se deriva de la revisión, no es un estado duplicado de la cobertura.
+
+No aplicabilidad: proceso, objeto (`SOURCE|INDICATOR`), regla, justificación, autoridad, fecha y predecesora.
+
+Reglas: una cobertura siempre apunta a una fuente del indicador y modelo fijados por el proceso. Una exclusión solo afecta denominadores cuando existe decisión vigente y autorizada.
 
 ## Revisión documental (I4)
 
@@ -140,6 +168,10 @@ Campos: `id`, `evidence_version_id`, `revision_number`, `predecessor_id`, `outco
 
 Reglas: evidencia remitida; revisor autorizado y sin conflicto; justificación de 10–4000 caracteres; append-only; no contiene escala ni nivel académico.
 
+### CoverageReviewOutcome
+
+Campos: `decision_id`, `source_coverage_id`, `outcome`, `justification`. Cada decisión cubre todas las coberturas de la versión, sin repetición. Global: aceptada si todas se aceptan, rechazada si todas se rechazan, observada en el resto de combinaciones. La elegibilidad por fuente usa estos resultados específicos.
+
 ## Valoración académica (I5)
 
 ### AcademicEvaluation
@@ -148,15 +180,21 @@ Campos: `id`, `process_id`, `indicator_snapshot_id`, `revision_number`, `predece
 
 Relación: N–M con versiones de evidencia mediante `EvaluationEvidence`.
 
-Reglas: `(process_id, indicator_snapshot_id, revision_number)` único; toda evidencia vinculada posee una decisión documental vigente `ACCEPTED`; opción pertenece a la escala del modelo del proceso; final append-only.
+Reglas: `(process_id, indicator_snapshot_id, revision_number)` único; toda cobertura pertinente usada como sustento posee decisión vigente `ACCEPTED`; opción pertenece a la escala del indicador de la versión fijada; cálculo referencia entradas verificadas y regla validada. Final append-only.
 
 ## Seguimiento y cierre (I6)
 
 ### ProgressSnapshot
 
-Campos: `id`, `process_id`, `calculated_at`, `formula_id`, `collection_completed`, `collection_total`, `review_completed`, `review_total`, `evaluation_completed`, `evaluation_total`, `result_hash`.
+Campos: `id`, `process_id`, `calculated_at`, `formula_id`, `required_source_total`, `registered_source_total`, `accepted_source_total`, `evaluation_completed`, `evaluation_total`, `result_status`, `result_hash`.
 
-Reglas: conteos no negativos; porcentajes derivados, no almacenados; mismos datos y fórmula producen mismo hash.
+Reglas: recopilación y revisión cuentan IDs distintos de fuentes obligatorias aplicables. La primera cuenta fuentes con candidata remitida vigente; la segunda exige cardinalidad y decisiones aceptadas por cobertura. Con denominador cero se usa `NOT_CONFIGURED` o `NOT_APPLICABLE`, nunca 100 % implícito. Los porcentajes son derivados; mismos datos y fórmula producen mismo hash. Una remisión sucesora no hereda aceptación y los borradores no invalidan su predecesora.
+
+### DocumentaryClosureSnapshot
+
+Campos: proceso, versión de modelo, fórmula, fuentes aplicables, coberturas, decisiones, métricas, actor, fecha y hash.
+
+Regla: distingue corte de seguimiento (sin transición) y cierre documental (según política, sin valoración académica obligatoria). Conserva pendientes, decisiones y excepciones y declara que no representa cumplimiento ni acreditación.
 
 ### ClosureSnapshot
 
@@ -195,6 +233,32 @@ Regla: validar paquete completo antes de aplicar; su ausencia no afecta I0–I6.
 Campos: `id`, `event_version`, `event_type`, `subject_type`, `subject_id`, `recipient_id`, `minimal_payload`, `occurred_at`, `delivery_status`.
 
 Regla: no contiene evidencia ni justificaciones completas; una falla no cambia el agregado fuente.
+
+## Hallazgos, informes y aprobación (P13–P14)
+
+### Finding
+
+Campos: proceso, tipo (`STRENGTH|WEAKNESS|OBSERVATION`), título, descripción, estado, autor y versión. Se vincula mediante relaciones explícitas con indicadores, valoraciones y evidencias.
+
+### Report / ReportVersion
+
+Informe: proceso y tipo. Versión: número, predecesora, estado (`DRAFT|PRELIMINARY|UNDER_OBSERVATION|FINAL|APPROVED|RETURNED`), contenido/archivo, autor y fecha.
+
+### ReportObservation / ApprovalDecision
+
+Observación: versión, emisor, texto, respuesta y fechas. Decisión: versión, función de autoridad, actor, fundamento, resultado y fecha. Ninguna decisión tiene tipo `ACCREDITED`.
+
+## Planes de mejora (P15)
+
+### ImprovementPlan / ImprovementAction / ActionProgress
+
+El plan pertenece al proceso e informe. Una acción vincula hallazgos y registra responsable, plazo, meta, indicador de cumplimiento, medio de verificación y estado. Cada avance o modificación se conserva con autor, fecha, evidencia y revisión.
+
+## Cierre integral y archivo (P16)
+
+### ClosurePolicy / ArchiveRecord
+
+La política versionada declara prerrequisitos, excepciones y tipo de cierre. El archivo referencia la instantánea, política de conservación, actor, fecha, estado e integridad. La rectificación exige reapertura o sucesora; no modifica el registro archivado.
 
 ## Integridad referencial y borrado
 

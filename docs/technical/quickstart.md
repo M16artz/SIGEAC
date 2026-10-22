@@ -1,6 +1,6 @@
 # Guía de validación rápida
 
-Esta guía valida el diseño y, después de la implementación, el recorrido completo I0–I6 con datos sintéticos. Docker es opcional.
+Esta guía conserva los escenarios históricos I0–I6. La validación canónica P01–P16 y la separación entre MVP documental D1–D6 y alcance posterior D7–D8 están en [`specs/005-complete-evaluation-workflows/quickstart.md`](../../specs/005-complete-evaluation-workflows/quickstart.md). Docker es opcional.
 
 ## Prerrequisitos
 
@@ -34,6 +34,25 @@ No utilizar `.env` compartido como fuente de secretos ni incluir credenciales en
 
 Testcontainers puede acelerar pruebas si hay un runtime compatible, pero nunca es el único camino.
 
+## Pruebas rápidas sin PostgreSQL y uso de SQLite
+
+Las pruebas de dominio, aplicación, controladores y frontend pueden ejecutarse
+sin PostgreSQL. El perfil `test` incluye `sqlite-test`, crea un esquema SQLite
+y carga fixtures sintéticos. Las pruebas de migración permanecen omitidas
+mientras `SEC_RUN_DATABASE_TESTS` no sea `true`:
+
+```powershell
+Set-Location backend
+Remove-Item Env:SEC_RUN_DATABASE_TESTS -ErrorAction SilentlyContinue
+Remove-Item Env:SEC_USE_TESTCONTAINERS -ErrorAction SilentlyContinue
+.\mvnw.cmd test
+```
+
+La [guía de SQLite](../testing/sqlite.md) contiene el comando para levantar el
+backend, las credenciales y los identificadores sintéticos. SQLite no valida
+las características específicas de PostgreSQL; las migraciones, triggers,
+bloqueos y pruebas de aceptación final deben repetirse sobre PostgreSQL.
+
 ## Escenario I0 — acceso
 
 1. Cargar fixtures sintéticos de administrador, responsable, revisor, evaluador y coordinador.
@@ -44,7 +63,7 @@ Testcontainers puede acelerar pruebas si hay un runtime compatible, pero nunca e
 
 ## Escenario I1 — modelo
 
-1. Crear el modelo sintético con criterio, estándar, indicador, escala y fórmula.
+1. Crear el modelo sintético con jerarquía variable, indicador, fuentes requeridas y metodología aplicable.
 2. Publicar la versión 1 con aprobador distinto del autor.
 3. Intentar modificarla y luego crear versión 2 como sucesora.
 
@@ -52,15 +71,15 @@ Testcontainers puede acelerar pruebas si hay un runtime compatible, pero nunca e
 
 ## Escenario I2 — proceso
 
-1. Crear la carrera sintética y un proceso ligado a modelo v1.
-2. Asignar responsables por indicador y activar.
+1. Crear la carrera sintética y un proceso en preparación ligado a modelo v1.
+2. Registrar autorización institucional sintética, asignar responsables/actividades y activar.
 3. Publicar modelo v2 y comprobar la referencia del proceso.
 
 **Esperado**: el proceso sigue usando v1; solo asignados operan sobre sus indicadores; cambios quedan auditados.
 
 ## Escenario I3 — evidencia
 
-1. Crear borrador con procedencia y período.
+1. Crear borrador con procedencia, período e identificación de la fuente requerida cubierta.
 2. Cargar un archivo sintético permitido menor de 25 MiB y remitir.
 3. Intentar sobrescribir el archivo remitido; después crear versión sucesora.
 
@@ -82,23 +101,23 @@ Testcontainers puede acelerar pruebas si hay un runtime compatible, pero nunca e
 
 **Esperado**: el primer intento falla; la valoración final conserva sustentos exactos; la revisión anterior no se sobrescribe.
 
-## Escenario I6 — seguimiento y cierre
+## Escenario I6 — seguimiento y corte documental
 
-1. Consultar avance y contrastar conteos con registros fuente.
-2. Intentar cerrar con un indicador obligatorio pendiente.
-3. Completarlo, cerrar y solicitar informe.
+1. Configurar cuatro fuentes aplicables, cubrir tres y aceptar dos.
+2. Consultar avance y contrastar 75 % de recopilación y 50 % de revisión con registros fuente.
+3. Crear un corte documental con P12–P15 deshabilitados.
 
-**Esperado**: se muestran tres porcentajes y versión de fórmula; el cierre incompleto falla; el cierre válido congela un resumen reproducible y el informe declara que no es acreditación.
+**Esperado**: recopilación y revisión usan fuentes aplicables; valoración académica aparece separada o pendiente; el corte congela un resumen reproducible y declara que no constituye cumplimiento ni acreditación.
 
 ## Escenarios no funcionales
 
 - Ejecutar matriz completa función×ámbito×operación y exigir 100 % de rechazos seguros fuera de ámbito.
 - Ejecutar carga k6 con el dataset RNF-008 y conservar percentiles para RNF-006/RNF-007.
-- Ejecutar axe/Playwright y navegación solo por teclado en recorridos I0–I6.
+- Ejecutar axe/Playwright y navegación solo por teclado en D1–D6 y luego D7–D8.
 - Ejecutar el protocolo de `tests/usability/i0-i6-protocol.md` con al menos 20 participantes sintéticos de los cinco perfiles y exigir 19 tareas completadas al primer intento conforme SC-007.
 - Interrumpir una carga durante promoción y ejecutar reconciliación; no debe aparecer evidencia remitida con archivo inexistente.
 - Aplicar migraciones desde base limpia y desde la versión anterior; documentar respaldo y restauración.
-- Deshabilitar cualquier adaptador I7/I8 y repetir I0–I6 sin degradación funcional.
+- Deshabilitar P12–P15 e integraciones y repetir D1–D6 sin degradación funcional.
 
 ## Resultado y evidencia
 

@@ -126,4 +126,12 @@ class ScopeAuthorizationServiceTest {
         assertThat(authorization.hasOperation(TestSupport.USER, OperationCode.ACCESS_MANAGE_USERS))
                 .isFalse();
     }
+
+    @Test
+    void disabledIdentitiesCannotUseAssignmentsThatAreStillPresent() {
+        repository.addUser(TestSupport.ADMIN,"admin","Disabled",false,false,"synthetic");
+        assertThat(authorization.hasOperation(TestSupport.ADMIN,OperationCode.ACCESS_MANAGE_USERS)).isFalse();
+        assertThat(authorization.decide(TestSupport.ADMIN,OperationCode.ACCESS_MANAGE_USERS,
+                new AuthorizationScope(TestSupport.CAREER,null,null)).allowed()).isFalse();
+    }
 }

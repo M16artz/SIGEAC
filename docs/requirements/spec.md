@@ -4,7 +4,7 @@
 
 **Creada**: 2026-10-18
 
-**Estado**: Lista para planificación
+**Estado**: Reconciliada con P01–P16
 
 **Entrada**: Definir el Sistema de Evaluación de Carreras SEC-UNL en incrementos verticales I0 a I8 para apoyar la autoevaluación institucional, desde acceso y modelos versionados hasta recopilación de evidencias, revisión documental, valoración académica, seguimiento, reportes y extensiones futuras, con trazabilidad, autorización por ámbito, auditoría e inmutabilidad.
 
@@ -12,7 +12,24 @@
 
 El sistema apoya a una carrera piloto en la preparación, revisión y valoración interna de una autoevaluación. Mantiene separados tres actos: recopilar información, aceptar o rechazar documentalmente una evidencia y valorar académicamente el cumplimiento de un indicador. El producto no acredita carreras, no sustituye a comisiones oficiales y no presupone acceso de organismos externos.
 
-I0–I6 constituyen el MVP. I7–I8 definen contratos de extensión y recorridos posteriores; no son dependencias para operar ni aceptar el MVP. La validación se realizará con una carrera, un modelo versionado, un proceso de autoevaluación y datos sintéticos.
+El MVP documental comprende P01–P11 y la consulta histórica básica de P16. La valoración académica P12, la consolidación e informes P13–P14, la mejora P15 y el cierre integral P16 se implementan después y no bloquean la aceptación documental. La validación utiliza una carrera piloto, configuraciones representativas de los cinco modelos, un proceso de autoevaluación y datos sintéticos.
+
+La especificación detallada que completa y corrige FR-041–FR-070 está en [`specs/005-complete-evaluation-workflows/spec.md`](../../specs/005-complete-evaluation-workflows/spec.md). El catálogo canónico de actores y flujos se encuentra en [process-flows.md](./process-flows.md). Ante contradicción con los artefactos `001`–`004`, prevalece esta reconciliación para jerarquía flexible, fuentes requeridas, autorización institucional, métricas, valoración, informes, mejora y archivo.
+
+Las [reglas de dominio](domain-rules.md) completan responsabilidades, decisiones CL-011–CL-017, estados, cardinalidad y sucesión documental. La [matriz de aceptación](../testing/process-acceptance.md) define 48 escenarios por proceso y los criterios AC-X01–AC-X16 transversales.
+
+### Mapa canónico de procesos
+
+| Entrega | Procesos | Alcance |
+|---|---|---|
+| D1 | P01–P02 | identidad, usuarios, carreras y permisos |
+| D2 | P03–P04 | modelos, versiones, jerarquías, indicadores y fuentes |
+| D3 | P05–P06 | autorización, proceso, responsables y planificación |
+| D4 | P07–P08 | registro y remisión de evidencias por fuente requerida |
+| D5 | P09–P10 | revisión documental y subsanación |
+| D6 | P11 y P16 básico | seguimiento documental y corte histórico; fin del MVP |
+| D7 | P12–P14 | valoración, hallazgos e informes |
+| D8 | P15–P16 | mejora, cierre integral y archivo |
 
 ### Actores
 
@@ -97,7 +114,7 @@ Como revisor documental quiero aceptar, observar o rechazar una versión remitid
 
 ---
 
-### Historia de usuario 6 — I5: Valoración académica (Prioridad: P0)
+### Historia de usuario 6 — I5 histórico / D7: Valoración académica (Prioridad: P1, posterior al MVP)
 
 Como evaluador académico quiero valorar un indicador usando evidencia documental aceptada y una escala vigente para sustentar el resultado sin modificar la revisión documental.
 
@@ -111,17 +128,17 @@ Como evaluador académico quiero valorar un indicador usando evidencia documenta
 
 ---
 
-### Historia de usuario 7 — I6: Seguimiento, cierre y reporte (Prioridad: P0)
+### Historia de usuario 7 — Seguimiento documental D6 y cierre integral D8
 
 Como coordinador quiero consultar el avance trazable, detectar pendientes y cerrar el proceso para obtener un informe interno reproducible de la autoevaluación.
 
-**Prueba independiente**: con un proceso sintético se visualiza avance por estado, se navega desde cada resultado hasta sus evidencias y decisiones, se bloquea un cierre incompleto y se genera un informe al completar los requisitos.
+**Prueba independiente**: D6 (P0) muestra avance por fuentes y congela un corte documental sin P12–P15; D8 (P1 posterior al MVP) bloquea un cierre integral incompleto y permite cierre y archivo con política satisfecha.
 
 **Escenarios de aceptación**:
 
 1. **Dado** un proceso activo, **cuando** el coordinador consulta el tablero, **entonces** ve conteos y porcentajes cuya fórmula y fecha de cálculo son explícitas.
-2. **Dado** un proceso con indicadores pendientes, **cuando** se intenta cerrarlo, **entonces** el sistema identifica los bloqueos y no lo cierra.
-3. **Dado** un proceso completo, **cuando** se cierra, **entonces** los resultados quedan congelados y el informe permite rastrear cada valoración hasta el modelo, asignaciones, decisiones y evidencias correspondientes.
+2. **Dado** un proceso con pendientes, **cuando** se crea un corte documental, **entonces** conserva esos pendientes sin atribuir cumplimiento ni cambiar el estado académico; finalizar la fase documental aplica su política propia.
+3. **Dado** un proceso listo para cierre integral, **cuando** se confirma, **entonces** la política exige o exceptúa sus prerrequisitos, congela resultados y permite rastrear informes, valoraciones y decisiones hasta sus sustentos.
 
 ---
 
@@ -172,31 +189,31 @@ Como participante quiero recibir recordatorios y consultar tareas desde canales 
 - **FR-004 [I0]**: El sistema DEBE impedir conflictos de funciones según una política configurable y registrar toda excepción con responsable, motivo, alcance y vigencia.
 - **FR-005 [I0]**: El sistema DEBE permitir altas, desactivaciones y asignaciones sin borrar la identidad histórica de los actores.
 - **FR-006 [I0]**: El sistema DEBE auditar con actor, fecha, acción, objeto y resultado: inicios y cierres de sesión, intentos de autenticación fallidos o limitados, cambios de permisos, asignaciones y excepciones, rechazos por función o ámbito, conflictos de funciones, transiciones de estado inválidas y fallos al publicar, remitir, decidir, cerrar, descargar o exportar.
-- **FR-007 [I1]**: El sistema DEBE representar el modelo mediante una jerarquía versionada de criterios, estándares e indicadores con identificadores únicos dentro de la versión.
-- **FR-008 [I1]**: Antes de publicar, el sistema DEBE exigir fuente, autor, aprobador distinto del autor, al menos un criterio, al menos un estándar por criterio, al menos un indicador por estándar, códigos únicos por tipo dentro de la versión, una escala con al menos una opción y una fórmula de avance válida.
+- **FR-007 [I1]**: El sistema DEBE representar el modelo mediante un bosque versionado de nodos tipados y profundidad variable, capaz de expresar criterios, subcriterios, estándares e indicadores sin exigir una única ruta jerárquica.
+- **FR-008 [I1]**: Antes de publicar, el sistema DEBE exigir procedencia normativa, autor, revisión independiente, al menos un indicador alcanzable, códigos únicos por tipo, fuentes requeridas por indicador y una metodología declarada. Escalas, variables, fórmulas y umbrales se exigen cuando correspondan a la naturaleza del indicador.
 - **FR-009 [I1]**: Una versión publicada del modelo DEBE ser inmutable; toda corrección DEBE crear una nueva versión relacionada.
 - **FR-010 [I1]**: El sistema DEBE auditar creación, publicación, sustitución y consulta de versiones del modelo.
 - **FR-011 [I2]**: El sistema DEBE crear un proceso para una carrera, período y versión publicada del modelo.
 - **FR-012 [I2]**: La versión del modelo vinculada a un proceso activo o cerrado DEBE permanecer inmutable e identificable.
 - **FR-013 [I2]**: El sistema DEBE asignar responsables, revisores y evaluadores por ámbitos explícitos y vigencias definidas.
-- **FR-014 [I2]**: El sistema DEBE administrar los estados borrador, activo, en cierre, cerrado y reabierto del proceso mediante transiciones autorizadas.
+- **FR-014 [I2]**: El sistema DEBE administrar preparación, activo, suspendido, fase documental cerrada, en cierre, cerrado y reabierto mediante la matriz autorizada de [domain-rules.md](domain-rules.md#proceso). El estado histórico borrador se migra explícitamente a preparación.
 - **FR-015 [I2]**: Toda reapertura o cambio crítico de asignación DEBE quedar auditado con motivo y responsable.
 - **FR-016 [I3]**: Un responsable DEBE poder crear evidencia en borrador con título, descripción, procedencia, período cubierto y uno o más indicadores relacionados dentro de su ámbito.
-- **FR-017 [I3]**: El sistema DEBE admitir evidencia basada en archivo o referencia externa y conservar metadatos, integridad y localización sin guardar el archivo dentro de la base de datos.
-- **FR-018 [I3]**: Antes de permitir la remisión, el sistema DEBE exigir título, descripción, procedencia, período cubierto, al menos un indicador del proceso y al menos un archivo o referencia externa; para cada archivo DEBE validar tipo permitido, máximo de 25 MiB, tipo detectado y huella SHA-256.
+- **FR-017 [I3]**: El sistema DEBE admitir archivo, enlace, dato estructurado o referencia institucional según el tipo de fuente requerida; conserva metadatos, integridad y localización, con binarios fuera de la base de datos.
+- **FR-018 [I3]**: Antes de remitir, el sistema DEBE exigir título, descripción, procedencia, período, indicador y cobertura explícita de fuente, con contenido válido de alguna modalidad permitida. Cada archivo valida tipo permitido/detectado, máximo de 25 MiB y SHA-256; datos y referencias validan tipo, período y unidad cuando aplique.
 - **FR-019 [I3]**: Remitir una evidencia DEBE crear una versión inmutable con autor, fecha y vínculo a su versión anterior cuando exista.
 - **FR-020 [I3]**: Corregir evidencia remitida DEBE crear una versión sucesora sin alterar ni eliminar versiones anteriores.
 - **FR-021 [I4]**: Solo un revisor documental autorizado DEBE poder aceptar, observar o rechazar una versión remitida dentro de su ámbito.
-- **FR-022 [I4]**: Toda decisión documental DEBE incluir estado, justificación, actor, fecha y versión exacta de evidencia.
+- **FR-022 [I4]**: Toda decisión documental DEBE incluir resultados por cobertura de fuente, justificación, actor, fecha y versión exacta de evidencia; su estado global se deriva, no se infiere aceptación de todas las fuentes a partir de una sola.
 - **FR-023 [I4]**: Aceptar documentalmente una evidencia NO DEBE crear ni inferir una valoración de cumplimiento académico.
 - **FR-024 [I4]**: Rectificar una decisión documental DEBE generar una nueva decisión relacionada y conservar la anterior.
 - **FR-025 [I5]**: Solo un evaluador académico autorizado DEBE poder valorar un indicador dentro de su ámbito.
-- **FR-026 [I5]**: Una valoración final DEBE usar una opción de la escala configurada, incluir justificación y referenciar exclusivamente versiones documentalmente aceptadas.
+- **FR-026 [I5]**: Una valoración final DEBE aplicar la regla/escala del indicador, incluir justificación y referenciar sustentos cuya cobertura pertinente está aceptada. Un cálculo exige variables verificadas y regla validada; un global observado no invalida por sí solo una cobertura pertinente aceptada.
 - **FR-027 [I5]**: La valoración académica NO DEBE modificar el estado ni el contenido de la revisión documental.
 - **FR-028 [I5]**: Rectificar una valoración final DEBE generar una nueva revisión relacionada y conservar la anterior.
-- **FR-029 [I6]**: El sistema DEBE calcular avance con una fórmula versionada y visible que distinga recopilación, revisión documental y valoración académica.
+- **FR-029 [I6]**: El sistema DEBE mostrar por separado avance de recopilación, revisión por fuentes y avance de valoraciones registradas con política versionada y visible. Avance de valoración no equivale al grado de cumplimiento del estándar ni a un porcentaje de acreditación.
 - **FR-030 [I6]**: El tablero DEBE permitir navegar desde conteos agregados hasta indicadores, decisiones y evidencias autorizadas que los sustentan.
-- **FR-031 [I6]**: El sistema DEBE impedir el cierre mientras la política de cierre versionada vinculada al proceso detecte indicadores obligatorios sin valoración final válida, revisiones o valoraciones pendientes de rectificación, o archivos referenciados sin estado disponible. El resumen de cierre DEBE identificar la versión exacta de esta política.
+- **FR-031 [I6]**: El sistema DEBE distinguir corte de seguimiento (sin cambio de estado), cierre documental (según política y sin exigir valoración académica) y cierre integral posterior. Cada cierre identifica prerrequisitos y excepciones; los snapshots conservan pendientes y no certifican cumplimiento por omisión.
 - **FR-032 [I6]**: Cerrar un proceso DEBE congelar un resumen reproducible de versión de modelo, fórmula, resultados y referencias de trazabilidad.
 - **FR-033 [I6]**: El informe interno DEBE declarar que apoya la autoevaluación y no constituye acreditación ni decisión de un organismo externo.
 - **FR-034 [I6]**: El sistema DEBE exportar un informe autorizado sin exponer información fuera del ámbito del solicitante.
@@ -206,6 +223,7 @@ Como participante quiero recibir recordatorios y consultar tareas desde canales 
 - **FR-038 [I8]**: La indisponibilidad de un canal complementario NO DEBE cambiar estados, decisiones ni disponibilidad del flujo principal.
 - **FR-039 [Transversal]**: Toda respuesta de error DEBE usar una estructura estable con código, mensaje comprensible, identificador de correlación y detalles seguros cuando correspondan.
 - **FR-040 [Transversal]**: El sistema DEBE conservar trazabilidad explícita entre requisitos, historias, contratos, tareas, pruebas y resultados de validación.
+- **FR-041–FR-070 [Reconciliación P01–P16]**: Se incorporan como requisitos normativos las estrategias validadas, el catálogo único de cinco modelos, carreras, procedencia normativa, jerarquía flexible, definición completa del indicador, autorización y suspensión, planificación, cobertura por fuente, no aplicabilidad, fórmulas exactas de avance, valoración cualitativa/cuantitativa, hallazgos, informes, mejora, cierres, archivo, competencias, no acreditación y tipos diversos de fuente definidos en la [especificación de flujos completos](../../specs/005-complete-evaluation-workflows/spec.md#functional-requirements).
 
 ### Requisitos no funcionales
 
@@ -259,20 +277,23 @@ Estas decisiones se registran para validación institucional. No autorizan a inv
 - **CL-009 — Auditoría y acceso a trazas**: validar plazo de conservación y perfiles de consulta; el piloto conserva toda la auditoría y restringe consulta a coordinadores y administradores autorizados.
 - **CL-010 — Integraciones y notificaciones**: validar sistemas, responsables y canales; quedan fuera del MVP y solo se definen contratos desacoplados en I7–I8.
 
+Las decisiones adicionales de vigencia, evaluación interna/externa, automatización, profundidad de carga, competencias, informes y cierre están en [CL-011–CL-017](domain-rules.md#registro-de-decisiones-institucionales). Sus estados permanecen pendientes hasta disponer de constancia; las configuraciones de demostración se identifican como sintéticas.
+
 ## Criterios de éxito
 
 ### Resultados medibles
 
 - **SC-001**: En una prueba con la matriz de permisos, el 100 % de operaciones protegidas permitidas se completa dentro del ámbito y el 100 % de intentos fuera de ámbito se rechaza sin revelar datos.
 - **SC-002**: El 100 % de modelos publicados, versiones de evidencia remitidas, decisiones documentales y valoraciones finales conserva versión, autor, fecha e historial sin sobrescrituras.
-- **SC-003**: En el recorrido sintético I0–I6, un equipo puede configurar carrera, publicar modelo, abrir proceso, remitir evidencia, revisarla, valorarla y cerrar el proceso en 45 minutos o menos sin intervención técnica.
+- **SC-003**: En el recorrido sintético D1–D6, un equipo puede configurar carrera, publicar modelo, abrir proceso autorizado, remitir evidencia por fuente, revisarla y crear un corte documental en 45 minutos o menos sin intervención técnica.
 - **SC-004**: El 100 % de valoraciones incluidas en un informe cerrado puede rastrearse hasta indicador, versión de modelo, evaluador, decisión documental y versiones de evidencia utilizadas.
 - **SC-005**: Ninguna aceptación documental de la suite de aceptación produce por sí misma un nivel de cumplimiento académico.
 - **SC-006**: Los tableros muestran conteos y porcentajes reproducibles; al recalcular el mismo cierre con la misma fórmula y datos se obtiene el mismo resultado en el 100 % de los casos.
-- **SC-007**: En una prueba moderada con al menos 20 participantes sintéticos distribuidos entre administrador funcional, responsable, revisor, evaluador y coordinador, al menos 19 completan al primer intento una tarea representativa de su función en I0–I6, sin ayuda operativa distinta de la interfaz y la guía de usuario; inicio, fin, ayuda solicitada y resultado se registran por participante.
+- **SC-007**: En una prueba moderada con al menos 20 participantes sintéticos de administración, coordinación, recopilación y revisión, al menos 19 completan al primer intento una tarea representativa del MVP D1–D6, sin ayuda distinta de la interfaz y la guía; inicio, fin, ayuda y resultado se registran.
 - **SC-008**: Se satisfacen los umbrales RNF-006 a RNF-008 en un entorno reproducible con datos sintéticos y un informe de medición conservado.
-- **SC-009**: La matriz de trazabilidad vincula el 100 % de FR-001–FR-040 y RNF-001–RNF-019 con al menos una historia, contrato o regla de dominio, tarea y evidencia de validación identificada; toda prueba automatizada crítica declara los IDs que valida.
-- **SC-010**: I0–I6 se ejecuta y valida sin Docker, sin servicios institucionales, sin notificaciones y sin ningún componente I7–I8.
+- **SC-009**: La matriz de trazabilidad vincula FR-001–FR-070 y RNF-001–RNF-019 con historias, reglas/contratos, tareas y escenarios; antes de aceptar una entrega cada requisito de esa entrega debe tener evidencia de ejecución identificada. Toda prueba crítica declara sus IDs; diseño planificado no se rotula como ejecución superada.
+- **SC-010**: D1–D6 se ejecuta y valida sin Docker, sin servicios institucionales, sin notificaciones y con P12–P15 deshabilitados.
+- **SC-011–SC-018**: Las configuraciones de cinco modelos, métricas por fuente, separación documental/académica, reglas cuantitativas, trazabilidad de informes y mejora, independencia del MVP documental y cierres históricos se validan conforme a la [especificación de flujos completos](../../specs/005-complete-evaluation-workflows/spec.md#measurable-outcomes).
 
 ## Exclusiones
 
@@ -290,5 +311,9 @@ Estas decisiones se registran para validación institucional. No autorizan a inv
 - Los valores sintéticos de escala, fórmula y política de funciones son configuración del piloto, no decisiones institucionales.
 - Los usuarios disponen de conexión de red estable y navegador compatible; no se exige funcionamiento sin conexión.
 - La documentación normativa que se incorpore se registra como fuente y versión, pero no se interpreta automáticamente como regla ejecutable.
+- Las versiones documentales iniciales son General 2024, Medicina 2018, Enfermería 2016, Odontología 2018 y Derecho matricial. Su vigencia para nuevos procesos debe ser confirmada institucionalmente y almacenada como dato; la publicación técnica no presume vigencia normativa.
+- El alcance inicial apoya autoevaluación interna. Registrar evaluación externa requiere una ampliación explícita del contrato y de las autorizaciones.
+- El cálculo automático solo se habilita para reglas por indicador validadas; el sistema permite registrar valoraciones humanas cuando la metodología lo exija.
+- El MVP valida estructuras representativas. La carga completa de todos los indicadores y fuentes de las cinco versiones es un entregable de datos separado y verificable.
 - El almacenamiento de archivos está disponible mediante una abstracción reemplazable; su proveedor concreto se decide durante la planificación.
 - Las pruebas automatizadas, la matriz de trazabilidad y la documentación técnica y de usuario son parte del alcance de cada incremento.

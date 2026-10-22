@@ -35,13 +35,17 @@ import { AccessSessionService } from '../data-access/access-session.service';
             </tbody>
           </table>
         }
-        <nav aria-label="Administración de acceso">
-          <ul>
-            <li><a routerLink="/access/users">Usuarios y asignaciones</a></li>
-            <li><a routerLink="/access/conflicts">Conflictos y excepciones</a></li>
-            <li><a routerLink="/access/audit">Auditoría de acceso</a></li>
-          </ul>
-        </nav>
+        @if (hasRole(identity, 'FUNCTIONAL_ADMIN')) {
+          <nav aria-label="Administración de acceso">
+            <ul>
+              <li><a routerLink="/access/users">Usuarios y asignaciones</a></li>
+              <li><a routerLink="/access/conflicts">Conflictos y excepciones</a></li>
+              <li><a routerLink="/access/audit">Auditoría de acceso</a></li>
+            </ul>
+          </nav>
+        } @else if (hasRole(identity, 'COORDINATOR')) {
+          <p><a routerLink="/access/audit">Auditoría de acceso</a></p>
+        }
         <button type="button" (click)="logout()">Cerrar sesión</button>
       } @else {
         <p>Cargando identidad…</p>
@@ -52,6 +56,10 @@ import { AccessSessionService } from '../data-access/access-session.service';
 export class AccessHomePageComponent {
   readonly session = inject(AccessSessionService);
   private readonly router = inject(Router);
+
+  hasRole(identity: {assignments: readonly {roleCode: string}[]}, role: string): boolean {
+    return identity.assignments.some(assignment => assignment.roleCode === role);
+  }
 
   logout(): void {
     this.session.logout().subscribe({

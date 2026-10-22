@@ -13,6 +13,7 @@
     "test:watch": "ng test",
     "contracts": "node ../scripts/validate-contracts.mjs",
     "test:acceptance": "playwright test --config=playwright.config.ts ../tests/acceptance",
+    "test:d1": "node ../scripts/run-d1-acceptance.mjs",
     "test:performance": "k6 run ../tests/performance/evidence-upload.js"
   },
   "dependencies": {

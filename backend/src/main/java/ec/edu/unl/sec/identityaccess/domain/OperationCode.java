@@ -1,6 +1,8 @@
 package ec.edu.unl.sec.identityaccess.domain;
 
 public record OperationCode(String value) {
+    public static final OperationCode CAREER_ADMIN = new OperationCode("CAREER_ADMIN");
+    public static final OperationCode CAREER_READ = new OperationCode("CAREER_READ");
     public static final OperationCode ACCESS_READ_SELF = new OperationCode("ACCESS_READ_SELF");
     public static final OperationCode ACCESS_MANAGE_USERS = new OperationCode("ACCESS_MANAGE_USERS");
     public static final OperationCode ACCESS_ASSIGN_SCOPE = new OperationCode("ACCESS_ASSIGN_SCOPE");
@@ -11,6 +13,7 @@ public record OperationCode(String value) {
     public static final OperationCode INDICATOR_EVALUATE = new OperationCode("INDICATOR_EVALUATE");
     public static final OperationCode PROCESS_COORDINATE = new OperationCode("PROCESS_COORDINATE");
     public static final OperationCode PROCESS_MANAGE = new OperationCode("PROCESS_MANAGE");
+    public static final OperationCode PROCESS_AUTHORIZE = new OperationCode("PROCESS_AUTHORIZE");
     public static final OperationCode MODEL_MANAGE = new OperationCode("MODEL_MANAGE");
     public static final OperationCode MODEL_READ = new OperationCode("MODEL_READ");
     public static final OperationCode MODEL_PUBLISH = new OperationCode("MODEL_PUBLISH");

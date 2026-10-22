@@ -1,12 +1,5 @@
 spring:
-  datasource:
-    url: ${SEC_TEST_DB_URL:jdbc:postgresql://localhost:5432/sec_unl_test}
-    username: ${SEC_TEST_DB_USER:sec_test}
-    password: ${SEC_TEST_DB_PASSWORD:}
-  jpa:
-    hibernate.ddl-auto: validate
-    open-in-view: false
-  flyway.enabled: true
+  profiles.include: sqlite-test
 sec:
   files.root: ${SEC_TEST_FILE_ROOT:${java.io.tmpdir}/sec-unl-test-files}
   demo-data: true

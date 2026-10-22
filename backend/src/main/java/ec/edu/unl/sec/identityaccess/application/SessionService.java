@@ -15,6 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +27,10 @@ public class SessionService {
     private final IdentityAccessAuditService audit;
     private final Clock clock;
     private final BCryptPasswordEncoder encoder;
+    private final String dummyHash;
     private final SecureRandom random = new SecureRandom();
 
+    @Autowired
     public SessionService(
             IdentityAccessRepository repository,
             IdentityAccessProperties properties,
@@ -45,6 +48,7 @@ public class SessionService {
         this.audit = audit;
         this.clock = clock;
         this.encoder = new BCryptPasswordEncoder(properties.getBcryptStrength());
+        this.dummyHash = encoder.encode("constant-time-authentication-placeholder");
     }
 
     @Transactional(noRollbackFor = AuthenticationRejected.class)
@@ -70,9 +74,10 @@ public class SessionService {
         }
 
         Optional<IdentityAccessRepository.LoginRecord> found = repository.findLogin(normalized);
-        boolean valid = found.isPresent()
-                && found.get().active()
-                && encoder.matches(password == null ? "" : password, found.get().bcryptHash());
+        boolean passwordMatches = encoder.matches(
+                password == null ? "" : password,
+                found.map(IdentityAccessRepository.LoginRecord::bcryptHash).orElse(dummyHash));
+        boolean valid = found.isPresent() && found.get().active() && passwordMatches;
         repository.recordAttempt(subject, sourceKey, now, valid, correlationId);
 
         if (!valid) {

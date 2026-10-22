@@ -34,9 +34,22 @@ public class ApiProblemHandler {
         return problem(HttpStatus.FORBIDDEN, "ACCESS_DENIED", "La operación no está permitida en el ámbito actual.", request, Map.of());
     }
 
+    @ExceptionHandler({org.springframework.http.converter.HttpMessageNotReadableException.class,
+            org.springframework.web.method.annotation.MethodArgumentTypeMismatchException.class,
+            org.springframework.web.bind.MissingServletRequestParameterException.class,
+            IllegalArgumentException.class})
+    ProblemDetail handleInvalidRequest(Exception exception, HttpServletRequest request) {
+        return problem(HttpStatus.BAD_REQUEST, "INVALID_REQUEST", "La solicitud contiene datos inválidos.", request, Map.of());
+    }
+
     @ExceptionHandler(Exception.class)
     ProblemDetail handleUnexpected(Exception exception, HttpServletRequest request) {
         return problem(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_ERROR", "No fue posible completar la operación.", request, Map.of());
+    }
+
+    @ExceptionHandler(org.springframework.web.HttpRequestMethodNotSupportedException.class)
+    ProblemDetail handleUnsupportedMethod(Exception exception,HttpServletRequest request) {
+        return problem(HttpStatus.METHOD_NOT_ALLOWED,"METHOD_NOT_ALLOWED","La operación no está disponible para este recurso.",request,Map.of());
     }
 
     private ProblemDetail problem(HttpStatus status, String code, String detail, HttpServletRequest request, Map<String, String> details) {

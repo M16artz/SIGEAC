@@ -32,7 +32,7 @@ sec:
     failed-attempt-limit: 5
     bcrypt-strength: 12
     cookie-secure: ${SEC_COOKIE_SECURE:false}
-    subject-hmac-secret: ${SEC_AUTH_HMAC_SECRET:synthetic-development-only-change-me}
+    subject-hmac-secret: ${SEC_AUTH_HMAC_SECRET:${random.value}}
   files:
     root: ${SEC_FILE_ROOT:./var/files}
     max-bytes: 26214400

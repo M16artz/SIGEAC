@@ -11,7 +11,7 @@
 ## Completitud de requisitos
 
 - [ ] CHK001 ¿Están definidas todas las capacidades permitidas y prohibidas para cada actor institucional, función de proceso y cuenta técnica? [Completitud, Spec §Actores, FR-003]
-- [ ] CHK002 ¿Están documentados los requisitos de cada recorrido I0–I6 desde interfaz hasta evidencia de aceptación sin depender de I7–I8? [Completitud, Spec §Escenarios, FR-040]
+- [ ] CHK002 ¿Están documentados los requisitos de P01–P11 desde interfaz hasta evidencia de aceptación sin depender de P12–P15? [Completitud, Spec §Escenarios, FR-040]
 - [ ] CHK003 ¿Se especifican todos los datos mínimos exigidos para modelo, proceso, evidencia, decisión documental, valoración y cierre? [Completitud, Spec §Entidades clave]
 - [ ] CHK004 ¿Están definidas las condiciones de creación, activación, cierre, reapertura, rectificación y sucesión para cada objeto versionado? [Completitud, Spec FR-009, FR-014, FR-019–FR-020, FR-024, FR-028, FR-032]
 - [ ] CHK005 ¿Están definidos los requisitos de consulta y descarga de archivos además de carga, remisión e integridad? [Gap, Spec FR-017–FR-020]
@@ -29,12 +29,12 @@
 - [ ] CHK011 ¿Los estados de evidencia son consistentes entre historias, requisitos, modelo de datos y efectos de una decisión documental? [Consistencia, Spec US4–US5, FR-019–FR-024]
 - [ ] CHK012 ¿Las reglas de rectificación son consistentes para decisiones documentales, valoraciones académicas y reapertura del proceso? [Consistencia, Spec FR-015, FR-024, FR-028]
 - [ ] CHK013 ¿La terminología de usuario, persona, actor, función, rol técnico y asignación se utiliza de forma canónica y no intercambiable? [Consistencia, Spec §Actores, §Entidades clave]
-- [ ] CHK014 ¿Las prioridades P0/P1/P2 son coherentes con la declaración I0–I6 MVP e I7–I8 fuera del MVP? [Consistencia, Spec §Contexto y alcance, US1–US9]
+- [ ] CHK014 ¿Las prioridades son coherentes con D1–D6 como MVP documental y D7–D8 como alcance posterior? [Consistencia, Spec §Contexto y alcance]
 - [ ] CHK015 ¿Los requisitos de informe interno evitan cualquier contradicción con las exclusiones de acreditación o acceso externo? [Consistencia, Spec FR-033–FR-034, §Exclusiones]
 
 ## Calidad de criterios de aceptación
 
-- [ ] CHK016 ¿Cada requisito FR-001–FR-042 y cada alias RF-051–RF-057 puede vincularse a por lo menos un escenario o resultado observable? [Trazabilidad, Spec §Escenarios, §Criterios de éxito]
+- [ ] CHK016 ¿Cada requisito FR-001–FR-070 puede vincularse a por lo menos un escenario o resultado observable? [Trazabilidad, Spec §Escenarios, §Criterios de éxito]
 - [ ] CHK017 ¿SC-003 define actores, datos de inicio y final del cronometraje necesarios para medir los 45 minutos? [Measurabilidad, Spec SC-003]
 - [ ] CHK018 ¿SC-007 define muestra, perfil de participantes y qué constituye “tarea principal” y “primer intento”? [Measurabilidad, Spec SC-007]
 - [ ] CHK019 ¿Los criterios p95 especifican carga, dataset, calentamiento y entorno de referencia suficientes para reproducir la medición? [Measurabilidad, Spec RNF-006–RNF-008, SC-008]
@@ -46,7 +46,7 @@
 - [ ] CHK022 ¿Se especifican estados vacío, carga y error para tableros, bandejas, historial e informes? [Gap, Spec US4–US7]
 - [ ] CHK023 ¿Están documentadas las consecuencias de retirar una asignación mientras existe trabajo en borrador o pendiente? [Cobertura, Spec §Casos límite, FR-013]
 - [ ] CHK024 ¿Se define qué ocurre cuando una evidencia aceptada es rectificada después de una valoración final o un cierre? [Cobertura, Spec §Casos límite, FR-024, FR-028, FR-032]
-- [ ] CHK025 ¿Los requisitos declaran que una falla total de I7/I8 no cambia ni bloquea ningún escenario I0–I6? [Cobertura, Spec FR-035, FR-038, SC-010]
+- [ ] CHK025 ¿Los requisitos declaran que la ausencia de P12–P15 no cambia ni bloquea el MVP documental P01–P11? [Cobertura, FR-064, SC-017]
 
 ## Casos límite y recuperación
 
@@ -73,7 +73,13 @@
 ## Trazabilidad y conflictos
 
 - [ ] CHK039 ¿Existe una relación explícita y sin huecos de cada historia a FR/RNF/SC, contrato, tarea y prueba? [Trazabilidad, Spec FR-040, Traceability]
-- [ ] CHK040 ¿Los requisitos y el plan coinciden en que I7–I8 no son dependencias del MVP ni puertas para aceptar I0–I6? [Consistencia, Spec SC-010, Plan §Fases]
+- [ ] CHK040 ¿Los requisitos y el plan coinciden en que D7–D8 no son dependencias ni puertas para aceptar D1–D6? [Consistencia, SC-017, Plan §Fases]
+
+- [ ] CHK041 ¿Toda versión de evidencia identifica las fuentes requeridas que cubre y las métricas usan esas relaciones? [Completitud, FR-051–FR-054]
+- [ ] CHK042 ¿La activación registra autorización institucional y la suspensión/reanudación conserva competencia y fundamento? [Gobierno, FR-048–FR-049]
+- [ ] CHK043 ¿Las reglas cuantitativas pertenecen al indicador e incluyen variables, unidades, fórmula, umbrales y estado de validación? [Consistencia, FR-047, FR-057]
+- [ ] CHK044 ¿Hallazgos, informes, observaciones, aprobación y mejora conservan versiones y trazabilidad? [Completitud, FR-058–FR-063]
+- [ ] CHK045 ¿Corte documental y cierre integral poseen políticas separadas y ninguno se presenta como acreditación? [Dominio, FR-064–FR-068]
 
 ## Notas
 

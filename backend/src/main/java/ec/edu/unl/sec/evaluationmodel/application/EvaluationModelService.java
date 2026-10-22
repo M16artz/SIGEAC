@@ -8,6 +8,7 @@ import java.time.Clock;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +20,7 @@ public class EvaluationModelService {
     private final EvaluationModelProperties properties;
     private final EvaluationModelAuditService audit;
     private final Clock clock;
-    public EvaluationModelService(EvaluationModelRepository repository,CurrentActorPort actors,AuthorizationPort authorization,
+    @Autowired public EvaluationModelService(EvaluationModelRepository repository,CurrentActorPort actors,AuthorizationPort authorization,
             EvaluationModelProperties properties,EvaluationModelAuditService audit){this(repository,actors,authorization,properties,audit,Clock.systemUTC());}
     EvaluationModelService(EvaluationModelRepository repository,CurrentActorPort actors,AuthorizationPort authorization,
             EvaluationModelProperties properties,EvaluationModelAuditService audit,Clock clock){this.repository=repository;this.actors=actors;this.authorization=authorization;this.properties=properties;this.audit=audit;this.clock=clock;}

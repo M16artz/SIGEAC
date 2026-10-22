@@ -4,9 +4,11 @@
 
 **Created**: 2026-10-19
 
-**Status**: Draft
+**Status**: Reconciled by feature 005
 
 **Input**: User description: "Módulo I2 selfassessment — Proceso de autoevaluación y asignaciones del Sistema de Evaluación de Carreras SEC-UNL. Un coordinador abre un proceso para la carrera piloto con período y una versión publicada del modelo, y asigna responsables, revisores y evaluadores por indicador con ámbitos explícitos y vigencias. Incluye estados borrador, activo, en cierre, cerrado y reabierto con transiciones autorizadas, inmutabilidad de la versión del modelo tras la activación y auditoría de reaperturas y cambios críticos de asignación. Un proceso cerrado no admite cambios salvo reapertura excepcional autorizada, motivada y auditada. Excluye evidencias, revisión documental, valoración académica y reportes. Requisitos de referencia: FR-011 a FR-015; RNF-011, RNF-012, RNF-018. Resultado medible: activar un proceso con modelo v1, asignar participantes y comprobar que publicar un modelo v2 no altera la referencia del proceso."
+
+> **Reconciliación**: `specs/005-complete-evaluation-workflows/spec.md` añade autorización institucional obligatoria, estado `PREPARATION`, suspensión/reanudación, equipos, actividades y fechas. Sus reglas prevalecen para P05–P06.
 
 ## User Scenarios & Testing *(mandatory)*
 

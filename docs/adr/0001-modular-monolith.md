@@ -5,7 +5,7 @@
 
 ## Contexto
 
-I0–I6 comparten transacciones, identidad y trazabilidad, pero requieren límites estrictos entre recopilación, revisión documental y valoración académica.
+P01–P16 comparten identidad y trazabilidad, pero requieren límites estrictos entre recopilación, revisión documental, valoración académica, gobierno de informes, mejora y archivo. D1–D6 deben operar sin D7–D8.
 
 ## Decisión
 

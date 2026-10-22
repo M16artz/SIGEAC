@@ -6,7 +6,9 @@
 
 **Pruebas**: obligatorias para contratos y reglas críticas según la constitución. En cada historia, escribir primero las pruebas y comprobar que fallan antes de implementar.
 
-**Organización**: US1–US9 corresponden a I0–I8. El MVP completo requiere US1–US7; US8 introduce Strategy en I7 y US9 reserva Adapter para importaciones/integraciones de I8. Ambas extensiones son posteriores y no bloqueantes.
+**Organización histórica**: US1–US9 corresponden a I0–I8. La organización canónica actual usa D1–D8 y P01–P16; D1–D6 es el MVP documental y D7–D8 es alcance posterior.
+
+> **Reconciliación 2026-10-21**: este archivo conserva el backlog histórico. El plan canónico para completar P01–P16 y el MVP documental D1–D6 está en [`specs/005-complete-evaluation-workflows/tasks.md`](../../specs/005-complete-evaluation-workflows/tasks.md). Cuando exista conflicto de alcance, dependencias o requisitos, prevalece ese paquete.
 
 ### Equivalencia con el paquete de tareas propuesto
 
@@ -93,8 +95,8 @@ Los IDs con guion recibidos en la propuesta se mapean a tareas canónicas existe
 
 **Prueba independiente**: configurar el modelo general 2024 y estructuras sintéticas representativas de Medicina, Enfermería, Odontología y Derecho; publicar v1, rechazar su modificación, crear v2 relacionada y comprobar que ningún indicador se combina entre modelos.
 
-- [ ] T040 [P] [US2] Escribir pruebas de dominio para jerarquía flexible, unicidad por versión, separación general/específica, aprobación e inmutabilidad en `backend/src/test/java/ec/edu/unl/sec/evaluationmodel/domain/ModelVersionTest.java` (FR-007–FR-010, FR-042; RF-051, RF-052, RF-055, RF-057)
-- [ ] T041 [P] [US2] Escribir pruebas contractuales de listado, detalle, versiones y publicación que exijan organismo emisor, denominación, fecha, documento fuente y, por indicador, fuentes, período, naturaleza y mecanismo en `backend/src/test/java/ec/edu/unl/sec/evaluationmodel/api/ModelContractTest.java` (FR-008; RF-051, RF-054)
+- [ ] T040 [P] [US2] Escribir pruebas de dominio para jerarquía flexible, unicidad por versión, separación general/específica, aprobación e inmutabilidad en `backend/src/test/java/ec/edu/unl/sec/evaluationmodel/domain/ModelVersionTest.java` (FR-007–FR-010, FR-042–FR-047)
+- [ ] T041 [P] [US2] Escribir pruebas contractuales de listado, detalle, versiones y publicación que exijan organismo emisor, denominación, fecha, documento fuente y, por indicador, fuentes, período, naturaleza y mecanismo en `backend/src/test/java/ec/edu/unl/sec/evaluationmodel/api/ModelContractTest.java` (FR-008, FR-044–FR-047)
 - [ ] T042 [P] [US2] Registrar fixture del modelo general 2024 y probar publicación/sucesión sin mezcla de indicadores en `tests/fixtures/models/general-2024/` y `tests/e2e/i1-model-versioning.spec.ts` (FR-009, FR-042; T-004)
 - [ ] T043 [US2] Definir el esquema relacional de catálogo, versiones, nodos jerárquicos, indicadores, fuentes, períodos, escalas, mecanismos y fórmulas en `backend/src/main/resources/db/migration/V004__evaluation_models.sql`; aplicar literalmente `(model_id, version_number)` único y pertenencia de cada nodo/indicador a una sola versión (FR-007–FR-009, FR-042; T-001)
 - [ ] T044 [US2] Implementar `EvaluationModel`, `ModelVersion` y una jerarquía arbitraria ordenada de nodos tipados, sin clases por carrera, en `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/` (FR-007; T-002)
@@ -114,9 +116,9 @@ Los IDs con guion recibidos en la propuesta se mapean a tareas canónicas existe
 **Prueba independiente**: activar proceso v1, asignar participantes y comprobar que publicar v2 no cambia su referencia.
 
 - [ ] T051 [P] [US3] Escribir pruebas de estados `DRAFT→ACTIVE→CLOSING→CLOSED` y reapertura autorizada en `backend/src/test/java/ec/edu/unl/sec/selfassessment/domain/ProcessStateTest.java` (FR-014, FR-015)
-- [ ] T052 [P] [US3] Escribir pruebas de pertenencia del indicador, asociación histórica e inmutable de la versión del modelo y conflictos de asignación en `backend/src/test/java/ec/edu/unl/sec/selfassessment/application/ProcessAssignmentTest.java` (FR-011–FR-013; RF-053)
+- [ ] T052 [P] [US3] Escribir pruebas de pertenencia del indicador, asociación histórica e inmutable de la versión del modelo y conflictos de asignación en `backend/src/test/java/ec/edu/unl/sec/selfassessment/application/ProcessAssignmentTest.java` (FR-011–FR-013, FR-048–FR-050)
 - [ ] T053 [P] [US3] Escribir recorrido E2E de creación, asignación y activación en `tests/e2e/i2-process.spec.ts`
-- [ ] T054 [US3] Crear esquema de `career`, `self_assessment_process`, `process_assignment` y `reopening_decision` en `backend/src/main/resources/db/migration/V005__self_assessment.sql`; aplicar literalmente una versión publicada por proceso, asociación inmutable desde el inicio e indicador perteneciente a esa versión (FR-011, FR-012; RF-053; T-006)
+- [ ] T054 [US3] Crear esquema de `career`, `self_assessment_process`, `process_assignment` y `reopening_decision` en `backend/src/main/resources/db/migration/V005__self_assessment.sql`; aplicar literalmente una versión publicada por proceso, asociación inmutable desde el inicio e indicador perteneciente a esa versión (FR-011, FR-012; T-006)
 - [ ] T055 [US3] Implementar agregados de carrera, proceso, asignación y reapertura en `backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/`
 - [ ] T056 [US3] Implementar políticas de transición, asignación y autorización por ámbito en `backend/src/main/java/ec/edu/unl/sec/selfassessment/application/`
 - [ ] T057 [US3] Implementar persistencia y bloqueo optimista del proceso en `backend/src/main/java/ec/edu/unl/sec/selfassessment/infrastructure/persistence/`
@@ -137,7 +139,7 @@ Los IDs con guion recibidos en la propuesta se mapean a tareas canónicas existe
 - [ ] T063 [P] [US4] Escribir pruebas de archivo para tamaño 1–26 214 400 bytes, SHA-256 de 64 hexadecimales, tipo detectado y fallas de promoción en `backend/src/test/java/ec/edu/unl/sec/filestorage/LocalFileStorageTest.java` (RNF-004, RNF-010)
 - [ ] T064 [P] [US4] Escribir pruebas contractuales de listado/detalle, historial, descarga autorizada, multipart y errores 403/413/422 en `backend/src/test/java/ec/edu/unl/sec/evidence/api/EvidenceContractTest.java`
 - [ ] T065 [P] [US4] Escribir recorrido E2E de borrador, carga, remisión y corrección en `tests/e2e/i3-evidence.spec.ts`
-- [ ] T066 [US4] Crear esquema de evidencia sin estados documentales persistidos, indicador, versión, archivo y referencia en `backend/src/main/resources/db/migration/V006__evidence.sql`; validar los requisitos documentales y fuentes declarados por el indicador de la versión asociada al proceso, además de versión remitida inmutable, predecesora de la misma evidencia y al menos un archivo o referencia antes de remitir (FR-008, FR-016–FR-020; RF-054; T-007)
+- [ ] T066 [US4] Crear esquema de evidencia sin estados documentales persistidos, indicador, versión, archivo y referencia en `backend/src/main/resources/db/migration/V006__evidence.sql`; validar requisitos y fuentes de la versión asociada, además de versión remitida inmutable, predecesora y al menos un archivo o referencia (FR-008, FR-016–FR-020, FR-051; T-007)
 - [ ] T067 [US4] Implementar agregados y estados de evidencia/versiones en `backend/src/main/java/ec/edu/unl/sec/evidence/domain/`
 - [ ] T068 [US4] Implementar adaptador local con claves opacas, staging, SHA-256, promoción y reconciliación en `backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/local/`
 - [ ] T069 [US4] Implementar casos de uso de borrador, archivo, referencia, remisión y sucesión en `backend/src/main/java/ec/edu/unl/sec/evidence/application/`
@@ -217,7 +219,7 @@ Los IDs con guion recibidos en la propuesta se mapean a tareas canónicas existe
 
 **Prueba independiente**: registrar una estrategia sintética validada, resolverla por clave/versión, rechazar estrategias ausentes o no validadas y ejecutar I0–I6 con el registro de estrategias deshabilitado.
 
-- [ ] T110 [P] [US8] Escribir pruebas de resolución por clave/versión, compatibilidad de mecanismo y rechazo de estrategias ausentes o no validadas en `backend/src/test/java/ec/edu/unl/sec/academicevaluation/strategy/EvaluationStrategyRegistryTest.java` (FR-041; RF-056)
+- [ ] T110 [P] [US8] Escribir pruebas de resolución por clave/versión, compatibilidad de mecanismo y rechazo de estrategias ausentes o no validadas en `backend/src/test/java/ec/edu/unl/sec/academicevaluation/strategy/EvaluationStrategyRegistryTest.java` (FR-041, FR-047, FR-057)
 - [ ] T111 [P] [US8] Escribir prueba de arquitectura que impida dependencias desde I0–I6 hacia implementaciones de estrategia I7 y prohíba Adapter dentro de la selección de modelos en `backend/src/test/java/ec/edu/unl/sec/architecture/ExtensionIsolationTest.java`
 - [ ] T112 [US8] Diseñar `EvaluationStrategy`, entrada/salida canónica y Factory/Registry por clave y versión en `backend/src/main/java/ec/edu/unl/sec/academicevaluation/strategy/EvaluationStrategy.java` y `backend/src/main/java/ec/edu/unl/sec/academicevaluation/strategy/EvaluationStrategyRegistry.java` (FR-041; T-008)
 - [ ] T113 [US8] Implementar las estrategias de valoración validadas y su registro explícito, sin interpretar scripts o expresiones arbitrarias, en `backend/src/main/java/ec/edu/unl/sec/academicevaluation/strategy/validated/` (FR-041; T-009)
@@ -252,7 +254,7 @@ Los IDs con guion recibidos en la propuesta se mapean a tareas canónicas existe
 - [ ] T128 [P] Ejecutar pruebas de accesibilidad/compatibilidad RNF-014–RNF-015 y guardar resultados en `tests/acceptance/results/accessibility.md`
 - [ ] T129 Validar que no existen secretos ni datos reales y guardar resultado en `tests/acceptance/results/synthetic-data.md` (RNF-019)
 - [ ] T130 [P] Completar guía técnica y manual de usuario I0–I6 en `docs/technical/index.qmd` y `docs/user/index.qmd`
-- [ ] T131 Reconciliar FR-001–FR-042, alias RF-051–RF-057, RNF-001–RNF-019 y SC-001–SC-010 con pruebas/resultados en `docs/testing/traceability.md`
+- [ ] T131 Reconciliar FR-001–FR-070, RNF-001–RNF-019 y SC-001–SC-018 con P01–P16, contratos, pruebas y resultados en `docs/testing/traceability.md`
 - [ ] T132 Ejecutar todos los escenarios de `docs/technical/quickstart.md` y registrar el acta final en `tests/acceptance/results/quickstart.md`
 - [ ] T133 Revisar constitución, CL-001–CL-010 y puertas humanas antes de aceptar el incremento en `tests/acceptance/results/review-gate.md`
 
@@ -294,7 +296,7 @@ Fases 1–2 + US1 ofrecen acceso seguro y ámbitos, pero no constituyen el MVP d
 
 ### MVP constitucional
 
-Completar Fases 1–2 y US1–US7, detenerse y validar quickstart, seguridad, rendimiento, accesibilidad, migraciones, trazabilidad y documentación. No iniciar US8/US9 para declarar completo I0–I6.
+Seguir el backlog canónico de `specs/005-complete-evaluation-workflows/tasks.md` hasta T067, detenerse y validar D1–D6. La valoración académica, hallazgos, informes, mejora y cierre integral no son puertas para aceptar el MVP documental.
 
 ### Extensiones
 

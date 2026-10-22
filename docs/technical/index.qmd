@@ -3,20 +3,37 @@
 ## Artefactos de diseño
 
 - [Especificación](../requirements/spec.md)
+- [Procesos P01–P16](../requirements/process-flows.md)
+- [Actores, decisiones y reglas de dominio](../requirements/domain-rules.md)
+- [Escenarios de aceptación por proceso](../testing/process-acceptance.md)
 - [Plan de implementación](../planning/plan.md)
+- [Siguientes pasos: módulos y funcionalidades](../planning/next-steps.md)
 - [Tareas](../planning/tasks.md)
+- [Plan canónico de finalización](../../specs/005-complete-evaluation-workflows/plan.md)
+- [Modelo de datos de finalización](../../specs/005-complete-evaluation-workflows/data-model.md)
+- [Contrato P01–P16](../../specs/005-complete-evaluation-workflows/contracts/openapi.yaml)
+- [Compatibilidad y estado del contrato objetivo](../../specs/005-complete-evaluation-workflows/contracts/README.md)
 - [Investigación](../architecture/research.md)
 - [Modelo de datos](../architecture/data-model.md)
+- [Vistas de arquitectura P01–P16](../architecture/complete-workflows.md)
+- [Transición de contratos y datos](migration-p01-p16.qmd)
 - [ADR-0001: monolito modular](../adr/0001-modular-monolith.md)
 - [ADR-0002: almacenamiento de archivos](../adr/0002-file-storage-port.md)
 - [ADR-0004: sesiones opacas y autorización por ámbito](../adr/0004-opaque-sessions-scope-authorization.md)
 - [ADR-0015: modelos configurables](../adr/0015-configurable-evaluation-models.md)
 - [ADR-0016: estrategias y adaptadores](../adr/0016-evaluation-strategies-import-adapters.md)
+- [ADR-0017: cobertura y gobierno del proceso](../adr/0017-source-coverage-and-process-governance.md)
+- [ADR-0018: compatibilidad y catálogo de carreras](../adr/0018-catalog-contract-migration-compatibility.md)
 
 ## Incrementos implementados
 
 - [I0 — Acceso y ámbitos autorizados](i0-access.qmd)
+- [D1 — Catálogo de carreras, permisos y compatibilidad](../../tests/acceptance/results/d1-careers.md)
+
+La lista anterior refleja funcionalidad aprobada, no el alcance planificado. Las
+entregas D1–D6 completan el MVP documental y D7–D8 completan evaluación,
+informes, mejora y archivo.
 
 ## Validación
 
-La [guía de validación rápida](quickstart.md) contiene los comandos locales sin Docker. Los contratos fuente se conservan en `docs/technical/contracts/` y se validan mediante `scripts/validate-contracts.ps1` o `scripts/validate-contracts.sh`.
+La [guía de validación rápida](quickstart.md) contiene los comandos locales sin Docker. La [guía de pruebas con SQLite](../testing/sqlite.md) explica su alcance auxiliar y las validaciones que deben ejecutarse sobre PostgreSQL. Los contratos fuente se conservan en `docs/technical/contracts/` y se validan mediante `scripts/validate-contracts.ps1` o `scripts/validate-contracts.sh`.

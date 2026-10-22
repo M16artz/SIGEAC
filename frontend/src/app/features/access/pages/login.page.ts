@@ -62,7 +62,7 @@ export class LoginPageComponent {
     this.session.login(username, password).pipe(finalize(() => this.submitting.set(false))).subscribe({
       next: () => {
         const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
-        void this.router.navigateByUrl(returnUrl?.startsWith('/access') ? returnUrl : '/access');
+        void this.router.navigateByUrl(returnUrl?.startsWith('/') && !returnUrl.startsWith('//') ? returnUrl : '/access');
       },
       error: (error: unknown) => this.error.set(accessErrorMessage(error))
     });

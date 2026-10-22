@@ -41,7 +41,7 @@ export class AccessApi {
   }
 
   updateUserState(userId: string, active: boolean, revision: number): Observable<ResourceView> {
-    return this.api.patch<ResourceView>(`users/${userId}`, {active}, {'If-Match': String(revision)});
+    return this.api.patch<ResourceView>(`users/${userId}`, {active}, {'If-Match': `"${revision}"`});
   }
 
   listAssignments(userId: string): Observable<readonly AssignmentView[]> {

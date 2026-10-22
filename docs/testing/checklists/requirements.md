@@ -25,14 +25,14 @@
 ## Preparación de la funcionalidad
 
 - [x] Todos los requisitos funcionales tienen escenarios o criterios de aceptación trazables
-- [x] Las historias cubren los recorridos principales I0–I8
+- [x] Las historias maestras y la reconciliación cubren P01–P16
 - [x] La funcionalidad satisface resultados medibles definidos en Criterios de éxito
 - [x] No se filtran decisiones de implementación en la especificación
 
 ## Notas
 
-- I0–I6 conforman el MVP; I7–I8 son extensiones no bloqueantes.
-- RF-051–RF-057 se reconciliaron mediante la tabla de equivalencias: cinco se fusionan con FR-007–FR-012 y dos crean FR-041–FR-042, porque el catálogo real previo contenía 40 FR.
+- D1–D6 conforman el MVP documental; D7–D8 completan valoración, informes, mejora y cierre integral.
+- FR-041–FR-070 están definidos en `specs/005-complete-evaluation-workflows/spec.md`; se eliminan los alias RF-051–RF-057 para evitar trazabilidad ambigua.
 - Las pruebas representativas de cinco modelos validan configurabilidad estructural y no presuponen la implementación de todos sus cálculos académicos.
-- CL-001–CL-010 quedan registradas para validación institucional con valores sintéticos configurables para el piloto.
+- Las decisiones institucionales abiertas quedan registradas con valores sintéticos configurables para el piloto.
 - La validación inicial se completó en una iteración y no se detectaron marcadores de plantilla pendientes.

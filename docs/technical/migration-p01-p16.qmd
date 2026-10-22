@@ -1,0 +1,107 @@
+# Transición de contratos y datos P01–P16
+
+**Estado**: compatibilidad resuelta para D1 y migración V008 implementada/probada en PostgreSQL descartable. D2–D8 siguen planificadas. No se han migrado bases institucionales.
+
+**Corrección implementada el 2026-10-21**: V007 amplía estados y transforma borradores históricos a preparación, sin inventar autorizaciones para procesos activos legados. Se comprueba en PostgreSQL desechable mediante `ProcessPreparationMigrationTest`; no es el despliegue institucional ni completa V010. El adaptador inicial usa `ProcessStartAuthorizationCommand/View` en el contrato común; `DecisionInput` de 005 sigue planificado. Véase [revisión de implementación](../testing/implementation-review.md).
+
+## Prerrequisitos y decisión de compatibilidad
+
+1. Identificar el contrato y la revisión actualmente ejecutables en el entorno objetivo.
+2. Leer el historial Flyway de ese entorno, con acceso de solo lectura, y comparar versiones/checksums con el repositorio. Documentar la revisión inspeccionada.
+3. Comparar las operaciones objetivo de 005 con el contrato común y los de 001–004; clasificar adición compatible, ruptura de esquema o diferencia pendiente.
+4. Confirmar qué tareas de 004 (carga, referencias, remisión, descarga, sucesión, reconciliación) tienen evidencia ejecutada. Los marcadores de tareas no sustituyen esa evidencia.
+5. Para cada ruptura, definir adaptación de cliente, período de transición y versión de endpoint. No asumir que cambiar el número de OpenAPI migra clientes.
+
+## Reserva propuesta de migraciones
+
+V001–V007 se conservan sin cambios. V008 corresponde al catálogo de carreras;
+004/T051 reserva **V011__evidence_immutability.sql**, después de modelos y gobierno
+de procesos y antes de las coberturas de fuentes. Se descarta la reserva antigua
+V020–V029: habría dejado migraciones prerrequisito inferiores pendientes después
+de aplicar D1. La numeración siguiente es estrictamente ascendente; no se habilita
+`out-of-order` ni se usa `repair` para eludir validaciones.
+
+| Reserva | Entrega | Contenido |
+|---|---|---|
+| V008 | D1 | Unidades académicas, carrera y relaciones históricas |
+| V009 | D2 | Procedencia, aplicabilidad, jerarquía flexible, fuentes y reglas |
+| V010 | D3 | Autorizaciones, estados, equipos, actividades y planificación |
+| V011 | D4 / 004 | Inmutabilidad de evidencias remitidas, antes de coberturas |
+| V012 | D4 | Coberturas, no aplicabilidad y modalidades de fuente |
+| V013 | D5 | Revisiones append-only y decisiones por cobertura |
+| V014 | D6 | Métricas, cortes y cierre de fase documental |
+| V015 | D7/P12 | Variables, ejecuciones, valoraciones y conciliación |
+| V016 | D7/P13–P14 | Hallazgos, versiones de informe, observaciones y aprobación |
+| V017 | D8/P15 | Planes, revisiones de acciones, avances y verificación |
+| V018 | D8/P16 | Política de cierre integral, snapshots y archivo |
+
+La numeración se confirma en T005 antes de crear los archivos. Si una versión reservada ya existe/aplica, asignar una nueva versión libre y actualizar plan/tareas. No editar checksums históricos, borrar registros Flyway ni crear migraciones vacías para llenar saltos.
+
+## Compatibilidad de contrato adoptada
+
+La [decisión ADR-0018](../adr/0018-catalog-contract-migration-compatibility.md) conserva
+las rutas y DTO existentes bajo `/api/v1`. D1 añade allí su catálogo, con definiciones
+canónicas compartidas mediante `$ref` desde el contrato común al de 005. El resto del
+contrato de 005 usa `/api/v2` como destino **planificado**, no como API disponible.
+
+| Familia | Diferencia detectada | Resolución |
+|---|---|---|
+| Carreras/unidades | No existía API; se requieren `data`, `revision>=1` y páginas con `totalElements` | Adición v1; historial paginado, ETag fuerte y estados `ACTIVE/DISABLED`. |
+| Modelos | DTO legado de nombre/descripción, jerarquía rígida y escala/fórmula global frente a procedencia/nodos/fuentes/reglas por indicador | Conservar v1; nueva estructura v2 en D2, sin traducir una fórmula documental en académica. |
+| Procesos/autorizaciones | DTO plano y autorización inicial frente a registro completo de decisiones | Conservar v1 y su auditoría; D3 migra explícitamente datos y cliente al contrato v2. |
+| Asignaciones | Persona/función frente a persona o equipo y planificación | Contrato completo v2 en D3; no aceptar cuerpos nuevos en un endpoint v1 existente. |
+| Coberturas, revisión y métricas | La evidencia ligada a indicadores no demuestra cobertura de fuentes | Nuevas operaciones objetivo v2; completar antes los contratos v1 de 004 sin romperlos. |
+| Valoraciones, informes, mejora y archivo | Esquemas de decisión/versionado más estrictos que los contratos iniciales | Destino v2 planificado; no se presentan como implementados en D1. |
+
+`node scripts/check-contract-compatibility.mjs` comprueba método + versión + ruta y
+detecta definiciones incompatibles en operaciones compartidas. Se ejecuta junto
+con los tres lints OpenAPI y AsyncAPI mediante `npm.cmd run contracts`. No sustituye
+las pruebas HTTP ni la revisión de permisos.
+
+## Migración D1 y legados
+
+V008 crea unidades, carreras y sus historiales, conserva todos los UUID referenciados
+por procesos, asignaciones y excepciones, y agrega claves foráneas restrictivas.
+Las referencias sin metadatos se importan como `DISABLED/classificationPending`,
+en una unidad técnica «pendiente de clasificación». El actor cero identifica la
+migración técnica, no una persona ni una autoridad institucional. Su clasificación
+posterior conserva la primera revisión. Solo el fixture piloto conocido puede
+reconciliarse automáticamente cuando `sec.demo-data=true`.
+
+No hay DELETE de catálogo. Las revisiones históricas son append-only; el cambio de
+unidad o estado genera una revisión, no reescribe procesos. Nuevos procesos y su
+activación requieren carrera/unidad activas y período válido. Cambiar el estado de
+una carrera no elimina las asignaciones que permiten consultar su historia.
+
+El entorno inspeccionado fue únicamente el PostgreSQL descartable local 18.4:
+`CareerCatalogMigrationTest` verifica V007→V008 y `CleanDatabaseMigrationTest` el
+esquema desde cero. Cada despliegue debe comprobar su propio historial/checksums,
+respaldar base y archivos y ensayar restauración antes de aplicar cambios.
+
+## Tratamiento de datos anteriores
+
+- Preservar UUID, autoría, fechas, predecesores, versiones de modelo y referencias históricas.
+- `DRAFT` de proceso histórico corresponde a `PREPARATION`; un `ACTIVE` histórico sin constancia se clasifica como legado pendiente de reconciliación. La migración no inventa autoridad, vigencia ni documento de inicio.
+- El estándar de un esquema rígido se conserva como nodo/definición compatible; no reasignar indicadores automáticamente a otra versión de modelo.
+- Evidencias históricas sin `RequiredSource` quedan fuera de los numeradores hasta una clasificación explícita. Esa clasificación es un registro anexo, no una modificación del contenido remitido.
+- Una aceptación histórica global no se reparte automáticamente entre fuentes nuevas. El revisor debe confirmar coberturas o registrar una decisión metodológica de migración verificable.
+- Las escalas sintéticas previas no se convierten en escalas CACES. Las fórmulas de avance no se reutilizan como fórmulas académicas.
+- El seguimiento de mejora posterior al cierre genera registros nuevos y no cambia los datos del snapshot emitido.
+
+## Verificación y recuperación
+
+Cada entrega debe verificar en una base descartable PostgreSQL: arranque desde cero, migración desde la versión aceptada anterior, restricciones, integridad referencial, datos sintéticos y lectura de históricos. La prueba local sin Docker sigue siendo obligatoria; SQLite no acredita triggers, bloqueos ni aceptación SQL.
+
+Antes de aplicar a datos persistentes, generar respaldo coordinado de base y archivos, registrar su fecha y verificar hashes. Si falla la migración, detener operaciones afectadas y restaurar ambos componentes según el procedimiento validado; no efectuar borrados ni reparaciones ad hoc del historial. El ensayo de restauración debe comprobar que ninguna versión remitida apunta a un archivo inexistente y que los snapshots conservan sus hashes.
+
+## Acta de transición por completar en implementación
+
+| Campo | Evidencia a registrar |
+|---|---|
+| Base/origen | Revisión, entorno e historial Flyway sanitizado |
+| Contrato previo/objetivo | Versiones e inventario de colisiones revisado |
+| Migraciones seleccionadas | Archivos, checksum y orden confirmado |
+| Datos reconciliados | Número de referencias, fuentes y decisiones pendientes |
+| Cliente | Ruta/versionado compatible y pruebas de regresión |
+| Recuperación | Respaldo, restauración ensayada y verificación de hashes |
+| Resultado | PASS/FAIL y limitaciones pendientes, sin afirmar pruebas no ejecutadas |

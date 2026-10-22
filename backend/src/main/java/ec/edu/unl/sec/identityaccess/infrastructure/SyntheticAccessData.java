@@ -9,6 +9,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Synthetic pilot catalog. It never contains institutional data and is disabled by default.
  */
 @Component
+@Order(1)
 @ConditionalOnProperty(prefix = "sec", name = "demo-data", havingValue = "true")
 public class SyntheticAccessData implements ApplicationRunner {
     public static final UUID PILOT_CAREER = UUID.fromString("11111111-1111-1111-1111-111111111111");
@@ -39,10 +41,12 @@ public class SyntheticAccessData implements ApplicationRunner {
     @Override
     @Transactional
     public void run(ApplicationArguments args) {
+        // Register the capability, never grant institutional authority implicitly to an existing user.
+        function(UUID.fromString("20000000-0000-0000-0000-000000000006"), "PROCESS_AUTHORITY", "Autoridad de inicio del proceso", List.of("ACCESS_READ_SELF", "PROCESS_AUTHORIZE", "CAREER_READ"));
+        functions();
         Long users = jdbc.queryForObject("select count(*) from access_identity", Long.class);
         if (users != null && users > 0) return;
 
-        functions();
         UUID admin = identity("admin", "Administrador Sintetico", "Synthetic-Admin-2026");
         UUID coordinator = identity("coordinador", "Coordinador Sintetico", "Synthetic-User-2026");
         UUID responsible = identity("responsable", "Responsable Sintetico", "Synthetic-User-2026");
@@ -66,6 +70,7 @@ public class SyntheticAccessData implements ApplicationRunner {
 
     private void functions() {
         function(FUNCTIONAL_ADMIN, "FUNCTIONAL_ADMIN", "Administrador funcional", List.of(
+                "CAREER_ADMIN", "CAREER_READ",
                 "ACCESS_READ_SELF",
                 "ACCESS_MANAGE_USERS",
                 "ACCESS_ASSIGN_SCOPE",
@@ -76,13 +81,13 @@ public class SyntheticAccessData implements ApplicationRunner {
                 "MODEL_AUDIT_READ",
                 "PROCESS_MANAGE"));
         function(COORDINATOR, "COORDINATOR", "Coordinador de autoevaluacion", List.of(
-                "ACCESS_READ_SELF", "ACCESS_READ_AUDIT", "MODEL_READ", "MODEL_PUBLISH", "MODEL_AUDIT_READ", "PROCESS_COORDINATE", "PROCESS_MANAGE"));
+                "CAREER_READ", "ACCESS_READ_SELF", "ACCESS_READ_AUDIT", "MODEL_READ", "MODEL_PUBLISH", "MODEL_AUDIT_READ", "PROCESS_COORDINATE", "PROCESS_MANAGE"));
         function(RESPONSIBLE, "RESPONSIBLE", "Responsable de evidencia", List.of(
-                "ACCESS_READ_SELF", "EVIDENCE_COLLECT"));
+                "CAREER_READ", "ACCESS_READ_SELF", "EVIDENCE_COLLECT"));
         function(REVIEWER, "REVIEWER", "Revisor documental", List.of(
-                "ACCESS_READ_SELF", "EVIDENCE_REVIEW"));
+                "CAREER_READ", "ACCESS_READ_SELF", "EVIDENCE_REVIEW"));
         function(EVALUATOR, "EVALUATOR", "Evaluador academico", List.of(
-                "ACCESS_READ_SELF", "INDICATOR_EVALUATE"));
+                "CAREER_READ", "ACCESS_READ_SELF", "INDICATOR_EVALUATE"));
     }
 
     private void function(UUID id, String code, String name, List<String> operations) {

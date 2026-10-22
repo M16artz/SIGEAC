@@ -44,4 +44,4 @@ Usar el mismo patrón para ambas variaciones confundiría dos problemas: selecci
 
 ## Trazabilidad
 
-FR-035–FR-038, FR-041; alias RF-056; tareas T110–T121.
+FR-035–FR-038 y FR-041; tareas históricas T110–T121 y plan canónico de `specs/005-complete-evaluation-workflows/tasks.md`.

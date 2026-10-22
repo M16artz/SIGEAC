@@ -10,32 +10,43 @@ website:
       - section: "Requisitos"
         contents:
           - docs/requirements/spec.md
+          - docs/requirements/process-flows.md
+          - docs/requirements/domain-rules.md
       - section: "Planificación"
         contents:
           - docs/planning/plan.md
+          - docs/planning/next-steps.md
           - docs/planning/tasks.md
+          - specs/005-complete-evaluation-workflows/plan.md
+          - specs/005-complete-evaluation-workflows/tasks.md
       - section: "Arquitectura"
         contents:
           - docs/architecture/research.md
           - docs/architecture/data-model.md
+          - docs/architecture/complete-workflows.md
           - section: "Decisiones de arquitectura"
             contents:
               - docs/adr/0001-modular-monolith.md
               - docs/adr/0002-file-storage-port.md
               - docs/adr/0015-configurable-evaluation-models.md
               - docs/adr/0016-evaluation-strategies-import-adapters.md
+              - docs/adr/0017-source-coverage-and-process-governance.md
+              - docs/adr/0018-catalog-contract-migration-compatibility.md
       - section: "Documentación técnica"
         contents:
           - docs/technical/index.qmd
           - docs/technical/quickstart.md
+          - docs/technical/migration-p01-p16.qmd
       - section: "Pruebas y calidad"
         contents:
           - docs/testing/traceability.md
+          - docs/testing/process-acceptance.md
           - docs/testing/checklists/requirements.md
           - docs/testing/checklists/governance.md
       - section: "Manual de usuario"
         contents:
           - docs/user/index.qmd
+          - docs/user/d1-careers.qmd
 
 format:
   html:

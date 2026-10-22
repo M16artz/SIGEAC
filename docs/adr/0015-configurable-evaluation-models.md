@@ -17,6 +17,8 @@ Usar un catálogo común, configurable y versionado de modelos de evaluación.
 - Una versión identifica número, fecha, autor, aprobador, estado y predecesora.
 - La estructura se guarda como una jerarquía ordenada de nodos tipados capaz de expresar criterios, subcriterios, estándares, indicadores y futuras categorías sin crear tablas por carrera.
 - Cada indicador declara fuentes de información, período de evaluación, naturaleza cualitativa o cuantitativa y mecanismo de valoración cuando corresponda.
+- Cada fuente requerida posee identidad propia y cada versión de evidencia declara explícitamente cuáles cubre; esta relación alimenta las métricas documentales.
+- Las reglas cuantitativas pertenecen al indicador e incluyen variables, unidades, fórmula, umbrales y estado de validación. La fórmula de avance documental no sustituye estas reglas.
 - Una versión publicada es inmutable. Un proceso referencia una sola versión publicada y esa asociación no cambia durante su ciclo de vida.
 - No existe fusión, herencia ni sustitución automática entre modelos. Toda composición futura requerirá una decisión explícita y otro ADR.
 
@@ -36,4 +38,4 @@ Usar un catálogo común, configurable y versionado de modelos de evaluación.
 
 ## Trazabilidad
 
-FR-007–FR-012, FR-042; alias RF-051–RF-055 y RF-057; tareas T040–T050 y T052–T054.
+FR-007–FR-012 y FR-042–FR-047; tareas históricas T040–T050/T052–T054 y plan canónico de `specs/005-complete-evaluation-workflows/tasks.md`.

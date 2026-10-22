@@ -2,6 +2,30 @@
 
 Esta sección documenta las funcionalidades aprobadas y disponibles.
 
+Los recorridos planificados y sus responsabilidades se describen en el
+[catálogo P01–P16](../requirements/process-flows.md). Una aceptación documental
+solo confirma suficiencia de una versión; no significa que el indicador cumpla
+su estándar ni que la carrera esté acreditada.
+
 ## Módulos
 
 - [Acceso y ámbitos autorizados](i0-access.qmd)
+- [Carreras y unidades académicas](d1-careers.qmd)
+
+## Módulos planificados
+
+- Modelos configurables y fuentes requeridas.
+- Procesos, autorización y planificación.
+- Evidencias, revisión y subsanación.
+- Seguimiento documental.
+- Valoración académica.
+- Hallazgos e informes.
+- Planes de mejora, cierre y archivo.
+
+## Responsabilidades y significado de los resultados
+
+La [matriz de actores](../requirements/domain-rules.md#matriz-de-responsabilidades-y-permisos) indica quién prepara, recopila, revisa, valora y aprueba. La pertenencia a un equipo no habilita todas sus operaciones: cada persona actúa con sus funciones y vigencias asignadas.
+
+El tablero separa fuentes registradas y aceptadas. Un borrador todavía no cuenta como remisión y una versión corregida vuelve a revisión. Los porcentajes documentales no equivalen al grado de cumplimiento académico. El [catálogo de estados](../requirements/domain-rules.md#estados-y-transiciones) explica cuándo puede corregirse y qué conserva el histórico.
+
+Los módulos planificados se describen para preparar el uso futuro; su disponibilidad se informa al aceptar cada entrega. Las configuraciones y competencias del piloto se identifican como sintéticas mientras no exista validación institucional.

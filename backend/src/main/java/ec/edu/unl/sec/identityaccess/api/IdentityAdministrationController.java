@@ -65,7 +65,7 @@ public class IdentityAdministrationController {
             Authentication authentication,
             HttpServletRequest request,
             @PathVariable UUID userId,
-            @RequestHeader("If-Match") String ifMatch,
+            @RequestHeader(value = "If-Match", required = false) String ifMatch,
             @Valid @RequestBody UserStateCommand body) {
         long expectedRevision = revision(ifMatch);
         long revision = administration.changeState(
@@ -135,11 +135,7 @@ public class IdentityAdministrationController {
     }
 
     private static long revision(String ifMatch) {
-        try {
-            return Long.parseLong(ifMatch.replace("\"", "").strip());
-        } catch (NumberFormatException invalid) {
-            throw new IllegalArgumentException("El encabezado If-Match debe contener una revision valida.");
-        }
+        return ec.edu.unl.sec.shared.api.EntityTagSupport.require(ifMatch);
     }
 
     public record UserCommand(

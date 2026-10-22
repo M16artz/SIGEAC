@@ -103,7 +103,7 @@ backend/
     │   └── resources/
     │       ├── application.yml
     │       ├── db/migration/V006__evidence.sql
-    │       └── db/migration/V007__evidence_immutability.sql
+    │       └── db/migration/V011__evidence_immutability.sql
     └── test/
         ├── java/ec/edu/unl/sec/evidence/
         ├── java/ec/edu/unl/sec/filestorage/

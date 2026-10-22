@@ -1,9 +1,7 @@
 package ec.edu.unl.sec.evaluationmodel.application;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
-@Component
 @ConfigurationProperties(prefix = "sec.evaluation-model")
 public record EvaluationModelProperties(String formulaSchema, String codeNormalization) {
     public EvaluationModelProperties {

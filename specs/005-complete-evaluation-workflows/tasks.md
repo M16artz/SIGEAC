@@ -1,0 +1,233 @@
+# Tasks: Flujos completos de evaluación de carreras
+
+**Input**: Design documents from `/specs/005-complete-evaluation-workflows/`
+
+**Prerequisites**: `spec.md`, `plan.md`, `research.md`, `data-model.md`, `contracts/openapi.yaml`
+
+**Tests**: obligatorias para contratos, permisos, cálculos, estados, versionado y trazabilidad.
+
+**Alcance de actualización documental**: los checks de este archivo significan trabajo implementado y validado, no documentación redactada. Las pruebas/operaciones de D1–D8 siguen pendientes mientras no exista evidencia ejecutada. Los añadidos T113–T126 se insertan en la fase correspondiente sin renumerar IDs previos.
+
+**Reglas obligatorias**: [domain-rules.md](../../docs/requirements/domain-rules.md) y [process-acceptance.md](../../docs/testing/process-acceptance.md). Los criterios AC-X01–AC-X16 y AC-P01-01–AC-P16-03 completan las tareas de prueba.
+
+**Revisión del código existente (2026-10-21)**: [implementation-review.md](../../docs/testing/implementation-review.md) registra correcciones de autorización inicial, estados, permisos, ETags y borradores. Son avances parciales; no completan por sí solos las tareas ni las entregas de este plan.
+
+**Siguiente ejecución**: seguir la [hoja de ruta de módulos y funcionalidades](../../docs/planning/next-steps.md). Empezar por T113 → T005 → T115, completar bases necesarias y entregar US1/D1; D2 puede prepararse en paralelo. Conservar los 126 IDs y sus checks hasta disponer de evidencia de cierre. Las capacidades y verificaciones transversales se extienden por entrega; los módulos académicos no bloquean el MVP.
+
+## Phase 1: Setup and reconciliation
+
+**D1 técnico cerrado**: T005/T113/T115 y T013–T020 cuentan con evidencia en `tests/acceptance/results/d1-careers.md`. T002/T009/T012 avanzaron solo en D1 y siguen abiertos para las demás entregas. Los módulos D2–D8, 004 y la aceptación institucional no se dan por terminados.
+
+- [ ] T001 Reconcile FR-001–FR-070, SC-001–SC-018 and P01–P16 in `docs/testing/traceability.md`
+- [X] T113 Review endpoint/schema collisions between `specs/005-complete-evaluation-workflows/contracts/openapi.yaml` and `docs/technical/contracts/openapi.yaml`; record compatibility/versioning decisions in `docs/technical/migration-p01-p16.qmd` before T002, without replacing implemented schemas silently
+- [ ] T002 Merge the completion contract surface incrementally per delivery into `docs/technical/contracts/openapi.yaml` after T113 and update affected client schemas without silent breaking changes
+- [ ] T003 [P] Add `governance`, `improvement` and `archive` module boundaries to `backend/src/test/java/ec/edu/unl/sec/architecture/ModuleArchitectureTest.java`
+- [ ] T004 [P] Add frontend routes/placeholders for careers, reports, improvement and archive in `frontend/src/app/app.routes.ts`
+- [X] T005 Define the forward-only migration sequence in `docs/technical/migration-p01-p16.qmd`; V008 implements careers, V009/V010 reserve models/governance and V011 evidence immutability before V012–V018; verify V001–V008 on the disposable PostgreSQL history without out-of-order or repair
+- [ ] T006 Add synthetic normative manifests for the five supplied models in `tests/fixtures/models/normative-manifest.json`
+- [ ] T114 [P] Produce a source-by-source verification manifest with exact pages, edition and unresolved applicability for the five models and UNL instruction in `tests/fixtures/models/normative-verification.json`; link unresolved CL-011–CL-017 to institutional owners without claiming approval
+
+## Phase 2: Foundational governance
+
+- [ ] T007 [P] Add policy-backed institutional authority types in `backend/src/main/java/ec/edu/unl/sec/identityaccess/domain/InstitutionalAuthority.java`
+- [ ] T008 [P] Add append-only decision metadata value object in `backend/src/main/java/ec/edu/unl/sec/shared/domain/DecisionProvenance.java`
+- [ ] T009 Extend existing capabilities for careers, authorizations, reports, improvement and archive in `backend/src/main/java/ec/edu/unl/sec/identityaccess/domain/OperationCode.java` per delivery; preserve `PROCESS_AUTHORIZE` and do not create a duplicate capability catalog
+- [ ] T010 Extend scoped authorization tests for all P01–P16 operations in `backend/src/test/java/ec/edu/unl/sec/identityaccess/application/CompleteWorkflowAuthorizationTest.java`
+- [ ] T011 Extend RFC 9457 error codes for applicability, unvalidated rules and closure blockers in `backend/src/main/java/ec/edu/unl/sec/shared/api/ApiProblemHandler.java`
+- [ ] T012 Add migration tests from each accepted schema and from clean PostgreSQL in `backend/src/test/java/ec/edu/unl/sec/migration/CompleteWorkflowMigrationTest.java`
+- [X] T115 Establish the prerequisite gate for unfinished I0–I3 paths, list T027–T088 from `specs/004-submit-evidence/tasks.md` that remain necessary, and record evidence in `tests/acceptance/results/p01-p16-prerequisites.md`; D4 cannot pass until upload, reference, submit, download, successor and recovery contracts are executable
+
+## Phase 3: US1 — Careers and scopes (D1, P01–P02)
+
+**Independent Test**: create, update and deactivate a referenced career while preserving history and scoped access.
+
+- [X] T013 [P] [US1] Add contract and authorization tests for career CRUD/deactivation in `backend/src/test/java/ec/edu/unl/sec/selfassessment/api/CareerControllerTest.java`
+- [X] T014 [P] [US1] Add unique-code, unit-membership and no-delete domain tests in `backend/src/test/java/ec/edu/unl/sec/selfassessment/domain/CareerTest.java`
+- [X] T015 [US1] Create forward migration for `academic_unit` and career lifecycle fields in `backend/src/main/resources/db/migration/V008__career_catalog.sql`
+- [X] T016 [US1] Implement `AcademicUnit` in `backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/AcademicUnit.java` and `Career` in `backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/Career.java`; enforce "Código normalizado único; una carrera referenciada solo se desactiva."
+- [X] T017 [US1] Implement scoped career administration in `backend/src/main/java/ec/edu/unl/sec/selfassessment/application/CareerAdministrationService.java`
+- [X] T018 [US1] Implement career API endpoints in `backend/src/main/java/ec/edu/unl/sec/selfassessment/api/CareerController.java`
+- [X] T019 [US1] Implement accessible career catalog and deactivation flow in `frontend/src/app/features/careers/pages/career-catalog.page.ts`
+- [X] T020 [US1] Record D1 acceptance evidence in `tests/acceptance/results/d1-careers.md`
+
+## Phase 4: US2 — Configurable models (D2, P03–P04)
+
+**Independent Test**: publish the five configurations with variable hierarchies, required sources and per-indicator methods using one engine.
+
+- [ ] T021 [P] [US2] Add recursive hierarchy and direct-indicator tests in `backend/src/test/java/ec/edu/unl/sec/evaluationmodel/domain/FlexibleModelHierarchyTest.java`
+- [ ] T022 [P] [US2] Add source/rule publication tests including variables, units, thresholds and unvalidated strategies in `backend/src/test/java/ec/edu/unl/sec/evaluationmodel/application/CompleteModelPublicationTest.java`
+- [ ] T023 [P] [US2] Add five-model fixture acceptance tests in `backend/src/test/java/ec/edu/unl/sec/evaluationmodel/application/FiveModelConfigurationTest.java`
+- [ ] T024 [US2] Create migration for normative applicability, recursive node types, required sources and valuation rules in `backend/src/main/resources/db/migration/V009__complete_evaluation_models.sql`
+- [ ] T025 [US2] Replace rigid publication validation in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/PublicationValidator.java` and update existing callers in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/EvaluationModelService.java` and `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/infrastructure/ModelCatalogAdapter.java` without duplicating publication services
+- [ ] T026 [US2] Implement indicator definitions in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/IndicatorDefinition.java` and required sources in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/RequiredSource.java`, enforcing "Código único por indicador; `cardinality_min >= 1`; máximo nulo o >= mínimo."; preserve per-indicator scales/rules and "Solo una regla `VALIDATED` puede calcular automáticamente."
+- [ ] T027 [US2] Implement normative applicability service without inferring vigency in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/ModelApplicabilityService.java`
+- [ ] T028 [US2] Extend model API schemas/controllers in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/api/EvaluationModelController.java`
+- [ ] T029 [US2] Extend the existing model editor for hierarchy, sources and rules in `frontend/src/app/features/models/pages/model-editor.page.ts` and its DTOs in `frontend/src/app/features/models/data-access/model.models.ts`
+- [ ] T030 [US2] Validate and document the five fixture manifests in `tests/acceptance/results/d2-five-models.md`
+- [ ] T116 [US2] Implement `NormativeReference` and career applicability with verification status, source/disposition links per indicator and forward-only persistence in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/NormativeReference.java` and `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/infrastructure/JpaNormativeReferenceRepository.java`; prove unresolved institutional applicability blocks activation in `backend/src/test/java/ec/edu/unl/sec/evaluationmodel/application/NormativeApplicabilityTest.java` before accepting T030
+
+## Phase 5: US3 — Authorization and planning (D3, P05–P06)
+
+**Independent Test**: keep a process in preparation until authorized, then assign teams/activities, suspend and resume it.
+
+- [ ] T031 [P] [US3] Add state/authorization/suspension tests in `backend/src/test/java/ec/edu/unl/sec/selfassessment/domain/AuthorizedProcessLifecycleTest.java`
+- [ ] T032 [P] [US3] Add assignment, due-date and conflict tests in `backend/src/test/java/ec/edu/unl/sec/selfassessment/application/ProcessPlanningServiceTest.java`
+- [ ] T033 [US3] Create migration for authorizations, suspension decisions, teams and activities in `backend/src/main/resources/db/migration/V010__process_governance.sql`
+- [ ] T034 [US3] Extend process states and transition policy in `backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/SelfAssessmentProcess.java`
+- [ ] T035 [US3] Complete policy-backed authorization and suspension by extending `backend/src/main/java/ec/edu/unl/sec/selfassessment/application/SelfAssessmentService.java`, `backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessTransitionService.java` and the existing `backend/src/main/java/ec/edu/unl/sec/identityaccess/application/InstitutionalAuthorityPort.java`; reconcile initial authorization snapshots without inventing legacy decisions
+- [ ] T036 [US3] Implement teams, activities and deadlines in `backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessPlanningService.java`
+- [ ] T037 [US3] Extend authorization endpoints in `backend/src/main/java/ec/edu/unl/sec/selfassessment/api/SelfAssessmentController.java` and add planning endpoints in `backend/src/main/java/ec/edu/unl/sec/selfassessment/api/ProcessGovernanceController.java` according to T113 compatibility decisions; never register duplicate route mappings
+- [ ] T038 [US3] Implement process authorization and planning UI in `frontend/src/app/features/processes/pages/process-planning.page.ts`
+- [ ] T039 [US3] Record D3 acceptance evidence in `tests/acceptance/results/d3-process-planning.md`
+- [ ] T117 [US3] Validate individual team membership, exactly one user/team per assignment, dependency-cycle rejection and deadline exceptions in `backend/src/test/java/ec/edu/unl/sec/selfassessment/application/TeamPlanningIntegrityTest.java`; implement the corresponding rules and API revisions in `backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessPlanningService.java` before T039
+
+## Phase 6: US4 — Required-source coverage (D4, P07–P08)
+
+**Independent Test**: submit evidence for three of four applicable sources and preserve explicit coverage per immutable version.
+
+- [ ] T040 [P] [US4] Add source-coverage domain and authorization tests in `backend/src/test/java/ec/edu/unl/sec/evidence/domain/SourceCoverageTest.java`
+- [ ] T041 [P] [US4] Add applicability-decision tests in `backend/src/test/java/ec/edu/unl/sec/evidence/application/ApplicabilityDecisionServiceTest.java`
+- [ ] T042 [P] [US4] Add API tests rejecting foreign/incompatible required sources in `backend/src/test/java/ec/edu/unl/sec/evidence/api/EvidenceSourceCoverageControllerTest.java`
+- [ ] T043 [US4] Create migration for `source_coverage` and `applicability_decision` in `backend/src/main/resources/db/migration/V012__source_coverage.sql`
+- [ ] T044 [US4] Implement `SourceCoverage` and invariants in `backend/src/main/java/ec/edu/unl/sec/evidence/domain/SourceCoverage.java`
+- [ ] T045 [US4] Require explicit coverage during submission in `backend/src/main/java/ec/edu/unl/sec/evidence/application/SubmitEvidenceService.java`
+- [ ] T046 [US4] Implement applicability decisions in `backend/src/main/java/ec/edu/unl/sec/evidence/application/ApplicabilityDecisionService.java`
+- [ ] T047 [US4] Add source selection and reuse controls in `frontend/src/app/features/evidence/ui/evidence-source-coverage.component.ts`
+- [ ] T048 [US4] Extend immutable version detail with coverage snapshots in `frontend/src/app/features/evidence/pages/evidence-version.page.ts`
+- [ ] T049 [US4] Record D4 acceptance evidence in `tests/acceptance/results/d4-source-coverage.md`
+- [ ] T118 [US4] Implement typed structured-data/institutional-reference snapshots, period/unit validation, API and editor support in `backend/src/main/java/ec/edu/unl/sec/evidence/application/StructuredEvidenceService.java`, `backend/src/main/java/ec/edu/unl/sec/evidence/api/StructuredEvidenceController.java` and `frontend/src/app/features/evidence/ui/structured-evidence.component.ts`; verify AC-X16 in `backend/src/test/java/ec/edu/unl/sec/evidence/application/StructuredEvidenceServiceTest.java` before T049
+
+## Phase 7: US5 — Review and correction (D5, P09–P10)
+
+**Independent Test**: reject v1, submit v2, accept v2 and prove no academic evaluation was created.
+
+- [ ] T050 [P] [US5] Add separation, self-review and rectification tests in `backend/src/test/java/ec/edu/unl/sec/documentreview/domain/CompleteDocumentReviewTest.java`
+- [ ] T051 [P] [US5] Add review-inbox and coverage-projection API tests in `backend/src/test/java/ec/edu/unl/sec/documentreview/api/DocumentReviewControllerTest.java`
+- [ ] T052 [US5] Create append-only review migration in `backend/src/main/resources/db/migration/V013__document_review.sql`, adapting rather than duplicating any historical schema already applied
+- [ ] T053 [US5] Implement review decision and rectification services in `backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewService.java`
+- [ ] T054 [US5] Link correction successors to the triggering review in `backend/src/main/java/ec/edu/unl/sec/evidence/application/CreateEvidenceSuccessorService.java`
+- [ ] T055 [US5] Implement reviewer inbox and decision history UI in `frontend/src/app/features/reviews/pages/document-review-inbox.page.ts`
+- [ ] T056 [US5] Add v1 rejected → v2 accepted acceptance journey in `tests/acceptance/document-review-correction.spec.ts`
+- [ ] T057 [US5] Record D5 acceptance evidence in `tests/acceptance/results/d5-document-review.md`
+- [ ] T119 [US5] Persist review outcomes per coverage and derive global status without duplicating evidence state in `backend/src/main/java/ec/edu/unl/sec/documentreview/domain/CoverageReviewOutcome.java` and `backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/JpaDocumentReviewRepository.java`; verify AC-X06–AC-X07 and no inherited acceptance in `backend/src/test/java/ec/edu/unl/sec/documentreview/application/CoverageReviewProjectionTest.java` before T057
+
+## Phase 8: US6 — Documentary tracking (D6, P11 and basic P16) 🎯 MVP
+
+**Independent Test**: calculate 75% collection and 50% review for four applicable sources and close a documentary snapshot with P12–P15 disabled.
+
+- [ ] T058 [P] [US6] Add exact-formula and zero-denominator tests in `backend/src/test/java/ec/edu/unl/sec/reporting/domain/DocumentaryProgressCalculatorTest.java`
+- [ ] T059 [P] [US6] Add scope-filtered drill-down tests in `backend/src/test/java/ec/edu/unl/sec/reporting/application/DocumentaryProgressQueryTest.java`
+- [ ] T060 [P] [US6] Add documentary-closure independence tests in `backend/src/test/java/ec/edu/unl/sec/reporting/application/DocumentaryClosureServiceTest.java`
+- [ ] T061 [US6] Create progress and documentary snapshot migration in `backend/src/main/resources/db/migration/V014__documentary_reporting.sql`
+- [ ] T062 [US6] Implement source-based calculator in `backend/src/main/java/ec/edu/unl/sec/reporting/domain/DocumentaryProgressCalculator.java`
+- [ ] T063 [US6] Implement scoped drill-down query in `backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentaryProgressQueryService.java`
+- [ ] T064 [US6] Implement documentary closure snapshot in `backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentaryClosureService.java`
+- [ ] T065 [US6] Implement collection/review dashboard with academic status separate in `frontend/src/app/features/reporting/pages/documentary-dashboard.page.ts`
+- [ ] T066 [US6] Implement documentary closure and historical view in `frontend/src/app/features/reporting/pages/documentary-closure.page.ts`
+- [ ] T067 [US6] Run MVP with P12–P15 disabled and record SC-017 in `tests/acceptance/results/d6-documentary-mvp.md`
+- [ ] T120 [US6] Verify distinct sources, cardinality, optional/excluded sources, successor cutoffs, rounding and snapshot-vs-closure transitions in `backend/src/test/java/ec/edu/unl/sec/reporting/application/DocumentarySnapshotSemanticsTest.java`; apply `domain-rules.md` to `backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentaryClosureService.java` before T067
+
+## Phase 9: US7 — Academic evaluation (D7, P12)
+
+**Independent Test**: complete one qualitative and one validated quantitative evaluation; reject missing variables and unvalidated rules.
+
+- [ ] T068 [P] [US7] Add qualitative/quantitative rule tests in `backend/src/test/java/ec/edu/unl/sec/academicevaluation/domain/IndicatorValuationRuleTest.java`
+- [ ] T069 [P] [US7] Add variable verification and strategy registry tests in `backend/src/test/java/ec/edu/unl/sec/academicevaluation/application/AcademicCalculationServiceTest.java`
+- [ ] T070 [US7] Create migration for variable values, calculation runs and disagreements in `backend/src/main/resources/db/migration/V015__academic_evaluation_rules.sql`
+- [ ] T071 [US7] Implement variable capture and verification in `backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/VariableValueService.java`
+- [ ] T072 [US7] Implement validated calculation execution in `backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicCalculationService.java`
+- [ ] T073 [US7] Extend manual evaluation with method/limitations in `backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicEvaluationService.java`
+- [ ] T074 [US7] Add academic evaluation endpoints in `backend/src/main/java/ec/edu/unl/sec/academicevaluation/api/AcademicEvaluationController.java`
+- [ ] T075 [US7] Implement qualitative and quantitative evaluation UI in `frontend/src/app/features/evaluations/pages/indicator-evaluation.page.ts`
+- [ ] T076 [US7] Record D7/P12 acceptance evidence in `tests/acceptance/results/d7-academic-evaluation.md`
+- [ ] T121 [US7] Implement discrepancy capture/resolution and invalidated-support flags with preserved prior valuations in `backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicReconciliationService.java`, `backend/src/main/java/ec/edu/unl/sec/academicevaluation/api/AcademicReconciliationController.java` and `frontend/src/app/features/evaluations/pages/academic-disagreement.page.ts`; test AC-X11 in `backend/src/test/java/ec/edu/unl/sec/academicevaluation/application/AcademicReconciliationServiceTest.java` before T076
+
+## Phase 10: US8 — Findings and reports (D7, P13–P14)
+
+**Independent Test**: create findings, preliminary report, observations, final report and approval decision with full traceability.
+
+- [ ] T077 [P] [US8] Add finding linkage and no-arbitrary-aggregation tests in `backend/src/test/java/ec/edu/unl/sec/governance/domain/FindingTest.java`
+- [ ] T078 [P] [US8] Add report version/approval tests including no-accreditation language in `backend/src/test/java/ec/edu/unl/sec/governance/application/ReportWorkflowServiceTest.java`
+- [ ] T079 [US8] Create migration for findings, report versions, observations and approval decisions in `backend/src/main/resources/db/migration/V016__findings_reports.sql`
+- [ ] T080 [US8] Implement finding consolidation in `backend/src/main/java/ec/edu/unl/sec/governance/application/FindingService.java`
+- [ ] T081 [US8] Implement report workflow and append-only decisions in `backend/src/main/java/ec/edu/unl/sec/governance/application/ReportWorkflowService.java`
+- [ ] T082 [US8] Implement findings/report endpoints in `backend/src/main/java/ec/edu/unl/sec/governance/api/ReportController.java`
+- [ ] T083 [US8] Implement findings and report workflow UI in `frontend/src/app/features/reports/pages/report-workflow.page.ts`
+- [ ] T084 [US8] Add preliminary → observations → final → approved journey in `tests/acceptance/report-workflow.spec.ts`
+- [ ] T085 [US8] Record P13–P14 acceptance evidence in `tests/acceptance/results/d7-reports.md`
+- [ ] T122 [US8] Complete socialization, observation replies, corrected-version linkage and version-specific authority decisions in `backend/src/main/java/ec/edu/unl/sec/governance/application/ReportWorkflowService.java` and `frontend/src/app/features/reports/pages/report-workflow.page.ts`; prove emitted content remains immutable in `backend/src/test/java/ec/edu/unl/sec/governance/application/IssuedReportImmutabilityTest.java` before T085
+
+## Phase 11: US9 — Improvement plans (D8, P15)
+
+**Independent Test**: turn a weakness into an approved action, track progress, expire it and preserve revisions.
+
+- [ ] T086 [P] [US9] Add action lifecycle, versioning and deadline tests in `backend/src/test/java/ec/edu/unl/sec/improvement/domain/ImprovementActionTest.java`
+- [ ] T087 [P] [US9] Add finding-link and authorization API tests in `backend/src/test/java/ec/edu/unl/sec/improvement/api/ImprovementControllerTest.java`
+- [ ] T088 [US9] Create migration for plans, actions, progress and verification in `backend/src/main/resources/db/migration/V017__improvement.sql`
+- [ ] T089 [US9] Implement plan/action workflow in `backend/src/main/java/ec/edu/unl/sec/improvement/application/ImprovementPlanService.java`
+- [ ] T090 [US9] Implement progress and verification in `backend/src/main/java/ec/edu/unl/sec/improvement/application/ActionProgressService.java`
+- [ ] T091 [US9] Implement improvement endpoints in `backend/src/main/java/ec/edu/unl/sec/improvement/api/ImprovementController.java`
+- [ ] T092 [US9] Implement improvement dashboard UI in `frontend/src/app/features/improvement/pages/improvement-plan.page.ts`
+- [ ] T093 [US9] Record P15 acceptance evidence in `tests/acceptance/results/d8-improvement.md`
+- [ ] T123 [US9] Enforce separate approval/execution/verification capabilities and append-only progress after evaluation closure when policy permits in `backend/src/main/java/ec/edu/unl/sec/improvement/application/ActionProgressService.java`; test overdue derivation and immutable closure in `backend/src/test/java/ec/edu/unl/sec/improvement/application/PostClosureImprovementTest.java` before T093
+
+## Phase 12: US10 — Integral closure and archive (D8, P16)
+
+**Independent Test**: block incomplete closure, authorize an exception, archive/restore the snapshot and create a separate later process.
+
+- [ ] T094 [P] [US10] Add closure-policy and exception tests in `backend/src/test/java/ec/edu/unl/sec/archive/domain/IntegralClosurePolicyTest.java`
+- [ ] T095 [P] [US10] Add archive authorization, integrity and historical-query tests in `backend/src/test/java/ec/edu/unl/sec/archive/application/ArchiveServiceTest.java`
+- [ ] T096 [US10] Create migration for closure policies, snapshots and archive records in `backend/src/main/resources/db/migration/V018__integral_archive.sql`
+- [ ] T097 [US10] Implement integral closure service in `backend/src/main/java/ec/edu/unl/sec/archive/application/IntegralClosureService.java`
+- [ ] T098 [US10] Implement archive and historical query service in `backend/src/main/java/ec/edu/unl/sec/archive/application/ArchiveService.java`
+- [ ] T099 [US10] Implement closure/archive endpoints in `backend/src/main/java/ec/edu/unl/sec/archive/api/ArchiveController.java`
+- [ ] T100 [US10] Implement closure blockers and historical UI in `frontend/src/app/features/archive/pages/process-archive.page.ts`
+- [ ] T101 [US10] Add backup/restore integrity journey in `tests/acceptance/archive-restore.spec.ts`
+- [ ] T102 [US10] Record P16 acceptance evidence in `tests/acceptance/results/d8-archive.md`
+- [ ] T124 [US10] Implement policy-specific closure preview/blockers and controlled reopening from documentary or integral closure in `backend/src/main/java/ec/edu/unl/sec/archive/application/IntegralClosureService.java` and `backend/src/main/java/ec/edu/unl/sec/archive/api/ArchiveController.java`; test retained exceptions and integrity failures in `backend/src/test/java/ec/edu/unl/sec/archive/application/ClosureReopeningPolicyTest.java` before T102
+
+## Phase 13: Cross-cutting verification and documentation
+
+- [ ] T103 [P] Update technical manuals for D1–D8 in `docs/technical/index.qmd`
+- [ ] T104 [P] Update role-based user manuals for P01–P16 in `docs/user/index.qmd`
+- [ ] T105 [P] Add accessibility journeys for new screens in `tests/e2e/accessibility-complete-workflows.spec.ts`
+- [ ] T106 [P] Add performance datasets and paginated query checks in `tests/performance/complete-workflows.js`
+- [ ] T107 Validate the merged OpenAPI contract with project scripts and Postman CLI, recording results in `tests/acceptance/results/contracts-p01-p16.md`
+- [ ] T108 Run clean and incremental migration verification through V018 in `tests/acceptance/results/migrations-p01-p16.md`
+- [ ] T109 Verify no secrets or institutional data in fixtures/results using `scripts/verify-synthetic-data.ps1`
+- [ ] T110 Execute `specs/005-complete-evaluation-workflows/quickstart.md` and record results in `tests/acceptance/results/p01-p16-quickstart.md`
+- [ ] T111 Complete human governance review for normative provenance, competencies and no-accreditation wording in `tests/acceptance/results/p01-p16-review-gate.md`
+- [ ] T112 Finalize requirement-to-test-to-result mapping in `docs/testing/traceability.md`
+- [ ] T125 [P] Automate the 48 AC-Pxx and 16 AC-X scenarios relevant to each accepted delivery with synthetic fixtures in `tests/acceptance/complete-workflows.spec.ts`; preserve PASS/FAIL/SKIPPED evidence in `tests/acceptance/results/process-acceptance.md` before T110
+- [ ] T126 Verify the current C4/module diagrams and contract permissions against accepted code, and record unresolved differences in `docs/architecture/complete-workflows.md`; documentation of a planned module does not satisfy architecture tests or implementation acceptance
+
+## Dependencies and delivery order
+
+```text
+Foundation → (D1 + D2) → D3 → D4 → D5 → D6 (MVP accepted) → D7 → D8
+```
+
+- D1 and D2 may proceed in parallel after Phase 2.
+- D3 requires active careers and published models.
+- D4 requires D3; D5 requires D4; D6 requires D2–D5.
+- Stop and accept the documentary MVP after T067.
+- D7 begins after the D6 acceptance checkpoint, requires accepted documentary inputs and is not required by D6.
+- D8 requires findings/reports from D7 for the full path; archive infrastructure tests can begin earlier.
+
+## Parallel opportunities
+
+- Contract, domain and UI tests marked `[P]` can be written in parallel within each story.
+- D1 and D2 can be implemented concurrently.
+- After the P12 model stabilizes, P13 reporting UI and P15 domain scaffolding can proceed in different modules.
+- Documentation, accessibility and performance work can proceed after each contract stabilizes.
+
+T113 precedes T002 (both affect the common contract). T114 and T115 precede implementation of dependent stories. T116–T124 must finish before accepting their respective deliveries even though their stable IDs were appended later. T125 precedes final validation T110. Parallel markers do not authorize editing the same contract/file concurrently.
+
+## Implementation strategy
+
+1. Preserve completed work and introduce only forward migrations.
+2. Implement and validate one delivery at a time.
+3. Treat T067 as the MVP acceptance gate.
+4. Do not begin automated academic calculations until their rule and strategy are validated.
+5. Complete D7 and D8 without changing documentary metrics or historical snapshots.
+

@@ -95,6 +95,7 @@ export interface AuditSearch {
 export const PILOT_CAREER_ID = '11111111-1111-1111-1111-111111111111';
 export const PILOT_CONFLICT_POLICY_ID = '30000000-0000-0000-0000-000000000001';
 export const PILOT_ROLES = [
+  {code: 'PROCESS_AUTHORITY', name: 'Autoridad de inicio del proceso'},
   {code: 'FUNCTIONAL_ADMIN', name: 'Administrador funcional'},
   {code: 'COORDINATOR', name: 'Coordinador de autoevaluación'},
   {code: 'RESPONSIBLE', name: 'Responsable de evidencia'},

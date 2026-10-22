@@ -5,8 +5,13 @@ const scriptsDir = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(scriptsDir, '..');
 const binDir = path.join(root, 'frontend', 'node_modules', '.bin');
 const executable = (name) => path.join(binDir, process.platform === 'win32' ? `${name}.cmd` : name);
+const globalContract = path.join(root, 'docs', 'technical', 'contracts', 'openapi.yaml');
+const evidenceContract = path.join(root, 'specs', '004-submit-evidence', 'contracts', 'openapi.yaml');
 const commands = [
-  [executable('redocly'), ['lint', path.join(root, 'docs', 'technical', 'contracts', 'openapi.yaml')]],
+  [executable('redocly'), ['lint', globalContract]],
+  [executable('redocly'), ['lint', evidenceContract]],
+  [executable('redocly'), ['lint', path.join(root,'specs','005-complete-evaluation-workflows','contracts','openapi.yaml')]],
+  [process.execPath, [path.join(root,'scripts','check-contract-compatibility.mjs')]],
   [executable('asyncapi'), ['validate', path.join(root, 'docs', 'technical', 'contracts', 'events-asyncapi.yaml')]]
 ];
 for (const [command, args] of commands) {

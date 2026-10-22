@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:sqlite:${SEC_SQLITE_PATH:./target/sec-unl-test.sqlite}
+    driver-class-name: org.sqlite.JDBC
+    hikari:
+      # SQLite is an auxiliary single-writer profile; concurrency acceptance uses PostgreSQL.
+      maximum-pool-size: 1
+      minimum-idle: 1
+      connection-init-sql: PRAGMA foreign_keys=ON
+  jpa:
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
+    hibernate.ddl-auto: none
+    open-in-view: false
+  flyway.enabled: false
+  sql.init:
+    mode: always
+    schema-locations: classpath:db/sqlite/schema.sql
+sec:
+  demo-data: true
+  files.root: ${SEC_TEST_FILE_ROOT:${java.io.tmpdir}/sec-unl-sqlite-files}

@@ -11,9 +11,16 @@ Validate the complete synthetic journey required by SC-001: submit v1 with a fil
 - I1/I2 acceptance data: one published synthetic model, one active synthetic process and at least two indicator snapshots assigned to the responsible user.
 - Writable local file root outside PostgreSQL, configured with `SEC_FILE_ROOT`.
 - Synthetic fixtures under `tests/fixtures/pilot/evidence/`; no institutional files, identities, URIs or secrets.
-- The implementation-specific migration order through `V007__evidence_immutability.sql` is available from a clean database.
+- Once implemented, the migration order through `V011__evidence_immutability.sql` is available from a clean database. V007 contains process preparation/suspension and V008 the career catalog; V009/V010 are reserved for models/process governance. Confirm V011 availability before creating the evidence migration; never introduce an unapplied lower version after the installed version.
 
 The integrated scenario must stop if I0–I2 are not operational. Domain and storage test suites may run earlier using explicit doubles, but I3 must not invent replacement identity/process rules.
+
+The `sqlite-test` profile provides a compatible schema and synthetic users,
+process and indicator assignments for the fast I3 suite. Follow
+[the SQLite testing guide](../../docs/testing/sqlite.md) to run it. SQLite is
+not an acceptance database: storage, migration, trigger-based immutability and
+concurrency evidence in this quickstart must still be produced with disposable
+PostgreSQL.
 
 ## 1. Validate the contract
 
@@ -66,6 +73,7 @@ $env:SEC_DB_URL='jdbc:postgresql://localhost:5432/sec_unl'
 $env:SEC_DB_USER='sec_app'
 $env:SEC_DB_PASSWORD='<local-development-secret>'
 $env:SEC_FILE_ROOT=(Resolve-Path '.\var\files').Path
+$env:SEC_DEMO_DATA='true'
 Set-Location backend
 .\mvnw.cmd spring-boot:run
 ```

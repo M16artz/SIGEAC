@@ -4,9 +4,9 @@
 
 **Created**: 2026-10-19
 
-**Status**: Draft
+**Status**: Reconciled by feature 005
 
-**Input**: User description: "Módulo I1 evaluationmodel — Modelo de evaluación versionado del Sistema de Evaluación de Carreras SEC-UNL. Un administrador funcional registra y publica una versión inmutable del modelo con jerarquía de criterios, estándares e indicadores, escala de valoración y fórmula de avance. Antes de publicar se exige fuente, autor, aprobador distinto del autor, al menos un criterio, al menos un estándar por criterio, al menos un indicador por estándar, códigos únicos por tipo dentro de la versión, una escala con al menos una opción y una fórmula de avance válida. La versión publicada no puede modificarse; toda corrección crea una nueva versión relacionada. Incluye consulta y comparación de versiones y auditoría de creación, publicación, sustitución y consulta. Excluye procesos, asignaciones, evidencias, revisión documental y valoración académica. Requisitos de referencia: FR-007 a FR-010; RNF-011, RNF-012, RNF-018. Resultado medible: publicar la versión 1, rechazar su modificación directa y crear la versión 2 conservando relación y procedencia."
+**Input**: Modelo versionado con jerarquía flexible, fuentes y mecanismos por indicador. La reconciliación P01–P16 de `specs/005-complete-evaluation-workflows/spec.md` prevalece ante contradicción.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -16,13 +16,13 @@ Como administrador funcional autorizado, quiero registrar una versión en borrad
 
 **Why this priority**: El borrador concentra la definición que debe revisarse y validarse antes de quedar disponible como referencia inmutable.
 
-**Independent Test**: Con datos sintéticos se crea un modelo y una primera versión en borrador, se incorporan criterios con estándares e indicadores, una escala y una fórmula, y se comprueba que todo puede consultarse en el orden registrado.
+**Independent Test**: Crear una versión con nodos de profundidad variable, indicadores directos o anidados, fuentes requeridas y metodologías cualitativas/cuantitativas; comprobar su orden y aislamiento.
 
 **Acceptance Scenarios**:
 
 1. **Given** un administrador funcional autorizado, **When** crea una versión en borrador con denominación, fuente y autor identificados, **Then** la versión recibe una identidad propia, número de versión y estado de borrador.
-2. **Given** una versión en borrador, **When** registra criterios, estándares e indicadores con sus códigos y orden, **Then** la consulta reproduce la jerarquía completa sin mezclar nodos de otras versiones.
-3. **Given** una versión en borrador, **When** registra una escala con opciones y una fórmula de avance identificable, **Then** ambas quedan vinculadas exclusivamente a esa versión.
+2. **Given** una versión en borrador, **When** registra nodos tipados con padre opcional, **Then** la consulta reproduce la jerarquía completa sin exigir subcriterio o estándar intermedio.
+3. **Given** un indicador, **When** registra fuentes, período, naturaleza, escala o regla aplicable, **Then** todos quedan vinculados exclusivamente a ese indicador y versión.
 4. **Given** dos administradores que parten de la misma revisión del borrador, **When** ambos intentan guardar cambios, **Then** se detecta el cambio concurrente y ninguno sobrescribe silenciosamente el trabajo del otro.
 
 ---
@@ -37,7 +37,7 @@ Como administrador funcional habilitado para aprobar, quiero publicar únicament
 
 **Acceptance Scenarios**:
 
-1. **Given** una versión con fuente y autor, al menos un criterio, al menos un estándar en cada criterio, al menos un indicador en cada estándar, códigos únicos por tipo, una escala no vacía y una fórmula válida, **When** una persona distinta del autor la aprueba y publica, **Then** la versión queda publicada con autor, aprobador y fecha de publicación identificables.
+1. **Given** una versión con procedencia, autor, jerarquía válida, indicadores alcanzables, fuentes requeridas y metodología correspondiente a cada indicador, **When** una persona distinta del autor la aprueba y publica, **Then** queda publicada con autor, aprobador y fecha identificables.
 2. **Given** una versión que incumple una o más condiciones de publicación, **When** se solicita publicarla, **Then** la operación se rechaza y se informan todas las condiciones incumplidas que la persona está autorizada a conocer.
 3. **Given** que el autor y el aprobador son la misma identidad, **When** se solicita publicar, **Then** la publicación se rechaza aunque el contenido esté completo.
 4. **Given** códigos repetidos entre dos nodos del mismo tipo y versión, **When** se solicita publicar, **Then** la publicación se rechaza; el mismo código en tipos diferentes no constituye por sí solo una duplicidad.
@@ -95,7 +95,7 @@ Como responsable autorizado de control, quiero consultar la trazabilidad de crea
 
 ### Edge Cases
 
-- Un criterio no contiene estándares o un estándar no contiene indicadores: el borrador puede guardarse incompleto, pero no publicarse.
+- Un indicador depende directamente de un criterio o de un nivel intermedio variable: es válido si no existe ciclo y la versión define esa relación.
 - Una versión contiene códigos repetidos con diferencias de mayúsculas o espacios no significativos: se consideran duplicados según la forma normalizada usada por el catálogo.
 - Dos tipos distintos reutilizan el mismo código: no existe conflicto de unicidad porque la regla se aplica separadamente por tipo dentro de la versión.
 - La jerarquía contiene un nodo sin padre válido, un ciclo o un nodo asociado a otra versión: la versión no puede publicarse.
@@ -113,7 +113,8 @@ Como responsable autorizado de control, quiero consultar la trazabilidad de crea
 **Included**:
 
 - Registro del modelo y de versiones en borrador, publicadas o sustituidas.
-- Jerarquía ordenada de criterios, estándares e indicadores por versión.
+- Bosque ordenado de nodos tipados de profundidad variable por versión.
+- Fuentes requeridas, período, naturaleza y mecanismo por indicador.
 - Escala de valoración y opciones asociadas a la versión.
 - Definición y validación previa de una fórmula de avance vinculada a la versión.
 - Publicación, inmutabilidad y creación de versiones sucesoras relacionadas.
@@ -132,9 +133,9 @@ Como responsable autorizado de control, quiero consultar la trazabilidad de crea
 
 ### Functional Requirements
 
-- **FR-007 — Estructura versionada**: El sistema DEBE representar cada versión mediante una jerarquía ordenada de criterios, estándares e indicadores, una escala de valoración y una fórmula de avance; cada elemento DEBE pertenecer a una sola versión, tener identidad estable dentro de ella y poder consultarse o compararse sin mezclar contenido de otras versiones.
-- **FR-008 — Validación de publicación**: Antes de publicar, el sistema DEBE exigir fuente, autor, aprobador distinto del autor, al menos un criterio, al menos un estándar por criterio, al menos un indicador por estándar, códigos únicos por tipo dentro de la versión, una escala con al menos una opción y una fórmula válida; la solicitud DEBE rechazarse informando todas las condiciones incumplidas que el solicitante esté autorizado a conocer.
-- **FR-008a — Validez de fórmula**: Para publicación, una fórmula DEBE estar identificada, declarar los resultados de avance que produce, usar únicamente elementos definidos en la misma versión, producir un resultado determinista para iguales entradas, establecer el tratamiento de elementos no aplicables o de totales iguales a cero y superar casos sintéticos representativos; esta validación NO implica ejecutar la fórmula sobre un proceso ni establecer una fórmula institucional definitiva.
+- **FR-007 — Estructura versionada**: El sistema DEBE representar cada versión mediante un bosque ordenado de nodos tipados y profundidad variable; cada elemento pertenece a una sola versión y puede consultarse sin mezclar modelos.
+- **FR-008 — Validación de publicación**: Antes de publicar, el sistema DEBE exigir procedencia, autor, aprobador distinto, jerarquía sin ciclos, al menos un indicador alcanzable, códigos únicos y fuentes requeridas/metodología completas por indicador.
+- **FR-008a — Validez de reglas**: Una regla cuantitativa DEBE declarar variables, unidades, fórmula, umbrales, datos faltantes y casos límite; una regla cualitativa DEBE declarar escala y método. La fórmula de avance documental es independiente.
 - **FR-009 — Inmutabilidad y sucesión**: Una versión publicada DEBE ser inmutable en su fuente, estructura, escala, fórmula, autoría, aprobación y datos de publicación; toda corrección DEBE originar un nuevo borrador con número e identidad propios, relación explícita con su predecesora y procedencia conservada. Designar una sucesora como sustituta NO DEBE eliminar ni modificar la versión anterior.
 - **FR-010 — Consulta, comparación y auditoría**: El sistema DEBE permitir a personas autorizadas consultar una versión y comparar dos versiones del mismo modelo, identificando adiciones, eliminaciones y modificaciones; además DEBE registrar de forma inmutable creación, publicación, sustitución, consulta, comparación y rechazos críticos con actor, fecha, acción, versión, resultado y correlación.
 
@@ -148,9 +149,8 @@ Como responsable autorizado de control, quiero consultar la trazabilidad de crea
 
 - **Modelo de evaluación**: Identidad lógica y denominación del modelo que agrupa sus versiones sin combinar su contenido.
 - **Versión del modelo**: Instantánea numerada con estado, fuente, autor, aprobador, fechas y relación opcional con una versión precedente; es editable solo como borrador e inmutable al publicarse.
-- **Criterio**: Nivel superior de la jerarquía de una versión; tiene código, denominación, descripción y orden, y contiene uno o más estándares para poder publicar.
-- **Estándar**: Nivel subordinado a un criterio de la misma versión; tiene código, denominación, descripción y orden, y contiene uno o más indicadores para poder publicar.
-- **Indicador**: Unidad terminal de la jerarquía de una versión; tiene código, denominación, descripción, orden y las propiedades necesarias para ser referenciado posteriormente sin formar parte todavía de un proceso.
+- **Nodo de modelo**: Elemento tipado, ordenado y con padre opcional dentro de una versión; puede representar criterio, subcriterio, estándar, indicador u otra categoría validada.
+- **Indicador**: Nodo evaluable con estándar, naturaleza, período, fuentes requeridas, escala y regla de valoración aplicables.
 - **Escala de valoración**: Conjunto identificado y ordenado de opciones perteneciente a una versión; en I1 se define, pero no se utiliza para emitir valoraciones académicas.
 - **Opción de escala**: Alternativa identificada dentro de una escala, con código, etiqueta y orden inequívoco; puede incluir un valor declarado sin atribuirle equivalencia institucional no validada.
 - **Fórmula de avance**: Definición identificada y validable de los resultados de avance, sus entradas y el tratamiento de casos límite; en I1 se publica con el modelo, pero no se ejecuta sobre procesos.
@@ -163,7 +163,7 @@ Como responsable autorizado de control, quiero consultar la trazabilidad de crea
 ### Measurable Outcomes
 
 - **SC-001**: En el recorrido de aceptación se publica la versión 1, se rechaza el 100 % de los intentos de modificar directamente cualquiera de sus componentes y se crea la versión 2 conservando relación con la versión 1, fuente y procedencia de ambas.
-- **SC-002**: El 100 % de los casos de publicación que omiten por turno fuente, autor, aprobador distinto, criterio, estándar, indicador, unicidad de códigos, opción de escala o fórmula válida se rechaza y señala las condiciones incumplidas sin publicar parcialmente.
+- **SC-002**: El 100 % de casos que omiten procedencia, revisión independiente, indicador alcanzable, fuente requerida o metodología exigible se rechaza sin publicación parcial.
 - **SC-003**: El 100 % de las comparaciones de prueba entre dos versiones del mismo modelo clasifica correctamente cada diferencia conocida como adición, eliminación, modificación o ausencia de cambio, sin alterar las versiones comparadas.
 - **SC-004**: El 100 % de los conflictos concurrentes de prueba evita sobrescrituras silenciosas y conserva una versión íntegra del borrador para que la persona pueda revisar o reintentar su cambio.
 - **SC-005**: El 100 % de las creaciones, publicaciones, sustituciones, consultas, comparaciones y rechazos críticos del recorrido de aceptación tiene un evento de auditoría correlacionable, ordenable e inmutable para usuarios ordinarios.

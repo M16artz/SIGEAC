@@ -1,0 +1,58 @@
+# Carreras y unidades académicas
+
+Estado: funcionalidad D1 disponible y verificada con datos sintéticos. No acredita
+validación institucional del catálogo ni de los modelos de evaluación.
+
+## Acceder y consultar
+
+1. Inicie sesión y abra **Carreras** en la navegación.
+2. Use «Buscar unidades» o «Buscar carreras» y los controles de página.
+3. Consulte el estado y, en carreras, «Historial» y sus páginas.
+
+Los usuarios con `CAREER_READ` solo ven carreras de su ámbito y unidades vinculadas
+a ellas. Los conteos también están filtrados. No tener acceso produce un mensaje
+de denegación, no un listado de datos ajenos. Una cuenta técnica no administra el catálogo.
+
+## Registrar y editar
+
+Se requiere `CAREER_ADMIN`, capacidad explícita de catálogo global. No concede
+autorización de procesos, revisión documental ni decisiones académicas.
+
+1. Registre una unidad con código y nombre.
+2. Registre una carrera: código, nombre, unidad activa y fecha inicial de vigencia;
+   la fecha final es opcional y no puede preceder a la inicial.
+3. Para cambiar nombre, código, unidad o vigencia, seleccione «Editar carrera» y guarde.
+4. Compruebe el historial: la nueva revisión no elimina la anterior ni modifica
+   las referencias de procesos existentes.
+
+Los códigos se normalizan a mayúsculas y no admiten duplicados. Si hay muchas
+unidades, búsquela antes de seleccionarla en el formulario de carrera.
+
+## Desactivar y reactivar
+
+Escriba un motivo de 10 a 4000 caracteres y utilice la acción de estado del
+registro. No existe eliminación física desde la interfaz o la API.
+
+- Una carrera desactivada mantiene sus procesos, asignaciones e historial.
+- No puede crear ni activar nuevos procesos sobre una carrera desactivada,
+  pendiente de clasificación o fuera de vigencia.
+- Una unidad con carreras activas no puede desactivarse: primero reasigne o
+  desactive esas carreras.
+- Para reactivar una carrera, su unidad debe estar activa y sus datos clasificados.
+- Un registro «pendiente de clasificación» conserva una referencia técnica antigua;
+  no representa un catálogo institucional ya corroborado. Complete sus datos
+  antes de reactivarlo.
+
+## Cambios concurrentes y errores
+
+Cada cambio usa la revisión consultada. Si otro usuario modifica el registro,
+la operación se rechaza sin sobrescribirlo. Conserve sus cambios deseados,
+recargue el catálogo y vuelva a seleccionar «Editar» sobre la revisión actual.
+
+Otros errores habituales son código duplicado, unidad inactiva, fechas inválidas,
+permiso insuficiente o motivo incompleto. Una operación fallida no debe mostrarse
+como guardada. La creación de procesos permite buscar y seleccionar carreras
+activas; ya no requiere un UUID precargado.
+
+La [evidencia técnica D1](../../tests/acceptance/results/d1-careers.md) detalla las
+pruebas ejecutadas y los límites de la entrega.
