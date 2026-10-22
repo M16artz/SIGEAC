@@ -58,8 +58,8 @@ export class ApiClient {
     );
   }
 
-  delete<T>(path: string): Observable<T> {
-    return this.http.delete<T>(this.url(path)).pipe(catchError((error: unknown) => this.handle(error)));
+  delete<T>(path: string, headers?: Readonly<Record<string, string>>): Observable<T> {
+    return this.http.delete<T>(this.url(path), {headers}).pipe(catchError((error: unknown) => this.handle(error)));
   }
 
   private url(path: string): string {

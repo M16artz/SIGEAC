@@ -96,6 +96,61 @@ CREATE TABLE IF NOT EXISTS model_progress_formula (
     id TEXT PRIMARY KEY, version_id TEXT NOT NULL UNIQUE REFERENCES model_version(id), code TEXT NOT NULL,
     schema_version TEXT NOT NULL, definition_json TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS normative_reference (
+    id TEXT PRIMARY KEY, title TEXT NOT NULL, issuer TEXT, edition TEXT, document_reference TEXT NOT NULL,
+    document_sha256 TEXT, pages TEXT, disposition TEXT, verification_status TEXT NOT NULL,
+    verified_by TEXT REFERENCES access_identity(id), verified_at TEXT,
+    CHECK (verification_status <> 'PENDING_VALIDATION' OR (disposition IS NULL AND verified_by IS NULL AND verified_at IS NULL)),
+    CHECK (verification_status <> 'VERIFIED' OR (issuer IS NOT NULL AND edition IS NOT NULL AND disposition IS NOT NULL
+        AND document_sha256 IS NOT NULL AND verified_by IS NOT NULL AND verified_at IS NOT NULL))
+);
+CREATE TABLE IF NOT EXISTS model_node (
+    id TEXT PRIMARY KEY, version_id TEXT NOT NULL REFERENCES model_version(id), parent_id TEXT REFERENCES model_node(id),
+    code TEXT NOT NULL, name TEXT NOT NULL, description TEXT NOT NULL DEFAULT '', position INTEGER NOT NULL,
+    node_type TEXT NOT NULL, UNIQUE(version_id, code), UNIQUE(id, version_id), UNIQUE(parent_id, position)
+);
+CREATE TABLE IF NOT EXISTS indicator_normative_reference (
+    model_version_id TEXT NOT NULL REFERENCES model_version(id), indicator_node_id TEXT NOT NULL,
+    normative_reference_id TEXT NOT NULL REFERENCES normative_reference(id), source_pages TEXT, disposition TEXT,
+    PRIMARY KEY (model_version_id, indicator_node_id, normative_reference_id),
+    FOREIGN KEY (indicator_node_id, model_version_id) REFERENCES model_node(id, version_id)
+);
+CREATE TABLE IF NOT EXISTS required_source (
+    id TEXT PRIMARY KEY, version_id TEXT NOT NULL REFERENCES model_version(id), indicator_node_id TEXT NOT NULL,
+    code TEXT NOT NULL, source_type TEXT NOT NULL, name TEXT NOT NULL, description TEXT NOT NULL DEFAULT '',
+    required INTEGER NOT NULL, cardinality_min INTEGER NOT NULL, cardinality_max INTEGER,
+    period_rule TEXT NOT NULL, ordinal INTEGER NOT NULL, UNIQUE(indicator_node_id, code),
+    UNIQUE(indicator_node_id, ordinal),
+    FOREIGN KEY (indicator_node_id, version_id) REFERENCES model_node(id, version_id)
+);
+CREATE TABLE IF NOT EXISTS valuation_rule (
+    id TEXT PRIMARY KEY, version_id TEXT NOT NULL REFERENCES model_version(id), indicator_node_id TEXT NOT NULL,
+    rule_type TEXT NOT NULL, method_definition TEXT NOT NULL, formula_definition TEXT, strategy_key TEXT,
+    strategy_version TEXT, scale_id TEXT, missing_data_policy TEXT NOT NULL, status TEXT NOT NULL,
+    UNIQUE(id, version_id),
+    FOREIGN KEY (indicator_node_id, version_id) REFERENCES model_node(id, version_id)
+);
+CREATE TABLE IF NOT EXISTS valuation_variable (
+    version_id TEXT NOT NULL REFERENCES model_version(id), rule_id TEXT NOT NULL, code TEXT NOT NULL,
+    name TEXT NOT NULL, unit TEXT NOT NULL, data_type TEXT NOT NULL, required INTEGER NOT NULL,
+    validation_definition TEXT NOT NULL, ordinal INTEGER NOT NULL, PRIMARY KEY (rule_id, code),
+    UNIQUE(rule_id, ordinal), FOREIGN KEY (rule_id, version_id) REFERENCES valuation_rule(id, version_id)
+);
+CREATE TABLE IF NOT EXISTS valuation_threshold (
+    version_id TEXT NOT NULL REFERENCES model_version(id), rule_id TEXT NOT NULL, rating_option_id TEXT NOT NULL,
+    lower_bound NUMERIC, upper_bound NUMERIC, lower_inclusive INTEGER NOT NULL, upper_inclusive INTEGER NOT NULL,
+    PRIMARY KEY (rule_id, rating_option_id),
+    FOREIGN KEY (rule_id, version_id) REFERENCES valuation_rule(id, version_id)
+);
+CREATE TABLE IF NOT EXISTS model_career_applicability (
+    id TEXT PRIMARY KEY, model_version_id TEXT NOT NULL REFERENCES model_version(id),
+    career_id TEXT NOT NULL REFERENCES career(id), status TEXT NOT NULL, valid_from TEXT NOT NULL, valid_until TEXT,
+    authority_function TEXT NOT NULL, legal_basis TEXT NOT NULL, document_reference TEXT NOT NULL,
+    reason TEXT NOT NULL, predecessor_id TEXT REFERENCES model_career_applicability(id),
+    revision INTEGER NOT NULL, decided_by TEXT NOT NULL REFERENCES access_identity(id), decided_at TEXT NOT NULL,
+    UNIQUE(model_version_id, career_id, revision),
+    CHECK (valid_until IS NULL OR valid_until >= valid_from)
+);
 
 CREATE TABLE IF NOT EXISTS self_assessment_process (
     id TEXT PRIMARY KEY, career_id TEXT NOT NULL, code TEXT NOT NULL, name TEXT NOT NULL,
@@ -108,19 +163,52 @@ CREATE TABLE IF NOT EXISTS process_indicator (
     process_id TEXT NOT NULL REFERENCES self_assessment_process(id), indicator_id TEXT NOT NULL,
     code TEXT NOT NULL, name TEXT NOT NULL, PRIMARY KEY(process_id, indicator_id)
 );
+CREATE TABLE IF NOT EXISTS process_team (
+    id TEXT PRIMARY KEY, process_id TEXT NOT NULL REFERENCES self_assessment_process(id), name TEXT NOT NULL,
+    process_role TEXT NOT NULL, valid_from TEXT NOT NULL, valid_until TEXT NOT NULL, created_by TEXT NOT NULL,
+    created_at TEXT NOT NULL, revision INTEGER NOT NULL DEFAULT 0, CHECK (valid_from < valid_until)
+);
+CREATE TABLE IF NOT EXISTS team_membership (
+    id TEXT PRIMARY KEY, team_id TEXT NOT NULL REFERENCES process_team(id), user_id TEXT NOT NULL,
+    role_assignment_id TEXT NOT NULL, valid_from TEXT NOT NULL, valid_until TEXT NOT NULL,
+    created_by TEXT NOT NULL, created_at TEXT NOT NULL, CHECK (valid_from < valid_until)
+);
 CREATE TABLE IF NOT EXISTS process_assignment (
     id TEXT PRIMARY KEY, process_id TEXT NOT NULL REFERENCES self_assessment_process(id), indicator_id TEXT NOT NULL,
-    identity_id TEXT NOT NULL, function_code TEXT NOT NULL, valid_from TEXT NOT NULL, valid_to TEXT NOT NULL,
-    created_by TEXT NOT NULL, reason TEXT NOT NULL DEFAULT '', revoked_at TEXT, revision INTEGER NOT NULL DEFAULT 0
+    identity_id TEXT, team_id TEXT REFERENCES process_team(id), function_code TEXT NOT NULL,
+    valid_from TEXT NOT NULL, valid_to TEXT NOT NULL, created_by TEXT NOT NULL, reason TEXT NOT NULL DEFAULT '',
+    revoked_at TEXT, revision INTEGER NOT NULL DEFAULT 0,
+    CHECK ((identity_id IS NOT NULL) <> (team_id IS NOT NULL))
+);
+CREATE TABLE IF NOT EXISTS process_authorization (
+    id TEXT PRIMARY KEY, process_id TEXT NOT NULL REFERENCES self_assessment_process(id),
+    decision_type TEXT NOT NULL, authority_assignment_id TEXT NOT NULL, legal_basis TEXT NOT NULL,
+    document_reference TEXT NOT NULL, reason TEXT NOT NULL, decided_by TEXT NOT NULL, decided_at TEXT NOT NULL
 );
 CREATE TABLE IF NOT EXISTS process_transition (
     id TEXT PRIMARY KEY, process_id TEXT NOT NULL REFERENCES self_assessment_process(id), from_state TEXT NOT NULL,
     to_state TEXT NOT NULL, actor_id TEXT NOT NULL, reason TEXT NOT NULL DEFAULT '', occurred_at TEXT NOT NULL,
-    correlation_id TEXT NOT NULL, resulting_revision INTEGER NOT NULL
+    correlation_id TEXT NOT NULL, resulting_revision INTEGER NOT NULL, authority_assignment_id TEXT,
+    legal_basis TEXT, document_reference TEXT
 );
 CREATE TABLE IF NOT EXISTS process_closure (
     id TEXT PRIMARY KEY, process_id TEXT NOT NULL REFERENCES self_assessment_process(id), closed_at TEXT NOT NULL,
     closed_by TEXT NOT NULL, reopened_at TEXT, reopened_by TEXT, reopen_reason TEXT
+);
+CREATE TABLE IF NOT EXISTS process_activity (
+    id TEXT PRIMARY KEY, process_id TEXT NOT NULL REFERENCES self_assessment_process(id), indicator_id TEXT NOT NULL,
+    required_source_id TEXT, assignment_id TEXT NOT NULL REFERENCES process_assignment(id), title TEXT NOT NULL,
+    due_at TEXT NOT NULL, status TEXT NOT NULL, created_by TEXT NOT NULL, created_at TEXT NOT NULL,
+    revision INTEGER NOT NULL DEFAULT 0, snapshot_json TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS process_activity_dependency (
+    activity_id TEXT NOT NULL REFERENCES process_activity(id),
+    depends_on_activity_id TEXT NOT NULL REFERENCES process_activity(id),
+    PRIMARY KEY (activity_id, depends_on_activity_id), CHECK (activity_id <> depends_on_activity_id)
+);
+CREATE TABLE IF NOT EXISTS process_activity_revision (
+    id TEXT PRIMARY KEY, activity_id TEXT NOT NULL REFERENCES process_activity(id), revision INTEGER NOT NULL,
+    snapshot_json TEXT NOT NULL, recorded_at TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS evidence (
@@ -165,6 +253,37 @@ CREATE TABLE IF NOT EXISTS file_recovery_operation (
     safe_reason TEXT, correlation_id TEXT NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS source_coverage (
+    id BLOB PRIMARY KEY, version_id BLOB NOT NULL REFERENCES evidence_version(id),
+    required_source_id BLOB NOT NULL, coverage_note TEXT NOT NULL, declared_by BLOB NOT NULL,
+    declared_at TEXT NOT NULL, UNIQUE(version_id, required_source_id)
+);
+CREATE INDEX IF NOT EXISTS ix_source_coverage_version ON source_coverage(version_id);
+
+CREATE TABLE IF NOT EXISTS applicability_decision (
+    id BLOB PRIMARY KEY, process_id BLOB NOT NULL REFERENCES self_assessment_process(id),
+    subject_type TEXT NOT NULL CHECK (subject_type IN ('INDICATOR','REQUIRED_SOURCE')),
+    subject_id BLOB NOT NULL, decision TEXT NOT NULL CHECK (decision IN ('APPLICABLE','NOT_APPLICABLE')),
+    rule_reference TEXT NOT NULL, justification TEXT NOT NULL, legal_basis TEXT NOT NULL,
+    document_reference TEXT NOT NULL, authorized_by BLOB NOT NULL,
+    decided_at TEXT NOT NULL, predecessor_id BLOB REFERENCES applicability_decision(id),
+    revision INTEGER NOT NULL, UNIQUE(process_id, subject_type, subject_id, revision)
+);
+CREATE INDEX IF NOT EXISTS ix_applicability_decision_subject
+    ON applicability_decision(process_id, subject_type, subject_id, revision);
+
+CREATE TABLE IF NOT EXISTS evidence_structured_value (
+    id BLOB PRIMARY KEY, version_id BLOB NOT NULL REFERENCES evidence_version(id),
+    required_source_id BLOB NOT NULL,
+    kind TEXT NOT NULL CHECK (kind IN ('STRUCTURED_DATA','INSTITUTIONAL_REFERENCE')),
+    value_type TEXT NOT NULL CHECK (value_type IN ('NUMBER','STRING','BOOLEAN')),
+    value_text TEXT NOT NULL, unit TEXT, period_start TEXT NOT NULL, period_end TEXT NOT NULL,
+    reference TEXT, created_by BLOB NOT NULL, created_at TEXT NOT NULL,
+    UNIQUE(version_id, required_source_id), CHECK (period_start <= period_end)
+);
+CREATE INDEX IF NOT EXISTS ix_evidence_structured_value_version
+    ON evidence_structured_value(version_id);
+
 CREATE TABLE IF NOT EXISTS academic_unit (
     id TEXT PRIMARY KEY,code TEXT NOT NULL UNIQUE,name TEXT NOT NULL,status TEXT NOT NULL CHECK(status IN ('ACTIVE','DISABLED')),
     revision INTEGER NOT NULL CHECK(revision>=1),created_by TEXT NOT NULL,created_at TEXT NOT NULL
@@ -192,80 +311,3 @@ FROM (SELECT career_id AS id FROM self_assessment_process UNION SELECT career_id
 INSERT OR IGNORE INTO academic_unit_history SELECT id,revision,json_object('id',id,'data',json_object('code',code,'name',name),'status',status,'revision',revision,'createdBy',created_by,'createdAt',created_at),created_by,created_at,'LEGACY_REFERENCE_RECONCILIATION' FROM academic_unit;
 INSERT OR IGNORE INTO career_history SELECT id,revision,json_object('id',id,'data',json_object('code',code,'name',name,'academicUnitId',academic_unit_id,'validFrom',valid_from,'validUntil',valid_until),'status',status,'revision',revision,'createdBy',created_by,'createdAt',created_at,'classificationPending',json('true')),created_by,created_at,'LEGACY_REFERENCE_RECONCILIATION' FROM career WHERE classification_pending=1;
 
-CREATE TABLE IF NOT EXISTS model_node (
-    id TEXT NOT NULL, version_id TEXT NOT NULL REFERENCES model_version(id), parent_id TEXT,
-    node_type TEXT NOT NULL CHECK (node_type IN ('CRITERION','SUBCRITERION','STANDARD','INDICATOR')),
-    code TEXT NOT NULL, title TEXT NOT NULL, description TEXT NOT NULL DEFAULT '',
-    ordinal INTEGER NOT NULL CHECK (ordinal>0), mandatory INTEGER NOT NULL DEFAULT 1, weight NUMERIC,
-    PRIMARY KEY (id, version_id), UNIQUE (version_id, code),
-    FOREIGN KEY (parent_id, version_id) REFERENCES model_node(id, version_id)
-);
-CREATE INDEX IF NOT EXISTS ix_model_node_version ON model_node(version_id, parent_id, ordinal);
-CREATE TABLE IF NOT EXISTS model_indicator_definition (
-    node_id TEXT NOT NULL, version_id TEXT NOT NULL REFERENCES model_version(id),
-    nature TEXT NOT NULL CHECK (nature IN ('QUALITATIVE','QUANTITATIVE')), standard_text TEXT NOT NULL,
-    fundamental_elements_json TEXT NOT NULL DEFAULT '[]', evaluation_period_definition TEXT NOT NULL,
-    rating_scale_json TEXT,
-    PRIMARY KEY (node_id, version_id),
-    FOREIGN KEY (node_id, version_id) REFERENCES model_node(id, version_id)
-);
-CREATE TABLE IF NOT EXISTS model_required_source (
-    id TEXT NOT NULL, node_id TEXT NOT NULL, version_id TEXT NOT NULL REFERENCES model_version(id),
-    code TEXT NOT NULL, name TEXT NOT NULL, description TEXT NOT NULL DEFAULT '',
-    source_type TEXT NOT NULL CHECK (source_type IN ('FILE','EXTERNAL_LINK','STRUCTURED_DATA','INSTITUTIONAL_REFERENCE')),
-    required INTEGER NOT NULL DEFAULT 1, cardinality_min INTEGER NOT NULL CHECK (cardinality_min>=1),
-    cardinality_max INTEGER CHECK (cardinality_max IS NULL OR cardinality_max>=cardinality_min),
-    period_rule TEXT NOT NULL, ordinal INTEGER NOT NULL CHECK (ordinal>0),
-    PRIMARY KEY (id, version_id), UNIQUE (node_id, code), UNIQUE (node_id, ordinal),
-    FOREIGN KEY (node_id, version_id) REFERENCES model_node(id, version_id)
-);
-CREATE TABLE IF NOT EXISTS model_valuation_rule (
-    id TEXT NOT NULL, node_id TEXT NOT NULL, version_id TEXT NOT NULL REFERENCES model_version(id),
-    rule_type TEXT NOT NULL CHECK (rule_type IN ('MANUAL_QUALITATIVE','QUANTITATIVE')), method_definition TEXT NOT NULL,
-    formula_definition TEXT, strategy_key TEXT, strategy_version TEXT, missing_data_policy TEXT NOT NULL,
-    status TEXT NOT NULL CHECK (status IN ('DRAFT','VALIDATED','DEPRECATED')),
-    PRIMARY KEY (id, version_id),
-    FOREIGN KEY (node_id, version_id) REFERENCES model_node(id, version_id)
-);
-CREATE TABLE IF NOT EXISTS model_valuation_variable (
-    id TEXT NOT NULL, rule_id TEXT NOT NULL, version_id TEXT NOT NULL REFERENCES model_version(id),
-    code TEXT NOT NULL, name TEXT NOT NULL, unit TEXT NOT NULL, data_type TEXT NOT NULL,
-    required INTEGER NOT NULL DEFAULT 1, validation_definition TEXT NOT NULL,
-    PRIMARY KEY (id, version_id), UNIQUE (rule_id, code),
-    FOREIGN KEY (rule_id, version_id) REFERENCES model_valuation_rule(id, version_id)
-);
-CREATE TABLE IF NOT EXISTS model_valuation_threshold (
-    id TEXT NOT NULL, rule_id TEXT NOT NULL, version_id TEXT NOT NULL REFERENCES model_version(id),
-    rating_option_id TEXT NOT NULL, lower_bound NUMERIC, upper_bound NUMERIC,
-    lower_inclusive INTEGER NOT NULL DEFAULT 1, upper_inclusive INTEGER NOT NULL DEFAULT 1,
-    PRIMARY KEY (id, version_id),
-    CHECK (lower_bound IS NOT NULL OR upper_bound IS NOT NULL),
-    FOREIGN KEY (rule_id, version_id) REFERENCES model_valuation_rule(id, version_id)
-);
-CREATE TABLE IF NOT EXISTS normative_reference (
-    id TEXT PRIMARY KEY, title TEXT NOT NULL, issuer TEXT NOT NULL, edition TEXT NOT NULL,
-    document_reference TEXT NOT NULL, document_sha256 TEXT, disposition TEXT NOT NULL,
-    verification_status TEXT NOT NULL CHECK (verification_status IN ('PENDING_VALIDATION','VERIFIED')),
-    verified_by TEXT, verified_at TEXT, predecessor_id TEXT REFERENCES normative_reference(id), created_at TEXT NOT NULL,
-    CHECK (verification_status <> 'VERIFIED' OR (verified_by IS NOT NULL AND verified_at IS NOT NULL))
-);
-CREATE INDEX IF NOT EXISTS ix_normative_reference_status ON normative_reference(verification_status, title);
-CREATE TABLE IF NOT EXISTS model_version_reference (
-    id TEXT PRIMARY KEY, version_id TEXT NOT NULL REFERENCES model_version(id),
-    reference_id TEXT NOT NULL REFERENCES normative_reference(id),
-    disposition TEXT NOT NULL DEFAULT '', created_at TEXT NOT NULL, UNIQUE (version_id, reference_id)
-);
-CREATE TABLE IF NOT EXISTS indicator_reference (
-    id TEXT PRIMARY KEY, node_id TEXT NOT NULL, version_id TEXT NOT NULL REFERENCES model_version(id),
-    reference_id TEXT NOT NULL REFERENCES normative_reference(id), disposition TEXT NOT NULL DEFAULT '',
-    created_at TEXT NOT NULL, UNIQUE (node_id, reference_id),
-    FOREIGN KEY (node_id, version_id) REFERENCES model_node(id, version_id)
-);
-CREATE TABLE IF NOT EXISTS model_career_applicability (
-    id TEXT PRIMARY KEY, model_version_id TEXT NOT NULL REFERENCES model_version(id), career_id TEXT NOT NULL REFERENCES career(id),
-    status TEXT NOT NULL CHECK (status IN ('PENDING_VALIDATION','APPLICABLE','NOT_APPLICABLE','EXPIRED')),
-    valid_from TEXT NOT NULL, valid_until TEXT, decision_id TEXT, predecessor_id TEXT REFERENCES model_career_applicability(id),
-    decided_by TEXT NOT NULL, decided_at TEXT NOT NULL, created_at TEXT NOT NULL,
-    CHECK (valid_until IS NULL OR valid_from<=valid_until)
-);
-CREATE INDEX IF NOT EXISTS ix_model_career_applicability ON model_career_applicability(career_id, model_version_id, status);

@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.nio.ByteBuffer;
 import java.util.UUID;
@@ -20,6 +21,14 @@ public final class JdbcValueSupport {
             return new UUID(buffer.getLong(), buffer.getLong());
         }
         return UUID.fromString(value.toString());
+    }
+
+    public static LocalDate localDate(ResultSet result, int index) throws SQLException {
+        Object value = result.getObject(index);
+        if (value == null) return null;
+        if (value instanceof LocalDate date) return date;
+        if (value instanceof java.sql.Date date) return date.toLocalDate();
+        return LocalDate.parse(value.toString());
     }
 
     public static Instant instant(ResultSet result, int index) throws SQLException {

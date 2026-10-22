@@ -38,7 +38,8 @@ import {EvidenceView} from '../data-access/evidence.models';
                 <td>{{item.latestVersion.title}}</td>
                 <td>{{item.latestRevisionNumber}}</td>
                 <td>{{item.latestVersion.status}}</td>
-                <td><a [routerLink]="['versions', item.latestVersion.id, 'edit']">Editar</a></td>
+                <td><a [routerLink]="['versions', item.latestVersion.id, 'edit']">Editar</a>
+                  <a [routerLink]="['versions', item.latestVersion.id]">Cobertura</a></td>
               </tr>
             }
           </tbody>

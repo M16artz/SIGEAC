@@ -6,7 +6,14 @@ import java.util.Set;
 import java.util.UUID;
 
 public record IndicatorDefinition(UUID nodeId, Nature nature, String standardText, List<String> fundamentalElements,
-        String evaluationPeriodDefinition, UUID ratingScaleId, UUID valuationRuleId, List<RequiredSource> sources) {
+        String evaluationPeriodDefinition, UUID ratingScaleId, UUID valuationRuleId, List<RequiredSource> sources,
+        List<NormativeReference> normativeReferences) {
+    public IndicatorDefinition(UUID nodeId, Nature nature, String standardText, List<String> fundamentalElements,
+            String evaluationPeriodDefinition, UUID ratingScaleId, UUID valuationRuleId, List<RequiredSource> sources) {
+        this(nodeId, nature, standardText, fundamentalElements, evaluationPeriodDefinition, ratingScaleId,
+                valuationRuleId, sources, List.of());
+    }
+
     public IndicatorDefinition {
         if (nodeId == null || nature == null) throw new IllegalArgumentException("indicator and nature required");
         standardText = RequiredSource.text(standardText, 20000, "standard text");
@@ -14,6 +21,11 @@ public record IndicatorDefinition(UUID nodeId, Nature nature, String standardTex
         fundamentalElements = fundamentalElements == null ? List.of() : fundamentalElements.stream()
                 .map(element -> RequiredSource.text(element, 4000, "fundamental element")).toList();
         sources = sources == null ? List.of() : List.copyOf(sources);
+        normativeReferences = normativeReferences == null ? List.of() : List.copyOf(normativeReferences);
+        Set<UUID> referenceIds = new HashSet<>();
+        for (NormativeReference reference : normativeReferences) {
+            if (!referenceIds.add(reference.id())) throw new IllegalArgumentException("duplicate normative reference id");
+        }
         Set<String> codes = new HashSet<>();
         Set<UUID> ids = new HashSet<>();
         Set<Integer> ordinals = new HashSet<>();

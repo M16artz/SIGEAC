@@ -12,7 +12,7 @@
 
 **Revisión del código existente (2026-10-21)**: [implementation-review.md](../../docs/testing/implementation-review.md) registra correcciones de autorización inicial, estados, permisos, ETags y borradores. Son avances parciales; no completan por sí solos las tareas ni las entregas de este plan.
 
-**Siguiente ejecución**: D1 ya está verificado. Continuar D2 con T114/T116/T027 (procedencia y aplicabilidad), integrar V009/T024 y después contrato v2/T028/editor T029 antes de T030. La [publicación por indicador](../../tests/acceptance/results/d2-model-publication.md) verifica T006/T021–T023/T025–T026, sin declarar D2 aceptada. Conservar los 126 IDs y extender las verificaciones transversales por entrega; los módulos académicos no bloquean el MVP.
+**Siguiente ejecución**: D1 ya está verificado. D2 completó su alcance de software con T006/T021–T030 y T114/T116; la [evidencia de modelos completos](../../tests/acceptance/results/d2-five-models.md) conserva los límites de JDK 24, PostgreSQL y verificación institucional. No se declara aceptación institucional ni API v2 completa. Conservar los 126 IDs y extender las verificaciones transversales por entrega; los módulos académicos no bloquean el MVP.
 
 ## Phase 1: Setup and reconciliation
 
@@ -25,7 +25,7 @@
 - [ ] T004 [P] Add frontend routes/placeholders for careers, reports, improvement and archive in `frontend/src/app/app.routes.ts`
 - [X] T005 Define the forward-only migration sequence in `docs/technical/migration-p01-p16.qmd`; V008 implements careers, V009/V010 reserve models/governance and V011 evidence immutability before V012–V018; verify V001–V008 on the disposable PostgreSQL history without out-of-order or repair
 - [X] T006 Add synthetic normative manifests for the five supplied models in `tests/fixtures/models/normative-manifest.json`
-- [ ] T114 [P] Produce a source-by-source verification manifest with exact pages, edition and unresolved applicability for the five models and UNL instruction in `tests/fixtures/models/normative-verification.json`; link unresolved CL-011–CL-017 to institutional owners without claiming approval
+- [X] T114 [P] Produce a source-by-source verification manifest with exact pages, edition and unresolved applicability for the five models and UNL instruction in `tests/fixtures/models/normative-verification.json`; link unresolved CL-011–CL-017 to institutional owners without claiming approval
 
 ## Phase 2: Foundational governance
 
@@ -54,19 +54,19 @@
 
 **Independent Test**: publish the five configurations with variable hierarchies, required sources and per-indicator methods using one engine.
 
-**Avance interno D2 (2026-10-21)**: [bases de jerarquía](../../tests/acceptance/results/d2-model-foundations.md) y [publicación por indicador](../../tests/acceptance/results/d2-model-publication.md). T006/T021–T023/T025–T026 cuentan con pruebas aprobadas de aplicación y snapshots. Continúan pendientes T024/T027–T030/T114/T116; no se declara API v2, migración V009 ni aceptación D2 disponible.
+**Avance interno D2 (2026-10-22)**: [bases de jerarquía](../../tests/acceptance/results/d2-model-foundations.md), [publicación por indicador](../../tests/acceptance/results/d2-model-publication.md) y [modelos completos](../../tests/acceptance/results/d2-five-models.md). T006/T021–T030 y T114/T116 tienen pruebas aprobadas de aplicación, snapshots, migración SQLite y endpoints aditivos v1. D2 queda demostrada para software sintético; no se declara aceptación institucional, aplicación PostgreSQL de V009 ni API v2 completa.
 
 - [X] T021 [P] [US2] Add recursive hierarchy and direct-indicator tests in `backend/src/test/java/ec/edu/unl/sec/evaluationmodel/domain/FlexibleModelHierarchyTest.java`
 - [X] T022 [P] [US2] Add source/rule publication tests including variables, units, thresholds and unvalidated strategies in `backend/src/test/java/ec/edu/unl/sec/evaluationmodel/application/CompleteModelPublicationTest.java`
 - [X] T023 [P] [US2] Add five-model fixture acceptance tests in `backend/src/test/java/ec/edu/unl/sec/evaluationmodel/application/FiveModelConfigurationTest.java`
-- [ ] T024 [US2] Create migration for normative applicability, recursive node types, required sources and valuation rules in `backend/src/main/resources/db/migration/V009__complete_evaluation_models.sql`
+- [X] T024 [US2] Create migration for normative applicability, recursive node types, required sources and valuation rules in `backend/src/main/resources/db/migration/V009__complete_evaluation_models.sql`
 - [X] T025 [US2] Replace rigid publication validation in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/PublicationValidator.java` and update existing callers in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/EvaluationModelService.java` and `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/infrastructure/ModelCatalogAdapter.java` without duplicating publication services
 - [X] T026 [US2] Implement indicator definitions in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/IndicatorDefinition.java` and required sources in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/RequiredSource.java`, enforcing "Código único por indicador; `cardinality_min >= 1`; máximo nulo o >= mínimo."; preserve per-indicator scales/rules and "Solo una regla `VALIDATED` puede calcular automáticamente."
-- [ ] T027 [US2] Implement normative applicability service without inferring vigency in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/ModelApplicabilityService.java`
-- [ ] T028 [US2] Extend model API schemas/controllers in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/api/EvaluationModelController.java`
-- [ ] T029 [US2] Extend the existing model editor for hierarchy, sources and rules in `frontend/src/app/features/models/pages/model-editor.page.ts` and its DTOs in `frontend/src/app/features/models/data-access/model.models.ts`
-- [ ] T030 [US2] Validate and document the five fixture manifests in `tests/acceptance/results/d2-five-models.md`
-- [ ] T116 [US2] Implement `NormativeReference` and career applicability with verification status, source/disposition links per indicator and forward-only persistence in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/NormativeReference.java` and `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/infrastructure/JpaNormativeReferenceRepository.java`; prove unresolved institutional applicability blocks activation in `backend/src/test/java/ec/edu/unl/sec/evaluationmodel/application/NormativeApplicabilityTest.java` before accepting T030
+- [X] T027 [US2] Implement normative applicability service without inferring vigency in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/ModelApplicabilityService.java`
+- [X] T028 [US2] Extend model API schemas/controllers in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/api/EvaluationModelController.java`
+- [X] T029 [US2] Extend the existing model editor for hierarchy, sources and rules in `frontend/src/app/features/models/pages/model-editor.page.ts` and its DTOs in `frontend/src/app/features/models/data-access/model.models.ts`
+- [X] T030 [US2] Validate and document the five fixture manifests in `tests/acceptance/results/d2-five-models.md`
+- [X] T116 [US2] Implement `NormativeReference` and career applicability with verification status, source/disposition links per indicator and forward-only persistence in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/NormativeReference.java` and `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/infrastructure/JpaNormativeReferenceRepository.java`; prove unresolved institutional applicability blocks activation in `backend/src/test/java/ec/edu/unl/sec/evaluationmodel/application/NormativeApplicabilityTest.java` before accepting T030
 
 ## Phase 5: US3 — Authorization and planning (D3, P05–P06)
 
@@ -87,17 +87,17 @@
 
 **Independent Test**: submit evidence for three of four applicable sources and preserve explicit coverage per immutable version.
 
-- [ ] T040 [P] [US4] Add source-coverage domain and authorization tests in `backend/src/test/java/ec/edu/unl/sec/evidence/domain/SourceCoverageTest.java`
-- [ ] T041 [P] [US4] Add applicability-decision tests in `backend/src/test/java/ec/edu/unl/sec/evidence/application/ApplicabilityDecisionServiceTest.java`
-- [ ] T042 [P] [US4] Add API tests rejecting foreign/incompatible required sources in `backend/src/test/java/ec/edu/unl/sec/evidence/api/EvidenceSourceCoverageControllerTest.java`
-- [ ] T043 [US4] Create migration for `source_coverage` and `applicability_decision` in `backend/src/main/resources/db/migration/V012__source_coverage.sql`
-- [ ] T044 [US4] Implement `SourceCoverage` and invariants in `backend/src/main/java/ec/edu/unl/sec/evidence/domain/SourceCoverage.java`
-- [ ] T045 [US4] Require explicit coverage during submission in `backend/src/main/java/ec/edu/unl/sec/evidence/application/SubmitEvidenceService.java`
-- [ ] T046 [US4] Implement applicability decisions in `backend/src/main/java/ec/edu/unl/sec/evidence/application/ApplicabilityDecisionService.java`
-- [ ] T047 [US4] Add source selection and reuse controls in `frontend/src/app/features/evidence/ui/evidence-source-coverage.component.ts`
-- [ ] T048 [US4] Extend immutable version detail with coverage snapshots in `frontend/src/app/features/evidence/pages/evidence-version.page.ts`
-- [ ] T049 [US4] Record D4 acceptance evidence in `tests/acceptance/results/d4-source-coverage.md`
-- [ ] T118 [US4] Implement typed structured-data/institutional-reference snapshots, period/unit validation, API and editor support in `backend/src/main/java/ec/edu/unl/sec/evidence/application/StructuredEvidenceService.java`, `backend/src/main/java/ec/edu/unl/sec/evidence/api/StructuredEvidenceController.java` and `frontend/src/app/features/evidence/ui/structured-evidence.component.ts`; verify AC-X16 in `backend/src/test/java/ec/edu/unl/sec/evidence/application/StructuredEvidenceServiceTest.java` before T049
+- [x] T040 [P] [US4] Add source-coverage domain and authorization tests in `backend/src/test/java/ec/edu/unl/sec/evidence/domain/SourceCoverageTest.java`
+- [x] T041 [P] [US4] Add applicability-decision tests in `backend/src/test/java/ec/edu/unl/sec/evidence/application/ApplicabilityDecisionServiceTest.java`
+- [x] T042 [P] [US4] Add API tests rejecting foreign/incompatible required sources in `backend/src/test/java/ec/edu/unl/sec/evidence/api/EvidenceSourceCoverageControllerTest.java`
+- [x] T043 [US4] Create migration for `source_coverage` and `applicability_decision` in `backend/src/main/resources/db/migration/V012__source_coverage.sql`
+- [x] T044 [US4] Implement `SourceCoverage` and invariants in `backend/src/main/java/ec/edu/unl/sec/evidence/domain/SourceCoverage.java`
+- [x] T045 [US4] Require explicit coverage during submission in `backend/src/main/java/ec/edu/unl/sec/evidence/application/SubmitEvidenceService.java`
+- [x] T046 [US4] Implement applicability decisions in `backend/src/main/java/ec/edu/unl/sec/evidence/application/ApplicabilityDecisionService.java`
+- [x] T047 [US4] Add source selection and reuse controls in `frontend/src/app/features/evidence/ui/evidence-source-coverage.component.ts`
+- [x] T048 [US4] Extend immutable version detail with coverage snapshots in `frontend/src/app/features/evidence/pages/evidence-version.page.ts`
+- [x] T049 [US4] Record D4 acceptance evidence in `tests/acceptance/results/d4-source-coverage.md`
+- [x] T118 [US4] Implement typed structured-data/institutional-reference snapshots, period/unit validation, API and editor support in `backend/src/main/java/ec/edu/unl/sec/evidence/application/StructuredEvidenceService.java`, `backend/src/main/java/ec/edu/unl/sec/evidence/api/StructuredEvidenceController.java` and `frontend/src/app/features/evidence/ui/structured-evidence.component.ts`; verify AC-X16 in `backend/src/test/java/ec/edu/unl/sec/evidence/application/StructuredEvidenceServiceTest.java` before T049
 
 ## Phase 7: US5 — Review and correction (D5, P09–P10)
 

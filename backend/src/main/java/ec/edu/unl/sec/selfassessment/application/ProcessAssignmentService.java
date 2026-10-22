@@ -42,19 +42,19 @@ public class ProcessAssignmentService {
         if (process.indicators().stream().noneMatch(i -> i.id().equals(indicator))) throw error(
                 ProcessProblemException.Kind.INVALID, "INDICATOR_OUTSIDE_FIXED_MODEL", "El indicador no pertenece al modelo fijado.");
         if (identity == null || function == null || from == null || to == null || !from.isBefore(to)) throw error(
-                ProcessProblemException.Kind.INVALID, "INVALID_ASSIGNMENT", "La asignación requiere identidad, función y vigencia válida.");
+                ProcessProblemException.Kind.INVALID, "INVALID_ASSIGNMENT", "La asignaciÃ³n requiere identidad, funciÃ³n y vigencia vÃ¡lida.");
         Instant start = process.periodStart().atStartOfDay(ZoneOffset.UTC).toInstant();
         Instant end = process.periodEnd().plusDays(1).atStartOfDay(ZoneOffset.UTC).toInstant();
         if (!from.isBefore(end) || !to.isAfter(start)) throw error(ProcessProblemException.Kind.INVALID,
-                "ASSIGNMENT_OUTSIDE_PERIOD", "La vigencia no se superpone al período.");
+                "ASSIGNMENT_OUTSIDE_PERIOD", "La vigencia no se superpone al perÃ­odo.");
         if (reason == null || reason.isBlank() || reason.length() > 2000) throw error(
-                ProcessProblemException.Kind.INVALID, "CRITICAL_CHANGE_REASON_REQUIRED", "El cambio crítico requiere motivo.");
+                ProcessProblemException.Kind.INVALID, "CRITICAL_CHANGE_REASON_REQUIRED", "El cambio crÃ­tico requiere motivo.");
         boolean duplicate = repository.assignments(processId).stream().anyMatch(a ->
-                a.revokedAt() == null && a.identityId().equals(identity) && a.indicatorId().equals(indicator)
+                a.revokedAt() == null && identity != null && a.assignedTo(identity) && a.indicatorId().equals(indicator)
                         && a.function() == function && from.isBefore(a.validTo()) && to.isAfter(a.validFrom()));
-        if (duplicate) throw error(ProcessProblemException.Kind.CONFLICT, "ASSIGNMENT_OVERLAP", "Ya existe una asignación idéntica con vigencia superpuesta.");
+        if (duplicate) throw error(ProcessProblemException.Kind.CONFLICT, "ASSIGNMENT_OVERLAP", "Ya existe una asignaciÃ³n idÃ©ntica con vigencia superpuesta.");
         var decision = policy.evaluate(identity, function.name(), scope, from, to);
-        if (!decision.allowed()) throw error(ProcessProblemException.Kind.CONFLICT, decision.reasonCode(), "La asignación entra en conflicto con la política vigente.");
+        if (!decision.allowed()) throw error(ProcessProblemException.Kind.CONFLICT, decision.reasonCode(), "La asignaciÃ³n entra en conflicto con la polÃ­tica vigente.");
         var assignment = new ProcessAssignment(null, processId, indicator, identity, function, from, to,
                 actor.identityId(), reason.strip(), null, 0);
         // Serialize assignment changes through the process revision so concurrent plans cannot overwrite each other.
@@ -73,7 +73,7 @@ public class ProcessAssignmentService {
         if (auth.isAllowed(actor.identityId(), OperationCode.PROCESS_COORDINATE, scope)
                 || auth.isAllowed(actor.identityId(), OperationCode.PROCESS_MANAGE, scope)) return repository.assignments(processId);
         return repository.assignments(processId).stream()
-                .filter(a -> a.identityId().equals(actor.identityId()) && a.revokedAt() == null
+                .filter(a -> a.assignedTo(actor.identityId()) && a.revokedAt() == null
                         && !Instant.now().isBefore(a.validFrom()) && Instant.now().isBefore(a.validTo()))
                 .filter(a -> auth.isAllowed(actor.identityId(), operation(a.function()),
                         new AuthorizationScope(process.careerId(), process.id(), a.indicatorId())))
@@ -82,7 +82,7 @@ public class ProcessAssignmentService {
 
     private CurrentActorPort.Actor actor() {
         return actors.currentActor().orElseThrow(() -> error(ProcessProblemException.Kind.UNAUTHORIZED,
-                "AUTHENTICATION_REQUIRED", "Se requiere autenticación."));
+                "AUTHENTICATION_REQUIRED", "Se requiere autenticaciÃ³n."));
     }
     private static OperationCode operation(ProcessAssignment.Function function) {
         return switch (function) {
@@ -91,7 +91,7 @@ public class ProcessAssignmentService {
             case EVALUATOR -> OperationCode.INDICATOR_EVALUATE;
         };
     }
-    private static ProcessProblemException hidden() { return error(ProcessProblemException.Kind.NOT_FOUND, "PROCESS_NOT_FOUND", "El proceso no existe o no está visible."); }
+    private static ProcessProblemException hidden() { return error(ProcessProblemException.Kind.NOT_FOUND, "PROCESS_NOT_FOUND", "El proceso no existe o no estÃ¡ visible."); }
     private static ProcessProblemException error(ProcessProblemException.Kind kind, String code, String message) {
         return SelfAssessmentService.problem(kind, code, message);
     }

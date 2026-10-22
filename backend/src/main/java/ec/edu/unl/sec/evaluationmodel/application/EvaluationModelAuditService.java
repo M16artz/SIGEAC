@@ -12,7 +12,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class EvaluationModelAuditService {
     private static final Set<String> ACTIONS = Set.of("MODEL_CREATED","MODEL_VERSION_CREATED","MODEL_DRAFT_UPDATED",
-            "MODEL_PUBLISHED","MODEL_SUCCESSOR_CREATED","MODEL_VERSION_READ","MODEL_VERSIONS_COMPARED","MODEL_OPERATION_REJECTED");
+            "MODEL_PUBLISHED","MODEL_SUCCESSOR_CREATED","MODEL_VERSION_READ","MODEL_VERSIONS_COMPARED","MODEL_OPERATION_REJECTED",
+            "NORMATIVE_REFERENCE_REGISTERED","MODEL_APPLICABILITY_RECORDED");
     private final AuditPort audit;
     private final Clock clock;
     @Autowired public EvaluationModelAuditService(AuditPort audit){this(audit,Clock.systemUTC());}

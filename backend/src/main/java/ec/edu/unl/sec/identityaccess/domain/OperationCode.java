@@ -18,6 +18,7 @@ public record OperationCode(String value) {
     public static final OperationCode MODEL_READ = new OperationCode("MODEL_READ");
     public static final OperationCode MODEL_PUBLISH = new OperationCode("MODEL_PUBLISH");
     public static final OperationCode MODEL_AUDIT_READ = new OperationCode("MODEL_AUDIT_READ");
+    public static final OperationCode MODEL_APPLICABILITY_AUTHORIZE = new OperationCode("MODEL_APPLICABILITY_AUTHORIZE");
 
     public OperationCode {
         if (value == null || !value.matches("[A-Z][A-Z0-9_.-]{2,149}")) {

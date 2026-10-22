@@ -172,7 +172,7 @@ public class EvidenceDraftService {
                 "Uno o más indicadores no pertenecen al ámbito vigente.");
     }
 
-    private static EvidenceProblemException notFound() {
+    static EvidenceProblemException notFound() {
         return new EvidenceProblemException(
                 EvidenceProblemException.Kind.NOT_FOUND,
                 "RESOURCE_NOT_FOUND",
@@ -186,7 +186,7 @@ public class EvidenceDraftService {
         }
     }
 
-    private static void verifyEtag(String value, long current) {
+    static void verifyEtag(String value, long current) {
         if (value == null || value.isBlank()) {
             throw new EvidenceProblemException(
                     EvidenceProblemException.Kind.PRECONDITION_REQUIRED,

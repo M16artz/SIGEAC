@@ -26,8 +26,9 @@ describe('EvidenceListPage', () => {
     });
   });
 
-  it('declares list, new and edit routes without reusing the placeholder page', () => {
-    expect(EVIDENCE_ROUTES.map(route => route.path)).toEqual(['', 'new', 'versions/:versionId/edit']);
+  it('declares list, new, version detail and edit routes without reusing the placeholder page', () => {
+    expect(EVIDENCE_ROUTES.map(route => route.path)).toEqual(
+      ['', 'new', 'versions/:versionId', 'versions/:versionId/edit']);
     expect(EVIDENCE_ROUTES.every(route => route.component !== undefined)).toBe(true);
   });
 

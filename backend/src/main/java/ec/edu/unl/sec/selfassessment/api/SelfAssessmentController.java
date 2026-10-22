@@ -1,5 +1,6 @@
 package ec.edu.unl.sec.selfassessment.api;
 
+import ec.edu.unl.sec.selfassessment.application.ProcessProblemException;
 import ec.edu.unl.sec.selfassessment.application.ProcessTransitionService;
 import ec.edu.unl.sec.selfassessment.application.SelfAssessmentService;
 import ec.edu.unl.sec.selfassessment.domain.ProcessAuthorization;
@@ -60,7 +61,8 @@ public class SelfAssessmentController {
     public ResponseEntity<SelfAssessmentProcess> transition(@PathVariable UUID id,
             @RequestHeader(value = "If-Match", required = false) String match,
             @Valid @RequestBody TransitionCommand command, HttpServletRequest request) {
-        var process = transitions.transition(id, rev(match), command.target(), command.reason(), correlation(request));
+        var process = transitions.transition(id, rev(match), command.target(), decision(command),
+                command.reason(), correlation(request));
         return ResponseEntity.ok().eTag(tag(process)).body(process);
     }
 
@@ -68,12 +70,29 @@ public class SelfAssessmentController {
     public ResponseEntity<SelfAssessmentProcess> reopen(@PathVariable UUID id,
             @RequestHeader(value = "If-Match", required = false) String match,
             @Valid @RequestBody ReopenCommand command, HttpServletRequest request) {
-        var process = transitions.transition(id, rev(match), ProcessState.REOPENED, command.reason(), correlation(request));
+        var process = transitions.transition(id, rev(match), ProcessState.REOPENED, decision(command),
+                command.reason(), correlation(request));
         return ResponseEntity.ok().eTag(tag(process)).body(process);
     }
 
     static long rev(String value) { return EntityTagSupport.require(value); }
     static String tag(SelfAssessmentProcess process) { return EntityTagSupport.strong(process.revision()); }
+    static ProcessTransitionService.Decision decision(TransitionCommand command) {
+        return decision(command.authorityAssignmentId(), command.legalBasis(), command.documentReference());
+    }
+    static ProcessTransitionService.Decision decision(ReopenCommand command) {
+        return decision(command.authorityAssignmentId(), command.legalBasis(), command.documentReference());
+    }
+    private static ProcessTransitionService.Decision decision(UUID assignment, String legalBasis, String document) {
+        boolean empty = assignment == null && (legalBasis == null || legalBasis.isBlank())
+                && (document == null || document.isBlank());
+        if (empty) return null;
+        if (assignment == null || legalBasis == null || legalBasis.isBlank()
+                || document == null || document.isBlank())
+            throw new ProcessProblemException(ProcessProblemException.Kind.INVALID, "AUTHORITY_PROVENANCE_INCOMPLETE",
+                    "La decision requiere asignacion, fundamento y constancia.");
+        return new ProcessTransitionService.Decision(assignment, legalBasis, document);
+    }
     static UUID correlation(HttpServletRequest request) {
         Object value = request.getAttribute("sec.correlationId");
         try { return UUID.fromString(String.valueOf(value)); } catch (IllegalArgumentException exception) { return UUID.randomUUID(); }
@@ -81,8 +100,12 @@ public class SelfAssessmentController {
 
     public record ProcessCommand(@NotNull UUID careerId, @NotBlank @Size(max = 100) String code,
             @NotBlank @Size(max = 300) String name, @NotNull LocalDate periodStart, @NotNull LocalDate periodEnd, @NotNull UUID modelVersionId) {}
-    public record TransitionCommand(@NotNull ProcessState target, @NotBlank @Size(min = 10, max = 2000) String reason) {}
-    public record ReopenCommand(@NotBlank @Size(min = 10, max = 2000) String reason) {}
+    public record TransitionCommand(@NotNull ProcessState target, @NotBlank @Size(min = 10, max = 2000) String reason,
+            UUID authorityAssignmentId, @Size(max = 4000) String legalBasis,
+            @Size(max = 2000) String documentReference) {}
+    public record ReopenCommand(@NotBlank @Size(min = 10, max = 2000) String reason,
+            UUID authorityAssignmentId, @Size(max = 4000) String legalBasis,
+            @Size(max = 2000) String documentReference) {}
     public record AuthorizationCommand(@NotNull UUID authorityAssignmentId, @NotBlank @Size(max = 4000) String legalBasis,
             @NotBlank @Size(max = 2000) String documentReference, @NotBlank @Size(min = 10, max = 4000) String reason) {}
 }

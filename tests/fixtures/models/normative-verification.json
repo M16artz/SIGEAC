@@ -1,0 +1,156 @@
+{
+  "schemaVersion": "sec.normative-verification/v1",
+  "synthetic": true,
+  "institutionalValidity": false,
+  "disclaimer": "Manifiesto de verificacion sintetico. No transcribe, corrobora ni atribuye vigencia, paginas, edicion o competencia institucional. Toda fuente permanece PENDING_VALIDATION hasta decision documentada.",
+  "requiredDecisions": [
+    "CL-011",
+    "CL-012",
+    "CL-013",
+    "CL-014",
+    "CL-015",
+    "CL-016",
+    "CL-017"
+  ],
+  "sources": [
+    {
+      "key": "general-2024",
+      "modelKey": "general-2024",
+      "title": "Modelo generico para evaluacion del entorno de aprendizaje de carreras de grado (rotulo sintetico)",
+      "issuerDeclared": null,
+      "issuerVerified": null,
+      "documentReference": "fixture://models/five-model-configurations.json#general-2024",
+      "documentSha256": null,
+      "editionDeclared": "marzo 2024",
+      "editionVerified": null,
+      "pages": null,
+      "disposition": null,
+      "verificationStatus": "PENDING_VALIDATION",
+      "unresolvedApplicability": true,
+      "statesApplicability": false,
+      "institutionalOwner": "Coordinacion de calidad / Direccion de Carrera (propuesto, no designacion)",
+      "decisions": [
+        "CL-011",
+        "CL-013",
+        "CL-014"
+      ],
+      "blockedReason": "Paginas exactas, edicion y aplicabilidad por carrera no verificadas."
+    },
+    {
+      "key": "medicine-2018",
+      "modelKey": "medicine-2018",
+      "title": "Modelo especifico de Medicina, actualizacion 2018 (rotulo sintetico)",
+      "issuerDeclared": null,
+      "issuerVerified": null,
+      "documentReference": "fixture://models/five-model-configurations.json#medicine-2018",
+      "documentSha256": null,
+      "editionDeclared": "2018",
+      "editionVerified": null,
+      "pages": null,
+      "disposition": null,
+      "verificationStatus": "PENDING_VALIDATION",
+      "unresolvedApplicability": true,
+      "statesApplicability": false,
+      "institutionalOwner": "Coordinacion de calidad / Direccion de Carrera (propuesto, no designacion)",
+      "decisions": [
+        "CL-011",
+        "CL-013",
+        "CL-014"
+      ],
+      "blockedReason": "Edicion, paginas y aplicabilidad a la carrera de Medicina no verificadas."
+    },
+    {
+      "key": "nursing-2016",
+      "modelKey": "nursing-2016",
+      "title": "Modelo especifico de Enfermeria (rotulo sintetico)",
+      "issuerDeclared": null,
+      "issuerVerified": null,
+      "documentReference": "fixture://models/five-model-configurations.json#nursing-2016",
+      "documentSha256": null,
+      "editionDeclared": "octubre 2016",
+      "editionVerified": null,
+      "pages": null,
+      "disposition": null,
+      "verificationStatus": "PENDING_VALIDATION",
+      "unresolvedApplicability": true,
+      "statesApplicability": false,
+      "institutionalOwner": "Coordinacion de calidad / Direccion de Carrera (propuesto, no designacion)",
+      "decisions": [
+        "CL-011",
+        "CL-013",
+        "CL-014"
+      ],
+      "blockedReason": "Edicion, paginas y aplicabilidad a la carrera de Enfermeria no verificadas."
+    },
+    {
+      "key": "dentistry-2018",
+      "modelKey": "dentistry-2018",
+      "title": "Modelo especifico de Odontologia actualizado (rotulo sintetico)",
+      "issuerDeclared": null,
+      "issuerVerified": null,
+      "documentReference": "fixture://models/five-model-configurations.json#dentistry-2018",
+      "documentSha256": null,
+      "editionDeclared": "2018, pendiente corroboracion",
+      "editionVerified": null,
+      "pages": null,
+      "disposition": null,
+      "verificationStatus": "PENDING_VALIDATION",
+      "unresolvedApplicability": true,
+      "statesApplicability": false,
+      "institutionalOwner": "Coordinacion de calidad / Direccion de Carrera (propuesto, no designacion)",
+      "decisions": [
+        "CL-011",
+        "CL-013",
+        "CL-014"
+      ],
+      "blockedReason": "Edicion declarada sin corroboracion; paginas y aplicabilidad no verificadas."
+    },
+    {
+      "key": "law-matrix",
+      "modelKey": "law-matrix",
+      "title": "Modelo especifico de Derecho actualizado, edicion pendiente (rotulo sintetico)",
+      "issuerDeclared": null,
+      "issuerVerified": null,
+      "documentReference": "fixture://models/five-model-configurations.json#law-matrix",
+      "documentSha256": null,
+      "editionDeclared": null,
+      "editionVerified": null,
+      "pages": null,
+      "disposition": null,
+      "verificationStatus": "PENDING_VALIDATION",
+      "unresolvedApplicability": true,
+      "statesApplicability": false,
+      "institutionalOwner": "Coordinacion de calidad / Direccion de Carrera (propuesto, no designacion)",
+      "decisions": [
+        "CL-011",
+        "CL-013",
+        "CL-014"
+      ],
+      "blockedReason": "Edicion ausente; paginas y aplicabilidad no verificadas."
+    },
+    {
+      "key": "unl-instruction",
+      "modelKey": null,
+      "title": "Instructivo institucional de referencia (rotulo sintetico, no transcrito)",
+      "issuerDeclared": "Universidad Nacional de Loja (referencia sin corroborar)",
+      "issuerVerified": null,
+      "documentReference": "fixture://normative/unl-instruction-pending",
+      "documentSha256": null,
+      "editionDeclared": null,
+      "editionVerified": null,
+      "pages": null,
+      "disposition": null,
+      "verificationStatus": "PENDING_VALIDATION",
+      "unresolvedApplicability": true,
+      "statesApplicability": false,
+      "institutionalOwner": "Direccion de Carrera / Coordinacion del proyecto (propuesto, no designacion)",
+      "decisions": [
+        "CL-012",
+        "CL-015",
+        "CL-016",
+        "CL-017"
+      ],
+      "blockedReason": "Alcance interno/externo, autoridad, informes y cierre integral sin decision institucional."
+    }
+  ]
+}

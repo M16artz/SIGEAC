@@ -1,5 +1,6 @@
 package ec.edu.unl.sec.selfassessment.application;
 
+import ec.edu.unl.sec.evaluationmodel.application.ModelApplicabilityService;
 import ec.edu.unl.sec.evaluationmodel.application.ModelCatalogPort;
 import ec.edu.unl.sec.identityaccess.application.AuthorizationPort;
 import ec.edu.unl.sec.identityaccess.application.CurrentActorPort;
@@ -24,27 +25,33 @@ public class SelfAssessmentService {
     private final SelfAssessmentAuditService audit;
     private final InstitutionalAuthorityPort authority;
     private final CareerAdministrationService careers;
+    private final ModelApplicabilityService applicability;
     @Autowired
     public SelfAssessmentService(SelfAssessmentRepository repository, ModelCatalogPort models, CurrentActorPort actors,
-            AuthorizationPort authorization, SelfAssessmentAuditService audit, InstitutionalAuthorityPort authority, CareerAdministrationService careers) { this.repository=repository;this.models=models;this.actors=actors;this.authorization=authorization;this.audit=audit;this.authority=authority;this.careers=careers; }
+            AuthorizationPort authorization, SelfAssessmentAuditService audit, InstitutionalAuthorityPort authority,
+            CareerAdministrationService careers, ModelApplicabilityService applicability) { this.repository=repository;this.models=models;this.actors=actors;this.authorization=authorization;this.audit=audit;this.authority=authority;this.careers=careers;this.applicability=applicability; }
+    public SelfAssessmentService(SelfAssessmentRepository repository, ModelCatalogPort models, CurrentActorPort actors,
+            AuthorizationPort authorization, SelfAssessmentAuditService audit, InstitutionalAuthorityPort authority,
+            CareerAdministrationService careers) { this(repository,models,actors,authorization,audit,authority,careers,null); }
 
     @Transactional public SelfAssessmentProcess create(UUID careerId,String code,String name,LocalDate start,LocalDate end,UUID versionId,UUID correlation) {
         UUID actor=actor(OperationCode.PROCESS_MANAGE,new AuthorizationScope(careerId,null,null));
         careers.requireActiveCareer(careerId,start,end);
-        var model=models.publishedVersion(versionId).orElseThrow(()->problem(ProcessProblemException.Kind.INVALID,"MODEL_VERSION_NOT_PUBLISHED","La versión del modelo no está publicada o visible."));
+        var model=models.publishedVersion(versionId).orElseThrow(()->problem(ProcessProblemException.Kind.INVALID,"MODEL_VERSION_NOT_PUBLISHED","La versiÃ³n del modelo no estÃ¡ publicada o visible."));
         var process=new SelfAssessmentProcess(null,careerId,code,name,start,end,model.versionId(),model.versionNumber(),ProcessState.PREPARATION,0,actor,Instant.now(),List.of());
         repository.save(process,-1);audit.record(actor,correlation,"PROCESS_CREATED",process,"SUCCESS",null);return process;
     }
     @Transactional public SelfAssessmentProcess activate(UUID id,long expected,UUID correlation) {
         var current=current();var process=find(id);
         if(current.technical() || !authorization.isAllowed(current.identityId(),OperationCode.PROCESS_MANAGE,new AuthorizationScope(process.careerId(),process.id(),null)))
-            throw problem(ProcessProblemException.Kind.NOT_FOUND,"PROCESS_NOT_FOUND","El proceso no existe o no está visible.");
+            throw problem(ProcessProblemException.Kind.NOT_FOUND,"PROCESS_NOT_FOUND","El proceso no existe o no estÃ¡ visible.");
         UUID actor=current.identityId();check(process,expected);
         careers.requireActiveCareer(process.careerId(),process.periodStart(),process.periodEnd());
-        if (!process.inPreparation()) throw problem(ProcessProblemException.Kind.CONFLICT,"INVALID_PROCESS_TRANSITION","Solo se puede activar un proceso en preparación.");
+        if (applicability != null) applicability.assertUsableForActivation(process.modelVersionId(), process.careerId(), process.periodStart());
+        if (!process.inPreparation()) throw problem(ProcessProblemException.Kind.CONFLICT,"INVALID_PROCESS_TRANSITION","Solo se puede activar un proceso en preparaciÃ³n.");
         if (process.authorization() == null) throw problem(ProcessProblemException.Kind.CONFLICT,
-                "AUTHORIZATION_MISSING", "El proceso permanece en preparación hasta registrar una autorización institucional verificada.");
-        var model=models.publishedVersion(process.modelVersionId()).orElseThrow(()->problem(ProcessProblemException.Kind.CONFLICT,"MODEL_VERSION_UNAVAILABLE","La versión fijada ya no está disponible."));
+                "AUTHORIZATION_MISSING", "El proceso permanece en preparaciÃ³n hasta registrar una autorizaciÃ³n institucional verificada.");
+        var model=models.publishedVersion(process.modelVersionId()).orElseThrow(()->problem(ProcessProblemException.Kind.CONFLICT,"MODEL_VERSION_UNAVAILABLE","La versiÃ³n fijada ya no estÃ¡ disponible."));
         var snapshot=model.indicators().stream().map(i->new SelfAssessmentProcess.IndicatorSnapshot(i.id(),i.code(),i.name())).toList();
         if (snapshot.isEmpty()) throw problem(ProcessProblemException.Kind.CONFLICT,"MODEL_HAS_NO_INDICATORS","El modelo no contiene indicadores configurados.");
         var active=process.activate(snapshot);repository.save(active,expected);repository.recordTransition(id,process.state(),active.state(),actor,"ACTIVATION",correlation,active.revision());audit.record(actor,correlation,"PROCESS_ACTIVATED",active,"SUCCESS",null);return active;
@@ -56,21 +63,22 @@ public class SelfAssessmentService {
         var process = find(id);
         var scope = new AuthorizationScope(process.careerId(), id, null);
         if (actor.technical() || !authorization.isAllowed(actor.identityId(), OperationCode.PROCESS_AUTHORIZE, scope))
-            throw problem(ProcessProblemException.Kind.NOT_FOUND,"PROCESS_NOT_FOUND","El proceso no existe o no está visible.");
+            throw problem(ProcessProblemException.Kind.NOT_FOUND,"PROCESS_NOT_FOUND","El proceso no existe o no estÃ¡ visible.");
         if (actor.technical() || !authority.isAuthorizedAssignment(assignmentId, actor.identityId(), OperationCode.PROCESS_AUTHORIZE, scope))
-            throw problem(ProcessProblemException.Kind.FORBIDDEN, "PROCESS_AUTHORITY_DENIED", "La asignación indicada no autoriza esta decisión.");
+            throw problem(ProcessProblemException.Kind.FORBIDDEN, "PROCESS_AUTHORITY_DENIED", "La asignaciÃ³n indicada no autoriza esta decisiÃ³n.");
         check(process, expected);
         if (!process.inPreparation() || process.authorization() != null)
-            throw problem(ProcessProblemException.Kind.CONFLICT, "AUTHORIZATION_ALREADY_FIXED", "La autorización ya está fijada o el proceso no está en preparación.");
+            throw problem(ProcessProblemException.Kind.CONFLICT, "AUTHORIZATION_ALREADY_FIXED", "La autorizaciÃ³n ya estÃ¡ fijada o el proceso no estÃ¡ en preparaciÃ³n.");
         var decision = new ProcessAuthorization(null, assignmentId, legalBasis, documentReference, reason, actor.identityId(), Instant.now());
         var changed = process.authorize(decision);
         repository.save(changed, expected);
+        repository.saveAuthorization(id, decision);
         audit.record(actor.identityId(), correlation, "PROCESS_AUTHORIZATION_RECORDED", changed, "SUCCESS", null);
         return changed;
     }
     @Transactional(readOnly=true) public List<SelfAssessmentProcess> list(){var current=current();return repository.list().stream().filter(p->allowed(current,p)).map(p->visibleSnapshot(current,p)).toList();}
-    @Transactional(readOnly=true) public SelfAssessmentProcess get(UUID id){var actor=current();var p=find(id);if(!allowed(actor,p))throw problem(ProcessProblemException.Kind.NOT_FOUND,"PROCESS_NOT_FOUND","El proceso no existe o no está visible.");return visibleSnapshot(actor,p);}
-    private CurrentActorPort.Actor current(){return actors.currentActor().orElseThrow(()->problem(ProcessProblemException.Kind.UNAUTHORIZED,"AUTHENTICATION_REQUIRED","Se requiere autenticación."));}
+    @Transactional(readOnly=true) public SelfAssessmentProcess get(UUID id){var actor=current();var p=find(id);if(!allowed(actor,p))throw problem(ProcessProblemException.Kind.NOT_FOUND,"PROCESS_NOT_FOUND","El proceso no existe o no estÃ¡ visible.");return visibleSnapshot(actor,p);}
+    private CurrentActorPort.Actor current(){return actors.currentActor().orElseThrow(()->problem(ProcessProblemException.Kind.UNAUTHORIZED,"AUTHENTICATION_REQUIRED","Se requiere autenticaciÃ³n."));}
     private boolean manages(CurrentActorPort.Actor actor, SelfAssessmentProcess p) {
         var scope = new AuthorizationScope(p.careerId(), p.id(), null);
         return authorization.isAllowed(actor.identityId(), OperationCode.PROCESS_MANAGE, scope)
@@ -91,8 +99,8 @@ public class SelfAssessmentService {
                 process.periodEnd(), process.modelVersionId(), process.modelVersionNumber(), process.state(), process.revision(),
                 process.createdBy(), process.createdAt(), visible, null);
     }
-    private UUID actor(OperationCode op,AuthorizationScope scope){var actor=current();if(actor.technical()||!authorization.isAllowed(actor.identityId(),op,scope))throw problem(ProcessProblemException.Kind.FORBIDDEN,"PROCESS_SCOPE_DENIED","La operación no está permitida.");return actor.identityId();}
-    SelfAssessmentProcess find(UUID id){return repository.find(id).orElseThrow(()->problem(ProcessProblemException.Kind.NOT_FOUND,"PROCESS_NOT_FOUND","El proceso no existe o no está visible."));}
-    static void check(SelfAssessmentProcess p,long expected){if(p.revision()!=expected)throw problem(ProcessProblemException.Kind.PRECONDITION,"STALE_PROCESS","El proceso cambió; recargue antes de continuar.");}
+    private UUID actor(OperationCode op,AuthorizationScope scope){var actor=current();if(actor.technical()||!authorization.isAllowed(actor.identityId(),op,scope))throw problem(ProcessProblemException.Kind.FORBIDDEN,"PROCESS_SCOPE_DENIED","La operaciÃ³n no estÃ¡ permitida.");return actor.identityId();}
+    SelfAssessmentProcess find(UUID id){return repository.find(id).orElseThrow(()->problem(ProcessProblemException.Kind.NOT_FOUND,"PROCESS_NOT_FOUND","El proceso no existe o no estÃ¡ visible."));}
+    static void check(SelfAssessmentProcess p,long expected){if(p.revision()!=expected)throw problem(ProcessProblemException.Kind.PRECONDITION,"STALE_PROCESS","El proceso cambiÃ³; recargue antes de continuar.");}
     static ProcessProblemException problem(ProcessProblemException.Kind k,String c,String m){return new ProcessProblemException(k,c,m);}
 }

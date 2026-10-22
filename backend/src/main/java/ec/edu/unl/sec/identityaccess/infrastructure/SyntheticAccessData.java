@@ -42,7 +42,7 @@ public class SyntheticAccessData implements ApplicationRunner {
     @Transactional
     public void run(ApplicationArguments args) {
         // Register the capability, never grant institutional authority implicitly to an existing user.
-        function(UUID.fromString("20000000-0000-0000-0000-000000000006"), "PROCESS_AUTHORITY", "Autoridad de inicio del proceso", List.of("ACCESS_READ_SELF", "PROCESS_AUTHORIZE", "CAREER_READ"));
+        function(UUID.fromString("20000000-0000-0000-0000-000000000006"), "PROCESS_AUTHORITY", "Autoridad de inicio del proceso", List.of("ACCESS_READ_SELF", "PROCESS_AUTHORIZE", "CAREER_READ", "MODEL_APPLICABILITY_AUTHORIZE"));
         functions();
         Long users = jdbc.queryForObject("select count(*) from access_identity", Long.class);
         if (users != null && users > 0) return;
@@ -79,6 +79,7 @@ public class SyntheticAccessData implements ApplicationRunner {
                 "MODEL_MANAGE",
                 "MODEL_READ",
                 "MODEL_AUDIT_READ",
+                "MODEL_APPLICABILITY_AUTHORIZE",
                 "PROCESS_MANAGE"));
         function(COORDINATOR, "COORDINATOR", "Coordinador de autoevaluacion", List.of(
                 "CAREER_READ", "ACCESS_READ_SELF", "ACCESS_READ_AUDIT", "MODEL_READ", "MODEL_PUBLISH", "MODEL_AUDIT_READ", "PROCESS_COORDINATE", "PROCESS_MANAGE"));

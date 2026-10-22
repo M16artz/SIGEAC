@@ -19,6 +19,7 @@ public class EvidenceProblemHandler {
     ProblemDetail handle(EvidenceProblemException exception, HttpServletRequest request) {
         HttpStatus status = switch (exception.kind()) {
             case UNAUTHORIZED -> HttpStatus.UNAUTHORIZED;
+            case FORBIDDEN -> HttpStatus.FORBIDDEN;
             case NOT_FOUND -> HttpStatus.NOT_FOUND;
             case CONFLICT -> HttpStatus.CONFLICT;
             case INVALID -> HttpStatus.UNPROCESSABLE_CONTENT;

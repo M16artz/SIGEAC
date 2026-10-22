@@ -15,11 +15,12 @@ import {ProcessAssignmentForm} from '../ui/process-assignment-form.component';
     <h2>Detalle del proceso</h2>
     @if (error()) { <p role="alert">{{error()}}</p> }
     @if (process(); as current) {
-      <p><strong>{{current.code}} · {{current.name}}</strong></p>
-      <p>Modelo fijado: {{current.modelVersionId}} · v{{current.modelVersionNumber}}</p>
+      <p><strong>{{current.code}} Â· {{current.name}}</strong></p>
+      <p>Modelo fijado: {{current.modelVersionId}} Â· v{{current.modelVersionNumber}}</p>
       <ul>@for (indicator of current.indicators; track indicator.id) {
-        <li>{{indicator.code}} · {{indicator.name}}</li>
+        <li>{{indicator.code}} Â· {{indicator.name}}</li>
       }</ul>
+      <p><a [routerLink]="['/processes', current.id, 'planning']">Autorizacion y planificacion</a></p>
       <sec-process-state-controls [process]="current" (changed)="process.set($event)" />
       <sec-process-assignment-form [process]="current" (changed)="process.set($event)" />
     }
@@ -33,7 +34,7 @@ export class ProcessDetailPage implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('processId');
-    if (!id) { this.error.set('No se indicó el proceso.'); return; }
+    if (!id) { this.error.set('No se indicÃ³ el proceso.'); return; }
     this.api.get(id).subscribe({
       next: process => this.process.set(process),
       error: () => this.error.set('No fue posible consultar el proceso.')

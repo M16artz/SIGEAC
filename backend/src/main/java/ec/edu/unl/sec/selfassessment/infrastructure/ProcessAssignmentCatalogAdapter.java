@@ -1,3 +1,21 @@
 package ec.edu.unl.sec.selfassessment.infrastructure;
-import ec.edu.unl.sec.selfassessment.application.*;import java.time.Instant;import java.util.UUID;import org.springframework.stereotype.Component;
-@Component public class ProcessAssignmentCatalogAdapter implements ProcessAssignmentCatalogPort{private final SelfAssessmentRepository repository;public ProcessAssignmentCatalogAdapter(SelfAssessmentRepository repository){this.repository=repository;}public boolean hasCurrentAssignment(UUID process,UUID indicator,UUID identity,String function,Instant at){return repository.assignments(process).stream().anyMatch(a->a.indicatorId().equals(indicator)&&a.identityId().equals(identity)&&a.function().name().equals(function)&&a.revokedAt()==null&&!at.isBefore(a.validFrom())&&at.isBefore(a.validTo()));}}
+
+import ec.edu.unl.sec.selfassessment.application.ProcessAssignmentCatalogPort;
+import ec.edu.unl.sec.selfassessment.application.SelfAssessmentRepository;
+import java.time.Instant;
+import java.util.UUID;
+import org.springframework.stereotype.Component;
+
+@Component
+public class ProcessAssignmentCatalogAdapter implements ProcessAssignmentCatalogPort {
+    private final SelfAssessmentRepository repository;
+
+    public ProcessAssignmentCatalogAdapter(SelfAssessmentRepository repository) { this.repository = repository; }
+
+    public boolean hasCurrentAssignment(UUID process, UUID indicator, UUID identity, String function, Instant at) {
+        return repository.assignments(process).stream()
+                .anyMatch(a -> a.indicatorId().equals(indicator) && a.assignedTo(identity)
+                        && a.function().name().equals(function) && a.revokedAt() == null
+                        && !at.isBefore(a.validFrom()) && at.isBefore(a.validTo()));
+    }
+}

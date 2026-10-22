@@ -20,6 +20,7 @@ public class EvidenceProblemException extends RuntimeException {
 
     public enum Kind {
         UNAUTHORIZED,
+        FORBIDDEN,
         NOT_FOUND,
         CONFLICT,
         INVALID,
