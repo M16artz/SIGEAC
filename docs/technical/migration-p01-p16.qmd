@@ -80,6 +80,14 @@ respaldar base y archivos y ensayar restauración antes de aplicar cambios.
 
 ## Tratamiento de datos anteriores
 
+Avance interno D2: [ADR-0019](../adr/0019-flexible-model-foundations.md) incorpora
+tipos explícitos y recorrido recursivo en el dominio. Los JSON anteriores sin
+`nodeType` se leen sin reescritura. Los DTO v1 siguen siendo legados; lectura,
+edición, publicación y sucesión de contenido tipado devuelven
+`MODEL_VERSION_REQUIRES_V2` antes de alterar datos. Esto no habilita rutas v2 ni
+completa V009. La compatibilidad de snapshots está probada en SQLite; la
+migración relacional y su verificación PostgreSQL permanecen pendientes de T024.
+
 - Preservar UUID, autoría, fechas, predecesores, versiones de modelo y referencias históricas.
 - `DRAFT` de proceso histórico corresponde a `PREPARATION`; un `ACTIVE` histórico sin constancia se clasifica como legado pendiente de reconciliación. La migración no inventa autoridad, vigencia ni documento de inicio.
 - El estándar de un esquema rígido se conserva como nodo/definición compatible; no reasignar indicadores automáticamente a otra versión de modelo.

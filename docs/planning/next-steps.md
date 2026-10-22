@@ -6,6 +6,13 @@ Actualización D1: catálogo implementado y verificado técnicamente con datos s
 véase [evidencia D1](../../tests/acceptance/results/d1-careers.md). D2–D8 siguen
 pendientes; las cifras de backlog siguientes incluyen las tareas ya cerradas.
 
+Continuación D2 (2026-10-21): [bases internas](../../tests/acceptance/results/d2-model-foundations.md)
+y [publicación por indicador](../../tests/acceptance/results/d2-model-publication.md).
+T006/T021–T023/T025–T026 están verificados con cinco configuraciones sintéticas.
+El siguiente bloque debe completar T114/T116/T027 (procedencia/aplicabilidad),
+integrar V009/T024 y después API v2/T028/editor T029 antes de T030. La publicación
+de fixtures no acredita vigencia institucional ni aceptación D2.
+
 ## Punto de partida y alcance
 
 La [revisión de implementación](../testing/implementation-review.md) es la línea base: acceso y sesiones, modelos con estructura heredada, autorización inicial del proceso, asignaciones individuales y borradores de metadatos. Las correcciones de permisos, estados, concurrencia y auditoría se conservan; no se reconstruyen desde cero.
@@ -192,7 +199,8 @@ D1 y D2 pueden desarrollarse en paralelo después de estabilizar contratos y bas
 
 ## Primer bloque de trabajo a implementar
 
-La siguiente ejecución debe empezar con **compatibilidad y catálogo de carreras**, no con dashboard o fórmulas:
+El bloque inicial de **compatibilidad y catálogo de carreras** quedó verificado
+en D1. Continuar por el punto 6 para D2; la tabla conserva la secuencia original:
 
 | Orden | Tareas | Resultado concreto |
 |---|---|---|

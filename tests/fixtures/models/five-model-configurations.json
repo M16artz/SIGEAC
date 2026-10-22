@@ -1,0 +1,1121 @@
+{
+  "schemaVersion": "sec.model-configurations/v1",
+  "synthetic": true,
+  "models": [
+    {
+      "key": "general-2024",
+      "name": "General 2024 — sintético",
+      "synthetic": true,
+      "source": "fixture://general-2024; sin validez institucional",
+      "nodes": [
+        {
+          "id": "62000000-0000-0000-0000-000000001020",
+          "code": "C-1",
+          "name": "C-1 sintético",
+          "description": "Configuración exclusiva de prueba",
+          "position": 1,
+          "children": [
+            {
+              "id": "62000000-0000-0000-0000-000000001010",
+              "code": "N-1",
+              "name": "N-1 sintético",
+              "description": "Configuración exclusiva de prueba",
+              "position": 1,
+              "children": [
+                {
+                  "id": "62000000-0000-0000-0000-000000001001",
+                  "code": "I-CUAL",
+                  "name": "I-CUAL sintético",
+                  "description": "Configuración exclusiva de prueba",
+                  "position": 1,
+                  "children": [],
+                  "nodeType": "INDICATOR"
+                },
+                {
+                  "id": "62000000-0000-0000-0000-000000001002",
+                  "code": "I-CUAN",
+                  "name": "I-CUAN sintético",
+                  "description": "Configuración exclusiva de prueba",
+                  "position": 2,
+                  "children": [],
+                  "nodeType": "INDICATOR"
+                }
+              ],
+              "nodeType": "SUBCRITERION"
+            }
+          ],
+          "nodeType": "CRITERION"
+        }
+      ],
+      "configuration": {
+        "indicators": [
+          {
+            "nodeId": "62000000-0000-0000-0000-000000001001",
+            "nature": "QUALITATIVE",
+            "standardText": "Estándar cualitativo sintético",
+            "fundamentalElements": [
+              "Elemento sintético"
+            ],
+            "evaluationPeriodDefinition": "Ciclo sintético 2026",
+            "ratingScaleId": "62000000-0000-0000-0000-000000001030",
+            "valuationRuleId": "62000000-0000-0000-0000-000000001050",
+            "sources": [
+              {
+                "id": "62000000-0000-0000-0000-000000001060",
+                "indicatorNodeId": "62000000-0000-0000-0000-000000001001",
+                "code": "F-1",
+                "sourceType": "FILE",
+                "name": "Fuente sintética F-1",
+                "description": "No representa requisitos normativos oficiales",
+                "required": true,
+                "cardinalityMin": 1,
+                "cardinalityMax": null,
+                "periodRule": "Período sintético 2026",
+                "ordinal": 1
+              },
+              {
+                "id": "62000000-0000-0000-0000-000000001061",
+                "indicatorNodeId": "62000000-0000-0000-0000-000000001001",
+                "code": "F-2",
+                "sourceType": "EXTERNAL_LINK",
+                "name": "Fuente sintética F-2",
+                "description": "No representa requisitos normativos oficiales",
+                "required": false,
+                "cardinalityMin": 1,
+                "cardinalityMax": null,
+                "periodRule": "Período sintético 2026",
+                "ordinal": 2
+              }
+            ]
+          },
+          {
+            "nodeId": "62000000-0000-0000-0000-000000001002",
+            "nature": "QUANTITATIVE",
+            "standardText": "Estándar cuantitativo sintético",
+            "fundamentalElements": [],
+            "evaluationPeriodDefinition": "Año sintético 2026",
+            "ratingScaleId": "62000000-0000-0000-0000-000000001040",
+            "valuationRuleId": "62000000-0000-0000-0000-000000001051",
+            "sources": [
+              {
+                "id": "62000000-0000-0000-0000-000000001062",
+                "indicatorNodeId": "62000000-0000-0000-0000-000000001002",
+                "code": "F-1",
+                "sourceType": "STRUCTURED_DATA",
+                "name": "Fuente sintética F-1",
+                "description": "No representa requisitos normativos oficiales",
+                "required": true,
+                "cardinalityMin": 1,
+                "cardinalityMax": null,
+                "periodRule": "Período sintético 2026",
+                "ordinal": 1
+              }
+            ]
+          }
+        ],
+        "scales": [
+          {
+            "id": "62000000-0000-0000-0000-000000001030",
+            "code": "ESC-CUAL",
+            "name": "Escala sintética ESC-CUAL",
+            "options": [
+              {
+                "id": "62000000-0000-0000-0000-000000001031",
+                "code": "A",
+                "label": "Opción sintética A",
+                "position": 1,
+                "declaredValue": null
+              },
+              {
+                "id": "62000000-0000-0000-0000-000000001032",
+                "code": "B",
+                "label": "Opción sintética B",
+                "position": 2,
+                "declaredValue": null
+              }
+            ]
+          },
+          {
+            "id": "62000000-0000-0000-0000-000000001040",
+            "code": "ESC-CUAN",
+            "name": "Escala sintética ESC-CUAN",
+            "options": [
+              {
+                "id": "62000000-0000-0000-0000-000000001041",
+                "code": "A",
+                "label": "Opción sintética A",
+                "position": 1,
+                "declaredValue": null
+              },
+              {
+                "id": "62000000-0000-0000-0000-000000001042",
+                "code": "B",
+                "label": "Opción sintética B",
+                "position": 2,
+                "declaredValue": null
+              }
+            ]
+          }
+        ],
+        "rules": [
+          {
+            "id": "62000000-0000-0000-0000-000000001050",
+            "indicatorNodeId": "62000000-0000-0000-0000-000000001001",
+            "ruleType": "MANUAL_QUALITATIVE",
+            "methodDefinition": "Registro manual fundamentado sobre escala propia",
+            "formulaDefinition": null,
+            "strategyKey": null,
+            "strategyVersion": null,
+            "scaleId": "62000000-0000-0000-0000-000000001030",
+            "variables": [],
+            "thresholds": [],
+            "missingDataPolicy": "Mantener pendiente si falta sustento",
+            "status": "DRAFT"
+          },
+          {
+            "id": "62000000-0000-0000-0000-000000001051",
+            "indicatorNodeId": "62000000-0000-0000-0000-000000001002",
+            "ruleType": "QUANTITATIVE",
+            "methodDefinition": "Razón sintética documentada; automatización deshabilitada",
+            "formulaDefinition": "A / B * 100",
+            "strategyKey": "synthetic-ratio",
+            "strategyVersion": "1",
+            "scaleId": "62000000-0000-0000-0000-000000001040",
+            "variables": [
+              {
+                "code": "A",
+                "name": "Cantidad A",
+                "unit": "personas sintéticas",
+                "dataType": "INTEGER",
+                "required": true,
+                "validationDefinition": "Entero no negativo"
+              },
+              {
+                "code": "B",
+                "name": "Cantidad B",
+                "unit": "personas sintéticas",
+                "dataType": "INTEGER",
+                "required": true,
+                "validationDefinition": "Entero mayor que cero"
+              }
+            ],
+            "thresholds": [
+              {
+                "ratingOptionId": "62000000-0000-0000-0000-000000001041",
+                "lowerBound": 0,
+                "upperBound": 50,
+                "lowerInclusive": true,
+                "upperInclusive": false
+              },
+              {
+                "ratingOptionId": "62000000-0000-0000-0000-000000001042",
+                "lowerBound": 50,
+                "upperBound": null,
+                "lowerInclusive": true,
+                "upperInclusive": false
+              }
+            ],
+            "missingDataPolicy": "PENDING; no sustituir ausencias por cero",
+            "status": "DRAFT"
+          }
+        ]
+      }
+    },
+    {
+      "key": "medicine-2018",
+      "name": "Medicina 2018 — sintético",
+      "synthetic": true,
+      "source": "fixture://medicine-2018; sin validez institucional",
+      "nodes": [
+        {
+          "id": "62000000-0000-0000-0000-000000002020",
+          "code": "C-1",
+          "name": "C-1 sintético",
+          "description": "Configuración exclusiva de prueba",
+          "position": 1,
+          "children": [
+            {
+              "id": "62000000-0000-0000-0000-000000002001",
+              "code": "I-CUAL",
+              "name": "I-CUAL sintético",
+              "description": "Configuración exclusiva de prueba",
+              "position": 1,
+              "children": [],
+              "nodeType": "INDICATOR"
+            },
+            {
+              "id": "62000000-0000-0000-0000-000000002002",
+              "code": "I-CUAN",
+              "name": "I-CUAN sintético",
+              "description": "Configuración exclusiva de prueba",
+              "position": 2,
+              "children": [],
+              "nodeType": "INDICATOR"
+            }
+          ],
+          "nodeType": "CRITERION"
+        }
+      ],
+      "configuration": {
+        "indicators": [
+          {
+            "nodeId": "62000000-0000-0000-0000-000000002001",
+            "nature": "QUALITATIVE",
+            "standardText": "Estándar cualitativo sintético",
+            "fundamentalElements": [
+              "Elemento sintético"
+            ],
+            "evaluationPeriodDefinition": "Ciclo sintético 2026",
+            "ratingScaleId": "62000000-0000-0000-0000-000000002030",
+            "valuationRuleId": "62000000-0000-0000-0000-000000002050",
+            "sources": [
+              {
+                "id": "62000000-0000-0000-0000-000000002060",
+                "indicatorNodeId": "62000000-0000-0000-0000-000000002001",
+                "code": "F-1",
+                "sourceType": "FILE",
+                "name": "Fuente sintética F-1",
+                "description": "No representa requisitos normativos oficiales",
+                "required": true,
+                "cardinalityMin": 1,
+                "cardinalityMax": null,
+                "periodRule": "Período sintético 2026",
+                "ordinal": 1
+              },
+              {
+                "id": "62000000-0000-0000-0000-000000002061",
+                "indicatorNodeId": "62000000-0000-0000-0000-000000002001",
+                "code": "F-2",
+                "sourceType": "EXTERNAL_LINK",
+                "name": "Fuente sintética F-2",
+                "description": "No representa requisitos normativos oficiales",
+                "required": false,
+                "cardinalityMin": 1,
+                "cardinalityMax": null,
+                "periodRule": "Período sintético 2026",
+                "ordinal": 2
+              }
+            ]
+          },
+          {
+            "nodeId": "62000000-0000-0000-0000-000000002002",
+            "nature": "QUANTITATIVE",
+            "standardText": "Estándar cuantitativo sintético",
+            "fundamentalElements": [],
+            "evaluationPeriodDefinition": "Año sintético 2026",
+            "ratingScaleId": "62000000-0000-0000-0000-000000002040",
+            "valuationRuleId": "62000000-0000-0000-0000-000000002051",
+            "sources": [
+              {
+                "id": "62000000-0000-0000-0000-000000002062",
+                "indicatorNodeId": "62000000-0000-0000-0000-000000002002",
+                "code": "F-1",
+                "sourceType": "INSTITUTIONAL_REFERENCE",
+                "name": "Fuente sintética F-1",
+                "description": "No representa requisitos normativos oficiales",
+                "required": true,
+                "cardinalityMin": 2,
+                "cardinalityMax": null,
+                "periodRule": "Período sintético 2026",
+                "ordinal": 1
+              }
+            ]
+          }
+        ],
+        "scales": [
+          {
+            "id": "62000000-0000-0000-0000-000000002030",
+            "code": "ESC-CUAL",
+            "name": "Escala sintética ESC-CUAL",
+            "options": [
+              {
+                "id": "62000000-0000-0000-0000-000000002031",
+                "code": "A",
+                "label": "Opción sintética A",
+                "position": 1,
+                "declaredValue": null
+              },
+              {
+                "id": "62000000-0000-0000-0000-000000002032",
+                "code": "B",
+                "label": "Opción sintética B",
+                "position": 2,
+                "declaredValue": null
+              }
+            ]
+          },
+          {
+            "id": "62000000-0000-0000-0000-000000002040",
+            "code": "ESC-CUAN",
+            "name": "Escala sintética ESC-CUAN",
+            "options": [
+              {
+                "id": "62000000-0000-0000-0000-000000002041",
+                "code": "A",
+                "label": "Opción sintética A",
+                "position": 1,
+                "declaredValue": null
+              },
+              {
+                "id": "62000000-0000-0000-0000-000000002042",
+                "code": "B",
+                "label": "Opción sintética B",
+                "position": 2,
+                "declaredValue": null
+              }
+            ]
+          }
+        ],
+        "rules": [
+          {
+            "id": "62000000-0000-0000-0000-000000002050",
+            "indicatorNodeId": "62000000-0000-0000-0000-000000002001",
+            "ruleType": "MANUAL_QUALITATIVE",
+            "methodDefinition": "Registro manual fundamentado sobre escala propia",
+            "formulaDefinition": null,
+            "strategyKey": null,
+            "strategyVersion": null,
+            "scaleId": "62000000-0000-0000-0000-000000002030",
+            "variables": [],
+            "thresholds": [],
+            "missingDataPolicy": "Mantener pendiente si falta sustento",
+            "status": "DRAFT"
+          },
+          {
+            "id": "62000000-0000-0000-0000-000000002051",
+            "indicatorNodeId": "62000000-0000-0000-0000-000000002002",
+            "ruleType": "QUANTITATIVE",
+            "methodDefinition": "Razón sintética documentada; automatización deshabilitada",
+            "formulaDefinition": "A / B * 100",
+            "strategyKey": "synthetic-ratio",
+            "strategyVersion": "1",
+            "scaleId": "62000000-0000-0000-0000-000000002040",
+            "variables": [
+              {
+                "code": "A",
+                "name": "Cantidad A",
+                "unit": "pacientes sintéticos",
+                "dataType": "INTEGER",
+                "required": true,
+                "validationDefinition": "Entero no negativo"
+              },
+              {
+                "code": "B",
+                "name": "Cantidad B",
+                "unit": "pacientes sintéticos",
+                "dataType": "INTEGER",
+                "required": true,
+                "validationDefinition": "Entero mayor que cero"
+              }
+            ],
+            "thresholds": [
+              {
+                "ratingOptionId": "62000000-0000-0000-0000-000000002041",
+                "lowerBound": 0,
+                "upperBound": 55,
+                "lowerInclusive": true,
+                "upperInclusive": false
+              },
+              {
+                "ratingOptionId": "62000000-0000-0000-0000-000000002042",
+                "lowerBound": 55,
+                "upperBound": null,
+                "lowerInclusive": true,
+                "upperInclusive": false
+              }
+            ],
+            "missingDataPolicy": "PENDING; no sustituir ausencias por cero",
+            "status": "DRAFT"
+          }
+        ]
+      }
+    },
+    {
+      "key": "nursing-2016",
+      "name": "Enfermería 2016 — sintético",
+      "synthetic": true,
+      "source": "fixture://nursing-2016; sin validez institucional",
+      "nodes": [
+        {
+          "id": "62000000-0000-0000-0000-000000003020",
+          "code": "C-1",
+          "name": "C-1 sintético",
+          "description": "Configuración exclusiva de prueba",
+          "position": 1,
+          "children": [
+            {
+              "id": "62000000-0000-0000-0000-000000003011",
+              "code": "N-2",
+              "name": "N-2 sintético",
+              "description": "Configuración exclusiva de prueba",
+              "position": 1,
+              "children": [
+                {
+                  "id": "62000000-0000-0000-0000-000000003010",
+                  "code": "N-1",
+                  "name": "N-1 sintético",
+                  "description": "Configuración exclusiva de prueba",
+                  "position": 1,
+                  "children": [
+                    {
+                      "id": "62000000-0000-0000-0000-000000003001",
+                      "code": "I-CUAL",
+                      "name": "I-CUAL sintético",
+                      "description": "Configuración exclusiva de prueba",
+                      "position": 1,
+                      "children": [],
+                      "nodeType": "INDICATOR"
+                    },
+                    {
+                      "id": "62000000-0000-0000-0000-000000003002",
+                      "code": "I-CUAN",
+                      "name": "I-CUAN sintético",
+                      "description": "Configuración exclusiva de prueba",
+                      "position": 2,
+                      "children": [],
+                      "nodeType": "INDICATOR"
+                    }
+                  ],
+                  "nodeType": "STANDARD"
+                }
+              ],
+              "nodeType": "PRACTICE_AREA"
+            }
+          ],
+          "nodeType": "CRITERION"
+        }
+      ],
+      "configuration": {
+        "indicators": [
+          {
+            "nodeId": "62000000-0000-0000-0000-000000003001",
+            "nature": "QUALITATIVE",
+            "standardText": "Estándar cualitativo sintético",
+            "fundamentalElements": [
+              "Elemento sintético"
+            ],
+            "evaluationPeriodDefinition": "Ciclo sintético 2026",
+            "ratingScaleId": "62000000-0000-0000-0000-000000003030",
+            "valuationRuleId": "62000000-0000-0000-0000-000000003050",
+            "sources": [
+              {
+                "id": "62000000-0000-0000-0000-000000003060",
+                "indicatorNodeId": "62000000-0000-0000-0000-000000003001",
+                "code": "F-1",
+                "sourceType": "FILE",
+                "name": "Fuente sintética F-1",
+                "description": "No representa requisitos normativos oficiales",
+                "required": true,
+                "cardinalityMin": 1,
+                "cardinalityMax": null,
+                "periodRule": "Período sintético 2026",
+                "ordinal": 1
+              },
+              {
+                "id": "62000000-0000-0000-0000-000000003061",
+                "indicatorNodeId": "62000000-0000-0000-0000-000000003001",
+                "code": "F-2",
+                "sourceType": "EXTERNAL_LINK",
+                "name": "Fuente sintética F-2",
+                "description": "No representa requisitos normativos oficiales",
+                "required": false,
+                "cardinalityMin": 1,
+                "cardinalityMax": null,
+                "periodRule": "Período sintético 2026",
+                "ordinal": 2
+              }
+            ]
+          },
+          {
+            "nodeId": "62000000-0000-0000-0000-000000003002",
+            "nature": "QUANTITATIVE",
+            "standardText": "Estándar cuantitativo sintético",
+            "fundamentalElements": [],
+            "evaluationPeriodDefinition": "Año sintético 2026",
+            "ratingScaleId": "62000000-0000-0000-0000-000000003040",
+            "valuationRuleId": "62000000-0000-0000-0000-000000003051",
+            "sources": [
+              {
+                "id": "62000000-0000-0000-0000-000000003062",
+                "indicatorNodeId": "62000000-0000-0000-0000-000000003002",
+                "code": "F-1",
+                "sourceType": "STRUCTURED_DATA",
+                "name": "Fuente sintética F-1",
+                "description": "No representa requisitos normativos oficiales",
+                "required": true,
+                "cardinalityMin": 1,
+                "cardinalityMax": null,
+                "periodRule": "Período sintético 2026",
+                "ordinal": 1
+              }
+            ]
+          }
+        ],
+        "scales": [
+          {
+            "id": "62000000-0000-0000-0000-000000003030",
+            "code": "ESC-CUAL",
+            "name": "Escala sintética ESC-CUAL",
+            "options": [
+              {
+                "id": "62000000-0000-0000-0000-000000003031",
+                "code": "A",
+                "label": "Opción sintética A",
+                "position": 1,
+                "declaredValue": null
+              },
+              {
+                "id": "62000000-0000-0000-0000-000000003032",
+                "code": "B",
+                "label": "Opción sintética B",
+                "position": 2,
+                "declaredValue": null
+              }
+            ]
+          },
+          {
+            "id": "62000000-0000-0000-0000-000000003040",
+            "code": "ESC-CUAN",
+            "name": "Escala sintética ESC-CUAN",
+            "options": [
+              {
+                "id": "62000000-0000-0000-0000-000000003041",
+                "code": "A",
+                "label": "Opción sintética A",
+                "position": 1,
+                "declaredValue": null
+              },
+              {
+                "id": "62000000-0000-0000-0000-000000003042",
+                "code": "B",
+                "label": "Opción sintética B",
+                "position": 2,
+                "declaredValue": null
+              }
+            ]
+          }
+        ],
+        "rules": [
+          {
+            "id": "62000000-0000-0000-0000-000000003050",
+            "indicatorNodeId": "62000000-0000-0000-0000-000000003001",
+            "ruleType": "MANUAL_QUALITATIVE",
+            "methodDefinition": "Registro manual fundamentado sobre escala propia",
+            "formulaDefinition": null,
+            "strategyKey": null,
+            "strategyVersion": null,
+            "scaleId": "62000000-0000-0000-0000-000000003030",
+            "variables": [],
+            "thresholds": [],
+            "missingDataPolicy": "Mantener pendiente si falta sustento",
+            "status": "DRAFT"
+          },
+          {
+            "id": "62000000-0000-0000-0000-000000003051",
+            "indicatorNodeId": "62000000-0000-0000-0000-000000003002",
+            "ruleType": "QUANTITATIVE",
+            "methodDefinition": "Razón sintética documentada; automatización deshabilitada",
+            "formulaDefinition": "A / B * 100",
+            "strategyKey": "synthetic-ratio",
+            "strategyVersion": "1",
+            "scaleId": "62000000-0000-0000-0000-000000003040",
+            "variables": [
+              {
+                "code": "A",
+                "name": "Cantidad A",
+                "unit": "personas sintéticas",
+                "dataType": "INTEGER",
+                "required": true,
+                "validationDefinition": "Entero no negativo"
+              },
+              {
+                "code": "B",
+                "name": "Cantidad B",
+                "unit": "personas sintéticas",
+                "dataType": "INTEGER",
+                "required": true,
+                "validationDefinition": "Entero mayor que cero"
+              }
+            ],
+            "thresholds": [
+              {
+                "ratingOptionId": "62000000-0000-0000-0000-000000003041",
+                "lowerBound": 0,
+                "upperBound": 60,
+                "lowerInclusive": true,
+                "upperInclusive": false
+              },
+              {
+                "ratingOptionId": "62000000-0000-0000-0000-000000003042",
+                "lowerBound": 60,
+                "upperBound": null,
+                "lowerInclusive": true,
+                "upperInclusive": false
+              }
+            ],
+            "missingDataPolicy": "PENDING; no sustituir ausencias por cero",
+            "status": "DRAFT"
+          }
+        ]
+      }
+    },
+    {
+      "key": "dentistry-2018",
+      "name": "Odontología 2018 — sintético",
+      "synthetic": true,
+      "source": "fixture://dentistry-2018; sin validez institucional",
+      "nodes": [
+        {
+          "id": "62000000-0000-0000-0000-000000004020",
+          "code": "C-1",
+          "name": "C-1 sintético",
+          "description": "Configuración exclusiva de prueba",
+          "position": 1,
+          "children": [
+            {
+              "id": "62000000-0000-0000-0000-000000004012",
+              "code": "N-3",
+              "name": "N-3 sintético",
+              "description": "Configuración exclusiva de prueba",
+              "position": 1,
+              "children": [
+                {
+                  "id": "62000000-0000-0000-0000-000000004011",
+                  "code": "N-2",
+                  "name": "N-2 sintético",
+                  "description": "Configuración exclusiva de prueba",
+                  "position": 1,
+                  "children": [
+                    {
+                      "id": "62000000-0000-0000-0000-000000004010",
+                      "code": "N-1",
+                      "name": "N-1 sintético",
+                      "description": "Configuración exclusiva de prueba",
+                      "position": 1,
+                      "children": [
+                        {
+                          "id": "62000000-0000-0000-0000-000000004001",
+                          "code": "I-CUAL",
+                          "name": "I-CUAL sintético",
+                          "description": "Configuración exclusiva de prueba",
+                          "position": 1,
+                          "children": [],
+                          "nodeType": "INDICATOR"
+                        },
+                        {
+                          "id": "62000000-0000-0000-0000-000000004002",
+                          "code": "I-CUAN",
+                          "name": "I-CUAN sintético",
+                          "description": "Configuración exclusiva de prueba",
+                          "position": 2,
+                          "children": [],
+                          "nodeType": "INDICATOR"
+                        }
+                      ],
+                      "nodeType": "STANDARD"
+                    }
+                  ],
+                  "nodeType": "CLINICAL_AREA"
+                }
+              ],
+              "nodeType": "SUBCRITERION"
+            }
+          ],
+          "nodeType": "CRITERION"
+        }
+      ],
+      "configuration": {
+        "indicators": [
+          {
+            "nodeId": "62000000-0000-0000-0000-000000004001",
+            "nature": "QUALITATIVE",
+            "standardText": "Estándar cualitativo sintético",
+            "fundamentalElements": [
+              "Elemento sintético"
+            ],
+            "evaluationPeriodDefinition": "Ciclo sintético 2026",
+            "ratingScaleId": "62000000-0000-0000-0000-000000004030",
+            "valuationRuleId": "62000000-0000-0000-0000-000000004050",
+            "sources": [
+              {
+                "id": "62000000-0000-0000-0000-000000004060",
+                "indicatorNodeId": "62000000-0000-0000-0000-000000004001",
+                "code": "F-1",
+                "sourceType": "FILE",
+                "name": "Fuente sintética F-1",
+                "description": "No representa requisitos normativos oficiales",
+                "required": true,
+                "cardinalityMin": 1,
+                "cardinalityMax": null,
+                "periodRule": "Período sintético 2026",
+                "ordinal": 1
+              },
+              {
+                "id": "62000000-0000-0000-0000-000000004061",
+                "indicatorNodeId": "62000000-0000-0000-0000-000000004001",
+                "code": "F-2",
+                "sourceType": "EXTERNAL_LINK",
+                "name": "Fuente sintética F-2",
+                "description": "No representa requisitos normativos oficiales",
+                "required": false,
+                "cardinalityMin": 1,
+                "cardinalityMax": null,
+                "periodRule": "Período sintético 2026",
+                "ordinal": 2
+              }
+            ]
+          },
+          {
+            "nodeId": "62000000-0000-0000-0000-000000004002",
+            "nature": "QUANTITATIVE",
+            "standardText": "Estándar cuantitativo sintético",
+            "fundamentalElements": [],
+            "evaluationPeriodDefinition": "Año sintético 2026",
+            "ratingScaleId": "62000000-0000-0000-0000-000000004040",
+            "valuationRuleId": "62000000-0000-0000-0000-000000004051",
+            "sources": [
+              {
+                "id": "62000000-0000-0000-0000-000000004062",
+                "indicatorNodeId": "62000000-0000-0000-0000-000000004002",
+                "code": "F-1",
+                "sourceType": "INSTITUTIONAL_REFERENCE",
+                "name": "Fuente sintética F-1",
+                "description": "No representa requisitos normativos oficiales",
+                "required": true,
+                "cardinalityMin": 1,
+                "cardinalityMax": null,
+                "periodRule": "Período sintético 2026",
+                "ordinal": 1
+              }
+            ]
+          }
+        ],
+        "scales": [
+          {
+            "id": "62000000-0000-0000-0000-000000004030",
+            "code": "ESC-CUAL",
+            "name": "Escala sintética ESC-CUAL",
+            "options": [
+              {
+                "id": "62000000-0000-0000-0000-000000004031",
+                "code": "A",
+                "label": "Opción sintética A",
+                "position": 1,
+                "declaredValue": null
+              },
+              {
+                "id": "62000000-0000-0000-0000-000000004032",
+                "code": "B",
+                "label": "Opción sintética B",
+                "position": 2,
+                "declaredValue": null
+              }
+            ]
+          },
+          {
+            "id": "62000000-0000-0000-0000-000000004040",
+            "code": "ESC-CUAN",
+            "name": "Escala sintética ESC-CUAN",
+            "options": [
+              {
+                "id": "62000000-0000-0000-0000-000000004041",
+                "code": "A",
+                "label": "Opción sintética A",
+                "position": 1,
+                "declaredValue": null
+              },
+              {
+                "id": "62000000-0000-0000-0000-000000004042",
+                "code": "B",
+                "label": "Opción sintética B",
+                "position": 2,
+                "declaredValue": null
+              }
+            ]
+          }
+        ],
+        "rules": [
+          {
+            "id": "62000000-0000-0000-0000-000000004050",
+            "indicatorNodeId": "62000000-0000-0000-0000-000000004001",
+            "ruleType": "MANUAL_QUALITATIVE",
+            "methodDefinition": "Registro manual fundamentado sobre escala propia",
+            "formulaDefinition": null,
+            "strategyKey": null,
+            "strategyVersion": null,
+            "scaleId": "62000000-0000-0000-0000-000000004030",
+            "variables": [],
+            "thresholds": [],
+            "missingDataPolicy": "Mantener pendiente si falta sustento",
+            "status": "DRAFT"
+          },
+          {
+            "id": "62000000-0000-0000-0000-000000004051",
+            "indicatorNodeId": "62000000-0000-0000-0000-000000004002",
+            "ruleType": "QUANTITATIVE",
+            "methodDefinition": "Razón sintética documentada; automatización deshabilitada",
+            "formulaDefinition": "A / B * 100",
+            "strategyKey": "synthetic-ratio",
+            "strategyVersion": "1",
+            "scaleId": "62000000-0000-0000-0000-000000004040",
+            "variables": [
+              {
+                "code": "A",
+                "name": "Cantidad A",
+                "unit": "personas sintéticas",
+                "dataType": "INTEGER",
+                "required": true,
+                "validationDefinition": "Entero no negativo"
+              },
+              {
+                "code": "B",
+                "name": "Cantidad B",
+                "unit": "personas sintéticas",
+                "dataType": "INTEGER",
+                "required": true,
+                "validationDefinition": "Entero mayor que cero"
+              }
+            ],
+            "thresholds": [
+              {
+                "ratingOptionId": "62000000-0000-0000-0000-000000004041",
+                "lowerBound": 0,
+                "upperBound": 65,
+                "lowerInclusive": true,
+                "upperInclusive": false
+              },
+              {
+                "ratingOptionId": "62000000-0000-0000-0000-000000004042",
+                "lowerBound": 65,
+                "upperBound": null,
+                "lowerInclusive": true,
+                "upperInclusive": false
+              }
+            ],
+            "missingDataPolicy": "PENDING; no sustituir ausencias por cero",
+            "status": "DRAFT"
+          }
+        ]
+      }
+    },
+    {
+      "key": "law-matrix",
+      "name": "Derecho matricial — sintético",
+      "synthetic": true,
+      "source": "fixture://law-matrix; sin validez institucional",
+      "nodes": [
+        {
+          "id": "62000000-0000-0000-0000-000000005020",
+          "code": "C-1",
+          "name": "C-1 sintético",
+          "description": "Configuración exclusiva de prueba",
+          "position": 1,
+          "children": [
+            {
+              "id": "62000000-0000-0000-0000-000000005010",
+              "code": "N-1",
+              "name": "N-1 sintético",
+              "description": "Configuración exclusiva de prueba",
+              "position": 1,
+              "children": [
+                {
+                  "id": "62000000-0000-0000-0000-000000005001",
+                  "code": "I-CUAL",
+                  "name": "I-CUAL sintético",
+                  "description": "Configuración exclusiva de prueba",
+                  "position": 1,
+                  "children": [],
+                  "nodeType": "INDICATOR"
+                },
+                {
+                  "id": "62000000-0000-0000-0000-000000005002",
+                  "code": "I-CUAN",
+                  "name": "I-CUAN sintético",
+                  "description": "Configuración exclusiva de prueba",
+                  "position": 2,
+                  "children": [],
+                  "nodeType": "INDICATOR"
+                }
+              ],
+              "nodeType": "MATRIX_AXIS"
+            }
+          ],
+          "nodeType": "CRITERION"
+        }
+      ],
+      "configuration": {
+        "indicators": [
+          {
+            "nodeId": "62000000-0000-0000-0000-000000005001",
+            "nature": "QUALITATIVE",
+            "standardText": "Estándar cualitativo sintético",
+            "fundamentalElements": [
+              "Elemento sintético"
+            ],
+            "evaluationPeriodDefinition": "Ciclo sintético 2026",
+            "ratingScaleId": "62000000-0000-0000-0000-000000005030",
+            "valuationRuleId": "62000000-0000-0000-0000-000000005050",
+            "sources": [
+              {
+                "id": "62000000-0000-0000-0000-000000005060",
+                "indicatorNodeId": "62000000-0000-0000-0000-000000005001",
+                "code": "F-1",
+                "sourceType": "FILE",
+                "name": "Fuente sintética F-1",
+                "description": "No representa requisitos normativos oficiales",
+                "required": true,
+                "cardinalityMin": 1,
+                "cardinalityMax": null,
+                "periodRule": "Período sintético 2026",
+                "ordinal": 1
+              },
+              {
+                "id": "62000000-0000-0000-0000-000000005061",
+                "indicatorNodeId": "62000000-0000-0000-0000-000000005001",
+                "code": "F-2",
+                "sourceType": "EXTERNAL_LINK",
+                "name": "Fuente sintética F-2",
+                "description": "No representa requisitos normativos oficiales",
+                "required": false,
+                "cardinalityMin": 1,
+                "cardinalityMax": null,
+                "periodRule": "Período sintético 2026",
+                "ordinal": 2
+              }
+            ]
+          },
+          {
+            "nodeId": "62000000-0000-0000-0000-000000005002",
+            "nature": "QUANTITATIVE",
+            "standardText": "Estándar cuantitativo sintético",
+            "fundamentalElements": [],
+            "evaluationPeriodDefinition": "Año sintético 2026",
+            "ratingScaleId": "62000000-0000-0000-0000-000000005040",
+            "valuationRuleId": "62000000-0000-0000-0000-000000005051",
+            "sources": [
+              {
+                "id": "62000000-0000-0000-0000-000000005062",
+                "indicatorNodeId": "62000000-0000-0000-0000-000000005002",
+                "code": "F-1",
+                "sourceType": "STRUCTURED_DATA",
+                "name": "Fuente sintética F-1",
+                "description": "No representa requisitos normativos oficiales",
+                "required": true,
+                "cardinalityMin": 1,
+                "cardinalityMax": null,
+                "periodRule": "Período sintético 2026",
+                "ordinal": 1
+              }
+            ]
+          }
+        ],
+        "scales": [
+          {
+            "id": "62000000-0000-0000-0000-000000005030",
+            "code": "ESC-CUAL",
+            "name": "Escala sintética ESC-CUAL",
+            "options": [
+              {
+                "id": "62000000-0000-0000-0000-000000005031",
+                "code": "A",
+                "label": "Opción sintética A",
+                "position": 1,
+                "declaredValue": null
+              },
+              {
+                "id": "62000000-0000-0000-0000-000000005032",
+                "code": "B",
+                "label": "Opción sintética B",
+                "position": 2,
+                "declaredValue": null
+              }
+            ]
+          },
+          {
+            "id": "62000000-0000-0000-0000-000000005040",
+            "code": "ESC-CUAN",
+            "name": "Escala sintética ESC-CUAN",
+            "options": [
+              {
+                "id": "62000000-0000-0000-0000-000000005041",
+                "code": "A",
+                "label": "Opción sintética A",
+                "position": 1,
+                "declaredValue": null
+              },
+              {
+                "id": "62000000-0000-0000-0000-000000005042",
+                "code": "B",
+                "label": "Opción sintética B",
+                "position": 2,
+                "declaredValue": null
+              }
+            ]
+          }
+        ],
+        "rules": [
+          {
+            "id": "62000000-0000-0000-0000-000000005050",
+            "indicatorNodeId": "62000000-0000-0000-0000-000000005001",
+            "ruleType": "MANUAL_QUALITATIVE",
+            "methodDefinition": "Registro manual fundamentado sobre escala propia",
+            "formulaDefinition": null,
+            "strategyKey": null,
+            "strategyVersion": null,
+            "scaleId": "62000000-0000-0000-0000-000000005030",
+            "variables": [],
+            "thresholds": [],
+            "missingDataPolicy": "Mantener pendiente si falta sustento",
+            "status": "DRAFT"
+          },
+          {
+            "id": "62000000-0000-0000-0000-000000005051",
+            "indicatorNodeId": "62000000-0000-0000-0000-000000005002",
+            "ruleType": "QUANTITATIVE",
+            "methodDefinition": "Razón sintética documentada; automatización deshabilitada",
+            "formulaDefinition": "A / B * 100",
+            "strategyKey": "synthetic-ratio",
+            "strategyVersion": "1",
+            "scaleId": "62000000-0000-0000-0000-000000005040",
+            "variables": [
+              {
+                "code": "A",
+                "name": "Cantidad A",
+                "unit": "personas sintéticas",
+                "dataType": "INTEGER",
+                "required": true,
+                "validationDefinition": "Entero no negativo"
+              },
+              {
+                "code": "B",
+                "name": "Cantidad B",
+                "unit": "personas sintéticas",
+                "dataType": "INTEGER",
+                "required": true,
+                "validationDefinition": "Entero mayor que cero"
+              }
+            ],
+            "thresholds": [
+              {
+                "ratingOptionId": "62000000-0000-0000-0000-000000005041",
+                "lowerBound": 0,
+                "upperBound": 70,
+                "lowerInclusive": true,
+                "upperInclusive": false
+              },
+              {
+                "ratingOptionId": "62000000-0000-0000-0000-000000005042",
+                "lowerBound": 70,
+                "upperBound": null,
+                "lowerInclusive": true,
+                "upperInclusive": false
+              }
+            ],
+            "missingDataPolicy": "PENDING; no sustituir ausencias por cero",
+            "status": "DRAFT"
+          }
+        ]
+      }
+    }
+  ]
+}

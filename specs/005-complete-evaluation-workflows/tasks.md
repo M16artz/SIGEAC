@@ -12,7 +12,7 @@
 
 **Revisión del código existente (2026-10-21)**: [implementation-review.md](../../docs/testing/implementation-review.md) registra correcciones de autorización inicial, estados, permisos, ETags y borradores. Son avances parciales; no completan por sí solos las tareas ni las entregas de este plan.
 
-**Siguiente ejecución**: seguir la [hoja de ruta de módulos y funcionalidades](../../docs/planning/next-steps.md). Empezar por T113 → T005 → T115, completar bases necesarias y entregar US1/D1; D2 puede prepararse en paralelo. Conservar los 126 IDs y sus checks hasta disponer de evidencia de cierre. Las capacidades y verificaciones transversales se extienden por entrega; los módulos académicos no bloquean el MVP.
+**Siguiente ejecución**: D1 ya está verificado. Continuar D2 con T114/T116/T027 (procedencia y aplicabilidad), integrar V009/T024 y después contrato v2/T028/editor T029 antes de T030. La [publicación por indicador](../../tests/acceptance/results/d2-model-publication.md) verifica T006/T021–T023/T025–T026, sin declarar D2 aceptada. Conservar los 126 IDs y extender las verificaciones transversales por entrega; los módulos académicos no bloquean el MVP.
 
 ## Phase 1: Setup and reconciliation
 
@@ -24,7 +24,7 @@
 - [ ] T003 [P] Add `governance`, `improvement` and `archive` module boundaries to `backend/src/test/java/ec/edu/unl/sec/architecture/ModuleArchitectureTest.java`
 - [ ] T004 [P] Add frontend routes/placeholders for careers, reports, improvement and archive in `frontend/src/app/app.routes.ts`
 - [X] T005 Define the forward-only migration sequence in `docs/technical/migration-p01-p16.qmd`; V008 implements careers, V009/V010 reserve models/governance and V011 evidence immutability before V012–V018; verify V001–V008 on the disposable PostgreSQL history without out-of-order or repair
-- [ ] T006 Add synthetic normative manifests for the five supplied models in `tests/fixtures/models/normative-manifest.json`
+- [X] T006 Add synthetic normative manifests for the five supplied models in `tests/fixtures/models/normative-manifest.json`
 - [ ] T114 [P] Produce a source-by-source verification manifest with exact pages, edition and unresolved applicability for the five models and UNL instruction in `tests/fixtures/models/normative-verification.json`; link unresolved CL-011–CL-017 to institutional owners without claiming approval
 
 ## Phase 2: Foundational governance
@@ -54,12 +54,14 @@
 
 **Independent Test**: publish the five configurations with variable hierarchies, required sources and per-indicator methods using one engine.
 
-- [ ] T021 [P] [US2] Add recursive hierarchy and direct-indicator tests in `backend/src/test/java/ec/edu/unl/sec/evaluationmodel/domain/FlexibleModelHierarchyTest.java`
-- [ ] T022 [P] [US2] Add source/rule publication tests including variables, units, thresholds and unvalidated strategies in `backend/src/test/java/ec/edu/unl/sec/evaluationmodel/application/CompleteModelPublicationTest.java`
-- [ ] T023 [P] [US2] Add five-model fixture acceptance tests in `backend/src/test/java/ec/edu/unl/sec/evaluationmodel/application/FiveModelConfigurationTest.java`
+**Avance interno D2 (2026-10-21)**: [bases de jerarquía](../../tests/acceptance/results/d2-model-foundations.md) y [publicación por indicador](../../tests/acceptance/results/d2-model-publication.md). T006/T021–T023/T025–T026 cuentan con pruebas aprobadas de aplicación y snapshots. Continúan pendientes T024/T027–T030/T114/T116; no se declara API v2, migración V009 ni aceptación D2 disponible.
+
+- [X] T021 [P] [US2] Add recursive hierarchy and direct-indicator tests in `backend/src/test/java/ec/edu/unl/sec/evaluationmodel/domain/FlexibleModelHierarchyTest.java`
+- [X] T022 [P] [US2] Add source/rule publication tests including variables, units, thresholds and unvalidated strategies in `backend/src/test/java/ec/edu/unl/sec/evaluationmodel/application/CompleteModelPublicationTest.java`
+- [X] T023 [P] [US2] Add five-model fixture acceptance tests in `backend/src/test/java/ec/edu/unl/sec/evaluationmodel/application/FiveModelConfigurationTest.java`
 - [ ] T024 [US2] Create migration for normative applicability, recursive node types, required sources and valuation rules in `backend/src/main/resources/db/migration/V009__complete_evaluation_models.sql`
-- [ ] T025 [US2] Replace rigid publication validation in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/PublicationValidator.java` and update existing callers in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/EvaluationModelService.java` and `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/infrastructure/ModelCatalogAdapter.java` without duplicating publication services
-- [ ] T026 [US2] Implement indicator definitions in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/IndicatorDefinition.java` and required sources in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/RequiredSource.java`, enforcing "Código único por indicador; `cardinality_min >= 1`; máximo nulo o >= mínimo."; preserve per-indicator scales/rules and "Solo una regla `VALIDATED` puede calcular automáticamente."
+- [X] T025 [US2] Replace rigid publication validation in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/PublicationValidator.java` and update existing callers in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/EvaluationModelService.java` and `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/infrastructure/ModelCatalogAdapter.java` without duplicating publication services
+- [X] T026 [US2] Implement indicator definitions in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/IndicatorDefinition.java` and required sources in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/RequiredSource.java`, enforcing "Código único por indicador; `cardinality_min >= 1`; máximo nulo o >= mínimo."; preserve per-indicator scales/rules and "Solo una regla `VALIDATED` puede calcular automáticamente."
 - [ ] T027 [US2] Implement normative applicability service without inferring vigency in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/ModelApplicabilityService.java`
 - [ ] T028 [US2] Extend model API schemas/controllers in `backend/src/main/java/ec/edu/unl/sec/evaluationmodel/api/EvaluationModelController.java`
 - [ ] T029 [US2] Extend the existing model editor for hierarchy, sources and rules in `frontend/src/app/features/models/pages/model-editor.page.ts` and its DTOs in `frontend/src/app/features/models/data-access/model.models.ts`

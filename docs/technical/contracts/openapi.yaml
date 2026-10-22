@@ -178,6 +178,7 @@ paths:
     get:
       tags: [Models]
       operationId: listModelVersions
+      description: El contrato v1 conserva la jerarquía legada; una versión con nodos tipados devuelve MODEL_VERSION_REQUIRES_V2 y no se proyecta perdiendo información.
       parameters:
         - {$ref: '#/components/parameters/ModelId'}
         - {$ref: '#/components/parameters/Page'}
@@ -185,6 +186,7 @@ paths:
       responses:
         '200': {$ref: '#/components/responses/PagedResult'}
         '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
     post:
       tags: [Models]
       operationId: createModelVersion
@@ -215,6 +217,7 @@ paths:
     get:
       tags: [Models]
       operationId: getModelVersion
+      description: Una versión con nodos tipados requiere el contrato v2 planificado y devuelve 409 MODEL_VERSION_REQUIRES_V2 en v1.
       parameters: [{$ref: '#/components/parameters/VersionId'}]
       responses:
         '200':
@@ -224,6 +227,7 @@ paths:
               schema: {$ref: '#/components/schemas/ModelVersionView'}
         '403': {$ref: '#/components/responses/Forbidden'}
         '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
     put:
       tags: [Models]
       operationId: replaceModelVersionDraft

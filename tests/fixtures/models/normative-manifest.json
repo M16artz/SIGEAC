@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "sec.synthetic-models/v1",
+  "synthetic": true,
+  "institutionalValidity": false,
+  "disclaimer": "Configuraciones representativas de software; no transcriben ni corroboran normas, fórmulas, vigencia o competencias institucionales.",
+  "models": [
+    {
+      "key": "general-2024",
+      "referenceLabel": "Modelo genérico para evaluación del entorno de aprendizaje de carreras de grado",
+      "declaredEdition": "marzo 2024",
+      "verificationStatus": "PENDING_VALIDATION",
+      "verifiedPages": null,
+      "documentSha256": null,
+      "configurationFile": "five-model-configurations.json",
+      "institutionalOwner": "Coordinación de calidad / Dirección de Carrera (propuesto, no designación)",
+      "unresolvedDecisions": [
+        "CL-011",
+        "CL-013",
+        "CL-014"
+      ]
+    },
+    {
+      "key": "medicine-2018",
+      "referenceLabel": "Modelo específico de Medicina, actualización 2018",
+      "declaredEdition": "2018",
+      "verificationStatus": "PENDING_VALIDATION",
+      "verifiedPages": null,
+      "documentSha256": null,
+      "configurationFile": "five-model-configurations.json",
+      "institutionalOwner": "Coordinación de calidad / Dirección de Carrera (propuesto, no designación)",
+      "unresolvedDecisions": [
+        "CL-011",
+        "CL-013",
+        "CL-014"
+      ]
+    },
+    {
+      "key": "nursing-2016",
+      "referenceLabel": "Modelo específico de Enfermería",
+      "declaredEdition": "octubre 2016",
+      "verificationStatus": "PENDING_VALIDATION",
+      "verifiedPages": null,
+      "documentSha256": null,
+      "configurationFile": "five-model-configurations.json",
+      "institutionalOwner": "Coordinación de calidad / Dirección de Carrera (propuesto, no designación)",
+      "unresolvedDecisions": [
+        "CL-011",
+        "CL-013",
+        "CL-014"
+      ]
+    },
+    {
+      "key": "dentistry-2018",
+      "referenceLabel": "Modelo específico de Odontología actualizado",
+      "declaredEdition": "2018, pendiente corroboración",
+      "verificationStatus": "PENDING_VALIDATION",
+      "verifiedPages": null,
+      "documentSha256": null,
+      "configurationFile": "five-model-configurations.json",
+      "institutionalOwner": "Coordinación de calidad / Dirección de Carrera (propuesto, no designación)",
+      "unresolvedDecisions": [
+        "CL-011",
+        "CL-013",
+        "CL-014"
+      ]
+    },
+    {
+      "key": "law-matrix",
+      "referenceLabel": "Modelo específico de Derecho actualizado, edición pendiente",
+      "declaredEdition": null,
+      "verificationStatus": "PENDING_VALIDATION",
+      "verifiedPages": null,
+      "documentSha256": null,
+      "configurationFile": "five-model-configurations.json",
+      "institutionalOwner": "Coordinación de calidad / Dirección de Carrera (propuesto, no designación)",
+      "unresolvedDecisions": [
+        "CL-011",
+        "CL-013",
+        "CL-014"
+      ]
+    }
+  ]
+}

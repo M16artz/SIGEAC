@@ -17,6 +17,24 @@ No extiende estos resultados a D2–D8 ni a validación institucional.
 | Compatibilidad de interfaces | T113; avance D1 de T002 | `check-contract-compatibility.mjs` y lints de contratos: 12 operaciones D1 compartidas sin colisiones. |
 | FR-048, prerrequisito de carrera activa | T017; avance D1 de D3 | Recorrido API rechaza crear proceso sobre carrera desactivada; no declara completo el gobierno de procesos. |
 
+## Avance interno D2 — 2026-10-21
+
+Las [bases D2](../../tests/acceptance/results/d2-model-foundations.md) cubren
+jerarquía flexible y valores de fuentes/indicadores. La [continuación de
+publicación](../../tests/acceptance/results/d2-model-publication.md) verifica
+T006/T022/T023/T025/T026: cinco configuraciones **sintéticas**, publicación por
+indicador y bloqueo de automatización no validada. Regresión: 145 aprobados,
+0 fallos, 8 omitidos (PostgreSQL). No acredita aceptación D2, configuración
+normativa corroborada, API v2 ni migración V009.
+
+| Requisito / proceso | Tareas 005 | Evidencia |
+|---|---|---|
+| FR-042, FR-044 / P03–P04; US2.1 | T021, T023, T025 | `FlexibleModelHierarchyTest`, `FiveModelConfigurationTest`: tipos, profundidades, indicador directo y cinco configuraciones sin motores por carrera. |
+| FR-044–FR-047; US2.2–US2.3; AC-X10 | T022, T025, T026 | `RequiredSourceTest`, `CompleteModelPublicationTest`, `ValuationRuleTest`: pertenencia, cardinalidad, unidades, referencias, umbrales y automatización solo con regla/estrategia validadas. |
+| RNF-011 / versiones; US2.4 | T021, T022, T025 | `FlexibleModelPersistenceTest`, `ModelComparisonServiceTest`, `CompleteModelPublicationTest`: JSON/configuración exacta conservados; cambios de método/escala; inmutabilidad/sucesión y conflicto al guardar con 412 sin sobrescritura. |
+| RNF-019 / fuentes sintéticas | T006, T023 | `FiveModelConfigurationTest`: manifiesto con vigencia y corroboración pendientes; cuatro modalidades, unidades y umbrales propios. T114/T116 siguen pendientes. |
+| Compatibilidad v1 | Avance T002; T025 | `EvaluationModelControllerTest`, `LegacyModelCompatibilityTest`: DTO legado y rechazo de estructuras/configuraciones v2 antes de mutar. |
+
 ## Matriz canónica P01–P16
 
 | Entrega | Procesos | Requisitos | Historias | Tareas | Validación |

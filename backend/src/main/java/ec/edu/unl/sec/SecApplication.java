@@ -2,6 +2,7 @@ package ec.edu.unl.sec;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ec.edu.unl.sec.evaluationmodel.application.EvaluationModelProperties;
+import ec.edu.unl.sec.evaluationmodel.application.ValidatedStrategyPort;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -20,5 +21,11 @@ public class SecApplication {
     @ConditionalOnMissingBean
     ObjectMapper objectMapper() {
         return new ObjectMapper().findAndRegisterModules();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    ValidatedStrategyPort validatedStrategies() {
+        return java.util.Set::of;
     }
 }

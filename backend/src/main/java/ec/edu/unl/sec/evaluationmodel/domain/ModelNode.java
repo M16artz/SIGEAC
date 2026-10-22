@@ -4,7 +4,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
-public record ModelNode(UUID id, String code, String name, String description, int position, List<ModelNode> children) {
+public record ModelNode(UUID id, String code, String name, String description, int position, List<ModelNode> children,
+        String nodeType) {
+    public ModelNode(UUID id, String code, String name, String description, int position, List<ModelNode> children) {
+        this(id, code, name, description, position, children, null);
+    }
+
     public ModelNode {
         id = id == null ? UUID.randomUUID() : id;
         code = normalize(code);
@@ -13,6 +18,7 @@ public record ModelNode(UUID id, String code, String name, String description, i
         if (description.length() > 4000) throw new IllegalArgumentException("description too long");
         if (position < 1) throw new IllegalArgumentException("position must be positive");
         children = children == null ? List.of() : List.copyOf(children);
+        nodeType = nodeType == null ? null : normalize(nodeType);
     }
 
     public static String normalize(String value) {

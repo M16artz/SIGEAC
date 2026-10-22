@@ -6,7 +6,13 @@ import java.util.UUID;
 
 public record ModelVersion(UUID id, UUID modelId, int versionNumber, ModelVersionStatus status, String source,
         UUID authorId, UUID approverId, UUID predecessorId, long revision, Instant createdAt, Instant publishedAt,
-        List<ModelNode> criteria, RatingScale scale, ProgressFormula formula) {
+        List<ModelNode> criteria, RatingScale scale, ProgressFormula formula, ModelConfiguration configuration) {
+    public ModelVersion(UUID id, UUID modelId, int versionNumber, ModelVersionStatus status, String source,
+            UUID authorId, UUID approverId, UUID predecessorId, long revision, Instant createdAt, Instant publishedAt,
+            List<ModelNode> criteria, RatingScale scale, ProgressFormula formula) {
+        this(id, modelId, versionNumber, status, source, authorId, approverId, predecessorId, revision,
+                createdAt, publishedAt, criteria, scale, formula, null);
+    }
     public ModelVersion {
         id = id == null ? UUID.randomUUID() : id;
         if (modelId == null || authorId == null) throw new IllegalArgumentException("model and author required");
@@ -21,25 +27,32 @@ public record ModelVersion(UUID id, UUID modelId, int versionNumber, ModelVersio
     public ModelVersion replaceDraft(String source, List<ModelNode> criteria, RatingScale scale, ProgressFormula formula) {
         requireDraft();
         return new ModelVersion(id, modelId, versionNumber, status, source, authorId, null, predecessorId,
-                revision + 1, createdAt, null, criteria, scale, formula);
+                revision + 1, createdAt, null, criteria, scale, formula, configuration);
+    }
+
+    public ModelVersion replaceConfiguration(String source, List<ModelNode> nodes, ModelConfiguration configuration) {
+        requireDraft();
+        if (configuration == null) throw new IllegalArgumentException("model configuration required");
+        return new ModelVersion(id, modelId, versionNumber, status, source, authorId, null, predecessorId,
+                revision + 1, createdAt, null, nodes, null, null, configuration);
     }
 
     public ModelVersion publish(UUID approver, Instant at) {
         requireDraft();
         return new ModelVersion(id, modelId, versionNumber, ModelVersionStatus.PUBLISHED, source, authorId,
-                approver, predecessorId, revision + 1, createdAt, at, criteria, scale, formula);
+                approver, predecessorId, revision + 1, createdAt, at, criteria, scale, formula, configuration);
     }
 
     public ModelVersion supersede() {
         if (status != ModelVersionStatus.PUBLISHED) throw new IllegalStateException("only published version can be superseded");
         return new ModelVersion(id, modelId, versionNumber, ModelVersionStatus.SUPERSEDED, source, authorId,
-                approverId, predecessorId, revision + 1, createdAt, publishedAt, criteria, scale, formula);
+                approverId, predecessorId, revision + 1, createdAt, publishedAt, criteria, scale, formula, configuration);
     }
 
     public ModelVersion successor(int number, UUID actor, Instant at) {
         if (status == ModelVersionStatus.DRAFT) throw new IllegalStateException("draft cannot be predecessor");
         return new ModelVersion(UUID.randomUUID(), modelId, number, ModelVersionStatus.DRAFT, source, actor,
-                null, id, 0, at, null, criteria, scale, formula);
+                null, id, 0, at, null, criteria, scale, formula, configuration);
     }
 
     private void requireDraft() { if (status != ModelVersionStatus.DRAFT) throw new IllegalStateException("published version is immutable"); }

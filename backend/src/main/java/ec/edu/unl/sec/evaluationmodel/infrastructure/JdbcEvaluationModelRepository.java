@@ -3,6 +3,7 @@ package ec.edu.unl.sec.evaluationmodel.infrastructure;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ec.edu.unl.sec.evaluationmodel.application.EvaluationModelRepository;
+import ec.edu.unl.sec.evaluationmodel.application.ModelProblemException;
 import ec.edu.unl.sec.evaluationmodel.domain.EvaluationModel;
 import ec.edu.unl.sec.evaluationmodel.domain.ModelVersion;
 import ec.edu.unl.sec.shared.infrastructure.JdbcValueSupport;
@@ -47,7 +48,8 @@ public class JdbcEvaluationModelRepository implements EvaluationModelRepository 
         }
         int changed=jdbc.update("update model_version set status=?,source=?,approver_id=?,revision=?,published_at=?,snapshot_json=" + jsonParameter() + " where id=? and revision=?",
                 v.status().name(),v.source(),v.approverId(),v.revision(),v.publishedAt()==null?null:Timestamp.from(v.publishedAt()),encode(v),v.id(),expectedRevision);
-        if(changed!=1) throw new IllegalStateException("STALE_MODEL_VERSION");
+        if(changed!=1) throw new ModelProblemException(ModelProblemException.Kind.PRECONDITION,
+                "STALE_MODEL_VERSION", "La versión cambió; recargue antes de continuar.");
     }
     @Override public Optional<ModelVersion> findVersion(UUID id) {
         return jdbc.query("select " + jsonColumn() + " from model_version where id=?",(r,n)->decode(r.getString(1)),id).stream().findFirst();

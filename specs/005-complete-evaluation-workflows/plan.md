@@ -10,6 +10,11 @@
 sintéticos; resultados en [d1-careers.md](../../tests/acceptance/results/d1-careers.md).
 D2–D8 y la revisión institucional permanecen pendientes.
 
+**Avance interno D2**: [publicación por indicador](../../tests/acceptance/results/d2-model-publication.md)
+verifica T006/T021–T023/T025–T026, cinco configuraciones sintéticas, metodología,
+fuentes y protección de reglas automáticas. No completa V009, aplicabilidad,
+API/editor v2 ni aceptación D2; continúan T024/T027–T030/T114/T116.
+
 ## Summary
 
 Completar P01–P16 mediante un único sistema configurable. La implementación conserva los módulos existentes y añade los conceptos faltantes: catálogo de carreras, procedencia y aplicabilidad normativa, fuentes requeridas, autorización y planificación, métricas por fuente, reglas académicas por indicador, hallazgos, informes institucionales, mejora y archivo. El MVP documental termina con P11 y consulta histórica básica; la valoración académica y los procesos institucionales posteriores se entregan sin bloquear ese MVP.
