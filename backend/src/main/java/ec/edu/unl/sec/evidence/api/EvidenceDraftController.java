@@ -1,6 +1,7 @@
 package ec.edu.unl.sec.evidence.api;
 
 import ec.edu.unl.sec.evidence.application.EvidenceDraftService;
+import ec.edu.unl.sec.evidence.application.EvidenceSourceService;
 import ec.edu.unl.sec.shared.api.EntityTagSupport;
 import ec.edu.unl.sec.shared.infrastructure.CorrelationFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,9 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping
 public class EvidenceDraftController {
     private final EvidenceDraftService service;
+    private final EvidenceSourceService sources;
 
-    public EvidenceDraftController(EvidenceDraftService service) {
+    public EvidenceDraftController(EvidenceDraftService service, EvidenceSourceService sources) {
         this.service = service;
+        this.sources = sources;
     }
 
     @GetMapping("/evidences")
@@ -37,7 +40,8 @@ public class EvidenceDraftController {
             @RequestParam(defaultValue = "20") int size) {
         int safePage = Math.max(0, page);
         int safeSize = Math.min(100, Math.max(1, size));
-        var visible = service.list(processId, indicatorId).stream().map(EvidenceView::from).toList();
+        var visible = service.list(processId, indicatorId).stream()
+                .map(details -> EvidenceView.from(details, sources.snapshot(details.latestVersion().id()))).toList();
         int from = Math.min(visible.size(), safePage * safeSize);
         int to = Math.min(visible.size(), from + safeSize);
         int pages = visible.isEmpty() ? 0 : (visible.size() + safeSize - 1) / safeSize;
@@ -67,7 +71,8 @@ public class EvidenceDraftController {
 
     @GetMapping("/evidences/{evidenceId}")
     public EvidenceView getEvidence(@PathVariable UUID evidenceId) {
-        return EvidenceView.from(service.getEvidence(evidenceId));
+        var details = service.getEvidence(evidenceId);
+        return EvidenceView.from(details, sources.snapshot(details.latestVersion().id()));
     }
 
     @GetMapping("/evidence-versions/{versionId}")
@@ -75,7 +80,7 @@ public class EvidenceDraftController {
         var version = service.getVersion(versionId);
         return ResponseEntity.ok()
                 .eTag(EntityTagSupport.strong(version.lockRevision()))
-                .body(EvidenceView.version(version));
+                .body(EvidenceView.version(version, sources.snapshot(versionId)));
     }
 
     @PatchMapping("/evidence-versions/{versionId}")
@@ -97,7 +102,7 @@ public class EvidenceDraftController {
                 correlation(servletRequest));
         return ResponseEntity.ok()
                 .eTag(EntityTagSupport.strong(version.lockRevision()))
-                .body(EvidenceView.version(version));
+                .body(EvidenceView.version(version, sources.snapshot(versionId)));
     }
 
     private static UUID correlation(HttpServletRequest request) {

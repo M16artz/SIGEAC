@@ -35,12 +35,15 @@ public class ProcessPlanningService {
     private final InstitutionalAuthorityPort authority;
     private final FunctionalAssignmentPolicyPort policy;
     private final SelfAssessmentAuditService audit;
+    private final ProcessAssignmentCatalogPort participants;
 
     public ProcessPlanningService(SelfAssessmentRepository repository, ModelCatalogPort models,
             CurrentActorPort actors, AuthorizationPort auth, InstitutionalAuthorityPort authority,
-            FunctionalAssignmentPolicyPort policy, SelfAssessmentAuditService audit) {
+            FunctionalAssignmentPolicyPort policy, SelfAssessmentAuditService audit,
+            ProcessAssignmentCatalogPort participants) {
         this.repository = repository; this.models = models; this.actors = actors; this.auth = auth;
         this.authority = authority; this.policy = policy; this.audit = audit;
+        this.participants = participants;
     }
 
     @Transactional
@@ -82,6 +85,18 @@ public class ProcessPlanningService {
                         && member.validUntil().isAfter(from));
         if (overlap) throw error(ProcessProblemException.Kind.CONFLICT, "MEMBERSHIP_OVERLAP",
                 "La persona ya tiene una membresia superpuesta en este equipo.");
+        var decision = policy.evaluateMembership(userId, roleAssignmentId,
+                new AuthorizationScope(process.careerId(), process.id(), null), from, until);
+        if (!decision.allowed()) throw error(ProcessProblemException.Kind.INVALID, decision.reasonCode(),
+                "El integrante requiere una asignacion propia, sin conflictos y vigente en el ambito del equipo.");
+        for (var assignment : repository.assignments(process.id())) {
+            if (teamId.equals(assignment.teamId()) && assignment.revokedAt() == null
+                    && from.isBefore(assignment.validTo()) && until.isAfter(assignment.validFrom()))
+                requireParticipantPolicy(userId, assignment.function(),
+                        new AuthorizationScope(process.careerId(), process.id(), assignment.indicatorId()),
+                        from.isAfter(assignment.validFrom()) ? from : assignment.validFrom(),
+                        until.isBefore(assignment.validTo()) ? until : assignment.validTo());
+        }
         var membership = new TeamMembership(null, teamId, userId, roleAssignmentId, from, until,
                 actor.identityId(), Instant.now());
         var changed = process.advanceRevision();
@@ -105,6 +120,8 @@ public class ProcessPlanningService {
         if ((userId == null) == (teamId == null))
             throw error(ProcessProblemException.Kind.INVALID, "ASSIGNMENT_SUBJECT_REQUIRED",
                     "La asignacion requiere exactamente una persona o un equipo.");
+        if (function == null) throw error(ProcessProblemException.Kind.INVALID, "FUNCTION_REQUIRED",
+                "La funcion de la asignacion es obligatoria.");
         requireIndicator(process, indicatorId);
         requireProcessPeriod(process, from, until);
         if (reason == null || reason.isBlank() || reason.length() > 2000)
@@ -119,11 +136,14 @@ public class ProcessPlanningService {
             if (from.isBefore(team.validFrom()) || until.isAfter(team.validUntil()))
                 throw error(ProcessProblemException.Kind.INVALID, "ASSIGNMENT_OUTSIDE_TEAM",
                         "La asignacion debe estar contenida en la vigencia del equipo.");
+            for (var member : repository.memberships(teamId)) {
+                if (from.isBefore(member.validUntil()) && until.isAfter(member.validFrom()))
+                    requireParticipantPolicy(member.userId(), function, scope,
+                            from.isAfter(member.validFrom()) ? from : member.validFrom(),
+                            until.isBefore(member.validUntil()) ? until : member.validUntil());
+            }
         } else {
-            var decision = policy.evaluate(userId, function.name(), scope, from, until);
-            if (!decision.allowed())
-                throw error(ProcessProblemException.Kind.CONFLICT, decision.reasonCode(),
-                        "La asignacion entra en conflicto con la politica vigente.");
+            requireParticipantPolicy(userId, function, scope, from, until);
         }
         boolean overlap = repository.assignments(processId).stream()
                 .anyMatch(existing -> existing.revokedAt() == null && existing.indicatorId().equals(indicatorId)
@@ -150,7 +170,8 @@ public class ProcessPlanningService {
         SelfAssessmentService.check(process, expected);
         requirePlanningState(process);
         requireIndicator(process, input.indicatorId());
-        requireAssignment(process, input.assignmentId());
+        requireAssignment(process, input.assignmentId(), input.indicatorId());
+        requireSource(process, input.requiredSourceId(), input.indicatorId());
         Deadline deadline = deadline(process, input);
         var dependencyIds = dependencies(process, input.dependencyIds());
         requireAcyclic(processId, null, dependencyIds);
@@ -175,7 +196,8 @@ public class ProcessPlanningService {
         SelfAssessmentService.check(process, expected);
         requirePlanningState(process);
         requireIndicator(process, input.indicatorId());
-        requireAssignment(process, input.assignmentId());
+        requireAssignment(process, input.assignmentId(), input.indicatorId());
+        requireSource(process, input.requiredSourceId(), input.indicatorId());
         Deadline deadline = deadline(process, input);
         var dependencyIds = dependencies(process, input.dependencyIds());
         requireAcyclic(process.id(), activityId, dependencyIds);
@@ -216,16 +238,35 @@ public class ProcessPlanningService {
     @Transactional(readOnly = true)
     public List<ProcessActivity> activities(UUID processId) {
         var actor = actor();
-        requirePlanner(actor.identityId(), process(processId));
-        return repository.activities(processId);
+        var process = process(processId);
+        if (isPlanner(actor.identityId(), process)) return repository.activities(processId);
+        if (process.indicators().stream().noneMatch(indicator -> {
+            var scope = new AuthorizationScope(process.careerId(), process.id(), indicator.id());
+            return auth.isAllowed(actor.identityId(), OperationCode.EVIDENCE_COLLECT, scope)
+                    || auth.isAllowed(actor.identityId(), OperationCode.EVIDENCE_REVIEW, scope)
+                    || auth.isAllowed(actor.identityId(), OperationCode.INDICATOR_EVALUATE, scope);
+        })) throw hidden();
+        Instant now = Instant.now();
+        return repository.activities(processId).stream()
+                .filter(activity -> canReadActivity(actor.identityId(), process, activity, now)).toList();
     }
 
     @Transactional(readOnly = true)
     public ProcessActivity activity(UUID activityId) {
         var actor = actor();
         var activity = repository.findActivity(activityId).orElseThrow(ProcessPlanningService::hidden);
-        requirePlanner(actor.identityId(), process(activity.processId()));
+        var process = process(activity.processId());
+        if (!isPlanner(actor.identityId(), process)
+                && !canReadActivity(actor.identityId(), process, activity, Instant.now())) throw hidden();
         return activity;
+    }
+
+    private boolean canReadActivity(UUID actorId, SelfAssessmentProcess process, ProcessActivity activity, Instant at) {
+        return repository.assignments(process.id()).stream()
+                .filter(a -> a.id().equals(activity.assignmentId()) && a.indicatorId().equals(activity.indicatorId()))
+                .filter(a -> participants.isCurrentParticipant(a, actorId, at))
+                .anyMatch(a -> auth.isAllowed(actorId, ProcessAssignmentService.operation(a.function()),
+                        new AuthorizationScope(process.careerId(), process.id(), activity.indicatorId())));
     }
 
     private Deadline deadline(SelfAssessmentProcess process, ActivityInput input) {
@@ -247,6 +288,13 @@ public class ProcessPlanningService {
                     "La asignacion indicada no autoriza la excepcion de plazo.");
         return new Deadline(input.exceptionReason().strip(), input.exceptionAuthorityAssignmentId(),
                 input.exceptionLegalBasis().strip());
+    }
+
+    private void requireParticipantPolicy(UUID userId, ProcessAssignment.Function function,
+            AuthorizationScope scope, Instant from, Instant until) {
+        var decision = policy.evaluate(userId, function.name(), scope, from, until);
+        if (!decision.allowed()) throw error(ProcessProblemException.Kind.CONFLICT, decision.reasonCode(),
+                "La asignacion entra en conflicto con la politica vigente para un participante.");
     }
 
     private List<UUID> dependencies(SelfAssessmentProcess process, List<UUID> requested) {
@@ -319,23 +367,43 @@ public class ProcessPlanningService {
                     "El indicador no pertenece al modelo fijado.");
     }
 
-    private void requireAssignment(SelfAssessmentProcess process, UUID assignmentId) {
-        if (assignmentId == null || repository.assignments(process.id()).stream()
-                .noneMatch(assignment -> assignment.id().equals(assignmentId) && assignment.revokedAt() == null))
+    private void requireSource(SelfAssessmentProcess process, UUID sourceId, UUID indicatorId) {
+        if (sourceId == null) return;
+        var configuration = models.publishedVersion(process.modelVersionId())
+                .map(ModelCatalogPort.PublishedModel::configuration).orElse(null);
+        if (configuration == null || configuration.indicators().stream()
+                .filter(indicator -> indicator.nodeId().equals(indicatorId))
+                .flatMap(indicator -> indicator.sources().stream()).noneMatch(source -> source.id().equals(sourceId)))
+            throw error(ProcessProblemException.Kind.INVALID, "SOURCE_OUTSIDE_FIXED_INDICATOR",
+                    "La fuente debe pertenecer al indicador y a la version fijada del modelo.");
+    }
+
+    private void requireAssignment(SelfAssessmentProcess process, UUID assignmentId, UUID indicatorId) {
+        var assignment = repository.assignments(process.id()).stream()
+                .filter(a -> a.id().equals(assignmentId) && a.revokedAt() == null).findFirst().orElse(null);
+        if (assignment == null)
             throw error(ProcessProblemException.Kind.INVALID, "ASSIGNMENT_NOT_FOUND",
                     "La actividad requiere una asignacion vigente del proceso.");
+        if (!assignment.indicatorId().equals(indicatorId))
+            throw error(ProcessProblemException.Kind.INVALID, "ASSIGNMENT_INDICATOR_MISMATCH",
+                    "La asignacion debe corresponder al indicador de la actividad.");
     }
 
     private void requirePlanner(UUID actorId, SelfAssessmentProcess process) {
+        if (!isPlanner(actorId, process)) throw hidden();
+    }
+
+    private boolean isPlanner(UUID actorId, SelfAssessmentProcess process) {
         var scope = new AuthorizationScope(process.careerId(), process.id(), null);
-        if (!auth.isAllowed(actorId, OperationCode.PROCESS_COORDINATE, scope)
-                && !auth.isAllowed(actorId, OperationCode.PROCESS_MANAGE, scope))
-            throw hidden();
+        return auth.isAllowed(actorId, OperationCode.PROCESS_COORDINATE, scope)
+                || auth.isAllowed(actorId, OperationCode.PROCESS_MANAGE, scope);
     }
 
     private CurrentActorPort.Actor actor() {
-        return actors.currentActor().orElseThrow(() -> error(ProcessProblemException.Kind.UNAUTHORIZED,
+        var actor = actors.currentActor().orElseThrow(() -> error(ProcessProblemException.Kind.UNAUTHORIZED,
                 "AUTHENTICATION_REQUIRED", "Se requiere autenticacion."));
+        if (actor.technical()) throw hidden();
+        return actor;
     }
 
     private SelfAssessmentProcess process(UUID id) {

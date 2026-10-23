@@ -7,6 +7,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import ec.edu.unl.sec.evaluationmodel.application.ModelCatalogPort;
+import ec.edu.unl.sec.evaluationmodel.domain.IndicatorDefinition;
+import ec.edu.unl.sec.evaluationmodel.domain.ModelConfiguration;
+import ec.edu.unl.sec.evaluationmodel.domain.RequiredSource;
 import ec.edu.unl.sec.identityaccess.application.AuthorizationPort;
 import ec.edu.unl.sec.identityaccess.application.CurrentActorPort;
 import ec.edu.unl.sec.identityaccess.application.FunctionalAssignmentPolicyPort;
@@ -27,6 +30,8 @@ import org.junit.jupiter.api.Test;
 class TeamPlanningIntegrityTest {
     private InMemorySelfAssessmentRepository repo;
     private ProcessPlanningService service;
+    private FunctionalAssignmentPolicyPort policy;
+    private ModelCatalogPort models;
     private UUID actor;
     private UUID indicator;
     private UUID assignmentId;
@@ -45,13 +50,108 @@ class TeamPlanningIntegrityTest {
         when(auth.isAllowed(any(), any(), any())).thenReturn(true);
         var authority = mock(InstitutionalAuthorityPort.class);
         when(authority.isAuthorizedAssignment(any(), any(), any(), any())).thenReturn(true);
-        var policy = mock(FunctionalAssignmentPolicyPort.class);
+        policy = mock(FunctionalAssignmentPolicyPort.class);
         when(policy.evaluate(any(), any(), any(), any(), any())).thenReturn(FunctionalAssignmentPolicyPort.Decision.allow());
-        service = new ProcessPlanningService(repo, mock(ModelCatalogPort.class), () -> Optional.of(
-                new CurrentActorPort.Actor(actor, false)), auth, authority, policy, mock(SelfAssessmentAuditService.class));
+        when(policy.evaluateMembership(any(), any(), any(), any(), any())).thenReturn(FunctionalAssignmentPolicyPort.Decision.allow());
+        models = mock(ModelCatalogPort.class);
+        service = new ProcessPlanningService(repo, models, () -> Optional.of(
+                new CurrentActorPort.Actor(actor, false)), auth, authority, policy, mock(SelfAssessmentAuditService.class),
+                new ec.edu.unl.sec.selfassessment.infrastructure.ProcessAssignmentCatalogAdapter(repo, policy));
         assignmentId = service.assignParticipant(process.id(), 1, indicator, actor, null,
                 ProcessAssignment.Function.RESPONSIBLE, now(), now().plus(Duration.ofDays(5)),
                 "Asignacion sintetica", UUID.randomUUID()).value().id();
+    }
+
+    @Test
+    void teamAssignmentsCannotBypassIndividualConflictPolicies() {
+        long revision = repo.find(process.id()).orElseThrow().revision();
+        var team = service.createTeam(process.id(), revision, "Equipo", "REVIEW", now(),
+                now().plus(Duration.ofDays(5)), UUID.randomUUID());
+        var member = service.addMember(team.value().id(), team.processRevision(), actor, UUID.randomUUID(),
+                now(), now().plus(Duration.ofDays(2)), UUID.randomUUID());
+        when(policy.evaluate(any(), any(), any(), any(), any()))
+                .thenReturn(FunctionalAssignmentPolicyPort.Decision.deny("FUNCTION_CONFLICT"));
+        assertThatThrownBy(() -> service.assignParticipant(process.id(), member.processRevision(), indicator,
+                null, team.value().id(), ProcessAssignment.Function.REVIEWER, now(), now().plus(Duration.ofDays(1)),
+                "Revision por equipo", UUID.randomUUID()))
+                .isInstanceOf(ProcessProblemException.class).extracting("code").isEqualTo("FUNCTION_CONFLICT");
+        assertThat(repo.assignments(process.id())).hasSize(1);
+        assertThat(repo.find(process.id()).orElseThrow().revision()).isEqualTo(member.processRevision());
+    }
+
+    @Test
+    void newMembersMustRespectExistingTeamAssignmentConflicts() {
+        long revision = repo.find(process.id()).orElseThrow().revision();
+        var team = service.createTeam(process.id(), revision, "Equipo", "REVIEW", now(),
+                now().plus(Duration.ofDays(5)), UUID.randomUUID());
+        var assigned = service.assignParticipant(process.id(), team.processRevision(), indicator, null,
+                team.value().id(), ProcessAssignment.Function.REVIEWER, now(), now().plus(Duration.ofDays(3)),
+                "Revision por equipo", UUID.randomUUID());
+        when(policy.evaluate(any(), any(), any(), any(), any()))
+                .thenReturn(FunctionalAssignmentPolicyPort.Decision.deny("FUNCTION_CONFLICT"));
+        assertThatThrownBy(() -> service.addMember(team.value().id(), assigned.processRevision(), actor,
+                UUID.randomUUID(), now(), now().plus(Duration.ofDays(2)), UUID.randomUUID()))
+                .isInstanceOf(ProcessProblemException.class).extracting("code").isEqualTo("FUNCTION_CONFLICT");
+        assertThat(repo.memberships(team.value().id())).isEmpty();
+        assertThat(repo.find(process.id()).orElseThrow().revision()).isEqualTo(assigned.processRevision());
+    }
+
+    @Test
+    void validatesSourcesAgainstTheFixedModelOnCreateAndUpdate() {
+        var source = new RequiredSource(null, indicator, "S1", RequiredSource.SourceType.FILE, "Fuente",
+                "Descripcion", true, 1, null, "Periodo", 1);
+        var definition = new IndicatorDefinition(indicator, IndicatorDefinition.Nature.QUALITATIVE, "Estandar",
+                List.of(), "Periodo", null, null, List.of(source));
+        var configuration = new ModelConfiguration(List.of(definition), List.of(), List.of());
+        when(models.publishedVersion(process.modelVersionId())).thenReturn(Optional.of(
+                new ModelCatalogPort.PublishedModel(UUID.randomUUID(), process.modelVersionId(), 1,
+                        List.of(new ModelCatalogPort.Indicator(indicator, "I", "Indicador")), null, null, configuration)));
+        long revision = repo.find(process.id()).orElseThrow().revision();
+        var input = new ProcessPlanningService.ActivityInput(indicator, source.id(), assignmentId, "Actividad",
+                now().plusSeconds(60), List.of(), null, null, null);
+        var created = service.createActivity(process.id(), revision, input, UUID.randomUUID());
+        assertThat(created.value().requiredSourceId()).isEqualTo(source.id());
+        var invalid = new ProcessPlanningService.ActivityInput(indicator, UUID.randomUUID(), assignmentId,
+                "Fuente externa", now().plusSeconds(60), List.of(), null, null, null);
+        assertThatThrownBy(() -> service.createActivity(process.id(), created.processRevision(), invalid, UUID.randomUUID()))
+                .isInstanceOf(ProcessProblemException.class).extracting("code").isEqualTo("SOURCE_OUTSIDE_FIXED_INDICATOR");
+        assertThatThrownBy(() -> service.updateActivity(created.value().id(), created.processRevision(), invalid, UUID.randomUUID()))
+                .isInstanceOf(ProcessProblemException.class).extracting("code").isEqualTo("SOURCE_OUTSIDE_FIXED_INDICATOR");
+        assertThat(repo.findActivity(created.value().id())).contains(created.value());
+        assertThat(repo.find(process.id()).orElseThrow().revision()).isEqualTo(created.processRevision());
+    }
+
+    @Test
+    void rejectsAnUnverifiedMembershipWithoutChangingThePlan() {
+        long revision = repo.find(process.id()).orElseThrow().revision();
+        var team = service.createTeam(process.id(), revision, "Equipo", "COLLECTION", now(),
+                now().plus(Duration.ofDays(5)), UUID.randomUUID());
+        when(policy.evaluateMembership(any(), any(), any(), any(), any()))
+                .thenReturn(FunctionalAssignmentPolicyPort.Decision.deny("MEMBERSHIP_ROLE_INVALID"));
+        assertThatThrownBy(() -> service.addMember(team.value().id(), team.processRevision(), actor,
+                UUID.randomUUID(), now(), now().plus(Duration.ofDays(2)), UUID.randomUUID()))
+                .isInstanceOf(ProcessProblemException.class).extracting("code").isEqualTo("MEMBERSHIP_ROLE_INVALID");
+        assertThat(repo.memberships(team.value().id())).isEmpty();
+        assertThat(repo.find(process.id()).orElseThrow().revision()).isEqualTo(team.processRevision());
+    }
+
+    @Test
+    void rejectsActivityAssignmentsFromAnotherIndicatorOnCreateAndUpdate() {
+        UUID otherIndicator = UUID.randomUUID();
+        repo.saveAssignment(new ProcessAssignment(null, process.id(), otherIndicator, actor,
+                ProcessAssignment.Function.RESPONSIBLE, now(), now().plus(Duration.ofDays(5)), actor, "Otro", null, 0));
+        var foreign = repo.assignments(process.id()).getLast();
+        long revision = repo.find(process.id()).orElseThrow().revision();
+        var invalid = new ProcessPlanningService.ActivityInput(indicator, null, foreign.id(), "Actividad",
+                now().plusSeconds(60), List.of(), null, null, null);
+        assertThatThrownBy(() -> service.createActivity(process.id(), revision, invalid, UUID.randomUUID()))
+                .isInstanceOf(ProcessProblemException.class).extracting("code").isEqualTo("ASSIGNMENT_INDICATOR_MISMATCH");
+        assertThat(repo.activities(process.id())).isEmpty();
+        var valid = service.createActivity(process.id(), revision, input("Valida", now().plusSeconds(60), List.of()), UUID.randomUUID());
+        assertThatThrownBy(() -> service.updateActivity(valid.value().id(), valid.processRevision(), invalid, UUID.randomUUID()))
+                .isInstanceOf(ProcessProblemException.class).extracting("code").isEqualTo("ASSIGNMENT_INDICATOR_MISMATCH");
+        assertThat(repo.findActivity(valid.value().id())).contains(valid.value());
+        assertThat(repo.find(process.id()).orElseThrow().revision()).isEqualTo(valid.processRevision());
     }
 
     @Test

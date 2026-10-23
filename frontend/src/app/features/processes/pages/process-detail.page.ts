@@ -21,6 +21,7 @@ import {ProcessAssignmentForm} from '../ui/process-assignment-form.component';
         <li>{{indicator.code}} Â· {{indicator.name}}</li>
       }</ul>
       <p><a [routerLink]="['/processes', current.id, 'planning']">Autorizacion y planificacion</a></p>
+      <p><a [routerLink]="['/processes', current.id, 'activities']">Consultar actividades</a></p>
       <sec-process-state-controls [process]="current" (changed)="process.set($event)" />
       <sec-process-assignment-form [process]="current" (changed)="process.set($event)" />
     }

@@ -99,7 +99,7 @@ public class ProcessGovernanceController {
             @NotNull Instant validFrom, @NotNull Instant validUntil) {}
 
     public record ActivityCommand(@NotBlank @Size(max = 300) String title, @NotNull UUID indicatorId,
-            UUID requiredSourceId, @NotNull UUID assignmentId, @NotNull Instant dueAt, List<UUID> dependencyIds,
+            UUID requiredSourceId, @NotNull UUID assignmentId, @NotNull Instant dueAt, List<@NotNull UUID> dependencyIds,
             @Size(max = 4000) String exceptionReason, UUID exceptionAuthorityAssignmentId,
             @Size(max = 4000) String exceptionLegalBasis) {}
 }

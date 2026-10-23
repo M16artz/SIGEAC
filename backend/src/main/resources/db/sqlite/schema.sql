@@ -112,8 +112,7 @@ CREATE TABLE IF NOT EXISTS model_node (
 CREATE TABLE IF NOT EXISTS indicator_normative_reference (
     model_version_id TEXT NOT NULL REFERENCES model_version(id), indicator_node_id TEXT NOT NULL,
     normative_reference_id TEXT NOT NULL REFERENCES normative_reference(id), source_pages TEXT, disposition TEXT,
-    PRIMARY KEY (model_version_id, indicator_node_id, normative_reference_id),
-    FOREIGN KEY (indicator_node_id, model_version_id) REFERENCES model_node(id, version_id)
+    PRIMARY KEY (model_version_id, indicator_node_id, normative_reference_id)
 );
 CREATE TABLE IF NOT EXISTS required_source (
     id TEXT PRIMARY KEY, version_id TEXT NOT NULL REFERENCES model_version(id), indicator_node_id TEXT NOT NULL,
@@ -212,14 +211,14 @@ CREATE TABLE IF NOT EXISTS process_activity_revision (
 );
 
 CREATE TABLE IF NOT EXISTS evidence (
-    id BLOB PRIMARY KEY, process_id BLOB NOT NULL, owner_id BLOB NOT NULL, created_at TEXT NOT NULL,
+    id BLOB PRIMARY KEY, process_id BLOB NOT NULL, owner_id BLOB NOT NULL, created_at TIMESTAMP NOT NULL,
     correlation_id BLOB NOT NULL, latest_revision INTEGER NOT NULL DEFAULT 0
 );
 CREATE TABLE IF NOT EXISTS evidence_version (
     id BLOB PRIMARY KEY, evidence_id BLOB NOT NULL REFERENCES evidence(id), revision_number INTEGER NOT NULL,
     predecessor_id BLOB, status TEXT NOT NULL, title TEXT NOT NULL, description TEXT NOT NULL,
-    provenance TEXT NOT NULL, covered_from TEXT NOT NULL, covered_to TEXT NOT NULL, author_id BLOB NOT NULL,
-    submitted_at TEXT, lock_revision INTEGER NOT NULL DEFAULT 0, created_at TEXT NOT NULL,
+    provenance TEXT NOT NULL, covered_from DATE NOT NULL, covered_to DATE NOT NULL, author_id BLOB NOT NULL,
+    submitted_at TIMESTAMP, lock_revision INTEGER NOT NULL DEFAULT 0, created_at TIMESTAMP NOT NULL,
     UNIQUE(evidence_id, revision_number), UNIQUE(predecessor_id)
 );
 CREATE TABLE IF NOT EXISTS evidence_version_indicator (

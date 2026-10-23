@@ -76,7 +76,7 @@ At least one row is required to submit. Draft mutations revalidate current respo
 | Field | Type | Rules |
 |---|---|---|
 | `id` | UUID | Primary key |
-| `storage_key` | string | Unique, opaque, never public |
+| `storage_key` | string | Unique, opaque, never public; allocated before promotion |
 | `staging_key` | string nullable | Opaque recovery key |
 | `upload_operation_id` | UUID | Unique idempotency identity |
 | `original_name` | string | Sanitized name, not a path |
@@ -86,9 +86,9 @@ At least one row is required to submit. Draft mutations revalidate current respo
 | `sha256` | char(64) | Lowercase hexadecimal, non-unique |
 | `validation_policy_id` | UUID | Exact policy/version used |
 | `status` | enum | `STAGED`, `AVAILABLE`, `QUARANTINED`, `MISSING` |
-| `created_at`, `promoted_at`, `last_verified_at` | instant | Last two nullable |
+| `created_at` | instant | Required; operational attempts/times are tracked by recovery operations |
 
-Indexes: unique `storage_key`, unique `upload_operation_id`, non-unique `sha256`, `(status,created_at)`. Identity metadata freezes at `AVAILABLE`; reconciliation may change only operational state.
+Implemented V006 indexes: unique `storage_key`, unique `staging_key`, unique `upload_id` (the upload operation identity), non-unique `sha256`. Repository writes insert identity metadata once and subsequently change only operational state using an expected-status comparison. Returning an existing asset to `STAGED` is forbidden. Recovering `MISSING`/`QUARANTINED` to `AVAILABLE` requires verification by the calling application; a status update alone does not verify bytes.
 
 ## VersionFile
 
@@ -121,13 +121,15 @@ The URI is validated structurally but never dereferenced by I3. A reference rema
 | Field | Type | Rules |
 |---|---|---|
 | `id` | UUID | Primary key |
-| `version` | integer | Unique positive version |
-| `max_bytes` | bigint | Pilot value 26 214 400 |
+| `policy_code` | string | Unique versioned code, e.g. synthetic-v1 |
+| `max_bytes` | bigint | Configurable up to 26 214 400 |
 | `allow_empty` | boolean | Configurable |
-| `active_from`, `active_to` | instant | Non-overlapping range |
-| `source_note` | string | Synthetic/provisional provenance |
+| `allowed_detected_types` | JSON array | Explicit allowed detected MIME types |
+| `compatibility_json` | JSON object | Declared MIME type to compatible detected types |
+| `active` | boolean | Selectable by configured policy code |
+| `created_at` | instant | Required |
 
-Children define allowed detected types and compatible declared/detected pairs. Each asset stores the policy used so later changes do not rewrite history.
+V006 stores the allowlist and compatibility pairs as JSON. Each asset stores the exact policy UUID so a later policy does not rewrite history; the repository can read inactive historical policies by UUID.
 
 ## FileRecoveryOperation
 
@@ -136,14 +138,15 @@ Children define allowed detected types and compatible declared/detected pairs. E
 | `id` | UUID | Primary/idempotency key |
 | `file_asset_id` | UUID nullable | May be absent for discovered orphan |
 | `operation` | enum | `PROMOTE`, `VERIFY`, `QUARANTINE`, `CLEANUP` |
-| `status` | enum | `PENDING`, `RUNNING`, `SUCCEEDED`, `FAILED_RETRYABLE`, `FAILED_FINAL` |
-| `attempt_count` | integer | Non-negative |
+| `status` | enum | V006 states: `PENDING`, `LEASED`, `SUCCEEDED`, `FAILED` |
+| `attempts` | integer | Non-negative; increments on each claim, including expired-lease recovery |
 | `not_before`, `lease_until` | instant | Lease nullable |
-| `reason_code` | string nullable | Safe code |
-| `correlation_id` | string | Required |
+| `lease_owner` | string nullable | Required only for `LEASED`, maximum 200 characters |
+| `safe_reason` | string nullable | Uppercase reason code, maximum 100 characters; required for `FAILED` |
+| `correlation_id` | UUID | Required |
 | `created_at`, `updated_at` | instant | Required |
 
-The worker is idempotent, leased and audited. Delays come from configuration; no fixed retention policy is encoded.
+The durable repository claims due work with a conditional update and can reclaim expired leases. Completion/failure requires an unexpired lease and the same owner/attempt number, so an older worker cannot finish a replacement's work even if it reuses the owner name. `FAILED` becomes eligible at `not_before`; `SUCCEEDED` is terminal. The reconciliation worker and its audits remain pending; retry delays will come from configuration, with no fixed retention policy encoded.
 
 ## Submission invariants
 

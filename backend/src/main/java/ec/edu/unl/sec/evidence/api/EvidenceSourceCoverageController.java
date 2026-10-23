@@ -2,6 +2,7 @@ package ec.edu.unl.sec.evidence.api;
 
 import ec.edu.unl.sec.evidence.application.ApplicabilityDecisionService;
 import ec.edu.unl.sec.evidence.application.EvidenceSourceCoverageService;
+import ec.edu.unl.sec.evidence.application.EvidenceSourceService;
 import ec.edu.unl.sec.evidence.application.SubmitEvidenceService;
 import ec.edu.unl.sec.evidence.domain.ApplicabilityDecision;
 import ec.edu.unl.sec.evidence.domain.SourceCoverage;
@@ -31,12 +32,14 @@ public class EvidenceSourceCoverageController {
     private final EvidenceSourceCoverageService coverage;
     private final ApplicabilityDecisionService applicability;
     private final SubmitEvidenceService submission;
+    private final EvidenceSourceService sources;
 
     public EvidenceSourceCoverageController(EvidenceSourceCoverageService coverage,
-            ApplicabilityDecisionService applicability, SubmitEvidenceService submission) {
+            ApplicabilityDecisionService applicability, SubmitEvidenceService submission, EvidenceSourceService sources) {
         this.coverage = coverage;
         this.applicability = applicability;
         this.submission = submission;
+        this.sources = sources;
     }
 
     @GetMapping("/evidence-versions/{versionId}/required-sources")
@@ -78,7 +81,7 @@ public class EvidenceSourceCoverageController {
         var version = submission.submit(versionId, ifMatch);
         return ResponseEntity.ok()
                 .eTag(EntityTagSupport.strong(version.lockRevision()))
-                .body(EvidenceView.version(version));
+                .body(EvidenceView.version(version, sources.snapshot(versionId)));
     }
 
     @GetMapping("/processes/{processId}/applicability-decisions")

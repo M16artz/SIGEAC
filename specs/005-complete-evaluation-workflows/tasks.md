@@ -23,7 +23,7 @@
 - [ ] T002 Merge the completion contract surface incrementally per delivery into `docs/technical/contracts/openapi.yaml` after T113 and update affected client schemas without silent breaking changes
 - [ ] T003 [P] Add `governance`, `improvement` and `archive` module boundaries to `backend/src/test/java/ec/edu/unl/sec/architecture/ModuleArchitectureTest.java`
 - [ ] T004 [P] Add frontend routes/placeholders for careers, reports, improvement and archive in `frontend/src/app/app.routes.ts`
-- [X] T005 Define the forward-only migration sequence in `docs/technical/migration-p01-p16.qmd`; V008 implements careers, V009/V010 reserve models/governance and V011 evidence immutability before V012–V018; verify V001–V008 on the disposable PostgreSQL history without out-of-order or repair
+- [X] T005 Define the forward-only migration sequence in `docs/technical/migration-p01-p16.qmd`; V008 implements careers, V009/V010 reserve models/governance and V011 evidence immutability before V012–V020; verify V001–V008 on the disposable PostgreSQL history without out-of-order or repair
 - [X] T006 Add synthetic normative manifests for the five supplied models in `tests/fixtures/models/normative-manifest.json`
 - [X] T114 [P] Produce a source-by-source verification manifest with exact pages, edition and unresolved applicability for the five models and UNL instruction in `tests/fixtures/models/normative-verification.json`; link unresolved CL-011–CL-017 to institutional owners without claiming approval
 
@@ -70,18 +70,31 @@
 
 ## Phase 5: US3 — Authorization and planning (D3, P05–P06)
 
+**D3 tecnico verificado (2026-10-22)**: se conecto la procedencia autorizadora de suspension,
+reanudacion y reapertura entre controles y cliente HTTP (avance T038), con pruebas de
+componente, cliente y controlador. Ver `tests/acceptance/results/d3-process-planning.md`.
+T032 y T117 quedan verificados para software sintetico: membresias con rol propio,
+acceso efectivo por equipos, conflictos individuales e integridad indicador/asignacion/fuente.
+T031/T034 quedan comprobados por las pruebas existentes de ciclo de vida y estados;
+T037/T038 incorporan contrato v1 reconciliado, pruebas HTTP y consulta de actividades
+para participantes. T033/T035/T036 quedan verificados en SQLite y PostgreSQL 18.4
+descartable: migracion V009 -> V010, esquema limpio hasta V013, persistencia, historial
+y rollback. T039 completa la aceptacion tecnica con Edge, backend y PostgreSQL
+reales. La correccion de vinculos normativos ocupa V014; D5-D8 se reservan ahora
+V015-V020, sin reusar V013 (snapshots estructurados) ni editar migraciones historicas.
+
 **Independent Test**: keep a process in preparation until authorized, then assign teams/activities, suspend and resume it.
 
-- [ ] T031 [P] [US3] Add state/authorization/suspension tests in `backend/src/test/java/ec/edu/unl/sec/selfassessment/domain/AuthorizedProcessLifecycleTest.java`
-- [ ] T032 [P] [US3] Add assignment, due-date and conflict tests in `backend/src/test/java/ec/edu/unl/sec/selfassessment/application/ProcessPlanningServiceTest.java`
-- [ ] T033 [US3] Create migration for authorizations, suspension decisions, teams and activities in `backend/src/main/resources/db/migration/V010__process_governance.sql`
-- [ ] T034 [US3] Extend process states and transition policy in `backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/SelfAssessmentProcess.java`
-- [ ] T035 [US3] Complete policy-backed authorization and suspension by extending `backend/src/main/java/ec/edu/unl/sec/selfassessment/application/SelfAssessmentService.java`, `backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessTransitionService.java` and the existing `backend/src/main/java/ec/edu/unl/sec/identityaccess/application/InstitutionalAuthorityPort.java`; reconcile initial authorization snapshots without inventing legacy decisions
-- [ ] T036 [US3] Implement teams, activities and deadlines in `backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessPlanningService.java`
-- [ ] T037 [US3] Extend authorization endpoints in `backend/src/main/java/ec/edu/unl/sec/selfassessment/api/SelfAssessmentController.java` and add planning endpoints in `backend/src/main/java/ec/edu/unl/sec/selfassessment/api/ProcessGovernanceController.java` according to T113 compatibility decisions; never register duplicate route mappings
-- [ ] T038 [US3] Implement process authorization and planning UI in `frontend/src/app/features/processes/pages/process-planning.page.ts`
-- [ ] T039 [US3] Record D3 acceptance evidence in `tests/acceptance/results/d3-process-planning.md`
-- [ ] T117 [US3] Validate individual team membership, exactly one user/team per assignment, dependency-cycle rejection and deadline exceptions in `backend/src/test/java/ec/edu/unl/sec/selfassessment/application/TeamPlanningIntegrityTest.java`; implement the corresponding rules and API revisions in `backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessPlanningService.java` before T039
+- [X] T031 [P] [US3] Add state/authorization/suspension tests in `backend/src/test/java/ec/edu/unl/sec/selfassessment/domain/AuthorizedProcessLifecycleTest.java`
+- [X] T032 [P] [US3] Add assignment, due-date and conflict tests in `backend/src/test/java/ec/edu/unl/sec/selfassessment/application/ProcessPlanningServiceTest.java`
+- [X] T033 [US3] Create migration for authorizations, suspension decisions, teams and activities in `backend/src/main/resources/db/migration/V010__process_governance.sql`
+- [X] T034 [US3] Extend process states and transition policy in `backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/SelfAssessmentProcess.java`
+- [X] T035 [US3] Complete policy-backed authorization and suspension by extending `backend/src/main/java/ec/edu/unl/sec/selfassessment/application/SelfAssessmentService.java`, `backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessTransitionService.java` and the existing `backend/src/main/java/ec/edu/unl/sec/identityaccess/application/InstitutionalAuthorityPort.java`; reconcile initial authorization snapshots without inventing legacy decisions
+- [X] T036 [US3] Implement teams, activities and deadlines in `backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessPlanningService.java`
+- [X] T037 [US3] Extend authorization endpoints in `backend/src/main/java/ec/edu/unl/sec/selfassessment/api/SelfAssessmentController.java` and add planning endpoints in `backend/src/main/java/ec/edu/unl/sec/selfassessment/api/ProcessGovernanceController.java` according to T113 compatibility decisions; never register duplicate route mappings
+- [X] T038 [US3] Implement process authorization and planning UI in `frontend/src/app/features/processes/pages/process-planning.page.ts`
+- [X] T039 [US3] Record D3 acceptance evidence in `tests/acceptance/results/d3-process-planning.md`
+- [X] T117 [US3] Validate individual team membership, exactly one user/team per assignment, dependency-cycle rejection and deadline exceptions in `backend/src/test/java/ec/edu/unl/sec/selfassessment/application/TeamPlanningIntegrityTest.java`; implement the corresponding rules and API revisions in `backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessPlanningService.java` before T039
 
 ## Phase 6: US4 — Required-source coverage (D4, P07–P08)
 
@@ -105,7 +118,7 @@
 
 - [ ] T050 [P] [US5] Add separation, self-review and rectification tests in `backend/src/test/java/ec/edu/unl/sec/documentreview/domain/CompleteDocumentReviewTest.java`
 - [ ] T051 [P] [US5] Add review-inbox and coverage-projection API tests in `backend/src/test/java/ec/edu/unl/sec/documentreview/api/DocumentReviewControllerTest.java`
-- [ ] T052 [US5] Create append-only review migration in `backend/src/main/resources/db/migration/V013__document_review.sql`, adapting rather than duplicating any historical schema already applied
+- [ ] T052 [US5] Create append-only review migration in `backend/src/main/resources/db/migration/V015__document_review.sql`, adapting rather than duplicating any historical schema already applied
 - [ ] T053 [US5] Implement review decision and rectification services in `backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewService.java`
 - [ ] T054 [US5] Link correction successors to the triggering review in `backend/src/main/java/ec/edu/unl/sec/evidence/application/CreateEvidenceSuccessorService.java`
 - [ ] T055 [US5] Implement reviewer inbox and decision history UI in `frontend/src/app/features/reviews/pages/document-review-inbox.page.ts`
@@ -120,7 +133,7 @@
 - [ ] T058 [P] [US6] Add exact-formula and zero-denominator tests in `backend/src/test/java/ec/edu/unl/sec/reporting/domain/DocumentaryProgressCalculatorTest.java`
 - [ ] T059 [P] [US6] Add scope-filtered drill-down tests in `backend/src/test/java/ec/edu/unl/sec/reporting/application/DocumentaryProgressQueryTest.java`
 - [ ] T060 [P] [US6] Add documentary-closure independence tests in `backend/src/test/java/ec/edu/unl/sec/reporting/application/DocumentaryClosureServiceTest.java`
-- [ ] T061 [US6] Create progress and documentary snapshot migration in `backend/src/main/resources/db/migration/V014__documentary_reporting.sql`
+- [ ] T061 [US6] Create progress and documentary snapshot migration in `backend/src/main/resources/db/migration/V016__documentary_reporting.sql`
 - [ ] T062 [US6] Implement source-based calculator in `backend/src/main/java/ec/edu/unl/sec/reporting/domain/DocumentaryProgressCalculator.java`
 - [ ] T063 [US6] Implement scoped drill-down query in `backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentaryProgressQueryService.java`
 - [ ] T064 [US6] Implement documentary closure snapshot in `backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentaryClosureService.java`
@@ -135,7 +148,7 @@
 
 - [ ] T068 [P] [US7] Add qualitative/quantitative rule tests in `backend/src/test/java/ec/edu/unl/sec/academicevaluation/domain/IndicatorValuationRuleTest.java`
 - [ ] T069 [P] [US7] Add variable verification and strategy registry tests in `backend/src/test/java/ec/edu/unl/sec/academicevaluation/application/AcademicCalculationServiceTest.java`
-- [ ] T070 [US7] Create migration for variable values, calculation runs and disagreements in `backend/src/main/resources/db/migration/V015__academic_evaluation_rules.sql`
+- [ ] T070 [US7] Create migration for variable values, calculation runs and disagreements in `backend/src/main/resources/db/migration/V017__academic_evaluation_rules.sql`
 - [ ] T071 [US7] Implement variable capture and verification in `backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/VariableValueService.java`
 - [ ] T072 [US7] Implement validated calculation execution in `backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicCalculationService.java`
 - [ ] T073 [US7] Extend manual evaluation with method/limitations in `backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicEvaluationService.java`
@@ -150,7 +163,7 @@
 
 - [ ] T077 [P] [US8] Add finding linkage and no-arbitrary-aggregation tests in `backend/src/test/java/ec/edu/unl/sec/governance/domain/FindingTest.java`
 - [ ] T078 [P] [US8] Add report version/approval tests including no-accreditation language in `backend/src/test/java/ec/edu/unl/sec/governance/application/ReportWorkflowServiceTest.java`
-- [ ] T079 [US8] Create migration for findings, report versions, observations and approval decisions in `backend/src/main/resources/db/migration/V016__findings_reports.sql`
+- [ ] T079 [US8] Create migration for findings, report versions, observations and approval decisions in `backend/src/main/resources/db/migration/V018__findings_reports.sql`
 - [ ] T080 [US8] Implement finding consolidation in `backend/src/main/java/ec/edu/unl/sec/governance/application/FindingService.java`
 - [ ] T081 [US8] Implement report workflow and append-only decisions in `backend/src/main/java/ec/edu/unl/sec/governance/application/ReportWorkflowService.java`
 - [ ] T082 [US8] Implement findings/report endpoints in `backend/src/main/java/ec/edu/unl/sec/governance/api/ReportController.java`
@@ -165,7 +178,7 @@
 
 - [ ] T086 [P] [US9] Add action lifecycle, versioning and deadline tests in `backend/src/test/java/ec/edu/unl/sec/improvement/domain/ImprovementActionTest.java`
 - [ ] T087 [P] [US9] Add finding-link and authorization API tests in `backend/src/test/java/ec/edu/unl/sec/improvement/api/ImprovementControllerTest.java`
-- [ ] T088 [US9] Create migration for plans, actions, progress and verification in `backend/src/main/resources/db/migration/V017__improvement.sql`
+- [ ] T088 [US9] Create migration for plans, actions, progress and verification in `backend/src/main/resources/db/migration/V019__improvement.sql`
 - [ ] T089 [US9] Implement plan/action workflow in `backend/src/main/java/ec/edu/unl/sec/improvement/application/ImprovementPlanService.java`
 - [ ] T090 [US9] Implement progress and verification in `backend/src/main/java/ec/edu/unl/sec/improvement/application/ActionProgressService.java`
 - [ ] T091 [US9] Implement improvement endpoints in `backend/src/main/java/ec/edu/unl/sec/improvement/api/ImprovementController.java`
@@ -179,7 +192,7 @@
 
 - [ ] T094 [P] [US10] Add closure-policy and exception tests in `backend/src/test/java/ec/edu/unl/sec/archive/domain/IntegralClosurePolicyTest.java`
 - [ ] T095 [P] [US10] Add archive authorization, integrity and historical-query tests in `backend/src/test/java/ec/edu/unl/sec/archive/application/ArchiveServiceTest.java`
-- [ ] T096 [US10] Create migration for closure policies, snapshots and archive records in `backend/src/main/resources/db/migration/V018__integral_archive.sql`
+- [ ] T096 [US10] Create migration for closure policies, snapshots and archive records in `backend/src/main/resources/db/migration/V020__integral_archive.sql`
 - [ ] T097 [US10] Implement integral closure service in `backend/src/main/java/ec/edu/unl/sec/archive/application/IntegralClosureService.java`
 - [ ] T098 [US10] Implement archive and historical query service in `backend/src/main/java/ec/edu/unl/sec/archive/application/ArchiveService.java`
 - [ ] T099 [US10] Implement closure/archive endpoints in `backend/src/main/java/ec/edu/unl/sec/archive/api/ArchiveController.java`
@@ -195,7 +208,7 @@
 - [ ] T105 [P] Add accessibility journeys for new screens in `tests/e2e/accessibility-complete-workflows.spec.ts`
 - [ ] T106 [P] Add performance datasets and paginated query checks in `tests/performance/complete-workflows.js`
 - [ ] T107 Validate the merged OpenAPI contract with project scripts and Postman CLI, recording results in `tests/acceptance/results/contracts-p01-p16.md`
-- [ ] T108 Run clean and incremental migration verification through V018 in `tests/acceptance/results/migrations-p01-p16.md`
+- [ ] T108 Run clean and incremental migration verification through V020 in `tests/acceptance/results/migrations-p01-p16.md`
 - [ ] T109 Verify no secrets or institutional data in fixtures/results using `scripts/verify-synthetic-data.ps1`
 - [ ] T110 Execute `specs/005-complete-evaluation-workflows/quickstart.md` and record results in `tests/acceptance/results/p01-p16-quickstart.md`
 - [ ] T111 Complete human governance review for normative provenance, competencies and no-accreditation wording in `tests/acceptance/results/p01-p16-review-gate.md`

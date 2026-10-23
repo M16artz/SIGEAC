@@ -56,7 +56,9 @@ class EvidenceDraftControllerTest {
                         UUID.randomUUID(), ACTOR, "Responsable sintético", false, SessionService.sha256Hex(CSRF))));
         ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
         var sessionFilter = new SessionAuthenticationFilter(sessions, new AccessProblemWriter(mapper));
-        mvc = MockMvcBuilders.standaloneSetup(new EvidenceDraftController(service))
+        var sources = mock(ec.edu.unl.sec.evidence.application.EvidenceSourceService.class);
+        when(sources.snapshot(any())).thenReturn(ec.edu.unl.sec.evidence.application.EvidenceSourceService.Sources.empty());
+        mvc = MockMvcBuilders.standaloneSetup(new EvidenceDraftController(service, sources))
                 .setControllerAdvice(new ApiProblemHandler(), new EvidenceProblemHandler())
                 .addFilters(new CorrelationFilter(), sessionFilter)
                 .build();

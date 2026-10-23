@@ -1,6 +1,6 @@
 # Transición de contratos y datos P01–P16
 
-**Estado**: compatibilidad resuelta para D1 y migración V008 implementada/probada en PostgreSQL descartable. D2–D8 siguen planificadas. No se han migrado bases institucionales.
+**Estado**: D1 verificado en PostgreSQL descartable. D3 cuenta con migracion, persistencia y recorrido Edge comprobados con PostgreSQL 18.4 y datos sinteticos. No se han migrado bases institucionales.
 
 **Corrección implementada el 2026-10-21**: V007 amplía estados y transforma borradores históricos a preparación, sin inventar autorizaciones para procesos activos legados. Se comprueba en PostgreSQL desechable mediante `ProcessPreparationMigrationTest`; no es el despliegue institucional ni completa V010. El adaptador inicial usa `ProcessStartAuthorizationCommand/View` en el contrato común; `DecisionInput` de 005 sigue planificado. Véase [revisión de implementación](../testing/implementation-review.md).
 
@@ -28,12 +28,14 @@ de aplicar D1. La numeración siguiente es estrictamente ascendente; no se habil
 | V010 | D3 | Autorizaciones, estados, equipos, actividades y planificación |
 | V011 | D4 / 004 | Inmutabilidad de evidencias remitidas, antes de coberturas |
 | V012 | D4 | Coberturas, no aplicabilidad y modalidades de fuente |
-| V013 | D5 | Revisiones append-only y decisiones por cobertura |
-| V014 | D6 | Métricas, cortes y cierre de fase documental |
-| V015 | D7/P12 | Variables, ejecuciones, valoraciones y conciliación |
-| V016 | D7/P13–P14 | Hallazgos, versiones de informe, observaciones y aprobación |
-| V017 | D8/P15 | Planes, revisiones de acciones, avances y verificación |
-| V018 | D8/P16 | Política de cierre integral, snapshots y archivo |
+| V013 | D4 | Snapshots de evidencia estructurada (implementada) |
+| V014 | D3 / integracion D2 | Vinculos normativos contra indicadores del snapshot versionado (implementada) |
+| V015 | D5 | Revisiones append-only y decisiones por cobertura |
+| V016 | D6 | Metricas, cortes y cierre de fase documental |
+| V017 | D7/P12 | Variables, calculos, valoraciones y conciliacion |
+| V018 | D7/P13-P14 | Hallazgos, informes y aprobaciones |
+| V019 | D8/P15 | Planes, acciones, avances y verificacion |
+| V020 | D8/P16 | Cierre integral, snapshots y archivo |
 
 La numeración se confirma en T005 antes de crear los archivos. Si una versión reservada ya existe/aplica, asignar una nueva versión libre y actualizar plan/tareas. No editar checksums históricos, borrar registros Flyway ni crear migraciones vacías para llenar saltos.
 
@@ -48,8 +50,8 @@ contrato de 005 usa `/api/v2` como destino **planificado**, no como API disponib
 |---|---|---|
 | Carreras/unidades | No existía API; se requieren `data`, `revision>=1` y páginas con `totalElements` | Adición v1; historial paginado, ETag fuerte y estados `ACTIVE/DISABLED`. |
 | Modelos | DTO legado de nombre/descripción, jerarquía rígida y escala/fórmula global frente a procedencia/nodos/fuentes/reglas por indicador | Conservar v1; nueva estructura v2 en D2, sin traducir una fórmula documental en académica. |
-| Procesos/autorizaciones | DTO plano y autorización inicial frente a registro completo de decisiones | Conservar v1 y su auditoría; D3 migra explícitamente datos y cliente al contrato v2. |
-| Asignaciones | Persona/función frente a persona o equipo y planificación | Contrato completo v2 en D3; no aceptar cuerpos nuevos en un endpoint v1 existente. |
+| Procesos/autorizaciones | DTO plano y autorizacion inicial frente a registro completo de decisiones | Conservar v1 y su auditoria. Se documenta la procedencia ya exigida por suspension/reanudacion/reapertura; el registro completo v2 permanece planificado. |
+| Asignaciones | Persona/funcion frente a persona o equipo y planificacion | Se mantiene el cuerpo v1 legado con `identityId`; `userId` es alias aditivo y `teamId` una alternativa excluyente. El DTO de acceso `AssignmentCommand` permanece separado de `ProcessAssignmentCommand`. Contrato completo v2 aun planificado. |
 | Coberturas, revisión y métricas | La evidencia ligada a indicadores no demuestra cobertura de fuentes | Nuevas operaciones objetivo v2; completar antes los contratos v1 de 004 sin romperlos. |
 | Valoraciones, informes, mejora y archivo | Esquemas de decisión/versionado más estrictos que los contratos iniciales | Destino v2 planificado; no se presentan como implementados en D1. |
 
@@ -77,6 +79,43 @@ El entorno inspeccionado fue únicamente el PostgreSQL descartable local 18.4:
 `CareerCatalogMigrationTest` verifica V007→V008 y `CleanDatabaseMigrationTest` el
 esquema desde cero. Cada despliegue debe comprobar su propio historial/checksums,
 respaldar base y archivos y ensayar restauración antes de aplicar cambios.
+
+## Superficie D3 reconciliada (2026-10-22)
+
+El contrato comun v1 incorpora las rutas ya implementadas de equipos, membresias y
+actividades. Sus mutaciones usan la revision fuerte **del proceso** en `If-Match`
+y devuelven su nueva revision en `ETag`; no usan la revision de la actividad como
+control de concurrencia del proceso. Las respuestas de creacion incluyen `Location`.
+
+La consulta de actividades permite a coordinacion/administracion ver el plan y a
+los participantes ver unicamente actividades de sus asignaciones individuales o
+de equipo vigentes, con permiso de operacion independiente. Un recurso ajeno y
+uno inexistente devuelven el mismo 404. La pagina de consulta no modifica el plan.
+
+Los esquemas de suspension, reanudacion y reapertura ahora explicitan asignacion
+autorizadora, fundamento, documento y motivo: corrigen una omision del contrato
+respecto a la validacion que el backend ya ejecutaba. `ReasonCommand` se conserva
+deprecado para compatibilidad de clientes generados; ya no describe esos cuerpos.
+Los alias de identidad contradictorios se rechazan antes de mutar.
+
+Esta reconciliacion no publica `/api/v2` ni acredita migraciones PostgreSQL. La
+compatibilidad automatica compara las rutas compartidas con 005; las pruebas HTTP
+verifican por separado los esquemas y la revision de las operaciones v1 implementadas.
+
+## Persistencia D3 comprobada en PostgreSQL (2026-10-22)
+
+`ProcessGovernanceMigrationTest` verifica V009 -> V010 en un esquema UUID descartable
+con datos legados. Conserva snapshots, asignaciones y transiciones y no inventa
+constancias de autorizacion. `ProcessGovernancePersistenceTest` aplica V001-V013
+desde cero en esquemas independientes y comprueba equipos, integrantes, actividades,
+historial, decisiones y rollback en PostgreSQL 18.4 y SQLite.
+
+Se conservaron los SQL historicos y sus checksums. Los cambios de repositorio hacen
+atomicas las escrituras de actividad/historial/dependencias y transicion/decision,
+conservan el UUID de la decision y convierten revisiones SQL obsoletas en precondiciones.
+La evidencia y las variables de reproduccion estan en
+[aceptacion D3](../../tests/acceptance/results/d3-process-planning.md).
+Esto no acredita un despliegue institucional ni el recorrido integral de navegador.
 
 ## Tratamiento de datos anteriores
 
@@ -113,3 +152,19 @@ Antes de aplicar a datos persistentes, generar respaldo coordinado de base y arc
 | Cliente | Ruta/versionado compatible y pruebas de regresión |
 | Recuperación | Respaldo, restauración ensayada y verificación de hashes |
 | Resultado | PASS/FAIL y limitaciones pendientes, sin afirmar pruebas no ejecutadas |
+
+## V014 y aceptacion D3 en navegador (2026-10-22)
+
+El repositorio de modelos conserva la configuracion en `model_version.snapshot_json`.
+La FK de V009 exigia una proyeccion `model_node` que ese repositorio no escribe,
+impidiendo registrar aplicabilidad aunque el indicador existiese en el snapshot.
+V014 sustituye solamente esa FK por un trigger de validacion contra los indicadores
+de la configuracion de la version exacta. Se conservan las FK a version/referencia,
+los vinculos anteriores y la proteccion append-only. No se reescriben snapshots.
+El guard equivalente del perfil SQLite se instala como los guards de catalogo,
+fuera del script SQL porque su separador no admite cuerpos de trigger.
+
+Las pruebas cubren un indicador valido, uno ajeno y el mismo ID en una version
+sucesora. El backend de navegador arranco desde V013, aplico solo V014 y valido
+JPA antes de ejecutar la aceptacion. D5 usa la siguiente version libre V015;
+las reservas futuras se desplazan hasta V020 para mantener el orden ascendente.

@@ -21,10 +21,13 @@ public class ProcessAssignmentService {
     private final AuthorizationPort auth;
     private final FunctionalAssignmentPolicyPort policy;
     private final SelfAssessmentAuditService audit;
+    private final ProcessAssignmentCatalogPort participants;
 
     public ProcessAssignmentService(SelfAssessmentRepository repository, CurrentActorPort actors,
-            AuthorizationPort auth, FunctionalAssignmentPolicyPort policy, SelfAssessmentAuditService audit) {
+            AuthorizationPort auth, FunctionalAssignmentPolicyPort policy, SelfAssessmentAuditService audit,
+            ProcessAssignmentCatalogPort participants) {
         this.repository = repository; this.actors = actors; this.auth = auth; this.policy = policy; this.audit = audit;
+        this.participants = participants;
     }
 
     @Transactional
@@ -72,9 +75,9 @@ public class ProcessAssignmentService {
         var scope = new AuthorizationScope(process.careerId(), process.id(), null);
         if (auth.isAllowed(actor.identityId(), OperationCode.PROCESS_COORDINATE, scope)
                 || auth.isAllowed(actor.identityId(), OperationCode.PROCESS_MANAGE, scope)) return repository.assignments(processId);
+        Instant now = Instant.now();
         return repository.assignments(processId).stream()
-                .filter(a -> a.assignedTo(actor.identityId()) && a.revokedAt() == null
-                        && !Instant.now().isBefore(a.validFrom()) && Instant.now().isBefore(a.validTo()))
+                .filter(a -> participants.isCurrentParticipant(a, actor.identityId(), now))
                 .filter(a -> auth.isAllowed(actor.identityId(), operation(a.function()),
                         new AuthorizationScope(process.careerId(), process.id(), a.indicatorId())))
                 .toList();
@@ -84,7 +87,7 @@ public class ProcessAssignmentService {
         return actors.currentActor().orElseThrow(() -> error(ProcessProblemException.Kind.UNAUTHORIZED,
                 "AUTHENTICATION_REQUIRED", "Se requiere autenticaciÃ³n."));
     }
-    private static OperationCode operation(ProcessAssignment.Function function) {
+    static OperationCode operation(ProcessAssignment.Function function) {
         return switch (function) {
             case RESPONSIBLE -> OperationCode.EVIDENCE_COLLECT;
             case REVIEWER -> OperationCode.EVIDENCE_REVIEW;

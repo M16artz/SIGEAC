@@ -45,9 +45,8 @@ import {AccessSessionService} from '../../access/data-access/access-session.serv
               <option value="">Seleccione un equipo</option>@for (team of teams(); track team.id) {<option [value]="team.id">{{team.name}}</option>}
             </select>
             <label for="member-user">Usuario (UUID)</label><input id="member-user" name="memberUser" [(ngModel)]="memberUser" required>
-            <label for="member-role">Asignacion de rol</label><select id="member-role" name="memberRole" [(ngModel)]="memberRole" required>
-              <option value="">Seleccione una asignacion</option>@for (a of session.identity()?.assignments ?? []; track a.id) {<option [value]="a.id">{{a.roleName}} - {{a.careerId}}</option>}
-            </select>
+            <label for="member-role">Asignacion de rol del integrante (UUID)</label>
+            <input id="member-role" name="memberRole" [(ngModel)]="memberRole" required>
             <label for="member-from">Desde</label><input id="member-from" type="datetime-local" name="memberFrom" [(ngModel)]="memberFrom" required>
             <label for="member-until">Hasta</label><input id="member-until" type="datetime-local" name="memberUntil" [(ngModel)]="memberUntil" required>
             <button [disabled]="busy() || !memberTeam">Agregar integrante</button>
@@ -84,12 +83,14 @@ import {AccessSessionService} from '../../access/data-access/access-session.serv
         @if (current.state === 'PREPARATION' || current.state === 'ACTIVE') {
           <form (ngSubmit)="saveActivity()">
             <label for="activity-title">Titulo</label><input id="activity-title" name="activityTitle" [(ngModel)]="activityTitle" required maxlength="300">
-            <label for="activity-indicator">Indicador</label><select id="activity-indicator" name="activityIndicator" [(ngModel)]="activityIndicator" required>
+            <label for="activity-indicator">Indicador</label><select id="activity-indicator" name="activityIndicator" [(ngModel)]="activityIndicator" (ngModelChange)="activityAssignment = ''; activitySource = ''" required>
               <option value="">Seleccione un indicador</option>@for (i of current.indicators; track i.id) {<option [value]="i.id">{{i.code}} - {{i.name}}</option>}
             </select>
             <label for="activity-assignment">Asignacion responsable</label><select id="activity-assignment" name="activityAssignment" [(ngModel)]="activityAssignment" required>
-              <option value="">Seleccione una asignacion</option>@for (a of assignments(); track a.id) {<option [value]="a.id">{{a.function}} - {{a.indicatorId}}</option>}
+              <option value="">Seleccione una asignacion</option>@for (a of activityAssignments(); track a.id) {<option [value]="a.id">{{a.function}} - {{a.indicatorId}}</option>}
             </select>
+            <label for="activity-source">Fuente requerida (opcional, UUID)</label>
+            <input id="activity-source" name="activitySource" [(ngModel)]="activitySource">
             <label for="activity-due">Vencimiento</label><input id="activity-due" type="datetime-local" name="activityDue" [(ngModel)]="activityDue" required>
             <label for="activity-dependencies">Dependencias (UUID separados por coma)</label><input id="activity-dependencies" name="activityDependencies" [(ngModel)]="activityDependencies">
             <label for="activity-exception">Motivo de excepcion de plazo (si vence fuera del periodo)</label><textarea id="activity-exception" name="activityException" [(ngModel)]="activityException" maxlength="4000"></textarea>
@@ -103,7 +104,9 @@ import {AccessSessionService} from '../../access/data-access/access-session.serv
           <li>{{activity.title}} - vence {{activity.dueAt}} - revision {{activity.revision}}
             @if (activity.dependencyIds.length) {<span> - depende de {{activity.dependencyIds.join(', ')}}</span>}
             @if (activity.deadlineExceptionReason) {<span> - excepcion de plazo autorizada</span>}
-            <button type="button" (click)="editActivity(activity)">Editar</button>
+            @if (current.state === 'PREPARATION' || current.state === 'ACTIVE') {
+              <button type="button" (click)="editActivity(activity)">Editar</button>
+            }
           </li>
         }</ul>
       </section>
@@ -123,6 +126,7 @@ export class ProcessPlanningPage implements OnInit {
   assignIndicator = ''; assignSubject = 'PERSON'; assignIdentity = ''; assignTeam = '';
   assignFunction = 'RESPONSIBLE'; assignFrom = ''; assignUntil = ''; assignReason = '';
   activityTitle = ''; activityIndicator = ''; activityAssignment = ''; activityDue = '';
+  activitySource = '';
   activityDependencies = ''; activityException = ''; activityAuthority = ''; activityBasis = '';
   editingActivity: ProcessActivity | null = null;
   private processId = '';
@@ -183,12 +187,18 @@ export class ProcessPlanningPage implements OnInit {
     this.run(this.api.assign(p, command), 'No fue posible asignar. Verifique que exactamente una persona o equipo quede asignado.');
   }
 
+  activityAssignments(): readonly ProcessAssignment[] {
+    return this.assignments().filter(a => a.indicatorId === this.activityIndicator && !a.revokedAt);
+  }
+
   saveActivity(): void {
     const p = this.process();
-    if (!p || !this.activityTitle.trim() || !this.activityIndicator || !this.activityAssignment || !this.activityDue) {
+    if (!p || !this.activityTitle.trim() || !this.activityIndicator
+        || !this.activityAssignments().some(a => a.id === this.activityAssignment)
+        || !Number.isFinite(new Date(this.activityDue).getTime())) {
       this.error.set('Complete titulo, indicador, asignacion y vencimiento de la actividad.'); return;
     }
-    const command = {title: this.activityTitle, indicatorId: this.activityIndicator, requiredSourceId: null,
+    const command = {title: this.activityTitle, indicatorId: this.activityIndicator, requiredSourceId: this.activitySource.trim() || null,
       assignmentId: this.activityAssignment, dueAt: new Date(this.activityDue).toISOString(),
       dependencyIds: this.activityDependencies.split(',').map(value => value.trim()).filter(value => value.length > 0),
       exceptionReason: this.activityException.trim() || null,
@@ -204,6 +214,7 @@ export class ProcessPlanningPage implements OnInit {
     this.editingActivity = activity; this.activityTitle = activity.title;
     this.activityIndicator = activity.indicatorId; this.activityAssignment = activity.assignmentId;
     this.activityDue = this.toLocal(activity.dueAt);
+    this.activitySource = activity.requiredSourceId ?? '';
     this.activityDependencies = activity.dependencyIds.join(', ');
     this.activityException = activity.deadlineExceptionReason ?? '';
     this.activityAuthority = activity.deadlineExceptionAuthorityAssignmentId ?? '';
@@ -212,7 +223,7 @@ export class ProcessPlanningPage implements OnInit {
 
   cancelEdit(): void {
     this.editingActivity = null; this.activityTitle = ''; this.activityIndicator = '';
-    this.activityAssignment = ''; this.activityDue = ''; this.activityDependencies = '';
+    this.activityAssignment = ''; this.activitySource = ''; this.activityDue = ''; this.activityDependencies = '';
     this.activityException = ''; this.activityAuthority = ''; this.activityBasis = '';
   }
 

@@ -2,6 +2,7 @@ package ec.edu.unl.sec.selfassessment.api;
 
 import ec.edu.unl.sec.selfassessment.application.ProcessAssignmentService;
 import ec.edu.unl.sec.selfassessment.application.ProcessPlanningService;
+import ec.edu.unl.sec.selfassessment.application.ProcessProblemException;
 import ec.edu.unl.sec.selfassessment.domain.ProcessAssignment;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -39,6 +40,9 @@ public class ProcessAssignmentController {
             @RequestHeader(value = "If-Match", required = false) String match,
             @Valid @RequestBody Command body, HttpServletRequest request) {
         long revision = SelfAssessmentController.rev(match);
+        if (body.identityId() != null && body.userId() != null && !body.identityId().equals(body.userId()))
+            throw new ProcessProblemException(ProcessProblemException.Kind.INVALID, "ASSIGNMENT_IDENTITY_CONFLICT",
+                    "identityId y userId deben identificar a la misma persona.");
         UUID userId = body.userId() != null ? body.userId() : body.identityId();
         if (body.teamId() != null || body.userId() != null) {
             var planned = planning.assignParticipant(processId, revision, body.indicatorId(), userId,

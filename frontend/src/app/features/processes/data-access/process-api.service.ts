@@ -30,8 +30,8 @@ export class ProcessApi {
     return this.api.post(`processes/${p.id}/authorizations`, command, this.match(p)).pipe(switchMap(() => this.get(p.id)));
   }
   activate(p: ProcessView): Observable<ProcessView> { return this.api.post(`processes/${p.id}/activate`, {}, this.match(p)); }
-  transition(p: ProcessView, target: ProcessState, reason: string): Observable<ProcessView> { return this.api.post(`processes/${p.id}/transitions`, {target, reason}, this.match(p)); }
-  reopen(p: ProcessView, reason: string): Observable<ProcessView> { return this.api.post(`processes/${p.id}/reopen`, {reason}, this.match(p)); }
+  transition(p: ProcessView, target: ProcessState, command: AuthorizationCommand): Observable<ProcessView> { return this.api.post(`processes/${p.id}/transitions`, {target, ...command}, this.match(p)); }
+  reopen(p: ProcessView, command: AuthorizationCommand): Observable<ProcessView> { return this.api.post(`processes/${p.id}/reopen`, command, this.match(p)); }
   assign(p: ProcessView, command: unknown): Observable<ProcessView> {
     return this.api.post(`processes/${p.id}/assignments`, command, this.match(p)).pipe(switchMap(() => this.get(p.id)));
   }

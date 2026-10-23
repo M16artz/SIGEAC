@@ -3,6 +3,7 @@ package ec.edu.unl.sec.selfassessment.infrastructure;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ec.edu.unl.sec.selfassessment.application.SelfAssessmentRepository;
+import ec.edu.unl.sec.selfassessment.application.ProcessProblemException;
 import ec.edu.unl.sec.selfassessment.domain.ProcessActivity;
 import ec.edu.unl.sec.selfassessment.domain.ProcessAssignment;
 import ec.edu.unl.sec.selfassessment.domain.ProcessAuthorization;
@@ -19,6 +20,7 @@ import java.util.UUID;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class JdbcSelfAssessmentRepository implements SelfAssessmentRepository {
@@ -47,7 +49,8 @@ public class JdbcSelfAssessmentRepository implements SelfAssessmentRepository {
                 "update self_assessment_process set state=?,revision=?,snapshot_json=" + jsonParameter()
                         + " where id=? and revision=?",
                 process.state().name(), process.revision(), encode(process), process.id(), expectedRevision);
-        if (changed != 1) throw new IllegalStateException("STALE_PROCESS");
+        if (changed != 1) throw new ProcessProblemException(ProcessProblemException.Kind.PRECONDITION,
+                "STALE_PROCESS", "El proceso cambio; recargue antes de continuar.");
         if (process.state() == ProcessState.ACTIVE) {
             for (var indicator : process.indicators()) {
                 jdbc.update(
@@ -145,6 +148,7 @@ public class JdbcSelfAssessmentRepository implements SelfAssessmentRepository {
     }
 
     @Override
+    @Transactional
     public void saveActivity(ProcessActivity activity, long expectedRevision) {
         if (expectedRevision < 0) {
             jdbc.update(
@@ -162,7 +166,8 @@ public class JdbcSelfAssessmentRepository implements SelfAssessmentRepository {
                     activity.indicatorId(), activity.requiredSourceId(), activity.assignmentId(), activity.title(),
                     Timestamp.from(activity.dueAt()), activity.status().name(), activity.revision(), encode(activity),
                     activity.id(), expectedRevision);
-            if (changed != 1) throw new IllegalStateException("STALE_ACTIVITY");
+            if (changed != 1) throw new ProcessProblemException(ProcessProblemException.Kind.PRECONDITION,
+                    "STALE_ACTIVITY", "La actividad cambio; recargue antes de continuar.");
         }
         jdbc.update("delete from process_activity_dependency where activity_id=?", activity.id());
         for (UUID dependency : activity.dependencyIds()) {
@@ -195,6 +200,7 @@ public class JdbcSelfAssessmentRepository implements SelfAssessmentRepository {
     }
 
     @Override
+    @Transactional
     public void recordTransition(UUID id, ProcessState from, ProcessState to, UUID actor, String reason,
             UUID correlation, long revision, ProcessAuthorization decision) {
         jdbc.update(
@@ -207,7 +213,7 @@ public class JdbcSelfAssessmentRepository implements SelfAssessmentRepository {
         if (decision != null) {
             jdbc.update(
                     "insert into process_authorization(id,process_id,decision_type,authority_assignment_id,legal_basis,document_reference,reason,decided_by,decided_at) values(?,?,?,?,?,?,?,?,?)",
-                    UUID.randomUUID(), id, decisionType(from, to), decision.authorityAssignmentId(),
+                    decision.id(), id, decisionType(from, to), decision.authorityAssignmentId(),
                     decision.legalBasis(), decision.documentReference(), decision.reason(),
                     decision.authorizedBy(), Timestamp.from(decision.authorizedAt()));
         }

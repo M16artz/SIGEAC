@@ -59,7 +59,9 @@ class EvidenceSourceCoverageControllerTest {
                         SessionService.sha256Hex(CSRF))));
         mapper = new ObjectMapper().findAndRegisterModules();
         var sessionFilter = new SessionAuthenticationFilter(sessions, new AccessProblemWriter(mapper));
-        mvc = MockMvcBuilders.standaloneSetup(new EvidenceSourceCoverageController(coverage, applicability, submission))
+        var sources = org.mockito.Mockito.mock(ec.edu.unl.sec.evidence.application.EvidenceSourceService.class);
+        when(sources.snapshot(any())).thenReturn(ec.edu.unl.sec.evidence.application.EvidenceSourceService.Sources.empty());
+        mvc = MockMvcBuilders.standaloneSetup(new EvidenceSourceCoverageController(coverage, applicability, submission, sources))
                 .setControllerAdvice(new ApiProblemHandler(), new EvidenceProblemHandler())
                 .addFilters(new CorrelationFilter(), sessionFilter)
                 .build();

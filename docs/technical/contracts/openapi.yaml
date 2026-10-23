@@ -360,7 +360,11 @@ paths:
       operationId: listProcessAssignments
       parameters: [{$ref: '#/components/parameters/ProcessId'}]
       responses:
-        '200': {description: Historial de asignaciones del proceso}
+        '200':
+          description: Planificadores ven el historial; participantes solo asignaciones vigentes con permiso independiente.
+          content:
+            application/json:
+              schema: {type: array, items: {$ref: '#/components/schemas/ProcessAssignmentView'}}
     post:
       tags: [Processes]
       operationId: createProcessAssignment
@@ -369,10 +373,194 @@ paths:
         required: true
         content:
           application/json:
-            schema: {$ref: '#/components/schemas/AssignmentCommand'}
+            schema: {$ref: '#/components/schemas/ProcessAssignmentCommand'}
       responses:
-        '201': {$ref: '#/components/responses/CreatedResource'}
+        '201':
+          description: Asignacion creada; ETag corresponde a la nueva revision del proceso.
+          headers:
+            ETag: {$ref: '#/components/headers/ETag'}
+            Location: {$ref: '#/components/headers/Location'}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ProcessAssignmentView'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '412': {$ref: '#/components/responses/PreconditionFailed'}
+        '428': {$ref: '#/components/responses/PreconditionRequired'}
         '409': {$ref: '#/components/responses/Conflict'}
+  /processes/{processId}/teams:
+    get:
+      tags: [Processes]
+      operationId: listProcessTeams
+      description: Solo coordinacion o administracion del proceso.
+      parameters: [{$ref: '#/components/parameters/ProcessId'}]
+      responses:
+        '200':
+          description: Consulta o actualizacion autorizada.
+          content:
+            application/json:
+              schema: {type: array, items: {$ref: '#/components/schemas/ProcessTeamView'}}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '404': {$ref: '#/components/responses/NotFound'}
+    post:
+      tags: [Processes]
+      operationId: createProcessTeam
+      description: Solo coordinacion o administracion del proceso.
+      parameters: [{$ref: '#/components/parameters/ProcessId'}, {$ref: '#/components/parameters/CsrfToken'}, {$ref: '#/components/parameters/IfMatch'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/ProcessTeamCommand'}
+      responses:
+        '201':
+          description: Recurso creado; ETag identifica la nueva revision del proceso.
+          headers:
+            ETag: {$ref: '#/components/headers/ETag'}
+            Location: {$ref: '#/components/headers/Location'}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ProcessTeamView'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '412': {$ref: '#/components/responses/PreconditionFailed'}
+        '428': {$ref: '#/components/responses/PreconditionRequired'}
+  /teams/{teamId}/memberships:
+    get:
+      tags: [Processes]
+      operationId: listTeamMemberships
+      description: Solo planificadores; cada integrante conserva su asignacion individual.
+      parameters: [{$ref: '#/components/parameters/TeamId'}]
+      responses:
+        '200':
+          description: Consulta o actualizacion autorizada.
+          content:
+            application/json:
+              schema: {type: array, items: {$ref: '#/components/schemas/TeamMembershipView'}}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '404': {$ref: '#/components/responses/NotFound'}
+    post:
+      tags: [Processes]
+      operationId: addTeamMembership
+      description: Solo planificadores; cada integrante conserva su asignacion individual.
+      parameters: [{$ref: '#/components/parameters/TeamId'}, {$ref: '#/components/parameters/CsrfToken'}, {$ref: '#/components/parameters/IfMatch'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/TeamMembershipCommand'}
+      responses:
+        '201':
+          description: Recurso creado; ETag identifica la nueva revision del proceso.
+          headers:
+            ETag: {$ref: '#/components/headers/ETag'}
+            Location: {$ref: '#/components/headers/Location'}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/TeamMembershipView'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '412': {$ref: '#/components/responses/PreconditionFailed'}
+        '428': {$ref: '#/components/responses/PreconditionRequired'}
+  /processes/{processId}/activities:
+    get:
+      tags: [Processes]
+      operationId: listProcessActivities
+      description: Planificadores ven todas; participantes solo sus actividades con asignacion y permiso vigentes, incluida membresia verificada de equipo.
+      parameters: [{$ref: '#/components/parameters/ProcessId'}]
+      responses:
+        '200':
+          description: Consulta o actualizacion autorizada.
+          content:
+            application/json:
+              schema: {type: array, items: {$ref: '#/components/schemas/ProcessActivityView'}}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '404': {$ref: '#/components/responses/NotFound'}
+    post:
+      tags: [Processes]
+      operationId: createProcessActivity
+      description: Planificadores ven todas; participantes solo sus actividades con asignacion y permiso vigentes, incluida membresia verificada de equipo.
+      parameters: [{$ref: '#/components/parameters/ProcessId'}, {$ref: '#/components/parameters/CsrfToken'}, {$ref: '#/components/parameters/IfMatch'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/ProcessActivityCommand'}
+      responses:
+        '201':
+          description: Recurso creado; ETag identifica la nueva revision del proceso.
+          headers:
+            ETag: {$ref: '#/components/headers/ETag'}
+            Location: {$ref: '#/components/headers/Location'}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ProcessActivityView'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '412': {$ref: '#/components/responses/PreconditionFailed'}
+        '428': {$ref: '#/components/responses/PreconditionRequired'}
+  /teams/{teamId}:
+    get:
+      tags: [Processes]
+      operationId: getProcessTeam
+      description: Consulta limitada a planificadores del proceso.
+      parameters: [{$ref: '#/components/parameters/TeamId'}]
+      responses:
+        '200':
+          description: Consulta o actualizacion autorizada.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ProcessTeamView'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /activities/{activityId}:
+    get:
+      tags: [Processes]
+      operationId: getProcessActivity
+      description: Misma autorizacion que el listado; inexistente y ajena devuelven 404 indistinguible.
+      parameters: [{$ref: '#/components/parameters/ActivityId'}]
+      responses:
+        '200':
+          description: Consulta o actualizacion autorizada.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ProcessActivityView'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '404': {$ref: '#/components/responses/NotFound'}
+    patch:
+      tags: [Processes]
+      operationId: updateProcessActivity
+      description: Solo planificadores; If-Match corresponde a la revision del proceso y se conserva el historial de la actividad.
+      parameters: [{$ref: '#/components/parameters/ActivityId'}, {$ref: '#/components/parameters/CsrfToken'}, {$ref: '#/components/parameters/IfMatch'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/ProcessActivityCommand'}
+      responses:
+        '200':
+          description: Consulta o actualizacion autorizada.
+          headers:
+            ETag: {$ref: '#/components/headers/ETag'}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ProcessActivityView'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '412': {$ref: '#/components/responses/PreconditionFailed'}
+        '428': {$ref: '#/components/responses/PreconditionRequired'}
   /processes/{processId}/reopen:
     post:
       tags: [Processes]
@@ -382,9 +570,19 @@ paths:
         required: true
         content:
           application/json:
-            schema: {$ref: '#/components/schemas/ReasonCommand'}
+            schema: {$ref: '#/components/schemas/ProcessDecisionCommand'}
       responses:
-        '200': {$ref: '#/components/responses/Resource'}
+        '200':
+          description: Proceso actualizado con decision autorizada y revision incrementada.
+          headers:
+            ETag: {$ref: '#/components/headers/ETag'}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ProcessView'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '428': {$ref: '#/components/responses/PreconditionRequired'}
         '409': {$ref: '#/components/responses/Conflict'}
         '412': {$ref: '#/components/responses/PreconditionFailed'}
   /processes/{processId}/transitions:
@@ -397,9 +595,19 @@ paths:
         required: true
         content:
           application/json:
-            schema: {type: object, required: [target, reason], properties: {target: {enum: [ACTIVE, SUSPENDED, REOPENED]}, reason: {type: string, minLength: 10, maxLength: 2000}}}
+            schema: {$ref: '#/components/schemas/ProcessTransitionCommand'}
       responses:
-        '200': {$ref: '#/components/responses/Resource'}
+        '200':
+          description: Proceso actualizado con decision autorizada y revision incrementada.
+          headers:
+            ETag: {$ref: '#/components/headers/ETag'}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ProcessView'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '428': {$ref: '#/components/responses/PreconditionRequired'}
         '409': {$ref: '#/components/responses/Conflict'}
         '412': {$ref: '#/components/responses/PreconditionFailed'}
   /processes/{processId}/audit-events:
@@ -900,12 +1108,14 @@ components:
       name: If-Match
       in: header
       required: true
-      description: Strong ETag received from the latest draft representation.
+      description: Strong ETag of the latest resource representation; planning mutations use the process revision.
       schema: {type: string, pattern: '^"[0-9]+"$'}
     Page: {name: page, in: query, schema: {type: integer, minimum: 0, default: 0}}
     Size: {name: size, in: query, schema: {type: integer, minimum: 1, maximum: 100, default: 20}}
     UserId: {name: userId, in: path, required: true, schema: {type: string, format: uuid}}
     ModelId: {name: modelId, in: path, required: true, schema: {type: string, format: uuid}}
+    TeamId: {name: teamId, in: path, required: true, schema: {type: string, format: uuid}}
+    ActivityId: {name: activityId, in: path, required: true, schema: {type: string, format: uuid}}
     ProcessId: {name: processId, in: path, required: true, schema: {type: string, format: uuid}}
     EvidenceId: {name: evidenceId, in: path, required: true, schema: {type: string, format: uuid}}
     VersionId: {name: versionId, in: path, required: true, schema: {type: string, format: uuid}}
@@ -929,7 +1139,7 @@ components:
     ReportId: {name: reportId, in: path, required: true, schema: {type: string, format: uuid}}
   headers:
     ETag:
-      description: Strong draft revision tag.
+      description: Strong resource revision tag; planning responses identify the process revision.
       schema: {type: string, pattern: '^"[0-9]+"$'}
     Location:
       description: URI of the created resource.
@@ -1097,7 +1307,137 @@ components:
         name: {type: string, minLength: 3, maxLength: 200}
         periodStart: {type: string, format: date}
         periodEnd: {type: string, format: date}
+    ProcessDecisionCommand:
+      type: object
+      required: [authorityAssignmentId, legalBasis, documentReference, reason]
+      properties:
+        authorityAssignmentId: {type: string, format: uuid}
+        legalBasis: {type: string, minLength: 1, maxLength: 4000}
+        documentReference: {type: string, minLength: 1, maxLength: 2000}
+        reason: {type: string, minLength: 10, maxLength: 2000}
+    ProcessTransitionCommand:
+      allOf:
+        - {$ref: '#/components/schemas/ProcessDecisionCommand'}
+        - type: object
+          required: [target]
+          properties:
+            target: {type: string, enum: [ACTIVE, SUSPENDED, REOPENED]}
+    ProcessAssignmentCommand:
+      type: object
+      description: Exactamente una persona o un equipo; identityId y userId son alias y deben coincidir si ambos se proporcionan.
+      required: [indicatorId, function, validFrom, validTo, reason]
+      properties:
+        indicatorId: {type: string, format: uuid}
+        identityId: {type: [string, 'null'], format: uuid}
+        userId: {type: [string, 'null'], format: uuid}
+        teamId: {type: [string, 'null'], format: uuid}
+        function: {type: string, enum: [RESPONSIBLE, REVIEWER, EVALUATOR]}
+        validFrom: {type: string, format: date-time}
+        validTo: {type: string, format: date-time}
+        reason: {type: string, minLength: 1, maxLength: 2000}
+      oneOf:
+        - properties:
+            teamId: {type: 'null'}
+          anyOf:
+            - required: [identityId]
+              properties: {identityId: {type: string}}
+            - required: [userId]
+              properties: {userId: {type: string}}
+        - required: [teamId]
+          properties:
+            teamId: {type: string}
+            identityId: {type: 'null'}
+            userId: {type: 'null'}
+    ProcessAssignmentView:
+      type: object
+      required: [id, processId, indicatorId, identityId, teamId, function, validFrom, validTo, createdBy, reason, revokedAt, revision]
+      properties:
+        id: {type: string, format: uuid}
+        processId: {type: string, format: uuid}
+        indicatorId: {type: string, format: uuid}
+        identityId: {type: [string, 'null'], format: uuid}
+        teamId: {type: [string, 'null'], format: uuid}
+        function: {type: string, enum: [RESPONSIBLE, REVIEWER, EVALUATOR]}
+        validFrom: {type: string, format: date-time}
+        validTo: {type: string, format: date-time}
+        createdBy: {type: string, format: uuid}
+        reason: {type: string}
+        revokedAt: {type: [string, 'null'], format: date-time}
+        revision: {type: integer, minimum: 0}
+    ProcessTeamCommand:
+      type: object
+      required: [name, processRole, validFrom, validUntil]
+      properties:
+        name: {type: string, minLength: 1, maxLength: 300}
+        processRole: {type: string, minLength: 1, maxLength: 100}
+        validFrom: {type: string, format: date-time}
+        validUntil: {type: string, format: date-time}
+    ProcessTeamView:
+      allOf:
+        - {$ref: '#/components/schemas/ProcessTeamCommand'}
+        - type: object
+          required: [id, processId, createdBy, createdAt, revision]
+          properties:
+            id: {type: string, format: uuid}
+            processId: {type: string, format: uuid}
+            createdBy: {type: string, format: uuid}
+            createdAt: {type: string, format: date-time}
+            revision: {type: integer, minimum: 0}
+    TeamMembershipCommand:
+      type: object
+      description: Rol propio del integrante, sin conflictos, con ambito y vigencia que cubren toda la membresia.
+      required: [userId, roleAssignmentId, validFrom, validUntil]
+      properties:
+        userId: {type: string, format: uuid}
+        roleAssignmentId: {type: string, format: uuid}
+        validFrom: {type: string, format: date-time}
+        validUntil: {type: string, format: date-time}
+    TeamMembershipView:
+      allOf:
+        - {$ref: '#/components/schemas/TeamMembershipCommand'}
+        - type: object
+          required: [id, teamId, createdBy, createdAt]
+          properties:
+            id: {type: string, format: uuid}
+            teamId: {type: string, format: uuid}
+            createdBy: {type: string, format: uuid}
+            createdAt: {type: string, format: date-time}
+    ProcessActivityCommand:
+      type: object
+      description: Asignacion del mismo indicador; fuente opcional del indicador en el modelo fijado; dependencias aciclicas del mismo proceso. Un plazo fuera del periodo exige excepcion autorizada.
+      required: [title, indicatorId, assignmentId, dueAt]
+      properties:
+        title: {type: string, minLength: 1, maxLength: 300}
+        indicatorId: {type: string, format: uuid}
+        requiredSourceId: {type: [string, 'null'], format: uuid}
+        assignmentId: {type: string, format: uuid}
+        dueAt: {type: string, format: date-time}
+        dependencyIds: {type: [array, 'null'], uniqueItems: true, items: {type: string, format: uuid}}
+        exceptionReason: {type: [string, 'null'], maxLength: 4000}
+        exceptionAuthorityAssignmentId: {type: [string, 'null'], format: uuid}
+        exceptionLegalBasis: {type: [string, 'null'], maxLength: 4000}
+    ProcessActivityView:
+      type: object
+      required: [id, processId, indicatorId, requiredSourceId, assignmentId, title, dueAt, status, dependencyIds, deadlineExceptionReason, deadlineExceptionAuthorityAssignmentId, deadlineExceptionLegalBasis, createdBy, createdAt, revision]
+      properties:
+        id: {type: string, format: uuid}
+        processId: {type: string, format: uuid}
+        indicatorId: {type: string, format: uuid}
+        requiredSourceId: {type: [string, 'null'], format: uuid}
+        assignmentId: {type: string, format: uuid}
+        title: {type: string}
+        dueAt: {type: string, format: date-time}
+        status: {type: string, enum: [PLANNED]}
+        dependencyIds: {type: array, items: {type: string, format: uuid}}
+        deadlineExceptionReason: {type: [string, 'null']}
+        deadlineExceptionAuthorityAssignmentId: {type: [string, 'null'], format: uuid}
+        deadlineExceptionLegalBasis: {type: [string, 'null']}
+        createdBy: {type: string, format: uuid}
+        createdAt: {type: string, format: date-time}
+        revision: {type: integer, minimum: 0}
     ReasonCommand:
+      description: Esquema legado conservado para clientes generados; las transiciones actuales requieren ProcessDecisionCommand.
+      deprecated: true
       type: object
       additionalProperties: false
       required: [reason]

@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test;
 class ProcessPlanningServiceTest {
     private InMemorySelfAssessmentRepository repo;
     private ProcessPlanningService service;
+    private FunctionalAssignmentPolicyPort policy;
     private UUID actor;
     private UUID indicator;
     private UUID assignmentId;
@@ -45,10 +46,12 @@ class ProcessPlanningServiceTest {
         when(auth.isAllowed(any(), any(), any())).thenReturn(true);
         var authority = mock(InstitutionalAuthorityPort.class);
         when(authority.isAuthorizedAssignment(any(), any(), any(), any())).thenReturn(true);
-        var policy = mock(FunctionalAssignmentPolicyPort.class);
+        policy = mock(FunctionalAssignmentPolicyPort.class);
         when(policy.evaluate(any(), any(), any(), any(), any())).thenReturn(FunctionalAssignmentPolicyPort.Decision.allow());
+        when(policy.evaluateMembership(any(), any(), any(), any(), any())).thenReturn(FunctionalAssignmentPolicyPort.Decision.allow());
         service = new ProcessPlanningService(repo, mock(ModelCatalogPort.class), () -> Optional.of(
-                new CurrentActorPort.Actor(actor, false)), auth, authority, policy, mock(SelfAssessmentAuditService.class));
+                new CurrentActorPort.Actor(actor, false)), auth, authority, policy, mock(SelfAssessmentAuditService.class),
+                new ec.edu.unl.sec.selfassessment.infrastructure.ProcessAssignmentCatalogAdapter(repo, policy));
         assignmentId = service.assignParticipant(process.id(), 1, indicator, actor, null,
                 ProcessAssignment.Function.RESPONSIBLE, now(), now().plus(Duration.ofDays(5)),
                 "Asignacion sintetica", UUID.randomUUID()).value().id();

@@ -112,6 +112,19 @@ public class EvidenceDraftService {
         return updated;
     }
 
+    public EvidenceVersion requireEditableVersion(UUID versionId, String ifMatch) {
+        var version = getVersion(versionId);
+        verifyEtag(ifMatch, version.lockRevision());
+        if (version.status() != ec.edu.unl.sec.evidence.domain.EvidenceVersionStatus.DRAFT) {
+            throw new EvidenceProblemException(EvidenceProblemException.Kind.CONFLICT,
+                    "DRAFT_REQUIRED", "La versión remitida no admite cambios.");
+        }
+        var evidence = repository.findEvidence(version.evidenceId()).orElseThrow(EvidenceDraftService::notFound).evidence();
+        requireActive(process(evidence.processId()));
+        if (!version.authorId().equals(actor().identityId())) throw notFound();
+        return version;
+    }
+
     private void authorizeDirect(Evidence evidence, EvidenceVersion version) {
         var actor = actor();
         var process = context.process(evidence.processId()).orElseThrow(EvidenceDraftService::notFound);

@@ -1,6 +1,7 @@
 package ec.edu.unl.sec.selfassessment.support;
 
 import ec.edu.unl.sec.selfassessment.application.SelfAssessmentRepository;
+import ec.edu.unl.sec.selfassessment.application.ProcessProblemException;
 import ec.edu.unl.sec.selfassessment.domain.ProcessActivity;
 import ec.edu.unl.sec.selfassessment.domain.ProcessAssignment;
 import ec.edu.unl.sec.selfassessment.domain.ProcessAuthorization;
@@ -26,7 +27,7 @@ public class InMemorySelfAssessmentRepository implements SelfAssessmentRepositor
     public void save(SelfAssessmentProcess process, long expected) {
         var old = processes.get(process.id());
         if (expected >= 0 && (old == null || old.revision() != expected))
-            throw new IllegalStateException("STALE_PROCESS");
+            throw new ProcessProblemException(ProcessProblemException.Kind.PRECONDITION, "STALE_PROCESS", "Stale process");
         processes.put(process.id(), process);
     }
 
@@ -51,7 +52,7 @@ public class InMemorySelfAssessmentRepository implements SelfAssessmentRepositor
     public void saveActivity(ProcessActivity activity, long expected) {
         var old = activities.get(activity.id());
         if (expected >= 0 && (old == null || old.revision() != expected))
-            throw new IllegalStateException("STALE_ACTIVITY");
+            throw new ProcessProblemException(ProcessProblemException.Kind.PRECONDITION, "STALE_ACTIVITY", "Stale activity");
         activities.put(activity.id(), activity);
     }
     public Optional<ProcessActivity> findActivity(UUID id) { return Optional.ofNullable(activities.get(id)); }

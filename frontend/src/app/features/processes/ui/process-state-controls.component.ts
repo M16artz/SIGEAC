@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, input, output, signal} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {Observable, finalize} from 'rxjs';
-import {ProcessApi, ProcessState, ProcessView} from '../data-access/process-api.service';
+import {AuthorizationCommand, ProcessApi, ProcessState, ProcessView} from '../data-access/process-api.service';
 import {AccessSessionService} from '../../access/data-access/access-session.service';
 @Component({selector: 'sec-process-state-controls', standalone: true, imports: [FormsModule], changeDetection: ChangeDetectionStrategy.OnPush, template: `
   <section><h3>Estado del proceso</h3><p>{{process().state}}</p>
@@ -24,10 +24,19 @@ import {AccessSessionService} from '../../access/data-access/access-session.serv
         <p>Autorización registrada: {{process().authorization?.documentReference}}</p><button [disabled]="busy()" (click)="activate()">Activar proceso autorizado</button>
       }
     } @else {
+      <label for="transition-authority">Asignación autorizadora propia</label>
+      <select id="transition-authority" [(ngModel)]="authorityAssignmentId" required>
+        <option value="">Seleccione una asignación</option>
+        @for(a of session.identity()?.assignments ?? []; track a.id){<option [value]="a.id">{{a.roleName}} · {{a.careerId}}</option>}
+      </select>
+      <label for="transition-basis">Fundamento normativo de la competencia</label>
+      <textarea id="transition-basis" [(ngModel)]="legalBasis" required maxlength="4000"></textarea>
+      <label for="transition-document">Referencia a la constancia de la decisión</label>
+      <input id="transition-document" [(ngModel)]="documentReference" required maxlength="2000">
       <label for="transition-reason">Motivo de la transición</label><textarea id="transition-reason" [(ngModel)]="reason" minlength="10" maxlength="2000"></textarea>
-      @if(process().state==='ACTIVE'){<button [disabled]="busy() || reason.trim().length < 10" (click)="move('SUSPENDED')">Suspender</button>}
-      @if(process().state==='SUSPENDED' || process().state==='REOPENED'){<button [disabled]="busy() || reason.trim().length < 10" (click)="move('ACTIVE')">Retomar</button>}
-      @if(process().state==='CLOSED'){<button [disabled]="busy() || reason.trim().length < 10" (click)="reopen()">Solicitar reapertura autorizada</button>}
+      @if(process().state==='ACTIVE'){<button [disabled]="busy() || !decisionComplete()" (click)="move('SUSPENDED')">Suspender</button>}
+      @if(process().state==='SUSPENDED' || process().state==='REOPENED'){<button [disabled]="busy() || !decisionComplete()" (click)="move('ACTIVE')">Retomar</button>}
+      @if(process().state==='CLOSED'){<button [disabled]="busy() || !decisionComplete()" (click)="reopen()">Solicitar reapertura autorizada</button>}
       <p>El cierre documental e institucional requiere su flujo de validación; no está disponible como cambio genérico de estado.</p>
     }
   </section>`})
@@ -38,8 +47,26 @@ export class ProcessStateControls {
   constructor(private readonly api: ProcessApi, readonly session: AccessSessionService) {}
   authorize(): void { this.run(this.api.authorize(this.process(), {authorityAssignmentId: this.authorityAssignmentId, legalBasis: this.legalBasis, documentReference: this.documentReference, reason: this.reason})); }
   activate(): void { this.run(this.api.activate(this.process())); }
-  move(target: ProcessState): void { this.run(this.api.transition(this.process(), target, this.reason)); }
-  reopen(): void { this.run(this.api.reopen(this.process(), this.reason)); }
+  move(target: ProcessState): void {
+    if (!this.busy() && this.validDecision()) this.run(this.api.transition(this.process(), target, this.decision()));
+  }
+  reopen(): void {
+    if (!this.busy() && this.validDecision()) this.run(this.api.reopen(this.process(), this.decision()));
+  }
+  decisionComplete(): boolean {
+    return !!this.authorityAssignmentId && !!this.legalBasis.trim() && this.legalBasis.length <= 4000
+      && !!this.documentReference.trim() && this.documentReference.length <= 2000
+      && this.reason.trim().length >= 10 && this.reason.length <= 2000;
+  }
+  private validDecision(): boolean {
+    if (this.decisionComplete()) return true;
+    this.error.set('Complete la asignación autorizadora, el fundamento, la constancia y un motivo de 10 a 2000 caracteres.');
+    return false;
+  }
+  private decision(): AuthorizationCommand {
+    return {authorityAssignmentId: this.authorityAssignmentId, legalBasis: this.legalBasis.trim(),
+      documentReference: this.documentReference.trim(), reason: this.reason.trim()};
+  }
   private run(request: Observable<ProcessView>): void {
     if(this.busy()) return;
     this.busy.set(true); this.error.set('');

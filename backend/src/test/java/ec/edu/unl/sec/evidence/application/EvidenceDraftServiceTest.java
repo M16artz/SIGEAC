@@ -131,6 +131,30 @@ class EvidenceDraftServiceTest {
         org.mockito.Mockito.verify(repository, org.mockito.Mockito.never()).update(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.anyLong());
     }
 
+    @Test
+    void sourceEditsRequireAnActiveProcessTheAuthorAndTheCurrentDraftEtag() {
+        var stored = storedDetails(INDICATOR_A);
+        var version = stored.latestVersion();
+        when(repository.findVersion(version.id())).thenReturn(Optional.of(version));
+        when(repository.findEvidence(stored.evidence().id())).thenReturn(Optional.of(stored));
+        assertThat(service.requireEditableVersion(version.id(), "\"0\"")).isEqualTo(version);
+        assertProblem(() -> service.requireEditableVersion(version.id(), null), "PRECONDITION_REQUIRED");
+        assertProblem(() -> service.requireEditableVersion(version.id(), "\"1\""), "STALE_DRAFT");
+        var current = process(INDICATOR_A);
+        when(context.process(PROCESS)).thenReturn(Optional.of(new EvidenceContextPort.ProcessContext(
+                current.id(), current.careerId(), current.fixedModelVersionId(), 1, "SUSPENDED", current.indicators())));
+        assertProblem(() -> service.requireEditableVersion(version.id(), "\"0\""), "PROCESS_NOT_ACTIVE");
+        when(context.process(PROCESS)).thenReturn(Optional.of(current));
+        UUID other = UUID.randomUUID();
+        when(authorization.currentActor()).thenReturn(Optional.of(new EvidenceAuthorizationPort.Actor(other, false)));
+        when(authorization.canCollect(other, CAREER, PROCESS, INDICATOR_A)).thenReturn(true);
+        when(context.hasCurrentResponsibleAssignment(PROCESS, INDICATOR_A, other, NOW)).thenReturn(true);
+        assertProblem(() -> service.requireEditableVersion(version.id(), "\"0\""), "RESOURCE_NOT_FOUND");
+        when(authorization.currentActor()).thenReturn(Optional.of(new EvidenceAuthorizationPort.Actor(ACTOR, false)));
+        when(repository.findVersion(version.id())).thenReturn(Optional.of(version.submit(NOW)));
+        assertProblem(() -> service.requireEditableVersion(version.id(), "\"1\""), "DRAFT_REQUIRED");
+    }
+
     private static EvidenceDraftService.CreateCommand command(List<UUID> indicators) {
         return new EvidenceDraftService.CreateCommand(
                 PROCESS,

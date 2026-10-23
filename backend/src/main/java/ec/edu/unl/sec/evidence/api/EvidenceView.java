@@ -1,6 +1,7 @@
 package ec.edu.unl.sec.evidence.api;
 
 import ec.edu.unl.sec.evidence.application.EvidenceDraftService;
+import ec.edu.unl.sec.evidence.application.EvidenceSourceService;
 import ec.edu.unl.sec.evidence.domain.EvidenceVersion;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -16,6 +17,10 @@ public record EvidenceView(
         Version latestVersion) {
 
     static EvidenceView from(EvidenceDraftService.EvidenceDetails details) {
+        return from(details, EvidenceSourceService.Sources.empty());
+    }
+
+    static EvidenceView from(EvidenceDraftService.EvidenceDetails details, EvidenceSourceService.Sources sources) {
         var evidence = details.evidence();
         return new EvidenceView(
                 evidence.id(),
@@ -23,10 +28,14 @@ public record EvidenceView(
                 evidence.ownerId(),
                 evidence.createdAt(),
                 evidence.latestRevision(),
-                version(details.latestVersion()));
+                version(details.latestVersion(), sources));
     }
 
     static Version version(EvidenceVersion value) {
+        return version(value, EvidenceSourceService.Sources.empty());
+    }
+
+    static Version version(EvidenceVersion value, EvidenceSourceService.Sources sources) {
         return new Version(
                 value.id(),
                 value.evidenceId(),
@@ -44,8 +53,8 @@ public record EvidenceView(
                 null,
                 value.submittedAt(),
                 value.lockRevision(),
-                List.of(),
-                List.of());
+                sources.files().stream().map(FileMetadataView::from).toList(),
+                sources.externalReferences().stream().map(ExternalReferenceView::from).toList());
     }
 
     public record Version(
@@ -65,8 +74,8 @@ public record EvidenceView(
             UUID submittedBy,
             Instant submittedAt,
             long revision,
-            List<Object> files,
-            List<Object> externalReferences) {}
+            List<FileMetadataView> files,
+            List<ExternalReferenceView> externalReferences) {}
 
     public record Page<T>(List<T> items, PageMetadata page) {}
 

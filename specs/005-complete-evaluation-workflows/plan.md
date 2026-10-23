@@ -104,8 +104,8 @@ La [hoja de ruta desde la implementación revisada](../../docs/planning/next-ste
 
 ## Migration strategy
 
-- Reservar V008–V018 para esta reconciliación y crear migraciones nuevas/ascendentes; nunca modificar migraciones ya aplicadas ni reutilizar números de los backlogs históricos.
-- La reserva V008–V018 es propuesta: antes de crear archivos, T005/T113 inspeccionan el historial realmente aplicado y el estado de los backlogs I0–I3. Registrar cualquier ajuste de numeración, nunca reutilizar una versión ya aplicada. Los saltos de numeración no exigen crear migraciones vacías.
+- Reservar V008–V020 para esta reconciliación y crear migraciones nuevas/ascendentes; nunca modificar migraciones ya aplicadas ni reutilizar números de los backlogs históricos.
+- La reserva V008–V020 es propuesta: antes de crear archivos, T005/T113 inspeccionan el historial realmente aplicado y el estado de los backlogs I0–I3. Registrar cualquier ajuste de numeración, nunca reutilizar una versión ya aplicada. Los saltos de numeración no exigen crear migraciones vacías.
 - Incorporar `academic_unit`, ampliar `career`, añadir procedencia normativa y aplicabilidad.
 - Migrar la jerarquía rígida existente a nodos recursivos manteniendo UUID y referencias.
 - Crear `required_source` y `source_coverage`; los datos previos quedan `PENDING_CLASSIFICATION` hasta reconciliación explícita.
@@ -200,3 +200,7 @@ frontend/src/app/features/
 | Dependencia del MVP en evaluación | prueba de aceptación SC-017 con módulos P12–P15 deshabilitados |
 | Migración destructiva | migraciones sucesoras y pruebas desde cada versión aceptada |
 
+
+Ajuste de reservas (2026-10-22): V013 contiene snapshots estructurados y V014
+valida referencias normativas contra el snapshot versionado. D5-D8 usaran
+V015-V020 en orden; no se reutilizan versiones ya aplicadas.

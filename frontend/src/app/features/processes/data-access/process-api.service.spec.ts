@@ -13,9 +13,17 @@ describe('ProcessApi concurrency', () => {
     TestBed.configureTestingModule({providers:[ProcessApi,{provide:ApiClient,useValue:client}]});
     api=TestBed.inject(ProcessApi);
   });
-  it('quotes strong If-Match revisions for state changes', () => {
-    api.transition(process,'SUSPENDED','Suspensión justificada').subscribe();
-    expect(client.post).toHaveBeenCalledWith('processes/p-1/transitions',{target:'SUSPENDED',reason:'Suspensión justificada'},{'If-Match':'"4"'});
+  it('sends authority provenance and a strong If-Match for suspension and resumption', () => {
+    const command = {authorityAssignmentId:'a-1',legalBasis:'Designacion',documentReference:'fixture://decision',reason:'Decision justificada'};
+    for (const target of ['SUSPENDED', 'ACTIVE'] as const) {
+      api.transition(process,target,command).subscribe();
+      expect(client.post).toHaveBeenLastCalledWith('processes/p-1/transitions',{target,...command},{'If-Match':'"4"'});
+    }
+  });
+  it('sends the complete reopening decision with the current revision', () => {
+    const command = {authorityAssignmentId:'a-1',legalBasis:'Designacion',documentReference:'fixture://reopening',reason:'Reapertura justificada'};
+    api.reopen({...process,state:'CLOSED'},command).subscribe();
+    expect(client.post).toHaveBeenCalledWith('processes/p-1/reopen',command,{'If-Match':'"4"'});
   });
   it('reloads the process after assigning so the next command uses the new revision', () => {
     let revision=0;
