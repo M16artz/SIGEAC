@@ -35,6 +35,9 @@ class SqliteApplicationContextTest {
     @Autowired AuditQueryPort audit;
     @Autowired ec.edu.unl.sec.evidence.application.EvidenceDraftService evidenceDrafts;
     @Autowired ec.edu.unl.sec.evidence.application.EvidenceSourceService evidenceSources;
+    @Autowired ec.edu.unl.sec.evidence.application.EvidenceFileService evidenceFiles;
+    @Autowired ec.edu.unl.sec.evidence.application.SubmitEvidenceService submission;
+    @Autowired ec.edu.unl.sec.evidence.application.EvidenceDownloadService downloads;
     @Autowired ec.edu.unl.sec.evidence.api.EvidenceDraftController evidenceController;
 
     @Test
@@ -98,6 +101,40 @@ class SqliteApplicationContextTest {
             evidenceSources.updateReference(version.id(), added.value().id(), "\"1\"", "urn:synthetic:updated", "Actualizada");
             assertThat(evidenceSources.removeReference(version.id(), added.value().id(), "\"2\"")).isEqualTo(3);
             assertThat(evidenceSources.snapshot(version.id()).externalReferences()).isEmpty();
+        } finally { org.springframework.security.core.context.SecurityContextHolder.clearContext(); }
+    }
+
+    @Test
+    void uploadsValidatesPromotesAndAttachesASyntheticFileToTheDraft() throws Exception {
+        UUID responsible = UUID.nameUUIDFromBytes("sec-unl:responsable".getBytes(StandardCharsets.UTF_8));
+        var security = org.springframework.security.core.context.SecurityContextHolder.getContext();
+        security.setAuthentication(new org.springframework.security.authentication.UsernamePasswordAuthenticationToken(
+                responsible, null, List.of(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_HUMAN"))));
+        try {
+            var version = evidenceDrafts.create(new ec.edu.unl.sec.evidence.application.EvidenceDraftService.CreateCommand(
+                    UUID.fromString("40000000-0000-0000-0000-000000000001"), "Archivo sintetico", "Descripcion sintetica",
+                    "Fixture de integracion", java.time.LocalDate.of(2026, 1, 1), java.time.LocalDate.of(2026, 6, 30),
+                    List.of(UUID.fromString("50000000-0000-0000-0000-000000000001"))), UUID.randomUUID()).latestVersion();
+            var uploaded = evidenceFiles.upload(version.id(), "\"0\"", "synthetic.txt", "text/plain",
+                    new java.io.ByteArrayInputStream("synthetic evidence".getBytes(StandardCharsets.UTF_8)), UUID.randomUUID());
+            assertThat(uploaded.revision()).isEqualTo(1);
+            assertThat(uploaded.value().status()).isEqualTo(ec.edu.unl.sec.filestorage.domain.FileAsset.Status.AVAILABLE);
+            assertThat(uploaded.value().snapshot().originalName()).isEqualTo("synthetic.txt");
+            assertThat(uploaded.value().snapshot().sizeBytes()).isEqualTo(18);
+            var sources = evidenceSources.snapshot(version.id());
+            assertThat(sources.files()).hasSize(1);
+            assertThat(sources.files().getFirst().snapshot().fileId())
+                    .isEqualTo(uploaded.value().snapshot().fileId());
+
+            assertThat(evidenceDrafts.getVersion(version.id()).lockRevision()).isEqualTo(1L);
+            var submitted = submission.submit(version.id(), "\"1\"");
+            assertThat(submitted.status()).isEqualTo(ec.edu.unl.sec.evidence.domain.EvidenceVersionStatus.SUBMITTED);
+            assertThat(submitted.lockRevision()).isEqualTo(2);
+
+            var downloaded = downloads.prepare(version.id(), uploaded.value().snapshot().fileId());
+            assertThat(downloaded.filename()).isEqualTo("synthetic.txt");
+            assertThat(downloaded.sha256()).isEqualTo(uploaded.value().snapshot().sha256());
+            assertThat(new String(downloaded.content(), StandardCharsets.UTF_8)).isEqualTo("synthetic evidence");
         } finally { org.springframework.security.core.context.SecurityContextHolder.clearContext(); }
     }
 }

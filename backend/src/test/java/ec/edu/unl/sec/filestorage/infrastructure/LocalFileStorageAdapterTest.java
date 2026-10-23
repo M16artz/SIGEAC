@@ -3,6 +3,7 @@ package ec.edu.unl.sec.filestorage.infrastructure;
 import static org.assertj.core.api.Assertions.*;
 
 import ec.edu.unl.sec.filestorage.application.FileStoragePort.PreparedObject;
+import ec.edu.unl.sec.filestorage.application.FileStorageProperties;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;

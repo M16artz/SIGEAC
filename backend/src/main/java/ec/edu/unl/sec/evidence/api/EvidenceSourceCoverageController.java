@@ -79,9 +79,7 @@ public class EvidenceSourceCoverageController {
             @PathVariable UUID versionId,
             @RequestHeader(name = "If-Match", required = false) String ifMatch) {
         var version = submission.submit(versionId, ifMatch);
-        return ResponseEntity.ok()
-                .eTag(EntityTagSupport.strong(version.lockRevision()))
-                .body(EvidenceView.version(version, sources.snapshot(versionId)));
+        return ResponseEntity.ok().body(EvidenceView.version(version, sources.snapshot(versionId)));
     }
 
     @GetMapping("/processes/{processId}/applicability-decisions")

@@ -6,11 +6,13 @@ import ec.edu.unl.sec.evidence.domain.SourceCoverage;
 import ec.edu.unl.sec.evidence.domain.StructuredEvidence;
 import ec.edu.unl.sec.shared.infrastructure.JdbcValueSupport;
 import java.math.BigDecimal;
+import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,9 +20,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class JdbcEvidenceGovernanceRepository implements EvidenceGovernanceRepository {
     private final JdbcTemplate jdbc;
+    private final boolean sqlite;
 
     public JdbcEvidenceGovernanceRepository(JdbcTemplate jdbc) {
         this.jdbc = jdbc;
+        this.sqlite = Boolean.TRUE.equals(jdbc.execute((ConnectionCallback<Boolean>) connection ->
+                !connection.getMetaData().getDatabaseProductName().contains("PostgreSQL")));
     }
 
     @Override
@@ -29,7 +34,7 @@ public class JdbcEvidenceGovernanceRepository implements EvidenceGovernanceRepos
         jdbc.update(
                 "insert into source_coverage(id,version_id,required_source_id,coverage_note,declared_by,declared_at)"
                         + " values(?,?,?,?,?,?)",
-                coverage.id(), coverage.versionId(), coverage.requiredSourceId(), coverage.coverageNote(),
+                coverage.id(), versionKey(coverage.versionId()), coverage.requiredSourceId(), coverage.coverageNote(),
                 coverage.declaredBy(), Timestamp.from(coverage.declaredAt()));
         return coverage;
     }
@@ -47,7 +52,7 @@ public class JdbcEvidenceGovernanceRepository implements EvidenceGovernanceRepos
                         result.getString(4),
                         JdbcValueSupport.uuid(result, 5),
                         JdbcValueSupport.instant(result, 6)),
-                versionId);
+                versionKey(versionId));
     }
 
     @Override
@@ -83,7 +88,7 @@ public class JdbcEvidenceGovernanceRepository implements EvidenceGovernanceRepos
         jdbc.update(
                 "insert into evidence_structured_value(id,version_id,required_source_id,kind,value_type,value_text,"
                         + "unit,period_start,period_end,reference,created_by,created_at) values(?,?,?,?,?,?,?,?,?,?,?,?)",
-                snapshot.id(), snapshot.versionId(), snapshot.requiredSourceId(), snapshot.kind().name(),
+                snapshot.id(), versionKey(snapshot.versionId()), snapshot.requiredSourceId(), snapshot.kind().name(),
                 snapshot.value().type().name(), valueText(snapshot.value()), snapshot.unit(),
                 snapshot.periodStart(), snapshot.periodEnd(), snapshot.reference(),
                 snapshot.createdBy(), Timestamp.from(snapshot.createdAt()));
@@ -97,7 +102,7 @@ public class JdbcEvidenceGovernanceRepository implements EvidenceGovernanceRepos
                 "select " + STRUCTURED_COLUMNS + " from evidence_structured_value"
                         + " where version_id=? order by created_at,id",
                 (result, index) -> structured(result),
-                versionId);
+                versionKey(versionId));
     }
 
     @Override
@@ -107,7 +112,7 @@ public class JdbcEvidenceGovernanceRepository implements EvidenceGovernanceRepos
                 "select " + STRUCTURED_COLUMNS + " from evidence_structured_value"
                         + " where version_id=? and required_source_id=?",
                 (result, index) -> structured(result),
-                versionId, requiredSourceId);
+                versionKey(versionId), requiredSourceId);
         return rows.stream().findFirst();
     }
 
@@ -146,12 +151,12 @@ public class JdbcEvidenceGovernanceRepository implements EvidenceGovernanceRepos
         int changed = jdbc.update(
                 "update evidence_version set status='SUBMITTED',submitted_at=?,lock_revision=?"
                         + " where id=? and status='DRAFT' and lock_revision=?",
-                Timestamp.from(submittedAt), expectedLockRevision + 1, versionId, expectedLockRevision);
+                Timestamp.from(submittedAt), expectedLockRevision + 1, versionKey(versionId), expectedLockRevision);
         if (changed != 1) return false;
         jdbc.update(
                 "update evidence set latest_revision=(select max(revision_number) from evidence_version"
                         + " where evidence_id=evidence.id) where id=(select evidence_id from evidence_version where id=?)",
-                versionId);
+                versionKey(versionId));
         return true;
     }
 
@@ -208,5 +213,10 @@ public class JdbcEvidenceGovernanceRepository implements EvidenceGovernanceRepos
                 JdbcValueSupport.instant(result, 11),
                 JdbcValueSupport.uuid(result, 12),
                 result.getLong(13));
+    }
+
+    private Object versionKey(UUID id) {
+        // SQLite evidence IDs are Hibernate UUID BLOBs; governance identities use TEXT.
+        return sqlite ? ByteBuffer.allocate(16).putLong(id.getMostSignificantBits()).putLong(id.getLeastSignificantBits()).array() : id;
     }
 }

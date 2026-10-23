@@ -9,8 +9,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-import ec.edu.unl.sec.evidence.domain.ApplicabilityDecision;
+import ec.edu.unl.sec.audit.application.AuditPort;
+import ec.edu.unl.sec.evidence.domain.ExternalReference;
 import ec.edu.unl.sec.evidence.domain.EvidenceVersion;
+import ec.edu.unl.sec.filestorage.domain.FileAsset;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
@@ -31,6 +33,8 @@ class SubmitEvidenceServiceTest {
     private EvidenceDraftService drafts;
     private EvidenceGovernanceRepository governance;
     private EvidenceContextPort context;
+    private EvidenceSourceService sources;
+    private AuditPort audit;
     private SubmitEvidenceService service;
     private EvidenceVersion draft;
     private EvidenceDraftService.EvidenceDetails details;
@@ -40,6 +44,8 @@ class SubmitEvidenceServiceTest {
         drafts = org.mockito.Mockito.mock(EvidenceDraftService.class);
         governance = org.mockito.Mockito.mock(EvidenceGovernanceRepository.class);
         context = org.mockito.Mockito.mock(EvidenceContextPort.class);
+        sources = org.mockito.Mockito.mock(EvidenceSourceService.class);
+        audit = org.mockito.Mockito.mock(AuditPort.class);
         draft = draft(0, null);
         details = new EvidenceDraftService.EvidenceDetails(
                 new ec.edu.unl.sec.evidence.domain.Evidence(
@@ -47,7 +53,9 @@ class SubmitEvidenceServiceTest {
         when(drafts.getVersion(draft.id())).thenReturn(draft);
         when(drafts.getEvidence(draft.evidenceId())).thenReturn(details);
         when(context.process(PROCESS)).thenReturn(Optional.of(process("ACTIVE")));
-        service = new SubmitEvidenceService(drafts, governance, context, Clock.fixed(NOW, ZoneOffset.UTC));
+        when(sources.snapshot(draft.id())).thenReturn(snapshot(List.of(), 1));
+        service = new SubmitEvidenceService(drafts, governance, sources, context, audit,
+                Clock.fixed(NOW, ZoneOffset.UTC));
     }
 
     @Test
@@ -62,13 +70,33 @@ class SubmitEvidenceServiceTest {
         assertThat(submitted.status()).isEqualTo(ec.edu.unl.sec.evidence.domain.EvidenceVersionStatus.SUBMITTED);
         assertThat(submitted.submittedAt()).isEqualTo(NOW);
         assertThat(submitted.lockRevision()).isEqualTo(1);
+        verify(audit).record(any());
     }
 
     @Test
-    void rejectsSubmissionsWithoutDeclaredCoverage() {
-        when(governance.coverages(draft.id())).thenReturn(List.of());
+    void rejectsSubmissionsWithoutFilesOrReferences() {
+        when(governance.coverages(draft.id())).thenReturn(List.of(
+                new ec.edu.unl.sec.evidence.domain.SourceCoverage(
+                        UUID.randomUUID(), draft.id(), UUID.randomUUID(), "Nota", ACTOR, NOW)));
+        when(sources.snapshot(draft.id())).thenReturn(new EvidenceSourceService.Sources(List.of(), List.of()));
+        assertProblem(() -> service.submit(draft.id(), "\"0\""), "SOURCE_REQUIRED");
+        verify(audit, never()).record(any());
+        verify(governance, never()).markSubmitted(any(), any(), org.mockito.ArgumentMatchers.anyLong());
+    }
 
-        assertProblem(() -> service.submit(draft.id(), "\"0\""), "COVERAGE_REQUIRED");
+    @Test
+    void rejectsSubmissionsWhenAnAttachedFileIsNotAvailable() {
+        when(governance.coverages(draft.id())).thenReturn(List.of(
+                new ec.edu.unl.sec.evidence.domain.SourceCoverage(
+                        UUID.randomUUID(), draft.id(), UUID.randomUUID(), "Nota", ACTOR, NOW)));
+        var unavailable = new EvidenceSourceService.Sources(List.of(new EvidenceSourceService.SourceFile(
+                new ec.edu.unl.sec.evidence.domain.VersionFile(draft.id(),
+                        UUID.fromString("00000000-0000-0000-0000-000000000601"), "synthetic.txt",
+                        "text/plain", "text/plain", 9, "a".repeat(64), 1), FileAsset.Status.QUARANTINED)),
+                List.of());
+        when(sources.snapshot(draft.id())).thenReturn(unavailable);
+        assertProblem(() -> service.submit(draft.id(), "\"0\""), "FILE_NOT_AVAILABLE");
+        verify(audit, never()).record(any());
         verify(governance, never()).markSubmitted(any(), any(), org.mockito.ArgumentMatchers.anyLong());
     }
 
@@ -117,6 +145,14 @@ class SubmitEvidenceServiceTest {
                 lockRevision,
                 List.of(new ec.edu.unl.sec.evidence.domain.VersionIndicator(
                         UUID.fromString("00000000-0000-0000-0000-000000000501"), INDICATOR, "IND-1", "Indicador", 1)));
+    }
+
+    private EvidenceSourceService.Sources snapshot(List<EvidenceSourceService.SourceFile> files, int references) {
+        var list = java.util.stream.IntStream.range(0, references)
+                .mapToObj(index -> new ExternalReference(UUID.randomUUID(), draft.id(),
+                        "urn:synthetic:document:" + index, "Declaracion sintetica", index + 1))
+                .toList();
+        return new EvidenceSourceService.Sources(files, list);
     }
 
     private static EvidenceContextPort.ProcessContext process(String state) {

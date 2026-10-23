@@ -44,6 +44,13 @@ export class ApiClient {
     return this.http.patch<T>(this.url(path), body, {headers}).pipe(catchError((error: unknown) => this.handle(error)));
   }
 
+  postFormDataResource<T>(path: string, body: FormData, headers?: Readonly<Record<string, string>>): Observable<ApiResource<T>> {
+    return this.http.post<T>(this.url(path), body, {headers, observe: 'response'}).pipe(
+      map(response => ({body: response.body as T, etag: response.headers.get('ETag')})),
+      catchError((error: unknown) => this.handle(error))
+    );
+  }
+
   postResource<T>(path: string, body: unknown): Observable<ApiResource<T>> {
     return this.http.post<T>(this.url(path), body, {observe: 'response'}).pipe(
       map(response => ({body: response.body as T, etag: response.headers.get('ETag')})),
@@ -56,6 +63,10 @@ export class ApiClient {
       map(response => ({body: response.body as T, etag: response.headers.get('ETag')})),
       catchError((error: unknown) => this.handle(error))
     );
+  }
+
+  getBlob(path: string): Observable<Blob> {
+    return this.http.get(this.url(path), {responseType: 'blob'}).pipe(catchError((error: unknown) => this.handle(error)));
   }
 
   delete<T>(path: string, headers?: Readonly<Record<string, string>>): Observable<T> {

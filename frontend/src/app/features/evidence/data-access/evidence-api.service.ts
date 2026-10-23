@@ -1,6 +1,6 @@
 import {Injectable, inject} from '@angular/core';
 import {Observable} from 'rxjs';
-import {ApiClient} from '../../../core/http/api-client';
+import {ApiClient, ApiResource} from '../../../core/http/api-client';
 import {
   ApplicabilityDecisionCommand,
   ApplicabilityDecisionView,
@@ -9,6 +9,9 @@ import {
   EvidenceVersionResource,
   EvidenceVersionView,
   EvidenceView,
+  ExternalReferenceCommand,
+  ExternalReferenceView,
+  FileMetadataView,
   RequiredSourceState,
   SourceCoverageCommand,
   SourceCoverageView,
@@ -48,6 +51,31 @@ export class EvidenceApi {
     return this.api.patchResource(`evidence-versions/${id}`, content, etag);
   }
 
+  uploadFile(versionId: string, file: File, etag: string): Observable<ApiResource<FileMetadataView>> {
+    const body = new FormData();
+    body.append('file', file, file.name);
+    return this.api.postFormDataResource(`evidence-versions/${versionId}/files`, body, {'If-Match': etag});
+  }
+
+  removeFile(versionId: string, fileId: string, etag: string): Observable<void> {
+    return this.api.delete(`evidence-versions/${versionId}/files/${fileId}`, {'If-Match': etag});
+  }
+
+  addReference(versionId: string, command: ExternalReferenceCommand, etag: string): Observable<ExternalReferenceView> {
+    return this.api.post(`evidence-versions/${versionId}/external-references`, command, {'If-Match': etag});
+  }
+
+  updateReference(versionId: string, referenceId: string, command: ExternalReferenceCommand,
+                  etag: string): Observable<ExternalReferenceView> {
+    return this.api.patch(`evidence-versions/${versionId}/external-references/${referenceId}`, command,
+      {'If-Match': etag});
+  }
+
+  removeReference(versionId: string, referenceId: string, etag: string): Observable<void> {
+    return this.api.delete(`evidence-versions/${versionId}/external-references/${referenceId}`,
+      {'If-Match': etag});
+  }
+
   requiredSources(versionId: string): Observable<readonly RequiredSourceState[]> {
     return this.api.get(`evidence-versions/${versionId}/required-sources`);
   }
@@ -66,6 +94,10 @@ export class EvidenceApi {
 
   submit(versionId: string, etag: string): Observable<EvidenceVersionView> {
     return this.api.post(`evidence-versions/${versionId}/submit`, {}, {'If-Match': etag});
+  }
+
+  downloadFile(versionId: string, fileId: string): Observable<Blob> {
+    return this.api.getBlob(`evidence-versions/${versionId}/files/${fileId}/content`);
   }
 
   structuredSnapshots(versionId: string): Observable<readonly StructuredSourceView[]> {

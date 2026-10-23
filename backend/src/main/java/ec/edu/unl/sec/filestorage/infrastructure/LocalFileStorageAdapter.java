@@ -1,6 +1,7 @@
 package ec.edu.unl.sec.filestorage.infrastructure;
 
 import ec.edu.unl.sec.filestorage.application.FileStoragePort;
+import ec.edu.unl.sec.filestorage.application.FileStorageProperties;
 import ec.edu.unl.sec.filestorage.domain.FileValidationPolicy;
 import jakarta.annotation.PostConstruct;
 import java.io.IOException;

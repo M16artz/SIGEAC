@@ -24,7 +24,9 @@ public class EvidenceProblemException extends RuntimeException {
         NOT_FOUND,
         CONFLICT,
         INVALID,
+        PAYLOAD_TOO_LARGE,
         PRECONDITION_REQUIRED,
-        PRECONDITION_FAILED
+        PRECONDITION_FAILED,
+        STORAGE_UNAVAILABLE
     }
 }

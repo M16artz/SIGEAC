@@ -20,6 +20,27 @@ export interface EvidenceView {
   readonly latestVersion: EvidenceVersionSummary;
 }
 
+export interface FileMetadataView {
+  readonly id: string;
+  readonly originalName: string;
+  readonly declaredMediaType: string;
+  readonly detectedMediaType: string;
+  readonly sizeBytes: number;
+  readonly sha256: string;
+  readonly status: 'STAGED' | 'AVAILABLE' | 'QUARANTINED' | 'MISSING';
+}
+
+export interface ExternalReferenceView {
+  readonly id: string;
+  readonly uri: string;
+  readonly description: string;
+}
+
+export interface ExternalReferenceCommand {
+  readonly uri: string;
+  readonly description: string;
+}
+
 export interface EvidenceVersionView {
   readonly id: string;
   readonly evidenceId: string;
@@ -37,8 +58,8 @@ export interface EvidenceVersionView {
   readonly submittedBy: string | null;
   readonly submittedAt: string | null;
   readonly revision: number;
-  readonly files: readonly unknown[];
-  readonly externalReferences: readonly unknown[];
+  readonly files: readonly FileMetadataView[];
+  readonly externalReferences: readonly ExternalReferenceView[];
 }
 
 export interface EvidencePage {

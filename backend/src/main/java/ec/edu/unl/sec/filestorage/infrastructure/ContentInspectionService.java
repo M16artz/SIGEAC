@@ -1,5 +1,6 @@
 package ec.edu.unl.sec.filestorage.infrastructure;
 
+import ec.edu.unl.sec.filestorage.application.FileInspectionPort;
 import ec.edu.unl.sec.filestorage.domain.FileValidationException;
 import ec.edu.unl.sec.filestorage.domain.FileValidationPolicy;
 import java.io.ByteArrayOutputStream;
@@ -13,7 +14,7 @@ import org.apache.tika.Tika;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ContentInspectionService {
+public class ContentInspectionService implements FileInspectionPort {
     private static final int DETECTION_BYTES = 65_536;
     private final Tika tika = new Tika();
 
@@ -43,6 +44,4 @@ public class ContentInspectionService {
         try { return MessageDigest.getInstance("SHA-256"); }
         catch (NoSuchAlgorithmException impossible) { throw new IllegalStateException(impossible); }
     }
-
-    public record Inspection(long sizeBytes, String sha256, String detectedMediaType) {}
 }

@@ -57,6 +57,20 @@ public class EvidenceSourceService {
         return Math.incrementExact(version.lockRevision());
     }
 
+    /** Attaches an already promoted asset to a draft without re-reading its bytes. */
+    @Transactional
+    public Changed<SourceFile> attachFile(UUID versionId, UUID fileId, long expectedRevision) {
+        var asset = assets.findById(fileId).orElseThrow(EvidenceDraftService::notFound);
+        if (asset.status() != FileAsset.Status.AVAILABLE) {
+            throw new EvidenceProblemException(EvidenceProblemException.Kind.CONFLICT,
+                    "FILE_NOT_AVAILABLE", "El archivo aún no está disponible.");
+        }
+        advance(versionId, expectedRevision);
+        var snapshot = VersionFile.from(versionId, asset, repository.nextFilePosition(versionId));
+        repository.addFile(snapshot);
+        return new Changed<>(new SourceFile(snapshot, asset.status()), Math.incrementExact(expectedRevision));
+    }
+
     @Transactional
     public long removeFile(UUID versionId, UUID fileId, String ifMatch) {
         var version = drafts.requireEditableVersion(versionId, ifMatch);

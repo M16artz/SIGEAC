@@ -1,4 +1,4 @@
-package ec.edu.unl.sec.filestorage.infrastructure;
+package ec.edu.unl.sec.filestorage.application;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

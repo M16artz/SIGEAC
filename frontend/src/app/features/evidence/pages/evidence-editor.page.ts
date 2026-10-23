@@ -4,13 +4,14 @@ import {ActivatedRoute} from '@angular/router';
 import {ApiProblemError} from '../../../core/http/api-client';
 import {ProcessApi} from '../../processes/data-access/process-api.service';
 import {EvidenceApi} from '../data-access/evidence-api.service';
-import {EvidenceDraftCommand} from '../data-access/evidence.models';
+import {EvidenceDraftCommand, ExternalReferenceView, FileMetadataView} from '../data-access/evidence.models';
 import {EvidenceIndicatorOption, EvidenceMetadataFormComponent} from '../ui/evidence-metadata-form.component';
+import {EvidenceSourcesComponent, ReferenceDraft} from '../ui/evidence-sources.component';
 
 @Component({
   selector: 'sec-evidence-editor',
   standalone: true,
-  imports: [ReactiveFormsModule, EvidenceMetadataFormComponent],
+  imports: [ReactiveFormsModule, EvidenceMetadataFormComponent, EvidenceSourcesComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <main>
@@ -20,6 +21,12 @@ import {EvidenceIndicatorOption, EvidenceMetadataFormComponent} from '../ui/evid
           (processSelected)="selectProcess($event)" (indicatorToggled)="toggleIndicator($event.id, $event.selected)" />
         <button type="submit">Guardar borrador</button>
       </form>
+      @if (versionId) {
+        <sec-evidence-sources [files]="files()" [references]="references()"
+          [disabled]="working() || stale()" [progress]="uploadProgress()" [error]="sourcesError()"
+          (upload)="uploadFile($event)" (removeFile)="removeFile($event)"
+          (saveReference)="saveReference($event)" (removeReference)="removeReference($event)" />
+      }
       @if (message()) { <p role="status">{{message()}}</p> }
       @if (error()) { <p role="alert">{{error()}}</p> }
       @if (stale()) {
@@ -44,6 +51,11 @@ export class EvidenceEditorPage implements OnInit {
   readonly stale = signal(false);
   readonly message = signal<string | null>(null);
   readonly error = signal<string | null>(null);
+  readonly files = signal<readonly FileMetadataView[]>([]);
+  readonly references = signal<readonly ExternalReferenceView[]>([]);
+  readonly uploadProgress = signal<number | null>(null);
+  readonly sourcesError = signal<string | null>(null);
+  readonly working = signal(false);
   readonly form = this.fb.nonNullable.group({
     processId: ['', Validators.required],
     title: ['', [Validators.required, Validators.maxLength(300)]],
@@ -98,6 +110,8 @@ export class EvidenceEditorPage implements OnInit {
       next: resource => {
         this.versionId = resource.body.id;
         this.etag.set(resource.etag);
+        this.files.set(resource.body.files);
+        this.references.set(resource.body.externalReferences);
         this.message.set('Borrador guardado.');
       },
       error: (failure: unknown) => this.handleFailure(failure)
@@ -121,10 +135,78 @@ export class EvidenceEditorPage implements OnInit {
           indicatorIds: version.indicatorIds
         });
         this.etag.set(resource.etag);
+        this.files.set(version.files);
+        this.references.set(version.externalReferences);
         this.stale.set(false);
       },
       error: () => this.error.set('No fue posible cargar el borrador.')
     });
+  }
+
+  uploadFile(file: File): void {
+    this.sourceRequest(versionId => this.api.uploadFile(versionId, file, this.etag() ?? ''),
+      'Archivo adjuntado.', 'No fue posible adjuntar el archivo.');
+  }
+
+  removeFile(fileId: string): void {
+    this.sourceRequest(versionId => this.api.removeFile(versionId, fileId, this.etag() ?? ''),
+      'Archivo quitado del borrador.', 'No fue posible quitar el archivo.');
+  }
+
+  saveReference(draft: ReferenceDraft): void {
+    const command = {uri: draft.uri, description: draft.description};
+    this.sourceRequest(versionId => draft.id
+        ? this.api.updateReference(versionId, draft.id, command, this.etag() ?? '')
+        : this.api.addReference(versionId, command, this.etag() ?? ''),
+      'Referencia guardada.', 'No fue posible guardar la referencia.');
+  }
+
+  removeReference(referenceId: string): void {
+    this.sourceRequest(versionId => this.api.removeReference(versionId, referenceId, this.etag() ?? ''),
+      'Referencia quitada del borrador.', 'No fue posible quitar la referencia.');
+  }
+
+  private sourceRequest(call: (versionId: string) => import('rxjs').Observable<unknown>,
+                        success: string, failure: string): void {
+    if (!this.versionId || !this.etag()) {
+      this.sourcesError.set('Guarde el borrador antes de modificar sus fuentes.');
+      return;
+    }
+    this.sourcesError.set(null);
+    this.stale.set(false);
+    this.working.set(true);
+    this.uploadProgress.set(0);
+    call(this.versionId).subscribe({
+      next: () => {
+        this.message.set(success);
+        this.loadVersion(this.versionId!);
+        this.working.set(false);
+        this.uploadProgress.set(null);
+      },
+      error: (error: unknown) => {
+        this.working.set(false);
+        this.uploadProgress.set(null);
+        this.handleSourceFailure(error, failure);
+      }
+    });
+  }
+
+  private handleSourceFailure(failure: unknown, fallback: string): void {
+    if (failure instanceof ApiProblemError) {
+      if (failure.problem.code === 'STALE_DRAFT') {
+        this.stale.set(true);
+        return;
+      }
+      if (failure.problem.code === 'FILE_TOO_LARGE') {
+        this.sourcesError.set('El archivo supera el límite de 25 MiB.');
+        return;
+      }
+      if (failure.problem.code === 'FILE_TYPE_NOT_ALLOWED' || failure.problem.code === 'FILE_TYPE_MISMATCH') {
+        this.sourcesError.set('El tipo de archivo no está permitido o no coincide con el contenido.');
+        return;
+      }
+    }
+    this.sourcesError.set(fallback);
   }
 
   private handleFailure(failure: unknown): void {

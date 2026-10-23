@@ -23,8 +23,10 @@ public class EvidenceProblemHandler {
             case NOT_FOUND -> HttpStatus.NOT_FOUND;
             case CONFLICT -> HttpStatus.CONFLICT;
             case INVALID -> HttpStatus.UNPROCESSABLE_CONTENT;
+            case PAYLOAD_TOO_LARGE -> HttpStatus.PAYLOAD_TOO_LARGE;
             case PRECONDITION_REQUIRED -> HttpStatus.PRECONDITION_REQUIRED;
             case PRECONDITION_FAILED -> HttpStatus.PRECONDITION_FAILED;
+            case STORAGE_UNAVAILABLE -> HttpStatus.SERVICE_UNAVAILABLE;
         };
         var problem = ProblemDetail.forStatusAndDetail(status, exception.getMessage());
         problem.setType(URI.create("urn:sec-unl:problem:" + exception.code().toLowerCase().replace('_', '-')));

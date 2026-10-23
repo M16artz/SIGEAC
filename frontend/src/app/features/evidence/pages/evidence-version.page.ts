@@ -4,6 +4,7 @@ import {ApiProblemError} from '../../../core/http/api-client';
 import {EvidenceApi} from '../data-access/evidence-api.service';
 import {
   EvidenceVersionView,
+  FileMetadataView,
   RequiredSourceState,
   SourceCoverageView,
   StructuredSourceCommand,
@@ -27,6 +28,23 @@ import {StructuredEvidenceComponent} from '../ui/structured-evidence.component';
           <dt>Indicadores</dt><dd>{{current.indicatorIds.length}}</dd>
           <dt>Enviada</dt><dd>{{current.submittedAt ? (current.submittedAt) : 'Pendiente'}}</dd>
         </dl>
+        <section aria-labelledby="version-files-heading">
+          <h3 id="version-files-heading">Archivos</h3>
+          @if (current.files.length === 0) {
+            <p>Esta versión no tiene archivos adjuntos.</p>
+          } @else {
+            <ul>
+              @for (file of current.files; track file.id) {
+                <li>
+                  <span>{{file.originalName}}</span>
+                  <span> · {{file.sizeBytes}} bytes · SHA-256 {{file.sha256}}</span>
+                  <button type="button" [attr.data-download-file]="file.id" [disabled]="working()"
+                    (click)="download(file)">Descargar</button>
+                </li>
+              }
+            </ul>
+          }
+        </section>
         <sec-evidence-source-coverage [sources]="sources()" [coverages]="coverages()"
           [disabled]="current.status === 'SUBMITTED' || working()"
           (declare)="declareCoverage($event)" (remove)="removeCoverage($event)" />
@@ -169,6 +187,39 @@ export class EvidenceVersionPage implements OnInit {
       },
       error: (failure: unknown) => this.handleFailure(failure)
     });
+  }
+
+  download(file: FileMetadataView): void {
+    const versionId = this.route.snapshot.paramMap.get('versionId');
+    if (!versionId) {
+      this.error.set('Versión no especificada.');
+      return;
+    }
+    this.error.set(null);
+    this.message.set(null);
+    this.working.set(true);
+    this.api.downloadFile(versionId, file.id).subscribe({
+      next: blob => {
+        this.working.set(false);
+        const url = URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = file.originalName;
+        anchor.click();
+        URL.revokeObjectURL(url);
+        this.message.set(`Archivo descargado y verificado: ${file.originalName}.`);
+      },
+      error: (failure: unknown) => this.handleDownloadFailure(failure, file)
+    });
+  }
+
+  private handleDownloadFailure(failure: unknown, file: FileMetadataView): void {
+    this.working.set(false);
+    if (failure instanceof ApiProblemError && failure.problem.code === 'FILE_INTEGRITY_FAILED') {
+      this.error.set('El archivo no supera la verificación de integridad; no se descargó.');
+      return;
+    }
+    this.error.set(`No fue posible descargar ${file.originalName}.`);
   }
 
   private begin(): void {

@@ -33,6 +33,7 @@ public class SyntheticPilotData implements ApplicationRunner {
     private static final UUID CAREER_ID = UUID.fromString("11111111-1111-1111-1111-111111111111");
     private static final UUID MODEL_ID = UUID.fromString("60000000-0000-0000-0000-000000000001");
     private static final UUID MODEL_VERSION_ID = UUID.fromString("60000000-0000-0000-0000-000000000002");
+    private static final UUID FILE_POLICY_ID = UUID.fromString("70000000-0000-0000-0000-000000000001");
     private static final UUID ADMIN_ID = identityId("admin");
     private static final UUID RESPONSIBLE_ID = identityId("responsable");
     private static final Instant START = Instant.parse("2025-01-01T00:00:00Z");
@@ -53,6 +54,17 @@ public class SyntheticPilotData implements ApplicationRunner {
                 "select count(*) from self_assessment_process where id=?", Integer.class, PROCESS_ID);
 
         jdbc.update(
+                "insert into file_validation_policy(id,policy_code,max_bytes,allow_empty,allowed_detected_types,"
+                        + "compatibility_json,active,created_at) values(?,?,?,?," + jsonPlaceholder() + ","
+                        + jsonPlaceholder() + ",?,?) on conflict(id) do nothing",
+                FILE_POLICY_ID, "pilot-synthetic-v1", 26_214_400, false,
+                "[\"text/plain\",\"application/pdf\",\"image/png\",\"image/jpeg\",\"application/octet-stream\"]",
+                "{\"text/plain\":[\"text/plain\"],\"application/pdf\":[\"application/pdf\"],"
+                        + "\"image/png\":[\"image/png\"],\"image/jpeg\":[\"image/jpeg\"],"
+                        + "\"application/octet-stream\":[\"text/plain\",\"application/pdf\",\"image/png\","
+                        + "\"image/jpeg\",\"application/octet-stream\"]}",
+                true, Timestamp.from(START));
+        jdbc.update(
                 "insert into evaluation_model(id,name,description,created_by,created_at) values(?,?,?,?,?) on conflict(id) do nothing",
                 MODEL_ID, "Modelo sintético", "Modelo local para pruebas", ADMIN_ID, Timestamp.from(START));
         UUID approver = identityId("coordinador");
@@ -60,8 +72,14 @@ public class SyntheticPilotData implements ApplicationRunner {
                 new ModelNode(null,"EST-SYN","Estándar sintético","",1,List.of(
                         new ModelNode(INDICATOR_A_ID,"IND-SQL-A","Indicador sintético A","",1,List.of()),
                         new ModelNode(INDICATOR_B_ID,"IND-SQL-B","Indicador sintético B","",2,List.of()))))));
+        var configuration = new ec.edu.unl.sec.evaluationmodel.domain.ModelConfiguration(List.of(
+                configuredIndicator(INDICATOR_A_ID, "IND-SQL-A", "Indicador sintético A",
+                        UUID.fromString("80000000-0000-0000-0000-000000000001")),
+                configuredIndicator(INDICATOR_B_ID, "IND-SQL-B", "Indicador sintético B",
+                        UUID.fromString("80000000-0000-0000-0000-000000000002"))), null, null);
         var version = new ModelVersion(MODEL_VERSION_ID, MODEL_ID, 1, ModelVersionStatus.PUBLISHED,
-                "fixture://synthetic-pilot", ADMIN_ID, approver, null, 0, START, START, nodes, null, null);
+                "fixture://synthetic-pilot", ADMIN_ID, approver, null, 0, START, START, nodes, null, null,
+                configuration);
         jdbc.update(
                 "insert into model_version(id,model_id,version_number,status,source,author_id,approver_id,revision,created_at,published_at,snapshot_json) "
                         + "values(?,?,?,?,?,?,?,?,?,?," + jsonPlaceholder() + ") on conflict(id) do nothing",
@@ -99,6 +117,22 @@ public class SyntheticPilotData implements ApplicationRunner {
                     UUID.randomUUID(), PROCESS_ID, indicator.id(), RESPONSIBLE_ID, "RESPONSIBLE",
                     Timestamp.from(START), Timestamp.from(END), ADMIN_ID, "Asignación sintética para pruebas SQLite");
         }
+    }
+
+    private static ec.edu.unl.sec.evaluationmodel.domain.IndicatorDefinition configuredIndicator(
+            UUID indicatorId, String code, String name, UUID sourceId) {
+        return new ec.edu.unl.sec.evaluationmodel.domain.IndicatorDefinition(
+                indicatorId,
+                ec.edu.unl.sec.evaluationmodel.domain.IndicatorDefinition.Nature.QUANTITATIVE,
+                "Texto estándar sintético para " + name,
+                List.of(),
+                "Periodo sintético",
+                null,
+                null,
+                List.of(new ec.edu.unl.sec.evaluationmodel.domain.RequiredSource(
+                        sourceId, indicatorId, code + "-SRC", ec.edu.unl.sec.evaluationmodel.domain.RequiredSource.SourceType.FILE,
+                        "Fuente sintética " + name, "Fuente sintética para pruebas locales.",
+                        true, 1, 1, "Mismo periodo del proceso", 1)));
     }
 
     private String jsonPlaceholder() {

@@ -1,34 +1,43 @@
 package ec.edu.unl.sec.evidence.application;
 
+import ec.edu.unl.sec.audit.application.AuditEventCommand;
+import ec.edu.unl.sec.audit.application.AuditPort;
 import ec.edu.unl.sec.evidence.domain.EvidenceVersion;
+import ec.edu.unl.sec.filestorage.domain.FileAsset;
 import java.time.Clock;
+import java.util.Map;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Immutable submission: a draft becomes submitted only when at least one
- * explicit source coverage exists; the version content then stops changing.
+ * Immutable submission: a complete draft becomes submitted atomically and the
+ * successful audit event shares the same transaction. The version content then
+ * stops changing.
  */
 @Service
 public class SubmitEvidenceService {
     private final EvidenceDraftService drafts;
     private final EvidenceGovernanceRepository governance;
+    private final EvidenceSourceService sources;
     private final EvidenceContextPort context;
+    private final AuditPort audit;
     private final Clock clock;
 
     @Autowired
     public SubmitEvidenceService(EvidenceDraftService drafts, EvidenceGovernanceRepository governance,
-            EvidenceContextPort context) {
-        this(drafts, governance, context, Clock.systemUTC());
+            EvidenceSourceService sources, EvidenceContextPort context, AuditPort audit) {
+        this(drafts, governance, sources, context, audit, Clock.systemUTC());
     }
 
     SubmitEvidenceService(EvidenceDraftService drafts, EvidenceGovernanceRepository governance,
-            EvidenceContextPort context, Clock clock) {
+            EvidenceSourceService sources, EvidenceContextPort context, AuditPort audit, Clock clock) {
         this.drafts = drafts;
         this.governance = governance;
+        this.sources = sources;
         this.context = context;
+        this.audit = audit;
         this.clock = clock;
     }
 
@@ -41,25 +50,47 @@ public class SubmitEvidenceService {
                     "EVIDENCE_VERSION_IMMUTABLE",
                     "La versión ya está remitida y no admite cambios.");
         }
-        var process = context.process(processOf(version.evidenceId()))
+        var details = drafts.getEvidence(version.evidenceId());
+        var process = context.process(details.evidence().processId())
                 .orElseThrow(EvidenceDraftService::notFound);
         requireActive(process);
-        if (governance.coverages(versionId).isEmpty()) {
-            throw new EvidenceProblemException(EvidenceProblemException.Kind.CONFLICT,
-                    "COVERAGE_REQUIRED",
-                    "Declara al menos una cobertura de fuente antes de remitir la evidencia.");
-        }
+        var snapshot = sources.snapshot(versionId);
+        requireCompleteSources(snapshot);
         var submittedAt = clock.instant();
         if (!governance.markSubmitted(versionId, submittedAt, version.lockRevision())) {
             throw new EvidenceProblemException(EvidenceProblemException.Kind.PRECONDITION_FAILED,
                     "STALE_DRAFT",
                     "El borrador cambió; recargue antes de continuar.");
         }
+        audit.record(new AuditEventCommand(
+                submittedAt,
+                version.authorId(),
+                null,
+                details.evidence().correlationId(),
+                "EVIDENCE_SUBMITTED",
+                "EVIDENCE_VERSION",
+                version.id(),
+                process.careerId(),
+                process.id(),
+                "SUCCESS",
+                null,
+                Map.of("revision", version.revisionNumber(),
+                        "files", snapshot.files().size(),
+                        "references", snapshot.externalReferences().size())));
         return version.submit(submittedAt);
     }
 
-    private UUID processOf(UUID evidenceId) {
-        return drafts.getEvidence(evidenceId).evidence().processId();
+    private static void requireCompleteSources(EvidenceSourceService.Sources snapshot) {
+        if (snapshot.files().isEmpty() && snapshot.externalReferences().isEmpty()) {
+            throw new EvidenceProblemException(EvidenceProblemException.Kind.CONFLICT,
+                    "SOURCE_REQUIRED",
+                    "Adjunta al menos un archivo o una referencia externa antes de remitir.");
+        }
+        if (snapshot.files().stream().anyMatch(file -> file.status() != FileAsset.Status.AVAILABLE)) {
+            throw new EvidenceProblemException(EvidenceProblemException.Kind.CONFLICT,
+                    "FILE_NOT_AVAILABLE",
+                    "Todos los archivos deben estar disponibles y verificables antes de remitir.");
+        }
     }
 
     private static void requireActive(EvidenceContextPort.ProcessContext process) {
