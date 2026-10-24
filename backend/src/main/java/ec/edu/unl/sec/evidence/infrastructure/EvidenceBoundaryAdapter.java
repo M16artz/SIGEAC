@@ -1,3 +1,25 @@
 package ec.edu.unl.sec.evidence.infrastructure;
 import ec.edu.unl.sec.evidence.application.*;import ec.edu.unl.sec.identityaccess.application.*;import ec.edu.unl.sec.identityaccess.domain.*;import ec.edu.unl.sec.selfassessment.application.*;import java.time.Instant;import java.util.*;import org.springframework.stereotype.Component;
-@Component public class EvidenceBoundaryAdapter implements EvidenceAuthorizationPort,EvidenceContextPort{private final CurrentActorPort actors;private final AuthorizationPort auth;private final ProcessCatalogPort processes;private final ProcessAssignmentCatalogPort assignments;public EvidenceBoundaryAdapter(CurrentActorPort actors,AuthorizationPort auth,ProcessCatalogPort processes,ProcessAssignmentCatalogPort assignments){this.actors=actors;this.auth=auth;this.processes=processes;this.assignments=assignments;}public Optional<EvidenceAuthorizationPort.Actor> currentActor(){return actors.currentActor().map(a->new EvidenceAuthorizationPort.Actor(a.identityId(),a.technical()));}public boolean canCollect(UUID actor,UUID career,UUID process,UUID indicator){return auth.isAllowed(actor,OperationCode.EVIDENCE_COLLECT,new AuthorizationScope(career,process,indicator));}public boolean canDecideApplicability(UUID actor,UUID career,UUID process){return auth.isAllowed(actor,OperationCode.PROCESS_COORDINATE,new AuthorizationScope(career,process,null));}public Optional<EvidenceContextPort.ProcessContext> process(UUID id){return processes.process(id).map(p->new EvidenceContextPort.ProcessContext(p.id(),p.careerId(),p.modelVersionId(),p.modelVersionNumber(),p.state().name(),p.indicators().stream().map(i->new EvidenceContextPort.Indicator(i.id(),i.code(),i.name())).toList()));}public boolean hasCurrentResponsibleAssignment(UUID process,UUID indicator,UUID actor,Instant at){return assignments.hasCurrentAssignment(process,indicator,actor,"RESPONSIBLE",at);}}
+@Component public class EvidenceBoundaryAdapter implements EvidenceAuthorizationPort,EvidenceContextPort {
+    private final CurrentActorPort actors;
+    private final AuthorizationPort auth;
+    private final ProcessCatalogPort processes;
+    private final ProcessAssignmentCatalogPort assignments;
+    private final DocumentaryProcessPort documentary;
+    public EvidenceBoundaryAdapter(CurrentActorPort actors,AuthorizationPort auth,ProcessCatalogPort processes,
+            ProcessAssignmentCatalogPort assignments,DocumentaryProcessPort documentary) {
+        this.actors=actors;this.auth=auth;this.processes=processes;this.assignments=assignments;this.documentary=documentary;
+    }
+    public Optional<EvidenceAuthorizationPort.Actor> currentActor(){return actors.currentActor().map(a->new EvidenceAuthorizationPort.Actor(a.identityId(),a.technical()));}
+    public boolean canCollect(UUID actor,UUID career,UUID process,UUID indicator){return auth.isAllowed(actor,OperationCode.EVIDENCE_COLLECT,new AuthorizationScope(career,process,indicator));}
+    public boolean canDecideApplicability(UUID actor,UUID career,UUID process){return auth.isAllowed(actor,OperationCode.PROCESS_COORDINATE,new AuthorizationScope(career,process,null));}
+    public Optional<EvidenceContextPort.ProcessContext> process(UUID id){return processes.process(id).map(p->new EvidenceContextPort.ProcessContext(p.id(),p.careerId(),p.modelVersionId(),p.modelVersionNumber(),p.state().name(),p.indicators().stream().map(i->new EvidenceContextPort.Indicator(i.id(),i.code(),i.name())).toList()));}
+    public Optional<EvidenceContextPort.ProcessContext> processForWrite(UUID id) {
+        var locked=documentary.lock(id);
+        if (locked.isEmpty()) return Optional.empty();
+        if (!"ACTIVE".equals(locked.get().state())) throw new EvidenceProblemException(EvidenceProblemException.Kind.CONFLICT,
+                "PROCESS_NOT_ACTIVE","La recepción documental requiere un proceso activo.");
+        return process(id);
+    }
+    public boolean hasCurrentResponsibleAssignment(UUID process,UUID indicator,UUID actor,Instant at){return assignments.hasCurrentAssignment(process,indicator,actor,"RESPONSIBLE",at);}
+}

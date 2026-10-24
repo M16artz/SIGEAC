@@ -74,6 +74,17 @@ public class JdbcSelfAssessmentRepository implements SelfAssessmentRepository {
     }
 
     @Override
+    @Transactional(propagation = org.springframework.transaction.annotation.Propagation.MANDATORY)
+    public Optional<SelfAssessmentProcess> findForUpdate(UUID id) {
+        if (!postgres) {
+            jdbc.update("update self_assessment_process set revision=revision where id=?",id);
+            return find(id);
+        }
+        return jdbc.query("select "+jsonColumn()+" from self_assessment_process where id=? for update",
+                (row,index)->decode(row.getString(1)),id).stream().findFirst();
+    }
+
+    @Override
     public void saveAssignment(ProcessAssignment assignment) {
         jdbc.update(
                 "insert into process_assignment(id,process_id,indicator_id,identity_id,team_id,function_code,valid_from,valid_to,created_by,reason,revoked_at,revision) values(?,?,?,?,?,?,?,?,?,?,?,?)",

@@ -8,6 +8,7 @@ public interface DocumentReviewAuthorizationPort {
     Optional<Actor> currentActor();
 
     boolean canReview(UUID actorId, UUID careerId, UUID processId);
+    void requireOpenForWrite(UUID processId);
 
     record Actor(UUID identityId, boolean technical) {}
 }

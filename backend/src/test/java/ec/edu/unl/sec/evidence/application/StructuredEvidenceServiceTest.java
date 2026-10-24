@@ -51,6 +51,7 @@ class StructuredEvidenceServiceTest {
         governance = org.mockito.Mockito.mock(EvidenceGovernanceRepository.class);
         catalog = org.mockito.Mockito.mock(RequiredSourceCatalogPort.class);
         context = org.mockito.Mockito.mock(EvidenceContextPort.class);
+        when(context.processForWrite(org.mockito.ArgumentMatchers.any())).thenAnswer(call -> context.process(call.getArgument(0)));
         authorization = org.mockito.Mockito.mock(EvidenceAuthorizationPort.class);
         var version = version(EvidenceVersionStatus.DRAFT, 0L);
         when(drafts.getVersion(VERSION)).thenReturn(version);

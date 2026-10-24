@@ -44,7 +44,7 @@ public class EvidenceSourceCoverageService {
         var version = drafts.getVersion(versionId);
         EvidenceDraftService.verifyEtag(ifMatch, version.lockRevision());
         requireDraft(version);
-        var process = context.process(processOf(version.evidenceId()))
+        var process = context.processForWrite(processOf(version.evidenceId()))
                 .orElseThrow(EvidenceDraftService::notFound);
         var entry = sources(process.fixedModelVersionId()).stream()
                 .filter(source -> source.id().equals(requiredSourceId))
@@ -75,6 +75,7 @@ public class EvidenceSourceCoverageService {
     @Transactional
     public void remove(UUID versionId, UUID coverageId, String ifMatch) {
         var version = drafts.getVersion(versionId);
+        context.processForWrite(processOf(version.evidenceId())).orElseThrow(EvidenceDraftService::notFound);
         EvidenceDraftService.verifyEtag(ifMatch, version.lockRevision());
         requireDraft(version);
         var coverage = governance.coverage(coverageId)

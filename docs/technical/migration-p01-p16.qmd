@@ -168,3 +168,30 @@ Las pruebas cubren un indicador valido, uno ajeno y el mismo ID en una version
 sucesora. El backend de navegador arranco desde V013, aplico solo V014 y valido
 JPA antes de ejecutar la aceptacion. D5 usa la siguiente version libre V015;
 las reservas futuras se desplazan hasta V020 para mantener el orden ascendente.
+
+## V016: cortes documentales (2026-10-24)
+
+`V016__documentary_reporting.sql` agrega `documentary_snapshot` con contenido
+canónico, SHA-256, metadatos, conteos y unicidad por proceso/revisión. Las
+restricciones impiden conteos contradictorios y los triggers prohíben actualizar
+o eliminar cortes. SQLite incorpora la tabla equivalente y guards instalados
+fuera del script por la limitación del separador de cuerpos de trigger.
+
+La migración y sus restricciones se verificaron en PostgreSQL 18.4 temporal
+desde cero y desde V015, sin `repair` ni ejecución fuera de orden. Se verificó
+también la reserva concurrente de una revisión: una sola confirmación.
+El guardado actual incrementa la revisión del proceso y conserva su estado
+`ACTIVE`; no habilita la transición de cierre. Evidencia y límites en
+[cortes D6](../../tests/acceptance/results/d6-documentary-snapshots.md).
+
+## V016_1: cierre documental (2026-10-24)
+
+La migración nueva agrega `documentary_closure`, huella y payload canónicos,
+política estricta, revisión única por proceso y FK compuesta al corte del mismo
+proceso. Reutiliza el guard de inmutabilidad; SQLite instala guards equivalentes.
+No modifica V016 ni consume las reservas V017–V020. Las pruebas PostgreSQL
+18.4 pasaron desde limpio y desde V015/V016, con roundtrip y rechazo de
+mutaciones. También pasaron dos carreras de cierre contra escritores de
+evidencia/revisión. El cierre reserva un corte y luego transiciona, avanzando
+dos revisiones en una sola transacción. Un fallo revierte ambas operaciones.
+Ver [MVP D6 y reproducción](../../tests/acceptance/results/d6-documentary-mvp.md).

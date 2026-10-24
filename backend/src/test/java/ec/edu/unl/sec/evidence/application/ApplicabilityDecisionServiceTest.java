@@ -35,6 +35,7 @@ class ApplicabilityDecisionServiceTest {
         governance = org.mockito.Mockito.mock(EvidenceGovernanceRepository.class);
         catalog = org.mockito.Mockito.mock(RequiredSourceCatalogPort.class);
         context = org.mockito.Mockito.mock(EvidenceContextPort.class);
+        when(context.processForWrite(org.mockito.ArgumentMatchers.any())).thenAnswer(call -> context.process(call.getArgument(0)));
         authorization = org.mockito.Mockito.mock(EvidenceAuthorizationPort.class);
         when(context.process(PROCESS)).thenReturn(Optional.of(process("ACTIVE")));
         when(authorization.currentActor()).thenReturn(Optional.of(new EvidenceAuthorizationPort.Actor(ACTOR, false)));

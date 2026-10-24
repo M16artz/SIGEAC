@@ -44,6 +44,7 @@ class SubmitEvidenceServiceTest {
         drafts = org.mockito.Mockito.mock(EvidenceDraftService.class);
         governance = org.mockito.Mockito.mock(EvidenceGovernanceRepository.class);
         context = org.mockito.Mockito.mock(EvidenceContextPort.class);
+        when(context.processForWrite(org.mockito.ArgumentMatchers.any())).thenAnswer(call -> context.process(call.getArgument(0)));
         sources = org.mockito.Mockito.mock(EvidenceSourceService.class);
         audit = org.mockito.Mockito.mock(AuditPort.class);
         draft = draft(0, null);

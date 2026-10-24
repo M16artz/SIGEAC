@@ -14,6 +14,7 @@ import java.util.UUID;
 public interface SelfAssessmentRepository {
     void save(SelfAssessmentProcess process, long expectedRevision);
     Optional<SelfAssessmentProcess> find(UUID id);
+    default Optional<SelfAssessmentProcess> findForUpdate(UUID id) { throw new UnsupportedOperationException("Process locking required"); }
     List<SelfAssessmentProcess> list();
     void saveAssignment(ProcessAssignment assignment);
     List<ProcessAssignment> assignments(UUID processId);

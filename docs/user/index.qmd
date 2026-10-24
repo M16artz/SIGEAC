@@ -12,12 +12,16 @@ su estándar ni que la carrera esté acreditada.
 - [Acceso y ámbitos autorizados](i0-access.qmd)
 - [Carreras y unidades académicas](d1-careers.qmd)
 
+## Avances técnicos disponibles
+
+- [Seguimiento documental: tablero, cortes históricos y cierre](d6-documentary-progress.qmd).
+  MVP técnico verificado con datos sintéticos; pendiente de validación institucional.
+
 ## Módulos planificados
 
 - Modelos configurables y fuentes requeridas.
 - Procesos, autorización y planificación.
 - Evidencias, revisión y subsanación.
-- Seguimiento documental.
 - Valoración académica.
 - Hallazgos e informes.
 - Planes de mejora, cierre y archivo.

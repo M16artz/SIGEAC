@@ -51,7 +51,7 @@ public class SubmitEvidenceService {
                     "La versión ya está remitida y no admite cambios.");
         }
         var details = drafts.getEvidence(version.evidenceId());
-        var process = context.process(details.evidence().processId())
+        var process = context.processForWrite(details.evidence().processId())
                 .orElseThrow(EvidenceDraftService::notFound);
         requireActive(process);
         var snapshot = sources.snapshot(versionId);

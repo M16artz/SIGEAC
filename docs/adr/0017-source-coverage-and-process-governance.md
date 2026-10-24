@@ -34,3 +34,57 @@ Relacionar evidencias solo con indicadores no determina qué fuente requerida es
 ## Trazabilidad
 
 FR-044–FR-068; AC-X04–AC-X15; tareas 005 T021–T102 y T113–T126. La vigencia y competencias institucionales continúan pendientes de validación según CL-011–CL-017.
+
+## Aplicación parcial D6 (2026-10-24)
+
+T058/T062 implementan el cálculo puro con política `SOURCE_COVERAGE_V1`:
+numeradores y denominador enteros, porcentajes derivados con dos decimales
+`HALF_UP`, cardinalidad por evidencias distintas y fuentes opcionales fuera
+del cálculo. Un catálogo sin fuentes obligatorias es `NOT_CONFIGURED`;
+un catálogo cuyas fuentes obligatorias están todas excluidas es
+`NOT_APPLICABLE`. Ambos conservan porcentajes nulos.
+
+La candidata es la última versión remitida de la evidencia completa,
+no la última versión que contuvo cada fuente. Una sucesora remitida que
+retira una cobertura no puede recuperarla desde una predecesora.
+La autorización y las decisiones de aplicabilidad se resolverán antes
+de invocar el calculador en T063. La persistencia de cortes y el cierre
+documental siguen pendientes. Evidencia y límites en
+[bases de D6](../../tests/acceptance/results/d6-progress-foundations.md).
+
+T059/T063/T065 conectan el calculador a puertos públicos de evidencia y revisión,
+sin repositorios cruzados. `PROGRESS_READ` se revalida por indicador antes de
+contar y permite descubrir el proceso con sus indicadores visibles, sin otorgar
+facultades de modificación. Los adaptadores leen candidatas remitidas completas,
+rectificaciones vigentes y aplicabilidad por revisión. El tablero separa los
+avances documentales de cualquier valoración académica. Las reglas ArchUnit
+verifican esta independencia. Resultados en [consulta D6](../../tests/acceptance/results/d6-progress-query.md).
+
+Los cortes actuales se guardan en transacciones serializables mediante T061 y
+avance parcial T064/T066/T120. Un puerto público de proceso reserva la siguiente
+revisión sin cambiar estado; un fallo de persistencia/auditoría revierte todo.
+La lectura de históricos exige ámbito completo del proceso antes de cargar
+contenido para evitar filtrar totales previos con permisos parciales actuales.
+El JSON canónico preserva las referencias y se verifica con SHA-256; la base
+impide sobrescritura/borrado. La reserva concurrente se verificó en PostgreSQL.
+La transición de cierre continúa bloqueada: requiere coordinar remisiones y
+revisiones mediante un bloqueo común y verificar integridad de archivos.
+
+## Cierre documental implementado (2026-10-24)
+
+La continuación resuelve esos requisitos con `DocumentaryProcessPort.lock` y
+puertos explícitos de lectura/escritura. Cierre, evidencia, coberturas,
+aplicabilidad y revisión bloquean la misma fila de proceso dentro de la
+transacción y revalidan `ACTIVE`. PostgreSQL usa `FOR UPDATE`; SQLite serializa
+el escritor mediante una actualización sin cambio de revisión. La autorización
+se resuelve antes de exponer el estado a quien no puede operar.
+
+La única política disponible es `DOCUMENTARY_STRICT_V1`: exige aceptación de
+las fuentes obligatorias aplicables según cardinalidad y verifica disponibilidad,
+tamaño y SHA-256 de los archivos referenciados. No exige valoración académica.
+El corte y cierre canónicos, su auditoría y transición se confirman juntos;
+los errores revierten todo. El controlador registra el rechazo después del
+rollback para evitar otra transacción sobre la única conexión SQLite.
+Los históricos son inmutables y verifican sus huellas al leer.
+Evidencia de cierre, integridad y carreras de escritores:
+[MVP D6](../../tests/acceptance/results/d6-documentary-mvp.md).

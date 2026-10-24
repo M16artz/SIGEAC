@@ -1,0 +1,70 @@
+# Seguimiento documental
+
+Disponible como entrega técnica D6 con datos sintéticos: consulta actual,
+cortes históricos y cierre documental. La validación institucional sigue pendiente.
+
+1. Abra **Seguimiento documental** y seleccione un proceso autorizado.
+   En el piloto, el enlace está disponible para el coordinador.
+2. Consulte **Recopilación** y **Revisión documental**. Los conteos indican
+   cuántas fuentes obligatorias aplicables están remitidas o satisfacen
+   la cardinalidad de evidencias aceptadas. Varias copias de una evidencia
+   no incrementan el conteo.
+3. Consulte las fuentes, su aplicabilidad, cardinalidad y versiones vigentes.
+   Pulse una fuente para acotar el cálculo y use **Ver todas las fuentes**
+   para volver al ámbito completo. Los botones de página cambian el detalle;
+   los totales siguen correspondiendo al ámbito consultado.
+
+**No calculable** distingue configuración ausente de exclusión autorizada
+de todas las fuentes obligatorias. No representa 100 % de avance.
+
+Un borrador sucesor conserva la remisión anterior como candidata. Al remitir
+la sucesora, sus coberturas reemplazan las anteriores y requieren revisión
+propia. La aceptación documental no determina cumplimiento académico.
+
+La consulta se recalcula al seleccionar un proceso o fuente. Ante un error de
+acceso, los datos anteriores se retiran de pantalla. Un usuario ve únicamente
+el ámbito que su función vigente permite; la cuenta técnica no obtiene acceso
+documental por administrar la infraestructura.
+
+## Guardar y consultar un corte
+
+1. Desde el tablero, abra **Guardar y consultar cortes documentales**.
+2. Seleccione un proceso activo e indique un motivo de 10 a 4000 caracteres.
+3. Pulse **Guardar corte actual**. El corte conserva todas las fuentes y
+   decisiones del proceso, incluso los pendientes; el proceso continúa activo.
+4. Use **Consultar corte** en el histórico para ver los conteos conservados,
+   las referencias de versiones y decisiones y la huella SHA-256.
+
+Guardar requiere una función autorizada para crear cortes y leer el proceso
+completo. Consultar el histórico requiere lectura del proceso completo, aunque
+el tablero actual permita trabajar con indicadores individuales. El piloto
+sintético concede la capacidad de crear cortes al coordinador.
+
+Si el proceso cambió mientras guardaba, revise los datos y vuelva a intentarlo.
+Los cortes existentes no se editan ni borran. Una remisión o revisión posterior
+puede cambiar el avance actual, pero no modifica un corte anterior. El backend
+verifica la integridad al consultar su detalle. Los cortes se crean sobre la
+vista actual de la transacción; no se puede solicitar una fecha retroactiva.
+
+## Cerrar la fase documental
+
+1. Desde el tablero, abra **Cierre documental** y seleccione el proceso activo.
+2. Revise las fuentes pendientes y escriba un motivo de 10 a 2000 caracteres.
+3. Solicite el cierre con la política `DOCUMENTARY_STRICT_V1`. Cada fuente
+   obligatoria aplicable debe satisfacer su cardinalidad con evidencias distintas
+   aceptadas. Las fuentes opcionales y las exclusiones autorizadas no bloquean;
+   una configuración ausente sí bloquea. No se admiten excepciones de cierre.
+4. Consulte el cierre y el enlace a su corte asociado en el historial.
+
+El cierre requiere una función autorizada y lectura completa del proceso.
+Comprueba la disponibilidad, tamaño y SHA-256 de los archivos referenciados.
+Si hay pendientes o archivos inválidos, muestra sus identificadores y conserva
+el proceso activo sin guardar un corte adicional. Si cambió la revisión,
+recargue antes de intentarlo de nuevo.
+
+Al confirmar, el proceso pasa a `DOCUMENTARY_CLOSED` y conserva un corte y un
+registro de cierre inmutables. Se bloquean nuevas remisiones, revisiones y
+cambios documentales; cualquier corrección posterior requiere la reapertura
+autorizada prevista por el gobierno del proceso. Los cortes previos conservan
+sus conteos originales. Este cierre no crea valoraciones ni cierra la evaluación
+integral, ni representa acreditación.

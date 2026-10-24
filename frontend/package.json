@@ -16,6 +16,7 @@
     "test:d1": "node ../scripts/run-d1-acceptance.mjs",
     "test:d3": "node ../scripts/run-d3-acceptance.mjs",
     "test:d5": "node ../scripts/run-d5-acceptance.mjs",
+    "test:d6": "node ../scripts/run-d6-acceptance.mjs",
     "test:performance": "k6 run ../tests/performance/evidence-upload.js"
   },
   "dependencies": {

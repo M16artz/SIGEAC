@@ -1,12 +1,14 @@
 package ec.edu.unl.sec.selfassessment.application;
 import static org.assertj.core.api.Assertions.*;import static org.mockito.Mockito.*;import ec.edu.unl.sec.evaluationmodel.application.*;import ec.edu.unl.sec.identityaccess.application.*;import ec.edu.unl.sec.selfassessment.support.*;import java.time.*;import java.util.*;import org.junit.jupiter.api.Test;
 class SelfAssessmentServiceTest {
-    @Test void exposesOnlyIndicatorsCoveredByTheCurrentScope() {
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.ValueSource(strings={"EVIDENCE_COLLECT", "PROGRESS_READ"})
+    void exposesOnlyIndicatorsCoveredByTheCurrentScope(String operation) {
         var repo=new InMemorySelfAssessmentRepository(); UUID actor=UUID.randomUUID(), first=UUID.randomUUID(), second=UUID.randomUUID();
         var process=new ec.edu.unl.sec.selfassessment.domain.SelfAssessmentProcess(null,UUID.randomUUID(),"P","Proceso",LocalDate.now(),LocalDate.now(),UUID.randomUUID(),1,ec.edu.unl.sec.selfassessment.domain.ProcessState.ACTIVE,1,actor,Instant.now(),List.of(new ec.edu.unl.sec.selfassessment.domain.SelfAssessmentProcess.IndicatorSnapshot(first,"I-1","Visible"),new ec.edu.unl.sec.selfassessment.domain.SelfAssessmentProcess.IndicatorSnapshot(second,"I-2","Oculto")));
         repo.save(process,-1);
         var auth=mock(AuthorizationPort.class);
-        when(auth.isAllowed(eq(actor),eq(ec.edu.unl.sec.identityaccess.domain.OperationCode.EVIDENCE_COLLECT),eq(new ec.edu.unl.sec.identityaccess.domain.AuthorizationScope(process.careerId(),process.id(),first)))).thenReturn(true);
+        when(auth.isAllowed(eq(actor),eq(new ec.edu.unl.sec.identityaccess.domain.OperationCode(operation)),eq(new ec.edu.unl.sec.identityaccess.domain.AuthorizationScope(process.careerId(),process.id(),first)))).thenReturn(true);
         var service=new SelfAssessmentService(repo,mock(ModelCatalogPort.class),()->Optional.of(new CurrentActorPort.Actor(actor,false)),auth,mock(SelfAssessmentAuditService.class),mock(InstitutionalAuthorityPort.class),mock(CareerAdministrationService.class));
         assertThat(service.get(process.id()).indicators()).extracting("id").containsExactly(first);
         assertThat(service.list()).hasSize(1);

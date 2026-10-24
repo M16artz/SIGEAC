@@ -14,10 +14,13 @@ import org.springframework.stereotype.Component;
 public class DocumentReviewBoundaryAdapter implements DocumentReviewAuthorizationPort {
     private final CurrentActorPort actors;
     private final AuthorizationPort authorization;
+    private final ec.edu.unl.sec.selfassessment.application.DocumentaryProcessPort processes;
 
-    public DocumentReviewBoundaryAdapter(CurrentActorPort actors, AuthorizationPort authorization) {
+    public DocumentReviewBoundaryAdapter(CurrentActorPort actors, AuthorizationPort authorization,
+            ec.edu.unl.sec.selfassessment.application.DocumentaryProcessPort processes) {
         this.actors = actors;
         this.authorization = authorization;
+        this.processes = processes;
     }
 
     @Override
@@ -29,5 +32,13 @@ public class DocumentReviewBoundaryAdapter implements DocumentReviewAuthorizatio
     public boolean canReview(UUID actorId, UUID careerId, UUID processId) {
         return authorization.isAllowed(actorId, OperationCode.EVIDENCE_REVIEW,
                 new AuthorizationScope(careerId, processId, null));
+    }
+
+    @Override
+    public void requireOpenForWrite(UUID processId) {
+        var process=processes.lock(processId).orElseThrow(() -> new ec.edu.unl.sec.documentreview.application.DocumentReviewProblemException(
+                ec.edu.unl.sec.documentreview.application.DocumentReviewProblemException.Kind.NOT_FOUND,"PROCESS_NOT_FOUND","No se encontró el proceso."));
+        if (!"ACTIVE".equals(process.state())) throw new ec.edu.unl.sec.documentreview.application.DocumentReviewProblemException(
+                ec.edu.unl.sec.documentreview.application.DocumentReviewProblemException.Kind.CONFLICT,"PROCESS_NOT_ACTIVE","La revisión ordinaria requiere un proceso activo.");
     }
 }

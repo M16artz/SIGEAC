@@ -35,6 +35,7 @@ class EvidenceDraftServiceTest {
         repository = mock(EvidenceDraftRepository.class);
         authorization = mock(EvidenceAuthorizationPort.class);
         context = mock(EvidenceContextPort.class);
+        when(context.processForWrite(org.mockito.ArgumentMatchers.any())).thenAnswer(call -> context.process(call.getArgument(0)));
         when(authorization.currentActor()).thenReturn(Optional.of(new EvidenceAuthorizationPort.Actor(ACTOR, false)));
         when(context.process(PROCESS)).thenReturn(Optional.of(process(INDICATOR_A, INDICATOR_B)));
         when(authorization.canCollect(ACTOR, CAREER, PROCESS, INDICATOR_A)).thenReturn(true);

@@ -60,6 +60,7 @@ public class EvidenceSourceService {
     /** Attaches an already promoted asset to a draft without re-reading its bytes. */
     @Transactional
     public Changed<SourceFile> attachFile(UUID versionId, UUID fileId, long expectedRevision) {
+        drafts.requireEditableVersion(versionId,"\""+expectedRevision+"\"");
         var asset = assets.findById(fileId).orElseThrow(EvidenceDraftService::notFound);
         if (asset.status() != FileAsset.Status.AVAILABLE) {
             throw new EvidenceProblemException(EvidenceProblemException.Kind.CONFLICT,

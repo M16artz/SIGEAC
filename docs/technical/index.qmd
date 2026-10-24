@@ -27,6 +27,16 @@
 
 ## Incrementos implementados
 
+Entrega técnica D6: [MVP documental y cierre verificado](../../tests/acceptance/results/d6-documentary-mvp.md).
+Incluye el recorrido real de navegador, integridad, concurrencia PostgreSQL e
+historial inmutable. Los siguientes enlaces conservan los avances anteriores.
+
+Avance técnico parcial: [D6 — consulta por ámbito y tablero documental](../../tests/acceptance/results/d6-progress-query.md).
+Este avance precede al cierre verificado en el MVP enlazado arriba.
+
+Continuación: [D6 — cortes documentales persistentes e historial](../../tests/acceptance/results/d6-documentary-snapshots.md),
+con V016 verificada en PostgreSQL y conservación de estado activo.
+
 - [I0 — Acceso y ámbitos autorizados](i0-access.qmd)
 - [D1 — Catálogo de carreras, permisos y compatibilidad](../../tests/acceptance/results/d1-careers.md)
 

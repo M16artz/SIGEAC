@@ -627,6 +627,212 @@ paths:
         '201': {$ref: '#/components/responses/CreatedResource'}
         '409': {$ref: '#/components/responses/Conflict'}
         '412': {$ref: '#/components/responses/PreconditionFailed'}
+  /processes/{processId}/documentary-close:
+    post:
+      tags: [Reporting]
+      operationId: createStrictDocumentaryClosure
+      summary: Finalizar la fase documental con corte e integridad verificados
+      description: >-
+        Requiere PROCESS_DOCUMENTARY_CLOSE y PROGRESS_READ sobre el proceso completo.
+        Bloquea la misma fila de proceso que remisiones, revisiones y demás escrituras
+        documentales. Solo admite DOCUMENTARY_STRICT_V1, aceptación suficiente por
+        cardinalidad e integridad de todos los archivos referenciados. No admite
+        excepciones ni depende de valoración académica. Guarda corte y cierre,
+        cambia ACTIVE a DOCUMENTARY_CLOSED y confirma auditoría en una transacción.
+        La revisión final aumenta en dos: reserva de corte y transición de fase.
+      x-required-capability: PROCESS_DOCUMENTARY_CLOSE
+      parameters: [{$ref: '#/components/parameters/ProcessId'}, {$ref: '#/components/parameters/IfMatch'}, {$ref: '#/components/parameters/CsrfToken'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [closurePolicyVersion, reason]
+              properties:
+                closurePolicyVersion: {type: string, const: DOCUMENTARY_STRICT_V1}
+                reason: {type: string, minLength: 10, maxLength: 2000}
+      responses:
+        '201':
+          description: Fase documental cerrada; Location identifica el cierre y ETag su contenido canónico.
+          headers:
+            Location: {schema: {type: string}}
+            ETag: {schema: {type: string}}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/DocumentaryClosureView'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '412': {$ref: '#/components/responses/PreconditionFailed'}
+        '422': {$ref: '#/components/responses/Unprocessable'}
+        '428': {$ref: '#/components/responses/PreconditionRequired'}
+  /processes/{processId}/documentary-closures:
+    get:
+      tags: [Reporting]
+      operationId: listDocumentaryClosures
+      summary: Consultar cierres documentales conservados dentro del ámbito completo
+      parameters:
+        - {$ref: '#/components/parameters/ProcessId'}
+        - {name: page, in: query, schema: {type: integer, minimum: 0, default: 0}}
+        - {name: size, in: query, schema: {type: integer, minimum: 1, maximum: 100, default: 20}}
+      responses:
+        '200':
+          description: Metadatos históricos ordenados por fecha e ID descendentes.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items, page, size, hasNext]
+                properties:
+                  items: {type: array, items: {$ref: '#/components/schemas/DocumentaryClosureHeader'}}
+                  page: {type: integer, minimum: 0}
+                  size: {type: integer, minimum: 1, maximum: 100}
+                  hasNext: {type: boolean}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '422': {$ref: '#/components/responses/Unprocessable'}
+  /documentary-closures/{closureId}:
+    get:
+      tags: [Reporting]
+      operationId: getDocumentaryClosure
+      summary: Recuperar un cierre y verificar su huella y la del corte vinculado
+      parameters:
+        - {name: closureId, in: path, required: true, schema: {type: string, format: uuid}}
+      responses:
+        '200':
+          description: Cierre conservado con huella y referencias de archivos; respuesta no-store.
+          headers:
+            ETag: {schema: {type: string}}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/DocumentaryClosureView'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /processes/{processId}/documentary-snapshots:
+    post:
+      tags: [Reporting]
+      operationId: createCurrentDocumentarySnapshot
+      summary: Guardar un corte documental actual sin cerrar el proceso
+      description: >-
+        Requiere DOCUMENTARY_SNAPSHOT_CREATE y PROGRESS_READ sobre el proceso
+        completo en ACTIVE. If-Match identifica la revisión del proceso; al guardar
+        se incrementa esa revisión sin cambiar el estado. El corte incluye todas
+        las fuentes y conserva pendientes. El motivo es el único campo admitido;
+        no se aceptan cortes retroactivos ni cutoffAt de la propuesta v2.
+      x-required-capability: DOCUMENTARY_SNAPSHOT_CREATE
+      parameters: [{$ref: '#/components/parameters/ProcessId'}, {$ref: '#/components/parameters/IfMatch'}, {$ref: '#/components/parameters/CsrfToken'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [reason]
+              properties:
+                reason: {type: string, minLength: 10, maxLength: 4000}
+      responses:
+        '201':
+          description: Corte guardado; ETag contiene la huella del JSON canónico almacenado.
+          headers:
+            Location: {schema: {type: string}}
+            ETag: {schema: {type: string}}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/DocumentarySnapshotView'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '412': {$ref: '#/components/responses/PreconditionFailed'}
+        '422': {$ref: '#/components/responses/Unprocessable'}
+        '428': {$ref: '#/components/responses/PreconditionRequired'}
+    get:
+      tags: [Reporting]
+      operationId: listDocumentarySnapshots
+      summary: Consultar metadatos del histórico documental autorizado
+      x-required-capability: PROGRESS_READ
+      parameters:
+        - {$ref: '#/components/parameters/ProcessId'}
+        - {name: page, in: query, schema: {type: integer, minimum: 0, default: 0}}
+        - {name: size, in: query, schema: {type: integer, minimum: 1, maximum: 100, default: 20}}
+      responses:
+        '200':
+          description: Historial del proceso completo, ordenado por fecha e ID descendentes.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items, page, size, hasNext]
+                properties:
+                  items: {type: array, items: {$ref: '#/components/schemas/DocumentarySnapshotHeader'}}
+                  page: {type: integer, minimum: 0}
+                  size: {type: integer, minimum: 1, maximum: 100}
+                  hasNext: {type: boolean}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '422': {$ref: '#/components/responses/Unprocessable'}
+  /documentary-snapshots/{snapshotId}:
+    get:
+      tags: [Reporting]
+      operationId: getDocumentarySnapshot
+      summary: Recuperar un corte guardado y verificar su integridad
+      description: Reautoriza el proceso completo antes de cargar el contenido. No recalcula el avance actual. Usa Cache-Control no-store.
+      x-required-capability: PROGRESS_READ
+      parameters:
+        - {name: snapshotId, in: path, required: true, schema: {type: string, format: uuid}}
+      responses:
+        '200':
+          description: Contenido conservado; el backend verificó SHA-256 y metadatos. ETag identifica el contenido canónico almacenado.
+          headers:
+            ETag: {schema: {type: string}}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/DocumentarySnapshotView'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /processes/{processId}/documentary-progress:
+    get:
+      tags: [Reporting]
+      operationId: getDocumentaryProgress
+      summary: Consultar avance actual y fuentes dentro del ámbito autorizado
+      description: >-
+        Consulta v1 aditiva. Aplica PROGRESS_READ por indicador antes de contar;
+        pagina fuentes sin cambiar los totales del ámbito filtrado.
+        No consulta valoración académica. Los filtros criterionId,
+        responsibleUserId y cutoffAt de la propuesta v2 no están implementados;
+        cualquier parámetro desconocido devuelve 422 UNSUPPORTED_FILTER.
+      x-required-capability: PROGRESS_READ
+      parameters:
+        - {$ref: '#/components/parameters/ProcessId'}
+        - {name: indicatorId, in: query, schema: {type: string, format: uuid}}
+        - {name: requiredSourceId, in: query, schema: {type: string, format: uuid}}
+        - {name: page, in: query, schema: {type: integer, minimum: 0, default: 0}}
+        - {name: size, in: query, schema: {type: integer, minimum: 1, maximum: 100, default: 20}}
+      responses:
+        '200':
+          description: Métricas actuales y detalle autorizado; porcentajes nulos si el denominador es cero.
+          headers:
+            Cache-Control: {description: La consulta actual no se almacena en caché., schema: {type: string, const: no-store}}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/DocumentaryProgressView'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '422': {$ref: '#/components/responses/Unprocessable'}
   /processes/{processId}/progress:
     get:
       tags: [Reporting]
@@ -1670,6 +1876,156 @@ components:
         reviewerId: {type: string, format: uuid}
         decidedAt: {type: string, format: date-time}
         status: {type: string, enum: [FINAL, SUPERSEDED]}
+    DocumentaryClosureHeader:
+      type: object
+      additionalProperties: false
+      required: [id, processId, careerId, snapshotId, processRevision, policyVersion, closedBy, closedAt, reason, sha256]
+      properties:
+        id: {type: string, format: uuid}
+        processId: {type: string, format: uuid}
+        careerId: {type: string, format: uuid}
+        snapshotId: {type: string, format: uuid}
+        processRevision: {type: integer, minimum: 0}
+        policyVersion: {type: string, const: DOCUMENTARY_STRICT_V1}
+        closedBy: {type: string, format: uuid}
+        closedAt: {type: string, format: date-time}
+        reason: {type: string, minLength: 10, maxLength: 2000}
+        sha256: {type: string, pattern: '^[a-f0-9]{64}$'}
+    DocumentaryClosureView:
+      type: object
+      additionalProperties: false
+      required: [data, sha256]
+      properties:
+        sha256: {type: string, pattern: '^[a-f0-9]{64}$'}
+        data:
+          type: object
+          additionalProperties: false
+          required: [id, processId, careerId, snapshotId, snapshotSha256, state, processRevision, policyVersion, closedBy, closedAt, reason, files]
+          properties:
+            id: {type: string, format: uuid}
+            processId: {type: string, format: uuid}
+            careerId: {type: string, format: uuid}
+            snapshotId: {type: string, format: uuid}
+            snapshotSha256: {type: string, pattern: '^[a-f0-9]{64}$'}
+            state: {type: string, const: DOCUMENTARY_CLOSED}
+            processRevision: {type: integer, minimum: 0}
+            policyVersion: {type: string, const: DOCUMENTARY_STRICT_V1}
+            closedBy: {type: string, format: uuid}
+            closedAt: {type: string, format: date-time}
+            reason: {type: string, minLength: 10, maxLength: 2000}
+            files:
+              type: array
+              items:
+                type: object
+                required: [versionId, fileId, sizeBytes, sha256]
+                properties:
+                  versionId: {type: string, format: uuid}
+                  fileId: {type: string, format: uuid}
+                  sizeBytes: {type: integer, minimum: 0}
+                  sha256: {type: string, pattern: '^[a-f0-9]{64}$'}
+    DocumentarySnapshotProgress:
+      type: object
+      additionalProperties: false
+      required: [status, requiredSourceTotal, registeredSourceTotal, acceptedSourceTotal, formulaVersion]
+      properties:
+        status: {type: string, enum: [CONFIGURED, NOT_CONFIGURED, NOT_APPLICABLE]}
+        requiredSourceTotal: {type: integer, minimum: 0}
+        registeredSourceTotal: {type: integer, minimum: 0}
+        acceptedSourceTotal: {type: integer, minimum: 0}
+        formulaVersion: {type: string}
+    DocumentarySnapshotHeader:
+      type: object
+      additionalProperties: false
+      required: [id, processId, careerId, modelVersionId, processRevision, createdBy, createdAt, reason, progress, sha256]
+      properties:
+        id: {type: string, format: uuid}
+        processId: {type: string, format: uuid}
+        careerId: {type: string, format: uuid}
+        modelVersionId: {type: string, format: uuid}
+        processRevision: {type: integer, minimum: 0}
+        createdBy: {type: string, format: uuid}
+        createdAt: {type: string, format: date-time}
+        reason: {type: string, minLength: 10, maxLength: 4000}
+        progress: {$ref: '#/components/schemas/DocumentarySnapshotProgress'}
+        sha256: {type: string, pattern: '^[a-f0-9]{64}$'}
+    DocumentarySnapshotView:
+      type: object
+      additionalProperties: false
+      required: [header, data]
+      properties:
+        header: {$ref: '#/components/schemas/DocumentarySnapshotHeader'}
+        data:
+          type: object
+          additionalProperties: false
+          required: [id, processId, careerId, modelVersionId, processState, processRevision, createdBy, createdAt, reason, indicatorIds, progress, sources, applicability]
+          properties:
+            id: {type: string, format: uuid}
+            processId: {type: string, format: uuid}
+            careerId: {type: string, format: uuid}
+            modelVersionId: {type: string, format: uuid}
+            processState: {type: string, const: ACTIVE}
+            processRevision: {type: integer, minimum: 0}
+            createdBy: {type: string, format: uuid}
+            createdAt: {type: string, format: date-time}
+            reason: {type: string, minLength: 10, maxLength: 4000}
+            indicatorIds: {type: array, items: {type: string, format: uuid}}
+            progress: {$ref: '#/components/schemas/DocumentarySnapshotProgress'}
+            sources: {type: array, items: {$ref: '#/components/schemas/DocumentarySourceView'}}
+            applicability:
+              type: array
+              items:
+                type: object
+                required: [id, subjectType, subjectId, decision, revision]
+                properties:
+                  id: {type: string, format: uuid}
+                  subjectType: {type: string, enum: [INDICATOR, REQUIRED_SOURCE]}
+                  subjectId: {type: string, format: uuid}
+                  decision: {type: string, enum: [APPLICABLE, NOT_APPLICABLE]}
+                  revision: {type: integer, minimum: 0}
+    DocumentaryProgressView:
+      type: object
+      additionalProperties: false
+      required: [processId, modelVersionId, calculatedAt, formulaVersion, state, requiredSourceTotal, registeredSourceTotal, acceptedSourceTotal, collectionPercent, documentReviewPercent, scopeDescription, indicatorIds, sources, page, size, totalSources]
+      properties:
+        processId: {type: string, format: uuid}
+        modelVersionId: {type: string, format: uuid}
+        calculatedAt: {type: string, format: date-time}
+        formulaVersion: {type: string}
+        state: {type: string, enum: [CONFIGURED, NOT_CONFIGURED, NOT_APPLICABLE]}
+        requiredSourceTotal: {type: integer, minimum: 0}
+        registeredSourceTotal: {type: integer, minimum: 0}
+        acceptedSourceTotal: {type: integer, minimum: 0}
+        collectionPercent: {type: [number, 'null'], minimum: 0, maximum: 100}
+        documentReviewPercent: {type: [number, 'null'], minimum: 0, maximum: 100}
+        scopeDescription: {type: string}
+        indicatorIds: {type: array, items: {type: string, format: uuid}}
+        sources: {type: array, items: {$ref: '#/components/schemas/DocumentarySourceView'}}
+        page: {type: integer, minimum: 0}
+        size: {type: integer, minimum: 1, maximum: 100}
+        totalSources: {type: integer, minimum: 0}
+    DocumentarySourceView:
+      type: object
+      additionalProperties: false
+      required: [id, indicatorId, code, name, required, applicable, cardinalityMin, coverages]
+      properties:
+        id: {type: string, format: uuid}
+        indicatorId: {type: string, format: uuid}
+        code: {type: string}
+        name: {type: string}
+        required: {type: boolean}
+        applicable: {type: boolean}
+        cardinalityMin: {type: integer, minimum: 1}
+        coverages:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [evidenceId, versionId, decisionId, outcome]
+            properties:
+              evidenceId: {type: string, format: uuid}
+              versionId: {type: string, format: uuid}
+              decisionId: {type: [string, 'null'], format: uuid}
+              outcome: {type: string, enum: [ACCEPTED, OBSERVED, REJECTED, PENDING_REVIEW]}
     AcademicEvaluationView:
       type: object
       additionalProperties: false

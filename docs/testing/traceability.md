@@ -168,6 +168,28 @@ Los escenarios AC-Pxx están en [process-acceptance.md](process-acceptance.md) y
 
 ## Requisitos no funcionales y resultados pendientes
 
+Avance parcial D6 (2026-10-24): FR-053/FR-054 y AC-X08/AC-X09 cuentan
+con pruebas de cálculo puro en `DocumentaryProgressCalculatorTest`
+(T058/T062). AC-X07 añade regresiones de retirada y cardinalidad entre
+proyección y cálculo en `DocumentarySnapshotSemanticsTest` (parte de T120).
+Ver [evidencia y límites](../../tests/acceptance/results/d6-progress-foundations.md).
+SC-012 sigue pendiente del recorrido real con el tablero; SC-017 y SC-018
+requieren aún persistencia y cierre.
+
+Continuación D6: T059/T063 verifican FR-053/FR-054 y AC-X01 mediante consulta
+acotada, API v1 y adaptadores SQLite. T065 añade tablero con fórmulas, casos
+cero, desglose, paginación y retirada de datos ante errores. Las pruebas Angular
+comparan 75 %/50 % con conteos sintéticos; falta el recorrido de navegador
+completo para SC-012/SC-017. Evidencia ejecutada y límites:
+[consulta y tablero D6](../../tests/acceptance/results/d6-progress-query.md).
+
+T061 y avance parcial de T064/T066/T120: [cortes históricos D6](../../tests/acceptance/results/d6-documentary-snapshots.md)
+verifican conservación de pendientes/referencias, integridad, permisos históricos,
+auditoría transaccional y revisión de proceso. V016 pasó en PostgreSQL limpio y
+desde V015; dos reservas concurrentes confirmaron una sola vez. La prueba
+Spring/SQLite verificó rollback completo ante fallo de auditoría. AC-X03/AC-X07
+y parte de SC-018 cuentan con esa evidencia. No cubre cierre, archivo ni SC-017.
+
 | Requisito | Tareas / referencia de pruebas | Verificación de aceptación |
 |---|---|---|
 | RNF-001–RNF-003 | 001 US1; 005 T010, T020, T125 | Hash adaptativo, cierre/desactivación, 30 min de inactividad y cinco fallos en ventana móvil de 15 min. |
@@ -194,10 +216,17 @@ correcciones y pruebas de regresión del 2026-10-21. No acredita los criterios d
 | Criterio | Evidencia planificada | Estado |
 |---|---|---|
 | SC-011 | T023/T030: cinco configuraciones verificadas y sin mezcla | Pendiente de ejecución |
-| SC-012 | T058/T120: métricas manuales, cardinalidad y casos cero | Pendiente de ejecución |
+| SC-012 | T058/T120: métricas manuales, cardinalidad y casos cero | PASS técnico D6: 75 %/50 % en navegador y semántica en pruebas |
 | SC-013 | T050/T056: aceptación documental no genera valoración | Pendiente de ejecución |
 | SC-014 | T068–T076: fórmula/variables, escala y estrategia verificables | Pendiente de ejecución |
 | SC-015 | T078/T084/T085: informe hasta sus sustentos exactos | Pendiente de ejecución |
 | SC-016 | T086/T093: mejora hasta hallazgo e informe de origen | Pendiente de ejecución |
-| SC-017 | T067: MVP con P12–P15 deshabilitados | Pendiente de ejecución |
-| SC-018 | T094/T101/T102: cierres, excepciones y restauración | Pendiente de ejecución |
+| SC-017 | T067: MVP con P12–P15 deshabilitados | PASS técnico D6: recorrido documental real sin invocar módulos posteriores |
+| SC-018 | T094/T101/T102: cierres, excepciones y restauración | Parcial: corte/cierre documental inmutables; integral, archivo y restauración pendientes |
+
+Continuación ejecutada: [MVP documental D6](../../tests/acceptance/results/d6-documentary-mvp.md).
+T060/T064/T066/T067/T120 completan cierre estricto, integridad de archivos,
+rollback, auditoría de rechazo y carreras de escritores en PostgreSQL. El
+navegador conserva el corte 75 %/50 % después del cierre. La aceptación es
+técnica y sintética; no implica validación institucional ni completa el
+contrato objetivo v2 o los requisitos transversales de rendimiento/accesibilidad.

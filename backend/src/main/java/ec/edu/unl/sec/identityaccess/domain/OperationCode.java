@@ -12,6 +12,9 @@ public record OperationCode(String value) {
     public static final OperationCode EVIDENCE_REVIEW = new OperationCode("EVIDENCE_REVIEW");
     public static final OperationCode INDICATOR_EVALUATE = new OperationCode("INDICATOR_EVALUATE");
     public static final OperationCode PROCESS_COORDINATE = new OperationCode("PROCESS_COORDINATE");
+    public static final OperationCode PROGRESS_READ = new OperationCode("PROGRESS_READ");
+    public static final OperationCode DOCUMENTARY_SNAPSHOT_CREATE = new OperationCode("DOCUMENTARY_SNAPSHOT_CREATE");
+    public static final OperationCode PROCESS_DOCUMENTARY_CLOSE = new OperationCode("PROCESS_DOCUMENTARY_CLOSE");
     public static final OperationCode PROCESS_MANAGE = new OperationCode("PROCESS_MANAGE");
     public static final OperationCode PROCESS_AUTHORIZE = new OperationCode("PROCESS_AUTHORIZE");
     public static final OperationCode MODEL_MANAGE = new OperationCode("MODEL_MANAGE");

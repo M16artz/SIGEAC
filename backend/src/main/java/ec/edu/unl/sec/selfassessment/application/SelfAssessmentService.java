@@ -88,6 +88,7 @@ public class SelfAssessmentService {
     private boolean canReadIndicator(CurrentActorPort.Actor actor, SelfAssessmentProcess p, UUID indicatorId) {
         var scope = new AuthorizationScope(p.careerId(), p.id(), indicatorId);
         return authorization.isAllowed(actor.identityId(), OperationCode.EVIDENCE_COLLECT, scope)
+                || authorization.isAllowed(actor.identityId(), OperationCode.PROGRESS_READ, scope)
                 || authorization.isAllowed(actor.identityId(), OperationCode.EVIDENCE_REVIEW, scope)
                 || authorization.isAllowed(actor.identityId(), OperationCode.INDICATOR_EVALUATE, scope);
     }

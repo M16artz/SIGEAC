@@ -47,6 +47,8 @@ public class ApplicabilityDecisionService {
         if (!authorization.canDecideApplicability(actor.identityId(), process.careerId(), processId)) {
             throw forbidden();
         }
+        process=context.processForWrite(processId).orElseThrow(() -> new EvidenceProblemException(
+                EvidenceProblemException.Kind.NOT_FOUND,"RESOURCE_NOT_FOUND","No se encontró el proceso."));
         validateSubject(process, input.subjectType(), input.subjectId());
         var latest = governance.latestApplicability(processId, input.subjectType(), input.subjectId()).orElse(null);
         long expected = latest == null ? 0 : latest.revision();

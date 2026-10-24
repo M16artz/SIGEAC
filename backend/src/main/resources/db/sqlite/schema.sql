@@ -1,5 +1,38 @@
 PRAGMA foreign_keys=ON;
 
+CREATE TABLE IF NOT EXISTS documentary_snapshot (
+    id TEXT PRIMARY KEY,
+    process_id TEXT NOT NULL REFERENCES self_assessment_process(id),
+    career_id TEXT NOT NULL REFERENCES career(id), model_version_id TEXT NOT NULL REFERENCES model_version(id),
+    process_revision INTEGER NOT NULL CHECK(process_revision >= 0),
+    created_by TEXT NOT NULL REFERENCES access_identity(id), created_at TIMESTAMP NOT NULL,
+    reason TEXT NOT NULL CHECK(length(reason) BETWEEN 10 AND 4000),
+    formula_version TEXT NOT NULL CHECK(length(formula_version) BETWEEN 1 AND 100),
+    progress_state TEXT NOT NULL CHECK(progress_state IN ('CONFIGURED','NOT_CONFIGURED','NOT_APPLICABLE')),
+    required_source_total INTEGER NOT NULL CHECK(required_source_total >= 0),
+    registered_source_total INTEGER NOT NULL CHECK(registered_source_total BETWEEN 0 AND required_source_total),
+    accepted_source_total INTEGER NOT NULL CHECK(accepted_source_total BETWEEN 0 AND registered_source_total),
+    sha256 TEXT NOT NULL CHECK(length(sha256)=64 AND sha256 NOT GLOB '*[^a-f0-9]*'),
+    payload_json TEXT NOT NULL CHECK(json_valid(payload_json) AND json_type(payload_json)='object'),
+    UNIQUE(process_id,process_revision),
+    CHECK((progress_state='CONFIGURED')=(required_source_total>0))
+);
+CREATE INDEX IF NOT EXISTS ix_documentary_snapshot_history ON documentary_snapshot(process_id,created_at DESC,id DESC);
+CREATE UNIQUE INDEX IF NOT EXISTS ux_documentary_snapshot_process ON documentary_snapshot(id,process_id);
+CREATE TABLE IF NOT EXISTS documentary_closure (
+    id TEXT PRIMARY KEY,process_id TEXT NOT NULL REFERENCES self_assessment_process(id),
+    career_id TEXT NOT NULL REFERENCES career(id),snapshot_id TEXT NOT NULL UNIQUE,
+    process_revision INTEGER NOT NULL CHECK(process_revision >= 0),
+    policy_version TEXT NOT NULL CHECK(policy_version='DOCUMENTARY_STRICT_V1'),
+    closed_by TEXT NOT NULL REFERENCES access_identity(id),closed_at TIMESTAMP NOT NULL,
+    reason TEXT NOT NULL CHECK(length(reason) BETWEEN 10 AND 2000),
+    sha256 TEXT NOT NULL CHECK(length(sha256)=64 AND sha256 NOT GLOB '*[^a-f0-9]*'),
+    payload_json TEXT NOT NULL CHECK(json_valid(payload_json) AND json_type(payload_json)='object'),
+    UNIQUE(process_id,process_revision),
+    FOREIGN KEY(snapshot_id,process_id) REFERENCES documentary_snapshot(id,process_id)
+);
+CREATE INDEX IF NOT EXISTS ix_documentary_closure_history ON documentary_closure(process_id,closed_at DESC,id DESC);
+
 CREATE TABLE IF NOT EXISTS audit_event (
     id TEXT PRIMARY KEY, occurred_at TEXT NOT NULL, actor_user_id TEXT, technical_account_id TEXT,
     correlation_id TEXT NOT NULL, action TEXT NOT NULL, object_type TEXT NOT NULL, object_id TEXT NOT NULL,

@@ -82,7 +82,7 @@ public class SyntheticAccessData implements ApplicationRunner {
                 "MODEL_APPLICABILITY_AUTHORIZE",
                 "PROCESS_MANAGE"));
         function(COORDINATOR, "COORDINATOR", "Coordinador de autoevaluacion", List.of(
-                "CAREER_READ", "ACCESS_READ_SELF", "ACCESS_READ_AUDIT", "MODEL_READ", "MODEL_PUBLISH", "MODEL_AUDIT_READ", "PROCESS_COORDINATE", "PROCESS_MANAGE"));
+                "CAREER_READ", "ACCESS_READ_SELF", "ACCESS_READ_AUDIT", "MODEL_READ", "MODEL_PUBLISH", "MODEL_AUDIT_READ", "PROCESS_COORDINATE", "PROCESS_MANAGE", "PROGRESS_READ", "DOCUMENTARY_SNAPSHOT_CREATE", "PROCESS_DOCUMENTARY_CLOSE"));
         function(RESPONSIBLE, "RESPONSIBLE", "Responsable de evidencia", List.of(
                 "CAREER_READ", "ACCESS_READ_SELF", "EVIDENCE_COLLECT"));
         function(REVIEWER, "REVIEWER", "Revisor documental", List.of(

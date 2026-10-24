@@ -10,6 +10,19 @@ import com.tngtech.archunit.lang.ArchRule;
 @AnalyzeClasses(packages = "ec.edu.unl.sec", importOptions = ImportOption.DoNotIncludeTests.class)
 class ModuleArchitectureTest {
     @ArchTest
+    static final ArchRule REPORTING_USES_PUBLIC_SOURCE_PORTS = noClasses()
+            .that().resideInAPackage("..reporting..")
+            .should().dependOnClassesThat().resideInAnyPackage("..evidence.infrastructure..",
+                    "..documentreview.infrastructure..", "..identityaccess.infrastructure..",
+                    "..evaluationmodel.infrastructure..", "..selfassessment.infrastructure..");
+
+    @ArchTest
+    static final ArchRule DOCUMENTARY_REPORTING_IS_INDEPENDENT_OF_LATER_WORKFLOWS = noClasses()
+            .that().resideInAPackage("..reporting..")
+            .should().dependOnClassesThat().resideInAnyPackage("..academicevaluation..",
+                    "..governance..", "..improvement..", "..archive..");
+
+    @ArchTest
     static final ArchRule DOMAIN_IS_INDEPENDENT = noClasses()
             .that().resideInAPackage("..domain..")
             .should().dependOnClassesThat().resideInAnyPackage("..api..", "..infrastructure..");

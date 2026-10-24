@@ -83,6 +83,29 @@ class CoverageReviewProjectionTest {
     }
 
     @Test
+    void submittedSuccessorDoesNotResurrectWithdrawnCoverageFromAnOlderVersion() {
+        var accepted = decision(VERSION_ONE, ReviewCoverageOutcome.Outcome.ACCEPTED,
+                ReviewCoverageOutcome.Outcome.ACCEPTED);
+        var result = projection.project(new EvidenceLineage(EVIDENCE, List.of(
+                new VersionLineage(VERSION_ONE, 1, "SUBMITTED", List.of(SOURCE_ONE, SOURCE_TWO),
+                        Optional.of(accepted)),
+                new VersionLineage(VERSION_THREE, 3, "DRAFT", List.of(SOURCE_ONE), Optional.empty()),
+                new VersionLineage(VERSION_TWO, 2, "SUBMITTED", List.of(SOURCE_TWO), Optional.empty()))));
+
+        assertThat(result.sources()).containsExactly(SOURCE_TWO);
+        assertThat(result.states()).containsExactly(new CoverageReviewProjectionService.SourceReviewState(
+                VERSION_TWO, VersionStatus.PENDING_REVIEW));
+    }
+
+    @Test
+    void draftOnlyLineageDoesNotContributeCoverage() {
+        var result = projection.project(new EvidenceLineage(EVIDENCE, List.of(
+                new VersionLineage(VERSION_ONE, 1, "DRAFT", List.of(SOURCE_ONE), Optional.empty()))));
+        assertThat(result.sources()).isEmpty();
+        assertThat(result.states()).isEmpty();
+    }
+
+    @Test
     void keepsPerSourceOwnershipAfterRectification() {
         var first = decision(VERSION_ONE, ReviewCoverageOutcome.Outcome.REJECTED,
                 ReviewCoverageOutcome.Outcome.ACCEPTED);

@@ -57,6 +57,7 @@ public class DocumentReviewService {
         if (!authorization.canReview(actor.identityId(), submission.careerId(), submission.processId())) {
             throw forbidden("REVIEW_NOT_AUTHORIZED");
         }
+        authorization.requireOpenForWrite(submission.processId());
         if (submissions.latestRevisionNumber(submission.evidenceId()) != submission.revisionNumber()) {
             throw new DocumentReviewProblemException(DocumentReviewProblemException.Kind.CONFLICT,
                     "VERSION_SUPERSEDED", "La versión ya tiene una sucesora; revise la versión vigente.");

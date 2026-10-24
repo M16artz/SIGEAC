@@ -130,17 +130,52 @@ V015-V020, sin reusar V013 (snapshots estructurados) ni editar migraciones histo
 
 **Independent Test**: calculate 75% collection and 50% review for four applicable sources and close a documentary snapshot with P12–P15 disabled.
 
-- [ ] T058 [P] [US6] Add exact-formula and zero-denominator tests in `backend/src/test/java/ec/edu/unl/sec/reporting/domain/DocumentaryProgressCalculatorTest.java`
-- [ ] T059 [P] [US6] Add scope-filtered drill-down tests in `backend/src/test/java/ec/edu/unl/sec/reporting/application/DocumentaryProgressQueryTest.java`
-- [ ] T060 [P] [US6] Add documentary-closure independence tests in `backend/src/test/java/ec/edu/unl/sec/reporting/application/DocumentaryClosureServiceTest.java`
-- [ ] T061 [US6] Create progress and documentary snapshot migration in `backend/src/main/resources/db/migration/V016__documentary_reporting.sql`
-- [ ] T062 [US6] Implement source-based calculator in `backend/src/main/java/ec/edu/unl/sec/reporting/domain/DocumentaryProgressCalculator.java`
-- [ ] T063 [US6] Implement scoped drill-down query in `backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentaryProgressQueryService.java`
-- [ ] T064 [US6] Implement documentary closure snapshot in `backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentaryClosureService.java`
-- [ ] T065 [US6] Implement collection/review dashboard with academic status separate in `frontend/src/app/features/reporting/pages/documentary-dashboard.page.ts`
-- [ ] T066 [US6] Implement documentary closure and historical view in `frontend/src/app/features/reporting/pages/documentary-closure.page.ts`
-- [ ] T067 [US6] Run MVP with P12–P15 disabled and record SC-017 in `tests/acceptance/results/d6-documentary-mvp.md`
-- [ ] T120 [US6] Verify distinct sources, cardinality, optional/excluded sources, successor cutoffs, rounding and snapshot-vs-closure transitions in `backend/src/test/java/ec/edu/unl/sec/reporting/application/DocumentarySnapshotSemanticsTest.java`; apply `domain-rules.md` to `backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentaryClosureService.java` before T067
+**Avance parcial D6 (2026-10-24)**: T058/T062 verificadas con JDK 25; fórmulas,
+cardinalidad, opcionales, exclusiones y corrección de coberturas retiradas por
+sucesoras. La suite backend registra 343 pruebas, 0 fallos, 0 errores y 10
+omitidas. Ver [bases del cálculo](../../tests/acceptance/results/d6-progress-foundations.md).
+T120 solo avanzó en semántica de candidatas; la continuación de consulta e
+interfaz se registra a continuación. Persistencia, cierre y aceptación del MVP
+permanecen pendientes.
+
+**Consulta y tablero D6 (2026-10-24)**: T059/T063/T065 verificadas con permiso
+`PROGRESS_READ` por indicador, API v1 aditiva, puertos de lectura, adaptadores
+SQLite y tablero Angular. Suite backend: 365 pruebas, 0 fallos/errores y 10
+omitidas; frontend: 51 aprobadas; lint, build y contratos aprobados.
+Ver [evidencia de consulta](../../tests/acceptance/results/d6-progress-query.md).
+La persistencia de cortes, cierre, validación PostgreSQL de los adaptadores y
+aceptación completa del MVP siguen pendientes.
+
+**Cortes históricos D6 (2026-10-24)**: T061 verificada en SQLite y PostgreSQL
+18.4 temporal desde limpio y desde V015. Hay guardado de corte actual con
+SHA-256, auditoría y reserva serializable de revisión sin cambiar ACTIVE,
+API/histórico autorizado y pantalla `/reporting/history`. Avance parcial de
+T064/T066/T120; no se marca cierre documental ni aceptación del MVP.
+Ver [evidencia de cortes](../../tests/acceptance/results/d6-documentary-snapshots.md).
+Suite backend final: 382 pruebas, 0 fallos/errores y 11 omitidas; frontend: 57
+aprobadas. Persistencia/concurrencia opt-in: 5 aprobadas con SQLite/PostgreSQL;
+lint, build y contratos aprobados. No se declara el cierre de fase documental.
+
+**Checkpoint técnico D6 completado (2026-10-24)**: T060/T064/T066/T067/T120
+verificadas con cierre estricto, integridad de archivos, rollback y bloqueo común
+de escritores. Suite backend: 401 pruebas, 0 fallos/errores, 12 omitidas;
+frontend: 62 aprobadas, lint/build aprobados. Persistencia opt-in: 6 casos;
+carreras PostgreSQL: 2 casos. El navegador real completó 75 %/50 %, corte,
+bloqueo de pendientes y cierre sin P12–P15 (1 caso aprobado). Los estados
+parciales anteriores son históricos. Ver [evidencia y límites](../../tests/acceptance/results/d6-documentary-mvp.md).
+La validación institucional sigue pendiente; D7–D8 conservan su backlog.
+
+- [X] T058 [P] [US6] Add exact-formula and zero-denominator tests in `backend/src/test/java/ec/edu/unl/sec/reporting/domain/DocumentaryProgressCalculatorTest.java`
+- [X] T059 [P] [US6] Add scope-filtered drill-down tests in `backend/src/test/java/ec/edu/unl/sec/reporting/application/DocumentaryProgressQueryTest.java`
+- [X] T060 [P] [US6] Add documentary-closure independence tests in `backend/src/test/java/ec/edu/unl/sec/reporting/application/DocumentaryClosureServiceTest.java`
+- [X] T061 [US6] Create progress and documentary snapshot migration in `backend/src/main/resources/db/migration/V016__documentary_reporting.sql`
+- [X] T062 [US6] Implement source-based calculator in `backend/src/main/java/ec/edu/unl/sec/reporting/domain/DocumentaryProgressCalculator.java`
+- [X] T063 [US6] Implement scoped drill-down query in `backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentaryProgressQueryService.java`
+- [X] T064 [US6] Implement documentary closure snapshot in `backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentaryClosureService.java`
+- [X] T065 [US6] Implement collection/review dashboard with academic status separate in `frontend/src/app/features/reporting/pages/documentary-dashboard.page.ts`
+- [X] T066 [US6] Implement documentary closure and historical view in `frontend/src/app/features/reporting/pages/documentary-closure.page.ts`
+- [X] T067 [US6] Run MVP with P12–P15 disabled and record SC-017 in `tests/acceptance/results/d6-documentary-mvp.md`
+- [X] T120 [US6] Verify distinct sources, cardinality, optional/excluded sources, successor cutoffs, rounding and snapshot-vs-closure transitions in `backend/src/test/java/ec/edu/unl/sec/reporting/application/DocumentarySnapshotSemanticsTest.java`; apply `domain-rules.md` to `backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentaryClosureService.java` before T067
 
 ## Phase 9: US7 — Academic evaluation (D7, P12)
 

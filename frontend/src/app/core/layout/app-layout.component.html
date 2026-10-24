@@ -15,6 +15,9 @@
   @if (hasRole('REVIEWER')) {
     <a routerLink="/reviews" routerLinkActive="active">Revisión documental</a>
   }
+  @if (hasRole('COORDINATOR')) {
+    <a routerLink="/reporting" routerLinkActive="active">Seguimiento documental</a>
+  }
 </nav>
 <main id="main-content" tabindex="-1"><router-outlet /></main>
 <footer>Herramienta interna de apoyo a la autoevaluación; no constituye acreditación.</footer>

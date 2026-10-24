@@ -37,11 +37,13 @@ public class EvidenceDraftService {
         this.clock = clock;
     }
 
+    @org.springframework.transaction.annotation.Transactional
     public EvidenceDetails create(CreateCommand command, UUID correlationId) {
         var actor = actor();
         var process = process(command.processId());
         UUID versionId = UUID.randomUUID();
         var indicators = authorizeIndicators(actor, process, versionId, command.indicatorIds());
+        process = writeProcess(command.processId());
         requireActive(process);
         var evidence = new Evidence(null, process.id(), actor.identityId(), clock.instant(), correlationId, 0).advance();
         var version = new EvidenceVersion(
@@ -91,6 +93,7 @@ public class EvidenceDraftService {
     }
 
     /** Builds an editable correction draft from a submitted version (P10). */
+    @org.springframework.transaction.annotation.Transactional
     public EvidenceVersion createSuccessorDraft(UUID sourceVersionId) {
         var source = getVersion(sourceVersionId);
         if (source.status() != ec.edu.unl.sec.evidence.domain.EvidenceVersionStatus.SUBMITTED) {
@@ -98,7 +101,7 @@ public class EvidenceDraftService {
                     "SUBMITTED_REQUIRED", "La corrección parte de una versión remitida.");
         }
         var details = repository.findEvidence(source.evidenceId()).orElseThrow(EvidenceDraftService::notFound);
-        requireActive(process(details.evidence().processId()));
+        requireActive(writeProcess(details.evidence().processId()));
         if (!details.latestVersion().id().equals(source.id())) {
             throw new EvidenceProblemException(EvidenceProblemException.Kind.CONFLICT,
                     "SUCCESSOR_EXISTS", "La versión ya tiene una sucesora directa.");
@@ -128,13 +131,14 @@ public class EvidenceDraftService {
         return successor;
     }
 
+    @org.springframework.transaction.annotation.Transactional
     public EvidenceVersion update(UUID versionId, String ifMatch, UpdateCommand command, UUID correlationId) {        var current = getVersion(versionId);
         verifyEtag(ifMatch, current.lockRevision());
         var evidence = repository.findEvidence(current.evidenceId())
                 .map(EvidenceDetails::evidence)
                 .orElseThrow(EvidenceDraftService::notFound);
         var actor = actor();
-        var process = process(evidence.processId());
+        var process = writeProcess(evidence.processId());
         var indicators = authorizeIndicators(actor, process, current.id(), command.indicatorIds());
         requireActive(process);
         if (!current.authorId().equals(actor.identityId())) throw notFound();
@@ -149,6 +153,7 @@ public class EvidenceDraftService {
         return updated;
     }
 
+    @org.springframework.transaction.annotation.Transactional
     public EvidenceVersion requireEditableVersion(UUID versionId, String ifMatch) {
         var version = getVersion(versionId);
         verifyEtag(ifMatch, version.lockRevision());
@@ -157,7 +162,7 @@ public class EvidenceDraftService {
                     "DRAFT_REQUIRED", "La versión remitida no admite cambios.");
         }
         var evidence = repository.findEvidence(version.evidenceId()).orElseThrow(EvidenceDraftService::notFound).evidence();
-        requireActive(process(evidence.processId()));
+        requireActive(writeProcess(evidence.processId()));
         if (!version.authorId().equals(actor().identityId())) throw notFound();
         return version;
     }
@@ -213,6 +218,9 @@ public class EvidenceDraftService {
 
     private EvidenceContextPort.ProcessContext process(UUID processId) {
         return context.process(processId).orElseThrow(EvidenceDraftService::notFound);
+    }
+    private EvidenceContextPort.ProcessContext writeProcess(UUID id) {
+        return context.processForWrite(id).orElseThrow(EvidenceDraftService::notFound);
     }
 
     private static EvidenceProblemException outOfScope() {

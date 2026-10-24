@@ -51,7 +51,7 @@ public class StructuredEvidenceService {
         var version = drafts.getVersion(versionId);
         EvidenceDraftService.verifyEtag(ifMatch, version.lockRevision());
         requireDraft(version);
-        var process = context.process(processOf(version.evidenceId()))
+        var process = context.processForWrite(processOf(version.evidenceId()))
                 .orElseThrow(EvidenceDraftService::notFound);
         if (governance.coverages(versionId).stream()
                 .noneMatch(item -> item.requiredSourceId().equals(command.requiredSourceId()))) {

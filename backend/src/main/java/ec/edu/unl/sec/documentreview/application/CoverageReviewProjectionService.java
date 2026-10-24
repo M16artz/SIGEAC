@@ -6,15 +6,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 /**
  * Documentary projection of review outcomes across one evidence lineage
- * (AC-X06, AC-X07): per-source review state derives from the newest submitted
- * version covering the source; draft successors do not void an earlier
+ * (AC-X06, AC-X07): per-source review state derives only from the newest submitted
+ * version of the evidence; draft successors do not void an earlier
  * acceptance, submission of the successor does, and a documentary projection
  * never carries an academic valuation (FR-023).
  */
@@ -23,11 +22,11 @@ public class CoverageReviewProjectionService {
 
     public Projection project(EvidenceLineage lineage) {
         var states = new LinkedHashMap<UUID, SourceReviewState>();
-        var submitted = new ArrayList<VersionLineage>(lineage.versions().stream()
+        var currentVersion = lineage.versions().stream()
                 .filter(version -> "SUBMITTED".equals(version.status()))
-                .toList());
-        submitted.sort(Comparator.comparingInt(VersionLineage::revisionNumber).reversed());
-        for (var version : submitted) {
+                .max(Comparator.comparingInt(VersionLineage::revisionNumber));
+        // A submitted successor replaces the whole coverage set, including withdrawals.
+        for (var version : currentVersion.stream().toList()) {
             for (var sourceId : version.coveredSourceIds()) {
                 if (states.containsKey(sourceId)) continue;
                 var decision = version.decision();

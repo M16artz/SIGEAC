@@ -69,3 +69,34 @@ obligado a introducir una migración inferior después de aceptar D1.
 `CareerCatalogMigrationTest`, `CareerCatalogStartupTest`, pruebas de dominio,
 servicio/controlador, Angular y `tests/acceptance/career-catalog.spec.ts`.
 Resultados y límites: [aceptación D1](../../tests/acceptance/results/d1-careers.md).
+
+## Adición de seguimiento documental v1 (2026-10-24)
+
+Se incorpora GET `/processes/{processId}/documentary-progress` con el esquema
+propio `DocumentaryProgressView`, filtros de indicador/fuente y detalle paginado.
+La ruta `/progress` y su DTO legado conservan su contrato. La propuesta v2
+mantiene por separado filtros históricos/de criterio/responsable y otros campos;
+no se declara implementada mediante esta ruta v1. Los filtros no soportados se
+rechazan con 422, sin sustituir silenciosamente un corte solicitado por datos
+actuales. El resultado actual usa `no-store` y no ofrece ETag de una instantánea.
+Esta lectura no necesita migración; V016 sigue reservada para cortes/cierres.
+
+La continuación incorpora POST/GET `/processes/{processId}/documentary-snapshots`
+y GET `/documentary-snapshots/{id}` con esquemas v1 propios. El POST admite solo
+motivo e If-Match de proceso; `cutoffAt` del contrato objetivo v2 se rechaza.
+Se conserva la separación entre corte actual y cierre. V016 persiste los cortes
+actuales y se verificó desde limpio/V015 en PostgreSQL. Los datos históricos
+usan ETag del JSON canónico conservado y `no-store`; no reutilizan los DTO de
+reporte o cierre integral.
+
+La entrega de cierre añade POST `/processes/{id}/documentary-close`, GET
+`/processes/{id}/documentary-closures` y GET `/documentary-closures/{id}` con
+esquemas v1 propios. El comando acepta solo política estricta y motivo; los
+campos de excepciones/procedencia del contrato objetivo v2 no se implementan
+ni aceptan silenciosamente. If-Match corresponde a la revisión del proceso;
+el cierre avanza dos revisiones por reserva de corte y transición.
+
+`V016_1__documentary_closure.sql` incorpora cierres inmutables y la FK compuesta
+al corte del mismo proceso, sin cambiar la migración V016 ya aplicada. Se
+verificó desde limpio y desde V015/V016; V017–V020 conservan sus reservas.
+Resultados: [MVP D6](../../tests/acceptance/results/d6-documentary-mvp.md).
