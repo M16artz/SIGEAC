@@ -161,6 +161,13 @@ public class JdbcEvidenceGovernanceRepository implements EvidenceGovernanceRepos
     }
 
     @Override
+    @Transactional
+    public boolean advanceDraftRevision(UUID versionId, long expectedLockRevision) {
+        return jdbc.update("update evidence_version set lock_revision=lock_revision+1 where id=? and status='DRAFT' and lock_revision=?",
+                versionKey(versionId), expectedLockRevision) == 1;
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<ApplicabilityDecision> latestApplicability(UUID processId,
             ApplicabilityDecision.SubjectType subjectType, UUID subjectId) {

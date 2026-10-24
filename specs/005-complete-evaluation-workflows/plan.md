@@ -91,7 +91,7 @@ Los módulos se comunican mediante puertos; ningún módulo consulta repositorio
 
 ## Implementation sequence
 
-La [hoja de ruta desde la implementación revisada](../../docs/planning/next-steps.md) concreta módulos, actores, funcionalidades y puertas de cierre. D1 incorpora V008 para carreras; V009/V010 se reservan para modelos/gobierno y V011 para la inmutabilidad pendiente de 004, antes de V012. [ADR-0018](../../docs/adr/0018-catalog-contract-migration-compatibility.md) conserva v1 y separa los cambios incompatibles planificados en v2; no se declara D2–D8 implementadas.
+La [hoja de ruta desde la implementación revisada](../../docs/planning/next-steps.md) concreta módulos, actores, funcionalidades y puertas de cierre. D1 incorpora V008; D2/D3 usan V009/V010 y V014; D4 usa V011–V013 y completa sus guards con V015. [ADR-0018](../../docs/adr/0018-catalog-contract-migration-compatibility.md) conserva v1 y separa los cambios incompatibles planificados en v2. D2/D3 cuentan con evidencia técnica sintética; D4 conserva prerrequisitos abiertos de 004 y D5–D8 permanecen pendientes.
 
 1. Reconciliar requisitos, IDs, contratos y migraciones ya aplicadas; no editar migraciones históricas.
 2. Implementar D1 y D2 en paralelo después de las bases de seguridad/auditoría.
@@ -104,8 +104,8 @@ La [hoja de ruta desde la implementación revisada](../../docs/planning/next-ste
 
 ## Migration strategy
 
-- Reservar V008–V020 para esta reconciliación y crear migraciones nuevas/ascendentes; nunca modificar migraciones ya aplicadas ni reutilizar números de los backlogs históricos.
-- La reserva V008–V020 es propuesta: antes de crear archivos, T005/T113 inspeccionan el historial realmente aplicado y el estado de los backlogs I0–I3. Registrar cualquier ajuste de numeración, nunca reutilizar una versión ya aplicada. Los saltos de numeración no exigen crear migraciones vacías.
+- Reservar V008–V021 para esta reconciliación y crear migraciones nuevas/ascendentes; nunca modificar migraciones ya aplicadas ni reutilizar números de los backlogs históricos.
+- La reserva V008–V021 es propuesta: antes de crear archivos, T005/T113 inspeccionan el historial realmente aplicado y el estado de los backlogs I0–I3. Registrar cualquier ajuste de numeración, nunca reutilizar una versión ya aplicada. Los saltos de numeración no exigen crear migraciones vacías.
 - Incorporar `academic_unit`, ampliar `career`, añadir procedencia normativa y aplicabilidad.
 - Migrar la jerarquía rígida existente a nodos recursivos manteniendo UUID y referencias.
 - Crear `required_source` y `source_coverage`; los datos previos quedan `PENDING_CLASSIFICATION` hasta reconciliación explícita.
@@ -201,6 +201,9 @@ frontend/src/app/features/
 | Migración destructiva | migraciones sucesoras y pruebas desde cada versión aceptada |
 
 
-Ajuste de reservas (2026-10-22): V013 contiene snapshots estructurados y V014
-valida referencias normativas contra el snapshot versionado. D5-D8 usaran
-V015-V020 en orden; no se reutilizan versiones ya aplicadas.
+Ajuste de reservas (2026-10-22, actualizado 2026-10-24): V013 contiene snapshots
+estructurados y V014 valida referencias normativas contra el snapshot versionado.
+V015 completa los guards de remisión y sus hijos, conservando V011. D5-D8 usarán
+V016-V021 en orden, según [ADR-0020](../../docs/adr/0020-submitted-evidence-snapshot-guards.md).
+No se reutilizan versiones ya aplicadas. La aceptación D4 sigue pendiente de los
+prerrequisitos de 004; véase [revisión ejecutada](../../tests/acceptance/results/2026-10-24-pull-review.md).

@@ -70,8 +70,8 @@ public class EvidenceSourceCoverageController {
             @PathVariable UUID versionId,
             @PathVariable UUID coverageId,
             @RequestHeader(name = "If-Match", required = false) String ifMatch) {
-        coverage.remove(versionId, coverageId, ifMatch);
-        return ResponseEntity.noContent().build();
+        long revision = coverage.remove(versionId, coverageId, ifMatch);
+        return ResponseEntity.noContent().eTag(EntityTagSupport.strong(revision)).build();
     }
 
     @PostMapping("/evidence-versions/{versionId}/submit")

@@ -72,7 +72,7 @@ class EvidenceSourceCoverageControllerTest {
         var saved = new ec.edu.unl.sec.evidence.domain.SourceCoverage(
                 COVERAGE, VERSION, SOURCE, "Nota sint\u00e9tica", ACTOR, Instant.parse("2026-10-20T15:00:00Z"));
         when(coverage.declare(eq(VERSION), eq("\"0\""), eq(SOURCE), eq("Nota sint\u00e9tica")))
-                .thenReturn(new EvidenceSourceCoverageService.Declared(saved, 0));
+                .thenReturn(new EvidenceSourceCoverageService.Declared(saved, 1));
 
         mvc.perform(post("/evidence-versions/" + VERSION + "/source-coverages")
                         .cookie(new Cookie("sec_session", TOKEN))
@@ -83,7 +83,7 @@ class EvidenceSourceCoverageControllerTest {
                                 "requiredSourceId", SOURCE.toString(),
                                 "coverageNote", "Nota sint\u00e9tica"))))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("ETag", "\"0\""))
+                .andExpect(header().string("ETag", "\"1\""))
                 .andExpect(jsonPath("$.id").value(COVERAGE.toString()))
                 .andExpect(jsonPath("$.requiredSourceId").value(SOURCE.toString()));
     }
@@ -126,11 +126,13 @@ class EvidenceSourceCoverageControllerTest {
 
     @Test
     void removesCoverageOnDraftOnlyThroughTheService() throws Exception {
+        when(coverage.remove(VERSION, COVERAGE, "\"0\"")).thenReturn(1L);
         mvc.perform(delete("/evidence-versions/" + VERSION + "/source-coverages/" + COVERAGE)
                         .cookie(new Cookie("sec_session", TOKEN))
                         .header("X-CSRF-Token", CSRF)
                         .header("If-Match", "\"0\""))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNoContent())
+                .andExpect(header().string("ETag", "\"1\""));
         org.mockito.Mockito.verify(coverage).remove(VERSION, COVERAGE, "\"0\"");
     }
 
@@ -203,7 +205,7 @@ class EvidenceSourceCoverageControllerTest {
                         .header("X-CSRF-Token", CSRF)
                         .header("If-Match", "\"0\""))
                 .andExpect(status().isOk())
-                .andExpect(header().string("ETag", "\"1\""))
+                .andExpect(header().doesNotExist("ETag"))
                 .andExpect(jsonPath("$.status").value("SUBMITTED"));
         assertThat(submitted.submittedAt()).isNotNull();
     }

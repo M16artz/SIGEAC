@@ -74,7 +74,7 @@ class EvidenceSourcePersistenceTest {
             assertThat(repository.files(version)).isEmpty();
             assertThat(assets.findById(asset.id())).contains(asset);
             transaction.executeWithoutResult(status -> repository.addFile(snapshot));
-            jdbc.update("update evidence_version set status='SUBMITTED',submitted_at=? where id=?",
+            jdbc.update("update evidence_version set status='SUBMITTED',submitted_at=?,lock_revision=lock_revision+1 where id=?",
                     java.sql.Timestamp.from(java.time.Instant.parse("2026-10-22T00:00:00Z")), fixture.key(version));
             transaction.executeWithoutResult(status -> {
                 assertThat(repository.advanceDraftRevision(version, 3)).isFalse();

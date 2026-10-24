@@ -25,6 +25,8 @@ public interface EvidenceGovernanceRepository {
 
     boolean markSubmitted(UUID versionId, Instant submittedAt, long expectedLockRevision);
 
+    boolean advanceDraftRevision(UUID versionId, long expectedLockRevision);
+
     Optional<ApplicabilityDecision> latestApplicability(UUID processId, ApplicabilityDecision.SubjectType subjectType,
             UUID subjectId);
 

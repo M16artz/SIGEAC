@@ -63,12 +63,22 @@ class StructuredEvidenceServiceTest {
         when(catalog.model(MODEL)).thenReturn(Optional.of(new RequiredSourceCatalogPort.ModelSources(MODEL, List.of(
                 new RequiredSourceCatalogPort.Entry(SOURCE, INDICATOR, "IND-1", "SRC-1", "Datos institucionales",
                         "STRUCTURED_DATA", true, 1, null)))));
+        when(governance.advanceDraftRevision(VERSION, 0L)).thenReturn(true);
         when(governance.coverages(VERSION)).thenReturn(List.of(
                 new SourceCoverage(UUID.randomUUID(), VERSION, SOURCE, "Cobertura sintética", ACTOR, NOW)));
         when(authorization.currentActor())
                 .thenReturn(Optional.of(new EvidenceAuthorizationPort.Actor(ACTOR, false)));
         service = new StructuredEvidenceService(drafts, governance, catalog, context, authorization,
                 Clock.fixed(NOW, ZoneOffset.UTC));
+    }
+
+    @Test
+    void rejectsASnapshotWhenAnotherMutationHasAdvancedTheVersion() {
+        when(governance.advanceDraftRevision(VERSION, 0L)).thenReturn(false);
+        assertProblem(() -> service.register(VERSION, "\"0\"", new StructuredEvidenceService.StructuredCommand(
+                SOURCE, StructuredEvidence.Kind.STRUCTURED_DATA, 1, "unidad",
+                LocalDate.of(2026, 1, 1), LocalDate.of(2026, 6, 30), null)), "STALE_DRAFT");
+        verify(governance, never()).saveStructured(any());
     }
 
     @Test
@@ -83,7 +93,7 @@ class StructuredEvidenceServiceTest {
         assertThat(registered.value().periodStart()).isEqualTo(LocalDate.of(2026, 1, 1));
         assertThat(registered.value().periodEnd()).isEqualTo(LocalDate.of(2026, 6, 30));
         assertThat(registered.value().createdBy()).isEqualTo(ACTOR);
-        assertThat(registered.versionRevision()).isZero();
+        assertThat(registered.versionRevision()).isEqualTo(1);
         verify(governance).saveStructured(registered.value());
     }
 
@@ -93,6 +103,7 @@ class StructuredEvidenceServiceTest {
         when(catalog.model(MODEL)).thenReturn(Optional.of(new RequiredSourceCatalogPort.ModelSources(MODEL, List.of(
                 new RequiredSourceCatalogPort.Entry(institutional, INDICATOR, "IND-1", "SRC-2", "Resolución institucional",
                         "INSTITUTIONAL_REFERENCE", true, 1, null)))));
+        when(governance.advanceDraftRevision(VERSION, 0L)).thenReturn(true);
         when(governance.coverages(VERSION)).thenReturn(List.of(
                 new SourceCoverage(UUID.randomUUID(), VERSION, institutional, "Cobertura institucional", ACTOR, NOW)));
 
@@ -109,6 +120,7 @@ class StructuredEvidenceServiceTest {
 
     @Test
     void requiresDeclaredCoverageBeforeSnapshots() {
+        when(governance.advanceDraftRevision(VERSION, 0L)).thenReturn(true);
         when(governance.coverages(VERSION)).thenReturn(List.of());
         assertProblem(() -> service.register(VERSION, "\"0\"", structured()),
                 "STRUCTURED_SOURCE_NOT_COVERED");
@@ -128,6 +140,7 @@ class StructuredEvidenceServiceTest {
     @Test
     void rejectsForeignRequiredSourcesAndIndicatorMismatches() {
         var foreign = UUID.fromString("00000000-0000-0000-0000-000000000609");
+        when(governance.advanceDraftRevision(VERSION, 0L)).thenReturn(true);
         when(governance.coverages(VERSION)).thenReturn(List.of(
                 new SourceCoverage(UUID.randomUUID(), VERSION, foreign, "Cobertura foránea", ACTOR, NOW)));
         assertProblem(() -> service.register(VERSION, "\"0\"",

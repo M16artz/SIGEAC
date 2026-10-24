@@ -44,6 +44,7 @@ public class EvidenceSourceCoverageService {
         var version = drafts.getVersion(versionId);
         EvidenceDraftService.verifyEtag(ifMatch, version.lockRevision());
         requireDraft(version);
+        drafts.requireEditableVersion(versionId, ifMatch);
         var process = context.process(processOf(version.evidenceId()))
                 .orElseThrow(EvidenceDraftService::notFound);
         var entry = sources(process.fixedModelVersionId()).stream()
@@ -61,9 +62,10 @@ public class EvidenceSourceCoverageService {
                     "La fuente ya tiene una cobertura declarada en esta versiÃ³n.");
         }
         var actor = currentActor();
+        advance(version);
         var saved = governance.saveCoverage(new SourceCoverage(
                 null, versionId, requiredSourceId, coverageNote, actor, clock.instant()));
-        return new Declared(saved, version.lockRevision());
+        return new Declared(saved, Math.incrementExact(version.lockRevision()));
     }
 
     @Transactional(readOnly = true)
@@ -73,14 +75,17 @@ public class EvidenceSourceCoverageService {
     }
 
     @Transactional
-    public void remove(UUID versionId, UUID coverageId, String ifMatch) {
+    public long remove(UUID versionId, UUID coverageId, String ifMatch) {
         var version = drafts.getVersion(versionId);
         EvidenceDraftService.verifyEtag(ifMatch, version.lockRevision());
         requireDraft(version);
+        drafts.requireEditableVersion(versionId, ifMatch);
         var coverage = governance.coverage(coverageId)
                 .filter(stored -> stored.versionId().equals(versionId))
                 .orElseThrow(EvidenceDraftService::notFound);
+        advance(version);
         governance.deleteCoverage(coverage.id());
+        return Math.incrementExact(version.lockRevision());
     }
 
     @Transactional(readOnly = true)
@@ -107,6 +112,13 @@ public class EvidenceSourceCoverageService {
         return catalog.model(modelVersionId)
                 .map(RequiredSourceCatalogPort.ModelSources::sources)
                 .orElseThrow(EvidenceSourceCoverageService::incompatibleSource);
+    }
+
+    private void advance(EvidenceVersion version) {
+        if (!governance.advanceDraftRevision(version.id(), version.lockRevision())) {
+            throw new EvidenceProblemException(EvidenceProblemException.Kind.PRECONDITION_FAILED,
+                    "STALE_DRAFT", "El borrador cambió; recargue antes de continuar.");
+        }
     }
 
     private UUID processOf(UUID evidenceId) {

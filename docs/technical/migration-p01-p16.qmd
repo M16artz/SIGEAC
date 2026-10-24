@@ -15,8 +15,9 @@
 ## Reserva propuesta de migraciones
 
 V001–V007 se conservan sin cambios. V008 corresponde al catálogo de carreras;
-004/T051 reserva **V011__evidence_immutability.sql**, después de modelos y gobierno
-de procesos y antes de las coberturas de fuentes. Se descarta la reserva antigua
+V011 implementó una primera protección de inmutabilidad, después de modelos y
+gobierno de procesos y antes de las coberturas. 004/T051 la completa con V015 sin
+reescribir V011, según ADR-0020. Se descarta la reserva antigua
 V020–V029: habría dejado migraciones prerrequisito inferiores pendientes después
 de aplicar D1. La numeración siguiente es estrictamente ascendente; no se habilita
 `out-of-order` ni se usa `repair` para eludir validaciones.
@@ -30,12 +31,13 @@ de aplicar D1. La numeración siguiente es estrictamente ascendente; no se habil
 | V012 | D4 | Coberturas, no aplicabilidad y modalidades de fuente |
 | V013 | D4 | Snapshots de evidencia estructurada (implementada) |
 | V014 | D3 / integracion D2 | Vinculos normativos contra indicadores del snapshot versionado (implementada) |
-| V015 | D5 | Revisiones append-only y decisiones por cobertura |
-| V016 | D6 | Metricas, cortes y cierre de fase documental |
-| V017 | D7/P12 | Variables, calculos, valoraciones y conciliacion |
-| V018 | D7/P13-P14 | Hallazgos, informes y aprobaciones |
-| V019 | D8/P15 | Planes, acciones, avances y verificacion |
-| V020 | D8/P16 | Cierre integral, snapshots y archivo |
+| V015 | D4 / 004 | Guards del snapshot remitido, hijos e identidad (implementada) |
+| V016 | D5 | Revisiones append-only y decisiones por cobertura |
+| V017 | D6 | Metricas, cortes y cierre de fase documental |
+| V018 | D7/P12 | Variables, calculos, valoraciones y conciliacion |
+| V019 | D7/P13-P14 | Hallazgos, informes y aprobaciones |
+| V020 | D8/P15 | Planes, acciones, avances y verificacion |
+| V021 | D8/P16 | Cierre integral, snapshots y archivo |
 
 La numeración se confirma en T005 antes de crear los archivos. Si una versión reservada ya existe/aplica, asignar una nueva versión libre y actualizar plan/tareas. No editar checksums históricos, borrar registros Flyway ni crear migraciones vacías para llenar saltos.
 
@@ -166,5 +168,15 @@ fuera del script SQL porque su separador no admite cuerpos de trigger.
 
 Las pruebas cubren un indicador valido, uno ajeno y el mismo ID en una version
 sucesora. El backend de navegador arranco desde V013, aplico solo V014 y valido
-JPA antes de ejecutar la aceptacion. D5 usa la siguiente version libre V015;
-las reservas futuras se desplazan hasta V020 para mantener el orden ascendente.
+JPA antes de ejecutar la aceptacion. La reserva de ese día para D5 fue V015;
+la corrección del 2026-10-24 siguiente la desplaza a V016.
+
+## V015 y revisión D4 (2026-10-24)
+
+[ADR-0020](../adr/0020-submitted-evidence-snapshot-guards.md) registra los guards
+de metadatos, hijos e identidad remitidos. Se verificaron migración limpia hasta
+V015, actualización V014→V015 preservando datos remitidos y bloqueo de una
+escritura de hijos concurrente con remisión en PostgreSQL 16.14 descartable.
+V001–V014 conservan sus checksums. D5–D8 reservan V016–V021.
+La [evidencia ejecutada](../../tests/acceptance/results/2026-10-24-pull-review.md)
+distingue esta comprobación de la aceptación D4 y de la versión objetivo 18.4.

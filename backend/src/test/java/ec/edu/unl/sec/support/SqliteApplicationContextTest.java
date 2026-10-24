@@ -35,6 +35,7 @@ class SqliteApplicationContextTest {
     @Autowired AuditQueryPort audit;
     @Autowired ec.edu.unl.sec.evidence.application.EvidenceDraftService evidenceDrafts;
     @Autowired ec.edu.unl.sec.evidence.application.EvidenceSourceService evidenceSources;
+    @Autowired ec.edu.unl.sec.evidence.application.EvidenceSourceCoverageService evidenceCoverage;
     @Autowired ec.edu.unl.sec.evidence.application.EvidenceFileService evidenceFiles;
     @Autowired ec.edu.unl.sec.evidence.application.SubmitEvidenceService submission;
     @Autowired ec.edu.unl.sec.evidence.application.EvidenceDownloadService downloads;
@@ -127,9 +128,12 @@ class SqliteApplicationContextTest {
                     .isEqualTo(uploaded.value().snapshot().fileId());
 
             assertThat(evidenceDrafts.getVersion(version.id()).lockRevision()).isEqualTo(1L);
-            var submitted = submission.submit(version.id(), "\"1\"");
+            var coverage = evidenceCoverage.declare(version.id(), "\"1\"", evidenceCoverage.requiredSources(version.id()).getFirst().id(), "Archivo sintético explícito");
+            org.assertj.core.api.Assertions.assertThatThrownBy(() -> submission.submit(version.id(), "\"1\""))
+                    .isInstanceOf(ec.edu.unl.sec.evidence.application.EvidenceProblemException.class).extracting("code").isEqualTo("STALE_DRAFT");
+            var submitted = submission.submit(version.id(), "\"" + coverage.versionRevision() + "\"");
             assertThat(submitted.status()).isEqualTo(ec.edu.unl.sec.evidence.domain.EvidenceVersionStatus.SUBMITTED);
-            assertThat(submitted.lockRevision()).isEqualTo(2);
+            assertThat(submitted.lockRevision()).isEqualTo(3);
 
             var downloaded = downloads.prepare(version.id(), uploaded.value().snapshot().fileId());
             assertThat(downloaded.filename()).isEqualTo("synthetic.txt");

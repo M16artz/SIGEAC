@@ -682,6 +682,115 @@ paths:
               schema: {type: string, format: binary}
         '403': {$ref: '#/components/responses/Forbidden'}
         '404': {$ref: '#/components/responses/NotFound'}
+  /evidence-versions/{versionId}/required-sources:
+    get:
+      tags: [Evidence]
+      operationId: getEvidenceRequiredSources
+      parameters: [{$ref: '#/components/parameters/VersionId'}]
+      responses:
+        '200':
+          description: Fuentes del modelo fijado, filtradas a los indicadores autorizados de la versión.
+          content:
+            application/json:
+              schema: {type: array, items: {$ref: '#/components/schemas/EvidenceRequiredSourceState'}}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /evidence-versions/{versionId}/source-coverages:
+    get:
+      tags: [Evidence]
+      operationId: getEvidenceSourceCoverages
+      parameters: [{$ref: '#/components/parameters/VersionId'}]
+      responses:
+        '200':
+          description: Coberturas explícitas de esta versión.
+          content:
+            application/json:
+              schema: {type: array, items: {$ref: '#/components/schemas/EvidenceSourceCoverage'}}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '404': {$ref: '#/components/responses/NotFound'}
+    post:
+      tags: [Evidence]
+      operationId: declareEvidenceSourceCoverage
+      description: Exige permiso de edición, proceso activo e If-Match. Avanza la revisión de la versión.
+      parameters: [{$ref: '#/components/parameters/VersionId'}, {$ref: '#/components/parameters/IfMatch'}, {$ref: '#/components/parameters/CsrfToken'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/EvidenceCoverageCommand'}
+      responses:
+        '201':
+          description: Cobertura registrada y nueva revisión.
+          headers:
+            ETag: {$ref: '#/components/headers/ETag'}
+            Location: {$ref: '#/components/headers/Location'}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/EvidenceSourceCoverage'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '412': {$ref: '#/components/responses/PreconditionFailed'}
+        '422': {$ref: '#/components/responses/Unprocessable'}
+        '428': {$ref: '#/components/responses/PreconditionRequired'}
+  /evidence-versions/{versionId}/source-coverages/{coverageId}:
+    delete:
+      tags: [Evidence]
+      operationId: removeEvidenceSourceCoverage
+      description: Solo borradores editables; la retirada avanza la revisión y devuelve el nuevo ETag.
+      parameters:
+        - {$ref: '#/components/parameters/VersionId'}
+        - {name: coverageId, in: path, required: true, schema: {type: string, format: uuid}}
+        - {$ref: '#/components/parameters/IfMatch'}
+        - {$ref: '#/components/parameters/CsrfToken'}
+      responses:
+        '204':
+          description: Cobertura retirada.
+          headers:
+            ETag: {$ref: '#/components/headers/ETag'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '412': {$ref: '#/components/responses/PreconditionFailed'}
+        '428': {$ref: '#/components/responses/PreconditionRequired'}
+  /evidence-versions/{versionId}/structured-sources:
+    get:
+      tags: [Evidence]
+      operationId: getEvidenceStructuredSources
+      parameters: [{$ref: '#/components/parameters/VersionId'}]
+      responses:
+        '200':
+          description: Valores y referencias tipadas de la versión autorizada.
+          content:
+            application/json:
+              schema: {type: array, items: {$ref: '#/components/schemas/EvidenceStructuredSource'}}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '404': {$ref: '#/components/responses/NotFound'}
+    post:
+      tags: [Evidence]
+      operationId: registerEvidenceStructuredSource
+      description: Requiere cobertura explícita, borrador editable e If-Match; avanza la revisión.
+      parameters: [{$ref: '#/components/parameters/VersionId'}, {$ref: '#/components/parameters/IfMatch'}, {$ref: '#/components/parameters/CsrfToken'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/EvidenceStructuredCommand'}
+      responses:
+        '201':
+          description: Snapshot tipado registrado con nueva revisión.
+          headers:
+            ETag: {$ref: '#/components/headers/ETag'}
+            Location: {$ref: '#/components/headers/Location'}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/EvidenceStructuredSource'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '412': {$ref: '#/components/responses/PreconditionFailed'}
+        '422': {$ref: '#/components/responses/Unprocessable'}
+        '428': {$ref: '#/components/responses/PreconditionRequired'}
   /evidences:
     get:
       tags: [Evidence]
@@ -1572,6 +1681,64 @@ components:
         createdAt: {type: string, format: date-time}
         submittedAt: {type: [string, 'null'], format: date-time}
         sourceCount: {type: integer, minimum: 0}
+    EvidenceCoverageCommand:
+      type: object
+      additionalProperties: false
+      required: [requiredSourceId, coverageNote]
+      properties:
+        requiredSourceId: {type: string, format: uuid}
+        coverageNote: {type: string, minLength: 1, maxLength: 4000}
+    EvidenceSourceCoverage:
+      type: object
+      required: [id, versionId, requiredSourceId, coverageNote, declaredBy, declaredAt]
+      properties:
+        id: {type: string, format: uuid}
+        versionId: {type: string, format: uuid}
+        requiredSourceId: {type: string, format: uuid}
+        coverageNote: {type: string}
+        declaredBy: {type: string, format: uuid}
+        declaredAt: {type: string, format: date-time}
+    EvidenceRequiredSourceState:
+      type: object
+      required: [id, indicatorId, indicatorCode, code, name, sourceType, required, cardinalityMin, cardinalityMax, covered]
+      properties:
+        id: {type: string, format: uuid}
+        indicatorId: {type: string, format: uuid}
+        indicatorCode: {type: string}
+        code: {type: string}
+        name: {type: string}
+        sourceType: {type: string, enum: [FILE, EXTERNAL_LINK, STRUCTURED_DATA, INSTITUTIONAL_REFERENCE]}
+        required: {type: boolean}
+        cardinalityMin: {type: integer, minimum: 1}
+        cardinalityMax: {type: [integer, 'null'], minimum: 1}
+        covered: {type: boolean}
+    EvidenceStructuredCommand:
+      type: object
+      additionalProperties: false
+      required: [requiredSourceId, kind, value, periodStart, periodEnd]
+      properties:
+        requiredSourceId: {type: string, format: uuid}
+        kind: {type: string, enum: [STRUCTURED_DATA, INSTITUTIONAL_REFERENCE]}
+        value: {type: [number, string, boolean]}
+        unit: {type: [string, 'null'], maxLength: 100}
+        periodStart: {type: string, format: date}
+        periodEnd: {type: string, format: date}
+        reference: {type: [string, 'null'], maxLength: 2000}
+    EvidenceStructuredSource:
+      type: object
+      required: [id, status, createdAt, requiredSourceId, kind, value, valueType, periodStart, periodEnd]
+      properties:
+        id: {type: string, format: uuid}
+        status: {type: string, description: Campo legado; el estado de la versión propietaria determina la inmutabilidad.}
+        createdAt: {type: string, format: date-time}
+        requiredSourceId: {type: string, format: uuid}
+        kind: {type: string, enum: [STRUCTURED_DATA, INSTITUTIONAL_REFERENCE]}
+        value: {type: [number, string, boolean]}
+        valueType: {type: string, enum: [NUMBER, STRING, BOOLEAN]}
+        unit: {type: [string, 'null'], maxLength: 100}
+        periodStart: {type: string, format: date}
+        periodEnd: {type: string, format: date}
+        reference: {type: [string, 'null'], maxLength: 2000}
     EvidenceVersionView:
       type: object
       additionalProperties: false

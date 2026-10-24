@@ -14,6 +14,13 @@
 
 **Siguiente ejecución**: D1 ya está verificado. D2 completó su alcance de software con T006/T021–T030 y T114/T116; la [evidencia de modelos completos](../../tests/acceptance/results/d2-five-models.md) conserva los límites de JDK 24, PostgreSQL y verificación institucional. No se declara aceptación institucional ni API v2 completa. Conservar los 126 IDs y extender las verificaciones transversales por entrega; los módulos académicos no bloquean el MVP.
 
+**Revisión del pull (2026-10-24)**: D3 conserva su evidencia técnica del 22 de octubre.
+El bloque actual es D4: V015 endurece remisión, snapshots y concurrencia, según
+[ADR-0020](../../docs/adr/0020-submitted-evidence-snapshot-guards.md) y
+[pruebas ejecutadas](../../tests/acceptance/results/2026-10-24-pull-review.md).
+T049 se reabre hasta completar sucesores, auditoría y aceptación de 004. No iniciar
+D5 como si esa puerta estuviera cerrada. Las reservas D5–D8 pasan a V016–V021.
+
 ## Phase 1: Setup and reconciliation
 
 **D1 técnico cerrado**: T005/T113/T115 y T013–T020 cuentan con evidencia en `tests/acceptance/results/d1-careers.md`. T002/T009/T012 avanzaron solo en D1 y siguen abiertos para las demás entregas. Los módulos D2–D8, 004 y la aceptación institucional no se dan por terminados.
@@ -80,8 +87,9 @@ T037/T038 incorporan contrato v1 reconciliado, pruebas HTTP y consulta de activi
 para participantes. T033/T035/T036 quedan verificados en SQLite y PostgreSQL 18.4
 descartable: migracion V009 -> V010, esquema limpio hasta V013, persistencia, historial
 y rollback. T039 completa la aceptacion tecnica con Edge, backend y PostgreSQL
-reales. La correccion de vinculos normativos ocupa V014; D5-D8 se reservan ahora
-V015-V020, sin reusar V013 (snapshots estructurados) ni editar migraciones historicas.
+reales. La correccion de vinculos normativos ocupa V014; la reserva original
+V015-V020 para D5-D8 se desplazó a V016-V021 el 2026-10-24 por los guards D4 de
+V015, sin reusar V013 (snapshots estructurados) ni editar migraciones historicas.
 
 **Independent Test**: keep a process in preparation until authorized, then assign teams/activities, suspend and resume it.
 
@@ -109,7 +117,7 @@ V015-V020, sin reusar V013 (snapshots estructurados) ni editar migraciones histo
 - [x] T046 [US4] Implement applicability decisions in `backend/src/main/java/ec/edu/unl/sec/evidence/application/ApplicabilityDecisionService.java`
 - [x] T047 [US4] Add source selection and reuse controls in `frontend/src/app/features/evidence/ui/evidence-source-coverage.component.ts`
 - [x] T048 [US4] Extend immutable version detail with coverage snapshots in `frontend/src/app/features/evidence/pages/evidence-version.page.ts`
-- [x] T049 [US4] Record D4 acceptance evidence in `tests/acceptance/results/d4-source-coverage.md`
+- [ ] T049 [US4] Record D4 acceptance evidence in `tests/acceptance/results/d4-source-coverage.md`; reopened 2026-10-24: existing coverage evidence is partial; complete the 005/T115 prerequisite gate over 004, successors, failure audit and integral journey before acceptance
 - [x] T118 [US4] Implement typed structured-data/institutional-reference snapshots, period/unit validation, API and editor support in `backend/src/main/java/ec/edu/unl/sec/evidence/application/StructuredEvidenceService.java`, `backend/src/main/java/ec/edu/unl/sec/evidence/api/StructuredEvidenceController.java` and `frontend/src/app/features/evidence/ui/structured-evidence.component.ts`; verify AC-X16 in `backend/src/test/java/ec/edu/unl/sec/evidence/application/StructuredEvidenceServiceTest.java` before T049
 
 ## Phase 7: US5 — Review and correction (D5, P09–P10)
@@ -118,7 +126,7 @@ V015-V020, sin reusar V013 (snapshots estructurados) ni editar migraciones histo
 
 - [ ] T050 [P] [US5] Add separation, self-review and rectification tests in `backend/src/test/java/ec/edu/unl/sec/documentreview/domain/CompleteDocumentReviewTest.java`
 - [ ] T051 [P] [US5] Add review-inbox and coverage-projection API tests in `backend/src/test/java/ec/edu/unl/sec/documentreview/api/DocumentReviewControllerTest.java`
-- [ ] T052 [US5] Create append-only review migration in `backend/src/main/resources/db/migration/V015__document_review.sql`, adapting rather than duplicating any historical schema already applied
+- [ ] T052 [US5] Create append-only review migration in `backend/src/main/resources/db/migration/V016__document_review.sql`, adapting rather than duplicating any historical schema already applied
 - [ ] T053 [US5] Implement review decision and rectification services in `backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewService.java`
 - [ ] T054 [US5] Link correction successors to the triggering review in `backend/src/main/java/ec/edu/unl/sec/evidence/application/CreateEvidenceSuccessorService.java`
 - [ ] T055 [US5] Implement reviewer inbox and decision history UI in `frontend/src/app/features/reviews/pages/document-review-inbox.page.ts`
@@ -133,7 +141,7 @@ V015-V020, sin reusar V013 (snapshots estructurados) ni editar migraciones histo
 - [ ] T058 [P] [US6] Add exact-formula and zero-denominator tests in `backend/src/test/java/ec/edu/unl/sec/reporting/domain/DocumentaryProgressCalculatorTest.java`
 - [ ] T059 [P] [US6] Add scope-filtered drill-down tests in `backend/src/test/java/ec/edu/unl/sec/reporting/application/DocumentaryProgressQueryTest.java`
 - [ ] T060 [P] [US6] Add documentary-closure independence tests in `backend/src/test/java/ec/edu/unl/sec/reporting/application/DocumentaryClosureServiceTest.java`
-- [ ] T061 [US6] Create progress and documentary snapshot migration in `backend/src/main/resources/db/migration/V016__documentary_reporting.sql`
+- [ ] T061 [US6] Create progress and documentary snapshot migration in `backend/src/main/resources/db/migration/V017__documentary_reporting.sql`
 - [ ] T062 [US6] Implement source-based calculator in `backend/src/main/java/ec/edu/unl/sec/reporting/domain/DocumentaryProgressCalculator.java`
 - [ ] T063 [US6] Implement scoped drill-down query in `backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentaryProgressQueryService.java`
 - [ ] T064 [US6] Implement documentary closure snapshot in `backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentaryClosureService.java`
@@ -148,7 +156,7 @@ V015-V020, sin reusar V013 (snapshots estructurados) ni editar migraciones histo
 
 - [ ] T068 [P] [US7] Add qualitative/quantitative rule tests in `backend/src/test/java/ec/edu/unl/sec/academicevaluation/domain/IndicatorValuationRuleTest.java`
 - [ ] T069 [P] [US7] Add variable verification and strategy registry tests in `backend/src/test/java/ec/edu/unl/sec/academicevaluation/application/AcademicCalculationServiceTest.java`
-- [ ] T070 [US7] Create migration for variable values, calculation runs and disagreements in `backend/src/main/resources/db/migration/V017__academic_evaluation_rules.sql`
+- [ ] T070 [US7] Create migration for variable values, calculation runs and disagreements in `backend/src/main/resources/db/migration/V018__academic_evaluation_rules.sql`
 - [ ] T071 [US7] Implement variable capture and verification in `backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/VariableValueService.java`
 - [ ] T072 [US7] Implement validated calculation execution in `backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicCalculationService.java`
 - [ ] T073 [US7] Extend manual evaluation with method/limitations in `backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicEvaluationService.java`
@@ -163,7 +171,7 @@ V015-V020, sin reusar V013 (snapshots estructurados) ni editar migraciones histo
 
 - [ ] T077 [P] [US8] Add finding linkage and no-arbitrary-aggregation tests in `backend/src/test/java/ec/edu/unl/sec/governance/domain/FindingTest.java`
 - [ ] T078 [P] [US8] Add report version/approval tests including no-accreditation language in `backend/src/test/java/ec/edu/unl/sec/governance/application/ReportWorkflowServiceTest.java`
-- [ ] T079 [US8] Create migration for findings, report versions, observations and approval decisions in `backend/src/main/resources/db/migration/V018__findings_reports.sql`
+- [ ] T079 [US8] Create migration for findings, report versions, observations and approval decisions in `backend/src/main/resources/db/migration/V019__findings_reports.sql`
 - [ ] T080 [US8] Implement finding consolidation in `backend/src/main/java/ec/edu/unl/sec/governance/application/FindingService.java`
 - [ ] T081 [US8] Implement report workflow and append-only decisions in `backend/src/main/java/ec/edu/unl/sec/governance/application/ReportWorkflowService.java`
 - [ ] T082 [US8] Implement findings/report endpoints in `backend/src/main/java/ec/edu/unl/sec/governance/api/ReportController.java`
@@ -178,7 +186,7 @@ V015-V020, sin reusar V013 (snapshots estructurados) ni editar migraciones histo
 
 - [ ] T086 [P] [US9] Add action lifecycle, versioning and deadline tests in `backend/src/test/java/ec/edu/unl/sec/improvement/domain/ImprovementActionTest.java`
 - [ ] T087 [P] [US9] Add finding-link and authorization API tests in `backend/src/test/java/ec/edu/unl/sec/improvement/api/ImprovementControllerTest.java`
-- [ ] T088 [US9] Create migration for plans, actions, progress and verification in `backend/src/main/resources/db/migration/V019__improvement.sql`
+- [ ] T088 [US9] Create migration for plans, actions, progress and verification in `backend/src/main/resources/db/migration/V020__improvement.sql`
 - [ ] T089 [US9] Implement plan/action workflow in `backend/src/main/java/ec/edu/unl/sec/improvement/application/ImprovementPlanService.java`
 - [ ] T090 [US9] Implement progress and verification in `backend/src/main/java/ec/edu/unl/sec/improvement/application/ActionProgressService.java`
 - [ ] T091 [US9] Implement improvement endpoints in `backend/src/main/java/ec/edu/unl/sec/improvement/api/ImprovementController.java`
@@ -192,7 +200,7 @@ V015-V020, sin reusar V013 (snapshots estructurados) ni editar migraciones histo
 
 - [ ] T094 [P] [US10] Add closure-policy and exception tests in `backend/src/test/java/ec/edu/unl/sec/archive/domain/IntegralClosurePolicyTest.java`
 - [ ] T095 [P] [US10] Add archive authorization, integrity and historical-query tests in `backend/src/test/java/ec/edu/unl/sec/archive/application/ArchiveServiceTest.java`
-- [ ] T096 [US10] Create migration for closure policies, snapshots and archive records in `backend/src/main/resources/db/migration/V020__integral_archive.sql`
+- [ ] T096 [US10] Create migration for closure policies, snapshots and archive records in `backend/src/main/resources/db/migration/V021__integral_archive.sql`
 - [ ] T097 [US10] Implement integral closure service in `backend/src/main/java/ec/edu/unl/sec/archive/application/IntegralClosureService.java`
 - [ ] T098 [US10] Implement archive and historical query service in `backend/src/main/java/ec/edu/unl/sec/archive/application/ArchiveService.java`
 - [ ] T099 [US10] Implement closure/archive endpoints in `backend/src/main/java/ec/edu/unl/sec/archive/api/ArchiveController.java`
@@ -208,7 +216,7 @@ V015-V020, sin reusar V013 (snapshots estructurados) ni editar migraciones histo
 - [ ] T105 [P] Add accessibility journeys for new screens in `tests/e2e/accessibility-complete-workflows.spec.ts`
 - [ ] T106 [P] Add performance datasets and paginated query checks in `tests/performance/complete-workflows.js`
 - [ ] T107 Validate the merged OpenAPI contract with project scripts and Postman CLI, recording results in `tests/acceptance/results/contracts-p01-p16.md`
-- [ ] T108 Run clean and incremental migration verification through V020 in `tests/acceptance/results/migrations-p01-p16.md`
+- [ ] T108 Run clean and incremental migration verification through V021 in `tests/acceptance/results/migrations-p01-p16.md`
 - [ ] T109 Verify no secrets or institutional data in fixtures/results using `scripts/verify-synthetic-data.ps1`
 - [ ] T110 Execute `specs/005-complete-evaluation-workflows/quickstart.md` and record results in `tests/acceptance/results/p01-p16-quickstart.md`
 - [ ] T111 Complete human governance review for normative provenance, competencies and no-accreditation wording in `tests/acceptance/results/p01-p16-review-gate.md`

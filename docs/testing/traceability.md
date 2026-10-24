@@ -35,6 +35,24 @@ normativa corroborada, API v2 ni migración V009.
 | RNF-019 / fuentes sintéticas | T006, T023 | `FiveModelConfigurationTest`: manifiesto con vigencia y corroboración pendientes; cuatro modalidades, unidades y umbrales propios. T114/T116 siguen pendientes. |
 | Compatibilidad v1 | Avance T002; T025 | `EvaluationModelControllerTest`, `LegacyModelCompatibilityTest`: DTO legado y rechazo de estructuras/configuraciones v2 antes de mutar. |
 
+## Revisión del pull y correcciones D4 — 2026-10-24
+
+La [revisión hasta a5594350](../../tests/acceptance/results/2026-10-24-pull-review.md)
+conserva los avances D2/D3 y documenta la regresión backend: 314 casos aprobados,
+0 fallos y 9 omitidos. PostgreSQL 16.14 descartable y SQLite; no se repitió el
+recorrido de navegador ni la comprobación en PostgreSQL 18.4 de los compañeros.
+
+| Requisito / proceso | Tareas | Evidencia ejecutada |
+|---|---|---|
+| FR-051–FR-052, FR-069 / P07–P08, AC-X16 | 005/T045, T118 | `SubmitEvidenceServiceTest`: cobertura explícita, autor autorizado, modalidad compatible, datos estructurados sin archivo artificial y rechazo de bytes alterados. |
+| Inmutabilidad / RNF-011 | 004/T046, T051 | `SubmittedEvidenceImmutabilityTest`: 8 casos, SQLite/PostgreSQL, cinco tablas hijas, metadatos e identidad, transición legal, actualización V014→V015 y escritor concurrente bloqueado/rechazado. |
+| Concurrencia de borrador / RNF-011 | 005/T044, T118; avance 004/T052 | `StructuredEvidenceServiceTest`, `SqliteApplicationContextTest`: revisión atómica de cobertura/snapshot y rechazo de ETag anterior; controladores devuelven nuevo ETag solo para borradores. |
+| Contrato v1 | Avance 005/T002; 004/T080 | `OpenApiContractTest`, lints y comprobación de compatibilidad: seis operaciones de cobertura/snapshots incorporadas sin cambiar el contrato de remisión sin ETag. |
+
+005/T049, 004/T045 y T052 se reabren: faltan prueba transaccional completa,
+bloqueo de raíz, auditoría independiente de fallos, sucesores y aceptación integral.
+Estos resultados no acreditan cierre D4 ni aceptación institucional.
+
 ## Matriz canónica P01–P16
 
 | Entrega | Procesos | Requisitos | Historias | Tareas | Validación |

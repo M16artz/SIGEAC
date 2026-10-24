@@ -13,6 +13,17 @@ class OpenApiContractTest {
     private final Path evidenceContract = Path.of("..", "specs", "004-submit-evidence", "contracts", "openapi.yaml");
 
     @Test
+    void exposesVersionCoverageAndStructuredContentInTheExecutableContract() throws IOException {
+        String yaml = Files.readString(contract);
+        assertAll(
+                () -> assertTrue(yaml.contains("/evidence-versions/{versionId}/required-sources:")),
+                () -> assertTrue(yaml.contains("/evidence-versions/{versionId}/source-coverages:")),
+                () -> assertTrue(yaml.contains("/evidence-versions/{versionId}/source-coverages/{coverageId}:")),
+                () -> assertTrue(yaml.contains("/evidence-versions/{versionId}/structured-sources:")),
+                () -> assertTrue(yaml.contains("EvidenceStructuredCommand:")));
+    }
+
+    @Test
     void declaresOpenApi31AndStableProblemDetails() throws IOException {
         String yaml = Files.readString(contract);
         assertAll(

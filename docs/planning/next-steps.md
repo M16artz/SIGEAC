@@ -1,17 +1,19 @@
 # Siguientes pasos de implementación
 
-Fecha: 2026-10-21. Estado: **plan de trabajo pendiente**, no funcionalidades implementadas.
+Actualización: 2026-10-24, tras revisar el pull hasta `a5594350`.
 
-Actualización D1: catálogo implementado y verificado técnicamente con datos sintéticos;
-véase [evidencia D1](../../tests/acceptance/results/d1-careers.md). D2–D8 siguen
-pendientes; las cifras de backlog siguientes incluyen las tareas ya cerradas.
+D1 tiene [evidencia técnica](../../tests/acceptance/results/d1-careers.md).
+Los compañeros completaron el alcance de software D2 con
+[cinco configuraciones sintéticas](../../tests/acceptance/results/d2-five-models.md)
+y verificaron D3 en [PostgreSQL 18.4 y Edge](../../tests/acceptance/results/d3-process-planning.md).
+Estos resultados no acreditan vigencia ni aceptación institucional.
 
-Continuación D2 (2026-10-21): [bases internas](../../tests/acceptance/results/d2-model-foundations.md)
-y [publicación por indicador](../../tests/acceptance/results/d2-model-publication.md).
-T006/T021–T023/T025–T026 están verificados con cinco configuraciones sintéticas.
-El siguiente bloque debe completar T114/T116/T027 (procedencia/aplicabilidad),
-integrar V009/T024 y después API v2/T028/editor T029 antes de T030. La publicación
-de fixtures no acredita vigencia institucional ni aceptación D2.
+El bloque actual es D4. Se corrigieron cobertura explícita, remisión de datos
+estructurados, concurrencia de borradores e inmutabilidad completa mediante V015;
+véase [revisión y pruebas](../../tests/acceptance/results/2026-10-24-pull-review.md).
+Antes de D5 siguen pendientes los prerrequisitos de 004: sucesores e historial
+T057–T066, auditoría de fallos T067–T076 y aceptación integral. 005/T049 está
+abierta; los checks parciales de carga, descarga y cobertura no cierran D4.
 
 ## Punto de partida y alcance
 
@@ -46,7 +48,7 @@ D1 y D2 pueden desarrollarse en paralelo después de estabilizar contratos y bas
 ## Preparación inmediata
 
 1. **Compatibilidad de contratos — 005/T113 antes de T002.** Inventariar rutas, nombres de campos, códigos HTTP, paginación y ETags del contrato ejecutable frente al objetivo. Resolver expresamente la transición de `ProcessStartAuthorizationCommand/View` al gobierno completo de decisiones; no crear dos controladores con la misma ruta. Registrar decisiones en [migration-p01-p16.qmd](../technical/migration-p01-p16.qmd).
-2. **Migraciones — 005/T005 y T012.** V008 incorpora el catálogo; V009/V010 se reservan para modelos/gobierno y V011 para inmutabilidad de evidencias, antes de V012–V018. Comprobar el historial del entorno objetivo y números libres antes de crear archivos nuevos. No editar migraciones históricas ni aplicar futuras migraciones inferiores a una versión aceptada.
+2. **Migraciones — 005/T005 y T012.** V001–V014 ya existen; V015 completa los guards de evidencias. D5–D8 reservan V016–V021, según [ADR-0020](../adr/0020-submitted-evidence-snapshot-guards.md). Comprobar el historial del entorno objetivo y números libres antes de crear archivos nuevos. No editar migraciones históricas ni aplicar futuras migraciones inferiores a una versión aceptada.
 3. **Prerrequisitos — 005/T115.** Registrar qué falta de 004/T027–T088: almacenamiento, validación, referencias, remisión, descarga, sucesión, recuperación y auditoría. Solo la comprobación de prerrequisitos es inmediata; su implementación se integra en D4/D5, sin bloquear innecesariamente D1/D2.
 4. **Bases compartidas — 005/T001, T003–T011, T114.** Matriz requisito/prueba, límites de módulos, capacidades sobre `OperationCode`, procedencia de decisiones y fixtures normativos identificados. Implementar la parte necesaria para la entrega siguiente y extenderla en las posteriores; no exigir que P12–P16 estén construidos para aceptar D1.
 5. **Decisiones institucionales.** Registrar responsables y estado de CL-011–CL-017 en [domain-rules.md](../requirements/domain-rules.md). Lo no corroborado permanece pendiente; el piloto usa datos y políticas sintéticas explícitas. No inventar vigencia, competencias ni fórmulas.

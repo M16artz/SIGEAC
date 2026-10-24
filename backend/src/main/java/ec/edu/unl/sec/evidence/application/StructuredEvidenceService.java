@@ -51,6 +51,7 @@ public class StructuredEvidenceService {
         var version = drafts.getVersion(versionId);
         EvidenceDraftService.verifyEtag(ifMatch, version.lockRevision());
         requireDraft(version);
+        drafts.requireEditableVersion(versionId, ifMatch);
         var process = context.process(processOf(version.evidenceId()))
                 .orElseThrow(EvidenceDraftService::notFound);
         if (governance.coverages(versionId).stream()
@@ -93,8 +94,12 @@ public class StructuredEvidenceService {
         var snapshot = new StructuredEvidence(
                 null, versionId, command.requiredSourceId(), command.kind(), value, command.unit(),
                 command.periodStart(), command.periodEnd(), command.reference(), currentActor(), clock.instant());
+        if (!governance.advanceDraftRevision(versionId, version.lockRevision())) {
+            throw new EvidenceProblemException(EvidenceProblemException.Kind.PRECONDITION_FAILED,
+                    "STALE_DRAFT", "El borrador cambió; recargue antes de continuar.");
+        }
         var saved = governance.saveStructured(snapshot);
-        return new Register(saved == null ? snapshot : saved, version.lockRevision());
+        return new Register(saved == null ? snapshot : saved, Math.incrementExact(version.lockRevision()));
     }
 
     @Transactional(readOnly = true)
