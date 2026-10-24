@@ -51,4 +51,11 @@ public class EvidenceJpaEntity {
     UUID id() {
         return id;
     }
+
+    void bumpRevision(int revisionNumber) {
+        if (revisionNumber <= latestRevision) {
+            throw new IllegalStateException("successor revision must advance the evidence lineage");
+        }
+        latestRevision = revisionNumber;
+    }
 }

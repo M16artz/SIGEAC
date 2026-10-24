@@ -90,8 +90,45 @@ public class EvidenceDraftService {
         return version;
     }
 
-    public EvidenceVersion update(UUID versionId, String ifMatch, UpdateCommand command, UUID correlationId) {
-        var current = getVersion(versionId);
+    /** Builds an editable correction draft from a submitted version (P10). */
+    public EvidenceVersion createSuccessorDraft(UUID sourceVersionId) {
+        var source = getVersion(sourceVersionId);
+        if (source.status() != ec.edu.unl.sec.evidence.domain.EvidenceVersionStatus.SUBMITTED) {
+            throw new EvidenceProblemException(EvidenceProblemException.Kind.CONFLICT,
+                    "SUBMITTED_REQUIRED", "La corrección parte de una versión remitida.");
+        }
+        var details = repository.findEvidence(source.evidenceId()).orElseThrow(EvidenceDraftService::notFound);
+        requireActive(process(details.evidence().processId()));
+        if (!details.latestVersion().id().equals(source.id())) {
+            throw new EvidenceProblemException(EvidenceProblemException.Kind.CONFLICT,
+                    "SUCCESSOR_EXISTS", "La versión ya tiene una sucesora directa.");
+        }
+        var actor = actor();
+        var successorId = UUID.randomUUID();
+        var successors = source.indicators().stream()
+                .map(indicator -> new VersionIndicator(
+                        successorId, indicator.indicatorId(), indicator.code(), indicator.title(), indicator.position()))
+                .toList();
+        var successor = new EvidenceVersion(
+                successorId,
+                source.evidenceId(),
+                source.revisionNumber() + 1,
+                source.id(),
+                null,
+                source.title(),
+                source.description(),
+                source.provenance(),
+                source.coveredFrom(),
+                source.coveredTo(),
+                actor.identityId(),
+                clock.instant(),
+                null,
+                0,
+                successors);
+        return successor;
+    }
+
+    public EvidenceVersion update(UUID versionId, String ifMatch, UpdateCommand command, UUID correlationId) {        var current = getVersion(versionId);
         verifyEtag(ifMatch, current.lockRevision());
         var evidence = repository.findEvidence(current.evidenceId())
                 .map(EvidenceDetails::evidence)

@@ -35,6 +35,23 @@ normativa corroborada, API v2 ni migración V009.
 | RNF-019 / fuentes sintéticas | T006, T023 | `FiveModelConfigurationTest`: manifiesto con vigencia y corroboración pendientes; cuatro modalidades, unidades y umbrales propios. T114/T116 siguen pendientes. |
 | Compatibilidad v1 | Avance T002; T025 | `EvaluationModelControllerTest`, `LegacyModelCompatibilityTest`: DTO legado y rechazo de estructuras/configuraciones v2 antes de mutar. |
 
+## Evidencia ejecutada D5 — 2026-10-24
+
+La [entrega técnica D5](../../tests/acceptance/results/d5-document-review.md) ejecuta
+la revisión documental y subsanación P09–P10 sobre backend real (SQLite descartable)
+y Angular, con el recorrido `tests/acceptance/document-review-correction.spec.ts`
+en verde: v1 REJECTED fundada, corrección P10 con sucesor enlazado y 409
+`SUCCESSOR_EXISTS` al repetir, v2 ACCEPTED sin herencia previa. Regresión backend:
+326 pruebas, 0 fallos, 0 errores, 10 omitidas (opt-in PostgreSQL). No acredita
+validación con PostgreSQL real ni aceptación institucional.
+
+| Requisito / proceso | Tareas 005 | Pruebas y resultado |
+|---|---|---|
+| FR-021–FR-023 / P09 | T050–T053, T119 | `CompleteDocumentReviewTest`, `DocumentReviewControllerTest`, `DocumentReviewPersistenceTest`: máquina de decisiones por cobertura, notas fundadas, inbox append-only y 412/428/409/422 correctos. |
+| FR-024 / P10 | T054, T056 | Recorrido de aceptación: corrección obsoleta 412, subsanación 201 con Location, repetición 409 `SUCCESSOR_EXISTS`, sucesor hereda coberturas y se remite; v2 ACCEPTED sin heredar la v1. |
+| FR-055 / US5 | T050, T053, T056, T057 | `CoverageReviewProjectionTest` + recorrido: sin valoración académica creada por decisiones documentales. |
+| RNF-012, RNF-018 / auditoría | T119 | `DocumentReviewPersistenceTest` pares sqlite/postgres; migración V015 con UNIQUE de sucesor y nota nullable conforme al dominio. |
+
 ## Matriz canónica P01–P16
 
 | Entrega | Procesos | Requisitos | Historias | Tareas | Validación |

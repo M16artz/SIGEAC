@@ -5,6 +5,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.security.access.AccessDeniedException;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class ApiProblemHandler {
+    private static final Logger log = LoggerFactory.getLogger(ApiProblemHandler.class);
+
     @ExceptionHandler(DomainProblemException.class)
     ProblemDetail handleDomainProblem(DomainProblemException exception, HttpServletRequest request) {
         return problem(exception.status(), exception.code(), exception.getMessage(), request, Map.of());
@@ -44,6 +48,7 @@ public class ApiProblemHandler {
 
     @ExceptionHandler(Exception.class)
     ProblemDetail handleUnexpected(Exception exception, HttpServletRequest request) {
+        log.error("Excepcion no esperada en {}", request.getRequestURI(), exception);
         return problem(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_ERROR", "No fue posible completar la operación.", request, Map.of());
     }
 

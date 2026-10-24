@@ -8,5 +8,6 @@ export const routes: Routes = [
   { path: 'models', canActivate: [accessGuard], loadChildren: () => import('./features/models/models.routes').then((m) => m.MODEL_ROUTES) },
   { path: 'processes', canActivate: [accessGuard], loadChildren: () => import('./features/processes/processes.routes').then((m) => m.PROCESS_ROUTES) },
   { path: 'evidence', canActivate: [accessGuard], loadChildren: () => import('./features/evidence/evidence.routes').then((m) => m.EVIDENCE_ROUTES) },
+  { path: 'reviews', canActivate: [accessGuard], loadChildren: () => import('./features/reviews/reviews.routes').then((m) => m.REVIEW_ROUTES) },
   { path: '**', redirectTo: 'access' }
 ];

@@ -78,6 +78,21 @@ public class JpaEvidenceRepository implements EvidenceDraftRepository {
         entityManager.flush();
     }
 
+    @Override
+    @Transactional
+    public void createSuccessor(EvidenceVersion successor, UUID correctedVersionId) {
+        var corrected = entityManager.find(EvidenceVersionJpaEntity.class, correctedVersionId);
+        if (corrected == null) throw notFound();
+        var evidence = corrected.evidence();
+        entityPersist(evidence, successor);
+    }
+
+    private void entityPersist(EvidenceJpaEntity evidence, EvidenceVersion version) {
+        evidence.bumpRevision(version.revisionNumber());
+        entityManager.persist(EvidenceVersionJpaEntity.from(version, evidence));
+        entityManager.flush();
+    }
+
     @Transactional
     public Optional<Evidence> lockEvidence(UUID evidenceId) {
         return Optional.ofNullable(entityManager.find(EvidenceJpaEntity.class, evidenceId, LockModeType.PESSIMISTIC_WRITE))

@@ -283,6 +283,25 @@ CREATE TABLE IF NOT EXISTS evidence_structured_value (
 CREATE INDEX IF NOT EXISTS ix_evidence_structured_value_version
     ON evidence_structured_value(version_id);
 
+CREATE TABLE IF NOT EXISTS document_review_decision (
+    id BLOB PRIMARY KEY, version_id BLOB NOT NULL REFERENCES evidence_version(id),
+    decision TEXT NOT NULL CHECK (decision IN ('ACCEPTED','OBSERVED','REJECTED')),
+    justification TEXT NOT NULL, reviewer_id BLOB NOT NULL, reviewed_at TEXT NOT NULL,
+    self_review_exception INTEGER NOT NULL DEFAULT 0, exception_reason TEXT,
+    predecessor_id BLOB REFERENCES document_review_decision(id), successor_version_id BLOB,
+    revision INTEGER NOT NULL, UNIQUE(version_id, revision), UNIQUE(successor_version_id)
+);
+CREATE INDEX IF NOT EXISTS ix_document_review_version
+    ON document_review_decision(version_id, revision);
+CREATE TABLE IF NOT EXISTS document_review_outcome (
+    id BLOB PRIMARY KEY, decision_id BLOB NOT NULL REFERENCES document_review_decision(id),
+    required_source_id BLOB NOT NULL,
+    outcome TEXT NOT NULL CHECK (outcome IN ('ACCEPTED','OBSERVED','REJECTED')),
+    note TEXT, UNIQUE(decision_id, required_source_id)
+);
+CREATE INDEX IF NOT EXISTS ix_document_review_outcome_decision
+    ON document_review_outcome(decision_id);
+
 CREATE TABLE IF NOT EXISTS academic_unit (
     id TEXT PRIMARY KEY,code TEXT NOT NULL UNIQUE,name TEXT NOT NULL,status TEXT NOT NULL CHECK(status IN ('ACTIVE','DISABLED')),
     revision INTEGER NOT NULL CHECK(revision>=1),created_by TEXT NOT NULL,created_at TEXT NOT NULL

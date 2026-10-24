@@ -18,6 +18,6 @@ class CleanDatabaseMigrationTest extends PostgresTestSupport {
                 .load();
         flyway.clean();
         var result = flyway.migrate();
-        assertEquals(14, result.migrationsExecuted);
+        assertEquals(15, result.migrationsExecuted);
     }
 }

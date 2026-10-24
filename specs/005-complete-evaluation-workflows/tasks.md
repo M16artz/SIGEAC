@@ -116,15 +116,15 @@ V015-V020, sin reusar V013 (snapshots estructurados) ni editar migraciones histo
 
 **Independent Test**: reject v1, submit v2, accept v2 and prove no academic evaluation was created.
 
-- [ ] T050 [P] [US5] Add separation, self-review and rectification tests in `backend/src/test/java/ec/edu/unl/sec/documentreview/domain/CompleteDocumentReviewTest.java`
-- [ ] T051 [P] [US5] Add review-inbox and coverage-projection API tests in `backend/src/test/java/ec/edu/unl/sec/documentreview/api/DocumentReviewControllerTest.java`
-- [ ] T052 [US5] Create append-only review migration in `backend/src/main/resources/db/migration/V015__document_review.sql`, adapting rather than duplicating any historical schema already applied
-- [ ] T053 [US5] Implement review decision and rectification services in `backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewService.java`
-- [ ] T054 [US5] Link correction successors to the triggering review in `backend/src/main/java/ec/edu/unl/sec/evidence/application/CreateEvidenceSuccessorService.java`
-- [ ] T055 [US5] Implement reviewer inbox and decision history UI in `frontend/src/app/features/reviews/pages/document-review-inbox.page.ts`
-- [ ] T056 [US5] Add v1 rejected → v2 accepted acceptance journey in `tests/acceptance/document-review-correction.spec.ts`
-- [ ] T057 [US5] Record D5 acceptance evidence in `tests/acceptance/results/d5-document-review.md`
-- [ ] T119 [US5] Persist review outcomes per coverage and derive global status without duplicating evidence state in `backend/src/main/java/ec/edu/unl/sec/documentreview/domain/CoverageReviewOutcome.java` and `backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/JpaDocumentReviewRepository.java`; verify AC-X06–AC-X07 and no inherited acceptance in `backend/src/test/java/ec/edu/unl/sec/documentreview/application/CoverageReviewProjectionTest.java` before T057
+- [x] T050 [P] [US5] Add separation, self-review and rectification tests in `backend/src/test/java/ec/edu/unl/sec/documentreview/domain/CompleteDocumentReviewTest.java`
+- [x] T051 [P] [US5] Add review-inbox and coverage-projection API tests in `backend/src/test/java/ec/edu/unl/sec/documentreview/api/DocumentReviewControllerTest.java`
+- [x] T052 [US5] Create append-only review migration in `backend/src/main/resources/db/migration/V015__document_review.sql`, adapting rather than duplicating any historical schema already applied
+- [x] T053 [US5] Implement review decision and rectification services in `backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewService.java`
+- [x] T054 [US5] Link correction successors to the triggering review in `backend/src/main/java/ec/edu/unl/sec/evidence/application/CreateEvidenceSuccessorService.java`
+- [x] T055 [US5] Implement reviewer inbox and decision history UI in `frontend/src/app/features/reviews/pages/document-review-inbox.page.ts`
+- [x] T056 [US5] Add v1 rejected → v2 accepted acceptance journey in `tests/acceptance/document-review-correction.spec.ts`
+- [x] T057 [US5] Record D5 acceptance evidence in `tests/acceptance/results/d5-document-review.md`
+- [x] T119 [US5] Persist review outcomes per coverage and derive global status without duplicating evidence state in `backend/src/main/java/ec/edu/unl/sec/documentreview/domain/CoverageReviewOutcome.java` and `backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/JpaDocumentReviewRepository.java`; verify AC-X06–AC-X07 and no inherited acceptance in `backend/src/test/java/ec/edu/unl/sec/documentreview/application/CoverageReviewProjectionTest.java` before T057
 
 ## Phase 8: US6 — Documentary tracking (D6, P11 and basic P16) 🎯 MVP
 

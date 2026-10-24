@@ -6,6 +6,7 @@ ec\edu\unl\sec\filestorage\domain\FileAssetTest.class
 ec\edu\unl\sec\evaluationmodel\api\EvaluationModelControllerTest.class
 ec\edu\unl\sec\support\SqliteApplicationContextTest.class
 ec\edu\unl\sec\evidence\api\EvidenceSourceCoverageControllerTest.class
+ec\edu\unl\sec\documentreview\application\DocumentReviewServiceTest.class
 ec\edu\unl\sec\filestorage\infrastructure\ContentInspectionServiceTest$RepeatedStream.class
 ec\edu\unl\sec\identityaccess\application\TeamMembershipPolicyTest.class
 ec\edu\unl\sec\selfassessment\application\SelfAssessmentServiceTest.class
@@ -23,6 +24,7 @@ ec\edu\unl\sec\evaluationmodel\support\InMemoryNormativeReferenceRepository.clas
 ec\edu\unl\sec\evidence\application\EvidenceSourceServiceTest.class
 ec\edu\unl\sec\evaluationmodel\support\InMemoryEvaluationModelRepository.class
 ec\edu\unl\sec\shared\api\ApiProblemHandlerTest.class
+ec\edu\unl\sec\documentreview\domain\CompleteDocumentReviewTest.class
 ec\edu\unl\sec\evaluationmodel\domain\FlexibleModelHierarchyTest.class
 ec\edu\unl\sec\evidence\api\EvidenceDraftControllerTest.class
 ec\edu\unl\sec\selfassessment\infrastructure\ProcessGovernancePersistenceTest.class
@@ -35,10 +37,12 @@ ec\edu\unl\sec\filestorage\infrastructure\LocalFileStorageAdapterTest$3.class
 ec\edu\unl\sec\migration\ProcessPreparationMigrationTest.class
 ec\edu\unl\sec\selfassessment\api\SelfAssessmentControllerTest.class
 ec\edu\unl\sec\evaluationmodel\support\ConfiguredModelFixtures.class
+ec\edu\unl\sec\documentreview\api\DocumentReviewControllerTest.class
 ec\edu\unl\sec\evaluationmodel\application\ModelSuccessionServiceTest.class
 ec\edu\unl\sec\identityaccess\support\InMemoryIdentityAccessRepository$Function.class
 ec\edu\unl\sec\evidence\infrastructure\EvidenceSourcePersistenceTest.class
 ec\edu\unl\sec\shared\api\EntityTagSupportTest.class
+ec\edu\unl\sec\documentreview\infrastructure\DocumentReviewPersistenceTest$Fixture.class
 ec\edu\unl\sec\evidence\domain\EvidenceSourceTest.class
 ec\edu\unl\sec\selfassessment\domain\AuthorizedProcessLifecycleTest.class
 ec\edu\unl\sec\migration\IdentityAccessMigrationTest.class
@@ -64,6 +68,7 @@ ec\edu\unl\sec\evaluationmodel\infrastructure\FlexibleModelPersistenceTest.class
 ec\edu\unl\sec\filestorage\application\FileReconciliationServiceTest.class
 ec\edu\unl\sec\evaluationmodel\support\ConfiguredModelFixtures$Fixture.class
 ec\edu\unl\sec\support\SqliteSyntheticDataTest.class
+ec\edu\unl\sec\evidence\application\CreateEvidenceSuccessorServiceTest.class
 ec\edu\unl\sec\migration\CareerCatalogStartupTest.class
 ec\edu\unl\sec\evaluationmodel\application\EvaluationModelAuditTest.class
 ec\edu\unl\sec\filestorage\infrastructure\FilePersistenceTest$Fixture.class
@@ -78,6 +83,7 @@ ec\edu\unl\sec\filestorage\infrastructure\ContentInspectionServiceTest.class
 ec\edu\unl\sec\filestorage\infrastructure\FilePersistenceTest.class
 ec\edu\unl\sec\migration\EvaluationModelMigrationTest.class
 ec\edu\unl\sec\filestorage\infrastructure\ContentInspectionServiceTest$1.class
+ec\edu\unl\sec\documentreview\infrastructure\DocumentReviewPersistenceTest.class
 ec\edu\unl\sec\selfassessment\application\SelfAssessmentAuditServiceTest.class
 ec\edu\unl\sec\evidence\application\StructuredEvidenceServiceTest.class
 ec\edu\unl\sec\evaluationmodel\domain\FormulaValidatorTest.class
@@ -92,6 +98,7 @@ ec\edu\unl\sec\evidence\application\ApplicabilityDecisionServiceTest.class
 ec\edu\unl\sec\filestorage\infrastructure\LocalFileStorageAdapterTest.class
 ec\edu\unl\sec\migration\SelfAssessmentMigrationTest.class
 ec\edu\unl\sec\selfassessment\application\ProcessTransitionServiceTest.class
+ec\edu\unl\sec\documentreview\application\CoverageReviewProjectionTest.class
 ec\edu\unl\sec\evaluationmodel\application\FiveModelConfigurationTest.class
 ec\edu\unl\sec\shared\api\EntityTagValidationTest.class
 ec\edu\unl\sec\selfassessment\application\TeamPlanningIntegrityTest.class

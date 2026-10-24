@@ -203,7 +203,7 @@ class EvidenceSourceCoverageControllerTest {
                         .header("X-CSRF-Token", CSRF)
                         .header("If-Match", "\"0\""))
                 .andExpect(status().isOk())
-                .andExpect(header().string("ETag", "\"1\""))
+                .andExpect(header().doesNotExist("ETag"))
                 .andExpect(jsonPath("$.status").value("SUBMITTED"));
         assertThat(submitted.submittedAt()).isNotNull();
     }

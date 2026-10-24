@@ -16,4 +16,7 @@ public interface EvidenceDraftRepository {
     List<EvidenceDraftService.EvidenceDetails> listByProcess(UUID processId);
 
     void update(EvidenceVersion version, long expectedRevision);
+
+    /** Inserts the correction draft and advances the evidence lineage pointer. */
+    void createSuccessor(EvidenceVersion successor, UUID correctedVersionId);
 }

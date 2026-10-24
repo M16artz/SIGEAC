@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: ec.edu.unl.sec.evaluationmodel.domain.FlexibleModelHierarchyTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 s -- in ec.edu.unl.sec.evaluationmodel.domain.FlexibleModelHierarchyTest
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in ec.edu.unl.sec.evaluationmodel.domain.FlexibleModelHierarchyTest
