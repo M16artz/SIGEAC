@@ -2,6 +2,9 @@
 /home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/academicevaluation/application/AcademicReconciliationServiceTest.java
 /home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/academicevaluation/domain/IndicatorValuationRuleTest.java
 /home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/architecture/ModuleArchitectureTest.java
+/home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/archive/application/ArchiveServiceTest.java
+/home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/archive/application/ClosureReopeningPolicyTest.java
+/home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/archive/domain/IntegralClosurePolicyTest.java
 /home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/contract/OpenApiContractTest.java
 /home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/documentreview/api/DocumentReviewControllerTest.java
 /home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/documentreview/application/CoverageReviewProjectionTest.java
@@ -58,6 +61,9 @@
 /home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/filestorage/infrastructure/FilePersistenceTest.java
 /home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/filestorage/infrastructure/JpaFileValidationPolicyRepositoryTest.java
 /home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/filestorage/infrastructure/LocalFileStorageAdapterTest.java
+/home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/governance/application/IssuedReportImmutabilityTest.java
+/home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/governance/application/ReportWorkflowServiceTest.java
+/home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/governance/domain/FindingTest.java
 /home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/identityaccess/api/SessionControllerTest.java
 /home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/identityaccess/application/CompleteWorkflowAuthorizationTest.java
 /home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/identityaccess/application/IdentityAccessAuditTest.java
@@ -69,6 +75,9 @@
 /home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/identityaccess/infrastructure/InstitutionalAuthorityAdapterTest.java
 /home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/identityaccess/support/InMemoryIdentityAccessRepository.java
 /home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/identityaccess/support/TestSupport.java
+/home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/improvement/api/ImprovementControllerTest.java
+/home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/improvement/application/PostClosureImprovementTest.java
+/home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/improvement/domain/ImprovementActionTest.java
 /home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/migration/CareerCatalogMigrationTest.java
 /home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/migration/CareerCatalogStartupTest.java
 /home/soledad/Documentos/SIGEAC/backend/src/test/java/ec/edu/unl/sec/migration/CleanDatabaseMigrationTest.java

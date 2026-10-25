@@ -6,6 +6,10 @@
 /home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicReconciliationService.java
 /home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/VariableValueService.java
 /home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/academicevaluation/package-info.java
+/home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/archive/api/ArchiveController.java
+/home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/archive/application/ArchiveService.java
+/home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/archive/application/IntegralClosureService.java
+/home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/archive/domain/IntegralClosurePolicy.java
 /home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/audit/api/AuditEventView.java
 /home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/audit/application/AuditEventCommand.java
 /home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/audit/application/AuditPort.java
@@ -141,6 +145,9 @@
 /home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/JpaFileValidationPolicyRepository.java
 /home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/LocalFileStorageAdapter.java
 /home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/filestorage/package-info.java
+/home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/governance/api/ReportController.java
+/home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/governance/application/FindingService.java
+/home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/governance/application/ReportWorkflowService.java
 /home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/identityaccess/api/AccessAuditController.java
 /home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/identityaccess/api/AccessRequestContext.java
 /home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/identityaccess/api/IdentityAccessExceptionHandler.java
@@ -181,6 +188,9 @@
 /home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SessionCookie.java
 /home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SyntheticAccessData.java
 /home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/identityaccess/package-info.java
+/home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/improvement/api/ImprovementController.java
+/home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/improvement/application/ActionProgressService.java
+/home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/improvement/application/ImprovementPlanService.java
 /home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/integration/package-info.java
 /home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/reporting/api/DocumentaryClosureController.java
 /home/soledad/Documentos/SIGEAC/backend/src/main/java/ec/edu/unl/sec/reporting/api/DocumentaryProgressController.java

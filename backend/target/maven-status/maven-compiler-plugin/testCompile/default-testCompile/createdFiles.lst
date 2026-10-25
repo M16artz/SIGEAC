@@ -1,5 +1,6 @@
 ec/edu/unl/sec/filestorage/infrastructure/LocalFileStorageAdapterTest$3.class
 ec/edu/unl/sec/filestorage/domain/FileAssetTest.class
+ec/edu/unl/sec/evidence/api/EvidenceDraftControllerTest$1.class
 ec/edu/unl/sec/reporting/application/DocumentaryClosureServiceTest.class
 ec/edu/unl/sec/documentreview/domain/CompleteDocumentReviewTest.class
 ec/edu/unl/sec/filestorage/infrastructure/ContentInspectionServiceTest.class

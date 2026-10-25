@@ -132,6 +132,7 @@ ec/edu/unl/sec/reporting/application/DocumentaryClosureService.class
 ec/edu/unl/sec/evidence/application/EvidenceIntegrityPort$Report.class
 ec/edu/unl/sec/evidence/api/EvidenceSourceController.class
 ec/edu/unl/sec/evaluationmodel/domain/ModelConfiguration.class
+ec/edu/unl/sec/selfassessment/api/ProcessExceptionHandler$1.class
 ec/edu/unl/sec/filestorage/infrastructure/JpaFileValidationPolicyRepository.class
 ec/edu/unl/sec/filestorage/application/FileReconciliationService.class
 ec/edu/unl/sec/evidence/application/EvidenceIntegrityPort$Issue.class
@@ -144,6 +145,7 @@ ec/edu/unl/sec/evaluationmodel/domain/RequiredSource$SourceType.class
 ec/edu/unl/sec/evidence/application/EvidenceSourceService.class
 ec/edu/unl/sec/evidence/application/EvidenceProgressPort$Applicability.class
 ec/edu/unl/sec/evidence/domain/StructuredEvidence$ValueType.class
+ec/edu/unl/sec/evidence/api/EvidenceProblemHandler$1.class
 ec/edu/unl/sec/evidence/application/EvidenceIntegrityPort$FileReference.class
 ec/edu/unl/sec/filestorage/infrastructure/FileReconciliationScheduler.class
 ec/edu/unl/sec/selfassessment/application/ProcessPlanningService$Planned.class
@@ -166,6 +168,7 @@ ec/edu/unl/sec/evidence/api/EvidenceSourceCoverageController$ExclusionCommand$Pr
 ec/edu/unl/sec/evidence/application/StructuredEvidenceService.class
 ec/edu/unl/sec/reporting/infrastructure/JdbcDocumentarySnapshotRepository.class
 ec/edu/unl/sec/evidence/domain/StructuredEvidence$Kind.class
+ec/edu/unl/sec/evaluationmodel/api/EvaluationModelExceptionHandler$1.class
 ec/edu/unl/sec/evidence/api/StructuredEvidenceController$StructuredSourceView.class
 ec/edu/unl/sec/evidence/application/EvidenceIntegrityPort.class
 ec/edu/unl/sec/filestorage/application/FileRecoveryRepository.class
@@ -216,6 +219,7 @@ ec/edu/unl/sec/evidence/application/RequiredSourceCatalogPort$Entry.class
 ec/edu/unl/sec/reporting/application/DocumentaryProgressQueryService$CoverageView.class
 ec/edu/unl/sec/documentreview/domain/DocumentReviewDecision$Decision.class
 ec/edu/unl/sec/evidence/application/EvidenceIntegrityService.class
+ec/edu/unl/sec/selfassessment/application/ProcessAssignmentService$1.class
 ec/edu/unl/sec/evidence/application/EvidenceSourceService$SourceFile.class
 ec/edu/unl/sec/evidence/infrastructure/JdbcEvidenceProgressAdapter.class
 ec/edu/unl/sec/evidence/api/EvidenceDownloadController.class
