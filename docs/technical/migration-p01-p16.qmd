@@ -195,3 +195,49 @@ mutaciones. También pasaron dos carreras de cierre contra escritores de
 evidencia/revisión. El cierre reserva un corte y luego transiciona, avanzando
 dos revisiones en una sola transacción. Un fallo revierte ambas operaciones.
 Ver [MVP D6 y reproducción](../../tests/acceptance/results/d6-documentary-mvp.md).
+
+## V021: valoraciones académicas manuales
+
+Se encontró V017–V020 en el historial del repositorio con tablas preliminares;
+su existencia no acredita los flujos completos. V021 agrega
+`manual_academic_evaluation` sin modificarlas. Conserva el juicio completo en
+JSON, metadatos verificables y unicidad de revisión por proceso/indicador/persona.
+La FK compuesta impide enlazar una predecesora ajena. Los triggers impiden editar
+o borrar juicios; SQLite instala guards equivalentes.
+
+PostgreSQL 18.4 verificó migración limpia y desde V020, lectura/escritura de
+revisiones, rechazo de mutaciones, duplicados y predecesoras ajenas. SQLite
+verificó además el flujo de aplicación y rollback ante fallo de auditoría.
+No se usó `repair`, ni se reescribieron migraciones aplicadas.
+Ver [valoración manual D7](../../tests/acceptance/results/d7-academic-evaluation.md).
+
+## V022: variables verificadas y cálculos
+
+Agrega `quantitative_input_set`, `quantitative_verification` y
+`quantitative_calculation`. La FK compuesta de predecesora restringe proceso,
+indicador y capturador; cada revisión propia es única. Una verificación por
+conjunto y un cálculo por conjunto verificado evitan confirmaciones duplicadas.
+El cálculo referencia entradas del mismo proceso/indicador. Los tres registros
+son append-only y conservan payloads completos; SQLite instala guards equivalentes.
+
+PostgreSQL 18.4 verificó desde limpio y desde V020/V021, roundtrip exacto,
+unicidad, FK de predecesora y rechazo de mutaciones. La persistencia documental
+también pasó con V022 desde limpio/V015/V016. Las migraciones previas se
+conservan sin `repair` ni modificaciones. Ver
+[evidencia cuantitativa](../../tests/acceptance/results/d7-quantitative-evaluation.md).
+
+## V023: discrepancias y conciliación académica
+
+Agrega `academic_reconciliation_policy`, `academic_disagreement_record` y
+`academic_reconciliation_resolution`. Políticas y discrepancias tienen revisión
+y predecesora únicas por proceso/indicador; una resolución referencia una
+discrepancia y un procedimiento del mismo ámbito. Las asignaciones de autoridad
+se conservan mediante FK y los triggers impiden actualizar o borrar registros.
+SQLite instala tablas/guards equivalentes. Se agrega un índice de lectura de
+cálculos actuales por evaluador; no se modifican sus contenidos.
+
+PostgreSQL 18.4 pasó desde limpio y desde V020/V021/V022, con roundtrip,
+unicidad, rechazo de predecesora ajena y mutaciones. La regresión documental
+pasó desde limpio/V015/V016 con V023. Spring/SQLite comprobó resolución real,
+rollback por fallo de auditoría y conservación tras invalidar un sustento.
+Ver [evidencia y comandos](../../tests/acceptance/results/d7-academic-reconciliation.md).

@@ -100,3 +100,35 @@ el cierre avanza dos revisiones por reserva de corte y transición.
 al corte del mismo proceso, sin cambiar la migración V016 ya aplicada. Se
 verificó desde limpio y desde V015/V016; V017–V020 conservan sus reservas.
 Resultados: [MVP D6](../../tests/acceptance/results/d6-documentary-mvp.md).
+
+La continuación académica agrega GET/POST
+`/processes/{processId}/indicators/{indicatorId}/manual-academic-evaluations`
+con DTO propios. No declara implementadas las rutas académicas generales del
+contrato objetivo. El ETag identifica la revisión propia del evaluador, no la
+revisión del proceso. V017–V020 ya existen como esqueletos históricos: V021
+agrega valoraciones manuales en una tabla separada con FK de predecesora
+restringida al mismo proceso, indicador y evaluador, unicidad y guard de
+inmutabilidad. Se verificó desde limpio y desde V020 en PostgreSQL 18.4.
+Los endpoints académicos provisionales sin proceso devuelven 501 expresamente.
+
+V022 agrega conjuntos cuantitativos, verificaciones y cálculos separados de las
+tablas preliminares V017. La API v1 añade cinco operaciones bajo proceso e
+indicador: contexto/historial, captura, lectura de entradas por ID, verificación
+y ejecución. If-Match identifica la revisión propia anterior al capturar y la
+revisión del conjunto al verificar/calcular. No se reemplazan los DTO ni rutas
+del contrato objetivo v2. Se verificaron migraciones limpias y desde V020/V021
+en PostgreSQL; los valores/resultados decimales se representan como cadenas
+para conservar precisión en el cliente.
+
+La continuación añade cuatro operaciones v1 bajo proceso/indicador: consulta de
+conciliación, registro/versionado de procedimiento, declaración de discrepancia
+y resolución. Los DTO son propios y no sustituyen el contrato objetivo v2.
+If-Match identifica la revisión de política o de discrepancia correspondiente.
+La ruta provisional sin proceso mantiene 501 y remite al flujo autorizado.
+
+V023 crea tablas nuevas con unicidad, predecesoras del mismo ámbito, FK de
+resolución a discrepancia/procedimiento del mismo indicador y protección
+append-only. No modifica V017–V022. La verificación PostgreSQL cubrió limpio y
+actualización desde V020/V021/V022. No se presupone competencia por un nombre
+de rol; los actores y asignaciones adicionales solo se siembran en el perfil
+de pruebas explícito `d7-reconciliation-test`.

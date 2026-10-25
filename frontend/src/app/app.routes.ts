@@ -9,6 +9,7 @@ export const routes: Routes = [
   { path: 'processes', canActivate: [accessGuard], loadChildren: () => import('./features/processes/processes.routes').then((m) => m.PROCESS_ROUTES) },
   { path: 'evidence', canActivate: [accessGuard], loadChildren: () => import('./features/evidence/evidence.routes').then((m) => m.EVIDENCE_ROUTES) },
   { path: 'reviews', canActivate: [accessGuard], loadChildren: () => import('./features/reviews/reviews.routes').then((m) => m.REVIEW_ROUTES) },
+  { path: 'evaluations', canActivate: [accessGuard], loadChildren: () => import('./features/evaluations/evaluations.routes').then((m) => m.EVALUATION_ROUTES) },
   { path: 'reporting', canActivate: [accessGuard], loadChildren: () => import('./features/reporting/reporting.routes').then((m) => m.REPORTING_ROUTES) },
   { path: 'reports', canActivate: [accessGuard], loadChildren: () => import('./features/reporting/reporting.routes').then((m) => m.REPORTING_ROUTES) },
   { path: 'improvement', canActivate: [accessGuard], loadChildren: () => import('./features/improvement/improvement.routes').then((m) => m.IMPROVEMENT_ROUTES) },

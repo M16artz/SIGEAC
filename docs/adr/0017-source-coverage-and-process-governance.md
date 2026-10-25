@@ -88,3 +88,69 @@ rollback para evitar otra transacción sobre la única conexión SQLite.
 Los históricos son inmutables y verifican sus huellas al leer.
 Evidencia de cierre, integridad y carreras de escritores:
 [MVP D6](../../tests/acceptance/results/d6-documentary-mvp.md).
+
+## Primer incremento académico manual (2026-10-24)
+
+La valoración cualitativa consume exclusivamente puertos públicos de modelo,
+proceso, cobertura y revisión. Requiere `INDICATOR_EVALUATE` en el indicador,
+una regla manual `VALIDATED`, su escala exacta del modelo publicado y versiones
+remitidas actuales con decisiones aceptadas sobre fuentes aplicables de ese
+indicador. El método, etiqueta, limitaciones, justificación y referencias a
+decisiones se conservan en el juicio; aceptar documentación no genera el juicio.
+
+Cada evaluador mantiene su propia cadena de predecesoras. If-Match compara esa
+revisión, sin sustituir juicios de otras personas ni consolidarlos. El bloqueo
+común del proceso serializa los comandos con cambios documentales y cierres.
+Se permiten valoraciones en ACTIVE, DOCUMENTARY_CLOSED y REOPENED; se rechazan
+en preparación, suspensión y cierre integral. La valoración no cambia el estado
+del proceso. El historial es append-only y la auditoría confirma o revierte con
+el juicio. Cálculo, variables verificadas, discrepancias y consolidación siguen
+pendientes; no se exponen éxitos provisionales para esas operaciones.
+
+## Variables verificadas y cálculo versionado (2026-10-24)
+
+La continuación incorpora `ratio-percent/1` al registro del backend. Ejecuta
+solo `A / B * 100`, con A no negativo, B positivo, unidades iguales, tipos
+INTEGER/DECIMAL y política de ausencia REJECT. El motor no interpreta fórmulas
+arbitrarias ni confía en una cadena enviada por el cliente. Requiere además
+regla publicada VALIDATED y valida todo el contrato al usarla.
+
+Captura, verificación y ejecución son registros distintos e inmutables. Cada
+variable conserva sus sustentos aceptados exactos y período dentro del proceso;
+corregir crea otra revisión propia. La verificación registra persona, fecha y
+fundamento explícitos; la función evaluadora autorizada puede verificar el
+conjunto, sin inferir una separación de personas no establecida por el dominio.
+Al verificar y calcular se revalidan los sustentos y la revisión vigente.
+
+Una ejecución por conjunto verificado conserva entradas, regla, escala, umbral,
+aritmética DECIMAL128, resultado, responsables, justificación y limitaciones.
+Los decimales de entradas/resultados viajan como texto exacto al cliente. El
+umbral se aplica al resultado DECIMAL128 conservado, sin redondeo de pantalla.
+Las revisiones nuevas no alteran cálculos previos. Los comandos comparten el
+bloqueo del proceso y auditoría transaccional; los rechazos se auditan después
+del rollback. Conciliación y consolidación final continúan pendientes.
+
+## Resolución explícita de discrepancias (2026-10-25)
+
+V023 incorpora procedimientos versionados por proceso/indicador, discrepancias
+y resoluciones inmutables. Los evaluadores autorizados pueden declarar un
+desacuerdo con los juicios actuales de dos personas distintas; se preservan
+sus fundamentos completos. Configurar el procedimiento o resolver exige además
+`ACADEMIC_RECONCILE` y una asignación vigente validada por
+`InstitutionalAuthorityPort`, con fundamento y constancia. La nueva capacidad
+no se concede automáticamente a coordinadores ni evaluadores del catálogo.
+
+El método soportado `SELECT_EXISTING_JUDGEMENT_V1` selecciona un juicio existente
+con fundamento y participantes explícitos: quienes emitieron los juicios y
+quien resuelve. No calcula promedios ni genera una valoración arbitraria.
+La resolución conserva la versión exacta del procedimiento, asignación, actor,
+fecha y selección. Una resolución por discrepancia y el bloqueo del proceso
+evitan sobrescrituras; la corrección usa otra discrepancia y predecesora.
+
+El estado de consolidación es una proyección. Juicios nuevos, procedimiento
+nuevo, pérdida de aceptación o variables posteriores hacen que una resolución
+previa deje de ser aplicable. Se muestran pendientes y marcas de revisión sin
+editar los payloads originales. La lectura exige ámbito evaluador y pagina
+historiales de juicios/discrepancias por separado. Auditoría de éxito y escritura
+confirman juntas; el rechazo se registra después del rollback. La competencia
+y el procedimiento sintéticos prueban el software, no su vigencia institucional.

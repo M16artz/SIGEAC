@@ -10,7 +10,11 @@ public interface DocumentaryProcessPort {
     Optional<Context> lock(UUID processId);
     boolean reserveSnapshot(UUID processId, long expectedRevision);
     Optional<Context> completeClosure(UUID processId,long expectedRevision,UUID actor,String reason,UUID correlation);
-    record Context(UUID id, UUID careerId, UUID modelVersionId, String state, long revision, List<UUID> indicatorIds) {
+    record Context(UUID id, UUID careerId, UUID modelVersionId, String state, long revision, List<UUID> indicatorIds,
+            java.time.LocalDate periodStart, java.time.LocalDate periodEnd) {
+        public Context(UUID id, UUID careerId, UUID modelVersionId, String state, long revision, List<UUID> indicatorIds) {
+            this(id,careerId,modelVersionId,state,revision,indicatorIds,null,null);
+        }
         public Context { indicatorIds = List.copyOf(indicatorIds); }
     }
 }

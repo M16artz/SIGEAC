@@ -181,9 +181,44 @@ La validación institucional sigue pendiente; D7–D8 conservan su backlog.
 
 **Independent Test**: complete one qualitative and one validated quantitative evaluation; reject missing variables and unvalidated rules.
 
+**Reconciliación D7 y primer incremento manual (2026-10-24)**: se encontraron
+marcas de finalización con clases locales de prueba, cuerpos vacíos y respuestas
+fijas. Se reabren las tareas académicas y de informes sin implementación real;
+las migraciones V017–V020 se conservan como historia y no se reescriben.
+T073 ahora tiene valoración manual persistente, autorización por indicador,
+regla/escala publicadas, sustentos aceptados, revisiones propias inmutables y
+auditoría transaccional. T074/T075 avanzan solo en su parte manual con API v1
+aditiva y pantalla `/evaluations`; siguen abiertas por el flujo cuantitativo.
+V021 agrega las valoraciones sin alterar tablas históricas. Cálculo y
+conciliación provisionales devuelven 501 en lugar de éxitos simulados.
+Ver [evidencia manual y pendientes](../../tests/acceptance/results/d7-academic-evaluation.md).
+Este incremento no completa D7 ni habilita resultados consolidados finales.
+
+**Continuación cuantitativa (2026-10-24)**: T068/T069/T071/T072/T074/T075
+verificadas con estrategia `ratio-percent/1`, captura por variable de cifras,
+unidades, período y sustentos, verificación explícita y cálculo inmutable con
+regla/escala/umbral completos. V022 sucede V021 sin reescribir V017. El alcance
+admite únicamente el contrato exacto documentado; las estrategias y reglas no
+soportadas se rechazan. La API v1 es aditiva y las rutas provisionales siguen
+devolviendo 501. T070 avanza en variables/cálculos mediante V022, pero conserva
+pendientes las discrepancias; T121 y T076 siguen abiertos por conciliación.
+El navegador completó juicios cualitativos y cálculos 75 %/50 %, preservando
+predecesores. Ver [evidencia cuantitativa](../../tests/acceptance/results/d7-quantitative-evaluation.md).
+
+**Conciliación y cierre técnico de P12 (2026-10-25)**: T070/T121/T076 completadas
+mediante V023 y el flujo autorizado de discrepancias. Se conservan ambos
+fundamentos y una resolución append-only con procedimiento, participantes,
+asignación competente y juicio seleccionado. La consulta marca sustentos
+invalidados, revisiones sustituidas y variables posteriores sin alterar los
+juicios originales. Una resolución obsoleta deja de consolidar. Se verificaron
+483 pruebas backend (15 omitidas), 82 frontend y tres recorridos reales de
+navegador; PostgreSQL limpio y upgrades V020/V021/V022 aprobados. Se completa
+P12 en su alcance técnico soportado; P13–P14 e institucionalización permanecen
+pendientes. Ver [evidencia de conciliación](../../tests/acceptance/results/d7-academic-reconciliation.md).
+
 - [X] T068 [P] [US7] Add qualitative/quantitative rule tests in `backend/src/test/java/ec/edu/unl/sec/academicevaluation/domain/IndicatorValuationRuleTest.java`
 - [X] T069 [P] [US7] Add variable verification and strategy registry tests in `backend/src/test/java/ec/edu/unl/sec/academicevaluation/application/AcademicCalculationServiceTest.java`
-- [X] T070 [US7] Create migration for variable values, calculation runs and disagreements in `backend/src/main/resources/db/migration/V017__academic_evaluation_rules.sql`
+- [X] T070 [US7] Create forward migrations for variable values, calculation runs and disagreements in `backend/src/main/resources/db/migration/V022__verified_quantitative_calculations.sql` and `backend/src/main/resources/db/migration/V023__academic_reconciliation.sql`; retain historical V017
 - [X] T071 [US7] Implement variable capture and verification in `backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/VariableValueService.java`
 - [X] T072 [US7] Implement validated calculation execution in `backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicCalculationService.java`
 - [X] T073 [US7] Extend manual evaluation with method/limitations in `backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicEvaluationService.java`
@@ -196,15 +231,19 @@ La validación institucional sigue pendiente; D7–D8 conservan su backlog.
 
 **Independent Test**: create findings, preliminary report, observations, final report and approval decision with full traceability.
 
-- [X] T077 [P] [US8] Add finding linkage and no-arbitrary-aggregation tests in `backend/src/test/java/ec/edu/unl/sec/governance/domain/FindingTest.java`
-- [X] T078 [P] [US8] Add report version/approval tests including no-accreditation language in `backend/src/test/java/ec/edu/unl/sec/governance/application/ReportWorkflowServiceTest.java`
-- [X] T079 [US8] Create migration for findings, report versions, observations and approval decisions in `backend/src/main/resources/db/migration/V018__findings_reports.sql`
-- [X] T080 [US8] Implement finding consolidation in `backend/src/main/java/ec/edu/unl/sec/governance/application/FindingService.java`
-- [X] T081 [US8] Implement report workflow and append-only decisions in `backend/src/main/java/ec/edu/unl/sec/governance/application/ReportWorkflowService.java`
-- [X] T082 [US8] Implement findings/report endpoints in `backend/src/main/java/ec/edu/unl/sec/governance/api/ReportController.java`
-- [X] T083 [US8] Implement findings and report workflow UI in `frontend/src/app/features/reports/pages/report-workflow.page.ts`
-- [X] T084 [US8] Add preliminary → observations → final → approved journey in `tests/acceptance/report-workflow.spec.ts`
-- [X] T085 [US8] Record P13–P14 acceptance evidence in `tests/acceptance/results/d7-reports.md`
+**Estado reconciliado**: el servicio de hallazgos vacío, el avance de informe
+fijo y el recorrido de aceptación vacío no prueban esta entrega. T077–T085 se
+mantienen abiertos hasta reemplazar esos esqueletos y ejecutar el flujo real.
+
+- [ ] T077 [P] [US8] Add finding linkage and no-arbitrary-aggregation tests in `backend/src/test/java/ec/edu/unl/sec/governance/domain/FindingTest.java`
+- [ ] T078 [P] [US8] Add report version/approval tests including no-accreditation language in `backend/src/test/java/ec/edu/unl/sec/governance/application/ReportWorkflowServiceTest.java`
+- [ ] T079 [US8] Create migration for findings, report versions, observations and approval decisions in `backend/src/main/resources/db/migration/V018__findings_reports.sql`
+- [ ] T080 [US8] Implement finding consolidation in `backend/src/main/java/ec/edu/unl/sec/governance/application/FindingService.java`
+- [ ] T081 [US8] Implement report workflow and append-only decisions in `backend/src/main/java/ec/edu/unl/sec/governance/application/ReportWorkflowService.java`
+- [ ] T082 [US8] Implement findings/report endpoints in `backend/src/main/java/ec/edu/unl/sec/governance/api/ReportController.java`
+- [ ] T083 [US8] Implement findings and report workflow UI in `frontend/src/app/features/reports/pages/report-workflow.page.ts`
+- [ ] T084 [US8] Add preliminary → observations → final → approved journey in `tests/acceptance/report-workflow.spec.ts`
+- [ ] T085 [US8] Record P13–P14 acceptance evidence in `tests/acceptance/results/d7-reports.md`
 - [ ] T122 [US8] Complete socialization, observation replies, corrected-version linkage and version-specific authority decisions in `backend/src/main/java/ec/edu/unl/sec/governance/application/ReportWorkflowService.java` and `frontend/src/app/features/reports/pages/report-workflow.page.ts`; prove emitted content remains immutable in `backend/src/test/java/ec/edu/unl/sec/governance/application/IssuedReportImmutabilityTest.java` before T085
 
 ## Phase 11: US9 — Improvement plans (D8, P15)

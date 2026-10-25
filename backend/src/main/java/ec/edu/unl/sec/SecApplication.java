@@ -28,6 +28,6 @@ public class SecApplication {
     @Bean
     @ConditionalOnMissingBean
     ValidatedStrategyPort validatedStrategies() {
-        return java.util.Set::of;
+        return () -> java.util.Set.of(ec.edu.unl.sec.academicevaluation.domain.RatioPercentStrategy.REFERENCE);
     }
 }

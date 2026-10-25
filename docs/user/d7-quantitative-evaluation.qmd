@@ -1,0 +1,39 @@
+# Variables y cálculo cuantitativo
+
+Disponible para indicadores cuantitativos cuyo modelo publicado tenga regla
+validada y estrategia soportada. Las reglas del piloto son sintéticas y no
+demuestran vigencia institucional. La valoración cualitativa continúa en su
+[pantalla independiente](d7-manual-evaluation.qmd).
+
+1. Con una función evaluadora, abra **Variables y cálculo** y seleccione un
+   proceso e indicador de su ámbito. Consulte método, fórmula, unidades y tipos.
+2. Indique un período dentro del proceso. Capture A y B y seleccione, para cada
+   una, las versiones documentales aceptadas que justifican esa cifra.
+3. Pulse **Conservar nueva revisión de variables**. Esto guarda las entradas;
+   todavía no están verificadas ni producen un resultado.
+4. Contraste cifras, unidades, período y fuentes. Escriba el fundamento y pulse
+   **Verificar cifras, fuentes y período**. Queda identificada la persona que
+   realizó esta verificación explícita.
+5. Escriba justificación y limitaciones y pulse **Calcular y conservar resultado**.
+   El historial muestra resultado, escala, umbral, fórmula, entradas, sustentos
+   y verificación exactos usados en esa ejecución.
+
+La estrategia disponible es `ratio-percent`, versión `1`, con fórmula
+`A / B * 100`. Exige ambas variables, la misma unidad, A no negativo y B mayor
+que cero. Acepta valores sin exponente de hasta 12 cifras enteras y 6 decimales;
+un tipo INTEGER no admite fracciones. Las ausencias se rechazan y no se
+sustituyen por cero. El cálculo conserva 34 cifras significativas con redondeo
+al par (DECIMAL128); los umbrales se aplican a ese resultado conservado.
+
+Para corregir cifras, conserve otra revisión y vuelva a verificarla. La revisión
+anterior y sus cálculos permanecen intactos. No se permite reutilizar una
+verificación anterior para cifras nuevas, ni calcular dos veces el mismo
+conjunto. Si cambian las decisiones documentales de sustento, capture y
+verifique nuevas entradas.
+
+Si aparece un conflicto, recargue y examine el historial antes de repetir la
+operación; la pantalla no la repite sola. En preparación, suspensión o cierre
+integral se bloquean las modificaciones. El resultado cuantitativo no cambia
+la fase documental, no consolida juicios ajenos y no constituye acreditación.
+Las discrepancias se tramitan en la [conciliación académica](d7-academic-reconciliation.qmd),
+que conserva los juicios y señala variables o sustentos posteriores invalidados.

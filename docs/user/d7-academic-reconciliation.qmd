@@ -1,0 +1,47 @@
+# Discrepancias y conciliación académica
+
+La pantalla **Discrepancias y conciliación** conserva los juicios originales y
+sus fundamentos. Una resolución no representa acreditación ni aprobación de
+un informe institucional.
+
+1. Seleccione proceso e indicador dentro de su ámbito evaluador. Revise los
+   juicios actuales, sus limitaciones, sustentos y marcas de revisión.
+2. Cuando discrepen al menos dos evaluadores, escriba el fundamento y registre
+   la discrepancia. Se conserva la versión exacta de ambos juicios.
+3. La persona con capacidad de conciliación y asignación autorizadora vigente
+   registra la referencia y versión del procedimiento, fundamento de competencia
+   y constancia documental. Un evaluador no puede atribuirse esa autoridad.
+4. Con procedimiento registrado y juicios/sustentos vigentes, seleccione el
+   juicio existente que resulte de aplicar el procedimiento. Identifique la
+   participación de quienes emitieron los juicios y de quien resuelve, y escriba
+   el fundamento de la resolución.
+5. Conserve la resolución y consulte el historial. Quedan registrados el
+   procedimiento exacto, participantes, autoridad, asignación y juicio elegido.
+
+El método disponible es selección fundamentada de un juicio existente; no
+promedia resultados. Otros procedimientos requieren implementación y validación
+propias. El piloto usa identidades, asignaciones y referencias sintéticas;
+registrarlas no prueba vigencia institucional.
+
+## Qué significan los estados
+
+| Estado | Significado |
+|---|---|
+| Sin valoraciones | No hay juicios actuales registrados. |
+| Sin consolidar | Hay juicios, pero falta una resolución aplicable. |
+| Pendiente de conciliación | Hay diferencia de resultados o una discrepancia sin resolución aplicable. |
+| Requiere revisión | Los sustentos, regla o variables ya no coinciden con el juicio conservado. |
+| Resolución aplicable | Una resolución autorizada corresponde a los juicios, procedimiento y sustentos actuales. |
+
+Una corrección de juicio o procedimiento puede volver obsoleta una resolución
+previa. Perder la aceptación documental o capturar variables posteriores exige
+revisión; el sistema retira el resultado consolidado actual y conserva el
+histórico. No basta con seleccionar una resolución anterior para ignorar esos
+pendientes. Corrija/revise los juicios y registre una nueva discrepancia cuando
+corresponda.
+
+Los historiales de juicios y discrepancias tienen paginación independiente.
+Cada resolución es inmutable: no se edita ni reemplaza sobre el mismo caso.
+Ante un conflicto, recargue y revise los cambios; la pantalla no repite comandos
+automáticamente. En preparación, suspensión o cierre integral se bloquean los
+cambios y se mantiene la consulta autorizada.

@@ -335,6 +335,62 @@ CREATE TABLE IF NOT EXISTS document_review_outcome (
 CREATE INDEX IF NOT EXISTS ix_document_review_outcome_decision
     ON document_review_outcome(decision_id);
 
+CREATE TABLE IF NOT EXISTS manual_academic_evaluation (
+    id BLOB PRIMARY KEY, process_id BLOB NOT NULL REFERENCES self_assessment_process(id), indicator_id BLOB NOT NULL,
+    evaluator_id BLOB NOT NULL REFERENCES access_identity(id), revision INTEGER NOT NULL CHECK(revision>=1),
+    predecessor_id BLOB UNIQUE, evaluated_at TIMESTAMP NOT NULL, payload_json TEXT NOT NULL CHECK(json_valid(payload_json)),
+    UNIQUE(process_id,indicator_id,evaluator_id,revision), UNIQUE(id,process_id,indicator_id,evaluator_id),
+    FOREIGN KEY(predecessor_id,process_id,indicator_id,evaluator_id)
+        REFERENCES manual_academic_evaluation(id,process_id,indicator_id,evaluator_id),
+    CHECK((revision=1 AND predecessor_id IS NULL) OR (revision>1 AND predecessor_id IS NOT NULL))
+);
+CREATE INDEX IF NOT EXISTS ix_manual_evaluation_history ON manual_academic_evaluation(process_id,indicator_id,evaluated_at DESC,id DESC);
+
+CREATE TABLE IF NOT EXISTS quantitative_input_set (
+    id BLOB PRIMARY KEY, process_id BLOB NOT NULL REFERENCES self_assessment_process(id), indicator_id BLOB NOT NULL,
+    captured_by BLOB NOT NULL REFERENCES access_identity(id), revision INTEGER NOT NULL CHECK(revision>=1),
+    predecessor_id BLOB UNIQUE, captured_at TIMESTAMP NOT NULL, payload_json TEXT NOT NULL CHECK(json_valid(payload_json)),
+    UNIQUE(process_id,indicator_id,captured_by,revision), UNIQUE(id,process_id,indicator_id,captured_by), UNIQUE(id,process_id,indicator_id),
+    FOREIGN KEY(predecessor_id,process_id,indicator_id,captured_by) REFERENCES quantitative_input_set(id,process_id,indicator_id,captured_by),
+    CHECK((revision=1 AND predecessor_id IS NULL) OR (revision>1 AND predecessor_id IS NOT NULL))
+);
+CREATE TABLE IF NOT EXISTS quantitative_verification (
+    input_set_id BLOB PRIMARY KEY REFERENCES quantitative_input_set(id),verified_by BLOB NOT NULL REFERENCES access_identity(id),
+    verified_at TIMESTAMP NOT NULL,payload_json TEXT NOT NULL CHECK(json_valid(payload_json))
+);
+CREATE TABLE IF NOT EXISTS quantitative_calculation (
+    id BLOB PRIMARY KEY,input_set_id BLOB NOT NULL UNIQUE REFERENCES quantitative_verification(input_set_id),
+    process_id BLOB NOT NULL,indicator_id BLOB NOT NULL,executed_by BLOB NOT NULL REFERENCES access_identity(id),
+    executed_at TIMESTAMP NOT NULL,payload_json TEXT NOT NULL CHECK(json_valid(payload_json)),
+    FOREIGN KEY(input_set_id,process_id,indicator_id) REFERENCES quantitative_input_set(id,process_id,indicator_id)
+);
+CREATE INDEX IF NOT EXISTS ix_quantitative_history ON quantitative_calculation(process_id,indicator_id,executed_at DESC,id DESC);
+
+CREATE TABLE IF NOT EXISTS academic_reconciliation_policy (
+    id BLOB PRIMARY KEY,process_id BLOB NOT NULL REFERENCES self_assessment_process(id),indicator_id BLOB NOT NULL,
+    revision INTEGER NOT NULL CHECK(revision>=1),predecessor_id BLOB UNIQUE,configured_by BLOB NOT NULL REFERENCES access_identity(id),
+    authority_assignment_id BLOB NOT NULL REFERENCES functional_assignment(id),configured_at TIMESTAMP NOT NULL,payload_json TEXT NOT NULL CHECK(json_valid(payload_json)),
+    UNIQUE(process_id,indicator_id,revision),UNIQUE(id,process_id,indicator_id),
+    FOREIGN KEY(predecessor_id,process_id,indicator_id) REFERENCES academic_reconciliation_policy(id,process_id,indicator_id),
+    CHECK((revision=1 AND predecessor_id IS NULL) OR(revision>1 AND predecessor_id IS NOT NULL))
+);
+CREATE TABLE IF NOT EXISTS academic_disagreement_record (
+    id BLOB PRIMARY KEY,process_id BLOB NOT NULL REFERENCES self_assessment_process(id),indicator_id BLOB NOT NULL,
+    revision INTEGER NOT NULL CHECK(revision>=1),predecessor_id BLOB UNIQUE,opened_by BLOB NOT NULL REFERENCES access_identity(id),
+    opened_at TIMESTAMP NOT NULL,payload_json TEXT NOT NULL CHECK(json_valid(payload_json)),
+    UNIQUE(process_id,indicator_id,revision),UNIQUE(id,process_id,indicator_id),
+    FOREIGN KEY(predecessor_id,process_id,indicator_id) REFERENCES academic_disagreement_record(id,process_id,indicator_id),
+    CHECK((revision=1 AND predecessor_id IS NULL) OR(revision>1 AND predecessor_id IS NOT NULL))
+);
+CREATE TABLE IF NOT EXISTS academic_reconciliation_resolution (
+    id BLOB PRIMARY KEY,process_id BLOB NOT NULL,indicator_id BLOB NOT NULL,disagreement_id BLOB NOT NULL UNIQUE,policy_id BLOB NOT NULL,
+    resolved_by BLOB NOT NULL REFERENCES access_identity(id),authority_assignment_id BLOB NOT NULL REFERENCES functional_assignment(id),
+    resolved_at TIMESTAMP NOT NULL,payload_json TEXT NOT NULL CHECK(json_valid(payload_json)),
+    FOREIGN KEY(disagreement_id,process_id,indicator_id) REFERENCES academic_disagreement_record(id,process_id,indicator_id),
+    FOREIGN KEY(policy_id,process_id,indicator_id) REFERENCES academic_reconciliation_policy(id,process_id,indicator_id)
+);
+CREATE INDEX IF NOT EXISTS ix_academic_current_run ON quantitative_calculation(process_id,indicator_id,executed_by,executed_at DESC,id DESC);
+
 CREATE TABLE IF NOT EXISTS academic_unit (
     id TEXT PRIMARY KEY,code TEXT NOT NULL UNIQUE,name TEXT NOT NULL,status TEXT NOT NULL CHECK(status IN ('ACTIVE','DISABLED')),
     revision INTEGER NOT NULL CHECK(revision>=1),created_by TEXT NOT NULL,created_at TEXT NOT NULL

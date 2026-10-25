@@ -209,6 +209,22 @@ y parte de SC-018 cuentan con esa evidencia. No cubre cierre, archivo ni SC-017.
 
 ## Criterios de éxito de la reconciliación
 
+[Conciliación académica ejecutada](../../tests/acceptance/results/d7-academic-reconciliation.md):
+T070/T121/T076 verifican AC-X11 y AC-P12-03 con dos evaluadores, procedimiento
+registrado, resolución competente, rollback de auditoría y conservación de
+juicios/resolución tras invalidar el sustento. La proyección exige nueva
+conciliación cuando cambian los juicios/procedimiento y marca variables
+posteriores; no genera promedio ni resultado final a partir de pendientes.
+El método soportado es selección fundamentada de juicio existente. La revisión
+institucional e informes permanecen pendientes.
+
+La continuación [D7 manual](../../tests/acceptance/results/d7-academic-evaluation.md)
+verifica la valoración cualitativa con modelo/regla/escala fijados, decisiones
+documentales exactas, correcciones propias, permisos y rollback de auditoría.
+Los pendientes de aquel incremento se completan en las continuaciones
+cuantitativa y de conciliación enlazadas; las pruebas que solo ejercitaban
+clases locales y los recorridos vacíos no acreditan D7.
+
 La [revisión ejecutada del código existente](implementation-review.md) registra
 correcciones y pruebas de regresión del 2026-10-21. No acredita los criterios de
 éxito pendientes de la tabla siguiente ni la implementación completa de P01–P16.
@@ -218,7 +234,7 @@ correcciones y pruebas de regresión del 2026-10-21. No acredita los criterios d
 | SC-011 | T023/T030: cinco configuraciones verificadas y sin mezcla | Pendiente de ejecución |
 | SC-012 | T058/T120: métricas manuales, cardinalidad y casos cero | PASS técnico D6: 75 %/50 % en navegador y semántica en pruebas |
 | SC-013 | T050/T056: aceptación documental no genera valoración | Pendiente de ejecución |
-| SC-014 | T068–T076: fórmula/variables, escala y estrategia verificables | Pendiente de ejecución |
+| SC-014 | T068–T076: fórmula/variables, escala y estrategia verificables | PASS técnico acotado a ratio-percent/1: entradas verificadas, regla/escala/umbral exactos y rechazo de reglas no habilitadas |
 | SC-015 | T078/T084/T085: informe hasta sus sustentos exactos | Pendiente de ejecución |
 | SC-016 | T086/T093: mejora hasta hallazgo e informe de origen | Pendiente de ejecución |
 | SC-017 | T067: MVP con P12–P15 deshabilitados | PASS técnico D6: recorrido documental real sin invocar módulos posteriores |

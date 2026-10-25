@@ -14,6 +14,11 @@ su estándar ni que la carrera esté acreditada.
 
 ## Avances técnicos disponibles
 
+- [Valoración académica manual e historial propio](d7-manual-evaluation.qmd).
+  Incremento D7 con [variables verificadas y cálculo cuantitativo](d7-quantitative-evaluation.qmd).
+  [Conciliación autorizada por indicador](d7-academic-reconciliation.qmd) disponible;
+  informes institucionales pendientes.
+
 - [Seguimiento documental: tablero, cortes históricos y cierre](d6-documentary-progress.qmd).
   MVP técnico verificado con datos sintéticos; pendiente de validación institucional.
 

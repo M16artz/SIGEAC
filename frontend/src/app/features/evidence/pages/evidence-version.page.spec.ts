@@ -125,11 +125,13 @@ describe('EvidenceVersionPage', () => {
 
   it('shows completeness feedback and transitions to read-only on submit', () => {
     api.submit.mockReturnValue(of({body: {...version, status: 'SUBMITTED' as const, submittedAt: '2026-10-20T16:00:00Z'}, etag: '"1"'}));
+    api.getVersion.mockReturnValueOnce(of({body: {...version, status: 'DRAFT', submittedAt: null}, etag: '"0"'}));
     const fixture = TestBed.createComponent(EvidenceVersionPage);
     fixture.detectChanges();
-    fixture.componentInstance.submit();
+    fixture.componentInstance.submitVersion();
     fixture.detectChanges();
     expect(fixture.componentInstance.version()?.status).toBe('SUBMITTED');
+    expect(api.submit).toHaveBeenCalledWith(versionId, '"0"');
     expect(fixture.nativeElement.querySelector('[data-submit-version]')).toBeNull();
   });
 });

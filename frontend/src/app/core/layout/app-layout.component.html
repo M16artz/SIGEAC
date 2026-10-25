@@ -18,6 +18,11 @@
   @if (hasRole('COORDINATOR')) {
     <a routerLink="/reporting" routerLinkActive="active">Seguimiento documental</a>
   }
+  @if (hasRole('EVALUATOR', 'ACADEMIC_COMMITTEE')) {
+    <a routerLink="/evaluations" routerLinkActive="active">Valoración académica</a>
+    <a routerLink="/evaluations/quantitative" routerLinkActive="active">Variables y cálculo</a>
+    <a routerLink="/evaluations/reconciliation" routerLinkActive="active">Discrepancias y conciliación</a>
+  }
 </nav>
 <main id="main-content" tabindex="-1"><router-outlet /></main>
 <footer>Herramienta interna de apoyo a la autoevaluación; no constituye acreditación.</footer>

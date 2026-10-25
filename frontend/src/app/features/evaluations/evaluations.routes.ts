@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Routes } from '@angular/router';
-@Component({selector:'sec-evaluations-page',standalone:true,template:'<h2>Valoración académica</h2><p>Capacidad preparada para I5.</p>',changeDetection:ChangeDetectionStrategy.OnPush})
-export class EvaluationsPageComponent {}
-export const EVALUATION_ROUTES: Routes = [{path:'',component:EvaluationsPageComponent}];
+import {IndicatorEvaluationPage} from './pages/indicator-evaluation.page';
+import {QuantitativeEvaluationPage} from './pages/quantitative-evaluation.page';
+import {AcademicDisagreementPage} from './pages/academic-disagreement.page';
+export const EVALUATION_ROUTES: Routes = [{path:'',component:IndicatorEvaluationPage}, {path:'quantitative',component:QuantitativeEvaluationPage}, {path:'reconciliation',component:AcademicDisagreementPage}];

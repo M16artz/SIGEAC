@@ -47,6 +47,16 @@ public class JpaFileRecoveryRepository implements FileRecoveryRepository {
     }
 
     @Override public Optional<FileRecoveryOperation> claim(UUID id, String owner, Instant now, Duration duration) {
+        try { return claimAvailable(id,owner,now,duration); }
+        catch(org.springframework.dao.DataAccessException failure) {
+            // A shared-cache SQLite writer can lose a claim before the compare-and-set executes.
+            for(Throwable cause=failure;cause!=null;cause=cause.getCause())
+                if(cause instanceof SQLException sql && sql.getClass().getName().startsWith("org.sqlite.")
+                        && (sql.getErrorCode()==5 || sql.getErrorCode()==6)) return Optional.empty();
+            throw failure;
+        }
+    }
+    private Optional<FileRecoveryOperation> claimAvailable(UUID id,String owner,Instant now,Duration duration) {
         var current = findById(id);
         if (current.isEmpty() || !current.get().isDue(now)) return Optional.empty();
         var lease = current.get().lease(owner, now, duration);

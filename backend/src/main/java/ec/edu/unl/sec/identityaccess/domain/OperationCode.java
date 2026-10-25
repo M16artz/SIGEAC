@@ -11,6 +11,7 @@ public record OperationCode(String value) {
     public static final OperationCode EVIDENCE_COLLECT = new OperationCode("EVIDENCE_COLLECT");
     public static final OperationCode EVIDENCE_REVIEW = new OperationCode("EVIDENCE_REVIEW");
     public static final OperationCode INDICATOR_EVALUATE = new OperationCode("INDICATOR_EVALUATE");
+    public static final OperationCode ACADEMIC_RECONCILE = new OperationCode("ACADEMIC_RECONCILE");
     public static final OperationCode PROCESS_COORDINATE = new OperationCode("PROCESS_COORDINATE");
     public static final OperationCode PROGRESS_READ = new OperationCode("PROGRESS_READ");
     public static final OperationCode DOCUMENTARY_SNAPSHOT_CREATE = new OperationCode("DOCUMENTARY_SNAPSHOT_CREATE");

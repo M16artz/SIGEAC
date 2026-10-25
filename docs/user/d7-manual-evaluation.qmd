@@ -1,0 +1,34 @@
+# Valoración académica manual
+
+Disponible para indicadores cualitativos con regla manual validada y escala
+en la versión publicada que usa el proceso. Las configuraciones del piloto son
+sintéticas; no acreditan vigencia ni competencias institucionales.
+
+1. Ingrese con una función evaluadora y abra **Valoración académica**.
+2. Seleccione un proceso y un indicador de su ámbito. Consulte el método del
+   modelo publicado y las opciones de la escala del indicador.
+3. Seleccione las versiones aceptadas que sustentan su juicio. La lista muestra
+   su título y versión exacta; no incluye borradores, sucesoras no aceptadas ni
+   fuentes excluidas. Si no hay sustentos aceptados, no puede guardar un juicio.
+4. Elija el resultado, escriba justificación y limitaciones de 10 a 4000
+   caracteres y guarde. Si no hay limitaciones adicionales, declárelo expresamente.
+5. Consulte el historial: cada juicio conserva método, resultado, evaluador,
+   fecha y versiones, fuentes y decisiones documentales de sustento.
+
+Guardar nuevamente crea una corrección propia con referencia al juicio anterior.
+No modifica el juicio previo ni sustituye los juicios de otros evaluadores.
+Si aparece un conflicto de revisión, recargue y examine el historial antes de
+guardar otra vez. Ante un error después de enviar, consulte el historial para
+comprobar si el juicio se conservó; la pantalla no repite la operación sola.
+
+Se puede valorar con el proceso activo, documentalmente cerrado o reabierto.
+En suspensión, preparación o cierre integral solo puede consultar el historial.
+Una nueva aceptación documental no crea una valoración académica automática.
+La corrección de sustentos después de un juicio no borra ese juicio histórico;
+la [consulta de conciliación](d7-academic-reconciliation.qmd) marca los sustentos
+invalidados sin borrar juicios previos.
+
+La continuación ofrece [variables verificadas y cálculo cuantitativo](d7-quantitative-evaluation.qmd)
+en una pantalla independiente. La [conciliación autorizada por indicador](d7-academic-reconciliation.qmd)
+está disponible. La consolidación en informes institucionales sigue pendiente.
+Una valoración académica tampoco constituye acreditación.

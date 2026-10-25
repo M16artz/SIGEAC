@@ -16,7 +16,7 @@ public class DocumentaryProcessService implements DocumentaryProcessPort {
     public Optional<Context> context(UUID processId) {
         return repository.find(processId).map(process -> new Context(process.id(), process.careerId(),
                 process.modelVersionId(), process.state().name(), process.revision(),
-                process.indicators().stream().map(indicator -> indicator.id()).toList()));
+                process.indicators().stream().map(indicator -> indicator.id()).toList(),process.periodStart(),process.periodEnd()));
     }
 
     @Override
@@ -24,7 +24,7 @@ public class DocumentaryProcessService implements DocumentaryProcessPort {
     public Optional<Context> lock(UUID processId) {
         return repository.findForUpdate(processId).map(process -> new Context(process.id(),process.careerId(),
                 process.modelVersionId(),process.state().name(),process.revision(),
-                process.indicators().stream().map(indicator -> indicator.id()).toList()));
+                process.indicators().stream().map(indicator -> indicator.id()).toList(),process.periodStart(),process.periodEnd()));
     }
 
     @Override

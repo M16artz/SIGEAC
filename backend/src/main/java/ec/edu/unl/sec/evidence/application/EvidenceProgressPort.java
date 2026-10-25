@@ -12,7 +12,11 @@ public interface EvidenceProgressPort {
 
     record ApplicabilityReference(UUID id, String subjectType, UUID subjectId, String decision, long revision) {}
 
-    record CurrentCoverage(UUID evidenceId, UUID versionId, UUID requiredSourceId) {}
+    record CurrentCoverage(UUID evidenceId, UUID versionId, UUID requiredSourceId, String title) {
+        public CurrentCoverage(UUID evidenceId, UUID versionId, UUID requiredSourceId) {
+            this(evidenceId, versionId, requiredSourceId, versionId.toString());
+        }
+    }
     record Applicability(Set<UUID> excludedIndicatorIds, Set<UUID> excludedSourceIds) {
         public Applicability {
             excludedIndicatorIds = Set.copyOf(excludedIndicatorIds);

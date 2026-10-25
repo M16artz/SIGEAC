@@ -27,6 +27,13 @@
 
 ## Incrementos implementados
 
+Primer incremento académico: [D7 — valoración manual persistente](../../tests/acceptance/results/d7-academic-evaluation.md).
+Incluye API, pantalla e historial por evaluador. Continúa con
+[variables verificadas y cálculo cuantitativo](../../tests/acceptance/results/d7-quantitative-evaluation.md).
+[Conciliación y marcas de sustentos invalidados](../../tests/acceptance/results/d7-academic-reconciliation.md)
+completan el alcance técnico P12 soportado. Informes P13–P14 siguen pendientes;
+las marcas antiguas sobre esqueletos se reconciliaron.
+
 Entrega técnica D6: [MVP documental y cierre verificado](../../tests/acceptance/results/d6-documentary-mvp.md).
 Incluye el recorrido real de navegador, integridad, concurrencia PostgreSQL e
 historial inmutable. Los siguientes enlaces conservan los avances anteriores.

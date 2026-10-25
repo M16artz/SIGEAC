@@ -108,6 +108,154 @@ class SqliteApplicationContextTest {
         } finally { org.springframework.security.core.context.SecurityContextHolder.clearContext(); }
     }
 
+    @Test
+    @org.springframework.test.annotation.DirtiesContext(methodMode=org.springframework.test.annotation.DirtiesContext.MethodMode.AFTER_METHOD)
+    void manualJudgementUsesRealAcceptedSupportAndRollsBackWhenAuditFails() throws Exception {
+        new D7ManualEvaluationData(jdbc,application.getBean(com.fasterxml.jackson.databind.ObjectMapper.class)).run(null);
+        var processId=D7ManualEvaluationData.PROCESS;
+        var indicator=ec.edu.unl.sec.selfassessment.infrastructure.SyntheticPilotData.INDICATOR_A_ID;
+        var source=UUID.fromString("d7000000-0000-0000-0000-000000000101");
+        try {
+            asRole("responsable");
+            var input=documentaryDraftCommand();
+            var version=evidenceDrafts.create(new ec.edu.unl.sec.evidence.application.EvidenceDraftService.CreateCommand(
+                    processId,input.title(),input.description(),input.provenance(),input.coveredFrom(),input.coveredTo(),List.of(indicator)),UUID.randomUUID()).latestVersion();
+            sourceCoverages.declare(version.id(),"\"0\"",source,"Cobertura sintética para valoración manual.");
+            var reference=evidenceSources.addReference(version.id(),"\"0\"","https://synthetic.invalid/manual","Referencia sintética académica.");
+            submission.submit(version.id(),"\""+reference.revision()+"\"");
+            asRole("revisor");
+            documentReviews.decide(version.id(),new ec.edu.unl.sec.documentreview.application.DocumentReviewService.ReviewInput(
+                    0,false,null,"Aceptación documental sintética para valoración.",List.of(
+                    new ec.edu.unl.sec.documentreview.domain.ReviewCoverageOutcome(source,
+                            ec.edu.unl.sec.documentreview.domain.ReviewCoverageOutcome.Outcome.ACCEPTED,null))));
+            asRole("evaluador");
+            var service=application.getBean(ec.edu.unl.sec.academicevaluation.application.AcademicEvaluationService.class);
+            var repository=application.getBean(ec.edu.unl.sec.academicevaluation.application.ManualEvaluationRepository.class);
+            var actor=application.getBean(ec.edu.unl.sec.identityaccess.application.CurrentActorPort.class);
+            var command=new ec.edu.unl.sec.academicevaluation.application.AcademicEvaluationService.Command(
+                    UUID.fromString("d7000000-0000-0000-0000-000000000011"),List.of(version.id()),
+                    "Justificación académica sintética.","Limitaciones del piloto sintético.",null);
+            var before=documentaryProcesses.context(processId).orElseThrow();
+            var failingAudit=org.mockito.Mockito.mock(ec.edu.unl.sec.audit.application.AuditPort.class);
+            org.mockito.Mockito.when(failingAudit.record(org.mockito.ArgumentMatchers.any())).thenThrow(new IllegalStateException("synthetic audit failure"));
+            var failing=new ec.edu.unl.sec.academicevaluation.application.AcademicEvaluationService(actor,authorization,documentaryProcesses,
+                    application.getBean(ec.edu.unl.sec.evaluationmodel.application.ModelCatalogPort.class),
+                    application.getBean(ec.edu.unl.sec.evidence.application.RequiredSourceCatalogPort.class),
+                    application.getBean(ec.edu.unl.sec.evidence.application.EvidenceProgressPort.class),
+                    application.getBean(ec.edu.unl.sec.documentreview.application.DocumentReviewProgressPort.class),repository,failingAudit);
+            var tx=new org.springframework.transaction.support.TransactionTemplate(transactionManager);
+            org.assertj.core.api.Assertions.assertThatThrownBy(()->tx.execute(status -> failing.evaluate(processId,indicator,0,command,UUID.randomUUID())))
+                    .isInstanceOf(IllegalStateException.class);
+            assertThat(repository.history(processId,indicator,0,20)).isEmpty();
+            assertThat(documentaryProcesses.context(processId)).contains(before);
+            var saved=service.evaluate(processId,indicator,0,command,UUID.randomUUID());
+            assertThat(service.view(processId,indicator,0,20).items()).containsExactly(saved);
+            assertThat(saved.supports().getFirst().title()).isEqualTo(input.title());
+            assertThat(saved.supports().getFirst().evidenceVersionId()).isEqualTo(version.id());
+            assertThat(jdbc.queryForObject("select count(*) from audit_event where action='ACADEMIC_MANUAL_EVALUATION_RECORDED'",Long.class)).isEqualTo(1L);
+            var request=new org.springframework.mock.web.MockHttpServletRequest();
+            request.setAttribute(ec.edu.unl.sec.shared.infrastructure.CorrelationFilter.CORRELATION_ATTRIBUTE,UUID.randomUUID().toString());
+            var controller=application.getBean(ec.edu.unl.sec.academicevaluation.api.AcademicEvaluationController.class);
+            org.assertj.core.api.Assertions.assertThatThrownBy(() -> controller.evaluate(processId,indicator,"\"0\"",
+                    new ec.edu.unl.sec.academicevaluation.api.AcademicEvaluationController.EvaluateRequest(command.ratingOptionId(),
+                            command.evidenceVersionIds(),command.justification(),command.limitations(),null),request))
+                    .isInstanceOf(ec.edu.unl.sec.academicevaluation.application.AcademicProblemException.class);
+            assertThat(jdbc.queryForObject("select count(*) from audit_event where action='ACADEMIC_MANUAL_EVALUATION_REJECTED'",Long.class)).isEqualTo(1L);
+            assertThat(repository.history(processId,indicator,0,20)).containsExactly(saved);
+            exerciseQuantitativeCalculation(processId);
+            exerciseReconciliation(processId,version.id(),saved);
+        } finally { org.springframework.security.core.context.SecurityContextHolder.clearContext(); }
+    }
+
+    private void exerciseReconciliation(UUID processId,UUID versionId,ec.edu.unl.sec.academicevaluation.domain.ManualAcademicEvaluation first)throws Exception {
+        new D7ReconciliationData(jdbc,application.getBean(com.fasterxml.jackson.databind.ObjectMapper.class),
+                application.getBean(org.springframework.security.crypto.password.PasswordEncoder.class)).run(null);
+        var indicator=first.indicatorId();asRole("evaluador2");
+        var academic=application.getBean(ec.edu.unl.sec.academicevaluation.application.AcademicEvaluationService.class);
+        var second=academic.evaluate(processId,indicator,0,new ec.edu.unl.sec.academicevaluation.application.AcademicEvaluationService.Command(
+                UUID.fromString("d7000000-0000-0000-0000-000000000012"),List.of(versionId),"Fundamento del segundo evaluador sintético.","Limitaciones del segundo juicio sintético.",null),UUID.randomUUID());
+        var service=application.getBean(ec.edu.unl.sec.academicevaluation.application.AcademicReconciliationService.class);
+        var repository=application.getBean(ec.edu.unl.sec.academicevaluation.application.ReconciliationRepository.class);
+        var disagreement=service.open(processId,indicator,0,"Discrepancia sintética entre dos juicios fundamentados.",UUID.randomUUID());
+        assertThat(service.view(processId,indicator,0,0,20).status()).isEqualTo("PENDING_RECONCILIATION");
+        asRole("conciliador");
+        var policy=service.configure(processId,indicator,0,new ec.edu.unl.sec.academicevaluation.application.AcademicReconciliationService.PolicyCommand(
+                "Procedimiento sintético 1",ec.edu.unl.sec.academicevaluation.domain.AcademicReconciliation.METHOD,"Competencia sintética de comité registrada.",
+                "fixture://committee-policy",D7ReconciliationData.ASSIGNMENT),UUID.randomUUID());
+        var actor=UUID.nameUUIDFromBytes("sec-unl:conciliador".getBytes(StandardCharsets.UTF_8));
+        var command=new ec.edu.unl.sec.academicevaluation.application.AcademicReconciliationService.ResolutionCommand(policy.id(),first.id(),
+                List.of(first.evaluatorId(),second.evaluatorId(),actor),"Selección sintética fundamentada del primer juicio.",D7ReconciliationData.ASSIGNMENT);
+        var failingAudit=org.mockito.Mockito.mock(ec.edu.unl.sec.audit.application.AuditPort.class);
+        org.mockito.Mockito.when(failingAudit.record(org.mockito.ArgumentMatchers.any())).thenThrow(new IllegalStateException("synthetic reconciliation audit failure"));
+        var failing=new ec.edu.unl.sec.academicevaluation.application.AcademicReconciliationService(academic,
+                application.getBean(ec.edu.unl.sec.evaluationmodel.application.ModelCatalogPort.class),
+                application.getBean(ec.edu.unl.sec.academicevaluation.application.ManualEvaluationRepository.class),
+                application.getBean(ec.edu.unl.sec.academicevaluation.application.QuantitativeRepository.class),repository,authorization,
+                application.getBean(ec.edu.unl.sec.identityaccess.application.InstitutionalAuthorityPort.class),failingAudit);
+        var tx=new org.springframework.transaction.support.TransactionTemplate(transactionManager);
+        org.assertj.core.api.Assertions.assertThatThrownBy(()->tx.execute(status->failing.resolve(processId,indicator,disagreement.id(),1,command,UUID.randomUUID())))
+                .isInstanceOf(IllegalStateException.class);
+        assertThat(repository.resolution(disagreement.id())).isEmpty();
+        var resolution=service.resolve(processId,indicator,disagreement.id(),1,command,UUID.randomUUID());
+        assertThat(service.view(processId,indicator,0,0,20).result().id()).isEqualTo(first.id());
+        asRole("revisor");
+        documentReviews.decide(versionId,new ec.edu.unl.sec.documentreview.application.DocumentReviewService.ReviewInput(
+                1,false,null,"Rectificación sintética que exige revisar los sustentos.",List.of(new ec.edu.unl.sec.documentreview.domain.ReviewCoverageOutcome(
+                        UUID.fromString("d7000000-0000-0000-0000-000000000101"),ec.edu.unl.sec.documentreview.domain.ReviewCoverageOutcome.Outcome.OBSERVED,"Fuente pendiente tras rectificación sintética."))));
+        asRole("conciliador");
+        var changed=service.view(processId,indicator,0,0,20);assertThat(changed.status()).isEqualTo("REQUIRES_REVIEW");assertThat(changed.result()).isNull();
+        assertThat(repository.resolution(disagreement.id())).contains(resolution);
+        assertThat(academic.view(processId,indicator,0,20).items()).contains(first,second);
+        var request=new org.springframework.mock.web.MockHttpServletRequest();request.setAttribute(ec.edu.unl.sec.shared.infrastructure.CorrelationFilter.CORRELATION_ATTRIBUTE,UUID.randomUUID().toString());
+        var controller=application.getBean(ec.edu.unl.sec.academicevaluation.api.AcademicReconciliationController.class);
+        org.assertj.core.api.Assertions.assertThatThrownBy(()->controller.resolve(processId,indicator,disagreement.id(),"\"0\"",
+                new ec.edu.unl.sec.academicevaluation.api.AcademicReconciliationController.ResolutionCommand(command.policyId(),command.selectedJudgementId(),command.participants(),command.reason(),command.authorityAssignmentId()),request))
+                .isInstanceOf(ec.edu.unl.sec.academicevaluation.application.AcademicProblemException.class);
+        assertThat(jdbc.queryForObject("select count(*) from audit_event where action='ACADEMIC_RECONCILIATION_RESOLVED'",Long.class)).isEqualTo(1L);
+        assertThat(jdbc.queryForObject("select count(*) from audit_event where action='ACADEMIC_RECONCILIATION_REJECTED'",Long.class)).isEqualTo(1L);
+    }
+
+    private void exerciseQuantitativeCalculation(UUID processId) {
+        var indicator=ec.edu.unl.sec.selfassessment.infrastructure.SyntheticPilotData.INDICATOR_B_ID;
+        var source=UUID.fromString("d7000000-0000-0000-0000-000000000103");
+        asRole("responsable");
+        var draft=documentaryDraftCommand();
+        var version=evidenceDrafts.create(new ec.edu.unl.sec.evidence.application.EvidenceDraftService.CreateCommand(processId,
+                draft.title(),draft.description(),draft.provenance(),draft.coveredFrom(),draft.coveredTo(),List.of(indicator)),UUID.randomUUID()).latestVersion();
+        sourceCoverages.declare(version.id(),"\"0\"",source,"Cobertura sintética cuantitativa.");
+        var reference=evidenceSources.addReference(version.id(),"\"0\"","https://synthetic.invalid/quantitative","Referencia sintética cuantitativa.");
+        submission.submit(version.id(),"\""+reference.revision()+"\"");
+        asRole("revisor");
+        documentReviews.decide(version.id(),new ec.edu.unl.sec.documentreview.application.DocumentReviewService.ReviewInput(
+                0,false,null,"Aceptación documental sintética de cifras.",List.of(new ec.edu.unl.sec.documentreview.domain.ReviewCoverageOutcome(
+                        source,ec.edu.unl.sec.documentreview.domain.ReviewCoverageOutcome.Outcome.ACCEPTED,null))));
+        asRole("evaluador");
+        var variables=application.getBean(ec.edu.unl.sec.academicevaluation.application.VariableValueService.class);
+        var calculations=application.getBean(ec.edu.unl.sec.academicevaluation.application.AcademicCalculationService.class);
+        var repository=application.getBean(ec.edu.unl.sec.academicevaluation.application.QuantitativeRepository.class);
+        var inputs=variables.capture(processId,indicator,0,new ec.edu.unl.sec.academicevaluation.application.VariableValueService.Command(
+                draft.coveredFrom(),draft.coveredTo(),java.util.Map.of(
+                "A",new ec.edu.unl.sec.academicevaluation.application.VariableValueService.ValueInput("3","personas sintéticas",List.of(version.id())),
+                "B",new ec.edu.unl.sec.academicevaluation.application.VariableValueService.ValueInput("4","personas sintéticas",List.of(version.id()))),null),UUID.randomUUID());
+        org.assertj.core.api.Assertions.assertThatThrownBy(()->calculations.calculate(processId,indicator,inputs.id(),1,
+                "Cálculo sintético pendiente de verificar.","Limitaciones sintéticas declaradas.",UUID.randomUUID()))
+                .isInstanceOf(ec.edu.unl.sec.academicevaluation.application.AcademicProblemException.class).extracting("code").isEqualTo("VARIABLES_UNVERIFIED");
+        variables.verify(processId,indicator,inputs.id(),1,"Cifras, unidades, período y sustentos verificados.",UUID.randomUUID());
+        var failingAudit=org.mockito.Mockito.mock(ec.edu.unl.sec.audit.application.AuditPort.class);
+        org.mockito.Mockito.when(failingAudit.record(org.mockito.ArgumentMatchers.any())).thenThrow(new IllegalStateException("synthetic calculation audit failure"));
+        var failing=new ec.edu.unl.sec.academicevaluation.application.AcademicCalculationService(
+                application.getBean(ec.edu.unl.sec.academicevaluation.application.QuantitativeContext.class),variables,repository,failingAudit);
+        var tx=new org.springframework.transaction.support.TransactionTemplate(transactionManager);
+        org.assertj.core.api.Assertions.assertThatThrownBy(()->tx.execute(status->failing.calculate(processId,indicator,inputs.id(),1,
+                "Justificación cuantitativa sintética.","Limitaciones cuantitativas sintéticas.",UUID.randomUUID()))).isInstanceOf(IllegalStateException.class);
+        assertThat(repository.run(inputs.id())).isEmpty();
+        var run=calculations.calculate(processId,indicator,inputs.id(),1,"Justificación cuantitativa sintética.","Limitaciones cuantitativas sintéticas.",UUID.randomUUID());
+        assertThat(run.result()).isEqualByComparingTo("75");
+        assertThat(repository.run(inputs.id())).contains(run);
+        assertThat(run.inputs().variables().getFirst().supports().getFirst().evidenceVersionId()).isEqualTo(version.id());
+        assertThat(jdbc.queryForObject("select count(*) from audit_event where action='ACADEMIC_CALCULATION_RECORDED'",Long.class)).isEqualTo(1L);
+    }
+
     private List<UUID> acceptedDocumentarySources() {
         var versions=new java.util.ArrayList<UUID>();
         for (int number=1;number<=2;number++) {

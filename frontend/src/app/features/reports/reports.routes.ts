@@ -1,6 +1,6 @@
 import {Routes} from '@angular/router';
-import {ReportingDashboardPage} from '../reporting/pages/reporting-dashboard.page';
+import {ReportWorkflowPage} from './pages/report-workflow.page';
 
 export const REPORTS_ROUTES: Routes = [
-  {path: '', component: ReportingDashboardPage}
+  {path: '', component: ReportWorkflowPage}
 ];

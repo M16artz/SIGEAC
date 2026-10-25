@@ -1225,6 +1225,285 @@ paths:
       responses:
         '200': {$ref: '#/components/responses/PagedResult'}
         '403': {$ref: '#/components/responses/Forbidden'}
+  /processes/{processId}/indicators/{indicatorId}/academic-reconciliation:
+    get:
+      tags: [AcademicEvaluation]
+      operationId: getAcademicReconciliationContext
+      description: Requiere INDICATOR_EVALUATE. Devuelve juicios actuales e históricos con marcas dinámicas y resolución aplicable. No modifica los payloads de las valoraciones. La paginación de juicios y discrepancias es independiente.
+      parameters:
+        - {$ref: '#/components/parameters/ProcessId'}
+        - {$ref: '#/components/parameters/IndicatorId'}
+        - {name: page, in: query, schema: {type: integer, minimum: 0, default: 0}}
+        - {name: casePage, in: query, schema: {type: integer, minimum: 0, default: 0}}
+        - {name: size, in: query, schema: {type: integer, minimum: 1, maximum: 100, default: 20}}
+      responses:
+        '200':
+          description: Resultado protegido sin caché.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/AcademicReconciliationView'}
+        '400': {description: Solicitud inválida o campos no admitidos.}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {description: Recurso ausente o fuera del ámbito autorizado.}
+        '422': {description: Configuración o datos de conciliación inválidos.}
+  /processes/{processId}/indicators/{indicatorId}/academic-reconciliation-policies:
+    post:
+      tags: [AcademicEvaluation]
+      operationId: configureAcademicReconciliationPolicy
+      description: Requiere además ACADEMIC_RECONCILE y una asignación autorizadora vigente en el indicador. Registra una versión inmutable del procedimiento explícito; no concede competencia por el nombre de la cuenta. If-Match es la revisión actual de política o cero.
+      parameters:
+        - {$ref: '#/components/parameters/ProcessId'}
+        - {$ref: '#/components/parameters/IndicatorId'}
+        - {$ref: '#/components/parameters/CsrfToken'}
+        - {$ref: '#/components/parameters/IfMatch'}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/AcademicReconciliationPolicyCommand'}
+      responses:
+        '201':
+          description: Resultado protegido sin caché.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/AcademicReconciliationPolicy'}
+        '400': {description: Solicitud inválida o campos no admitidos.}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {description: Recurso ausente o fuera del ámbito autorizado.}
+        '422': {description: Configuración o datos de conciliación inválidos.}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '412': {description: Discrepancia o juicios o procedimiento desactualizados.}
+        '428': {description: If-Match obligatorio.}
+  /processes/{processId}/indicators/{indicatorId}/academic-disagreements:
+    post:
+      tags: [AcademicEvaluation]
+      operationId: recordAcademicDisagreement
+      description: Conserva los juicios actuales de al menos dos evaluadores distintos y ambos fundamentos. If-Match es la última revisión de discrepancia o cero. No calcula promedio ni crea un resultado final.
+      parameters:
+        - {$ref: '#/components/parameters/ProcessId'}
+        - {$ref: '#/components/parameters/IndicatorId'}
+        - {$ref: '#/components/parameters/CsrfToken'}
+        - {$ref: '#/components/parameters/IfMatch'}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/AcademicDisagreementCommand'}
+      responses:
+        '201':
+          description: Resultado protegido sin caché.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/AcademicDisagreement'}
+        '400': {description: Solicitud inválida o campos no admitidos.}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {description: Recurso ausente o fuera del ámbito autorizado.}
+        '422': {description: Configuración o datos de conciliación inválidos.}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '412': {description: Discrepancia o juicios o procedimiento desactualizados.}
+        '428': {description: If-Match obligatorio.}
+  /processes/{processId}/indicators/{indicatorId}/academic-disagreements/{id}/resolution:
+    post:
+      tags: [AcademicEvaluation]
+      operationId: resolveAcademicDisagreement
+      description: Exige ACADEMIC_RECONCILE y asignación vigente del actor. Selecciona un juicio existente con procedimiento registrado y participantes explícitos. Revalida juicios y sustentos actuales. If-Match identifica la revisión de discrepancia. Una resolución por discrepancia; la corrección requiere un nuevo caso.
+      parameters:
+        - {$ref: '#/components/parameters/ProcessId'}
+        - {$ref: '#/components/parameters/IndicatorId'}
+        - {name: id, in: path, required: true, schema: {type: string, format: uuid}}
+        - {$ref: '#/components/parameters/CsrfToken'}
+        - {$ref: '#/components/parameters/IfMatch'}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/AcademicReconciliationResolutionCommand'}
+      responses:
+        '201':
+          description: Resultado protegido sin caché.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/AcademicReconciliationResolution'}
+        '400': {description: Solicitud inválida o campos no admitidos.}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {description: Recurso ausente o fuera del ámbito autorizado.}
+        '422': {description: Configuración o datos de conciliación inválidos.}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '412': {description: Discrepancia o juicios o procedimiento desactualizados.}
+        '428': {description: If-Match obligatorio.}
+  /processes/{processId}/indicators/{indicatorId}/quantitative-evaluations:
+    get:
+      tags: [AcademicEvaluation]
+      operationId: getQuantitativeEvaluationContext
+      description: Contexto cuantitativo y cálculos históricos paginados. Requiere INDICATOR_EVALUATE; solo reglas y estrategia soportadas y validadas.
+      parameters:
+        - {$ref: '#/components/parameters/ProcessId'}
+        - {$ref: '#/components/parameters/IndicatorId'}
+        - {name: page, in: query, schema: {type: integer, minimum: 0, default: 0}}
+        - {name: size, in: query, schema: {type: integer, minimum: 1, maximum: 100, default: 20}}
+      responses:
+        '200':
+          description: Resultado protegido sin caché.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/QuantitativeEvaluationContext'}
+        '400': {description: Solicitud inválida o campos no admitidos.}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {description: Recurso ausente o fuera de ámbito.}
+        '422': {description: Regla no habilitada o variables o sustentos inválidos.}
+  /processes/{processId}/indicators/{indicatorId}/quantitative-inputs:
+    post:
+      tags: [AcademicEvaluation]
+      operationId: captureQuantitativeInputs
+      description: Conserva una nueva revisión propia de variables con unidades, período y sustentos aceptados por variable. If-Match es la revisión propia anterior, inicialmente cero.
+      parameters:
+        - {$ref: '#/components/parameters/ProcessId'}
+        - {$ref: '#/components/parameters/IndicatorId'}
+        - {$ref: '#/components/parameters/CsrfToken'}
+        - {$ref: '#/components/parameters/IfMatch'}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/QuantitativeCaptureCommand'}
+      responses:
+        '201':
+          description: Resultado protegido sin caché.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/QuantitativeInputs'}
+        '400': {description: Solicitud inválida o campos no admitidos.}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {description: Recurso ausente o fuera de ámbito.}
+        '422': {description: Regla no habilitada o variables o sustentos inválidos.}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '412': {description: Revisión obsoleta o cambios concurrentes.}
+        '428': {description: If-Match obligatorio.}
+  /processes/{processId}/indicators/{indicatorId}/quantitative-inputs/{id}:
+    get:
+      tags: [AcademicEvaluation]
+      operationId: getHistoricalQuantitativeInputs
+      description: Recupera entradas inmutables por ID del mismo proceso e indicador autorizado. No exige que sigan siendo la revisión actual.
+      parameters:
+        - {$ref: '#/components/parameters/ProcessId'}
+        - {$ref: '#/components/parameters/IndicatorId'}
+        - {name: id, in: path, required: true, schema: {type: string, format: uuid}}
+      responses:
+        '200':
+          description: Resultado protegido sin caché.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/QuantitativeInputs'}
+        '400': {description: Solicitud inválida o campos no admitidos.}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {description: Recurso ausente o fuera de ámbito.}
+        '422': {description: Regla no habilitada o variables o sustentos inválidos.}
+  /processes/{processId}/indicators/{indicatorId}/quantitative-inputs/{id}/verification:
+    post:
+      tags: [AcademicEvaluation]
+      operationId: verifyQuantitativeInputs
+      description: Verifica explícitamente cifras, unidades, período y sustentos actuales. If-Match corresponde a la revisión del conjunto. No modifica las entradas; agrega una verificación única.
+      parameters:
+        - {$ref: '#/components/parameters/ProcessId'}
+        - {$ref: '#/components/parameters/IndicatorId'}
+        - {name: id, in: path, required: true, schema: {type: string, format: uuid}}
+        - {$ref: '#/components/parameters/CsrfToken'}
+        - {$ref: '#/components/parameters/IfMatch'}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/QuantitativeVerificationCommand'}
+      responses:
+        '201':
+          description: Resultado protegido sin caché.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/QuantitativeVerification'}
+        '400': {description: Solicitud inválida o campos no admitidos.}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {description: Recurso ausente o fuera de ámbito.}
+        '422': {description: Regla no habilitada o variables o sustentos inválidos.}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '412': {description: Revisión obsoleta o cambios concurrentes.}
+        '428': {description: If-Match obligatorio.}
+  /processes/{processId}/indicators/{indicatorId}/quantitative-calculations:
+    post:
+      tags: [AcademicEvaluation]
+      operationId: executeVerifiedQuantitativeCalculation
+      description: Ejecuta ratio-percent/1 con regla validada y variables actuales verificadas. Conserva fórmula, escala, umbral, sustentos, verificadores y aritmética DECIMAL128. Una ejecución por conjunto; no consolida juicios ni cambia el estado del proceso.
+      parameters:
+        - {$ref: '#/components/parameters/ProcessId'}
+        - {$ref: '#/components/parameters/IndicatorId'}
+        - {$ref: '#/components/parameters/CsrfToken'}
+        - {$ref: '#/components/parameters/IfMatch'}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/QuantitativeCalculationCommand'}
+      responses:
+        '201':
+          description: Resultado protegido sin caché.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/QuantitativeCalculation'}
+        '400': {description: Solicitud inválida o campos no admitidos.}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {description: Recurso ausente o fuera de ámbito.}
+        '422': {description: Regla no habilitada o variables o sustentos inválidos.}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '412': {description: Revisión obsoleta o cambios concurrentes.}
+        '428': {description: If-Match obligatorio.}
+  /processes/{processId}/indicators/{indicatorId}/manual-academic-evaluations:
+    get:
+      tags: [AcademicEvaluation]
+      operationId: getManualAcademicEvaluationContext
+      description: Requiere INDICATOR_EVALUATE sobre el indicador. Devuelve método y escala publicados, sustentos aceptados actuales e historial paginado. El ETag es la revisión propia del evaluador, inicialmente cero. No consolida juicios de otros evaluadores.
+      parameters:
+        - {$ref: '#/components/parameters/ProcessId'}
+        - {$ref: '#/components/parameters/IndicatorId'}
+        - {name: page, in: query, schema: {type: integer, minimum: 0, default: 0}}
+        - {name: size, in: query, schema: {type: integer, minimum: 1, maximum: 100, default: 20}}
+      responses:
+        '200':
+          description: Contexto e historial sin caché; ETag de revisión propia.
+          headers:
+            ETag: {schema: {type: string}}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ManualAcademicEvaluationContext'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {description: Indicador ausente o fuera del ámbito autorizado.}
+        '422': {description: Regla manual cualitativa validada no disponible o página inválida.}
+    post:
+      tags: [AcademicEvaluation]
+      operationId: appendManualAcademicEvaluation
+      description: Conserva juicio manual inmutable y auditoría en una transacción. Exige regla cualitativa VALIDATED y escala del modelo fijado, sustentos remitidos vigentes aceptados por fuente y estado ACTIVE, DOCUMENTARY_CLOSED o REOPENED. If-Match corresponde al último juicio del mismo evaluador. No sustituye juicios ajenos, no cambia la fase documental ni constituye acreditación.
+      parameters:
+        - {$ref: '#/components/parameters/ProcessId'}
+        - {$ref: '#/components/parameters/IndicatorId'}
+        - {$ref: '#/components/parameters/CsrfToken'}
+        - {$ref: '#/components/parameters/IfMatch'}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/ManualAcademicEvaluationCommand'}
+      responses:
+        '201':
+          description: Juicio conservado con método, opción y referencias exactas; ETag de la nueva revisión propia.
+          headers:
+            ETag: {schema: {type: string}}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ManualAcademicEvaluation'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {description: Indicador ausente o fuera del ámbito autorizado.}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '412': {description: Revisión propia o predecesora desactualizada.}
+        '422': {description: 'Escala, regla, sustentos o textos inválidos.'}
+        '428': {description: If-Match obligatorio.}
   /processes/{processId}/indicators/{indicatorId}/academic-evaluations:
     get:
       tags: [AcademicEvaluation]
@@ -1657,6 +1936,356 @@ components:
         outcome: {type: string, enum: [ACCEPTED, OBSERVED, REJECTED]}
         justification: {type: string, minLength: 10, maxLength: 4000}
         predecessorId: {type: [string, 'null'], format: uuid}
+    AcademicReconciliationPolicyCommand:
+      type: object
+      additionalProperties: false
+      required: [procedureReference, method, legalBasis, documentReference, authorityAssignmentId]
+      properties:
+        procedureReference: {type: string, minLength: 3, maxLength: 300}
+        method: {type: string, const: SELECT_EXISTING_JUDGEMENT_V1}
+        legalBasis: {type: string, minLength: 10, maxLength: 4000}
+        documentReference: {type: string, minLength: 3, maxLength: 1000}
+        authorityAssignmentId: {type: string, format: uuid}
+    AcademicDisagreementCommand:
+      type: object
+      additionalProperties: false
+      required: [reason]
+      properties:
+        reason: {type: string, minLength: 10, maxLength: 4000}
+    AcademicReconciliationResolutionCommand:
+      type: object
+      additionalProperties: false
+      required: [policyId, selectedJudgementId, participants, reason, authorityAssignmentId]
+      properties:
+        policyId: {type: string, format: uuid}
+        selectedJudgementId: {type: string, format: uuid}
+        participants: {type: array, minItems: 1, maxItems: 101, uniqueItems: true, items: {type: string, format: uuid}, description: Identidades de todos los evaluadores del caso y de quien resuelve.}
+        reason: {type: string, minLength: 10, maxLength: 4000}
+        authorityAssignmentId: {type: string, format: uuid}
+    AcademicJudgementProjection:
+      type: object
+      additionalProperties: false
+      required: [kind, id, authorId, modelVersionId, ruleId, scaleId, ratingOptionId, ratingLabel, result, method, justification, limitations, recordedAt, supports, flags]
+      properties:
+        kind: {type: string, enum: [MANUAL, QUANTITATIVE]}
+        id: {type: string, format: uuid}
+        authorId: {type: string, format: uuid}
+        modelVersionId: {type: string, format: uuid}
+        ruleId: {type: string, format: uuid}
+        scaleId: {type: string, format: uuid}
+        ratingOptionId: {type: string, format: uuid}
+        ratingLabel: {type: string}
+        result: {type: [string, 'null'], description: Decimal exacto para cálculo; nulo en juicio manual.}
+        method: {type: string}
+        justification: {type: string}
+        limitations: {type: string}
+        recordedAt: {type: string, format: date-time}
+        supports: {type: array, items: {$ref: '#/components/schemas/ManualAcademicSupport'}}
+        flags: {type: array, uniqueItems: true, items: {type: string, enum: [SUPERSEDED, RULE_MISMATCH, SUPPORTS_INVALIDATED, INPUTS_SUPERSEDED]}}
+    AcademicReconciliationPolicy:
+      type: object
+      additionalProperties: false
+      required: [id, processId, indicatorId, revision, predecessorId, procedureReference, method, legalBasis, documentReference, authorityAssignmentId, configuredBy, configuredAt]
+      properties:
+        id: {type: string, format: uuid}
+        processId: {type: string, format: uuid}
+        indicatorId: {type: string, format: uuid}
+        revision: {type: integer, minimum: 1}
+        predecessorId: {type: [string, 'null'], format: uuid}
+        procedureReference: {type: string}
+        method: {type: string, const: SELECT_EXISTING_JUDGEMENT_V1}
+        legalBasis: {type: string}
+        documentReference: {type: string}
+        authorityAssignmentId: {type: string, format: uuid}
+        configuredBy: {type: string, format: uuid}
+        configuredAt: {type: string, format: date-time}
+    AcademicDisagreement:
+      type: object
+      additionalProperties: false
+      required: [id, processId, indicatorId, revision, predecessorId, fingerprint, judgements, reason, openedBy, openedAt]
+      properties:
+        id: {type: string, format: uuid}
+        processId: {type: string, format: uuid}
+        indicatorId: {type: string, format: uuid}
+        revision: {type: integer, minimum: 1}
+        predecessorId: {type: [string, 'null'], format: uuid}
+        fingerprint: {type: string, pattern: '^[0-9a-f]{64}$', description: Huella del conjunto ordenado de tipos e IDs de juicios.}
+        judgements: {type: array, minItems: 2, items: {$ref: '#/components/schemas/AcademicJudgementProjection'}}
+        reason: {type: string}
+        openedBy: {type: string, format: uuid}
+        openedAt: {type: string, format: date-time}
+    AcademicReconciliationResolution:
+      type: object
+      additionalProperties: false
+      required: [id, processId, indicatorId, disagreementId, policy, selectedJudgement, participants, reason, authorityAssignmentId, resolvedBy, resolvedAt, fingerprint]
+      properties:
+        id: {type: string, format: uuid}
+        processId: {type: string, format: uuid}
+        indicatorId: {type: string, format: uuid}
+        disagreementId: {type: string, format: uuid}
+        policy: {$ref: '#/components/schemas/AcademicReconciliationPolicy'}
+        selectedJudgement: {$ref: '#/components/schemas/AcademicJudgementProjection'}
+        participants: {type: array, uniqueItems: true, items: {type: string, format: uuid}}
+        reason: {type: string}
+        authorityAssignmentId: {type: string, format: uuid}
+        resolvedBy: {type: string, format: uuid}
+        resolvedAt: {type: string, format: date-time}
+        fingerprint: {type: string, pattern: '^[0-9a-f]{64}$'}
+    AcademicReconciliationCaseView:
+      type: object
+      additionalProperties: false
+      required: [disagreement, resolution, applicable]
+      properties:
+        disagreement: {$ref: '#/components/schemas/AcademicDisagreement'}
+        resolution: {oneOf: [{$ref: '#/components/schemas/AcademicReconciliationResolution'}, {type: 'null'}]}
+        applicable: {type: boolean}
+    AcademicReconciliationView:
+      type: object
+      additionalProperties: false
+      required: [processId, indicatorId, actorId, processState, canReconcile, status, result, current, policy, latestCase, resolution, history, page, hasNext, cases, casePage, hasNextCase, size]
+      properties:
+        processId: {type: string, format: uuid}
+        indicatorId: {type: string, format: uuid}
+        actorId: {type: string, format: uuid}
+        processState: {type: string}
+        canReconcile: {type: boolean}
+        status: {type: string, enum: [NO_EVALUATION, UNCONSOLIDATED, PENDING_RECONCILIATION, REQUIRES_REVIEW, RESOLVED]}
+        result: {oneOf: [{$ref: '#/components/schemas/AcademicJudgementProjection'}, {type: 'null'}]}
+        current: {type: array, items: {$ref: '#/components/schemas/AcademicJudgementProjection'}}
+        policy: {oneOf: [{$ref: '#/components/schemas/AcademicReconciliationPolicy'}, {type: 'null'}]}
+        latestCase: {oneOf: [{$ref: '#/components/schemas/AcademicDisagreement'}, {type: 'null'}]}
+        resolution: {oneOf: [{$ref: '#/components/schemas/AcademicReconciliationResolution'}, {type: 'null'}]}
+        history: {type: array, items: {$ref: '#/components/schemas/AcademicJudgementProjection'}}
+        page: {type: integer, minimum: 0}
+        hasNext: {type: boolean}
+        cases: {type: array, items: {$ref: '#/components/schemas/AcademicReconciliationCaseView'}}
+        casePage: {type: integer, minimum: 0}
+        hasNextCase: {type: boolean}
+        size: {type: integer, minimum: 1, maximum: 100}
+    QuantitativeValueCommand:
+      type: object
+      additionalProperties: false
+      required: [value, unit, evidenceVersionIds]
+      properties:
+        value: {type: string, maxLength: 20, description: 'Decimal no negativo sin exponente; máximo 12 enteros y 6 decimales. B debe ser positivo. Se respeta el tipo INTEGER o DECIMAL publicado.'}
+        unit: {type: string, minLength: 1, maxLength: 100}
+        evidenceVersionIds: {type: array, minItems: 1, maxItems: 100, uniqueItems: true, items: {type: string, format: uuid}}
+    QuantitativeCaptureCommand:
+      type: object
+      additionalProperties: false
+      required: [periodStart, periodEnd, variables]
+      properties:
+        periodStart: {type: string, format: date}
+        periodEnd: {type: string, format: date}
+        predecessorId: {type: [string, 'null'], format: uuid}
+        variables:
+          type: object
+          additionalProperties: false
+          required: [A, B]
+          properties:
+            A: {$ref: '#/components/schemas/QuantitativeValueCommand'}
+            B: {$ref: '#/components/schemas/QuantitativeValueCommand'}
+    QuantitativeVerificationCommand:
+      type: object
+      additionalProperties: false
+      required: [reason]
+      properties:
+        reason: {type: string, minLength: 10, maxLength: 4000}
+    QuantitativeCalculationCommand:
+      type: object
+      additionalProperties: false
+      required: [inputSetId, justification, limitations]
+      properties:
+        inputSetId: {type: string, format: uuid}
+        justification: {type: string, minLength: 10, maxLength: 4000}
+        limitations: {type: string, minLength: 10, maxLength: 4000}
+    QuantitativeVariable:
+      type: object
+      additionalProperties: false
+      required: [code, value, unit, supports]
+      properties:
+        code: {type: string, enum: [A, B]}
+        value: {type: string, description: Decimal exacto conservado como texto.}
+        unit: {type: string}
+        supports: {type: array, minItems: 1, maxItems: 500, items: {$ref: '#/components/schemas/ManualAcademicSupport'}}
+    QuantitativeInputs:
+      type: object
+      additionalProperties: false
+      required: [id, processId, indicatorId, modelVersionId, ruleId, capturedBy, capturedAt, revision, predecessorId, periodStart, periodEnd, variables]
+      properties:
+        id: {type: string, format: uuid}
+        processId: {type: string, format: uuid}
+        indicatorId: {type: string, format: uuid}
+        modelVersionId: {type: string, format: uuid}
+        ruleId: {type: string, format: uuid}
+        capturedBy: {type: string, format: uuid}
+        capturedAt: {type: string, format: date-time}
+        revision: {type: integer, minimum: 1}
+        predecessorId: {type: [string, 'null'], format: uuid}
+        periodStart: {type: string, format: date}
+        periodEnd: {type: string, format: date}
+        variables: {type: array, minItems: 2, maxItems: 2, items: {$ref: '#/components/schemas/QuantitativeVariable'}}
+    QuantitativeVerification:
+      type: object
+      additionalProperties: false
+      required: [inputSetId, verifiedBy, verifiedAt, reason]
+      properties:
+        inputSetId: {type: string, format: uuid}
+        verifiedBy: {type: string, format: uuid}
+        verifiedAt: {type: string, format: date-time}
+        reason: {type: string, minLength: 10, maxLength: 4000}
+    QuantitativeThreshold:
+      type: object
+      required: [ratingOptionId, lowerBound, upperBound, lowerInclusive, upperInclusive]
+      properties:
+        ratingOptionId: {type: string, format: uuid}
+        lowerBound: {type: [number, 'null']}
+        upperBound: {type: [number, 'null']}
+        lowerInclusive: {type: boolean}
+        upperInclusive: {type: boolean}
+    QuantitativeRuleSnapshot:
+      type: object
+      required: [id, indicatorNodeId, ruleType, methodDefinition, formulaDefinition, strategyKey, strategyVersion, scaleId, variables, thresholds, missingDataPolicy, status]
+      properties:
+        id: {type: string, format: uuid}
+        indicatorNodeId: {type: string, format: uuid}
+        ruleType: {type: string, const: QUANTITATIVE}
+        methodDefinition: {type: string}
+        formulaDefinition: {type: string, const: 'A / B * 100'}
+        strategyKey: {type: string, const: ratio-percent}
+        strategyVersion: {type: string, const: '1'}
+        scaleId: {type: string, format: uuid}
+        variables:
+          type: array
+          minItems: 2
+          maxItems: 2
+          items:
+            type: object
+            required: [code, name, unit, dataType, required, validationDefinition]
+            properties:
+              code: {type: string, enum: [A, B]}
+              name: {type: string}
+              unit: {type: string}
+              dataType: {type: string, enum: [INTEGER, DECIMAL]}
+              required: {type: boolean, const: true}
+              validationDefinition: {type: string, enum: [NON_NEGATIVE, POSITIVE]}
+        thresholds: {type: array, minItems: 1, items: {$ref: '#/components/schemas/QuantitativeThreshold'}}
+        missingDataPolicy: {type: string, const: REJECT}
+        status: {type: string, const: VALIDATED}
+    QuantitativeScaleSnapshot:
+      type: object
+      required: [id, code, name, options]
+      properties:
+        id: {type: string, format: uuid}
+        code: {type: string}
+        name: {type: string}
+        options: {$ref: '#/components/schemas/ManualAcademicEvaluationContext/properties/ratingOptions'}
+    QuantitativeCalculation:
+      type: object
+      additionalProperties: false
+      required: [id, inputs, verification, rule, scale, result, threshold, ratingOptionId, ratingLabel, arithmetic, executedBy, executedAt, justification, limitations]
+      properties:
+        id: {type: string, format: uuid}
+        inputs: {$ref: '#/components/schemas/QuantitativeInputs'}
+        verification: {$ref: '#/components/schemas/QuantitativeVerification'}
+        rule: {$ref: '#/components/schemas/QuantitativeRuleSnapshot'}
+        scale: {$ref: '#/components/schemas/QuantitativeScaleSnapshot'}
+        result: {type: string, description: Resultado decimal exacto con aritmética DECIMAL128; no se convierte a coma flotante en el cliente.}
+        threshold: {$ref: '#/components/schemas/QuantitativeThreshold'}
+        ratingOptionId: {type: string, format: uuid}
+        ratingLabel: {type: string}
+        arithmetic: {type: string, const: DECIMAL128_HALF_EVEN_34_DIGITS}
+        executedBy: {type: string, format: uuid}
+        executedAt: {type: string, format: date-time}
+        justification: {type: string}
+        limitations: {type: string}
+    QuantitativeEvaluationContext:
+      type: object
+      additionalProperties: false
+      required: [processId, indicatorId, processState, periodStart, periodEnd, rule, scale, acceptedSupports, ownInputs, verification, items, page, size, hasNext]
+      properties:
+        processId: {type: string, format: uuid}
+        indicatorId: {type: string, format: uuid}
+        processState: {type: string}
+        periodStart: {type: string, format: date}
+        periodEnd: {type: string, format: date}
+        rule: {$ref: '#/components/schemas/QuantitativeRuleSnapshot'}
+        scale: {$ref: '#/components/schemas/QuantitativeScaleSnapshot'}
+        acceptedSupports: {type: array, items: {$ref: '#/components/schemas/ManualAcademicSupport'}}
+        ownInputs: {oneOf: [{$ref: '#/components/schemas/QuantitativeInputs'}, {type: 'null'}]}
+        verification: {oneOf: [{$ref: '#/components/schemas/QuantitativeVerification'}, {type: 'null'}]}
+        items: {type: array, items: {$ref: '#/components/schemas/QuantitativeCalculation'}}
+        page: {type: integer, minimum: 0}
+        size: {type: integer, minimum: 1, maximum: 100}
+        hasNext: {type: boolean}
+    ManualAcademicEvaluationCommand:
+      type: object
+      additionalProperties: false
+      required: [ratingOptionId, evidenceVersionIds, justification, limitations]
+      properties:
+        ratingOptionId: {type: string, format: uuid}
+        evidenceVersionIds: {type: array, minItems: 1, maxItems: 100, uniqueItems: true, items: {type: string, format: uuid}}
+        justification: {type: string, minLength: 10, maxLength: 4000}
+        limitations: {type: string, minLength: 10, maxLength: 4000}
+        predecessorId: {type: [string, 'null'], format: uuid}
+    ManualAcademicSupport:
+      type: object
+      additionalProperties: false
+      required: [evidenceVersionId, requiredSourceId, reviewDecisionId, title]
+      properties:
+        evidenceVersionId: {type: string, format: uuid}
+        requiredSourceId: {type: string, format: uuid}
+        reviewDecisionId: {type: string, format: uuid}
+        title: {type: string, minLength: 1, maxLength: 300}
+    ManualAcademicEvaluation:
+      type: object
+      additionalProperties: false
+      required: [id, processId, indicatorId, modelVersionId, ruleId, scaleId, ratingOptionId, ratingLabel, method, limitations, justification, supports, evaluatorId, evaluatedAt, revision, predecessorId]
+      properties:
+        id: {type: string, format: uuid}
+        processId: {type: string, format: uuid}
+        indicatorId: {type: string, format: uuid}
+        modelVersionId: {type: string, format: uuid}
+        ruleId: {type: string, format: uuid}
+        scaleId: {type: string, format: uuid}
+        ratingOptionId: {type: string, format: uuid}
+        ratingLabel: {type: string}
+        method: {type: string}
+        limitations: {type: string}
+        justification: {type: string}
+        supports: {type: array, minItems: 1, maxItems: 500, items: {$ref: '#/components/schemas/ManualAcademicSupport'}}
+        evaluatorId: {type: string, format: uuid}
+        evaluatedAt: {type: string, format: date-time}
+        revision: {type: integer, minimum: 1}
+        predecessorId: {type: [string, 'null'], format: uuid}
+    ManualAcademicEvaluationContext:
+      type: object
+      additionalProperties: false
+      required: [processId, indicatorId, modelVersionId, processState, method, ratingOptions, acceptedSupports, ownRevision, ownLatestId, items, page, size, hasNext]
+      properties:
+        processId: {type: string, format: uuid}
+        indicatorId: {type: string, format: uuid}
+        modelVersionId: {type: string, format: uuid}
+        processState: {type: string}
+        method: {type: string}
+        ratingOptions:
+          type: array
+          items:
+            type: object
+            required: [id, code, label, position, declaredValue]
+            properties:
+              id: {type: string, format: uuid}
+              code: {type: string}
+              label: {type: string}
+              position: {type: integer, minimum: 1}
+              declaredValue: {type: [number, 'null']}
+        acceptedSupports: {type: array, items: {$ref: '#/components/schemas/ManualAcademicSupport'}}
+        ownRevision: {type: integer, minimum: 0}
+        ownLatestId: {type: [string, 'null'], format: uuid}
+        items: {type: array, items: {$ref: '#/components/schemas/ManualAcademicEvaluation'}}
+        page: {type: integer, minimum: 0}
+        size: {type: integer, minimum: 1, maximum: 100}
+        hasNext: {type: boolean}
     AcademicEvaluationCommand:
       type: object
       additionalProperties: false

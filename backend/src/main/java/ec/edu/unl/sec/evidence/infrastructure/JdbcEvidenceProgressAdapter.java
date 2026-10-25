@@ -31,7 +31,7 @@ public class JdbcEvidenceProgressAdapter implements EvidenceProgressPort {
     @Transactional(readOnly = true)
     public List<CurrentCoverage> currentCoverages(UUID processId, Set<UUID> sourceIds) {
         if (sourceIds.isEmpty()) return List.of();
-        return named.query("select e.id,v.id,c.required_source_id from evidence e"
+        return named.query("select e.id,v.id,c.required_source_id,v.title from evidence e"
                         + " join evidence_version v on v.evidence_id=e.id"
                         + " join source_coverage c on c.version_id=v.id"
                         + " where e.process_id=:process and v.status='SUBMITTED'"
@@ -41,7 +41,7 @@ public class JdbcEvidenceProgressAdapter implements EvidenceProgressPort {
                         + " order by e.id,v.id,c.required_source_id",
                 Map.of("process", key(processId), "sources", sourceIds),
                 (result, index) -> new CurrentCoverage(JdbcValueSupport.uuid(result, 1),
-                        JdbcValueSupport.uuid(result, 2), JdbcValueSupport.uuid(result, 3)));
+                        JdbcValueSupport.uuid(result, 2), JdbcValueSupport.uuid(result, 3), result.getString(4)));
     }
 
     @Override
