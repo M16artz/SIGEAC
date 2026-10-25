@@ -21,20 +21,20 @@
 - [ ] T001 Reconcile FR-001–FR-070, SC-001–SC-018 and P01–P16 in `docs/testing/traceability.md`
 - [X] T113 Review endpoint/schema collisions between `specs/005-complete-evaluation-workflows/contracts/openapi.yaml` and `docs/technical/contracts/openapi.yaml`; record compatibility/versioning decisions in `docs/technical/migration-p01-p16.qmd` before T002, without replacing implemented schemas silently
 - [ ] T002 Merge the completion contract surface incrementally per delivery into `docs/technical/contracts/openapi.yaml` after T113 and update affected client schemas without silent breaking changes
-- [ ] T003 [P] Add `governance`, `improvement` and `archive` module boundaries to `backend/src/test/java/ec/edu/unl/sec/architecture/ModuleArchitectureTest.java`
-- [ ] T004 [P] Add frontend routes/placeholders for careers, reports, improvement and archive in `frontend/src/app/app.routes.ts`
+- [X] T003 [P] Add `governance`, `improvement` and `archive` module boundaries to `backend/src/test/java/ec/edu/unl/sec/architecture/ModuleArchitectureTest.java`
+- [X] T004 [P] Add frontend routes/placeholders for careers, reports, improvement and archive in `frontend/src/app/app.routes.ts`
 - [X] T005 Define the forward-only migration sequence in `docs/technical/migration-p01-p16.qmd`; V008 implements careers, V009/V010 reserve models/governance and V011 evidence immutability before V012–V020; verify V001–V008 on the disposable PostgreSQL history without out-of-order or repair
 - [X] T006 Add synthetic normative manifests for the five supplied models in `tests/fixtures/models/normative-manifest.json`
 - [X] T114 [P] Produce a source-by-source verification manifest with exact pages, edition and unresolved applicability for the five models and UNL instruction in `tests/fixtures/models/normative-verification.json`; link unresolved CL-011–CL-017 to institutional owners without claiming approval
 
 ## Phase 2: Foundational governance
 
-- [ ] T007 [P] Add policy-backed institutional authority types in `backend/src/main/java/ec/edu/unl/sec/identityaccess/domain/InstitutionalAuthority.java`
-- [ ] T008 [P] Add append-only decision metadata value object in `backend/src/main/java/ec/edu/unl/sec/shared/domain/DecisionProvenance.java`
+- [X] T007 [P] Add policy-backed institutional authority types in `backend/src/main/java/ec/edu/unl/sec/identityaccess/domain/InstitutionalAuthority.java`
+- [X] T008 [P] Add append-only decision metadata value object in `backend/src/main/java/ec/edu/unl/sec/shared/domain/DecisionProvenance.java`
 - [ ] T009 Extend existing capabilities for careers, authorizations, reports, improvement and archive in `backend/src/main/java/ec/edu/unl/sec/identityaccess/domain/OperationCode.java` per delivery; preserve `PROCESS_AUTHORIZE` and do not create a duplicate capability catalog
-- [ ] T010 Extend scoped authorization tests for all P01–P16 operations in `backend/src/test/java/ec/edu/unl/sec/identityaccess/application/CompleteWorkflowAuthorizationTest.java`
-- [ ] T011 Extend RFC 9457 error codes for applicability, unvalidated rules and closure blockers in `backend/src/main/java/ec/edu/unl/sec/shared/api/ApiProblemHandler.java`
-- [ ] T012 Add migration tests from each accepted schema and from clean PostgreSQL in `backend/src/test/java/ec/edu/unl/sec/migration/CompleteWorkflowMigrationTest.java`
+- [X] T010 Extend scoped authorization tests for all P01–P16 operations in `backend/src/test/java/ec/edu/unl/sec/identityaccess/application/CompleteWorkflowAuthorizationTest.java`
+- [X] T011 Extend RFC 9457 error codes for applicability, unvalidated rules and closure blockers in `backend/src/main/java/ec/edu/unl/sec/shared/api/ApiProblemHandler.java`
+- [X] T012 Add migration tests from each accepted schema and from clean PostgreSQL in `backend/src/test/java/ec/edu/unl/sec/migration/CompleteWorkflowMigrationTest.java`
 - [X] T115 Establish the prerequisite gate for unfinished I0–I3 paths, list T027–T088 from `specs/004-submit-evidence/tasks.md` that remain necessary, and record evidence in `tests/acceptance/results/p01-p16-prerequisites.md`; D4 cannot pass until upload, reference, submit, download, successor and recovery contracts are executable
 
 ## Phase 3: US1 — Careers and scopes (D1, P01–P02)
@@ -181,16 +181,16 @@ La validación institucional sigue pendiente; D7–D8 conservan su backlog.
 
 **Independent Test**: complete one qualitative and one validated quantitative evaluation; reject missing variables and unvalidated rules.
 
-- [ ] T068 [P] [US7] Add qualitative/quantitative rule tests in `backend/src/test/java/ec/edu/unl/sec/academicevaluation/domain/IndicatorValuationRuleTest.java`
-- [ ] T069 [P] [US7] Add variable verification and strategy registry tests in `backend/src/test/java/ec/edu/unl/sec/academicevaluation/application/AcademicCalculationServiceTest.java`
-- [ ] T070 [US7] Create migration for variable values, calculation runs and disagreements in `backend/src/main/resources/db/migration/V017__academic_evaluation_rules.sql`
-- [ ] T071 [US7] Implement variable capture and verification in `backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/VariableValueService.java`
-- [ ] T072 [US7] Implement validated calculation execution in `backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicCalculationService.java`
-- [ ] T073 [US7] Extend manual evaluation with method/limitations in `backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicEvaluationService.java`
-- [ ] T074 [US7] Add academic evaluation endpoints in `backend/src/main/java/ec/edu/unl/sec/academicevaluation/api/AcademicEvaluationController.java`
-- [ ] T075 [US7] Implement qualitative and quantitative evaluation UI in `frontend/src/app/features/evaluations/pages/indicator-evaluation.page.ts`
+- [X] T068 [P] [US7] Add qualitative/quantitative rule tests in `backend/src/test/java/ec/edu/unl/sec/academicevaluation/domain/IndicatorValuationRuleTest.java`
+- [X] T069 [P] [US7] Add variable verification and strategy registry tests in `backend/src/test/java/ec/edu/unl/sec/academicevaluation/application/AcademicCalculationServiceTest.java`
+- [X] T070 [US7] Create migration for variable values, calculation runs and disagreements in `backend/src/main/resources/db/migration/V017__academic_evaluation_rules.sql`
+- [X] T071 [US7] Implement variable capture and verification in `backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/VariableValueService.java`
+- [X] T072 [US7] Implement validated calculation execution in `backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicCalculationService.java`
+- [X] T073 [US7] Extend manual evaluation with method/limitations in `backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicEvaluationService.java`
+- [X] T074 [US7] Add academic evaluation endpoints in `backend/src/main/java/ec/edu/unl/sec/academicevaluation/api/AcademicEvaluationController.java`
+- [X] T075 [US7] Implement qualitative and quantitative evaluation UI in `frontend/src/app/features/evaluations/pages/indicator-evaluation.page.ts`
 - [ ] T076 [US7] Record D7/P12 acceptance evidence in `tests/acceptance/results/d7-academic-evaluation.md`
-- [ ] T121 [US7] Implement discrepancy capture/resolution and invalidated-support flags with preserved prior valuations in `backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicReconciliationService.java`, `backend/src/main/java/ec/edu/unl/sec/academicevaluation/api/AcademicReconciliationController.java` and `frontend/src/app/features/evaluations/pages/academic-disagreement.page.ts`; test AC-X11 in `backend/src/test/java/ec/edu/unl/sec/academicevaluation/application/AcademicReconciliationServiceTest.java` before T076
+- [X] T121 [US7] Implement discrepancy capture/resolution and invalidated-support flags with preserved prior valuations in `backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicReconciliationService.java`, `backend/src/main/java/ec/edu/unl/sec/academicevaluation/api/AcademicReconciliationController.java` and `frontend/src/app/features/evaluations/pages/academic-disagreement.page.ts`; test AC-X11 in `backend/src/test/java/ec/edu/unl/sec/academicevaluation/application/AcademicReconciliationServiceTest.java` before T076
 
 ## Phase 10: US8 — Findings and reports (D7, P13–P14)
 

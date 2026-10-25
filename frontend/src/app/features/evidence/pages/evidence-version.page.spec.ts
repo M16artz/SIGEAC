@@ -122,4 +122,14 @@ describe('EvidenceVersionPage', () => {
     expect(anchorClick).not.toHaveBeenCalled();
     expect(fixture.componentInstance.error()).toContain('integridad');
   });
+
+  it('shows completeness feedback and transitions to read-only on submit', () => {
+    api.submit.mockReturnValue(of({body: {...version, status: 'SUBMITTED' as const, submittedAt: '2026-10-20T16:00:00Z'}, etag: '"1"'}));
+    const fixture = TestBed.createComponent(EvidenceVersionPage);
+    fixture.detectChanges();
+    fixture.componentInstance.submit();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.version()?.status).toBe('SUBMITTED');
+    expect(fixture.nativeElement.querySelector('[data-submit-version]')).toBeNull();
+  });
 });

@@ -35,7 +35,7 @@ public class CreateEvidenceSuccessorService {
         this(drafts, draftRepository, sources, governance, audit, Clock.systemUTC());
     }
 
-    CreateEvidenceSuccessorService(EvidenceDraftService drafts, EvidenceDraftRepository draftRepository,
+    public CreateEvidenceSuccessorService(EvidenceDraftService drafts, EvidenceDraftRepository draftRepository,
             EvidenceSourceRepository sources, EvidenceGovernanceRepository governance, AuditPort audit, Clock clock) {
         this.drafts = drafts;
         this.draftRepository = draftRepository;
@@ -48,7 +48,12 @@ public class CreateEvidenceSuccessorService {
     @Transactional
     public SuccessorVersion createSuccessor(UUID sourceVersionId) {
         var successor = drafts.createSuccessorDraft(sourceVersionId);
-        draftRepository.createSuccessor(successor, sourceVersionId);
+        try {
+            draftRepository.createSuccessor(successor, sourceVersionId);
+        } catch (org.springframework.dao.DataAccessException ex) {
+            throw new EvidenceProblemException(EvidenceProblemException.Kind.CONFLICT,
+                    "SUCCESSOR_ALREADY_EXISTS", "La versión ya tiene una sucesora directa.");
+        }
         for (var coverage : governance.coverages(sourceVersionId)) {
             governance.saveCoverage(new SourceCoverage(
                     null, successor.id(), coverage.requiredSourceId(), coverage.coverageNote(),

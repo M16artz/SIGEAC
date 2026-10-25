@@ -117,10 +117,12 @@ class AuditQueryRepository implements AuditQueryPort {
 
     private static Object[] parameters(List<UUID> careerIds, String objectType, UUID objectId, Object... tail) {
         java.util.ArrayList<Object> values = new java.util.ArrayList<>();
-        values.addAll(careerIds);
+        if (careerIds != null) values.addAll(careerIds);
         if (objectType != null && !objectType.isBlank()) values.add(objectType);
         if (objectId != null) values.add(objectId);
-        values.addAll(List.of(tail));
+        if (tail != null) {
+            for (Object t : tail) values.add(t);
+        }
         return values.toArray();
     }
 }

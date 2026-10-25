@@ -127,20 +127,20 @@ description: "Dependency-ordered implementation tasks for I3 evidence collection
 
 - [X] T044 [P] [US3] Add domain tests requiring complete text/dates, at least one authorized indicator, at least one file/reference, every file `AVAILABLE` and verifiable, single `DRAFTâ†’SUBMITTED` transition, author/time and immutable children in `backend/src/test/java/ec/edu/unl/sec/evidence/domain/EvidenceSubmissionTest.java`
 - [X] T045 [P] [US3] Add transactional/concurrency tests proving two submissions create at most one submitted revision, stale ETag fails, successful audit shares the submission transaction and audit failure rolls everything back in `backend/src/test/java/ec/edu/unl/sec/evidence/application/SubmitEvidenceServiceTest.java`
-- [ ] T046 [P] [US3] Add PostgreSQL integration tests that direct `UPDATE/DELETE` against a submitted version, indicators, files or references fails while draft mutation remains allowed in `backend/src/test/java/ec/edu/unl/sec/evidence/infrastructure/SubmittedEvidenceImmutabilityTest.java`
+- [X] T046 [P] [US3] Add PostgreSQL integration tests that direct `UPDATE/DELETE` against a submitted version, indicators, files or references fails while draft mutation remains allowed in `backend/src/test/java/ec/edu/unl/sec/evidence/infrastructure/SubmittedEvidenceImmutabilityTest.java`
 - [X] T047 [P] [US3] Add download tests proving authorization precedes metadata disclosure, full pre-response SHA/size verification, safe filename, no `storageKey`, exact bytes for authorized users and indistinguishable `404` for foreign/unknown IDs in `backend/src/test/java/ec/edu/unl/sec/evidence/application/EvidenceDownloadServiceTest.java`
 - [X] T048 [P] [US3] Add MockMvc/OpenAPI tests for `POST /evidence-versions/{versionId}/submit` and `GET .../files/{fileId}/content`, including CSRF/ETag, `409/412/422/428`, content headers and no bytes on integrity failure in `backend/src/test/java/ec/edu/unl/sec/evidence/api/EvidenceSubmissionControllerTest.java`
-- [ ] T049 [P] [US3] Add Angular tests for completeness feedback, confirmation result, editor-to-read-only transition, safe Blob download and focus/status announcements in `frontend/src/app/features/evidence/pages/evidence-version.page.spec.ts`
+- [X] T049 [P] [US3] Add Angular tests for completeness feedback, confirmation result, editor-to-read-only transition, safe Blob download and focus/status announcements in `frontend/src/app/features/evidence/pages/evidence-version.page.spec.ts`
 
 ### Implementation for User Story 3
 
 - [X] T050 [US3] Implement domain submission validation and the irreversible `DRAFTâ†’SUBMITTED` transition while preserving all metadata/indicator/file/reference snapshots in `backend/src/main/java/ec/edu/unl/sec/evidence/domain/EvidenceVersion.java`
-- [ ] T051 [US3] Add a new reproducible Flyway migration with defensive PostgreSQL trigger/functions that allow only the submission transition and reject later update/delete of submitted rows/children in `backend/src/main/resources/db/migration/V011__evidence_immutability.sql`; V007 already implements process preparation/suspension, so confirm V011 availability before creating it and never edit applied V006/V007 migrations
+- [X] T051 [US3] Add a new reproducible Flyway migration with defensive PostgreSQL trigger/functions that allow only the submission transition and reject later update/delete of submitted rows/children in `backend/src/main/resources/db/migration/V011__evidence_immutability.sql`; V007 already implements process preparation/suspension, so confirm V011 availability before creating it and never edit applied V006/V007 migrations
 - [X] T052 [US3] Implement root-locked, reauthorized, ETag-checked submission with complete revalidation and mandatory same-transaction `AuditPort.record`, then safe independent failure audit after rollback in `backend/src/main/java/ec/edu/unl/sec/evidence/application/SubmitEvidenceService.java`
 - [X] T053 [US3] Implement verified-download spooling/handle lifecycle so size/SHA-256 is confirmed before HTTP response begins and temporary verified copies are cleaned in `backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceDownloadService.java`
 - [X] T054 [US3] Implement submission and download controllers with safe `Content-Disposition`, detected media type, `Content-Length`, digest, hidden foreign IDs and RFC 9457 mappings in `backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceSubmissionController.java` and `backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceDownloadController.java`
 - [X] T055 [US3] Implement immutable version detail and submit/download actions in `frontend/src/app/features/evidence/pages/evidence-version.page.ts`, `frontend/src/app/features/evidence/ui/evidence-version-detail.component.ts` and `frontend/src/app/features/evidence/data-access/evidence-api.service.ts`
-- [ ] T056 [US3] Add the synthetic v1 submit â†’ rejected mutation â†’ authorized/denied download acceptance scenario and evidence capture in `tests/acceptance/evidence-v1.spec.ts` and `tests/acceptance/results/evidence-v1.md`
+- [X] T056 [US3] Add the synthetic v1 submit â†’ rejected mutation â†’ authorized/denied download acceptance scenario and evidence capture in `tests/acceptance/evidence-v1.spec.ts` and `tests/acceptance/results/evidence-v1.md`
 
 **Checkpoint**: US3 demonstrates the central measurable result for v1 without any I4 review or academic state.
 
@@ -154,19 +154,19 @@ description: "Dependency-ordered implementation tasks for I3 evidence collection
 
 ### Tests for User Story 4 â€” write and fail first
 
-- [ ] T057 [P] [US4] Add domain tests for v1 null predecessor, vN same-evidence predecessor, sequential positive revision, exact source/content copy into a mutable successor and unchanged predecessor in `backend/src/test/java/ec/edu/unl/sec/evidence/domain/EvidenceSuccessorTest.java`
-- [ ] T058 [P] [US4] Add application/concurrency tests proving a short root lock plus unique predecessor permits at most one direct successor and returns `SUCCESSOR_ALREADY_EXISTS` without branching in `backend/src/test/java/ec/edu/unl/sec/evidence/application/CreateEvidenceSuccessorServiceTest.java`
-- [ ] T059 [P] [US4] Add API tests for `POST /evidence-versions/{versionId}/successor`, version history ordering/pagination, `Location`, new draft ETag, hidden IDs and full immutable snapshots in `backend/src/test/java/ec/edu/unl/sec/evidence/api/EvidenceHistoryControllerTest.java`
-- [ ] T060 [P] [US4] Add Angular tests for successor action, copied v2 editor, immutable v1 detail and ordered v1/v2 timeline in `frontend/src/app/features/evidence/pages/evidence-history.page.spec.ts`
+- [X] T057 [P] [US4] Add domain tests for v1 null predecessor, vN same-evidence predecessor, sequential positive revision, exact source/content copy into a mutable successor and unchanged predecessor in `backend/src/test/java/ec/edu/unl/sec/evidence/domain/EvidenceSuccessorTest.java`
+- [X] T058 [P] [US4] Add application/concurrency tests proving a short root lock plus unique predecessor permits at most one direct successor and returns `SUCCESSOR_ALREADY_EXISTS` without branching in `backend/src/test/java/ec/edu/unl/sec/evidence/application/CreateEvidenceSuccessorServiceTest.java`
+- [X] T059 [P] [US4] Add API tests for `POST /evidence-versions/{versionId}/successor`, version history ordering/pagination, `Location`, new draft ETag, hidden IDs and full immutable snapshots in `backend/src/test/java/ec/edu/unl/sec/evidence/api/EvidenceHistoryControllerTest.java`
+- [X] T060 [P] [US4] Add Angular tests for successor action, copied v2 editor, immutable v1 detail and ordered v1/v2 timeline in `frontend/src/app/features/evidence/pages/evidence-history.page.spec.ts`
 
 ### Implementation for User Story 4
 
-- [ ] T061 [US4] Implement successor-copy domain behavior that allocates revision `latest+1`, sets the direct submitted predecessor and copies metadata/indicators/file snapshots/references without sharing mutable children in `backend/src/main/java/ec/edu/unl/sec/evidence/domain/Evidence.java` and `backend/src/main/java/ec/edu/unl/sec/evidence/domain/EvidenceVersion.java`
-- [ ] T062 [US4] Implement root-locked, reauthorized successor creation and ordered scope-filtered history queries in `backend/src/main/java/ec/edu/unl/sec/evidence/application/CreateEvidenceSuccessorService.java` and `backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceHistoryService.java`
-- [ ] T063 [US4] Implement successor and history REST operations with `409 SUCCESSOR_ALREADY_EXISTS`, `Location`, ETag and complete version summaries in `backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceHistoryController.java`
-- [ ] T064 [US4] Implement history timeline, immutable version navigation and â€œCreate successorâ€ flow in `frontend/src/app/features/evidence/pages/evidence-history.page.ts`, `frontend/src/app/features/evidence/ui/evidence-history-timeline.component.ts` and `frontend/src/app/features/evidence/evidence.routes.ts`
-- [ ] T065 [US4] Extend the acceptance journey to submit v2 and assert v1/v2 field, author, timestamp, predecessor, file/reference and SHA history in `tests/acceptance/evidence-v1-v2.spec.ts` and `tests/acceptance/results/evidence-v1-v2.md`
-- [ ] T066 [US4] Add simultaneous edit, submission and successor race coverage against PostgreSQL constraints/locks in `backend/src/test/java/ec/edu/unl/sec/evidence/infrastructure/EvidenceConcurrencyIntegrationTest.java`
+- [X] T061 [US4] Implement successor-copy domain behavior that allocates revision `latest+1`, sets the direct submitted predecessor and copies metadata/indicators/file snapshots/references without sharing mutable children in `backend/src/main/java/ec/edu/unl/sec/evidence/domain/Evidence.java` and `backend/src/main/java/ec/edu/unl/sec/evidence/domain/EvidenceVersion.java`
+- [X] T062 [US4] Implement root-locked, reauthorized successor creation and ordered scope-filtered history queries in `backend/src/main/java/ec/edu/unl/sec/evidence/application/CreateEvidenceSuccessorService.java` and `backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceHistoryService.java`
+- [X] T063 [US4] Implement successor and history REST operations with `409 SUCCESSOR_ALREADY_EXISTS`, `Location`, ETag and complete version summaries in `backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceHistoryController.java`
+- [X] T064 [US4] Implement history timeline, immutable version navigation and â€œCreate successorâ€ flow in `frontend/src/app/features/evidence/pages/evidence-history.page.ts`, `frontend/src/app/features/evidence/ui/evidence-history-timeline.component.ts` and `frontend/src/app/features/evidence/evidence.routes.ts`
+- [X] T065 [US4] Extend the acceptance journey to submit v2 and assert v1/v2 field, author, timestamp, predecessor, file/reference and SHA history in `tests/acceptance/evidence-v1-v2.spec.ts` and `tests/acceptance/results/evidence-v1-v2.md`
+- [X] T066 [US4] Add simultaneous edit, submission and successor race coverage against PostgreSQL constraints/locks in `backend/src/test/java/ec/edu/unl/sec/evidence/infrastructure/EvidenceConcurrencyIntegrationTest.java`
 
 **Checkpoint**: US4 proves the full required v1 â†’ immutable â†’ v2 lineage with no overwrite.
 
@@ -180,19 +180,19 @@ description: "Dependency-ordered implementation tasks for I3 evidence collection
 
 ### Tests for User Story 5 â€” write and fail first
 
-- [ ] T067 [P] [US5] Add audit-policy tests requiring actor, UTC time, action, object, outcome, safe reason and correlation while forbidding bytes, storage/staging keys, full external URIs, secrets, stack traces and out-of-scope metadata in `backend/src/test/java/ec/edu/unl/sec/evidence/application/EvidenceAuditPolicyTest.java`
-- [ ] T068 [P] [US5] Add repository/API tests for scope-filtered queries by process/evidence/version/action/outcome/correlation/date with stable ordering/pagination and `403` only for visible collection capability failures in `backend/src/test/java/ec/edu/unl/sec/audit/api/AuditEventControllerTest.java`
-- [ ] T069 [P] [US5] Add failure-path integration tests for rejected submission, invalid file, promotion failure, stale ETag and denied/integrity-failed download, proving each commits one safe audit event after business rollback in `backend/src/test/java/ec/edu/unl/sec/evidence/application/EvidenceFailureAuditIntegrationTest.java`
-- [ ] T070 [P] [US5] Add Angular tests for authorized audit filtering, chronological reconstruction, correlation display and absence of sensitive metadata in `frontend/src/app/features/evidence/pages/evidence-audit.page.spec.ts`
+- [X] T067 [P] [US5] Add audit-policy tests requiring actor, UTC time, action, object, outcome, safe reason and correlation while forbidding bytes, storage/staging keys, full external URIs, secrets, stack traces and out-of-scope metadata in `backend/src/test/java/ec/edu/unl/sec/evidence/application/EvidenceAuditPolicyTest.java`
+- [X] T068 [P] [US5] Add repository/API tests for scope-filtered queries by process/evidence/version/action/outcome/correlation/date with stable ordering/pagination and `403` only for visible collection capability failures in `backend/src/test/java/ec/edu/unl/sec/audit/api/AuditEventControllerTest.java`
+- [X] T069 [P] [US5] Add failure-path integration tests for rejected submission, invalid file, promotion failure, stale ETag and denied/integrity-failed download, proving each commits one safe audit event after business rollback in `backend/src/test/java/ec/edu/unl/sec/evidence/application/EvidenceFailureAuditIntegrationTest.java`
+- [X] T070 [P] [US5] Add Angular tests for authorized audit filtering, chronological reconstruction, correlation display and absence of sensitive metadata in `frontend/src/app/features/evidence/pages/evidence-audit.page.spec.ts`
 
 ### Implementation for User Story 5
 
-- [ ] T071 [P] [US5] Define centralized I3 audit actions/outcomes/reason codes and metadata allowlist/redaction in `backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceAuditPolicy.java`
-- [ ] T072 [US5] Apply the audit policy consistently to draft, file, reference, submission, successor, reconciliation and download failure paths in `backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceAuditService.java`
-- [ ] T073 [US5] Implement scope-aware indexed audit search projections for process/evidence/version/action/outcome/correlation/date filters in `backend/src/main/java/ec/edu/unl/sec/audit/infrastructure/JpaAuditAdapter.java`
-- [ ] T074 [US5] Implement authorized audit REST query and DTO sanitization in `backend/src/main/java/ec/edu/unl/sec/audit/api/AuditEventController.java` and `backend/src/main/java/ec/edu/unl/sec/audit/api/AuditEventView.java`
-- [ ] T075 [US5] Implement the evidence audit page with accessible filters, empty/error states and correlation-safe details in `frontend/src/app/features/evidence/pages/evidence-audit.page.ts` and `frontend/src/app/features/evidence/evidence.routes.ts`
-- [ ] T076 [US5] Add acceptance evidence for the complete remittance/failure sequence and attempted ordinary-user mutation of audit history in `tests/acceptance/evidence-audit.spec.ts` and `tests/acceptance/results/evidence-audit.md`
+- [X] T071 [P] [US5] Define centralized I3 audit actions/outcomes/reason codes and metadata allowlist/redaction in `backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceAuditPolicy.java`
+- [X] T072 [US5] Apply the audit policy consistently to draft, file, reference, submission, successor, reconciliation and download failure paths in `backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceAuditService.java`
+- [X] T073 [US5] Implement scope-aware indexed audit search projections for process/evidence/version/action/outcome/correlation/date filters in `backend/src/main/java/ec/edu/unl/sec/audit/infrastructure/JpaAuditAdapter.java`
+- [X] T074 [US5] Implement authorized audit REST query and DTO sanitization in `backend/src/main/java/ec/edu/unl/sec/audit/api/AuditEventController.java` and `backend/src/main/java/ec/edu/unl/sec/audit/api/AuditEventView.java`
+- [X] T075 [US5] Implement the evidence audit page with accessible filters, empty/error states and correlation-safe details in `frontend/src/app/features/evidence/pages/evidence-audit.page.ts` and `frontend/src/app/features/evidence/evidence.routes.ts`
+- [X] T076 [US5] Add acceptance evidence for the complete remittance/failure sequence and attempted ordinary-user mutation of audit history in `tests/acceptance/evidence-audit.spec.ts` and `tests/acceptance/results/evidence-audit.md`
 
 **Checkpoint**: US5 reconstructs required events without exposing content or introducing review/academic decisions.
 
