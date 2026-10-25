@@ -10,6 +10,8 @@ public interface DocumentaryProcessPort {
     Optional<Context> lock(UUID processId);
     boolean reserveSnapshot(UUID processId, long expectedRevision);
     Optional<Context> completeClosure(UUID processId,long expectedRevision,UUID actor,String reason,UUID correlation);
+    Optional<Context> completeIntegralClosure(UUID processId,long expectedRevision,UUID actor,String reason,
+            UUID correlation,UUID authorityAssignmentId,String legalBasis,String documentReference);
     record Context(UUID id, UUID careerId, UUID modelVersionId, String state, long revision, List<UUID> indicatorIds,
             java.time.LocalDate periodStart, java.time.LocalDate periodEnd) {
         public Context(UUID id, UUID careerId, UUID modelVersionId, String state, long revision, List<UUID> indicatorIds) {

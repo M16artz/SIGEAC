@@ -20,6 +20,8 @@ public class D7ReconciliationData implements ApplicationRunner {
     public static final UUID ASSIGNMENT=UUID.fromString("d7000000-0000-0000-0000-000000000901");
     private final JdbcTemplate jdbc;private final ObjectMapper json;private final PasswordEncoder passwords;
     public D7ReconciliationData(JdbcTemplate jdbc,ObjectMapper json,PasswordEncoder passwords){this.jdbc=jdbc;this.json=json;this.passwords=passwords;}
+    protected final JdbcTemplate database(){return jdbc;}
+    protected final PasswordEncoder encoder(){return passwords;}
     @Override public void run(ApplicationArguments args)throws Exception {
         new D7ManualEvaluationData(jdbc,json).run(null);
         jdbc.update("insert into process_function(id,code,name) values(?,?,?) on conflict do nothing",FUNCTION,"ACADEMIC_COMMITTEE","Comité sintético de conciliación");

@@ -48,6 +48,31 @@ class OpenApiContractTest {
     }
 
     @Test
+    void exposesGovernanceFindingAndReportPaths() throws IOException {
+        String yaml = Files.readString(contract);
+        assertAll(
+                () -> assertTrue(yaml.contains("Reports")),
+                () -> assertTrue(yaml.contains("/processes/{processId}/findings:")),
+                () -> assertTrue(yaml.contains("/processes/{processId}/consolidations:")),
+                () -> assertTrue(yaml.contains("/processes/{processId}/report-versions:")),
+                () -> assertTrue(yaml.contains("/report-versions/{reportVersionId}:")),
+                () -> assertTrue(yaml.contains("/report-versions/{reportVersionId}/socializations:")),
+                () -> assertTrue(yaml.contains("/report-versions/{reportVersionId}/observations:")),
+                () -> assertTrue(yaml.contains("/report-observations/{observationId}/responses:")),
+                () -> assertTrue(yaml.contains("/report-versions/{reportVersionId}/approval-decisions:")));
+    }
+
+    @Test
+    void exposesClosureAndArchivePaths() throws IOException {
+        String yaml = Files.readString(contract);
+        assertAll(
+                () -> assertTrue(yaml.contains("/processes/{processId}/closure-preview:")),
+                () -> assertTrue(yaml.contains("/processes/{processId}/close:")),
+                () -> assertTrue(yaml.contains("/processes/{processId}/archive:")),
+                () -> assertTrue(yaml.contains("/processes/{processId}/closures:")));
+    }
+
+    @Test
     void evidenceContractRequiresConcurrencyIntegrityAndCompleteProblems() throws IOException {
         String yaml = Files.readString(evidenceContract);
         assertAll(

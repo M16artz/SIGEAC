@@ -1,7 +1,4 @@
 import {Routes} from '@angular/router';
-import {Component} from '@angular/core';
+import {ImprovementPlanPage} from './pages/improvement-plan.page';
 
-@Component({selector:'sec-improvement-placeholder',standalone:true,template:'<section><h1>Mejora continua</h1></section>'})
-class ImprovementPlaceholder {}
-
-export const IMPROVEMENT_ROUTES: Routes = [{path:'', component: ImprovementPlaceholder}];
+export const IMPROVEMENT_ROUTES: Routes = [{path: '', component: ImprovementPlanPage}];

@@ -40,6 +40,23 @@ public class DocumentaryProcessService implements DocumentaryProcessPort {
 
     @Override
     @Transactional(propagation = Propagation.MANDATORY)
+    public Optional<Context> completeIntegralClosure(UUID id, long expectedRevision, UUID actor, String reason,
+            UUID correlation, UUID authorityAssignmentId, String legalBasis, String documentReference) {
+        var process = repository.findForUpdate(id).orElse(null);
+        if (process == null || process.revision() != expectedRevision
+                || !"DOCUMENTARY_CLOSED".equals(process.state().name())) return Optional.empty();
+        var closing = process.transition(ec.edu.unl.sec.selfassessment.domain.ProcessState.CLOSING);
+        var closed = closing.transition(ec.edu.unl.sec.selfassessment.domain.ProcessState.CLOSED);
+        repository.save(closed, expectedRevision);
+        var decision = new ec.edu.unl.sec.selfassessment.domain.ProcessAuthorization(null,
+                authorityAssignmentId, legalBasis, documentReference, reason, actor, java.time.Instant.now());
+        repository.recordTransition(id, process.state(), closed.state(), actor, reason, correlation,
+                closed.revision(), decision);
+        return context(id);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.MANDATORY)
     public boolean reserveSnapshot(UUID processId, long expectedRevision) {
         var process = repository.find(processId).orElse(null);
         if (process == null || process.revision() != expectedRevision || !"ACTIVE".equals(process.state().name())) return false;

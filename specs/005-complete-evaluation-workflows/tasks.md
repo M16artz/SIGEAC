@@ -231,20 +231,24 @@ pendientes. Ver [evidencia de conciliación](../../tests/acceptance/results/d7-a
 
 **Independent Test**: create findings, preliminary report, observations, final report and approval decision with full traceability.
 
-**Estado reconciliado**: el servicio de hallazgos vacío, el avance de informe
-fijo y el recorrido de aceptación vacío no prueban esta entrega. T077–T085 se
-mantienen abiertos hasta reemplazar esos esqueletos y ejecutar el flujo real.
+**Estado reconciliado (2026-10-25)**: los esqueletos vacíos de hallazgos,
+informes y aceptación fueron reemplazados por implementación real
+(T077–T085/T122) y verificados con la suite backend (517 pruebas), la suite
+frontend (95 pruebas), contratos y el recorrido AC-X12 de navegador sin
+mocks. Véase `tests/acceptance/results/d7-reports.md`. La aceptación
+institucional y la campaña de rendimiento siguen pendientes; no se declara
+D7 completo.
 
-- [ ] T077 [P] [US8] Add finding linkage and no-arbitrary-aggregation tests in `backend/src/test/java/ec/edu/unl/sec/governance/domain/FindingTest.java`
-- [ ] T078 [P] [US8] Add report version/approval tests including no-accreditation language in `backend/src/test/java/ec/edu/unl/sec/governance/application/ReportWorkflowServiceTest.java`
-- [ ] T079 [US8] Create migration for findings, report versions, observations and approval decisions in `backend/src/main/resources/db/migration/V018__findings_reports.sql`
-- [ ] T080 [US8] Implement finding consolidation in `backend/src/main/java/ec/edu/unl/sec/governance/application/FindingService.java`
-- [ ] T081 [US8] Implement report workflow and append-only decisions in `backend/src/main/java/ec/edu/unl/sec/governance/application/ReportWorkflowService.java`
-- [ ] T082 [US8] Implement findings/report endpoints in `backend/src/main/java/ec/edu/unl/sec/governance/api/ReportController.java`
-- [ ] T083 [US8] Implement findings and report workflow UI in `frontend/src/app/features/reports/pages/report-workflow.page.ts`
-- [ ] T084 [US8] Add preliminary → observations → final → approved journey in `tests/acceptance/report-workflow.spec.ts`
-- [ ] T085 [US8] Record P13–P14 acceptance evidence in `tests/acceptance/results/d7-reports.md`
-- [ ] T122 [US8] Complete socialization, observation replies, corrected-version linkage and version-specific authority decisions in `backend/src/main/java/ec/edu/unl/sec/governance/application/ReportWorkflowService.java` and `frontend/src/app/features/reports/pages/report-workflow.page.ts`; prove emitted content remains immutable in `backend/src/test/java/ec/edu/unl/sec/governance/application/IssuedReportImmutabilityTest.java` before T085
+- [X] T077 [P] [US8] Add finding linkage and no-arbitrary-aggregation tests in `backend/src/test/java/ec/edu/unl/sec/governance/domain/FindingTest.java`
+- [X] T078 [P] [US8] Add report version/approval tests including no-accreditation language in `backend/src/test/java/ec/edu/unl/sec/governance/application/ReportWorkflowServiceTest.java`
+- [X] T079 [US8] Create migration for findings, report versions, observations and approval decisions in `backend/src/main/resources/db/migration/V018__findings_reports.sql`
+- [X] T080 [US8] Implement finding consolidation in `backend/src/main/java/ec/edu/unl/sec/governance/application/FindingService.java`
+- [X] T081 [US8] Implement report workflow and append-only decisions in `backend/src/main/java/ec/edu/unl/sec/governance/application/ReportWorkflowService.java`
+- [X] T082 [US8] Implement findings/report endpoints in `backend/src/main/java/ec/edu/unl/sec/governance/api/ReportController.java`
+- [X] T083 [US8] Implement findings and report workflow UI in `frontend/src/app/features/reports/pages/report-workflow.page.ts`
+- [X] T084 [US8] Add preliminary → observations → final → approved journey in `tests/acceptance/report-workflow.spec.ts`
+- [X] T085 [US8] Record P13–P14 acceptance evidence in `tests/acceptance/results/d7-reports.md`
+- [X] T122 [US8] Complete socialization, observation replies, corrected-version linkage and version-specific authority decisions in `backend/src/main/java/ec/edu/unl/sec/governance/application/ReportWorkflowService.java` and `frontend/src/app/features/reports/pages/report-workflow.page.ts`; prove emitted content remains immutable in `backend/src/test/java/ec/edu/unl/sec/governance/application/IssuedReportImmutabilityTest.java` before T085
 
 ## Phase 11: US9 — Improvement plans (D8, P15)
 
@@ -252,28 +256,28 @@ mantienen abiertos hasta reemplazar esos esqueletos y ejecutar el flujo real.
 
 - [X] T086 [P] [US9] Add action lifecycle, versioning and deadline tests in `backend/src/test/java/ec/edu/unl/sec/improvement/domain/ImprovementActionTest.java`
 - [X] T087 [P] [US9] Add finding-link and authorization API tests in `backend/src/test/java/ec/edu/unl/sec/improvement/api/ImprovementControllerTest.java`
-- [X] T088 [US9] Create migration for plans, actions, progress and verification in `backend/src/main/resources/db/migration/V019__improvement.sql`
+- [X] T088 [US9] Create migration for plans, actions, progress and verification in `backend/src/main/resources/db/migration/V025__improvement_workflow.sql`
 - [X] T089 [US9] Implement plan/action workflow in `backend/src/main/java/ec/edu/unl/sec/improvement/application/ImprovementPlanService.java`
 - [X] T090 [US9] Implement progress and verification in `backend/src/main/java/ec/edu/unl/sec/improvement/application/ActionProgressService.java`
 - [X] T091 [US9] Implement improvement endpoints in `backend/src/main/java/ec/edu/unl/sec/improvement/api/ImprovementController.java`
 - [X] T092 [US9] Implement improvement dashboard UI in `frontend/src/app/features/improvement/pages/improvement-plan.page.ts`
 - [X] T093 [US9] Record P15 acceptance evidence in `tests/acceptance/results/d8-improvement.md`
-- [ ] T123 [US9] Enforce separate approval/execution/verification capabilities and append-only progress after evaluation closure when policy permits in `backend/src/main/java/ec/edu/unl/sec/improvement/application/ActionProgressService.java`; test overdue derivation and immutable closure in `backend/src/test/java/ec/edu/unl/sec/improvement/application/PostClosureImprovementTest.java` before T093
+- [X] T123 [US9] Enforce separate approval/execution/verification capabilities and append-only progress after evaluation closure when policy permits in `backend/src/main/java/ec/edu/unl/sec/improvement/application/ActionProgressService.java`; test overdue derivation and immutable closure in `backend/src/test/java/ec/edu/unl/sec/improvement/application/PostClosureImprovementTest.java` before T093
 
 ## Phase 12: US10 — Integral closure and archive (D8, P16)
 
 **Independent Test**: block incomplete closure, authorize an exception, archive/restore the snapshot and create a separate later process.
 
-- [ ] T094 [P] [US10] Add closure-policy and exception tests in `backend/src/test/java/ec/edu/unl/sec/archive/domain/IntegralClosurePolicyTest.java`
-- [ ] T095 [P] [US10] Add archive authorization, integrity and historical-query tests in `backend/src/test/java/ec/edu/unl/sec/archive/application/ArchiveServiceTest.java`
-- [X] T096 [US10] Create migration for closure policies, snapshots and archive records in `backend/src/main/resources/db/migration/V020__integral_archive.sql`
+- [X] T094 [P] [US10] Add closure-policy and exception tests in `backend/src/test/java/ec/edu/unl/sec/archive/domain/IntegralClosurePolicyTest.java`
+- [X] T095 [P] [US10] Add archive authorization, integrity and historical-query tests in `backend/src/test/java/ec/edu/unl/sec/archive/application/ArchiveServiceTest.java`
+- [X] T096 [US10] Create migration for closure policies, snapshots and archive records in `backend/src/main/resources/db/migration/V026__integral_closure_archive.sql` (supersedes the V020 scaffold)
 - [X] T097 [US10] Implement integral closure service in `backend/src/main/java/ec/edu/unl/sec/archive/application/IntegralClosureService.java`
 - [X] T098 [US10] Implement archive and historical query service in `backend/src/main/java/ec/edu/unl/sec/archive/application/ArchiveService.java`
 - [X] T099 [US10] Implement closure/archive endpoints in `backend/src/main/java/ec/edu/unl/sec/archive/api/ArchiveController.java`
 - [X] T100 [US10] Implement closure blockers and historical UI in `frontend/src/app/features/archive/pages/process-archive.page.ts`
 - [X] T101 [US10] Add backup/restore integrity journey in `tests/acceptance/archive-restore.spec.ts`
 - [X] T102 [US10] Record P16 acceptance evidence in `tests/acceptance/results/d8-archive.md`
-- [ ] T124 [US10] Implement policy-specific closure preview/blockers and controlled reopening from documentary or integral closure in `backend/src/main/java/ec/edu/unl/sec/archive/application/IntegralClosureService.java` and `backend/src/main/java/ec/edu/unl/sec/archive/api/ArchiveController.java`; test retained exceptions and integrity failures in `backend/src/test/java/ec/edu/unl/sec/archive/application/ClosureReopeningPolicyTest.java` before T102
+- [X] T124 [US10] Implement policy-specific closure preview/blockers and controlled reopening from documentary or integral closure in `backend/src/main/java/ec/edu/unl/sec/archive/application/IntegralClosureService.java` and `backend/src/main/java/ec/edu/unl/sec/archive/api/ArchiveController.java`; test retained exceptions and integrity failures in `backend/src/test/java/ec/edu/unl/sec/archive/application/ClosureReopeningPolicyTest.java` before T102
 
 ## Phase 13: Cross-cutting verification and documentation
 

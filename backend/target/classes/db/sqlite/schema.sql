@@ -335,6 +335,118 @@ CREATE TABLE IF NOT EXISTS document_review_outcome (
 CREATE INDEX IF NOT EXISTS ix_document_review_outcome_decision
     ON document_review_outcome(decision_id);
 
+CREATE TABLE IF NOT EXISTS manual_academic_evaluation (
+    id BLOB PRIMARY KEY, process_id BLOB NOT NULL REFERENCES self_assessment_process(id), indicator_id BLOB NOT NULL,
+    evaluator_id BLOB NOT NULL REFERENCES access_identity(id), revision INTEGER NOT NULL CHECK(revision>=1),
+    predecessor_id BLOB UNIQUE, evaluated_at TIMESTAMP NOT NULL, payload_json TEXT NOT NULL CHECK(json_valid(payload_json)),
+    UNIQUE(process_id,indicator_id,evaluator_id,revision), UNIQUE(id,process_id,indicator_id,evaluator_id),
+    FOREIGN KEY(predecessor_id,process_id,indicator_id,evaluator_id)
+        REFERENCES manual_academic_evaluation(id,process_id,indicator_id,evaluator_id),
+    CHECK((revision=1 AND predecessor_id IS NULL) OR (revision>1 AND predecessor_id IS NOT NULL))
+);
+CREATE INDEX IF NOT EXISTS ix_manual_evaluation_history ON manual_academic_evaluation(process_id,indicator_id,evaluated_at DESC,id DESC);
+
+CREATE TABLE IF NOT EXISTS quantitative_input_set (
+    id BLOB PRIMARY KEY, process_id BLOB NOT NULL REFERENCES self_assessment_process(id), indicator_id BLOB NOT NULL,
+    captured_by BLOB NOT NULL REFERENCES access_identity(id), revision INTEGER NOT NULL CHECK(revision>=1),
+    predecessor_id BLOB UNIQUE, captured_at TIMESTAMP NOT NULL, payload_json TEXT NOT NULL CHECK(json_valid(payload_json)),
+    UNIQUE(process_id,indicator_id,captured_by,revision), UNIQUE(id,process_id,indicator_id,captured_by), UNIQUE(id,process_id,indicator_id),
+    FOREIGN KEY(predecessor_id,process_id,indicator_id,captured_by) REFERENCES quantitative_input_set(id,process_id,indicator_id,captured_by),
+    CHECK((revision=1 AND predecessor_id IS NULL) OR (revision>1 AND predecessor_id IS NOT NULL))
+);
+CREATE TABLE IF NOT EXISTS quantitative_verification (
+    input_set_id BLOB PRIMARY KEY REFERENCES quantitative_input_set(id),verified_by BLOB NOT NULL REFERENCES access_identity(id),
+    verified_at TIMESTAMP NOT NULL,payload_json TEXT NOT NULL CHECK(json_valid(payload_json))
+);
+CREATE TABLE IF NOT EXISTS quantitative_calculation (
+    id BLOB PRIMARY KEY,input_set_id BLOB NOT NULL UNIQUE REFERENCES quantitative_verification(input_set_id),
+    process_id BLOB NOT NULL,indicator_id BLOB NOT NULL,executed_by BLOB NOT NULL REFERENCES access_identity(id),
+    executed_at TIMESTAMP NOT NULL,payload_json TEXT NOT NULL CHECK(json_valid(payload_json)),
+    FOREIGN KEY(input_set_id,process_id,indicator_id) REFERENCES quantitative_input_set(id,process_id,indicator_id)
+);
+CREATE INDEX IF NOT EXISTS ix_quantitative_history ON quantitative_calculation(process_id,indicator_id,executed_at DESC,id DESC);
+
+CREATE TABLE IF NOT EXISTS academic_reconciliation_policy (
+    id BLOB PRIMARY KEY,process_id BLOB NOT NULL REFERENCES self_assessment_process(id),indicator_id BLOB NOT NULL,
+    revision INTEGER NOT NULL CHECK(revision>=1),predecessor_id BLOB UNIQUE,configured_by BLOB NOT NULL REFERENCES access_identity(id),
+    authority_assignment_id BLOB NOT NULL REFERENCES functional_assignment(id),configured_at TIMESTAMP NOT NULL,payload_json TEXT NOT NULL CHECK(json_valid(payload_json)),
+    UNIQUE(process_id,indicator_id,revision),UNIQUE(id,process_id,indicator_id),
+    FOREIGN KEY(predecessor_id,process_id,indicator_id) REFERENCES academic_reconciliation_policy(id,process_id,indicator_id),
+    CHECK((revision=1 AND predecessor_id IS NULL) OR(revision>1 AND predecessor_id IS NOT NULL))
+);
+CREATE TABLE IF NOT EXISTS academic_disagreement_record (
+    id BLOB PRIMARY KEY,process_id BLOB NOT NULL REFERENCES self_assessment_process(id),indicator_id BLOB NOT NULL,
+    revision INTEGER NOT NULL CHECK(revision>=1),predecessor_id BLOB UNIQUE,opened_by BLOB NOT NULL REFERENCES access_identity(id),
+    opened_at TIMESTAMP NOT NULL,payload_json TEXT NOT NULL CHECK(json_valid(payload_json)),
+    UNIQUE(process_id,indicator_id,revision),UNIQUE(id,process_id,indicator_id),
+    FOREIGN KEY(predecessor_id,process_id,indicator_id) REFERENCES academic_disagreement_record(id,process_id,indicator_id),
+    CHECK((revision=1 AND predecessor_id IS NULL) OR(revision>1 AND predecessor_id IS NOT NULL))
+);
+CREATE TABLE IF NOT EXISTS academic_reconciliation_resolution (
+    id BLOB PRIMARY KEY,process_id BLOB NOT NULL,indicator_id BLOB NOT NULL,disagreement_id BLOB NOT NULL UNIQUE,policy_id BLOB NOT NULL,
+    resolved_by BLOB NOT NULL REFERENCES access_identity(id),authority_assignment_id BLOB NOT NULL REFERENCES functional_assignment(id),
+    resolved_at TIMESTAMP NOT NULL,payload_json TEXT NOT NULL CHECK(json_valid(payload_json)),
+    FOREIGN KEY(disagreement_id,process_id,indicator_id) REFERENCES academic_disagreement_record(id,process_id,indicator_id),
+    FOREIGN KEY(policy_id,process_id,indicator_id) REFERENCES academic_reconciliation_policy(id,process_id,indicator_id)
+);
+CREATE INDEX IF NOT EXISTS ix_academic_current_run ON quantitative_calculation(process_id,indicator_id,executed_by,executed_at DESC,id DESC);
+
+CREATE TABLE IF NOT EXISTS governance_finding (
+    id BLOB PRIMARY KEY, process_id BLOB NOT NULL REFERENCES self_assessment_process(id),
+    registered_by BLOB NOT NULL REFERENCES access_identity(id), registered_at TIMESTAMP NOT NULL,
+    payload_json TEXT NOT NULL CHECK(json_valid(payload_json))
+);
+CREATE INDEX IF NOT EXISTS ix_governance_finding ON governance_finding(process_id, registered_at DESC, id DESC);
+CREATE TABLE IF NOT EXISTS governance_finding_consolidation (
+    id BLOB PRIMARY KEY, process_id BLOB NOT NULL REFERENCES self_assessment_process(id),
+    revision INTEGER NOT NULL CHECK(revision>=1), predecessor_id BLOB UNIQUE,
+    consolidated_by BLOB NOT NULL REFERENCES access_identity(id), consolidated_at TIMESTAMP NOT NULL,
+    payload_json TEXT NOT NULL CHECK(json_valid(payload_json)),
+    UNIQUE(process_id,revision), UNIQUE(id,process_id),
+    FOREIGN KEY(predecessor_id,process_id) REFERENCES governance_finding_consolidation(id,process_id),
+    CHECK((revision=1 AND predecessor_id IS NULL) OR (revision>1 AND predecessor_id IS NOT NULL))
+);
+CREATE TABLE IF NOT EXISTS governance_consolidation_finding (
+    consolidation_id BLOB NOT NULL REFERENCES governance_finding_consolidation(id) ON DELETE CASCADE,
+    finding_id BLOB NOT NULL REFERENCES governance_finding(id) ON DELETE RESTRICT,
+    PRIMARY KEY(consolidation_id,finding_id)
+);
+CREATE TABLE IF NOT EXISTS governance_report_version (
+    id BLOB PRIMARY KEY, process_id BLOB NOT NULL REFERENCES self_assessment_process(id),
+    version_number INTEGER NOT NULL CHECK(version_number>=1), predecessor_version_id BLOB UNIQUE,
+    emitted_by BLOB NOT NULL REFERENCES access_identity(id), emitted_at TIMESTAMP NOT NULL,
+    content_sha256 TEXT NOT NULL, payload_json TEXT NOT NULL CHECK(json_valid(payload_json)),
+    UNIQUE(process_id,version_number), UNIQUE(id,process_id),
+    FOREIGN KEY(predecessor_version_id,process_id) REFERENCES governance_report_version(id,process_id)
+);
+CREATE INDEX IF NOT EXISTS ix_governance_report_versions ON governance_report_version(process_id, version_number ASC);
+CREATE TABLE IF NOT EXISTS governance_report_processing (
+    version_id BLOB PRIMARY KEY REFERENCES governance_report_version(id), process_id BLOB NOT NULL,
+    state TEXT NOT NULL CHECK(state IN ('PRELIMINARY','UNDER_OBSERVATION','FINAL','APPROVED','RETURNED')),
+    revision INTEGER NOT NULL CHECK(revision>=0), updated_at TIMESTAMP NOT NULL
+);
+CREATE TABLE IF NOT EXISTS governance_report_observation (
+    id BLOB PRIMARY KEY, version_id BLOB NOT NULL REFERENCES governance_report_version(id),
+    observed_by BLOB NOT NULL REFERENCES access_identity(id), observed_at TIMESTAMP NOT NULL,
+    payload_json TEXT NOT NULL CHECK(json_valid(payload_json))
+);
+CREATE TABLE IF NOT EXISTS governance_report_reply (
+    id BLOB PRIMARY KEY, observation_id BLOB NOT NULL UNIQUE REFERENCES governance_report_observation(id),
+    replied_by BLOB NOT NULL REFERENCES access_identity(id), replied_at TIMESTAMP NOT NULL,
+    payload_json TEXT NOT NULL CHECK(json_valid(payload_json))
+);
+CREATE TABLE IF NOT EXISTS governance_report_socialization (
+    id BLOB PRIMARY KEY, version_id BLOB NOT NULL REFERENCES governance_report_version(id),
+    socialized_by BLOB NOT NULL REFERENCES access_identity(id), recorded_at TIMESTAMP NOT NULL,
+    payload_json TEXT NOT NULL CHECK(json_valid(payload_json))
+);
+CREATE TABLE IF NOT EXISTS governance_report_decision (
+    id BLOB PRIMARY KEY, version_id BLOB NOT NULL REFERENCES governance_report_version(id),
+    decided_by BLOB NOT NULL REFERENCES access_identity(id),
+    authority_assignment_id BLOB NOT NULL REFERENCES functional_assignment(id), decided_at TIMESTAMP NOT NULL,
+    payload_json TEXT NOT NULL CHECK(json_valid(payload_json)), UNIQUE(version_id)
+);
+
 CREATE TABLE IF NOT EXISTS academic_unit (
     id TEXT PRIMARY KEY,code TEXT NOT NULL UNIQUE,name TEXT NOT NULL,status TEXT NOT NULL CHECK(status IN ('ACTIVE','DISABLED')),
     revision INTEGER NOT NULL CHECK(revision>=1),created_by TEXT NOT NULL,created_at TEXT NOT NULL
@@ -355,6 +467,81 @@ CREATE TABLE IF NOT EXISTS career_history (
     changed_by TEXT NOT NULL,changed_at TEXT NOT NULL,reason TEXT NOT NULL,PRIMARY KEY(career_id,revision)
 );
 CREATE INDEX IF NOT EXISTS ix_career_unit_status ON career(academic_unit_id,status,code,id);
+
+CREATE TABLE IF NOT EXISTS improvement_plan (
+    id BLOB PRIMARY KEY, process_id BLOB NOT NULL REFERENCES self_assessment_process(id),
+    report_version_id BLOB NOT NULL REFERENCES governance_report_version(id),
+    created_by BLOB NOT NULL REFERENCES access_identity(id), created_at TIMESTAMP NOT NULL,
+    payload_json TEXT NOT NULL CHECK(json_valid(payload_json))
+);
+CREATE INDEX IF NOT EXISTS ix_improvement_plan ON improvement_plan(process_id, created_at ASC, id ASC);
+CREATE TABLE IF NOT EXISTS improvement_action (
+    id BLOB PRIMARY KEY, process_id BLOB NOT NULL REFERENCES self_assessment_process(id),
+    plan_id BLOB NOT NULL REFERENCES improvement_plan(id),
+    state TEXT NOT NULL CHECK(state IN ('PROPOSED','APPROVED','IN_PROGRESS','PENDING_VERIFICATION','VERIFIED')),
+    revision INTEGER NOT NULL CHECK(revision>=1), revised_by BLOB NOT NULL REFERENCES access_identity(id),
+    revised_at TIMESTAMP NOT NULL, payload_json TEXT NOT NULL CHECK(json_valid(payload_json))
+);
+CREATE INDEX IF NOT EXISTS ix_improvement_action ON improvement_action(process_id, revised_at DESC, id DESC);
+CREATE INDEX IF NOT EXISTS ix_improvement_action_plan ON improvement_action(plan_id);
+CREATE TABLE IF NOT EXISTS improvement_action_revision (
+    action_id BLOB NOT NULL REFERENCES improvement_action(id), revision INTEGER NOT NULL CHECK(revision>=1),
+    predecessor_revision INTEGER,
+    state TEXT NOT NULL CHECK(state IN ('PROPOSED','APPROVED','IN_PROGRESS','PENDING_VERIFICATION','VERIFIED')),
+    changed_by BLOB NOT NULL REFERENCES access_identity(id), changed_at TIMESTAMP NOT NULL,
+    payload_json TEXT NOT NULL CHECK(json_valid(payload_json)),
+    PRIMARY KEY(action_id,revision),
+    FOREIGN KEY(action_id,predecessor_revision) REFERENCES improvement_action_revision(action_id,revision),
+    CHECK((revision=1 AND predecessor_revision IS NULL) OR (revision>1 AND predecessor_revision IS NOT NULL))
+);
+CREATE TABLE IF NOT EXISTS improvement_progress (
+    id BLOB PRIMARY KEY, action_id BLOB NOT NULL REFERENCES improvement_action(id),
+    recorded_by BLOB NOT NULL REFERENCES access_identity(id), recorded_at TIMESTAMP NOT NULL,
+    payload_json TEXT NOT NULL CHECK(json_valid(payload_json))
+);
+CREATE INDEX IF NOT EXISTS ix_improvement_progress ON improvement_progress(action_id, recorded_at ASC, id ASC);
+CREATE TABLE IF NOT EXISTS improvement_decision (
+    id BLOB PRIMARY KEY, action_id BLOB NOT NULL REFERENCES improvement_action(id),
+    action_code TEXT NOT NULL CHECK(action_code IN
+        ('APPROVE','RETURN','START','SUBMIT_VERIFICATION','VERIFY','REQUEST_CORRECTION')),
+    decided_by BLOB NOT NULL REFERENCES access_identity(id), decided_at TIMESTAMP NOT NULL,
+    payload_json TEXT NOT NULL CHECK(json_valid(payload_json))
+);
+CREATE INDEX IF NOT EXISTS ix_improvement_decision ON improvement_decision(action_id, decided_at ASC, id ASC);
+CREATE TABLE IF NOT EXISTS closure_policy (
+    code TEXT PRIMARY KEY,
+    strict INTEGER NOT NULL,
+    active INTEGER NOT NULL DEFAULT 1,
+    created_at TIMESTAMP NOT NULL
+);
+INSERT OR IGNORE INTO closure_policy(code,strict,active,created_at) VALUES('INTEGRAL_STRICT_V1',1,1,strftime('%Y-%m-%dT%H:%M:%fZ','now'));
+CREATE TABLE IF NOT EXISTS integral_closure (
+    id TEXT PRIMARY KEY,
+    process_id TEXT NOT NULL REFERENCES self_assessment_process(id),
+    documentary_closure_id TEXT NOT NULL REFERENCES documentary_closure(id),
+    policy_version TEXT NOT NULL REFERENCES closure_policy(code),
+    payload_json TEXT NOT NULL CHECK(json_valid(payload_json) AND json_type(payload_json)='object'),
+    sha256 TEXT NOT NULL CHECK(length(sha256)=64 AND sha256 NOT GLOB '*[^a-f0-9]*'),
+    pending_ids TEXT NOT NULL DEFAULT '[]' CHECK(json_valid(pending_ids)),
+    exception_decision_ids TEXT NOT NULL DEFAULT '[]' CHECK(json_valid(exception_decision_ids)),
+    closed_by TEXT NOT NULL REFERENCES access_identity(id),
+    closed_at TIMESTAMP NOT NULL,
+    revision INTEGER NOT NULL DEFAULT 1 CHECK(revision>=1)
+);
+CREATE INDEX IF NOT EXISTS ix_integral_closure_history ON integral_closure(process_id, closed_at DESC, id DESC);
+CREATE UNIQUE INDEX IF NOT EXISTS ux_integral_closure_documentary ON integral_closure(process_id, documentary_closure_id);
+CREATE TABLE IF NOT EXISTS archive_record (
+    id TEXT PRIMARY KEY,
+    process_id TEXT NOT NULL REFERENCES self_assessment_process(id),
+    closure_snapshot_id TEXT NOT NULL REFERENCES integral_closure(id),
+    retention_policy_version TEXT NOT NULL,
+    archived_by TEXT NOT NULL REFERENCES access_identity(id),
+    archived_at TIMESTAMP NOT NULL,
+    integrity_hash TEXT NOT NULL CHECK(length(integrity_hash)=64 AND integrity_hash NOT GLOB '*[^a-f0-9]*'),
+    integrity_status TEXT NOT NULL CHECK(integrity_status IN ('VERIFIED','FAILED')),
+    UNIQUE(closure_snapshot_id)
+);
+CREATE INDEX IF NOT EXISTS ix_archive_record_history ON archive_record(process_id, archived_at DESC, id DESC);
 INSERT OR IGNORE INTO academic_unit VALUES('00000000-0000-0000-0000-000000000008','LEGACY-UNCLASSIFIED','Unidad pendiente de clasificación','DISABLED',1,'00000000-0000-0000-0000-000000000000',strftime('%Y-%m-%dT%H:%M:%fZ','now'));
 INSERT OR IGNORE INTO career(id,academic_unit_id,code,name,status,valid_from,classification_pending,revision,created_by,created_at)
 SELECT id,'00000000-0000-0000-0000-000000000008','LEGACY-'||upper(id),'Carrera pendiente de clasificación','DISABLED','1900-01-01',1,1,'00000000-0000-0000-0000-000000000000',strftime('%Y-%m-%dT%H:%M:%fZ','now')

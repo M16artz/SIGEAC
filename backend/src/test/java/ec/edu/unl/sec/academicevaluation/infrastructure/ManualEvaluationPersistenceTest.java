@@ -45,7 +45,7 @@ class ManualEvaluationPersistenceTest {
                     if (database.equals("postgres-upgrade22")) Flyway.configure().dataSource(source).schemas(schema).defaultSchema(schema).target("22").load().migrate();
                     var flyway=Flyway.configure().dataSource(source).schemas(schema).defaultSchema(schema).load();
                     flyway.migrate(); flyway.validate(); assertThat(flyway.info().current().getVersion())
-                            .isEqualTo(org.flywaydb.core.api.MigrationVersion.fromVersion("23"));
+                            .isEqualTo(org.flywaydb.core.api.MigrationVersion.fromVersion("26"));
                 }
                 var json=new ObjectMapper().findAndRegisterModules();
                 new SyntheticCareerData(new JdbcCareerCatalogRepository(jdbc,json)).run(null);

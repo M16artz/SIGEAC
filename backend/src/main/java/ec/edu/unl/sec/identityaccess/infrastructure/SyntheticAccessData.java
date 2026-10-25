@@ -42,7 +42,7 @@ public class SyntheticAccessData implements ApplicationRunner {
     @Transactional
     public void run(ApplicationArguments args) {
         // Register the capability, never grant institutional authority implicitly to an existing user.
-        function(UUID.fromString("20000000-0000-0000-0000-000000000006"), "PROCESS_AUTHORITY", "Autoridad de inicio del proceso", List.of("ACCESS_READ_SELF", "PROCESS_AUTHORIZE", "CAREER_READ", "MODEL_APPLICABILITY_AUTHORIZE"));
+        function(UUID.fromString("20000000-0000-0000-0000-000000000006"), "PROCESS_AUTHORITY", "Autoridad de inicio del proceso", List.of("ACCESS_READ_SELF", "PROCESS_AUTHORIZE", "CAREER_READ", "MODEL_APPLICABILITY_AUTHORIZE", "PROCESS_READ", "ARCHIVE_READ", "ARCHIVE_WRITE", "PROCESS_INTEGRAL_CLOSE"));
         functions();
         Long users = jdbc.queryForObject("select count(*) from access_identity", Long.class);
         if (users != null && users > 0) return;
@@ -80,15 +80,20 @@ public class SyntheticAccessData implements ApplicationRunner {
                 "MODEL_READ",
                 "MODEL_AUDIT_READ",
                 "MODEL_APPLICABILITY_AUTHORIZE",
-                "PROCESS_MANAGE"));
+                "PROCESS_MANAGE", "PROCESS_READ", "ARCHIVE_READ",
+                "REPORT_READ", "IMPROVEMENT_READ"));
         function(COORDINATOR, "COORDINATOR", "Coordinador de autoevaluacion", List.of(
-                "CAREER_READ", "ACCESS_READ_SELF", "ACCESS_READ_AUDIT", "MODEL_READ", "MODEL_PUBLISH", "MODEL_AUDIT_READ", "PROCESS_COORDINATE", "PROCESS_MANAGE", "PROGRESS_READ", "DOCUMENTARY_SNAPSHOT_CREATE", "PROCESS_DOCUMENTARY_CLOSE"));
+                "CAREER_READ", "ACCESS_READ_SELF", "ACCESS_READ_AUDIT", "MODEL_READ", "MODEL_PUBLISH", "MODEL_AUDIT_READ", "PROCESS_COORDINATE", "PROCESS_MANAGE", "PROCESS_READ", "PROGRESS_READ", "DOCUMENTARY_SNAPSHOT_CREATE", "PROCESS_DOCUMENTARY_CLOSE", "PROCESS_INTEGRAL_CLOSE", "ARCHIVE_READ", "ARCHIVE_WRITE",
+                "FINDING_READ", "FINDING_WRITE", "ACADEMIC_CONSOLIDATE", "REPORT_READ", "REPORT_WRITE", "REPORT_SOCIALIZE", "REPORT_APPROVE",
+                "IMPROVEMENT_READ", "IMPROVEMENT_WRITE", "IMPROVEMENT_DECIDE"));
         function(RESPONSIBLE, "RESPONSIBLE", "Responsable de evidencia", List.of(
-                "CAREER_READ", "ACCESS_READ_SELF", "EVIDENCE_COLLECT"));
+                "CAREER_READ", "ACCESS_READ_SELF", "EVIDENCE_COLLECT", "REPORT_READ",
+                "IMPROVEMENT_READ", "IMPROVEMENT_PROGRESS", "IMPROVEMENT_ACTION_EXECUTE"));
         function(REVIEWER, "REVIEWER", "Revisor documental", List.of(
-                "CAREER_READ", "ACCESS_READ_SELF", "EVIDENCE_REVIEW"));
+                "CAREER_READ", "ACCESS_READ_SELF", "EVIDENCE_REVIEW", "REPORT_READ", "REPORT_REVIEW", "REPORT_OBSERVE",
+                "IMPROVEMENT_READ", "IMPROVEMENT_ACTION_VERIFY"));
         function(EVALUATOR, "EVALUATOR", "Evaluador academico", List.of(
-                "CAREER_READ", "ACCESS_READ_SELF", "INDICATOR_EVALUATE"));
+                "CAREER_READ", "ACCESS_READ_SELF", "INDICATOR_EVALUATE", "REPORT_READ", "REPORT_OBSERVE", "IMPROVEMENT_READ"));
     }
 
     private void function(UUID id, String code, String name, List<String> operations) {

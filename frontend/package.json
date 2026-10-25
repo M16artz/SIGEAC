@@ -20,6 +20,9 @@
     "test:d7:manual": "node ../scripts/run-d7-manual-acceptance.mjs",
     "test:d7:quantitative": "node ../scripts/run-d7-quantitative-acceptance.mjs",
     "test:d7:reconciliation": "node ../scripts/run-d7-reconciliation-acceptance.mjs",
+    "test:d7:reports": "node ../scripts/run-d7-reports-acceptance.mjs",
+    "test:d8:improvement": "node ../scripts/run-d8-improvement-acceptance.mjs",
+    "test:d8:archive": "node ../scripts/run-d8-archive-acceptance.mjs",
     "test:performance": "k6 run ../tests/performance/evidence-upload.js"
   },
   "dependencies": {

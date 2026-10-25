@@ -11,7 +11,8 @@ export const routes: Routes = [
   { path: 'reviews', canActivate: [accessGuard], loadChildren: () => import('./features/reviews/reviews.routes').then((m) => m.REVIEW_ROUTES) },
   { path: 'evaluations', canActivate: [accessGuard], loadChildren: () => import('./features/evaluations/evaluations.routes').then((m) => m.EVALUATION_ROUTES) },
   { path: 'reporting', canActivate: [accessGuard], loadChildren: () => import('./features/reporting/reporting.routes').then((m) => m.REPORTING_ROUTES) },
-  { path: 'reports', canActivate: [accessGuard], loadChildren: () => import('./features/reporting/reporting.routes').then((m) => m.REPORTING_ROUTES) },
+  { path: 'reports', canActivate: [accessGuard], loadChildren: () =>
+import('./features/reports/reports.routes').then((m) => m.REPORTS_ROUTES) },
   { path: 'improvement', canActivate: [accessGuard], loadChildren: () => import('./features/improvement/improvement.routes').then((m) => m.IMPROVEMENT_ROUTES) },
   { path: 'archive', canActivate: [accessGuard], loadChildren: () => import('./features/archive/archive.routes').then((m) => m.ARCHIVE_ROUTES) },
   { path: '**', redirectTo: 'access' }

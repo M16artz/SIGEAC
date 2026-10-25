@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: SEC-UNL API
   version: 1.0.0
-  description: Contrato común v1 del Sistema de Evaluación de Carreras. D1 incorpora carreras/unidades; las operaciones aún planificadas no prueban disponibilidad del backend. Los cambios incompatibles futuros de 005 se separan en v2; no sustituyen silenciosamente DTO v1. D1-D6 forman el MVP documental y D7-D8 completan el ciclo.
+  description: Contrato comÃƒÂºn v1 del Sistema de EvaluaciÃƒÂ³n de Carreras. D1 incorpora carreras/unidades; las operaciones aÃƒÂºn planificadas no prueban disponibilidad del backend. Los cambios incompatibles futuros de 005 se separan en v2; no sustituyen silenciosamente DTO v1. D1-D6 forman el MVP documental y D7-D8 completan el ciclo.
 servers:
   - url: /api/v1
 security:
@@ -17,6 +17,7 @@ tags:
   - name: Reporting
   - name: Audit
   - name: Extensions
+  - name: Reports
 paths:
   /academic-units:
     $ref: '../../../specs/005-complete-evaluation-workflows/contracts/openapi.yaml#/paths/~1academic-units'
@@ -46,7 +47,7 @@ paths:
             schema: {$ref: '#/components/schemas/LoginRequest'}
       responses:
         '201':
-          description: Sesión creada; establece cookie opaca y devuelve token CSRF.
+          description: SesiÃƒÂ³n creada; establece cookie opaca y devuelve token CSRF.
           content:
             application/json:
               schema: {$ref: '#/components/schemas/SessionView'}
@@ -57,7 +58,7 @@ paths:
       operationId: revokeCurrentSession
       parameters: [{$ref: '#/components/parameters/CsrfToken'}]
       responses:
-        '204': {description: Sesión revocada}
+        '204': {description: SesiÃƒÂ³n revocada}
         '401': {$ref: '#/components/responses/Unauthorized'}
   /me:
     get:
@@ -65,7 +66,7 @@ paths:
       operationId: getCurrentIdentity
       responses:
         '200':
-          description: Identidad, funciones y ámbitos vigentes.
+          description: Identidad, funciones y ÃƒÂ¡mbitos vigentes.
           content:
             application/json:
               schema: {$ref: '#/components/schemas/CurrentIdentity'}
@@ -116,7 +117,7 @@ paths:
       parameters: [{$ref: '#/components/parameters/UserId'}]
       responses:
         '200':
-          description: Asignaciones del usuario visibles en el ámbito administrativo.
+          description: Asignaciones del usuario visibles en el ÃƒÂ¡mbito administrativo.
           content:
             application/json:
               schema:
@@ -178,7 +179,7 @@ paths:
     get:
       tags: [Models]
       operationId: listModelVersions
-      description: El contrato v1 conserva la jerarquía legada; una versión con nodos tipados devuelve MODEL_VERSION_REQUIRES_V2 y no se proyecta perdiendo información.
+      description: El contrato v1 conserva la jerarquÃƒÂ­a legada; una versiÃƒÂ³n con nodos tipados devuelve MODEL_VERSION_REQUIRES_V2 y no se proyecta perdiendo informaciÃƒÂ³n.
       parameters:
         - {$ref: '#/components/parameters/ModelId'}
         - {$ref: '#/components/parameters/Page'}
@@ -217,11 +218,11 @@ paths:
     get:
       tags: [Models]
       operationId: getModelVersion
-      description: Una versión con nodos tipados requiere el contrato v2 planificado y devuelve 409 MODEL_VERSION_REQUIRES_V2 en v1.
+      description: Una versiÃƒÂ³n con nodos tipados requiere el contrato v2 planificado y devuelve 409 MODEL_VERSION_REQUIRES_V2 en v1.
       parameters: [{$ref: '#/components/parameters/VersionId'}]
       responses:
         '200':
-          description: Versión completa del modelo filtrada por ámbito.
+          description: VersiÃƒÂ³n completa del modelo filtrada por ÃƒÂ¡mbito.
           content:
             application/json:
               schema: {$ref: '#/components/schemas/ModelVersionView'}
@@ -278,7 +279,7 @@ paths:
       operationId: listProcesses
       responses:
         '200':
-          description: Procesos visibles dentro del ámbito autorizado; listado actual sin paginación.
+          description: Procesos visibles dentro del ÃƒÂ¡mbito autorizado; listado actual sin paginaciÃƒÂ³n.
           content:
             application/json:
               schema: {type: array, items: {$ref: '#/components/schemas/ProcessView'}}
@@ -322,7 +323,7 @@ paths:
     post:
       tags: [Processes]
       operationId: recordProcessStartAuthorization
-      description: Registra una decisión humana de inicio. Verifica asignación propia, activa, con PROCESS_AUTHORIZE y ámbito suficiente; no concede acreditación. Adaptador inicial, no sustituye el contrato completo de decisiones de 005.
+      description: Registra una decisiÃƒÂ³n humana de inicio. Verifica asignaciÃƒÂ³n propia, activa, con PROCESS_AUTHORIZE y ÃƒÂ¡mbito suficiente; no concede acreditaciÃƒÂ³n. Adaptador inicial, no sustituye el contrato completo de decisiones de 005.
       x-implementation-status: partial
       parameters: [{$ref: '#/components/parameters/ProcessId'}, {$ref: '#/components/parameters/CsrfToken'}, {$ref: '#/components/parameters/IfMatch'}]
       requestBody:
@@ -332,9 +333,9 @@ paths:
             schema: {$ref: '#/components/schemas/ProcessStartAuthorizationCommand'}
       responses:
         '201':
-          description: Autorización registrada; el proceso continúa en preparación y su revisión aumenta.
+          description: AutorizaciÃƒÂ³n registrada; el proceso continÃƒÂºa en preparaciÃƒÂ³n y su revisiÃƒÂ³n aumenta.
           headers:
-            ETag: {description: Revisión fuerte del proceso, schema: {type: string}}
+            ETag: {description: RevisiÃƒÂ³n fuerte del proceso, schema: {type: string}}
           content:
             application/json:
               schema: {$ref: '#/components/schemas/ProcessStartAuthorizationView'}
@@ -348,7 +349,7 @@ paths:
     post:
       tags: [Processes]
       operationId: activateProcess
-      description: Requiere preparación, autorización institucional registrada y modelo con indicadores. No admite activación mediante transiciones genéricas.
+      description: Requiere preparaciÃƒÂ³n, autorizaciÃƒÂ³n institucional registrada y modelo con indicadores. No admite activaciÃƒÂ³n mediante transiciones genÃƒÂ©ricas.
       parameters: [{$ref: '#/components/parameters/ProcessId'}, {$ref: '#/components/parameters/CsrfToken'}, {$ref: '#/components/parameters/IfMatch'}]
       responses:
         '200': {$ref: '#/components/responses/Resource'}
@@ -589,7 +590,7 @@ paths:
     post:
       tags: [Processes]
       operationId: transitionProcess
-      description: Suspensión/reanudación justificadas. CLOSING, CLOSED y DOCUMENTARY_CLOSED se rechazan con CLOSURE_POLICY_REQUIRED hasta disponer de su política y snapshot. La reapertura requiere también PROCESS_AUTHORIZE.
+      description: SuspensiÃƒÂ³n/reanudaciÃƒÂ³n justificadas. CLOSING, CLOSED y DOCUMENTARY_CLOSED se rechazan con CLOSURE_POLICY_REQUIRED hasta disponer de su polÃƒÂ­tica y snapshot. La reapertura requiere tambiÃƒÂ©n PROCESS_AUTHORIZE.
       parameters: [{$ref: '#/components/parameters/ProcessId'}, {$ref: '#/components/parameters/CsrfToken'}, {$ref: '#/components/parameters/IfMatch'}]
       requestBody:
         required: true
@@ -619,14 +620,13 @@ paths:
         '200': {description: Eventos inmutables autorizados del proceso}
         '403': {$ref: '#/components/responses/Forbidden'}
   /processes/{processId}/close:
-    post:
-      tags: [Reporting]
-      operationId: closeProcess
-      parameters: [{$ref: '#/components/parameters/ProcessId'}, {$ref: '#/components/parameters/CsrfToken'}, {$ref: '#/components/parameters/IfMatch'}]
-      responses:
-        '201': {$ref: '#/components/responses/CreatedResource'}
-        '409': {$ref: '#/components/responses/Conflict'}
-        '412': {$ref: '#/components/responses/PreconditionFailed'}
+    $ref: '../../../specs/005-complete-evaluation-workflows/contracts/openapi.yaml#/paths/~1processes~1{processId}~1close'
+  /processes/{processId}/closure-preview:
+    $ref: '../../../specs/005-complete-evaluation-workflows/contracts/openapi.yaml#/paths/~1processes~1{processId}~1closure-preview'
+  /processes/{processId}/archive:
+    $ref: '../../../specs/005-complete-evaluation-workflows/contracts/openapi.yaml#/paths/~1processes~1{processId}~1archive'
+  /processes/{processId}/closures:
+    $ref: '../../../specs/005-complete-evaluation-workflows/contracts/openapi.yaml#/paths/~1processes~1{processId}~1closures'
   /processes/{processId}/documentary-close:
     post:
       tags: [Reporting]
@@ -634,12 +634,12 @@ paths:
       summary: Finalizar la fase documental con corte e integridad verificados
       description: >-
         Requiere PROCESS_DOCUMENTARY_CLOSE y PROGRESS_READ sobre el proceso completo.
-        Bloquea la misma fila de proceso que remisiones, revisiones y demás escrituras
-        documentales. Solo admite DOCUMENTARY_STRICT_V1, aceptación suficiente por
+        Bloquea la misma fila de proceso que remisiones, revisiones y demÃƒÂ¡s escrituras
+        documentales. Solo admite DOCUMENTARY_STRICT_V1, aceptaciÃƒÂ³n suficiente por
         cardinalidad e integridad de todos los archivos referenciados. No admite
-        excepciones ni depende de valoración académica. Guarda corte y cierre,
-        cambia ACTIVE a DOCUMENTARY_CLOSED y confirma auditoría en una transacción.
-        La revisión final aumenta en dos: reserva de corte y transición de fase.
+        excepciones ni depende de valoraciÃƒÂ³n acadÃƒÂ©mica. Guarda corte y cierre,
+        cambia ACTIVE a DOCUMENTARY_CLOSED y confirma auditorÃƒÂ­a en una transacciÃƒÂ³n.
+        La revisiÃƒÂ³n final aumenta en dos: reserva de corte y transiciÃƒÂ³n de fase.
       x-required-capability: PROCESS_DOCUMENTARY_CLOSE
       parameters: [{$ref: '#/components/parameters/ProcessId'}, {$ref: '#/components/parameters/IfMatch'}, {$ref: '#/components/parameters/CsrfToken'}]
       requestBody:
@@ -655,7 +655,7 @@ paths:
                 reason: {type: string, minLength: 10, maxLength: 2000}
       responses:
         '201':
-          description: Fase documental cerrada; Location identifica el cierre y ETag su contenido canónico.
+          description: Fase documental cerrada; Location identifica el cierre y ETag su contenido canÃƒÂ³nico.
           headers:
             Location: {schema: {type: string}}
             ETag: {schema: {type: string}}
@@ -674,14 +674,14 @@ paths:
     get:
       tags: [Reporting]
       operationId: listDocumentaryClosures
-      summary: Consultar cierres documentales conservados dentro del ámbito completo
+      summary: Consultar cierres documentales conservados dentro del ÃƒÂ¡mbito completo
       parameters:
         - {$ref: '#/components/parameters/ProcessId'}
         - {name: page, in: query, schema: {type: integer, minimum: 0, default: 0}}
         - {name: size, in: query, schema: {type: integer, minimum: 1, maximum: 100, default: 20}}
       responses:
         '200':
-          description: Metadatos históricos ordenados por fecha e ID descendentes.
+          description: Metadatos histÃƒÂ³ricos ordenados por fecha e ID descendentes.
           content:
             application/json:
               schema:
@@ -722,9 +722,9 @@ paths:
       summary: Guardar un corte documental actual sin cerrar el proceso
       description: >-
         Requiere DOCUMENTARY_SNAPSHOT_CREATE y PROGRESS_READ sobre el proceso
-        completo en ACTIVE. If-Match identifica la revisión del proceso; al guardar
-        se incrementa esa revisión sin cambiar el estado. El corte incluye todas
-        las fuentes y conserva pendientes. El motivo es el único campo admitido;
+        completo en ACTIVE. If-Match identifica la revisiÃƒÂ³n del proceso; al guardar
+        se incrementa esa revisiÃƒÂ³n sin cambiar el estado. El corte incluye todas
+        las fuentes y conserva pendientes. El motivo es el ÃƒÂºnico campo admitido;
         no se aceptan cortes retroactivos ni cutoffAt de la propuesta v2.
       x-required-capability: DOCUMENTARY_SNAPSHOT_CREATE
       parameters: [{$ref: '#/components/parameters/ProcessId'}, {$ref: '#/components/parameters/IfMatch'}, {$ref: '#/components/parameters/CsrfToken'}]
@@ -740,7 +740,7 @@ paths:
                 reason: {type: string, minLength: 10, maxLength: 4000}
       responses:
         '201':
-          description: Corte guardado; ETag contiene la huella del JSON canónico almacenado.
+          description: Corte guardado; ETag contiene la huella del JSON canÃƒÂ³nico almacenado.
           headers:
             Location: {schema: {type: string}}
             ETag: {schema: {type: string}}
@@ -758,7 +758,7 @@ paths:
     get:
       tags: [Reporting]
       operationId: listDocumentarySnapshots
-      summary: Consultar metadatos del histórico documental autorizado
+      summary: Consultar metadatos del histÃƒÂ³rico documental autorizado
       x-required-capability: PROGRESS_READ
       parameters:
         - {$ref: '#/components/parameters/ProcessId'}
@@ -792,7 +792,7 @@ paths:
         - {name: snapshotId, in: path, required: true, schema: {type: string, format: uuid}}
       responses:
         '200':
-          description: Contenido conservado; el backend verificó SHA-256 y metadatos. ETag identifica el contenido canónico almacenado.
+          description: Contenido conservado; el backend verificÃƒÂ³ SHA-256 y metadatos. ETag identifica el contenido canÃƒÂ³nico almacenado.
           headers:
             ETag: {schema: {type: string}}
           content:
@@ -806,13 +806,13 @@ paths:
     get:
       tags: [Reporting]
       operationId: getDocumentaryProgress
-      summary: Consultar avance actual y fuentes dentro del ámbito autorizado
+      summary: Consultar avance actual y fuentes dentro del ÃƒÂ¡mbito autorizado
       description: >-
         Consulta v1 aditiva. Aplica PROGRESS_READ por indicador antes de contar;
-        pagina fuentes sin cambiar los totales del ámbito filtrado.
-        No consulta valoración académica. Los filtros criterionId,
-        responsibleUserId y cutoffAt de la propuesta v2 no están implementados;
-        cualquier parámetro desconocido devuelve 422 UNSUPPORTED_FILTER.
+        pagina fuentes sin cambiar los totales del ÃƒÂ¡mbito filtrado.
+        No consulta valoraciÃƒÂ³n acadÃƒÂ©mica. Los filtros criterionId,
+        responsibleUserId y cutoffAt de la propuesta v2 no estÃƒÂ¡n implementados;
+        cualquier parÃƒÂ¡metro desconocido devuelve 422 UNSUPPORTED_FILTER.
       x-required-capability: PROGRESS_READ
       parameters:
         - {$ref: '#/components/parameters/ProcessId'}
@@ -822,9 +822,9 @@ paths:
         - {name: size, in: query, schema: {type: integer, minimum: 1, maximum: 100, default: 20}}
       responses:
         '200':
-          description: Métricas actuales y detalle autorizado; porcentajes nulos si el denominador es cero.
+          description: MÃƒÂ©tricas actuales y detalle autorizado; porcentajes nulos si el denominador es cero.
           headers:
-            Cache-Control: {description: La consulta actual no se almacena en caché., schema: {type: string, const: no-store}}
+            Cache-Control: {description: La consulta actual no se almacena en cachÃƒÂ©., schema: {type: string, const: no-store}}
           content:
             application/json:
               schema: {$ref: '#/components/schemas/DocumentaryProgressView'}
@@ -840,7 +840,7 @@ paths:
       parameters: [{$ref: '#/components/parameters/ProcessId'}]
       responses:
         '200':
-          description: Avance separado por recopilación, revisión y valoración.
+          description: Avance separado por recopilaciÃƒÂ³n, revisiÃƒÂ³n y valoraciÃƒÂ³n.
           content:
             application/json:
               schema: {$ref: '#/components/schemas/ProgressView'}
@@ -1229,7 +1229,7 @@ paths:
     get:
       tags: [AcademicEvaluation]
       operationId: getAcademicReconciliationContext
-      description: Requiere INDICATOR_EVALUATE. Devuelve juicios actuales e históricos con marcas dinámicas y resolución aplicable. No modifica los payloads de las valoraciones. La paginación de juicios y discrepancias es independiente.
+      description: Requiere INDICATOR_EVALUATE. Devuelve juicios actuales e histÃƒÂ³ricos con marcas dinÃƒÂ¡micas y resoluciÃƒÂ³n aplicable. No modifica los payloads de las valoraciones. La paginaciÃƒÂ³n de juicios y discrepancias es independiente.
       parameters:
         - {$ref: '#/components/parameters/ProcessId'}
         - {$ref: '#/components/parameters/IndicatorId'}
@@ -1238,19 +1238,19 @@ paths:
         - {name: size, in: query, schema: {type: integer, minimum: 1, maximum: 100, default: 20}}
       responses:
         '200':
-          description: Resultado protegido sin caché.
+          description: Resultado protegido sin cachÃƒÂ©.
           content:
             application/json:
               schema: {$ref: '#/components/schemas/AcademicReconciliationView'}
-        '400': {description: Solicitud inválida o campos no admitidos.}
+        '400': {description: Solicitud invÃƒÂ¡lida o campos no admitidos.}
         '403': {$ref: '#/components/responses/Forbidden'}
-        '404': {description: Recurso ausente o fuera del ámbito autorizado.}
-        '422': {description: Configuración o datos de conciliación inválidos.}
+        '404': {description: Recurso ausente o fuera del ÃƒÂ¡mbito autorizado.}
+        '422': {description: ConfiguraciÃƒÂ³n o datos de conciliaciÃƒÂ³n invÃƒÂ¡lidos.}
   /processes/{processId}/indicators/{indicatorId}/academic-reconciliation-policies:
     post:
       tags: [AcademicEvaluation]
       operationId: configureAcademicReconciliationPolicy
-      description: Requiere además ACADEMIC_RECONCILE y una asignación autorizadora vigente en el indicador. Registra una versión inmutable del procedimiento explícito; no concede competencia por el nombre de la cuenta. If-Match es la revisión actual de política o cero.
+      description: Requiere ademÃƒÂ¡s ACADEMIC_RECONCILE y una asignaciÃƒÂ³n autorizadora vigente en el indicador. Registra una versiÃƒÂ³n inmutable del procedimiento explÃƒÂ­cito; no concede competencia por el nombre de la cuenta. If-Match es la revisiÃƒÂ³n actual de polÃƒÂ­tica o cero.
       parameters:
         - {$ref: '#/components/parameters/ProcessId'}
         - {$ref: '#/components/parameters/IndicatorId'}
@@ -1263,14 +1263,14 @@ paths:
             schema: {$ref: '#/components/schemas/AcademicReconciliationPolicyCommand'}
       responses:
         '201':
-          description: Resultado protegido sin caché.
+          description: Resultado protegido sin cachÃƒÂ©.
           content:
             application/json:
               schema: {$ref: '#/components/schemas/AcademicReconciliationPolicy'}
-        '400': {description: Solicitud inválida o campos no admitidos.}
+        '400': {description: Solicitud invÃƒÂ¡lida o campos no admitidos.}
         '403': {$ref: '#/components/responses/Forbidden'}
-        '404': {description: Recurso ausente o fuera del ámbito autorizado.}
-        '422': {description: Configuración o datos de conciliación inválidos.}
+        '404': {description: Recurso ausente o fuera del ÃƒÂ¡mbito autorizado.}
+        '422': {description: ConfiguraciÃƒÂ³n o datos de conciliaciÃƒÂ³n invÃƒÂ¡lidos.}
         '409': {$ref: '#/components/responses/Conflict'}
         '412': {description: Discrepancia o juicios o procedimiento desactualizados.}
         '428': {description: If-Match obligatorio.}
@@ -1278,7 +1278,7 @@ paths:
     post:
       tags: [AcademicEvaluation]
       operationId: recordAcademicDisagreement
-      description: Conserva los juicios actuales de al menos dos evaluadores distintos y ambos fundamentos. If-Match es la última revisión de discrepancia o cero. No calcula promedio ni crea un resultado final.
+      description: Conserva los juicios actuales de al menos dos evaluadores distintos y ambos fundamentos. If-Match es la ÃƒÂºltima revisiÃƒÂ³n de discrepancia o cero. No calcula promedio ni crea un resultado final.
       parameters:
         - {$ref: '#/components/parameters/ProcessId'}
         - {$ref: '#/components/parameters/IndicatorId'}
@@ -1291,14 +1291,14 @@ paths:
             schema: {$ref: '#/components/schemas/AcademicDisagreementCommand'}
       responses:
         '201':
-          description: Resultado protegido sin caché.
+          description: Resultado protegido sin cachÃƒÂ©.
           content:
             application/json:
               schema: {$ref: '#/components/schemas/AcademicDisagreement'}
-        '400': {description: Solicitud inválida o campos no admitidos.}
+        '400': {description: Solicitud invÃƒÂ¡lida o campos no admitidos.}
         '403': {$ref: '#/components/responses/Forbidden'}
-        '404': {description: Recurso ausente o fuera del ámbito autorizado.}
-        '422': {description: Configuración o datos de conciliación inválidos.}
+        '404': {description: Recurso ausente o fuera del ÃƒÂ¡mbito autorizado.}
+        '422': {description: ConfiguraciÃƒÂ³n o datos de conciliaciÃƒÂ³n invÃƒÂ¡lidos.}
         '409': {$ref: '#/components/responses/Conflict'}
         '412': {description: Discrepancia o juicios o procedimiento desactualizados.}
         '428': {description: If-Match obligatorio.}
@@ -1306,7 +1306,7 @@ paths:
     post:
       tags: [AcademicEvaluation]
       operationId: resolveAcademicDisagreement
-      description: Exige ACADEMIC_RECONCILE y asignación vigente del actor. Selecciona un juicio existente con procedimiento registrado y participantes explícitos. Revalida juicios y sustentos actuales. If-Match identifica la revisión de discrepancia. Una resolución por discrepancia; la corrección requiere un nuevo caso.
+      description: Exige ACADEMIC_RECONCILE y asignaciÃƒÂ³n vigente del actor. Selecciona un juicio existente con procedimiento registrado y participantes explÃƒÂ­citos. Revalida juicios y sustentos actuales. If-Match identifica la revisiÃƒÂ³n de discrepancia. Una resoluciÃƒÂ³n por discrepancia; la correcciÃƒÂ³n requiere un nuevo caso.
       parameters:
         - {$ref: '#/components/parameters/ProcessId'}
         - {$ref: '#/components/parameters/IndicatorId'}
@@ -1320,14 +1320,14 @@ paths:
             schema: {$ref: '#/components/schemas/AcademicReconciliationResolutionCommand'}
       responses:
         '201':
-          description: Resultado protegido sin caché.
+          description: Resultado protegido sin cachÃƒÂ©.
           content:
             application/json:
               schema: {$ref: '#/components/schemas/AcademicReconciliationResolution'}
-        '400': {description: Solicitud inválida o campos no admitidos.}
+        '400': {description: Solicitud invÃƒÂ¡lida o campos no admitidos.}
         '403': {$ref: '#/components/responses/Forbidden'}
-        '404': {description: Recurso ausente o fuera del ámbito autorizado.}
-        '422': {description: Configuración o datos de conciliación inválidos.}
+        '404': {description: Recurso ausente o fuera del ÃƒÂ¡mbito autorizado.}
+        '422': {description: ConfiguraciÃƒÂ³n o datos de conciliaciÃƒÂ³n invÃƒÂ¡lidos.}
         '409': {$ref: '#/components/responses/Conflict'}
         '412': {description: Discrepancia o juicios o procedimiento desactualizados.}
         '428': {description: If-Match obligatorio.}
@@ -1335,7 +1335,7 @@ paths:
     get:
       tags: [AcademicEvaluation]
       operationId: getQuantitativeEvaluationContext
-      description: Contexto cuantitativo y cálculos históricos paginados. Requiere INDICATOR_EVALUATE; solo reglas y estrategia soportadas y validadas.
+      description: Contexto cuantitativo y cÃƒÂ¡lculos histÃƒÂ³ricos paginados. Requiere INDICATOR_EVALUATE; solo reglas y estrategia soportadas y validadas.
       parameters:
         - {$ref: '#/components/parameters/ProcessId'}
         - {$ref: '#/components/parameters/IndicatorId'}
@@ -1343,19 +1343,19 @@ paths:
         - {name: size, in: query, schema: {type: integer, minimum: 1, maximum: 100, default: 20}}
       responses:
         '200':
-          description: Resultado protegido sin caché.
+          description: Resultado protegido sin cachÃƒÂ©.
           content:
             application/json:
               schema: {$ref: '#/components/schemas/QuantitativeEvaluationContext'}
-        '400': {description: Solicitud inválida o campos no admitidos.}
+        '400': {description: Solicitud invÃƒÂ¡lida o campos no admitidos.}
         '403': {$ref: '#/components/responses/Forbidden'}
-        '404': {description: Recurso ausente o fuera de ámbito.}
-        '422': {description: Regla no habilitada o variables o sustentos inválidos.}
+        '404': {description: Recurso ausente o fuera de ÃƒÂ¡mbito.}
+        '422': {description: Regla no habilitada o variables o sustentos invÃƒÂ¡lidos.}
   /processes/{processId}/indicators/{indicatorId}/quantitative-inputs:
     post:
       tags: [AcademicEvaluation]
       operationId: captureQuantitativeInputs
-      description: Conserva una nueva revisión propia de variables con unidades, período y sustentos aceptados por variable. If-Match es la revisión propia anterior, inicialmente cero.
+      description: Conserva una nueva revisiÃƒÂ³n propia de variables con unidades, perÃƒÂ­odo y sustentos aceptados por variable. If-Match es la revisiÃƒÂ³n propia anterior, inicialmente cero.
       parameters:
         - {$ref: '#/components/parameters/ProcessId'}
         - {$ref: '#/components/parameters/IndicatorId'}
@@ -1368,41 +1368,41 @@ paths:
             schema: {$ref: '#/components/schemas/QuantitativeCaptureCommand'}
       responses:
         '201':
-          description: Resultado protegido sin caché.
+          description: Resultado protegido sin cachÃƒÂ©.
           content:
             application/json:
               schema: {$ref: '#/components/schemas/QuantitativeInputs'}
-        '400': {description: Solicitud inválida o campos no admitidos.}
+        '400': {description: Solicitud invÃƒÂ¡lida o campos no admitidos.}
         '403': {$ref: '#/components/responses/Forbidden'}
-        '404': {description: Recurso ausente o fuera de ámbito.}
-        '422': {description: Regla no habilitada o variables o sustentos inválidos.}
+        '404': {description: Recurso ausente o fuera de ÃƒÂ¡mbito.}
+        '422': {description: Regla no habilitada o variables o sustentos invÃƒÂ¡lidos.}
         '409': {$ref: '#/components/responses/Conflict'}
-        '412': {description: Revisión obsoleta o cambios concurrentes.}
+        '412': {description: RevisiÃƒÂ³n obsoleta o cambios concurrentes.}
         '428': {description: If-Match obligatorio.}
   /processes/{processId}/indicators/{indicatorId}/quantitative-inputs/{id}:
     get:
       tags: [AcademicEvaluation]
       operationId: getHistoricalQuantitativeInputs
-      description: Recupera entradas inmutables por ID del mismo proceso e indicador autorizado. No exige que sigan siendo la revisión actual.
+      description: Recupera entradas inmutables por ID del mismo proceso e indicador autorizado. No exige que sigan siendo la revisiÃƒÂ³n actual.
       parameters:
         - {$ref: '#/components/parameters/ProcessId'}
         - {$ref: '#/components/parameters/IndicatorId'}
         - {name: id, in: path, required: true, schema: {type: string, format: uuid}}
       responses:
         '200':
-          description: Resultado protegido sin caché.
+          description: Resultado protegido sin cachÃƒÂ©.
           content:
             application/json:
               schema: {$ref: '#/components/schemas/QuantitativeInputs'}
-        '400': {description: Solicitud inválida o campos no admitidos.}
+        '400': {description: Solicitud invÃƒÂ¡lida o campos no admitidos.}
         '403': {$ref: '#/components/responses/Forbidden'}
-        '404': {description: Recurso ausente o fuera de ámbito.}
-        '422': {description: Regla no habilitada o variables o sustentos inválidos.}
+        '404': {description: Recurso ausente o fuera de ÃƒÂ¡mbito.}
+        '422': {description: Regla no habilitada o variables o sustentos invÃƒÂ¡lidos.}
   /processes/{processId}/indicators/{indicatorId}/quantitative-inputs/{id}/verification:
     post:
       tags: [AcademicEvaluation]
       operationId: verifyQuantitativeInputs
-      description: Verifica explícitamente cifras, unidades, período y sustentos actuales. If-Match corresponde a la revisión del conjunto. No modifica las entradas; agrega una verificación única.
+      description: Verifica explÃƒÂ­citamente cifras, unidades, perÃƒÂ­odo y sustentos actuales. If-Match corresponde a la revisiÃƒÂ³n del conjunto. No modifica las entradas; agrega una verificaciÃƒÂ³n ÃƒÂºnica.
       parameters:
         - {$ref: '#/components/parameters/ProcessId'}
         - {$ref: '#/components/parameters/IndicatorId'}
@@ -1416,22 +1416,22 @@ paths:
             schema: {$ref: '#/components/schemas/QuantitativeVerificationCommand'}
       responses:
         '201':
-          description: Resultado protegido sin caché.
+          description: Resultado protegido sin cachÃƒÂ©.
           content:
             application/json:
               schema: {$ref: '#/components/schemas/QuantitativeVerification'}
-        '400': {description: Solicitud inválida o campos no admitidos.}
+        '400': {description: Solicitud invÃƒÂ¡lida o campos no admitidos.}
         '403': {$ref: '#/components/responses/Forbidden'}
-        '404': {description: Recurso ausente o fuera de ámbito.}
-        '422': {description: Regla no habilitada o variables o sustentos inválidos.}
+        '404': {description: Recurso ausente o fuera de ÃƒÂ¡mbito.}
+        '422': {description: Regla no habilitada o variables o sustentos invÃƒÂ¡lidos.}
         '409': {$ref: '#/components/responses/Conflict'}
-        '412': {description: Revisión obsoleta o cambios concurrentes.}
+        '412': {description: RevisiÃƒÂ³n obsoleta o cambios concurrentes.}
         '428': {description: If-Match obligatorio.}
   /processes/{processId}/indicators/{indicatorId}/quantitative-calculations:
     post:
       tags: [AcademicEvaluation]
       operationId: executeVerifiedQuantitativeCalculation
-      description: Ejecuta ratio-percent/1 con regla validada y variables actuales verificadas. Conserva fórmula, escala, umbral, sustentos, verificadores y aritmética DECIMAL128. Una ejecución por conjunto; no consolida juicios ni cambia el estado del proceso.
+      description: Ejecuta ratio-percent/1 con regla validada y variables actuales verificadas. Conserva fÃƒÂ³rmula, escala, umbral, sustentos, verificadores y aritmÃƒÂ©tica DECIMAL128. Una ejecuciÃƒÂ³n por conjunto; no consolida juicios ni cambia el estado del proceso.
       parameters:
         - {$ref: '#/components/parameters/ProcessId'}
         - {$ref: '#/components/parameters/IndicatorId'}
@@ -1444,22 +1444,22 @@ paths:
             schema: {$ref: '#/components/schemas/QuantitativeCalculationCommand'}
       responses:
         '201':
-          description: Resultado protegido sin caché.
+          description: Resultado protegido sin cachÃƒÂ©.
           content:
             application/json:
               schema: {$ref: '#/components/schemas/QuantitativeCalculation'}
-        '400': {description: Solicitud inválida o campos no admitidos.}
+        '400': {description: Solicitud invÃƒÂ¡lida o campos no admitidos.}
         '403': {$ref: '#/components/responses/Forbidden'}
-        '404': {description: Recurso ausente o fuera de ámbito.}
-        '422': {description: Regla no habilitada o variables o sustentos inválidos.}
+        '404': {description: Recurso ausente o fuera de ÃƒÂ¡mbito.}
+        '422': {description: Regla no habilitada o variables o sustentos invÃƒÂ¡lidos.}
         '409': {$ref: '#/components/responses/Conflict'}
-        '412': {description: Revisión obsoleta o cambios concurrentes.}
+        '412': {description: RevisiÃƒÂ³n obsoleta o cambios concurrentes.}
         '428': {description: If-Match obligatorio.}
   /processes/{processId}/indicators/{indicatorId}/manual-academic-evaluations:
     get:
       tags: [AcademicEvaluation]
       operationId: getManualAcademicEvaluationContext
-      description: Requiere INDICATOR_EVALUATE sobre el indicador. Devuelve método y escala publicados, sustentos aceptados actuales e historial paginado. El ETag es la revisión propia del evaluador, inicialmente cero. No consolida juicios de otros evaluadores.
+      description: Requiere INDICATOR_EVALUATE sobre el indicador. Devuelve mÃƒÂ©todo y escala publicados, sustentos aceptados actuales e historial paginado. El ETag es la revisiÃƒÂ³n propia del evaluador, inicialmente cero. No consolida juicios de otros evaluadores.
       parameters:
         - {$ref: '#/components/parameters/ProcessId'}
         - {$ref: '#/components/parameters/IndicatorId'}
@@ -1467,19 +1467,19 @@ paths:
         - {name: size, in: query, schema: {type: integer, minimum: 1, maximum: 100, default: 20}}
       responses:
         '200':
-          description: Contexto e historial sin caché; ETag de revisión propia.
+          description: Contexto e historial sin cachÃƒÂ©; ETag de revisiÃƒÂ³n propia.
           headers:
             ETag: {schema: {type: string}}
           content:
             application/json:
               schema: {$ref: '#/components/schemas/ManualAcademicEvaluationContext'}
         '403': {$ref: '#/components/responses/Forbidden'}
-        '404': {description: Indicador ausente o fuera del ámbito autorizado.}
-        '422': {description: Regla manual cualitativa validada no disponible o página inválida.}
+        '404': {description: Indicador ausente o fuera del ÃƒÂ¡mbito autorizado.}
+        '422': {description: Regla manual cualitativa validada no disponible o pÃƒÂ¡gina invÃƒÂ¡lida.}
     post:
       tags: [AcademicEvaluation]
       operationId: appendManualAcademicEvaluation
-      description: Conserva juicio manual inmutable y auditoría en una transacción. Exige regla cualitativa VALIDATED y escala del modelo fijado, sustentos remitidos vigentes aceptados por fuente y estado ACTIVE, DOCUMENTARY_CLOSED o REOPENED. If-Match corresponde al último juicio del mismo evaluador. No sustituye juicios ajenos, no cambia la fase documental ni constituye acreditación.
+      description: Conserva juicio manual inmutable y auditorÃƒÂ­a en una transacciÃƒÂ³n. Exige regla cualitativa VALIDATED y escala del modelo fijado, sustentos remitidos vigentes aceptados por fuente y estado ACTIVE, DOCUMENTARY_CLOSED o REOPENED. If-Match corresponde al ÃƒÂºltimo juicio del mismo evaluador. No sustituye juicios ajenos, no cambia la fase documental ni constituye acreditaciÃƒÂ³n.
       parameters:
         - {$ref: '#/components/parameters/ProcessId'}
         - {$ref: '#/components/parameters/IndicatorId'}
@@ -1492,17 +1492,17 @@ paths:
             schema: {$ref: '#/components/schemas/ManualAcademicEvaluationCommand'}
       responses:
         '201':
-          description: Juicio conservado con método, opción y referencias exactas; ETag de la nueva revisión propia.
+          description: Juicio conservado con mÃƒÂ©todo, opciÃƒÂ³n y referencias exactas; ETag de la nueva revisiÃƒÂ³n propia.
           headers:
             ETag: {schema: {type: string}}
           content:
             application/json:
               schema: {$ref: '#/components/schemas/ManualAcademicEvaluation'}
         '403': {$ref: '#/components/responses/Forbidden'}
-        '404': {description: Indicador ausente o fuera del ámbito autorizado.}
+        '404': {description: Indicador ausente o fuera del ÃƒÂ¡mbito autorizado.}
         '409': {$ref: '#/components/responses/Conflict'}
-        '412': {description: Revisión propia o predecesora desactualizada.}
-        '422': {description: 'Escala, regla, sustentos o textos inválidos.'}
+        '412': {description: RevisiÃƒÂ³n propia o predecesora desactualizada.}
+        '422': {description: 'Escala, regla, sustentos o textos invÃƒÂ¡lidos.'}
         '428': {description: If-Match obligatorio.}
   /processes/{processId}/indicators/{indicatorId}/academic-evaluations:
     get:
@@ -1513,7 +1513,7 @@ paths:
         - {$ref: '#/components/parameters/IndicatorId'}
       responses:
         '200':
-          description: Historial académico separado del documental.
+          description: Historial acadÃƒÂ©mico separado del documental.
           content:
             application/json:
               schema:
@@ -1571,7 +1571,7 @@ paths:
     post:
       tags: [Extensions]
       operationId: validateExchangePackage
-      description: Extensión I7; no requerida para operar I0-I6.
+      description: ExtensiÃƒÂ³n I7; no requerida para operar I0-I6.
       parameters: [{$ref: '#/components/parameters/CsrfToken'}]
       requestBody:
         required: true
@@ -1581,6 +1581,22 @@ paths:
       responses:
         '200': {$ref: '#/components/responses/Resource'}
         '422': {$ref: '#/components/responses/Unprocessable'}
+  /processes/{processId}/findings:
+    $ref: '../../../specs/005-complete-evaluation-workflows/contracts/openapi.yaml#/paths/~1processes~1{processId}~1findings'
+  /processes/{processId}/consolidations:
+    $ref: '../../../specs/005-complete-evaluation-workflows/contracts/openapi.yaml#/paths/~1processes~1{processId}~1consolidations'
+  /processes/{processId}/report-versions:
+    $ref: '../../../specs/005-complete-evaluation-workflows/contracts/openapi.yaml#/paths/~1processes~1{processId}~1report-versions'
+  /report-versions/{reportVersionId}:
+    $ref: '../../../specs/005-complete-evaluation-workflows/contracts/openapi.yaml#/paths/~1report-versions~1{reportVersionId}'
+  /report-versions/{reportVersionId}/socializations:
+    $ref: '../../../specs/005-complete-evaluation-workflows/contracts/openapi.yaml#/paths/~1report-versions~1{reportVersionId}~1socializations'
+  /report-versions/{reportVersionId}/observations:
+    $ref: '../../../specs/005-complete-evaluation-workflows/contracts/openapi.yaml#/paths/~1report-versions~1{reportVersionId}~1observations'
+  /report-observations/{observationId}/responses:
+    $ref: '../../../specs/005-complete-evaluation-workflows/contracts/openapi.yaml#/paths/~1report-observations~1{observationId}~1responses'
+  /report-versions/{reportVersionId}/approval-decisions:
+    $ref: '../../../specs/005-complete-evaluation-workflows/contracts/openapi.yaml#/paths/~1report-versions~1{reportVersionId}~1approval-decisions'
 components:
   securitySchemes:
     sessionCookie:
@@ -1975,7 +1991,7 @@ components:
         scaleId: {type: string, format: uuid}
         ratingOptionId: {type: string, format: uuid}
         ratingLabel: {type: string}
-        result: {type: [string, 'null'], description: Decimal exacto para cálculo; nulo en juicio manual.}
+        result: {type: [string, 'null'], description: Decimal exacto para cÃƒÂ¡lculo; nulo en juicio manual.}
         method: {type: string}
         justification: {type: string}
         limitations: {type: string}
@@ -2067,7 +2083,7 @@ components:
       additionalProperties: false
       required: [value, unit, evidenceVersionIds]
       properties:
-        value: {type: string, maxLength: 20, description: 'Decimal no negativo sin exponente; máximo 12 enteros y 6 decimales. B debe ser positivo. Se respeta el tipo INTEGER o DECIMAL publicado.'}
+        value: {type: string, maxLength: 20, description: 'Decimal no negativo sin exponente; mÃƒÂ¡ximo 12 enteros y 6 decimales. B debe ser positivo. Se respeta el tipo INTEGER o DECIMAL publicado.'}
         unit: {type: string, minLength: 1, maxLength: 100}
         evidenceVersionIds: {type: array, minItems: 1, maxItems: 100, uniqueItems: true, items: {type: string, format: uuid}}
     QuantitativeCaptureCommand:
@@ -2190,7 +2206,7 @@ components:
         verification: {$ref: '#/components/schemas/QuantitativeVerification'}
         rule: {$ref: '#/components/schemas/QuantitativeRuleSnapshot'}
         scale: {$ref: '#/components/schemas/QuantitativeScaleSnapshot'}
-        result: {type: string, description: Resultado decimal exacto con aritmética DECIMAL128; no se convierte a coma flotante en el cliente.}
+        result: {type: string, description: Resultado decimal exacto con aritmÃƒÂ©tica DECIMAL128; no se convierte a coma flotante en el cliente.}
         threshold: {$ref: '#/components/schemas/QuantitativeThreshold'}
         ratingOptionId: {type: string, format: uuid}
         ratingLabel: {type: string}
@@ -2700,7 +2716,7 @@ components:
         checksum: {type: string, pattern: '^[a-f0-9]{64}$'}
         payload:
           type: object
-          description: Contenido interpretado según recordType y contractVersion; no se aplica hasta validar el paquete completo.
+          description: Contenido interpretado segÃƒÂºn recordType y contractVersion; no se aplica hasta validar el paquete completo.
           minProperties: 1
     UserSummaryView:
       type: object
@@ -2842,23 +2858,23 @@ components:
       description: Recurso creado
       content: {application/json: {schema: {$ref: '#/components/schemas/ResourceView'}}}
     PagedResult:
-      description: Resultado paginado y filtrado por ámbito
+      description: Resultado paginado y filtrado por ÃƒÂ¡mbito
       content: {application/json: {schema: {$ref: '#/components/schemas/PageView'}}}
-    BadRequest: {description: Solicitud inválida, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
-    Unauthorized: {description: Sesión ausente o inválida, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
-    Forbidden: {description: Operación fuera de función o ámbito, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
-    NotFound: {description: Recurso inexistente o no visible en el ámbito, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
-    Conflict: {description: 'Estado, versión o función incompatible', content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    BadRequest: {description: Solicitud invÃƒÂ¡lida, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    Unauthorized: {description: SesiÃƒÂ³n ausente o invÃƒÂ¡lida, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    Forbidden: {description: OperaciÃƒÂ³n fuera de funciÃƒÂ³n o ÃƒÂ¡mbito, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    NotFound: {description: Recurso inexistente o no visible en el ÃƒÂ¡mbito, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    Conflict: {description: 'Estado, versiÃƒÂ³n o funciÃƒÂ³n incompatible', content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
     IntegrityConflict:
       description: File is missing, quarantined or fails integrity verification; no content is delivered.
       content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}
     PreconditionFailed: {description: ETag desactualizado, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
     PayloadTooLarge: {description: Archivo excede 25 MiB, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
-    Unprocessable: {description: Contenido bien formado pero inválido, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    Unprocessable: {description: Contenido bien formado pero invÃƒÂ¡lido, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
     PreconditionRequired:
       description: If-Match is required for draft mutation.
       content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}
     StorageUnavailable:
       description: Storage outcome is safely recoverable but cannot be confirmed now.
       content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}
-    TooManyRequests: {description: Límite temporal aplicado, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    TooManyRequests: {description: LÃƒÂ­mite temporal aplicado, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
