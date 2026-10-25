@@ -16,4 +16,6 @@ public interface EvidenceDraftRepository {
     List<EvidenceDraftService.EvidenceDetails> listByProcess(UUID processId);
 
     void update(EvidenceVersion version, long expectedRevision);
+
+    void createSuccessor(EvidenceVersion predecessor, EvidenceVersion successor);
 }

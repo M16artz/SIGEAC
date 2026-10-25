@@ -51,4 +51,15 @@ public class EvidenceJpaEntity {
     UUID id() {
         return id;
     }
+
+    int latestRevision() {
+        return latestRevision;
+    }
+
+    void advanceLatestRevision(int expectedRevision, int nextRevision) {
+        if (latestRevision != expectedRevision || nextRevision != expectedRevision + 1) {
+            throw new IllegalStateException("evidence revision changed");
+        }
+        latestRevision = nextRevision;
+    }
 }

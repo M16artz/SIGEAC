@@ -105,6 +105,14 @@ public class EvidenceDraftController {
                 .body(EvidenceView.version(version, sources.snapshot(versionId)));
     }
 
+    @PostMapping("/evidence-versions/{versionId}/successor")
+    public ResponseEntity<EvidenceView.Version> createSuccessor(@PathVariable UUID versionId) {
+        var successor = service.createSuccessor(versionId);
+        return ResponseEntity.created(URI.create("/api/v1/evidence-versions/" + successor.id()))
+                .eTag(EntityTagSupport.strong(successor.lockRevision()))
+                .body(EvidenceView.version(successor, sources.snapshot(successor.id())));
+    }
+
     private static UUID correlation(HttpServletRequest request) {
         Object value = request.getAttribute(CorrelationFilter.CORRELATION_ATTRIBUTE);
         if (value == null) return UUID.randomUUID();

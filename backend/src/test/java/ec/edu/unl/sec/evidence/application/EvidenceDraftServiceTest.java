@@ -155,6 +155,24 @@ class EvidenceDraftServiceTest {
         assertProblem(() -> service.requireEditableVersion(version.id(), "\"1\""), "DRAFT_REQUIRED");
     }
 
+    @Test
+    void createsSuccessorOnlyFromVisibleSubmittedVersionInActiveProcess() {
+        var draft = storedDraft(PROCESS, INDICATOR_A);
+        var predecessor = draft.submit(NOW);
+        var evidence = new EvidenceDraftService.EvidenceDetails(
+                new Evidence(draft.evidenceId(), PROCESS, ACTOR, NOW, UUID.randomUUID(), 1), predecessor);
+        when(repository.findVersion(predecessor.id())).thenReturn(Optional.of(predecessor));
+        when(repository.findEvidence(predecessor.evidenceId())).thenReturn(Optional.of(evidence));
+
+        var successor = service.createSuccessor(predecessor.id());
+
+        assertThat(successor.evidenceId()).isEqualTo(predecessor.evidenceId());
+        assertThat(successor.predecessorId()).isEqualTo(predecessor.id());
+        assertThat(successor.revisionNumber()).isEqualTo(2);
+        assertThat(successor.authorId()).isEqualTo(ACTOR);
+        org.mockito.Mockito.verify(repository).createSuccessor(predecessor, successor);
+    }
+
     private static EvidenceDraftService.CreateCommand command(List<UUID> indicators) {
         return new EvidenceDraftService.CreateCommand(
                 PROCESS,

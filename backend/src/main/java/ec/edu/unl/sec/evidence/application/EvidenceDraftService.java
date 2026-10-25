@@ -112,6 +112,23 @@ public class EvidenceDraftService {
         return updated;
     }
 
+    public EvidenceVersion createSuccessor(UUID versionId) {
+        var predecessor = getVersion(versionId);
+        if (predecessor.status() != ec.edu.unl.sec.evidence.domain.EvidenceVersionStatus.SUBMITTED) {
+            throw new EvidenceProblemException(EvidenceProblemException.Kind.CONFLICT,
+                    "SUBMITTED_VERSION_REQUIRED", "Solo una versión remitida puede tener una sucesora.");
+        }
+        var actor = actor();
+        var process = process(repository.findEvidence(predecessor.evidenceId())
+                .orElseThrow(EvidenceDraftService::notFound).evidence().processId());
+        if (!visible(actor, process, predecessor)) throw notFound();
+        requireActive(process);
+        var successorId = UUID.randomUUID();
+        var successor = predecessor.successor(successorId, actor.identityId(), clock.instant());
+        repository.createSuccessor(predecessor, successor);
+        return successor;
+    }
+
     public EvidenceVersion requireEditableVersion(UUID versionId, String ifMatch) {
         var version = getVersion(versionId);
         verifyEtag(ifMatch, version.lockRevision());
