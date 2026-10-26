@@ -1,0 +1,49 @@
+---
+title: "D7–D8 — Informes, mejora y archivo"
+---
+
+## Hallazgos e informes (P13–P14)
+
+Como comisión asignada, abra **Informes** (`/reports`) y seleccione el proceso.
+Registre fortalezas, debilidades u observaciones con sus indicadores y sustentos.
+Consolide los hallazgos con justificación; no suponga un promedio académico
+cuando no existe una regla de agregación validada.
+
+Emita una versión preliminar y registre su socialización. Las personas
+autorizadas presentan observaciones y respuestas sobre esa versión exacta.
+Prepare la versión final conservando el vínculo con su predecesora. La autoridad
+registra aprobación o devolución con asignación competente, documento,
+fundamento y motivo. Ante devolución, emita una versión corregida: no cambie el
+contenido emitido. Consulte versiones y decisiones anteriores en el historial.
+La aprobación del informe no constituye acreditación.
+
+## Planificar, ejecutar y verificar mejora (P15)
+
+En **Mejora** (`/improvement`), cree el plan ligado al informe final aprobado.
+Para cada acción seleccione las debilidades, responsable vigente, plazo, meta y
+medio de verificación. Registre aprobación con la función competente antes de
+ejecutar. La persona responsable presenta avances; la persona verificadora
+registra la comprobación con su capacidad propia. Ejecución y verificación son
+funciones separadas.
+
+Una modificación crea revisión y conserva la anterior. El vencimiento se
+deriva del plazo y del estado; un avance no equivale a verificación. La política
+puede permitir seguimiento después del cierre sin cambiar la instantánea cerrada.
+
+## Cerrar y conservar (P16)
+
+En **Archivo** (`/archive`), seleccione el proceso y consulte los bloqueadores.
+El cierre integral requiere cierre documental, informe final aprobado y las
+condiciones de la política. Atienda las acciones vencidas o registre decisiones
+de excepción autorizadas del mismo proceso. Indique la asignación competente,
+fundamento, documento y motivo antes de cerrar.
+
+El historial conserva la política, referencias y huella SHA-256 del cierre.
+Seleccione el cierre integral y registre el archivo con política de retención
+y procedencia. Si la integridad no coincide, el sistema bloquea el archivo;
+solicite revisión técnica. La reapertura controlada conserva cierres y archivo
+anteriores. Un proceso posterior usa una identidad distinta.
+
+Archivar dentro de la aplicación no crea un respaldo físico. La restauración
+conjunta de base y archivos corresponde a operación técnica. Las competencias,
+retención y excepciones del piloto requieren revisión institucional.

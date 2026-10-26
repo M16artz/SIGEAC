@@ -1,6 +1,26 @@
 package ec.edu.unl.sec.selfassessment.application;
 import static org.assertj.core.api.Assertions.*;import static org.mockito.Mockito.*;import ec.edu.unl.sec.evaluationmodel.application.*;import ec.edu.unl.sec.identityaccess.application.*;import ec.edu.unl.sec.selfassessment.support.*;import java.time.*;import java.util.*;import org.junit.jupiter.api.Test;
 class SelfAssessmentServiceTest {
+    @Test void unresolvedApplicabilityIsAProcessConflictAndPreservesPreparation() {
+        var repo = new InMemorySelfAssessmentRepository();
+        UUID actor=UUID.randomUUID(), version=UUID.randomUUID(), career=UUID.randomUUID();
+        var models=mock(ModelCatalogPort.class);
+        when(models.publishedVersion(version)).thenReturn(Optional.of(new ModelCatalogPort.PublishedModel(UUID.randomUUID(),version,1,
+                List.of(new ModelCatalogPort.Indicator(UUID.randomUUID(),"I","Indicador")),null,null)));
+        var auth=mock(AuthorizationPort.class);when(auth.isAllowed(any(),any(),any())).thenReturn(true);
+        var applicability=mock(ModelApplicabilityService.class);
+        when(applicability.assertUsableForActivation(any(),any(),any())).thenThrow(new ModelProblemException(
+                ModelProblemException.Kind.PRECONDITION,"MODEL_NOT_APPLICABLE","Aplicabilidad pendiente"));
+        var service=new SelfAssessmentService(repo,models,()->Optional.of(new CurrentActorPort.Actor(actor,false)),auth,
+                mock(SelfAssessmentAuditService.class),mock(InstitutionalAuthorityPort.class),mock(CareerAdministrationService.class),applicability);
+        var preparation=service.create(career,"SYN-PENDING","Proceso pendiente",LocalDate.now(),LocalDate.now().plusDays(10),version,UUID.randomUUID());
+        assertThatThrownBy(()->service.activate(preparation.id(),preparation.revision(),UUID.randomUUID()))
+                .isInstanceOf(ProcessProblemException.class).satisfies(error->{
+                    assertThat(((ProcessProblemException)error).kind()).isEqualTo(ProcessProblemException.Kind.CONFLICT);
+                    assertThat(((ProcessProblemException)error).code()).isEqualTo("MODEL_NOT_APPLICABLE");
+                });
+        assertThat(repo.find(preparation.id()).orElseThrow()).isEqualTo(preparation);
+    }
     @org.junit.jupiter.params.ParameterizedTest
     @org.junit.jupiter.params.provider.ValueSource(strings={"EVIDENCE_COLLECT", "PROGRESS_READ"})
     void exposesOnlyIndicatorsCoveredByTheCurrentScope(String operation) {

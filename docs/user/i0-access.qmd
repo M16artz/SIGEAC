@@ -21,6 +21,11 @@ La opción **Usuarios y asignaciones** está disponible para quien tenga la capa
 - **Registrar usuario**: cree una identidad sintética con usuario, nombre visible, contraseña inicial y tipo de cuenta. Las cuentas técnicas no reciben funciones de proceso.
 - **Activar o desactivar**: cambie el estado de una identidad. La desactivación conserva el historial y no elimina la identidad.
 - **Asignaciones**: seleccione un usuario y registre función, carrera, proceso e indicador opcionales, vigencia y, si corresponde, la justificación de una excepción.
+- **Revocar una asignación**: seleccione el usuario, escriba un motivo de al menos
+  10 caracteres y pulse **Revocar** en la función correspondiente. El permiso
+  deja de aplicarse también en sesiones abiertas; la asignación y su motivo
+  permanecen en auditoría. Si otra persona cambió el registro, recargue antes
+  de volver a intentarlo.
 
 La carrera es obligatoria. El proceso es opcional y el indicador solo puede informarse cuando existe un proceso. La vigencia final debe ser posterior a la inicial.
 

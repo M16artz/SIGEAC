@@ -14,7 +14,7 @@ import {Career, CareerApi} from '../../careers/data-access/career-api.service';
     @if (processes().length > 0) {
       <table>
         <caption>Procesos visibles en su ámbito</caption>
-        <thead><tr><th>Código</th><th>Nombre</th><th>Estado</th><th>Acción</th></tr></thead>
+        <thead><tr><th scope="col">Código</th><th scope="col">Nombre</th><th scope="col">Estado</th><th scope="col">Acción</th></tr></thead>
         <tbody>
           @for (item of processes(); track item.id) {
             <tr><td>{{item.code}}</td><td>{{item.name}}</td><td>{{item.state}}</td>

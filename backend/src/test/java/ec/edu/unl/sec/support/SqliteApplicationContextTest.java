@@ -268,7 +268,10 @@ class SqliteApplicationContextTest {
             sourceCoverages.declare(version.id(),"\"0\"",source,"Cobertura sintética para cierre documental.");
             var reference=evidenceSources.addReference(version.id(),"\"0\"","https://synthetic.invalid/closure/"+number,"Referencia sintética documental.");
             if (org.springframework.transaction.support.TransactionSynchronizationManager.isActualTransactionActive()) { entityManager.flush();entityManager.clear(); }
-            submission.submit(version.id(),"\""+reference.revision()+"\"");
+            var uploaded=evidenceFiles.upload(version.id(),"\""+reference.revision()+"\"","synthetic.txt","text/plain",
+                    new java.io.ByteArrayInputStream("synthetic closure support".getBytes(StandardCharsets.UTF_8)),UUID.randomUUID());
+            if (org.springframework.transaction.support.TransactionSynchronizationManager.isActualTransactionActive()) { entityManager.flush();entityManager.clear(); }
+            submission.submit(version.id(),"\""+uploaded.revision()+"\"");
             if (org.springframework.transaction.support.TransactionSynchronizationManager.isActualTransactionActive()) { entityManager.flush();entityManager.clear(); }
             asRole("revisor");
             documentReviews.decide(version.id(),new ec.edu.unl.sec.documentreview.application.DocumentReviewService.ReviewInput(
@@ -435,6 +438,8 @@ class SqliteApplicationContextTest {
                     .isEqualTo(uploaded.value().snapshot().fileId());
 
             assertThat(evidenceDrafts.getVersion(version.id()).lockRevision()).isEqualTo(1L);
+            sourceCoverages.declare(version.id(), "\"1\"", UUID.fromString("80000000-0000-0000-0000-000000000001"),
+                    "Cobertura explicita del archivo sintetico de integracion.");
             var submitted = submission.submit(version.id(), "\"1\"");
             assertThat(submitted.status()).isEqualTo(ec.edu.unl.sec.evidence.domain.EvidenceVersionStatus.SUBMITTED);
             assertThat(submitted.lockRevision()).isEqualTo(2);

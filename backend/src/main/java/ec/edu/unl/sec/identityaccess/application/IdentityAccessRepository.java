@@ -39,6 +39,10 @@ public interface IdentityAccessRepository {
 
     UUID createAssignment(FunctionalAssignment assignment);
 
+    Optional<FunctionalAssignment> findAssignment(UUID assignmentId);
+
+    void revokeAssignment(UUID assignmentId, long expectedRevision, Instant at);
+
     Optional<UserRecord> findUser(UUID identityId);
 
     List<UserRecord> listUsers(int offset, int limit);

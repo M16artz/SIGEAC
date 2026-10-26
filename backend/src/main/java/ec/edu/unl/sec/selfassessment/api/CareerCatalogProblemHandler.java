@@ -11,6 +11,6 @@ public class CareerCatalogProblemHandler {
         result.setType(java.net.URI.create("urn:sec-unl:problem:"+error.code().toLowerCase().replace('_','-')));
         result.setTitle(HttpStatus.valueOf(error.status()).getReasonPhrase());result.setInstance(java.net.URI.create(request.getRequestURI()));
         result.setProperty("code",error.code());result.setProperty("details",java.util.Map.of());
-        result.setProperty("correlationId",String.valueOf(request.getAttribute("sec.correlationId")));return result;
+        result.setProperty("correlationId",String.valueOf(request.getAttribute(ec.edu.unl.sec.shared.infrastructure.CorrelationFilter.CORRELATION_ATTRIBUTE)));return result;
     }
 }

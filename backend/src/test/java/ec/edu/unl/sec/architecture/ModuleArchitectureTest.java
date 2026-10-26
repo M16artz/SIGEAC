@@ -10,6 +10,25 @@ import com.tngtech.archunit.lang.ArchRule;
 @AnalyzeClasses(packages = "ec.edu.unl.sec", importOptions = ImportOption.DoNotIncludeTests.class)
 class ModuleArchitectureTest {
     @ArchTest
+    static final ArchRule GOVERNANCE_USES_PUBLIC_CROSS_MODULE_PORTS = noClasses()
+            .that().resideInAPackage("..governance..")
+            .should().dependOnClassesThat().resideInAnyPackage("..academicevaluation.infrastructure..",
+                    "..documentreview.infrastructure..", "..selfassessment.infrastructure..", "..audit.infrastructure..");
+
+    @ArchTest
+    static final ArchRule IMPROVEMENT_USES_PUBLIC_CROSS_MODULE_PORTS = noClasses()
+            .that().resideInAPackage("..improvement..")
+            .should().dependOnClassesThat().resideInAnyPackage("..governance.infrastructure..",
+                    "..selfassessment.infrastructure..", "..audit.infrastructure..");
+
+    @ArchTest
+    static final ArchRule ARCHIVE_USES_PUBLIC_CROSS_MODULE_PORTS = noClasses()
+            .that().resideInAPackage("..archive..")
+            .should().dependOnClassesThat().resideInAnyPackage("..reporting.infrastructure..",
+                    "..governance.infrastructure..", "..improvement.infrastructure..",
+                    "..selfassessment.infrastructure..", "..audit.infrastructure..");
+
+    @ArchTest
     static final ArchRule REPORTING_USES_PUBLIC_SOURCE_PORTS = noClasses()
             .that().resideInAPackage("..reporting..")
             .should().dependOnClassesThat().resideInAnyPackage("..evidence.infrastructure..",

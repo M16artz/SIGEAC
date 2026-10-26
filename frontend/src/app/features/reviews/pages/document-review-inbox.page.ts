@@ -23,7 +23,7 @@ interface CoverageOutcomeDraft {
   imports: [FormsModule, DatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <main>
+    <section>
       <h2>Revisión documental</h2>
       <label for="review-process">Proceso</label>
       <select id="review-process" [ngModel]="processId" (ngModelChange)="selectProcess($event)">
@@ -139,7 +139,7 @@ interface CoverageOutcomeDraft {
           </table>
         </section>
       }
-    </main>
+    </section>
   `
 })
 export class DocumentReviewInboxPage implements OnInit, OnChanges {

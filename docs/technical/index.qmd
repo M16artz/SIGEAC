@@ -25,14 +25,47 @@
 - [ADR-0017: cobertura y gobierno del proceso](../adr/0017-source-coverage-and-process-governance.md)
 - [ADR-0018: compatibilidad y catálogo de carreras](../adr/0018-catalog-contract-migration-compatibility.md)
 
-## Incrementos implementados
+## Operación de las entregas D1–D8
+
+La evidencia siguiente corresponde a software con datos sintéticos; publicación
+técnica, aplicabilidad normativa y aprobación institucional son decisiones distintas.
+
+| Entrega | Módulos y persistencia | Evidencia reproducible |
+|---|---|---|
+| D1 | Identidad, unidades y carreras; V008 | [Carreras y ámbitos](../../tests/acceptance/results/d1-careers.md) |
+| D2 | Catálogo común, jerarquías, fuentes, reglas y aplicabilidad; V009/V014 | [Cinco modelos](../../tests/acceptance/results/d2-five-models.md) |
+| D3 | Autorización, equipos, asignaciones, actividades y transiciones; V010 | [Planificación](../../tests/acceptance/results/d3-process-planning.md) |
+| D4 | Versiones inmutables, cobertura y valores estructurados; V011–V013 | [Cobertura](../../tests/acceptance/results/d4-source-coverage.md) |
+| D5 | Decisiones por cobertura y sucesoras de corrección; V015 | [Revisión](../../tests/acceptance/results/d5-document-review.md) |
+| D6 | Consultas por ámbito, cortes y cierre documental; V016/V016.1 | [MVP documental](../../tests/acceptance/results/d6-documentary-mvp.md) |
+| D7 | Valoración, cálculo, conciliación, hallazgos e informes; V017/V018/V021–V024 | [Conciliación](../../tests/acceptance/results/d7-academic-reconciliation.md), [informes](../../tests/acceptance/results/d7-reports.md) |
+| D8 | Planes, acciones, verificaciones, cierre integral y archivo; V025/V026 | [Mejora](../../tests/acceptance/results/d8-improvement.md), [archivo](../../tests/acceptance/results/d8-archive.md) |
+
+Las migraciones V019/V020 son antecedentes históricos; no deben reutilizarse ni
+editarse. Aplicar Flyway en orden hasta la última migración disponible. La reserva
+inicial hasta V020 ya no describe el esquema actual.
+
+Las sesiones opacas y CSRF protegen los comandos. El backend reautoriza cada
+operación por función y ámbito; una sesión o una cuenta técnica no confieren
+competencia institucional. Antes de mutar un recurso, obtener su ETag y enviar
+`If-Match`; ante conflicto, recargar y revisar los datos. No reintentar decisiones
+automáticamente. Los errores conservan Problem Details y correlación.
+
+Conservar conjuntamente PostgreSQL y el directorio de archivos: el archivo de un
+cierre en la aplicación no equivale a un respaldo físico. Verificar los hashes
+después de restaurar ambos. Los perfiles `sqlite-test` y `d*-test` y sus fixtures
+solo se usan en pruebas; SQLite no certifica migraciones ni concurrencia PostgreSQL.
+
+## Evidencia por incremento
 
 Primer incremento académico: [D7 — valoración manual persistente](../../tests/acceptance/results/d7-academic-evaluation.md).
 Incluye API, pantalla e historial por evaluador. Continúa con
 [variables verificadas y cálculo cuantitativo](../../tests/acceptance/results/d7-quantitative-evaluation.md).
 [Conciliación y marcas de sustentos invalidados](../../tests/acceptance/results/d7-academic-reconciliation.md)
-completan el alcance técnico P12 soportado. Informes P13–P14 siguen pendientes;
-las marcas antiguas sobre esqueletos se reconciliaron.
+completan el alcance técnico P12 soportado. [Informes P13–P14](../../tests/acceptance/results/d7-reports.md),
+[mejora P15](../../tests/acceptance/results/d8-improvement.md) y
+[archivo P16](../../tests/acceptance/results/d8-archive.md) cuentan con evidencia
+técnica propia; la aceptación institucional sigue pendiente.
 
 Entrega técnica D6: [MVP documental y cierre verificado](../../tests/acceptance/results/d6-documentary-mvp.md).
 Incluye el recorrido real de navegador, integridad, concurrencia PostgreSQL e
@@ -52,5 +85,17 @@ entregas D1–D6 completan el MVP documental y D7–D8 completan evaluación,
 informes, mejora y archivo.
 
 ## Validación
+
+La [continuación de fase 13](../../tests/acceptance/results/p01-p16-completion-validation.md)
+añade carga k6 de consultas con PostgreSQL y colección Postman local generada
+desde el contrato común. Desde `frontend`, `npm run test:complete-workflows`
+ejecuta la campaña consolidada de API, y `npm run contracts:postman` comprueba
+respuestas reales. Preparar antes la instancia sintética descrita en
+`tests/performance/README.md`; ambos comandos no deben apuntar a producción.
+
+El historial web consulta `GET /models/{modelId}/versions/configured` y crea
+sucesoras configuradas por `POST /model-versions/{versionId}/successors/configured`.
+Las versiones legadas conservan su comando anterior. Una lectura fallida
+retira la lista previa y muestra una alerta.
 
 La [guía de validación rápida](quickstart.md) contiene los comandos locales sin Docker. La [guía de pruebas con SQLite](../testing/sqlite.md) explica su alcance auxiliar y las validaciones que deben ejecutarse sobre PostgreSQL. Los contratos fuente se conservan en `docs/technical/contracts/` y se validan mediante `scripts/validate-contracts.ps1` o `scripts/validate-contracts.sh`.

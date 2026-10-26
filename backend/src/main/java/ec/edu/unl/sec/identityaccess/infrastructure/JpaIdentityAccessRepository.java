@@ -264,6 +264,21 @@ public class JpaIdentityAccessRepository implements IdentityAccessRepository {
     }
 
     @Override
+    public Optional<FunctionalAssignment> findAssignment(UUID assignmentId) {
+        return jdbc.query("select id,identity_id,function_id,career_id,process_id,indicator_id,valid_from,valid_to,"
+                        + "granted_by,revoked_at,revision from functional_assignment where id=?",
+                (row, index) -> assignment(row), assignmentId).stream().findFirst();
+    }
+
+    @Override
+    public void revokeAssignment(UUID assignmentId, long expectedRevision, Instant at) {
+        int changed = jdbc.update("update functional_assignment set revoked_at=?,revision=revision+1"
+                        + " where id=? and revision=? and revoked_at is null",
+                Timestamp.from(at), assignmentId, expectedRevision);
+        if (changed != 1) throw new IllegalStateException("STALE_ASSIGNMENT");
+    }
+
+    @Override
     public Optional<UserRecord> findUser(UUID identityId) {
         return jdbc.query(
                         "select id,login_normalized,display_name,identity_type,active,revision from access_identity where id=?",

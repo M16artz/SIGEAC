@@ -14,7 +14,7 @@ import {EvidenceSourcesComponent, ReferenceDraft} from '../ui/evidence-sources.c
   imports: [ReactiveFormsModule, EvidenceMetadataFormComponent, EvidenceSourcesComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <main>
+    <section>
       <h2>{{versionId ? 'Editar borrador de evidencia' : 'Nueva evidencia'}}</h2>
       <form [formGroup]="form" (ngSubmit)="save()" novalidate>
         <sec-evidence-metadata-form [form]="form" [indicators]="indicators()"
@@ -35,7 +35,7 @@ import {EvidenceSourcesComponent, ReferenceDraft} from '../ui/evidence-sources.c
           <button #staleReload data-stale-reload type="button" (click)="reload()">Recargar borrador</button>
         </section>
       }
-    </main>
+    </section>
   `
 })
 export class EvidenceEditorPage implements OnInit {

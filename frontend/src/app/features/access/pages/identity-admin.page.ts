@@ -82,13 +82,14 @@ import { AssignmentFormComponent } from '../ui/assignment-form.component';
           @if (assignmentError()) {
             <p role="alert">{{ assignmentError() }}</p>
           }
+          @if (assignmentMessage()) { <p role="status">{{ assignmentMessage() }}</p> }
           @if (assignments().length === 0) {
             <p>Sin asignaciones registradas.</p>
           } @else {
             <table>
               <caption>Asignaciones del usuario seleccionado</caption>
               <thead>
-                <tr><th scope="col">Función</th><th scope="col">Carrera</th><th scope="col">Proceso</th><th scope="col">Indicador</th><th scope="col">Vigencia</th></tr>
+                <tr><th scope="col">Función</th><th scope="col">Carrera</th><th scope="col">Proceso</th><th scope="col">Indicador</th><th scope="col">Vigencia</th><th scope="col">Acción</th></tr>
               </thead>
               <tbody>
                 @for (assignment of assignments(); track assignment.id) {
@@ -98,10 +99,15 @@ import { AssignmentFormComponent } from '../ui/assignment-form.component';
                     <td>{{ assignment.processId ?? 'Todos' }}</td>
                     <td>{{ assignment.indicatorId ?? 'Todos' }}</td>
                     <td>{{ assignment.validFrom }} — {{ assignment.validTo }}</td>
+                    <td><button type="button" [attr.data-assignment-id]="assignment.id"
+                      [disabled]="revoking() || revocationReason.invalid" (click)="revoke(assignment)">
+                      Revocar {{ assignment.roleName }}</button></td>
                   </tr>
                 }
               </tbody>
             </table>
+            <label for="revocation-reason">Motivo de revocación</label>
+            <textarea id="revocation-reason" [formControl]="revocationReason" required minlength="10" maxlength="1000"></textarea>
           }
           @if (user.active && !user.technical) {
             <sec-assignment-form [userId]="user.id" (saved)="reloadAssignments()" />
@@ -129,6 +135,9 @@ export class IdentityAdminPageComponent implements OnInit {
   readonly createError = signal<string | null>(null);
   readonly createMessage = signal<string | null>(null);
   readonly assignmentError = signal<string | null>(null);
+  readonly assignmentMessage = signal<string | null>(null);
+  readonly revoking = signal(false);
+  readonly revocationReason = this.fb.nonNullable.control('', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]);
 
   readonly createForm = this.fb.nonNullable.group({
     username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
@@ -187,6 +196,8 @@ export class IdentityAdminPageComponent implements OnInit {
   }
 
   select(user: UserView): void {
+    this.assignmentMessage.set(null);
+    this.revocationReason.reset();
     if (this.selected()?.id === user.id) {
       this.selected.set(null);
       this.assignments.set([]);
@@ -200,9 +211,28 @@ export class IdentityAdminPageComponent implements OnInit {
     const user = this.selected();
     if (!user) return;
     this.assignmentError.set(null);
+    this.assignments.set([]);
     this.api.listAssignments(user.id).subscribe({
       next: (assignments) => this.assignments.set(assignments),
       error: (error: unknown) => this.assignmentError.set(accessErrorMessage(error))
     });
+  }
+
+  revoke(assignment: AssignmentView): void {
+    const user = this.selected();
+    if (!user || this.revocationReason.invalid || this.revoking()) return;
+    this.assignmentError.set(null); this.assignmentMessage.set(null); this.revoking.set(true);
+    this.api.revokeAssignment(user.id, assignment.id, assignment.revision ?? 0, this.revocationReason.value)
+      .pipe(finalize(() => this.revoking.set(false))).subscribe({
+        next: () => {
+          if (this.selected()?.id !== user.id) return;
+          this.revocationReason.reset();
+          this.assignmentMessage.set('Asignación revocada. El historial se conserva y el permiso deja de estar vigente.');
+          this.reloadAssignments();
+        },
+        error: (error: unknown) => {
+          if (this.selected()?.id === user.id) this.assignmentError.set(accessErrorMessage(error));
+        }
+      });
   }
 }

@@ -12,6 +12,7 @@
     "test": "ng test --watch=false",
     "test:watch": "ng test",
     "contracts": "node ../scripts/validate-contracts.mjs",
+    "contracts:postman": "node ../scripts/run-postman-contracts.mjs",
     "test:acceptance": "playwright test --config=playwright.config.ts ../tests/acceptance",
     "test:d1": "node ../scripts/run-d1-acceptance.mjs",
     "test:d3": "node ../scripts/run-d3-acceptance.mjs",
@@ -23,7 +24,9 @@
     "test:d7:reports": "node ../scripts/run-d7-reports-acceptance.mjs",
     "test:d8:improvement": "node ../scripts/run-d8-improvement-acceptance.mjs",
     "test:d8:archive": "node ../scripts/run-d8-archive-acceptance.mjs",
-    "test:performance": "k6 run ../tests/performance/evidence-upload.js"
+    "test:accessibility": "node ../scripts/run-accessibility-acceptance.mjs",
+    "test:complete-workflows": "node ../scripts/run-complete-workflows-acceptance.mjs",
+    "test:performance": "k6 run ../tests/performance/complete-workflows.js"
   },
   "dependencies": {
     "@angular/common": "22.2.3",

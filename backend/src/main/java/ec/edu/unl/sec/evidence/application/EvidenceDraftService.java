@@ -142,6 +142,10 @@ public class EvidenceDraftService {
         var indicators = authorizeIndicators(actor, process, current.id(), command.indicatorIds());
         requireActive(process);
         if (!current.authorId().equals(actor.identityId())) throw notFound();
+        if (current.status() != ec.edu.unl.sec.evidence.domain.EvidenceVersionStatus.DRAFT) {
+            throw new EvidenceProblemException(EvidenceProblemException.Kind.CONFLICT,
+                    "DRAFT_REQUIRED", "La versión remitida no admite cambios.");
+        }
         var updated = current.update(
                 command.title(),
                 command.description(),

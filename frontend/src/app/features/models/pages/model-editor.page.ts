@@ -5,7 +5,7 @@ import {ApplicabilityInput,ModelCareerApplicability,ModelConfiguration,ModelNode
 import {PublicationPanel} from '../ui/publication-panel.component';
 @Component({
  selector:'sec-model-editor',standalone:true,imports:[FormsModule,PublicationPanel],changeDetection:ChangeDetectionStrategy.OnPush,
- template:`<main>
+ template:`<section>
  <h2>Modelo de evaluación versionado</h2>
  <p>Use únicamente datos sintéticos; jerarquías, fuentes, reglas y referencias no constituyen decisiones institucionales.</p>
  <form (ngSubmit)="createModel()">
@@ -46,7 +46,7 @@ import {PublicationPanel} from '../ui/publication-panel.component';
   @if(latestApplicability();as latest){<p role="status">Última decisión: {{latest.status}} · revisión {{latest.revision}} · desde {{latest.validFrom}}</p>}
  </section>}}
  @if(message()){<p role="alert">{{message()}}</p>}
- </main>`})
+ </section>`})
 export class ModelEditorPage{
  name='Modelo Piloto Sintético';
  description='Configuración demostrativa sin valor institucional';

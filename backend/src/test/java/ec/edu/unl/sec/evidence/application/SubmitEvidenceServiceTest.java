@@ -29,12 +29,14 @@ class SubmitEvidenceServiceTest {
     private static final UUID PROCESS = UUID.fromString("00000000-0000-0000-0000-000000000301");
     private static final UUID INDICATOR = UUID.fromString("00000000-0000-0000-0000-000000000401");
     private static final String TOKEN = "opaque-session";
+    private static final UUID SOURCE = UUID.fromString("00000000-0000-0000-0000-000000000602");
 
     private EvidenceDraftService drafts;
     private EvidenceGovernanceRepository governance;
     private EvidenceContextPort context;
     private EvidenceSourceService sources;
     private AuditPort audit;
+    private RequiredSourceCatalogPort catalog;
     private SubmitEvidenceService service;
     private EvidenceVersion draft;
     private EvidenceDraftService.EvidenceDetails details;
@@ -47,6 +49,7 @@ class SubmitEvidenceServiceTest {
         when(context.processForWrite(org.mockito.ArgumentMatchers.any())).thenAnswer(call -> context.process(call.getArgument(0)));
         sources = org.mockito.Mockito.mock(EvidenceSourceService.class);
         audit = org.mockito.Mockito.mock(AuditPort.class);
+        catalog = org.mockito.Mockito.mock(RequiredSourceCatalogPort.class);
         draft = draft(0, null);
         details = new EvidenceDraftService.EvidenceDetails(
                 new ec.edu.unl.sec.evidence.domain.Evidence(
@@ -55,7 +58,10 @@ class SubmitEvidenceServiceTest {
         when(drafts.getEvidence(draft.evidenceId())).thenReturn(details);
         when(context.process(PROCESS)).thenReturn(Optional.of(process("ACTIVE")));
         when(sources.snapshot(draft.id())).thenReturn(snapshot(List.of(), 1));
-        service = new SubmitEvidenceService(drafts, governance, sources, context, audit,
+        when(governance.coverages(draft.id())).thenReturn(List.of(new ec.edu.unl.sec.evidence.domain.SourceCoverage(
+                null, draft.id(), SOURCE, "Nota", ACTOR, NOW)));
+        sourceType("EXTERNAL_LINK");
+        service = new SubmitEvidenceService(drafts, governance, sources, context, audit, catalog,
                 Clock.fixed(NOW, ZoneOffset.UTC));
     }
 
@@ -63,7 +69,7 @@ class SubmitEvidenceServiceTest {
     void submitsAMutableDraftAfterExplicitCoverage() {
         when(governance.coverages(draft.id())).thenReturn(List.of(
                 new ec.edu.unl.sec.evidence.domain.SourceCoverage(
-                        UUID.randomUUID(), draft.id(), UUID.randomUUID(), "Nota", ACTOR, NOW)));
+                        UUID.randomUUID(), draft.id(), SOURCE, "Nota", ACTOR, NOW)));
         when(governance.markSubmitted(eq(draft.id()), eq(NOW), eq(0L))).thenReturn(true);
 
         var submitted = service.submit(draft.id(), "\"0\"");
@@ -78,7 +84,7 @@ class SubmitEvidenceServiceTest {
     void rejectsSubmissionsWithoutFilesOrReferences() {
         when(governance.coverages(draft.id())).thenReturn(List.of(
                 new ec.edu.unl.sec.evidence.domain.SourceCoverage(
-                        UUID.randomUUID(), draft.id(), UUID.randomUUID(), "Nota", ACTOR, NOW)));
+                        UUID.randomUUID(), draft.id(), SOURCE, "Nota", ACTOR, NOW)));
         when(sources.snapshot(draft.id())).thenReturn(new EvidenceSourceService.Sources(List.of(), List.of()));
         assertProblem(() -> service.submit(draft.id(), "\"0\""), "SOURCE_REQUIRED");
         verify(audit, never()).record(any());
@@ -89,7 +95,7 @@ class SubmitEvidenceServiceTest {
     void rejectsSubmissionsWhenAnAttachedFileIsNotAvailable() {
         when(governance.coverages(draft.id())).thenReturn(List.of(
                 new ec.edu.unl.sec.evidence.domain.SourceCoverage(
-                        UUID.randomUUID(), draft.id(), UUID.randomUUID(), "Nota", ACTOR, NOW)));
+                        UUID.randomUUID(), draft.id(), SOURCE, "Nota", ACTOR, NOW)));
         var unavailable = new EvidenceSourceService.Sources(List.of(new EvidenceSourceService.SourceFile(
                 new ec.edu.unl.sec.evidence.domain.VersionFile(draft.id(),
                         UUID.fromString("00000000-0000-0000-0000-000000000601"), "synthetic.txt",
@@ -105,7 +111,7 @@ class SubmitEvidenceServiceTest {
     void rejectsStaleDraftsAndAlreadySubmittedVersions() {
         when(governance.coverages(draft.id())).thenReturn(List.of(
                 new ec.edu.unl.sec.evidence.domain.SourceCoverage(
-                        UUID.randomUUID(), draft.id(), UUID.randomUUID(), "Nota", ACTOR, NOW)));
+                        UUID.randomUUID(), draft.id(), SOURCE, "Nota", ACTOR, NOW)));
         when(governance.markSubmitted(eq(draft.id()), eq(NOW), eq(0L))).thenReturn(false);
         assertProblem(() -> service.submit(draft.id(), "\"0\""), "STALE_DRAFT");
         assertProblem(() -> service.submit(draft.id(), null), "PRECONDITION_REQUIRED");
@@ -123,7 +129,7 @@ class SubmitEvidenceServiceTest {
         when(context.process(PROCESS)).thenReturn(Optional.of(process("SUSPENDED")));
         when(governance.coverages(draft.id())).thenReturn(List.of(
                 new ec.edu.unl.sec.evidence.domain.SourceCoverage(
-                        UUID.randomUUID(), draft.id(), UUID.randomUUID(), "Nota", ACTOR, NOW)));
+                        UUID.randomUUID(), draft.id(), SOURCE, "Nota", ACTOR, NOW)));
         assertProblem(() -> service.submit(draft.id(), "\"0\""), "PROCESS_NOT_ACTIVE");
         verify(governance, never()).markSubmitted(any(), any(), org.mockito.ArgumentMatchers.anyLong());
     }
@@ -146,6 +152,47 @@ class SubmitEvidenceServiceTest {
                 lockRevision,
                 List.of(new ec.edu.unl.sec.evidence.domain.VersionIndicator(
                         UUID.fromString("00000000-0000-0000-0000-000000000501"), INDICATOR, "IND-1", "Indicador", 1)));
+    }
+
+    @Test void rejectsContentWithoutExplicitCoverage() {
+        when(governance.coverages(draft.id())).thenReturn(List.of());
+        assertProblem(() -> service.submit(draft.id(), "\"0\""), "SOURCE_COVERAGE_REQUIRED");
+        verify(governance, never()).markSubmitted(any(), any(), org.mockito.ArgumentMatchers.anyLong());
+    }
+
+    @Test void submitsTypedDataWithoutRequiringAnUnrelatedFileOrLink() {
+        sourceType("STRUCTURED_DATA");
+        when(sources.snapshot(draft.id())).thenReturn(EvidenceSourceService.Sources.empty());
+        when(governance.structuredSnapshots(draft.id())).thenReturn(List.of(structured(java.time.LocalDate.of(2026, 6, 30))));
+        when(governance.markSubmitted(draft.id(), NOW, 0)).thenReturn(true);
+        assertThat(service.submit(draft.id(), "\"0\"").status()).isEqualTo(ec.edu.unl.sec.evidence.domain.EvidenceVersionStatus.SUBMITTED);
+    }
+
+    @Test void rejectsTypedPeriodsOutsideTheEvidencePeriod() {
+        sourceType("STRUCTURED_DATA");
+        when(sources.snapshot(draft.id())).thenReturn(EvidenceSourceService.Sources.empty());
+        when(governance.structuredSnapshots(draft.id())).thenReturn(List.of(structured(java.time.LocalDate.of(2026, 12, 31))));
+        assertProblem(() -> service.submit(draft.id(), "\"0\""), "STRUCTURED_PERIOD_INVALID");
+        verify(governance, never()).markSubmitted(any(), any(), org.mockito.ArgumentMatchers.anyLong());
+    }
+
+    @Test void aLinkCannotSatisfyAFileSource() {
+        sourceType("FILE");
+        assertProblem(() -> service.submit(draft.id(), "\"0\""), "SOURCE_CONTENT_REQUIRED");
+        verify(governance, never()).markSubmitted(any(), any(), org.mockito.ArgumentMatchers.anyLong());
+    }
+
+    private void sourceType(String type) {
+        when(catalog.model(any())).thenAnswer(call -> Optional.of(new RequiredSourceCatalogPort.ModelSources(
+                call.getArgument(0), List.of(new RequiredSourceCatalogPort.Entry(SOURCE, INDICATOR, "IND-1", "SRC-1",
+                        "Fuente sintetica", type, true, 1, null)))));
+    }
+
+    private ec.edu.unl.sec.evidence.domain.StructuredEvidence structured(java.time.LocalDate until) {
+        return new ec.edu.unl.sec.evidence.domain.StructuredEvidence(null, draft.id(), SOURCE,
+                ec.edu.unl.sec.evidence.domain.StructuredEvidence.Kind.STRUCTURED_DATA,
+                ec.edu.unl.sec.evidence.domain.StructuredEvidence.TypedValue.number(java.math.BigDecimal.TEN),
+                "personas", java.time.LocalDate.of(2026, 1, 1), until, null, ACTOR, NOW);
     }
 
     private EvidenceSourceService.Sources snapshot(List<EvidenceSourceService.SourceFile> files, int references) {

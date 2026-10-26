@@ -47,6 +47,13 @@ website:
         contents:
           - docs/user/index.qmd
           - docs/user/d1-careers.qmd
+          - docs/user/d2-d3-models-planning.qmd
+          - docs/user/d4-d5-evidence-review.qmd
+          - docs/user/d6-documentary-progress.qmd
+          - docs/user/d7-manual-evaluation.qmd
+          - docs/user/d7-quantitative-evaluation.qmd
+          - docs/user/d7-academic-reconciliation.qmd
+          - docs/user/d7-d8-reports-archive.qmd
 
 format:
   html:

@@ -52,6 +52,11 @@ export class AccessApi {
     return this.api.post<ResourceView>(`users/${userId}/assignments`, command);
   }
 
+  revokeAssignment(userId: string, assignmentId: string, revision: number, reason: string): Observable<ResourceView> {
+    return this.api.post<ResourceView>(`users/${userId}/assignments/${assignmentId}/revocations`, {reason},
+      {'If-Match': `"${revision}"`});
+  }
+
   createConflictException(command: ConflictExceptionCommand): Observable<ResourceView> {
     return this.api.post<ResourceView>('conflict-exceptions', command);
   }

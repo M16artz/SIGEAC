@@ -156,6 +156,17 @@ class EvidenceDraftServiceTest {
         assertProblem(() -> service.requireEditableVersion(version.id(), "\"1\""), "DRAFT_REQUIRED");
     }
 
+    @Test
+    void updatingSubmittedMetadataReturnsAConflictWithoutWriting() {
+        var stored = storedDetails(INDICATOR_A);
+        var submitted = stored.latestVersion().submit(NOW);
+        when(repository.findVersion(submitted.id())).thenReturn(Optional.of(submitted));
+        when(repository.findEvidence(stored.evidence().id())).thenReturn(Optional.of(stored));
+        assertProblem(() -> service.update(submitted.id(), "\"1\"", update(), UUID.randomUUID()), "DRAFT_REQUIRED");
+        org.mockito.Mockito.verify(repository, org.mockito.Mockito.never()).update(
+                org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.anyLong());
+    }
+
     private static EvidenceDraftService.CreateCommand command(List<UUID> indicators) {
         return new EvidenceDraftService.CreateCommand(
                 PROCESS,

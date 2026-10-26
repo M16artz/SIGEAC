@@ -34,6 +34,42 @@ class IdentityAdministrationServiceTest {
     }
 
     @Test
+    void revocationReauthorizesImmediatelyAndPreservesTheOriginalAssignment() {
+        var assignment = TestSupport.assignment(TestSupport.USER, TestSupport.RESPONSIBLE_FUNCTION,
+                TestSupport.CAREER, TestSupport.PROCESS, TestSupport.INDICATOR);
+        repository.createAssignment(assignment);
+        var auth = new ScopeAuthorizationService(repository, clock);
+        assertThat(auth.isAllowed(TestSupport.USER, OperationCode.EVIDENCE_COLLECT, assignment.scope())).isTrue();
+        assertThat(service.revokeAssignment(actor, TestSupport.USER, assignment.id(), 0,
+                "Revocacion sintetica con motivo explicito", UUID.randomUUID())).isEqualTo(1);
+        assertThat(auth.isAllowed(TestSupport.USER, OperationCode.EVIDENCE_COLLECT, assignment.scope())).isFalse();
+        var retained = repository.findAssignment(assignment.id()).orElseThrow();
+        assertThat(retained.scope()).isEqualTo(assignment.scope());
+        assertThat(retained.validFrom()).isEqualTo(assignment.validFrom());
+        assertThat(retained.validTo()).isEqualTo(assignment.validTo());
+        assertThat(retained.revokedAt()).isEqualTo(clock.instant());
+        assertThat(retained.revision()).isEqualTo(1);
+        assertThat(audit.accepted).anyMatch(event -> event.action().equals("ASSIGNMENT_REVOKED"));
+    }
+
+    @Test
+    void revocationChecksIdentityScopeAndRevisionBeforeChangingAnything() {
+        var assignment = TestSupport.assignment(TestSupport.USER, TestSupport.RESPONSIBLE_FUNCTION,
+                TestSupport.CAREER, TestSupport.PROCESS, TestSupport.INDICATOR);
+        repository.createAssignment(assignment);
+        assertThatThrownBy(() -> service.revokeAssignment(actor, UUID.randomUUID(), assignment.id(), 0,
+                "Motivo sintetico de prueba", UUID.randomUUID())).isInstanceOf(IdentityNotFoundException.class);
+        assertThatThrownBy(() -> service.revokeAssignment(actor, TestSupport.USER, assignment.id(), 9,
+                "Motivo sintetico de prueba", UUID.randomUUID())).isInstanceOf(StaleIdentityRevisionException.class);
+        var foreign = TestSupport.assignment(TestSupport.USER, TestSupport.RESPONSIBLE_FUNCTION, UUID.randomUUID(), null, null);
+        repository.createAssignment(foreign);
+        assertThatThrownBy(() -> service.revokeAssignment(actor, TestSupport.USER, foreign.id(), 0,
+                "Motivo sintetico de prueba", UUID.randomUUID())).isInstanceOf(IdentityNotFoundException.class);
+        assertThat(repository.findAssignment(assignment.id()).orElseThrow()).isEqualTo(assignment);
+        assertThat(repository.findAssignment(foreign.id()).orElseThrow()).isEqualTo(foreign);
+    }
+
+    @Test
     void createsIdentitiesWithNormalizedLoginAndHashedPassword() {
         UUID id = service.createUser(
                 actor, "  Responsable.Nuevo  ", "Responsable Nuevo", "Synthetic-Pass-2026", false, UUID.randomUUID());

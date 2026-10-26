@@ -13,7 +13,6 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -22,13 +21,10 @@ public class JdbcIntegralClosureRepository implements IntegralClosureRepository 
     private static final TypeReference<List<UUID>> IDS = new TypeReference<>() {};
     private final JdbcTemplate jdbc;
     private final ObjectMapper json;
-    private final boolean postgres;
 
     public JdbcIntegralClosureRepository(JdbcTemplate jdbc, ObjectMapper json) {
         this.jdbc = jdbc;
         this.json = json;
-        this.postgres = Boolean.TRUE.equals(jdbc.execute((ConnectionCallback<Boolean>) connection ->
-                connection.getMetaData().getDatabaseProductName().contains("PostgreSQL")));
     }
 
     @Override
@@ -36,8 +32,7 @@ public class JdbcIntegralClosureRepository implements IntegralClosureRepository 
         try {
             jdbc.update("insert into integral_closure(id,process_id,documentary_closure_id,policy_version,"
                             + "payload_json,sha256,pending_ids,exception_decision_ids,closed_by,closed_at,revision)"
-                            + " values(?,?,?,?," + jsonParameter() + ",?," + jsonParameter() + ","
-                            + jsonParameter() + ",?,?,?)",
+                            + " values(?,?,?,?,?,?,?,?,?,?,?)",
                     closure.id(), closure.processId(), closure.documentaryClosureId(), closure.policyVersion(),
                     closure.payloadJson(), closure.sha256(), json.writeValueAsString(closure.pendingIds()),
                     json.writeValueAsString(closure.exceptionDecisionIds()), closure.closedBy(),
@@ -115,16 +110,8 @@ public class JdbcIntegralClosureRepository implements IntegralClosureRepository 
     }
 
     private String columns() {
-        return "id,process_id,documentary_closure_id,policy_version," + jsonColumn("payload_json")
-                + ",sha256," + jsonColumn("pending_ids") + "," + jsonColumn("exception_decision_ids")
+        return "id,process_id,documentary_closure_id,policy_version,payload_json"
+                + ",sha256,pending_ids,exception_decision_ids"
                 + ",closed_by,closed_at";
-    }
-
-    private String jsonParameter() {
-        return postgres ? "?::jsonb" : "?";
-    }
-
-    private String jsonColumn(String column) {
-        return postgres ? column + "::text" : column;
     }
 }

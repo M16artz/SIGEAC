@@ -1,6 +1,9 @@
-# Matriz de trazabilidad inicial
+# Matriz de trazabilidad P01–P16
 
-**Nota de estado**: las tablas de evidencia histórica conservan referencias documentales previas. Esta actualización no volvió a ejecutar esas pruebas ni certifica los resultados de D1–D8.
+**Estado al 2026-10-25**: campaña técnica consolidada de 64 criterios PASS y
+quickstart/restauración ejecutados. Las tablas históricas conservan el alcance
+de sus fechas; la matriz de cierre al final registra la verificación actual.
+T111 sigue pendiente de aprobación humana.
 
 ## Evidencia ejecutada D1 — 2026-10-21
 
@@ -231,14 +234,14 @@ correcciones y pruebas de regresión del 2026-10-21. No acredita los criterios d
 
 | Criterio | Evidencia planificada | Estado |
 |---|---|---|
-| SC-011 | T023/T030: cinco configuraciones verificadas y sin mezcla | Pendiente de ejecución |
+| SC-011 | T023/T030: cinco configuraciones verificadas y sin mezcla | PASS técnico sintético: [cinco modelos](../../tests/acceptance/results/d2-five-models.md); vigencia institucional pendiente |
 | SC-012 | T058/T120: métricas manuales, cardinalidad y casos cero | PASS técnico D6: 75 %/50 % en navegador y semántica en pruebas |
-| SC-013 | T050/T056: aceptación documental no genera valoración | Pendiente de ejecución |
+| SC-013 | T050/T056: aceptación documental no genera valoración | PASS técnico: [revisión y subsanación](../../tests/acceptance/results/d5-document-review.md) |
 | SC-014 | T068–T076: fórmula/variables, escala y estrategia verificables | PASS técnico acotado a ratio-percent/1: entradas verificadas, regla/escala/umbral exactos y rechazo de reglas no habilitadas |
-| SC-015 | T078/T084/T085: informe hasta sus sustentos exactos | Pendiente de ejecución |
-| SC-016 | T086/T093: mejora hasta hallazgo e informe de origen | Pendiente de ejecución |
+| SC-015 | T078/T084/T085: informe hasta sus sustentos exactos | PASS técnico: [informes](../../tests/acceptance/results/d7-reports.md); decisión institucional pendiente |
+| SC-016 | T086/T093: mejora hasta hallazgo e informe de origen | PASS técnico: [mejora](../../tests/acceptance/results/d8-improvement.md) |
 | SC-017 | T067: MVP con P12–P15 deshabilitados | PASS técnico D6: recorrido documental real sin invocar módulos posteriores |
-| SC-018 | T094/T101/T102: cierres, excepciones y restauración | Parcial: corte/cierre documental inmutables; integral, archivo y restauración pendientes |
+| SC-018 | T094/T101/T102/T110: cierres, excepciones y restauración | PASS técnico local: [archivo](../../tests/acceptance/results/d8-archive.md), AC-P16 y [restauración conjunta](../../tests/acceptance/results/p01-p16-restore.md); política institucional pendiente |
 
 Continuación ejecutada: [MVP documental D6](../../tests/acceptance/results/d6-documentary-mvp.md).
 T060/T064/T066/T067/T120 completan cierre estricto, integridad de archivos,
@@ -246,3 +249,55 @@ rollback, auditoría de rechazo y carreras de escritores en PostgreSQL. El
 navegador conserva el corte 75 %/50 % después del cierre. La aceptación es
 técnica y sintética; no implica validación institucional ni completa el
 contrato objetivo v2 o los requisitos transversales de rendimiento/accesibilidad.
+
+## Verificación transversal ejecutada (2026-10-25)
+
+| Requisito | Prueba y resultado | Límite |
+|---|---|---|
+| RNF-014–RNF-015 | T105: `tests/e2e/accessibility-complete-workflows.spec.ts`, 18 PASS | Teclado, regiones, controles y tablas en Edge; pendiente contraste, lector de pantalla y Firefox |
+| RNF-016 | T108: `CompleteWorkflowMigrationTest`, 20 PASS en PostgreSQL 18.4 | Limpio y V008–V025 hacia V026; sin campaña operacional de restauración |
+| RNF-017 | T126: `ModuleArchitectureTest`, 13 PASS | No analiza cadenas SQL; diferencias de permisos documentadas |
+| RNF-019 | T109: `scripts/verify-synthetic-data.ps1`, PASS | Patrones de claves privadas y correos institucionales; no es detector exhaustivo |
+
+[Evidencia transversal](../../tests/acceptance/results/p01-p16-cross-cutting.md).
+Continuación: T106 verifica [carga de consultas](../../tests/acceptance/results/performance-p01-p16.md)
+con 100 usuarios, 30 sesiones, 500 indicadores y 10.000 versiones: p95
+interactivo 1,51 s y 0 errores HTTP. No certifica carga de archivos (RNF-007).
+T107 verifica [contratos](../../tests/acceptance/results/contracts-p01-p16.md)
+con lint y Postman local: 12 solicitudes y 24 aserciones PASS, incluidas las
+rutas de historial/sucesoras configuradas. El lint remoto conserva el 401.
+
+La [campaña consolidada](../../tests/acceptance/results/process-acceptance.md)
+registra **64 PASS, 0 FAIL, 0 SKIPPED**, conservando los 48 AC-P y 16 AC-X.
+T125/T110/T112 quedan verificadas técnicamente. El
+[paquete de revisión humana](../../tests/acceptance/results/p01-p16-review-gate.md)
+permanece pendiente: no se declara aprobación normativa ni institucional.
+
+## Matriz final de requisito, prueba y resultado técnico
+
+Todos los grupos siguientes se ejecutan en `tests/acceptance/complete-workflows.spec.ts`
+mediante API real sobre PostgreSQL. Cada ID tiene un resultado individual en la
+[campaña](../../tests/acceptance/results/process-acceptance.md). Las referencias
+FR corresponden a la matriz canónica 005.
+
+| Procesos / requisitos | Casos ejecutados | Resultado y comprobación |
+|---|---|---|
+| P01–P02: FR-001–FR-006, FR-043; RNF-003/005/012/013 | AC-P01/P02, AC-X01/02/03 | PASS: sesión, revocación efectiva, auditoría, catálogo, ámbitos, ocultamiento y concurrencia |
+| P03–P04: FR-007–FR-010, FR-041–FR-047; RNF-011 | AC-P03/P04, AC-X05 | PASS: cinco configuraciones, duplicados, publicación, procedencia pendiente, sucesoras e historial |
+| P05–P06: FR-011–FR-015, FR-048–FR-050, FR-067 | AC-P05/P06, AC-X04 | PASS: autorización, aplicabilidad, suspensión, equipos, conflictos, dependencias y reasignación auditada |
+| P07–P08: FR-016–FR-020, FR-051/052/069 | AC-P07/P08, AC-X16 | PASS: fuentes explícitas, cuatro modalidades, carga/descarga, contenido inválido, remisión inmutable y snapshots tipados |
+| P09–P10: FR-021–FR-024, FR-055 | AC-P09/P10, AC-X06/07 | PASS: decisiones por fuente, auto revisión denegada, rectificación sin borrar historia y sucesoras sin aceptación heredada |
+| P11: FR-029–FR-034, FR-053/054/064/068 | AC-P11, AC-X08/09 | PASS: 75/50, cardinalidad, denominador cero con causas distintas y corte histórico conservado |
+| P12: FR-025–FR-028, FR-056–FR-058 | AC-P12, AC-X10/11 | PASS: juicio manual, cálculo 75/50, entradas verificadas, escala/regla exactas, discrepancias y pérdida de aceptación |
+| P13–P14: FR-059–FR-061 | AC-P13/P14, AC-X12 | PASS: hallazgos y vínculos exactos, consolidaciones, sin promedio arbitrario, devolución, aprobación y nueva corrección |
+| P15: FR-062/063 | AC-P15, AC-X13 | PASS: meta/plazo/medio, avances, revisión auditada, vencimiento y bloqueo de verificación sin avances |
+| P16: FR-064–FR-066 | AC-P16, AC-X14/15 | PASS: pendientes bloqueantes, hashes, archivo, reapertura y proceso nuevo sin cambiar el anterior |
+| Recuperación / RNF-011/016; SC-018 | `verify-complete-workflows-restore.ps1`, `verify-restored-workflows.mjs`, `IntegralClosureBytesTest` | [PASS](../../tests/acceptance/results/p01-p16-restore.md): 14 tablas / 30 archivos idénticos, seis respuestas API y descarga autenticada; bytes sellados conservados en PostgreSQL |
+| T110 / SC-011–SC-018 | Quickstart técnico A–D | [PASS técnico](../../tests/acceptance/results/p01-p16-quickstart.md); revisión humana separada en T111 |
+
+La [regresión actual](../../tests/acceptance/results/p01-p16-completion-validation.md)
+registra 563 pruebas backend sin fallos/errores (17 opt-in omitidas en la corrida
+general, seguida de 1 PASS PostgreSQL para bytes sellados), 107 pruebas frontend,
+lint/build y contratos/Postman PASS. Los límites de RNF-007, RNF-014/015 y la
+aprobación institucional T111 permanecen explícitos; la trazabilidad final no
+convierte esos límites en aceptación normativa ni certificación integral.

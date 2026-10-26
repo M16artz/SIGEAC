@@ -46,6 +46,11 @@ public class ApiProblemHandler {
         return problem(HttpStatus.BAD_REQUEST, "INVALID_REQUEST", "La solicitud contiene datos inválidos.", request, Map.of());
     }
 
+    @ExceptionHandler(org.springframework.web.multipart.MaxUploadSizeExceededException.class)
+    ProblemDetail handleOversizedUpload(Exception exception, HttpServletRequest request) {
+        return problem(HttpStatus.PAYLOAD_TOO_LARGE, "FILE_TOO_LARGE", "El archivo supera el tamaño máximo permitido.", request, Map.of());
+    }
+
     @ExceptionHandler(Exception.class)
     ProblemDetail handleUnexpected(Exception exception, HttpServletRequest request) {
         log.error("Excepcion no esperada en {}", request.getRequestURI(), exception);

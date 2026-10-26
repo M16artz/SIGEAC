@@ -11,7 +11,7 @@ import {EvidenceView} from '../data-access/evidence.models';
   imports: [FormsModule, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <main>
+    <section>
       <h2>Evidencias</h2>
       <label for="evidence-process">Proceso</label>
       <select id="evidence-process" [ngModel]="processId" (ngModelChange)="selectProcess($event)">
@@ -45,7 +45,7 @@ import {EvidenceView} from '../data-access/evidence.models';
           </tbody>
         </table>
       }
-    </main>
+    </section>
   `
 })
 export class EvidenceListPage implements OnInit, OnChanges {

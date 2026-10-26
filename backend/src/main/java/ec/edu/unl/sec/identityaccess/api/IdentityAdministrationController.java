@@ -105,6 +105,16 @@ public class IdentityAdministrationController {
                 .body(new ResourceView(id, 0, "ACTIVE"));
     }
 
+    @PostMapping("/users/{userId}/assignments/{assignmentId}/revocations")
+    public ResourceView revokeAssignment(Authentication authentication, HttpServletRequest request,
+            @PathVariable UUID userId, @PathVariable UUID assignmentId,
+            @RequestHeader(value = "If-Match", required = false) String ifMatch,
+            @Valid @RequestBody AssignmentRevocationCommand command) {
+        long changed = administration.revokeAssignment(actor(authentication, request), userId, assignmentId,
+                revision(ifMatch), command.reason(), AccessRequestContext.correlation(request));
+        return new ResourceView(assignmentId, changed, "REVOKED");
+    }
+
     @PostMapping("/conflict-exceptions")
     public ResponseEntity<ResourceView> createConflictException(
             Authentication authentication,
@@ -145,6 +155,8 @@ public class IdentityAdministrationController {
             Boolean technical) {}
 
     public record UserStateCommand(@NotNull Boolean active) {}
+
+    public record AssignmentRevocationCommand(@NotBlank @Size(min = 10, max = 1000) String reason) {}
 
     public record AssignmentCommand(
             @NotBlank String roleCode,

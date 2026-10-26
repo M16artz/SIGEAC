@@ -139,6 +139,22 @@ class PostClosureImprovementTest {
     }
 
     @Test
+    void verificationWithoutProgressPreservesStateAndDoesNotRecordDecision() {
+        when(processes.lock(PROCESS)).thenReturn(Optional.of(context("ACTIVE")));
+        for (var transition : List.of(ImprovementAction.Transition.SUBMIT_VERIFICATION, ImprovementAction.Transition.VERIFY)) {
+            var state = transition == ImprovementAction.Transition.VERIFY
+                    ? ImprovementAction.State.PENDING_VERIFICATION : ImprovementAction.State.IN_PROGRESS;
+            var current = head(state, NOW);
+            when(repository.findAction(current.id())).thenReturn(Optional.of(current));
+            assertThatThrownBy(() -> service.decide(current.id(), 1L, decision(transition), UUID.randomUUID()))
+                    .isInstanceOf(ImprovementProblemException.class)
+                    .extracting("code").isEqualTo("IMPROVEMENT_PROGRESS_REQUIRED");
+        }
+        verify(repository, never()).appendDecision(any());
+        verify(repository, never()).replaceHead(any(), anyLong());
+    }
+
+    @Test
     void staleRevisionUnknownActionAndOutOfScopeAreRejectedBeforeMutation() {
         var head = head(ImprovementAction.State.APPROVED, NOW.plus(5, ChronoUnit.DAYS));
         when(repository.findAction(any())).thenReturn(Optional.of(head));

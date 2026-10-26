@@ -1,0 +1,14 @@
+{
+  "synthetic": true,
+  "institutionalValidity": false,
+  "users": 100,
+  "concurrentSessions": 30,
+  "indicators": 500,
+  "evidenceVersions": 10000,
+  "requiredSources": 500,
+  "processId": "f1060000-0000-0000-0011-000000000001",
+  "usernamePrefix": "perf",
+  "interactiveP95Milliseconds": 2000,
+  "uploadP95Milliseconds": 15000,
+  "maximumUploadBytes": 26214400
+}

@@ -14,7 +14,9 @@ class EvidenceSourceTest {
         assertThat(reference.description()).isEqualTo("Referencia declarada");
         assertThat(reference.position()).isEqualTo(2);
         new ExternalReference(UUID.randomUUID(), reference.versionId(), "urn:synthetic:document", "Declaracion", 1);
-        for (String uri : new String[]{"relative/path", "", "http://", "https://synthetic.invalid/" + "a".repeat(2048)}) {
+        for (String uri : new String[]{"relative/path", "", "http://", "file:///private/document", "javascript:alert(1)",
+                "data:text/html,synthetic", "ftp://synthetic.invalid/document", "https://user:secret@synthetic.invalid/document",
+                "https://synthetic.invalid/" + "a".repeat(2048)}) {
             assertThatThrownBy(() -> new ExternalReference(UUID.randomUUID(), reference.versionId(), uri, "Descripcion", 1))
                     .isInstanceOf(IllegalArgumentException.class);
         }

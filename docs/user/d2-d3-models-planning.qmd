@@ -1,0 +1,35 @@
+---
+title: "D2–D3 — Modelos y planificación"
+---
+
+## Preparar modelos y fuentes (P03–P04)
+
+Como administrador de modelos, abra **Modelos** (`/models`). Registre la
+procedencia del documento, edición y emisor. Configure la jerarquía y, en cada
+indicador, el estándar, período, fuentes requeridas y método de valoración.
+Una fuente obligatoria necesita cardinalidad mínima; una opcional no entra en
+el denominador documental. Una regla automática necesita validación explícita.
+
+Solicite la publicación a una persona distinta de la autora. Corrija los
+problemas indicados antes de publicar. Una versión publicada se conserva;
+los cambios posteriores requieren una sucesora. La publicación no confirma por
+sí sola vigencia ni aplicabilidad para una carrera: registre la verificación
+normativa correspondiente. No complete referencias pendientes con valores supuestos.
+
+## Autorizar y planificar (P05–P06)
+
+Como coordinador, abra **Procesos**, elija carrera, modelo publicado y período.
+El proceso permanece en preparación hasta registrar la autorización competente.
+La autoridad registra asignación, fundamento, documento y motivo. La activación
+fija el modelo; publicar otra versión no modifica este proceso.
+
+En la planificación del proceso (`/processes/<id>/planning`), prepare equipos,
+membresías con rol y vigencia, asignaciones y actividades. Cada asignación debe
+tener una persona o un equipo. Indique fuentes, fechas y dependencias; los ciclos
+y los conflictos de autor/revisor se rechazan. La persona participante consulta
+sus actividades en `/processes/<id>/activities`.
+
+Una suspensión bloquea actuaciones ordinarias. Registre la decisión competente
+para suspender o reanudar; ambas se conservan. Reasignar o cambiar plazos requiere
+revisar la versión actual y registrar la excepción cuando corresponda. Las
+competencias del piloto son sintéticas y requieren validación institucional.

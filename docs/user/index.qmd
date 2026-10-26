@@ -1,6 +1,7 @@
 # Manual de usuario
 
-Esta sección documenta las funcionalidades aprobadas y disponibles.
+Esta sección documenta las funcionalidades implementadas y verificadas con datos
+sintéticos. La validación de competencias y aplicabilidad institucional sigue pendiente.
 
 Los recorridos planificados y sus responsabilidades se describen en el
 [catálogo P01–P16](../requirements/process-flows.md). Una aceptación documental
@@ -11,25 +12,38 @@ su estándar ni que la carrera esté acreditada.
 
 - [Acceso y ámbitos autorizados](i0-access.qmd)
 - [Carreras y unidades académicas](d1-careers.qmd)
+- [Modelos, autorización y planificación](d2-d3-models-planning.qmd)
+- [Evidencias, revisión y subsanación](d4-d5-evidence-review.qmd)
+- [Hallazgos, informes, mejora y archivo](d7-d8-reports-archive.qmd)
 
 ## Avances técnicos disponibles
 
 - [Valoración académica manual e historial propio](d7-manual-evaluation.qmd).
   Incremento D7 con [variables verificadas y cálculo cuantitativo](d7-quantitative-evaluation.qmd).
   [Conciliación autorizada por indicador](d7-academic-reconciliation.qmd) disponible;
-  informes institucionales pendientes.
+  el ciclo de informes tiene su guía en el enlace anterior.
 
 - [Seguimiento documental: tablero, cortes históricos y cierre](d6-documentary-progress.qmd).
   MVP técnico verificado con datos sintéticos; pendiente de validación institucional.
 
-## Módulos planificados
+## Recorrido por función
 
-- Modelos configurables y fuentes requeridas.
-- Procesos, autorización y planificación.
-- Evidencias, revisión y subsanación.
-- Valoración académica.
-- Hallazgos e informes.
-- Planes de mejora, cierre y archivo.
+| Función asignada | Procesos y guía |
+|---|---|
+| Administración funcional | P01–P02: acceso, funciones, ámbitos, unidades y carreras |
+| Administración de modelos y revisión metodológica | P03–P04: versiones, fuentes, metodología y aplicabilidad |
+| Coordinación y autoridad del proceso | P05–P06: autorización, equipos, actividades, plazos y suspensión |
+| Responsable documental | P07–P08 y P10: registrar, remitir y corregir mediante sucesoras |
+| Revisión documental | P09: decisiones justificadas por cobertura |
+| Coordinación o consulta autorizada | P11: avance documental e historial |
+| Evaluación y conciliación | P12: juicios, variables verificadas y resolución de discrepancias |
+| Comisión y autoridad del informe | P13–P14: hallazgos, versiones, observaciones y aprobación |
+| Ejecución y verificación de mejora | P15: acciones, avances y verificación separada |
+| Autoridad de cierre y archivo | P16: bloqueadores, excepciones, cierre e historial |
+
+La función y su ámbito deben estar vigentes. Si una operación se rechaza, revise
+la asignación con la coordinación; no use la cuenta de otra persona. Tras un
+conflicto de edición, vuelva a consultar antes de registrar la decisión.
 
 ## Responsabilidades y significado de los resultados
 
@@ -37,4 +51,6 @@ La [matriz de actores](../requirements/domain-rules.md#matriz-de-responsabilidad
 
 El tablero separa fuentes registradas y aceptadas. Un borrador todavía no cuenta como remisión y una versión corregida vuelve a revisión. Los porcentajes documentales no equivalen al grado de cumplimiento académico. El [catálogo de estados](../requirements/domain-rules.md#estados-y-transiciones) explica cuándo puede corregirse y qué conserva el histórico.
 
-Los módulos planificados se describen para preparar el uso futuro; su disponibilidad se informa al aceptar cada entrega. Las configuraciones y competencias del piloto se identifican como sintéticas mientras no exista validación institucional.
+Las configuraciones y competencias del piloto se identifican como sintéticas
+mientras no exista validación institucional. Aprobar un informe o archivar un
+proceso conserva una decisión interna; el sistema no emite acreditaciones.

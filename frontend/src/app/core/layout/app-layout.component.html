@@ -1,4 +1,4 @@
-<a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+<a class="skip-link" href="#main-content" (click)="$event.preventDefault(); mainContent.focus()">Saltar al contenido principal</a>
 <header><h1>SEC-UNL</h1><p>Sistema de Evaluación de Carreras</p></header>
 <nav aria-label="Navegación principal">
   <a routerLink="/access" routerLinkActive="active">Acceso</a>
@@ -23,6 +23,13 @@
     <a routerLink="/evaluations/quantitative" routerLinkActive="active">Variables y cálculo</a>
     <a routerLink="/evaluations/reconciliation" routerLinkActive="active">Discrepancias y conciliación</a>
   }
+  @if (hasRole('COORDINATOR', 'PROCESS_AUTHORITY')) {
+    <a routerLink="/reports" routerLinkActive="active">Informes</a>
+    <a routerLink="/archive" routerLinkActive="active">Archivo</a>
+  }
+  @if (hasRole('COORDINATOR', 'PROCESS_AUTHORITY', 'RESPONSIBLE', 'REVIEWER')) {
+    <a routerLink="/improvement" routerLinkActive="active">Mejora</a>
+  }
 </nav>
-<main id="main-content" tabindex="-1"><router-outlet /></main>
+<main #mainContent id="main-content" tabindex="-1"><router-outlet /></main>
 <footer>Herramienta interna de apoyo a la autoevaluación; no constituye acreditación.</footer>

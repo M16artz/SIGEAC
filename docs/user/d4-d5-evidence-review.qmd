@@ -1,0 +1,39 @@
+---
+title: "D4–D5 — Evidencias, revisión y subsanación"
+---
+
+## Recopilar y remitir (P07–P08)
+
+Como responsable documental, abra **Evidencias** (`/evidence`) y cree un borrador
+para el proceso e indicador asignados. Seleccione explícitamente las fuentes
+requeridas que cubre. Añada los metadatos, período y contenido solicitado:
+archivo, enlace, dato estructurado o referencia institucional. Una reutilización
+requiere cobertura explícita para cada fuente y autorización en su ámbito.
+
+Revise el borrador antes de remitir. El límite por archivo es 25 MiB; tipo,
+contenido e integridad se validan. Un enlace conserva una referencia, no una
+copia garantizada del sitio externo. Si una carga falla, consulte el estado
+antes de reintentar; un archivo incompleto no debe considerarse disponible.
+
+Remitir congela la versión y la envía a revisión. Si faltan datos, la recepción
+está cerrada o su asignación venció, el sistema conserva el borrador e informa
+el impedimento. No intente sobrescribir una versión remitida.
+
+## Revisar y corregir (P09–P10)
+
+Como revisor asignado, abra **Revisión documental** (`/reviews`), consulte la
+versión y su contenido, y justifique el resultado de cada cobertura. Puede
+aceptar una fuente y observar otra: únicamente las aceptadas incrementan la
+revisión documental. No revise su propia evidencia sin excepción autorizada.
+Aceptar documentación no registra una valoración académica.
+
+Como responsable, abra la versión observada o rechazada y cree una sucesora
+ligada a la decisión que solicita corrección. Corrija el nuevo borrador y
+remítalo. La predecesora y sus decisiones permanecen consultables en el
+historial. Crear el borrador no retira la aceptación previa; remitirlo exige
+una nueva revisión y no hereda aceptación. Una rectificación del revisor añade
+otra decisión con motivo y conserva la anterior.
+
+Si el plazo o estado bloquean la corrección, solicite a la coordinación la
+decisión competente. La exclusión de una fuente exige aplicabilidad justificada;
+no elimine una fuente para mejorar el porcentaje.

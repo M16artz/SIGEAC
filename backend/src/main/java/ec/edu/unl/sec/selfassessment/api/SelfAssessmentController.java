@@ -94,7 +94,7 @@ public class SelfAssessmentController {
         return new ProcessTransitionService.Decision(assignment, legalBasis, document);
     }
     static UUID correlation(HttpServletRequest request) {
-        Object value = request.getAttribute("sec.correlationId");
+        Object value = request.getAttribute(ec.edu.unl.sec.shared.infrastructure.CorrelationFilter.CORRELATION_ATTRIBUTE);
         try { return UUID.fromString(String.valueOf(value)); } catch (IllegalArgumentException exception) { return UUID.randomUUID(); }
     }
 

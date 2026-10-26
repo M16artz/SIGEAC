@@ -28,6 +28,7 @@ public class IdentityAccessAuditService {
             "IDENTITY_DISABLED",
             "IDENTITY_ENABLED",
             "ASSIGNMENT_CREATED",
+            "ASSIGNMENT_REVOKED",
             "ASSIGNMENT_REJECTED",
             "CONFLICT_EXCEPTION_CREATED",
             "CONFLICT_REJECTED",

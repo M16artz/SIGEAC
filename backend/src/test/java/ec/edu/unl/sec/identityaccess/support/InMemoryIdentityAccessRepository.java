@@ -241,6 +241,21 @@ public class InMemoryIdentityAccessRepository implements IdentityAccessRepositor
     }
 
     @Override
+    public Optional<FunctionalAssignment> findAssignment(UUID assignmentId) {
+        return assignments.stream().filter(a -> a.id().equals(assignmentId)).findFirst();
+    }
+
+    @Override
+    public void revokeAssignment(UUID assignmentId, long expectedRevision, Instant at) {
+        var assignment = findAssignment(assignmentId).orElseThrow();
+        if (assignment.revision() != expectedRevision || assignment.revokedAt() != null)
+            throw new IllegalStateException("STALE_ASSIGNMENT");
+        assignments.set(assignments.indexOf(assignment), new FunctionalAssignment(assignment.id(), assignment.identityId(),
+                assignment.functionId(), assignment.scope(), assignment.validFrom(), assignment.validTo(),
+                assignment.grantedBy(), at, expectedRevision + 1));
+    }
+
+    @Override
     public Optional<UserRecord> findUser(UUID identityId) {
         return Optional.ofNullable(users.get(identityId));
     }

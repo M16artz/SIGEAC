@@ -1,10 +1,17 @@
 # Matriz de aceptación por proceso
 
-**Estado**: escenarios de diseño, aún no ejecutados contra una implementación.  
+**Estado**: catálogo de escenarios; ejecución técnica consolidada completa en
+[resultados P01–P16](../../tests/acceptance/results/process-acceptance.md).
 **Fecha**: 2026-10-21.  
 **Referencia**: [reglas de dominio](../requirements/domain-rules.md), [plan](../../specs/005-complete-evaluation-workflows/plan.md).
 
-Los IDs AC-Pxx-01/02/03 corresponden respectivamente al recorrido principal, rechazo y recuperación/alternativa. Cada prueba futura declara el ID y conserva resultado, versión, entorno y datos sintéticos. Los criterios AC-X01–AC-X16 complementan estos recorridos y deben incorporarse a las pruebas de autorización, integridad, concurrencia y cálculos. Esta matriz acredita cobertura de diseño, no ejecución ni aprobación institucional.
+Los IDs AC-Pxx-01/02/03 corresponden respectivamente al recorrido principal,
+rechazo y recuperación/alternativa. La suite `complete-workflows.spec.ts`
+conserva los 64 IDs: 64 PASS, 0 FAIL y 0 SKIPPED en la ejecución de 2026-10-25.
+Cada PASS ejecuta su recorrido con datos sintéticos sobre la API real;
+la revisión humana T111 sigue pendiente. Los criterios AC-X01–AC-X16 complementan
+estos recorridos. Este catálogo define el alcance; el informe enlazado acredita
+lo ejecutado y no constituye aprobación institucional.
 
 ## P01. Autenticación y usuarios
 

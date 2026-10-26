@@ -19,7 +19,7 @@ import {StructuredEvidenceComponent} from '../ui/structured-evidence.component';
   imports: [EvidenceSourceCoverageComponent, StructuredEvidenceComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <main>
+    <section>
       @if (version(); as current) {
         <h2>Versión {{current.revisionNumber}} · {{current.title}}</h2>
         <p><strong>Estado:</strong> {{current.status}} · <strong>Vigencia:</strong> {{current.coveredFrom}} → {{current.coveredTo}}</p>
@@ -66,7 +66,7 @@ import {StructuredEvidenceComponent} from '../ui/structured-evidence.component';
         <p role="status">Cargando versión de evidencia…</p>
         @if (error()) { <p role="alert">{{error()}}</p> }
       }
-    </main>
+    </section>
   `
 })
 export class EvidenceVersionPage implements OnInit {

@@ -4,7 +4,12 @@
 
 **Input**: Feature specification from `/specs/005-complete-evaluation-workflows/spec.md`
 
-**Estado**: plan documentado, pendiente de revisión humana e implementación. `Branch` identifica el paquete lógico; no afirma que se haya creado o cambiado la rama Git. Los resultados PASS siguientes se refieren a coherencia del diseño, no a pruebas ejecutadas ni validación institucional.
+**Estado al 2026-10-25**: 125 de 126 tareas técnicas completadas; T111 sigue
+pendiente de revisión humana. La campaña consolidada registra 64 PASS y el
+quickstart técnico incluye restauración conjunta verificada. Véanse
+[resultados actuales](../../tests/acceptance/results/p01-p16-completion-validation.md).
+`Branch` identifica el paquete lógico; no afirma un cambio de rama Git. Los
+apartados de avance y los PASS de diseño siguientes conservan su alcance histórico.
 
 **Avance técnico D1**: carreras/unidades y compatibilidad entregadas con datos
 sintéticos; resultados en [d1-careers.md](../../tests/acceptance/results/d1-careers.md).

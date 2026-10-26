@@ -47,7 +47,14 @@ public class SelfAssessmentService {
             throw problem(ProcessProblemException.Kind.NOT_FOUND,"PROCESS_NOT_FOUND","El proceso no existe o no estÃ¡ visible.");
         UUID actor=current.identityId();check(process,expected);
         careers.requireActiveCareer(process.careerId(),process.periodStart(),process.periodEnd());
-        if (applicability != null) applicability.assertUsableForActivation(process.modelVersionId(), process.careerId(), process.periodStart());
+        if (applicability != null) {
+            try {
+                applicability.assertUsableForActivation(process.modelVersionId(), process.careerId(), process.periodStart());
+            } catch (ec.edu.unl.sec.evaluationmodel.application.ModelProblemException blocked) {
+                throw problem(ProcessProblemException.Kind.CONFLICT, blocked.code(),
+                        "La aplicabilidad del modelo impide activar el proceso.");
+            }
+        }
         if (!process.inPreparation()) throw problem(ProcessProblemException.Kind.CONFLICT,"INVALID_PROCESS_TRANSITION","Solo se puede activar un proceso en preparaciÃ³n.");
         if (process.authorization() == null) throw problem(ProcessProblemException.Kind.CONFLICT,
                 "AUTHORIZATION_MISSING", "El proceso permanece en preparaciÃ³n hasta registrar una autorizaciÃ³n institucional verificada.");

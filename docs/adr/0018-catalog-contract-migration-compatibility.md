@@ -132,3 +132,19 @@ append-only. No modifica V017–V022. La verificación PostgreSQL cubrió limpio
 actualización desde V020/V021/V022. No se presupone competencia por un nombre
 de rol; los actores y asignaciones adicionales solo se siembran en el perfil
 de pruebas explícito `d7-reconciliation-test`.
+
+## Historial y sucesión configurados (2026-10-25)
+
+La campaña consolidada detectó que el historial web pedía el DTO legado incluso
+para versiones configuradas. Se añaden `GET /models/{modelId}/versions/configured`
+y `POST /model-versions/{versionId}/successors/configured` en v1. Devuelven el
+snapshot completo y reutilizan `listVersions` y `createConfigured` con las
+capacidades existentes `MODEL_READ`/`MODEL_MANAGE`. Las rutas legadas conservan
+su validación y no proyectan fuentes o reglas perdiendo información.
+
+El historial web usa la consulta completa y elige el comando de sucesión según
+la presencia de configuración. Un fallo de lectura retira el historial anterior
+y se muestra como alerta. La sucesora conserva configuración y predecesora;
+ningún proceso cambia su versión fijada. No se requiere migración ni se declara
+completa la superficie v2. La prueba AC-P03-03 contrasta la conservación por API
+real; se añaden pruebas de aplicación, controlador y pantalla.

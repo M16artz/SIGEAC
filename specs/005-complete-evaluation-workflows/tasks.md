@@ -281,18 +281,36 @@ D7 completo.
 
 ## Phase 13: Cross-cutting verification and documentation
 
-- [ ] T103 [P] Update technical manuals for D1–D8 in `docs/technical/index.qmd`
-- [ ] T104 [P] Update role-based user manuals for P01–P16 in `docs/user/index.qmd`
-- [ ] T105 [P] Add accessibility journeys for new screens in `tests/e2e/accessibility-complete-workflows.spec.ts`
-- [ ] T106 [P] Add performance datasets and paginated query checks in `tests/performance/complete-workflows.js`
-- [ ] T107 Validate the merged OpenAPI contract with project scripts and Postman CLI, recording results in `tests/acceptance/results/contracts-p01-p16.md`
-- [ ] T108 Run clean and incremental migration verification through V020 in `tests/acceptance/results/migrations-p01-p16.md`
-- [ ] T109 Verify no secrets or institutional data in fixtures/results using `scripts/verify-synthetic-data.ps1`
-- [ ] T110 Execute `specs/005-complete-evaluation-workflows/quickstart.md` and record results in `tests/acceptance/results/p01-p16-quickstart.md`
+**Avance transversal (2026-10-25)**: T103/T104 actualizan manuales; T105 añade
+18 recorridos reales aprobados y corrige salto al contenido, regiones anidadas
+y encabezados. T108 verifica 20 rutas de migración PostgreSQL hasta V026;
+T109 aprueba el escáner sintético y T126 contrasta módulos/permisos con 13
+reglas ArchUnit. Frontend: 103 pruebas aprobadas. Ver
+[evidencia y límites](../../tests/acceptance/results/p01-p16-cross-cutting.md).
+**Continuación (2026-10-25)**: T106 verifica 100 usuarios, 30 sesiones, 500
+indicadores y 10.000 versiones con p95 de consultas 1,51 s y 0 errores HTTP.
+T107 se completa con lint y Postman local: 12 solicitudes, 24 aserciones PASS;
+el lint remoto conserva el 401, sin bloquear la colección local. T125 avanza
+con 20 criterios PASS, 0 FAIL y 44 SKIPPED explícitos. Esa campaña corrigió
+historial/sucesión configurada y el 409 al editar metadatos remitidos.
+Regresión: 552 pruebas backend (16 omitidas) y 105 frontend, sin fallos.
+Ver [continuación y límites](../../tests/acceptance/results/p01-p16-completion-validation.md).
+Actualización posterior: T125 completa 64 PASS, T110 verifica quickstart y
+restauración conjunta, T112 registra la matriz final técnica. Quedan 125 de
+126 tareas completadas; T111 sigue pendiente de revisión humana.
+
+- [X] T103 [P] Update technical manuals for D1–D8 in `docs/technical/index.qmd`
+- [X] T104 [P] Update role-based user manuals for P01–P16 in `docs/user/index.qmd`
+- [X] T105 [P] Add accessibility journeys for new screens in `tests/e2e/accessibility-complete-workflows.spec.ts`
+- [X] T106 [P] Add performance datasets and paginated query checks in `tests/performance/complete-workflows.js`
+- [X] T107 Validate the merged OpenAPI contract with project scripts and Postman CLI, recording results in `tests/acceptance/results/contracts-p01-p16.md`
+- [X] T108 Run clean and incremental migration verification through V026 (supersedes the original V020 reservation) in `tests/acceptance/results/migrations-p01-p16.md`
+- [X] T109 Verify no secrets or institutional data in fixtures/results using `scripts/verify-synthetic-data.ps1`
+- [X] T110 Execute `specs/005-complete-evaluation-workflows/quickstart.md` and record results in `tests/acceptance/results/p01-p16-quickstart.md`
 - [ ] T111 Complete human governance review for normative provenance, competencies and no-accreditation wording in `tests/acceptance/results/p01-p16-review-gate.md`
-- [ ] T112 Finalize requirement-to-test-to-result mapping in `docs/testing/traceability.md`
-- [ ] T125 [P] Automate the 48 AC-Pxx and 16 AC-X scenarios relevant to each accepted delivery with synthetic fixtures in `tests/acceptance/complete-workflows.spec.ts`; preserve PASS/FAIL/SKIPPED evidence in `tests/acceptance/results/process-acceptance.md` before T110
-- [ ] T126 Verify the current C4/module diagrams and contract permissions against accepted code, and record unresolved differences in `docs/architecture/complete-workflows.md`; documentation of a planned module does not satisfy architecture tests or implementation acceptance
+- [X] T112 Finalize requirement-to-test-to-result mapping in `docs/testing/traceability.md`
+- [X] T125 [P] Automate the 48 AC-Pxx and 16 AC-X scenarios relevant to each accepted delivery with synthetic fixtures in `tests/acceptance/complete-workflows.spec.ts`; preserve PASS/FAIL/SKIPPED evidence in `tests/acceptance/results/process-acceptance.md` before T110
+- [X] T126 Verify the current C4/module diagrams and contract permissions against accepted code, and record unresolved differences in `docs/architecture/complete-workflows.md`; documentation of a planned module does not satisfy architecture tests or implementation acceptance
 
 ## Dependencies and delivery order
 

@@ -13,6 +13,7 @@ export interface AssignmentView {
   readonly indicatorId: string | null;
   readonly validFrom: string;
   readonly validTo: string;
+  readonly revision?: number;
 }
 
 export interface CurrentIdentity {

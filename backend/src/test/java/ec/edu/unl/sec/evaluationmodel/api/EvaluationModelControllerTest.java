@@ -23,13 +23,43 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 class EvaluationModelControllerTest {
     private EvaluationModelService service;
     private ModelApplicabilityService applicability;
+    private ModelSuccessionService succession;
     private MockMvc mvc;
 
     @BeforeEach void setup() {
         service = mock(EvaluationModelService.class);
         applicability = mock(ModelApplicabilityService.class);
-        mvc = MockMvcBuilders.standaloneSetup(new EvaluationModelController(service, mock(ModelSuccessionService.class),
-                mock(ModelComparisonService.class), applicability)).setControllerAdvice(new EvaluationModelExceptionHandler()).build();
+        succession = mock(ModelSuccessionService.class);
+        mvc = MockMvcBuilders.standaloneSetup(new EvaluationModelController(service, succession,
+                mock(ModelComparisonService.class), applicability)).setControllerAdvice(new EvaluationModelExceptionHandler())
+                .addFilters(new ec.edu.unl.sec.shared.infrastructure.CorrelationFilter()).build();
+    }
+
+    @Test void modelErrorsRetainTheRequestCorrelationAndItsAuditIdentifier() throws Exception {
+        UUID id = UUID.randomUUID(), correlation = UUID.randomUUID();
+        when(service.get(eq(id), eq(correlation))).thenThrow(new ModelProblemException(
+                ModelProblemException.Kind.NOT_FOUND, "MODEL_VERSION_NOT_FOUND", "Recurso no visible"));
+        mvc.perform(get("/model-versions/" + id).header("X-Correlation-ID", correlation.toString()))
+                .andExpect(status().isNotFound()).andExpect(header().string("X-Correlation-ID", correlation.toString()))
+                .andExpect(jsonPath("$.correlationId").value(correlation.toString()));
+        verify(service).get(id, correlation);
+    }
+
+    @Test void configuredHistoryAndSuccessorPreserveTheFullConfiguration() throws Exception {
+        var fixture = ec.edu.unl.sec.evaluationmodel.support.ConfiguredModelFixtures.first();
+        var published = ModelFixtures.draft().replaceConfiguration(fixture.source(), fixture.nodes(), fixture.configuration())
+                .publish(ModelFixtures.APPROVER, Instant.now());
+        var next = published.successor(2, ModelFixtures.AUTHOR, Instant.now());
+        when(service.listVersions(published.modelId())).thenReturn(List.of(published, next));
+        when(succession.createConfigured(eq(published.id()), any())).thenReturn(next);
+        mvc.perform(get("/models/" + published.modelId() + "/versions/configured"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$[0].configuration.indicators.length()").value(2))
+                .andExpect(jsonPath("$[1].predecessorId").value(published.id().toString()));
+        mvc.perform(post("/model-versions/" + published.id() + "/successors/configured"))
+                .andExpect(status().isCreated()).andExpect(header().string("ETag", "\"0\""))
+                .andExpect(header().string("Location", "/api/v1/model-versions/" + next.id() + "/configured"))
+                .andExpect(jsonPath("$.configuration.indicators.length()").value(2));
+        verify(succession, never()).create(any(), any());
     }
 
     @Test void getsVersionWithRevisionEtag() throws Exception {

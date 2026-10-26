@@ -140,6 +140,46 @@ paths:
         '201': {$ref: '#/components/responses/CreatedResource'}
         '409': {$ref: '#/components/responses/Conflict'}
         '403': {$ref: '#/components/responses/Forbidden'}
+  /users/{userId}/assignments/{assignmentId}/revocations:
+    post:
+      tags: [Access]
+      operationId: revokeFunctionalAssignment
+      summary: Revocar una asignación vigente sin borrar su historial ni cerrar la sesión
+      description: Requiere ACCESS_ASSIGN_SCOPE en el ámbito de la asignación, identidad coincidente, If-Match y motivo. Conserva vigencias, marca revoked_at y audita ASSIGNMENT_REVOKED. Las siguientes operaciones reautorizan aunque la sesión siga abierta.
+      x-required-capability: ACCESS_ASSIGN_SCOPE
+      parameters:
+        - {$ref: '#/components/parameters/UserId'}
+        - {name: assignmentId, in: path, required: true, schema: {type: string, format: uuid}}
+        - {$ref: '#/components/parameters/CsrfToken'}
+        - {$ref: '#/components/parameters/IfMatch'}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [reason]
+              properties:
+                reason: {type: string, minLength: 10, maxLength: 1000}
+      responses:
+        '200':
+          description: Asignación revocada y revisión incrementada; no borra el registro anterior.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [id, version, status]
+                properties:
+                  id: {type: string, format: uuid}
+                  version: {type: integer, minimum: 1}
+                  status: {type: string, enum: [REVOKED]}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '412': {$ref: '#/components/responses/PreconditionFailed'}
+        '428': {$ref: '#/components/responses/PreconditionRequired'}
   /conflict-exceptions:
     post:
       tags: [Access]
@@ -201,6 +241,45 @@ paths:
             schema: {$ref: '#/components/schemas/ModelVersionCommand'}
       responses:
         '201': {$ref: '#/components/responses/CreatedResource'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /models/{modelId}/versions/configured:
+    get:
+      tags: [Models]
+      operationId: listConfiguredModelVersions
+      summary: Consultar historial completo sin proyectar la configuración a la jerarquía legada
+      x-required-capability: MODEL_READ
+      parameters: [{$ref: '#/components/parameters/ModelId'}]
+      responses:
+        '200':
+          description: Versiones completas ordenadas por número, incluidas las configuradas y las legadas.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: '#/components/schemas/ConfiguredModelVersionView'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /model-versions/{versionId}/successors/configured:
+    post:
+      tags: [Models]
+      operationId: createConfiguredModelSuccessor
+      summary: Crear un borrador sucesor conservando fuentes, reglas y referencias
+      description: Exige MODEL_MANAGE y una predecesora configurada publicada o sustituida. No modifica la versión anterior ni el modelo fijado por procesos históricos. Reutiliza el servicio de sucesión existente.
+      x-required-capability: MODEL_MANAGE
+      parameters: [{$ref: '#/components/parameters/VersionId'}, {$ref: '#/components/parameters/CsrfToken'}]
+      responses:
+        '201':
+          description: Sucesora en borrador. ETag identifica su revisión inicial y Location su consulta configurada.
+          headers:
+            ETag: {schema: {type: string}}
+            Location: {schema: {type: string}}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ConfiguredModelVersionView'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
         '409': {$ref: '#/components/responses/Conflict'}
   /model-versions/{versionId}/publish:
     post:
@@ -1653,6 +1732,22 @@ components:
       properties:
         username: {type: string, minLength: 3, maxLength: 100}
         password: {type: string, minLength: 12, maxLength: 256}
+    ConfiguredModelVersionView:
+      type: object
+      description: Snapshot completo del dominio. configuration conserva las definiciones por indicador sin conversión al DTO legado; sus campos internos se validan al publicar.
+      required: [id, modelId, versionNumber, status, source, authorId, revision, criteria, configuration]
+      properties:
+        id: {type: string, format: uuid}
+        modelId: {type: string, format: uuid}
+        versionNumber: {type: integer, minimum: 1}
+        status: {type: string, enum: [DRAFT, PUBLISHED, SUPERSEDED]}
+        source: {type: string, maxLength: 2000}
+        authorId: {type: string, format: uuid}
+        approverId: {type: [string, 'null'], format: uuid}
+        predecessorId: {type: [string, 'null'], format: uuid}
+        revision: {type: integer, minimum: 0}
+        criteria: {type: array, items: {type: object}}
+        configuration: {type: [object, 'null']}
     SessionView:
       type: object
       required: [userId, expiresAt, csrfToken]
@@ -1692,6 +1787,7 @@ components:
         indicatorId: {type: [string, 'null'], format: uuid}
         validFrom: {type: string, format: date-time}
         validTo: {type: string, format: date-time}
+        revision: {type: integer, minimum: 0}
     UserStateCommand:
       type: object
       additionalProperties: false

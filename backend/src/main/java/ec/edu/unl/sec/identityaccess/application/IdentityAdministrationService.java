@@ -250,6 +250,30 @@ public class IdentityAdministrationService {
     }
 
     @Transactional
+    public long revokeAssignment(Actor actor, UUID userId, UUID assignmentId, long expectedRevision,
+            String reason, UUID correlationId) {
+        require(actor, OperationCode.ACCESS_ASSIGN_SCOPE, "ACCESS_ASSIGN_SCOPE");
+        var assignment = repository.findAssignment(assignmentId)
+                .filter(a -> a.identityId().equals(userId)).orElseThrow(IdentityNotFoundException::new);
+        if (!authorization.isAllowed(actor.identityId(), OperationCode.ACCESS_ASSIGN_SCOPE, assignment.scope()))
+            throw new IdentityNotFoundException();
+        if (reason == null || reason.strip().length() < 10 || reason.length() > 1000)
+            throw new IllegalArgumentException("La revocacion requiere un motivo entre 10 y 1000 caracteres.");
+        if (assignment.revision() != expectedRevision) throw new StaleIdentityRevisionException();
+        if (assignment.revokedAt() != null)
+            throw new IdentityConflictException("ASSIGNMENT_ALREADY_REVOKED", "La asignacion ya fue revocada.");
+        try {
+            repository.revokeAssignment(assignmentId, expectedRevision, clock.instant());
+        } catch (IllegalStateException stale) {
+            throw new StaleIdentityRevisionException();
+        }
+        audit.record(actor.identityId(), correlationId, "ASSIGNMENT_REVOKED", "FUNCTIONAL_ASSIGNMENT", assignmentId,
+                assignment.scope().careerId(), assignment.scope().processId(), "SUCCESS", "REVOKED",
+                Map.of("reason", reason.strip(), "identityId", userId.toString(), "functionId", assignment.functionId().toString()));
+        return expectedRevision + 1;
+    }
+
+    @Transactional
     public UUID createException(
             Actor actor,
             UUID policyId,
@@ -382,7 +406,7 @@ public class IdentityAdministrationService {
                 r.scope().processId(),
                 r.scope().indicatorId(),
                 r.validFrom(),
-                r.validTo());
+                r.validTo(), r.revision());
     }
 
     public record Actor(UUID identityId, UUID correlationId) {}
@@ -398,7 +422,7 @@ public class IdentityAdministrationService {
             UUID processId,
             UUID indicatorId,
             Instant validFrom,
-            Instant validTo) {}
+            Instant validTo, long revision) {}
 
     public record Page<T>(List<T> items, int page, int size, long total) {}
 

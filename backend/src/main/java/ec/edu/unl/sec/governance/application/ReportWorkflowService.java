@@ -95,9 +95,6 @@ public class ReportWorkflowService {
                 .orElseThrow(() -> problem(GovernanceProblemException.Kind.INVALID, "REPORT_CONSOLIDATION_NOT_FOUND",
                         "No existe una consolidación registrada sobre la cual emitir informe."));
         var kind = parseKind(command.kind());
-        if (reports.hasApprovedFinal(processId))
-            throw problem(GovernanceProblemException.Kind.CONFLICT, "REPORT_ALREADY_APPROVED",
-                    "El informe final ya fue aprobado y la cadena permanece cerrada.");
         UUID predecessorId = null;
         var latest = reports.latest(processId);
         if (kind == ReportVersion.Kind.PRELIMINARY) {
@@ -113,6 +110,9 @@ public class ReportWorkflowService {
                     .filter(v -> v.processId().equals(processId))
                     .orElseThrow(() -> problem(GovernanceProblemException.Kind.NOT_FOUND, "REPORT_VERSION_NOT_FOUND",
                             "La versión predecesora indicada no existe."));
+            if (latest.isEmpty() || !latest.get().id().equals(predecessor.id()))
+                throw problem(GovernanceProblemException.Kind.CONFLICT, "REPORT_PREDECESSOR_NOT_LATEST",
+                        "La corrección debe continuar la última versión emitida del informe.");
             if (!reports.advanceProcessing(predecessor.id(), expectedRevision, null))
                 throw new ConcurrencyFailureException("stale emission: revision mismatch");
             predecessorId = predecessor.id();

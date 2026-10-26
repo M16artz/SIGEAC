@@ -119,6 +119,11 @@ public class ActionProgressService {
         if (!authority.isAuthorizedAssignment(command.provenance().authorityAssignmentId(), actor, operation, scope))
             throw problem(ImprovementProblemException.Kind.FORBIDDEN, "IMPROVEMENT_AUTHORITY_DENIED",
                     "La asignación indicada no detenta autoridad competente para esta decisión.");
+        if ((command.action() == ImprovementAction.Transition.SUBMIT_VERIFICATION
+                || command.action() == ImprovementAction.Transition.VERIFY)
+                && repository.progressFor(head.id()).isEmpty())
+            throw problem(ImprovementProblemException.Kind.CONFLICT, "IMPROVEMENT_PROGRESS_REQUIRED",
+                    "La verificación requiere al menos un avance sustentado registrado.");
         DecisionProvenance provenance;
         try {
             provenance = new DecisionProvenance(actor, command.provenance().authorityAssignmentId(),

@@ -114,7 +114,7 @@ class ReportWorkflowServiceTest {
         verify(reports, times(1)).appendVersion(any());
     }
 
-    @Test void finalVersionRequiresAPredecessorAcceptsChainAndStopsAfterApproval() {
+    @Test void finalVersionRequiresLatestPredecessorAndPreservesApprovedVersionWhenCorrected() {
         var emitted = emit("PRELIMINARY", null);
         rejected("REPORT_PREDECESSOR_REQUIRED", () -> emit("FINAL", null));
         rejected("REPORT_VERSION_NOT_FOUND", () -> emit("FINAL", UUID.randomUUID()));
@@ -129,7 +129,15 @@ class ReportWorkflowServiceTest {
         when(reports.hasApprovedFinal(process)).thenReturn(true);
         when(findings.latestConsolidation(process)).thenReturn(Optional.of(new Consolidation(consolidation, process,
                 new Consolidation.Data(List.of(), null, "Consolidación sintética registrada."), actor, Instant.now(), null, 1L)));
-        rejected("REPORT_ALREADY_APPROVED", () -> emit("FINAL", emitted.id()));
+        rejected("REPORT_PREDECESSOR_NOT_LATEST", () -> emit("FINAL", emitted.id()));
+        states.put(corrected.id(), "APPROVED");
+        var successor = service.create(process, revisions.get(corrected.id()),
+                command("FINAL", corrected.id()), UUID.randomUUID());
+        assertThat(successor.predecessorVersionId()).isEqualTo(corrected.id());
+        assertThat(successor.versionNumber()).isEqualTo(3L);
+        assertThat(service.versionDetail(process, successor.id()).state()).isEqualTo("FINAL");
+        assertThat(service.versionDetail(process, corrected.id()).state()).isEqualTo("APPROVED");
+        assertThat(store.get(corrected.id())).isSameAs(corrected);
     }
 
     @ParameterizedTest @ValueSource(strings = {"PREPARATION", "SUSPENDED", "CLOSING", "CLOSED"})
