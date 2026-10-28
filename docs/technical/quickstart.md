@@ -24,6 +24,14 @@ SEC_DEMO_DATA=true
 
 No utilizar `.env` compartido como fuente de secretos ni incluir credenciales en documentación o fixtures.
 
+## Revisión interactiva de la API
+
+Con el backend local iniciado, abrir Swagger UI en
+`http://localhost:8080/api/v1/swagger-ui/index.html`. El documento OpenAPI se
+sirve en `http://localhost:8080/api/v1/v3/api-docs`. Las rutas de documentación
+son públicas en desarrollo; las operaciones de negocio siguen requiriendo una
+sesión y permisos. En producción, OpenAPI permanece desactivado.
+
 ## Preparación sin Docker
 
 1. Crear base y usuario local con privilegios limitados.

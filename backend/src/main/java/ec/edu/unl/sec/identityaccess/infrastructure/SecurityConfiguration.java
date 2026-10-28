@@ -29,6 +29,8 @@ public class SecurityConfiguration {
                         .permitAll()
                         .requestMatchers("/actuator/health", "/actuator/info", "/error")
                         .permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**")
+                        .permitAll()
                         .anyRequest()
                         .authenticated())
                 .exceptionHandling(handling -> handling

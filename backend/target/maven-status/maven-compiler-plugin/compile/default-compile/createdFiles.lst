@@ -393,6 +393,7 @@ ec\edu\unl\sec\documentreview\application\CoverageReviewProjectionService$Eviden
 ec\edu\unl\sec\evidence\application\EvidenceSourceService$SourceFile.class
 ec\edu\unl\sec\governance\domain\ApprovalDecision.class
 ec\edu\unl\sec\reporting\domain\DocumentarySnapshot$Header.class
+ec\edu\unl\sec\OpenApiConfiguration.class
 ec\edu\unl\sec\academicevaluation\domain\AcademicReconciliation$Disagreement.class
 ec\edu\unl\sec\documentreview\application\DocumentReviewService.class
 ec\edu\unl\sec\evidence\domain\VersionFile.class

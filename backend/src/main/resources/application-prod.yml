@@ -5,3 +5,4 @@ sec:
     subject-hmac-secret: ${SEC_AUTH_HMAC_SECRET}
 springdoc:
   api-docs.enabled: false
+  swagger-ui.enabled: false

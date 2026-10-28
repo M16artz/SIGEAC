@@ -22,6 +22,15 @@ server:
     context-path: /api/v1
 management:
   endpoints.web.exposure.include: health,info
+springdoc:
+  swagger-ui:
+    operations-sorter: alpha
+    tags-sorter: alpha
+    filter: true
+    display-request-duration: true
+    doc-expansion: none
+    default-models-expand-depth: -1
+    try-it-out-enabled: true
 sec:
   evaluation-model:
     formula-schema: ${SEC_FORMULA_SCHEMA:sec.progress/v1}

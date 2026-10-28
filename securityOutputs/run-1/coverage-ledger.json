@@ -1,0 +1,1482 @@
+[
+  {
+    "coverage_id": ".github%2Fworkflows%23build::.github%2Fworkflows%23protected-operation::.github%2Fworkflows::ATTACK-CLASSES.md%23Obvious%20things",
+    "canonical_refs": {
+      "surface": ".github/workflows#build",
+      "boundary": ".github/workflows#protected-operation",
+      "subsystem": ".github/workflows",
+      "attack_class": "ATTACK-CLASSES.md#Obvious things"
+    },
+    "surface": "build",
+    "boundary": "Authorization and integrity of build",
+    "subsystem": ".github/workflows",
+    "attack_class": "Obvious things",
+    "starting_paths": [
+      ".github/workflows"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Obvious things",
+    "selected_companion_blocks": [
+      "SUPPLY-CHAIN-AND-RELEASE.md#Core discipline",
+      "SUPPLY-CHAIN-AND-RELEASE.md#Untrusted code in a privileged workflow",
+      "SUPPLY-CHAIN-AND-RELEASE.md#Universal moves",
+      "SUPPLY-CHAIN-AND-RELEASE.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+        "reason": "No native parser/unsafe runtime implementation in active scope."
+      },
+      {
+        "block": "AI-AND-LLM.md#Core discipline",
+        "reason": "No model-controlled application execution identified."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "covered",
+    "agent_id": "root",
+    "reviewed_paths": [
+      ".github/workflows/backend-ci.yml",
+      ".github/workflows/frontend-ci.yml",
+      ".github/workflows/documentation-ci.yml",
+      "backend/pom.xml",
+      "frontend/package.json",
+      "frontend/package-lock.json",
+      "backend/.mvn/wrapper/maven-wrapper.properties",
+      "scripts/run-postman-contracts.mjs"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "root",
+        "reviewed_paths": [
+          ".github/workflows/backend-ci.yml",
+          ".github/workflows/frontend-ci.yml",
+          ".github/workflows/documentation-ci.yml",
+          "backend/pom.xml",
+          "frontend/package.json",
+          "frontend/package-lock.json",
+          "backend/.mvn/wrapper/maven-wrapper.properties",
+          "scripts/run-postman-contracts.mjs"
+        ],
+        "invariant": "Authorization and integrity of build",
+        "method": "source",
+        "result": "Workflows manuales; no ruta de PR no confiable con secretos establecida. Acciones por etiqueta y ausencia de escaneo continuo son hardening. .env no rastreado.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [],
+    "unresolved": []
+  },
+  {
+    "coverage_id": "backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Facademicevaluation%23evaluations::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Facademicevaluation%23protected-operation::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Facademicevaluation::ATTACK-CLASSES.md%23Business%20logic",
+    "canonical_refs": {
+      "surface": "backend/src/main/java/ec/edu/unl/sec/academicevaluation#evaluations",
+      "boundary": "backend/src/main/java/ec/edu/unl/sec/academicevaluation#protected-operation",
+      "subsystem": "backend/src/main/java/ec/edu/unl/sec/academicevaluation",
+      "attack_class": "ATTACK-CLASSES.md#Business logic"
+    },
+    "surface": "evaluations",
+    "boundary": "Authorization and integrity of evaluations",
+    "subsystem": "backend/src/main/java/ec/edu/unl/sec/academicevaluation",
+    "attack_class": "Business logic",
+    "starting_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/academicevaluation"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Business logic",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+        "reason": "No native parser/unsafe runtime implementation in active scope."
+      },
+      {
+        "block": "AI-AND-LLM.md#Core discipline",
+        "reason": "No model-controlled application execution identified."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "covered",
+    "agent_id": "hunt_workflows",
+    "reviewed_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicEvaluationService.java",
+      "backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicReconciliationService.java"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "hunt_workflows",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicEvaluationService.java",
+          "backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicReconciliationService.java"
+        ],
+        "invariant": "Authorization and integrity of evaluations",
+        "method": "source",
+        "result": "Validación de escala/reglas y sustentos aceptados; no se estableció otro candidato en estos archivos.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [],
+    "unresolved": []
+  },
+  {
+    "coverage_id": "backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Facademicevaluation%23quantitative::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Facademicevaluation%23quantitative-trust-boundary::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Facademicevaluation::ATTACK-CLASSES.md%23Business%20logic",
+    "canonical_refs": {
+      "surface": "backend/src/main/java/ec/edu/unl/sec/academicevaluation#quantitative",
+      "boundary": "backend/src/main/java/ec/edu/unl/sec/academicevaluation#quantitative-trust-boundary",
+      "subsystem": "backend/src/main/java/ec/edu/unl/sec/academicevaluation",
+      "attack_class": "ATTACK-CLASSES.md#Business logic"
+    },
+    "surface": "quantitative",
+    "boundary": "Revisión adicional de quantitative",
+    "subsystem": "backend/src/main/java/ec/edu/unl/sec/academicevaluation",
+    "attack_class": "Business logic",
+    "starting_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/VariableValueService.java",
+      "backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicCalculationService.java"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Business logic",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 2,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "early_stop_mandatory_cli_validators_unavailable_on_windows: Captura/verificación/cálculo cuantitativos necesitan revisión específica; lectura de evaluación manual no acredita esta superficie."
+    ]
+  },
+  {
+    "coverage_id": "backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Farchive%23archive::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Farchive%23protected-operation::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Farchive::ATTACK-CLASSES.md%23Access%20control",
+    "canonical_refs": {
+      "surface": "backend/src/main/java/ec/edu/unl/sec/archive#archive",
+      "boundary": "backend/src/main/java/ec/edu/unl/sec/archive#protected-operation",
+      "subsystem": "backend/src/main/java/ec/edu/unl/sec/archive",
+      "attack_class": "ATTACK-CLASSES.md#Access control"
+    },
+    "surface": "archive",
+    "boundary": "Authorization and integrity of archive",
+    "subsystem": "backend/src/main/java/ec/edu/unl/sec/archive",
+    "attack_class": "Access control",
+    "starting_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/archive"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+    "selected_companion_blocks": [
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Core discipline",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Stale authorization and derived copy use",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Universal moves",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+        "reason": "No native parser/unsafe runtime implementation in active scope."
+      },
+      {
+        "block": "AI-AND-LLM.md#Core discipline",
+        "reason": "No model-controlled application execution identified."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "covered",
+    "agent_id": "hunt_workflows",
+    "reviewed_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/archive/application/IntegralClosureService.java",
+      "backend/src/main/java/ec/edu/unl/sec/archive/application/ArchiveService.java"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "hunt_workflows",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/archive/application/IntegralClosureService.java",
+          "backend/src/main/java/ec/edu/unl/sec/archive/application/ArchiveService.java"
+        ],
+        "invariant": "Authorization and integrity of archive",
+        "method": "source",
+        "result": "Membresía de cierre al proceso, autorización institucional y digest; no se estableció otro candidato.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [],
+    "unresolved": []
+  },
+  {
+    "coverage_id": "backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Faudit%23alternate-audit::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Faudit%23alternate-audit-trust-boundary::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Faudit::ATTACK-CLASSES.md%23Feature%20abuse%20and%20data%20leakage",
+    "canonical_refs": {
+      "surface": "backend/src/main/java/ec/edu/unl/sec/audit#alternate-audit",
+      "boundary": "backend/src/main/java/ec/edu/unl/sec/audit#alternate-audit-trust-boundary",
+      "subsystem": "backend/src/main/java/ec/edu/unl/sec/audit",
+      "attack_class": "ATTACK-CLASSES.md#Feature abuse and data leakage"
+    },
+    "surface": "alternate-audit",
+    "boundary": "Revisión adicional de alternate-audit",
+    "subsystem": "backend/src/main/java/ec/edu/unl/sec/audit",
+    "attack_class": "Feature abuse and data leakage",
+    "starting_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/api/ModelAuditController.java",
+      "backend/src/main/java/ec/edu/unl/sec/selfassessment/api/ProcessAuditController.java",
+      "backend/src/main/java/ec/edu/unl/sec/audit/infrastructure/JpaAuditAdapter.java"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 2,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "early_stop_mandatory_cli_validators_unavailable_on_windows: No se profundizó en permisos/filtros alternativos de auditoría de modelos/procesos; critic detectó posible mezcla de eventos sin ámbito."
+    ]
+  },
+  {
+    "coverage_id": "backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fdocumentreview%23reviews::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fdocumentreview%23protected-operation::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fdocumentreview::ATTACK-CLASSES.md%23Business%20logic",
+    "canonical_refs": {
+      "surface": "backend/src/main/java/ec/edu/unl/sec/documentreview#reviews",
+      "boundary": "backend/src/main/java/ec/edu/unl/sec/documentreview#protected-operation",
+      "subsystem": "backend/src/main/java/ec/edu/unl/sec/documentreview",
+      "attack_class": "ATTACK-CLASSES.md#Business logic"
+    },
+    "surface": "reviews",
+    "boundary": "Authorization and integrity of reviews",
+    "subsystem": "backend/src/main/java/ec/edu/unl/sec/documentreview",
+    "attack_class": "Business logic",
+    "starting_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/documentreview"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Business logic",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+        "reason": "No native parser/unsafe runtime implementation in active scope."
+      },
+      {
+        "block": "AI-AND-LLM.md#Core discipline",
+        "reason": "No model-controlled application execution identified."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "candidate",
+    "agent_id": "hunt_workflows",
+    "reviewed_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/documentreview/api/DocumentReviewController.java",
+      "backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewService.java",
+      "backend/src/main/java/ec/edu/unl/sec/documentreview/domain/DocumentReviewDecision.java",
+      "backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/DocumentReviewBoundaryAdapter.java",
+      "backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/JdbcDocumentReviewRepository.java",
+      "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SecurityConfiguration.java",
+      "specs/005-complete-evaluation-workflows/spec.md",
+      "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "hunt_workflows",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/documentreview/api/DocumentReviewController.java",
+          "backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewService.java",
+          "backend/src/main/java/ec/edu/unl/sec/documentreview/domain/DocumentReviewDecision.java",
+          "backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/DocumentReviewBoundaryAdapter.java",
+          "backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/JdbcDocumentReviewRepository.java"
+        ],
+        "invariant": "Authorization and integrity of reviews",
+        "method": "source",
+        "result": "Consulta individual omite canReview; excepción de autorrevisión viene del solicitante.",
+        "artifact": null
+      },
+      {
+        "agent_id": "verify_review_read",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/documentreview/api/DocumentReviewController.java",
+          "backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewService.java",
+          "backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/JdbcDocumentReviewRepository.java",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SecurityConfiguration.java",
+          "backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/DocumentReviewBoundaryAdapter.java"
+        ],
+        "invariant": "Revisión independiente del candidato documentreview:versionReview:missing-resource-authorization",
+        "method": "source",
+        "result": "Ruta y controles revisados independientemente; needs_validation por falta de reproducción aislada.",
+        "artifact": null
+      },
+      {
+        "agent_id": "verify_selfreview",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/documentreview/api/DocumentReviewController.java",
+          "backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewService.java",
+          "backend/src/main/java/ec/edu/unl/sec/documentreview/domain/DocumentReviewDecision.java",
+          "backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/JdbcDocumentReviewRepository.java",
+          "specs/005-complete-evaluation-workflows/spec.md",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java",
+          "backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/DocumentReviewBoundaryAdapter.java"
+        ],
+        "invariant": "Revisión independiente del candidato documentreview:decide:self-authorized-self-review-exception",
+        "method": "source",
+        "result": "Ruta y controles revisados independientemente; needs_validation por falta de reproducción aislada.",
+        "artifact": null
+      },
+      {
+        "agent_id": "final_review_read",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/documentreview/api/DocumentReviewController.java",
+          "backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewService.java",
+          "backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/JdbcDocumentReviewRepository.java",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SecurityConfiguration.java",
+          "backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/DocumentReviewBoundaryAdapter.java"
+        ],
+        "invariant": "Verificación final independiente de documentreview:versionReview:missing-resource-authorization",
+        "method": "source",
+        "result": "Registro needs_validation verificado; alcance/condiciones/bloqueo reproducible conservados sin gravedad ni resultado dinámico inventado.",
+        "artifact": null
+      },
+      {
+        "agent_id": "final_selfreview",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/documentreview/api/DocumentReviewController.java",
+          "backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewService.java",
+          "backend/src/main/java/ec/edu/unl/sec/documentreview/domain/DocumentReviewDecision.java",
+          "backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/JdbcDocumentReviewRepository.java",
+          "specs/005-complete-evaluation-workflows/spec.md",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java",
+          "backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/DocumentReviewBoundaryAdapter.java"
+        ],
+        "invariant": "Verificación final independiente de documentreview:decide:self-authorized-self-review-exception",
+        "method": "source",
+        "result": "Registro needs_validation verificado; alcance/condiciones/bloqueo reproducible conservados sin gravedad ni resultado dinámico inventado.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [
+      "documentreview:versionReview:missing-resource-authorization",
+      "documentreview:decide:self-authorized-self-review-exception"
+    ],
+    "unresolved": [
+      "Reproducción dinámica pendiente; necesidades específicas en findings.json."
+    ]
+  },
+  {
+    "coverage_id": "backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fevaluationmodel%23models::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fevaluationmodel%23protected-operation::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fevaluationmodel::ATTACK-CLASSES.md%23Business%20logic",
+    "canonical_refs": {
+      "surface": "backend/src/main/java/ec/edu/unl/sec/evaluationmodel#models",
+      "boundary": "backend/src/main/java/ec/edu/unl/sec/evaluationmodel#protected-operation",
+      "subsystem": "backend/src/main/java/ec/edu/unl/sec/evaluationmodel",
+      "attack_class": "ATTACK-CLASSES.md#Business logic"
+    },
+    "surface": "models",
+    "boundary": "Authorization and integrity of models",
+    "subsystem": "backend/src/main/java/ec/edu/unl/sec/evaluationmodel",
+    "attack_class": "Business logic",
+    "starting_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/evaluationmodel"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Business logic",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+        "reason": "No native parser/unsafe runtime implementation in active scope."
+      },
+      {
+        "block": "AI-AND-LLM.md#Core discipline",
+        "reason": "No model-controlled application execution identified."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "covered",
+    "agent_id": "hunt_identity",
+    "reviewed_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/EvaluationModelService.java",
+      "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/ModelApplicabilityService.java",
+      "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/ModelComparisonService.java",
+      "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/ModelSuccessionService.java",
+      "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/PublicationValidator.java"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "hunt_identity",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/EvaluationModelService.java",
+          "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/ModelApplicabilityService.java",
+          "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/ModelComparisonService.java",
+          "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/ModelSuccessionService.java",
+          "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/PublicationValidator.java"
+        ],
+        "invariant": "Authorization and integrity of models",
+        "method": "source",
+        "result": "Publicación vincula aprobador a actor, rechaza autor y comprueba revisión/formato; catálogo global no demuestra por sí solo fuga.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [],
+    "unresolved": []
+  },
+  {
+    "coverage_id": "backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fevidence%23evidence::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fevidence%23protected-operation::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fevidence::ATTACK-CLASSES.md%23Access%20control",
+    "canonical_refs": {
+      "surface": "backend/src/main/java/ec/edu/unl/sec/evidence#evidence",
+      "boundary": "backend/src/main/java/ec/edu/unl/sec/evidence#protected-operation",
+      "subsystem": "backend/src/main/java/ec/edu/unl/sec/evidence",
+      "attack_class": "ATTACK-CLASSES.md#Access control"
+    },
+    "surface": "evidence",
+    "boundary": "Authorization and integrity of evidence",
+    "subsystem": "backend/src/main/java/ec/edu/unl/sec/evidence",
+    "attack_class": "Access control",
+    "starting_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/evidence"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+    "selected_companion_blocks": [
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Core discipline",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Blob and signed-reference overreach",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Universal moves",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+        "reason": "No native parser/unsafe runtime implementation in active scope."
+      },
+      {
+        "block": "AI-AND-LLM.md#Core discipline",
+        "reason": "No model-controlled application execution identified."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "candidate",
+    "agent_id": "hunt_files_client",
+    "reviewed_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceDraftService.java",
+      "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceSourceCoverageService.java",
+      "backend/src/main/java/ec/edu/unl/sec/evidence/application/StructuredEvidenceService.java",
+      "backend/src/main/java/ec/edu/unl/sec/evidence/application/SubmitEvidenceService.java",
+      "backend/src/main/java/ec/edu/unl/sec/evidence/infrastructure/JdbcEvidenceGovernanceRepository.java",
+      "backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceSourceCoverageController.java",
+      "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessAssignmentService.java",
+      "specs/004-submit-evidence/spec.md"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "hunt_files_client",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceDraftService.java",
+          "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceSourceCoverageService.java",
+          "backend/src/main/java/ec/edu/unl/sec/evidence/application/StructuredEvidenceService.java",
+          "backend/src/main/java/ec/edu/unl/sec/evidence/application/SubmitEvidenceService.java",
+          "backend/src/main/java/ec/edu/unl/sec/evidence/infrastructure/JdbcEvidenceGovernanceRepository.java"
+        ],
+        "invariant": "Authorization and integrity of evidence",
+        "method": "source",
+        "result": "Guard de lectura permite responsabilidad por indicador; mutaciones seleccionadas omiten guard de autor que protege archivos y metadatos.",
+        "artifact": null
+      },
+      {
+        "agent_id": "verify_evidence_author",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceSourceCoverageController.java",
+          "backend/src/main/java/ec/edu/unl/sec/evidence/application/SubmitEvidenceService.java",
+          "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceDraftService.java",
+          "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceSourceCoverageService.java",
+          "backend/src/main/java/ec/edu/unl/sec/evidence/application/StructuredEvidenceService.java",
+          "backend/src/main/java/ec/edu/unl/sec/evidence/infrastructure/JdbcEvidenceGovernanceRepository.java",
+          "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessAssignmentService.java",
+          "specs/004-submit-evidence/spec.md"
+        ],
+        "invariant": "Revisión independiente del candidato evidence:draft-mutations:missing-author-check",
+        "method": "source",
+        "result": "Ruta y controles revisados independientemente; needs_validation por falta de reproducción aislada.",
+        "artifact": null
+      },
+      {
+        "agent_id": "final_evidence",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceSourceCoverageController.java",
+          "backend/src/main/java/ec/edu/unl/sec/evidence/application/SubmitEvidenceService.java",
+          "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceDraftService.java",
+          "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceSourceCoverageService.java",
+          "backend/src/main/java/ec/edu/unl/sec/evidence/application/StructuredEvidenceService.java",
+          "backend/src/main/java/ec/edu/unl/sec/evidence/infrastructure/JdbcEvidenceGovernanceRepository.java",
+          "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessAssignmentService.java",
+          "specs/004-submit-evidence/spec.md"
+        ],
+        "invariant": "Verificación final independiente de evidence:draft-mutations:missing-author-check",
+        "method": "source",
+        "result": "Registro needs_validation verificado; alcance/condiciones/bloqueo reproducible conservados sin gravedad ni resultado dinámico inventado.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [
+      "evidence:draft-mutations:missing-author-check"
+    ],
+    "unresolved": [
+      "Reproducción dinámica pendiente; necesidades específicas en findings.json."
+    ]
+  },
+  {
+    "coverage_id": "backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Ffilestorage%23aggregate-upload-capacity::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Ffilestorage%23shared-disk-capacity::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Ffilestorage::ATTACK-CLASSES.md%23Resource%20and%20file%20handling",
+    "canonical_refs": {
+      "surface": "backend/src/main/java/ec/edu/unl/sec/filestorage#aggregate-upload-capacity",
+      "boundary": "backend/src/main/java/ec/edu/unl/sec/filestorage#shared-disk-capacity",
+      "subsystem": "backend/src/main/java/ec/edu/unl/sec/filestorage",
+      "attack_class": "ATTACK-CLASSES.md#Resource and file handling"
+    },
+    "surface": "aggregate-upload-capacity",
+    "boundary": "Usuario autorizado frente a disco compartido",
+    "subsystem": "backend/src/main/java/ec/edu/unl/sec/filestorage",
+    "attack_class": "Resource and file handling",
+    "starting_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceFileService.java",
+      "backend/src/main/java/ec/edu/unl/sec/filestorage/application/FileStorageProperties.java",
+      "backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/JpaFileAssetRepository.java"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Resource and file handling",
+    "selected_companion_blocks": [
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Core discipline",
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Quota-accounting scope and reset gaps",
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Universal moves",
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Validation rules"
+    ],
+    "excluded_blocks": [],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 2,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "early_stop_mandatory_cli_validators_unavailable_on_windows: falta establecer límites agregados y contabilización del almacenamiento por principal; el límite por archivo no prueba contención de disco."
+    ]
+  },
+  {
+    "coverage_id": "backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Ffilestorage%23file-recovery::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Ffilestorage%23file-recovery-trust-boundary::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Ffilestorage::ATTACK-CLASSES.md%23Business%20logic",
+    "canonical_refs": {
+      "surface": "backend/src/main/java/ec/edu/unl/sec/filestorage#file-recovery",
+      "boundary": "backend/src/main/java/ec/edu/unl/sec/filestorage#file-recovery-trust-boundary",
+      "subsystem": "backend/src/main/java/ec/edu/unl/sec/filestorage",
+      "attack_class": "ATTACK-CLASSES.md#Business logic"
+    },
+    "surface": "file-recovery",
+    "boundary": "Revisión adicional de file-recovery",
+    "subsystem": "backend/src/main/java/ec/edu/unl/sec/filestorage",
+    "attack_class": "Business logic",
+    "starting_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/filestorage/application/FileReconciliationService.java",
+      "backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/JpaFileRecoveryRepository.java"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Business logic",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 2,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "early_stop_mandatory_cli_validators_unavailable_on_windows: Lectura parcial no establece política de retención/recuperación ni efecto sobre capacidad compartida."
+    ]
+  },
+  {
+    "coverage_id": "backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Ffilestorage%23files::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Ffilestorage%23protected-operation::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Ffilestorage::ATTACK-CLASSES.md%23Resource%20and%20file%20handling",
+    "canonical_refs": {
+      "surface": "backend/src/main/java/ec/edu/unl/sec/filestorage#files",
+      "boundary": "backend/src/main/java/ec/edu/unl/sec/filestorage#protected-operation",
+      "subsystem": "backend/src/main/java/ec/edu/unl/sec/filestorage",
+      "attack_class": "ATTACK-CLASSES.md#Resource and file handling"
+    },
+    "surface": "files",
+    "boundary": "Authorization and integrity of files",
+    "subsystem": "backend/src/main/java/ec/edu/unl/sec/filestorage",
+    "attack_class": "Resource and file handling",
+    "starting_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/filestorage"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Resource and file handling",
+    "selected_companion_blocks": [
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Core discipline",
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Quota-accounting scope and reset gaps",
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Universal moves",
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+        "reason": "No native parser/unsafe runtime implementation in active scope."
+      },
+      {
+        "block": "AI-AND-LLM.md#Core discipline",
+        "reason": "No model-controlled application execution identified."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "covered",
+    "agent_id": "hunt_files_client",
+    "reviewed_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceFileService.java",
+      "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceDownloadService.java",
+      "backend/src/main/java/ec/edu/unl/sec/filestorage/application/FileReconciliationService.java",
+      "backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/LocalFileStorageAdapter.java",
+      "backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/ContentInspectionService.java"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "hunt_files_client",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceFileService.java",
+          "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceDownloadService.java",
+          "backend/src/main/java/ec/edu/unl/sec/filestorage/application/FileReconciliationService.java"
+        ],
+        "invariant": "Authorization and integrity of files",
+        "method": "source",
+        "result": "Límites por archivo, integridad hash/tamaño, claves UUID, NOFOLLOW_LINKS, attachment y pertenencia de versión; no se demostró disponibilidad ni cuota global.",
+        "artifact": null
+      },
+      {
+        "agent_id": "root",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/LocalFileStorageAdapter.java",
+          "backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/ContentInspectionService.java"
+        ],
+        "invariant": "Límite por archivo, hashing y contención de rutas en adaptadores",
+        "method": "source",
+        "result": "Lectura parent de digest con límite, muestra de detección acotada, claves UUID, NOFOLLOW_LINKS y comprobaciones de directorios. No acredita cuota agregada.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [],
+    "unresolved": []
+  },
+  {
+    "coverage_id": "backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fgovernance%23reports::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fgovernance%23protected-operation::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fgovernance::ATTACK-CLASSES.md%23Access%20control",
+    "canonical_refs": {
+      "surface": "backend/src/main/java/ec/edu/unl/sec/governance#reports",
+      "boundary": "backend/src/main/java/ec/edu/unl/sec/governance#protected-operation",
+      "subsystem": "backend/src/main/java/ec/edu/unl/sec/governance",
+      "attack_class": "ATTACK-CLASSES.md#Access control"
+    },
+    "surface": "reports",
+    "boundary": "Authorization and integrity of reports",
+    "subsystem": "backend/src/main/java/ec/edu/unl/sec/governance",
+    "attack_class": "Access control",
+    "starting_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/governance"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+    "selected_companion_blocks": [
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Core discipline",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Universal moves",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+        "reason": "No native parser/unsafe runtime implementation in active scope."
+      },
+      {
+        "block": "AI-AND-LLM.md#Core discipline",
+        "reason": "No model-controlled application execution identified."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "covered",
+    "agent_id": "hunt_workflows",
+    "reviewed_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/governance/application/ReportWorkflowService.java",
+      "backend/src/main/java/ec/edu/unl/sec/governance/application/FindingService.java",
+      "backend/src/main/java/ec/edu/unl/sec/governance/infrastructure/JdbcReportRepository.java"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "hunt_workflows",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/governance/application/ReportWorkflowService.java",
+          "backend/src/main/java/ec/edu/unl/sec/governance/application/FindingService.java",
+          "backend/src/main/java/ec/edu/unl/sec/governance/infrastructure/JdbcReportRepository.java"
+        ],
+        "invariant": "Authorization and integrity of reports",
+        "method": "source",
+        "result": "Reads/writes por proceso y decisiones con asignación institucional vinculada.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [],
+    "unresolved": []
+  },
+  {
+    "coverage_id": "backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fidentityaccess%23administration::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fidentityaccess%23protected-operation::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fidentityaccess::ATTACK-CLASSES.md%23Access%20control",
+    "canonical_refs": {
+      "surface": "backend/src/main/java/ec/edu/unl/sec/identityaccess#administration",
+      "boundary": "backend/src/main/java/ec/edu/unl/sec/identityaccess#protected-operation",
+      "subsystem": "backend/src/main/java/ec/edu/unl/sec/identityaccess",
+      "attack_class": "ATTACK-CLASSES.md#Access control"
+    },
+    "surface": "administration",
+    "boundary": "Authorization and integrity of administration",
+    "subsystem": "backend/src/main/java/ec/edu/unl/sec/identityaccess",
+    "attack_class": "Access control",
+    "starting_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/identityaccess"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+    "selected_companion_blocks": [
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Core discipline",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Universal moves",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+        "reason": "No native parser/unsafe runtime implementation in active scope."
+      },
+      {
+        "block": "AI-AND-LLM.md#Core discipline",
+        "reason": "No model-controlled application execution identified."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "candidate",
+    "agent_id": "hunt_identity",
+    "reviewed_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/identityaccess/api/IdentityAdministrationController.java",
+      "backend/src/main/java/ec/edu/unl/sec/identityaccess/api/AccessAuditController.java",
+      "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java",
+      "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/ScopeAuthorizationService.java",
+      "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java",
+      "backend/src/main/java/ec/edu/unl/sec/audit/infrastructure/JpaAuditAdapter.java",
+      "specs/001-identity-access-scopes/spec.md"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "hunt_identity",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/api/IdentityAdministrationController.java",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/api/AccessAuditController.java",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/ScopeAuthorizationService.java",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java",
+          "backend/src/main/java/ec/edu/unl/sec/audit/infrastructure/JpaAuditAdapter.java"
+        ],
+        "invariant": "Authorization and integrity of administration",
+        "method": "source",
+        "result": "Tres candidatos: omisión de ámbito destino, excepción incorporada sin capacidad específica y lectura de auditoría que pierde ámbito de proceso.",
+        "artifact": null
+      },
+      {
+        "agent_id": "verify_scope",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/api/IdentityAdministrationController.java",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java",
+          "specs/001-identity-access-scopes/spec.md",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/ScopeAuthorizationService.java"
+        ],
+        "invariant": "Revisión independiente del candidato identityaccess:IdentityAdministrationService.assign:destination-scope",
+        "method": "source",
+        "result": "Ruta y controles revisados independientemente; needs_validation por falta de reproducción aislada.",
+        "artifact": null
+      },
+      {
+        "agent_id": "verify_exception",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/api/IdentityAdministrationController.java",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java",
+          "specs/001-identity-access-scopes/spec.md"
+        ],
+        "invariant": "Revisión independiente del candidato identityaccess:IdentityAdministrationService.assign:inline-conflict-capability",
+        "method": "source",
+        "result": "Ruta y controles revisados independientemente; needs_validation por falta de reproducción aislada.",
+        "artifact": null
+      },
+      {
+        "agent_id": "verify_audit",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/api/AccessAuditController.java",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java",
+          "backend/src/main/java/ec/edu/unl/sec/audit/infrastructure/JpaAuditAdapter.java",
+          "specs/001-identity-access-scopes/spec.md",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/ScopeAuthorizationService.java"
+        ],
+        "invariant": "Revisión independiente del candidato identityaccess:AccessAuditController.search:scope-collapse",
+        "method": "source",
+        "result": "Ruta y controles revisados independientemente; needs_validation por falta de reproducción aislada.",
+        "artifact": null
+      },
+      {
+        "agent_id": "final_scope",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/api/IdentityAdministrationController.java",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java",
+          "specs/001-identity-access-scopes/spec.md",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/ScopeAuthorizationService.java"
+        ],
+        "invariant": "Verificación final independiente de identityaccess:IdentityAdministrationService.assign:destination-scope",
+        "method": "source",
+        "result": "Registro needs_validation verificado; alcance/condiciones/bloqueo reproducible conservados sin gravedad ni resultado dinámico inventado.",
+        "artifact": null
+      },
+      {
+        "agent_id": "final_exception",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/api/IdentityAdministrationController.java",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java",
+          "specs/001-identity-access-scopes/spec.md"
+        ],
+        "invariant": "Verificación final independiente de identityaccess:IdentityAdministrationService.assign:inline-conflict-capability",
+        "method": "source",
+        "result": "Registro needs_validation verificado; alcance/condiciones/bloqueo reproducible conservados sin gravedad ni resultado dinámico inventado.",
+        "artifact": null
+      },
+      {
+        "agent_id": "final_audit",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/api/AccessAuditController.java",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java",
+          "backend/src/main/java/ec/edu/unl/sec/audit/infrastructure/JpaAuditAdapter.java",
+          "specs/001-identity-access-scopes/spec.md",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/ScopeAuthorizationService.java"
+        ],
+        "invariant": "Verificación final independiente de identityaccess:AccessAuditController.search:scope-collapse",
+        "method": "source",
+        "result": "Registro needs_validation verificado; alcance/condiciones/bloqueo reproducible conservados sin gravedad ni resultado dinámico inventado.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [
+      "identityaccess:IdentityAdministrationService.assign:destination-scope",
+      "identityaccess:IdentityAdministrationService.assign:inline-conflict-capability",
+      "identityaccess:AccessAuditController.search:scope-collapse"
+    ],
+    "unresolved": [
+      "Reproducción dinámica pendiente; necesidades específicas en findings.json."
+    ]
+  },
+  {
+    "coverage_id": "backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fidentityaccess%23login-capacity::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fidentityaccess%23login-capacity-trust-boundary::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fidentityaccess::ATTACK-CLASSES.md%23Resource%20and%20file%20handling",
+    "canonical_refs": {
+      "surface": "backend/src/main/java/ec/edu/unl/sec/identityaccess#login-capacity",
+      "boundary": "backend/src/main/java/ec/edu/unl/sec/identityaccess#login-capacity-trust-boundary",
+      "subsystem": "backend/src/main/java/ec/edu/unl/sec/identityaccess",
+      "attack_class": "ATTACK-CLASSES.md#Resource and file handling"
+    },
+    "surface": "login-capacity",
+    "boundary": "Revisión adicional de login-capacity",
+    "subsystem": "backend/src/main/java/ec/edu/unl/sec/identityaccess",
+    "attack_class": "Resource and file handling",
+    "starting_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/SessionService.java"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Resource and file handling",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 2,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "early_stop_mandatory_cli_validators_unavailable_on_windows: Trabajo BCrypt previo a autenticación, cardinalidad y retención de intentos no verificados; no se afirma DoS."
+    ]
+  },
+  {
+    "coverage_id": "backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fidentityaccess%23sessions::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fidentityaccess%23protected-operation::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fidentityaccess::ATTACK-CLASSES.md%23Access%20control",
+    "canonical_refs": {
+      "surface": "backend/src/main/java/ec/edu/unl/sec/identityaccess#sessions",
+      "boundary": "backend/src/main/java/ec/edu/unl/sec/identityaccess#protected-operation",
+      "subsystem": "backend/src/main/java/ec/edu/unl/sec/identityaccess",
+      "attack_class": "ATTACK-CLASSES.md#Access control"
+    },
+    "surface": "sessions",
+    "boundary": "Authorization and integrity of sessions",
+    "subsystem": "backend/src/main/java/ec/edu/unl/sec/identityaccess",
+    "attack_class": "Access control",
+    "starting_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/identityaccess"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+    "selected_companion_blocks": [
+      "WEB-PROTOCOL-AND-AUTH.md#Core discipline",
+      "WEB-PROTOCOL-AND-AUTH.md#Ordinary CSRF",
+      "WEB-PROTOCOL-AND-AUTH.md#Universal moves",
+      "WEB-PROTOCOL-AND-AUTH.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+        "reason": "No native parser/unsafe runtime implementation in active scope."
+      },
+      {
+        "block": "AI-AND-LLM.md#Core discipline",
+        "reason": "No model-controlled application execution identified."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "covered",
+    "agent_id": "hunt_identity",
+    "reviewed_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/SessionService.java",
+      "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SessionAuthenticationFilter.java",
+      "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SessionCookie.java"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "hunt_identity",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/SessionService.java",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SessionAuthenticationFilter.java",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SessionCookie.java"
+        ],
+        "invariant": "Authorization and integrity of sessions",
+        "method": "source",
+        "result": "Tokens SecureRandom de 32 bytes, hashes y revocación por petición; filtro CSRF propio en mutaciones autenticadas.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [],
+    "unresolved": []
+  },
+  {
+    "coverage_id": "backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fidentityaccess%23sessions::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fidentityaccess%23protected-operation::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fidentityaccess::ATTACK-CLASSES.md%23Cryptography%20and%20secrets",
+    "canonical_refs": {
+      "surface": "backend/src/main/java/ec/edu/unl/sec/identityaccess#sessions",
+      "boundary": "backend/src/main/java/ec/edu/unl/sec/identityaccess#protected-operation",
+      "subsystem": "backend/src/main/java/ec/edu/unl/sec/identityaccess",
+      "attack_class": "ATTACK-CLASSES.md#Cryptography and secrets"
+    },
+    "surface": "sessions",
+    "boundary": "Authorization and integrity of sessions",
+    "subsystem": "backend/src/main/java/ec/edu/unl/sec/identityaccess",
+    "attack_class": "Cryptography and secrets",
+    "starting_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/identityaccess"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Cryptography and secrets",
+    "selected_companion_blocks": [
+      "WEB-PROTOCOL-AND-AUTH.md#Core discipline",
+      "WEB-PROTOCOL-AND-AUTH.md#Session fixation and invalidation",
+      "WEB-PROTOCOL-AND-AUTH.md#Universal moves",
+      "WEB-PROTOCOL-AND-AUTH.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+        "reason": "No native parser/unsafe runtime implementation in active scope."
+      },
+      {
+        "block": "AI-AND-LLM.md#Core discipline",
+        "reason": "No model-controlled application execution identified."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "covered",
+    "agent_id": "hunt_identity",
+    "reviewed_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/SessionService.java",
+      "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SessionAuthenticationFilter.java",
+      "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SessionCookie.java"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "hunt_identity",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/SessionService.java",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SessionAuthenticationFilter.java",
+          "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SessionCookie.java"
+        ],
+        "invariant": "Authorization and integrity of sessions",
+        "method": "source",
+        "result": "Tokens SecureRandom de 32 bytes, hashes y revocación por petición; filtro CSRF propio en mutaciones autenticadas.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [],
+    "unresolved": []
+  },
+  {
+    "coverage_id": "backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fimprovement%23improvement::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fimprovement%23protected-operation::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fimprovement::ATTACK-CLASSES.md%23Access%20control",
+    "canonical_refs": {
+      "surface": "backend/src/main/java/ec/edu/unl/sec/improvement#improvement",
+      "boundary": "backend/src/main/java/ec/edu/unl/sec/improvement#protected-operation",
+      "subsystem": "backend/src/main/java/ec/edu/unl/sec/improvement",
+      "attack_class": "ATTACK-CLASSES.md#Access control"
+    },
+    "surface": "improvement",
+    "boundary": "Authorization and integrity of improvement",
+    "subsystem": "backend/src/main/java/ec/edu/unl/sec/improvement",
+    "attack_class": "Access control",
+    "starting_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/improvement"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+        "reason": "No native parser/unsafe runtime implementation in active scope."
+      },
+      {
+        "block": "AI-AND-LLM.md#Core discipline",
+        "reason": "No model-controlled application execution identified."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "candidate",
+    "agent_id": "hunt_workflows",
+    "reviewed_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/improvement/api/ImprovementController.java",
+      "backend/src/main/java/ec/edu/unl/sec/improvement/application/ImprovementPlanService.java",
+      "backend/src/main/java/ec/edu/unl/sec/improvement/application/ActionProgressService.java",
+      "backend/src/main/java/ec/edu/unl/sec/improvement/infrastructure/JdbcImprovementRepository.java",
+      "specs/005-complete-evaluation-workflows/spec.md",
+      "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/DocumentaryProcessService.java",
+      "backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/ProcessStateMachine.java"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "hunt_workflows",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/improvement/api/ImprovementController.java",
+          "backend/src/main/java/ec/edu/unl/sec/improvement/application/ImprovementPlanService.java",
+          "backend/src/main/java/ec/edu/unl/sec/improvement/application/ActionProgressService.java",
+          "backend/src/main/java/ec/edu/unl/sec/improvement/infrastructure/JdbcImprovementRepository.java"
+        ],
+        "invariant": "Authorization and integrity of improvement",
+        "method": "source",
+        "result": "Plan rechaza suspensión; actuaciones de progreso/decisiones solo especializan CLOSED, candidato SUSPENDED.",
+        "artifact": null
+      },
+      {
+        "agent_id": "verify_suspension",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/improvement/api/ImprovementController.java",
+          "backend/src/main/java/ec/edu/unl/sec/improvement/application/ActionProgressService.java",
+          "specs/005-complete-evaluation-workflows/spec.md",
+          "backend/src/main/java/ec/edu/unl/sec/improvement/application/ImprovementPlanService.java",
+          "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/DocumentaryProcessService.java",
+          "backend/src/main/java/ec/edu/unl/sec/improvement/infrastructure/JdbcImprovementRepository.java",
+          "backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/ProcessStateMachine.java"
+        ],
+        "invariant": "Revisión independiente del candidato improvement:ActionProgressService:mutations-ignore-process-suspension",
+        "method": "source",
+        "result": "Ruta y controles revisados independientemente; needs_validation por falta de reproducción aislada.",
+        "artifact": null
+      },
+      {
+        "agent_id": "final_suspension",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/improvement/api/ImprovementController.java",
+          "backend/src/main/java/ec/edu/unl/sec/improvement/application/ActionProgressService.java",
+          "specs/005-complete-evaluation-workflows/spec.md",
+          "backend/src/main/java/ec/edu/unl/sec/improvement/application/ImprovementPlanService.java",
+          "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/DocumentaryProcessService.java",
+          "backend/src/main/java/ec/edu/unl/sec/improvement/infrastructure/JdbcImprovementRepository.java",
+          "backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/ProcessStateMachine.java"
+        ],
+        "invariant": "Verificación final independiente de improvement:ActionProgressService:mutations-ignore-process-suspension",
+        "method": "source",
+        "result": "Registro needs_validation verificado; alcance/condiciones/bloqueo reproducible conservados sin gravedad ni resultado dinámico inventado.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [
+      "improvement:ActionProgressService:mutations-ignore-process-suspension"
+    ],
+    "unresolved": [
+      "Reproducción dinámica pendiente; necesidades específicas en findings.json."
+    ]
+  },
+  {
+    "coverage_id": "backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Freporting%23reporting::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Freporting%23protected-operation::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Freporting::ATTACK-CLASSES.md%23Feature%20abuse%20and%20data%20leakage",
+    "canonical_refs": {
+      "surface": "backend/src/main/java/ec/edu/unl/sec/reporting#reporting",
+      "boundary": "backend/src/main/java/ec/edu/unl/sec/reporting#protected-operation",
+      "subsystem": "backend/src/main/java/ec/edu/unl/sec/reporting",
+      "attack_class": "ATTACK-CLASSES.md#Feature abuse and data leakage"
+    },
+    "surface": "reporting",
+    "boundary": "Authorization and integrity of reporting",
+    "subsystem": "backend/src/main/java/ec/edu/unl/sec/reporting",
+    "attack_class": "Feature abuse and data leakage",
+    "starting_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/reporting"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+    "selected_companion_blocks": [
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Core discipline",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Export and backup scope expansion",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Universal moves",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+        "reason": "No native parser/unsafe runtime implementation in active scope."
+      },
+      {
+        "block": "AI-AND-LLM.md#Core discipline",
+        "reason": "No model-controlled application execution identified."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "covered",
+    "agent_id": "hunt_workflows",
+    "reviewed_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentaryProgressQueryService.java",
+      "backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentarySnapshotService.java",
+      "backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentaryClosureService.java"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "hunt_workflows",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentaryProgressQueryService.java",
+          "backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentarySnapshotService.java",
+          "backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentaryClosureService.java"
+        ],
+        "invariant": "Authorization and integrity of reporting",
+        "method": "source",
+        "result": "Filtra indicadores; snapshots exigen ámbito completo y cierre/lecturas autorización de proceso.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [],
+    "unresolved": []
+  },
+  {
+    "coverage_id": "backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fselfassessment%23processes::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fselfassessment%23protected-operation::backend%2Fsrc%2Fmain%2Fjava%2Fec%2Fedu%2Funl%2Fsec%2Fselfassessment::ATTACK-CLASSES.md%23Access%20control",
+    "canonical_refs": {
+      "surface": "backend/src/main/java/ec/edu/unl/sec/selfassessment#processes",
+      "boundary": "backend/src/main/java/ec/edu/unl/sec/selfassessment#protected-operation",
+      "subsystem": "backend/src/main/java/ec/edu/unl/sec/selfassessment",
+      "attack_class": "ATTACK-CLASSES.md#Access control"
+    },
+    "surface": "processes",
+    "boundary": "Authorization and integrity of processes",
+    "subsystem": "backend/src/main/java/ec/edu/unl/sec/selfassessment",
+    "attack_class": "Access control",
+    "starting_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/selfassessment"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+    "selected_companion_blocks": [
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Core discipline",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Universal moves",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+        "reason": "No native parser/unsafe runtime implementation in active scope."
+      },
+      {
+        "block": "AI-AND-LLM.md#Core discipline",
+        "reason": "No model-controlled application execution identified."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "covered",
+    "agent_id": "hunt_workflows",
+    "reviewed_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/SelfAssessmentService.java",
+      "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessAssignmentService.java",
+      "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessPlanningService.java",
+      "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessTransitionService.java"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "hunt_workflows",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/SelfAssessmentService.java",
+          "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessAssignmentService.java",
+          "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessPlanningService.java",
+          "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessTransitionService.java"
+        ],
+        "invariant": "Authorization and integrity of processes",
+        "method": "source",
+        "result": "Guards por proceso e indicadores, revisiones y autorización institucional; no se confirmó otro candidato.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [],
+    "unresolved": []
+  },
+  {
+    "coverage_id": "backend%2Fsrc%2Fmain%2Fresources%23configuration::backend%2Fsrc%2Fmain%2Fresources%23protected-operation::backend%2Fsrc%2Fmain%2Fresources::ATTACK-CLASSES.md%23Obvious%20things",
+    "canonical_refs": {
+      "surface": "backend/src/main/resources#configuration",
+      "boundary": "backend/src/main/resources#protected-operation",
+      "subsystem": "backend/src/main/resources",
+      "attack_class": "ATTACK-CLASSES.md#Obvious things"
+    },
+    "surface": "configuration",
+    "boundary": "Authorization and integrity of configuration",
+    "subsystem": "backend/src/main/resources",
+    "attack_class": "Obvious things",
+    "starting_paths": [
+      "backend/src/main/resources"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Obvious things",
+    "selected_companion_blocks": [
+      "CLOUD-AND-DEPLOYMENT.md#Core discipline",
+      "CLOUD-AND-DEPLOYMENT.md#Security-control precedence drift",
+      "CLOUD-AND-DEPLOYMENT.md#Universal moves",
+      "CLOUD-AND-DEPLOYMENT.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+        "reason": "No native parser/unsafe runtime implementation in active scope."
+      },
+      {
+        "block": "AI-AND-LLM.md#Core discipline",
+        "reason": "No model-controlled application execution identified."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "covered",
+    "agent_id": "root",
+    "reviewed_paths": [
+      "backend/src/main/resources/application.yml",
+      "backend/src/main/resources/application-prod.yml",
+      ".gitignore",
+      "backend/src/main/java/ec/edu/unl/sec/OpenApiConfiguration.java"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "root",
+        "reviewed_paths": [
+          "backend/src/main/resources/application.yml",
+          "backend/src/main/resources/application-prod.yml",
+          ".gitignore"
+        ],
+        "invariant": "Authorization and integrity of configuration",
+        "method": "source",
+        "result": "Prod fuerza Secure/HMAC y deshabilita demo/docs. Perfil realmente activo, TLS/proxy y ACL del disco no observados.",
+        "artifact": null
+      },
+      {
+        "agent_id": "root",
+        "reviewed_paths": [
+          "backend/src/main/java/ec/edu/unl/sec/OpenApiConfiguration.java"
+        ],
+        "invariant": "La personalización OpenAPI no sustituye controles de acceso de rutas",
+        "method": "source",
+        "result": "Clase local no rastreada configura metadatos y etiquetas; no cambia cadena de seguridad ni políticas de negocio.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [],
+    "unresolved": []
+  },
+  {
+    "coverage_id": "backend%2Fsrc%2Fmain%2Fresources%23live-deployment::backend%2Fsrc%2Fmain%2Fresources%23external-boundary::backend%2Fsrc%2Fmain%2Fresources::ATTACK-CLASSES.md%23Access%20control",
+    "canonical_refs": {
+      "surface": "backend/src/main/resources#live-deployment",
+      "boundary": "backend/src/main/resources#external-boundary",
+      "subsystem": "backend/src/main/resources",
+      "attack_class": "ATTACK-CLASSES.md#Access control"
+    },
+    "surface": "live-deployment",
+    "boundary": "Implementación o entorno externo",
+    "subsystem": "backend/src/main/resources",
+    "attack_class": "Access control",
+    "starting_paths": [
+      "backend/src/main/resources"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "out_of_scope",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "Despliegues, servicios compartidos, secretos reales y permisos del host fuera de alcance de pruebas."
+    ]
+  },
+  {
+    "coverage_id": "frontend%2Fsrc%23browser::frontend%2Fsrc%23protected-operation::frontend%2Fsrc::ATTACK-CLASSES.md%23Injection",
+    "canonical_refs": {
+      "surface": "frontend/src#browser",
+      "boundary": "frontend/src#protected-operation",
+      "subsystem": "frontend/src",
+      "attack_class": "ATTACK-CLASSES.md#Injection"
+    },
+    "surface": "browser",
+    "boundary": "Authorization and integrity of browser",
+    "subsystem": "frontend/src",
+    "attack_class": "Injection",
+    "starting_paths": [
+      "frontend/src"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Injection",
+    "selected_companion_blocks": [
+      "CLIENT-SIDE.md#Core discipline",
+      "CLIENT-SIDE.md#DOM-based XSS",
+      "CLIENT-SIDE.md#Universal moves",
+      "CLIENT-SIDE.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+        "reason": "No native parser/unsafe runtime implementation in active scope."
+      },
+      {
+        "block": "AI-AND-LLM.md#Core discipline",
+        "reason": "No model-controlled application execution identified."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [
+      {
+        "wave": 1,
+        "status": "covered",
+        "agent_id": "hunt_files_client",
+        "reviewed_paths": [
+          "frontend/src/app/core/http/api-client.ts",
+          "frontend/src/app/core/http/csrf.interceptor.ts",
+          "frontend/src/app/features/access/data-access/access-session.service.ts"
+        ],
+        "local_checks": [
+          {
+            "agent_id": "hunt_files_client",
+            "reviewed_paths": [
+              "frontend/src/app/core/http/api-client.ts",
+              "frontend/src/app/core/http/csrf.interceptor.ts",
+              "frontend/src/app/features/access/data-access/access-session.service.ts"
+            ],
+            "invariant": "Authorization and integrity of browser",
+            "method": "source",
+            "result": "ApiClient ancla /api/v1; logout borra CSRF; sondeo de escape hatches sin ruta ejecutable establecida.",
+            "artifact": null
+          }
+        ],
+        "result_fingerprints": [],
+        "unresolved": [],
+        "reassignment_reason": "Crítico final: cliente HTTP/sesión y sondeo no acreditan revisión de fuentes/sinks DOM y templates para DOM-based XSS."
+      }
+    ],
+    "wave": 2,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "early_stop_mandatory_cli_validators_unavailable_on_windows: revisar fuentes/sinks DOM y templates; lectura del cliente HTTP no cierra XSS."
+    ]
+  },
+  {
+    "coverage_id": "mobile%23mobile::mobile%23external-boundary::mobile::ATTACK-CLASSES.md%23Access%20control",
+    "canonical_refs": {
+      "surface": "mobile#mobile",
+      "boundary": "mobile#external-boundary",
+      "subsystem": "mobile",
+      "attack_class": "ATTACK-CLASSES.md#Access control"
+    },
+    "surface": "mobile",
+    "boundary": "Implementación o entorno externo",
+    "subsystem": "mobile",
+    "attack_class": "Access control",
+    "starting_paths": [
+      "mobile"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "out_of_scope",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "Carpeta sin implementación; no aplicación Android/deep links/webview que revisar."
+    ]
+  },
+  {
+    "coverage_id": "scripts%23backup-restore::scripts%23backup-restore-trust-boundary::scripts::ATTACK-CLASSES.md%23Feature%20abuse%20and%20data%20leakage",
+    "canonical_refs": {
+      "surface": "scripts#backup-restore",
+      "boundary": "scripts#backup-restore-trust-boundary",
+      "subsystem": "scripts",
+      "attack_class": "ATTACK-CLASSES.md#Feature abuse and data leakage"
+    },
+    "surface": "backup-restore",
+    "boundary": "Revisión adicional de backup-restore",
+    "subsystem": "scripts",
+    "attack_class": "Feature abuse and data leakage",
+    "starting_paths": [
+      "scripts/verify-complete-workflows-restore.ps1",
+      "scripts/verify-restored-workflows.mjs"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 2,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "early_stop_mandatory_cli_validators_unavailable_on_windows: Herramientas de restauración de operador requieren revisión específica de límites de entorno/copia y estado restaurado."
+    ]
+  }
+]

@@ -1,0 +1,78 @@
+{
+  "run_id": "run-1",
+  "repo": "SIGEAC",
+  "target": "C:\\Users\\Det-Pc\\OneDrive\\Desktop\\SIGEAC",
+  "source_ref": {
+    "commit": "61988addaf2611cb239574a528b3e04d486bd5e6",
+    "dirty": true,
+    "reviewed_state": "current_worktree",
+    "modified_source_paths": [
+      "backend/pom.xml",
+      "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SecurityConfiguration.java",
+      "backend/src/main/resources/application-prod.yml",
+      "backend/src/main/resources/application.yml"
+    ],
+    "source_hashes": {
+      "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java": "81E202D7C0D4E5FF9B9BFDB44A3508DB45E2207614262091EDD7F63AAABA0D07",
+      "backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewService.java": "50D53D0BED92C1C90A66A37CF1B3A47AD3E99ABCF65F8127E9CCBD939016E40A"
+    },
+    "untracked_reviewed_paths": [
+      "backend/src/main/java/ec/edu/unl/sec/OpenApiConfiguration.java",
+      "docs/technical/actores-accesos-riesgos.md"
+    ]
+  },
+  "profile": "standard",
+  "scope_paths": [
+    "backend",
+    "frontend",
+    "mobile",
+    ".github",
+    "scripts"
+  ],
+  "budget": null,
+  "execution_policy": "sandboxed-source-and-local-only",
+  "target_execution_performed": false,
+  "public_advisory_research": true,
+  "selected_companion_files": [
+    "WEB-PROTOCOL-AND-AUTH.md",
+    "CLIENT-SIDE.md",
+    "DATA-ISOLATION-AND-LIFECYCLE.md",
+    "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md",
+    "CLOUD-AND-DEPLOYMENT.md",
+    "SUPPLY-CHAIN-AND-RELEASE.md"
+  ],
+  "prior_run_paths": [],
+  "prior_notes": [
+    "docs/technical/actores-accesos-riesgos.md (static notes; not compatible ledger or execution evidence)"
+  ],
+  "shared_file_owners": {
+    "parent": "root"
+  },
+  "run_status": "incomplete",
+  "incomplete_reason": "mandatory_cli_validators_unavailable_windows_nofollow_nonblocking",
+  "additional_limitations": [
+    "OS_enforced_target_execution_sandbox_not_established",
+    "seven_coverage_units_deferred",
+    "public_advisory_spot_check_not_full_transitive_SCA"
+  ],
+  "validation": {
+    "exported_schema_and_ledger_semantics": "passed_in_memory",
+    "source_paths_and_positive_lines": "passed",
+    "mandatory_findings_cli": "failed_OS_no_follow_and_nonblocking_input_protection_is_unavailable",
+    "mandatory_coverage_cli": "failed_OS_no_follow_and_nonblocking_input_protection_is_unavailable"
+  },
+  "date": "2026-10-28",
+  "agents_spent": 23,
+  "coverage_summary": {
+    "covered": 11,
+    "candidate": 4,
+    "deferred": 7,
+    "out_of_scope": 2
+  },
+  "independent_record_verification": {
+    "needs_validation": 7,
+    "confirmed": 0,
+    "all_retained_records_verified": true,
+    "scope_record_nonmaterial_local_plan_clarification": true
+  }
+}

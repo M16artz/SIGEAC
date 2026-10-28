@@ -1,0 +1,468 @@
+[
+  {
+    "verdict": "needs_validation",
+    "fingerprint": "documentreview:decide:self-authorized-self-review-exception",
+    "title": "La autorrevisión acepta una excepción declarada por el propio revisor",
+    "description": "Un remitente histórico con permiso actual de revisión puede declarar selfReviewException=true y un motivo para revisar su propia versión. Los controles exigen competencia, proceso ACTIVE, versión vigente y revisión correcta, pero no una autorización de excepción emitida por otra autoridad. Resultado candidato: aceptación documental de evidencia propia sin excepción autorizada. Sin reproducción ejecutada.",
+    "claimed_root_cause": "El booleano HTTP evita SELF_REVIEW_FORBIDDEN. Dominio, persistencia y migración solo exigen motivo; no vinculan la excepción a una decisión autorizadora. Los conflictos de funciones vigentes no sustituyen el control sobre autoría histórica.",
+    "trace": [
+      {
+        "kind": "entrypoint",
+        "file": "backend/src/main/java/ec/edu/unl/sec/documentreview/api/DocumentReviewController.java",
+        "line": 63,
+        "scope": "POST /evidence-versions/{versionId}/document-review",
+        "description": "Transfiere booleano y motivo del solicitante a ReviewInput."
+      },
+      {
+        "kind": "propagation",
+        "file": "backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewService.java",
+        "line": 71,
+        "scope": "decide",
+        "description": "Detecta remitente, pero rechaza solo cuando el booleano enviado es false."
+      },
+      {
+        "kind": "propagation",
+        "file": "backend/src/main/java/ec/edu/unl/sec/documentreview/domain/DocumentReviewDecision.java",
+        "line": 31,
+        "scope": "DocumentReviewDecision",
+        "description": "Exige motivo de longitud válida sin referencia autorizadora."
+      },
+      {
+        "kind": "sink",
+        "file": "backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/JdbcDocumentReviewRepository.java",
+        "line": 47,
+        "scope": "save",
+        "description": "Inserta decisión, booleano y motivo sin consultar autorización de excepción."
+      }
+    ],
+    "evidence": [
+      {
+        "file": "specs/005-complete-evaluation-workflows/spec.md",
+        "line": 109,
+        "description": "Exige bloquear coincidencia de autor/revisor sin excepción autorizada."
+      },
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewService.java",
+        "line": 57,
+        "description": "Controles previos de revisión, proceso abierto, versión y revisión no autorizan excepción separadamente."
+      },
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java",
+        "line": 177,
+        "description": "Conflictos consideran asignaciones actualmente vigentes; estudiar antiguo recopilador ahora revisor."
+      },
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/DocumentReviewBoundaryAdapter.java",
+        "line": 32,
+        "description": "canReview no verifica excepción de autorrevisión."
+      }
+    ],
+    "blockers": [
+      "No se ejecutó una reproducción: no está establecido un sandbox OS con aislamiento de red, entorno vacío con allowlist, fuente/herramientas de solo lectura, escritura exclusiva en scratch y límites explícitos de CPU, memoria, procesos, archivos, disco y tiempo."
+    ],
+    "validation_plan": {
+      "local": "En sandbox conforme sin red, usuario ficticio U remite versión completa ACTIVE. Revocar o dejar vencer recopilación y conceder revisión del mismo proceso sin autorización de excepción. Comprobar canReview y que selfReviewException=false rechaza. En fixture limpio pedir una decisión con revisión vigente, booleano true, motivo/justificación válidos y resultados ACCEPTED. Observar solo si persiste ACCEPTED sin autorización y detenerse. Esperado: rechazo sin nueva decisión."
+    }
+  },
+  {
+    "verdict": "needs_validation",
+    "fingerprint": "documentreview:versionReview:missing-resource-authorization",
+    "title": "La consulta individual de revisión documental omite la autorización del recurso",
+    "description": "Una sesión válida humana o técnica puede consultar la revisión de una versión ajena mediante su UUID conocido. La ruta no comprueba permiso sobre carrera, proceso o evidencia y proyecta resultados y comentarios. El resultado candidato es divulgación fuera del ámbito; no se afirma enumeración ni explotación demostrada.",
+    "claimed_root_cause": "versionReview exige únicamente currentActor y devuelve repository.latest(versionId). La consulta por UUID no añade autorización; omite la comprobación humana y canReview que protegen historial y bandeja. No se encontró control fuente alternativo que subsane esta ruta.",
+    "trace": [
+      {
+        "kind": "entrypoint",
+        "file": "backend/src/main/java/ec/edu/unl/sec/documentreview/api/DocumentReviewController.java",
+        "line": 53,
+        "scope": "GET /evidence-versions/{versionId}/document-review",
+        "description": "Recibe UUID y entrega reviews.versionReview."
+      },
+      {
+        "kind": "propagation",
+        "file": "backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewService.java",
+        "line": 117,
+        "scope": "versionReview",
+        "description": "Exige solo actor autenticado y consulta repositorio."
+      },
+      {
+        "kind": "propagation",
+        "file": "backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/JdbcDocumentReviewRepository.java",
+        "line": 68,
+        "scope": "latest",
+        "description": "Selecciona por version_id sin identidad/carrera/proceso."
+      },
+      {
+        "kind": "sink",
+        "file": "backend/src/main/java/ec/edu/unl/sec/documentreview/api/DocumentReviewController.java",
+        "line": 153,
+        "scope": "VersionReviewView.from",
+        "description": "Proyecta decisión, revisión y resultados con comentarios note."
+      }
+    ],
+    "evidence": [
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewService.java",
+        "line": 104,
+        "description": "scoped sí rechaza cuentas técnicas y exige canReview por carrera/proceso."
+      },
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/documentreview/api/DocumentReviewController.java",
+        "line": 144,
+        "description": "OutcomeView copia requiredSourceId, outcome y note."
+      },
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SecurityConfiguration.java",
+        "line": 34,
+        "description": "La cadena exige autenticación general, sin decisión por objeto."
+      },
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/DocumentReviewBoundaryAdapter.java",
+        "line": 27,
+        "description": "currentActor traduce identidad; canReview es operación separada omitida."
+      }
+    ],
+    "blockers": [
+      "No se ejecutó una reproducción: no está establecido un sandbox OS con aislamiento de red, entorno vacío con allowlist, fuente/herramientas de solo lectura, escritura exclusiva en scratch y límites explícitos de CPU, memoria, procesos, archivos, disco y tiempo."
+    ],
+    "validation_plan": {
+      "local": "En sandbox conforme sin red externa, preparar carreras ficticias A/B, decisión de B con note='CONFIDENCIAL_B' y sesión humana autorizada solo en A. Una única petición local GET /api/v1/evidence-versions/{uuid_B}/document-review con UUID conocido comprueba si devuelve ese comentario aunque la evidencia B no sea visible. Esperado: rechazo sin datos. Detenerse tras esa observación mínima."
+    }
+  },
+  {
+    "verdict": "needs_validation",
+    "fingerprint": "evidence:draft-mutations:missing-author-check",
+    "title": "Las mutaciones de cobertura y remisión omiten el control de autor del borrador",
+    "description": "Un responsable B con recopilación y responsabilidad vigente sobre todos los indicadores puede acceder al borrador de A. Algunas rutas permiten cambiar coberturas, registrar estructura o remitirlo con ese permiso de lectura, mientras archivos, referencias y metadatos exigen autoría. La remisión además registra a A como actor aunque la solicite B. Diferencia verificada por fuente, sin reproducción.",
+    "claimed_root_cause": "declare/remove, register estructurado y submit usan drafts.getVersion, cuyo guard comprueba ámbito y responsabilidad sin autor. Omiten requireEditableVersion que compara autor y actor; persistencia tampoco comprueba al autor solicitante.",
+    "trace": [
+      {
+        "kind": "entrypoint",
+        "file": "backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceSourceCoverageController.java",
+        "line": 77,
+        "scope": "POST /evidence-versions/{versionId}/submit",
+        "description": "Recibe UUID/If-Match y llama remisión."
+      },
+      {
+        "kind": "propagation",
+        "file": "backend/src/main/java/ec/edu/unl/sec/evidence/application/SubmitEvidenceService.java",
+        "line": 48,
+        "scope": "submit",
+        "description": "Valida revisión, borrador, proceso y fuentes, sin comparar solicitante y autor."
+      },
+      {
+        "kind": "propagation",
+        "file": "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceDraftService.java",
+        "line": 180,
+        "scope": "visible",
+        "description": "Autoriza responsable vigente con canCollect por indicadores, sin exigir autoría."
+      },
+      {
+        "kind": "sink",
+        "file": "backend/src/main/java/ec/edu/unl/sec/evidence/application/SubmitEvidenceService.java",
+        "line": 64,
+        "scope": "submit",
+        "description": "Marca remitida la versión; auditoría usa version.authorId en 71."
+      }
+    ],
+    "evidence": [
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceDraftService.java",
+        "line": 170,
+        "description": "requireEditableVersion rechaza actor diferente del autor; update también lo hace en 144."
+      },
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceSourceCoverageService.java",
+        "line": 44,
+        "description": "declare usa guard de lectura; remove lo repite en 77 antes de eliminar."
+      },
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/evidence/application/StructuredEvidenceService.java",
+        "line": 51,
+        "description": "register no compara autoría."
+      },
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/evidence/infrastructure/JdbcEvidenceGovernanceRepository.java",
+        "line": 150,
+        "description": "markSubmitted usa UUID/estado/revisión, no autor."
+      },
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessAssignmentService.java",
+        "line": 55,
+        "description": "Duplicado incluye identidad, permite estudiar responsables distintos de un indicador."
+      },
+      {
+        "file": "specs/004-submit-evidence/spec.md",
+        "line": 144,
+        "description": "FR-020a exige conservar el actor de la operación en auditoría."
+      }
+    ],
+    "blockers": [
+      "No se ejecutó una reproducción: no está establecido un sandbox OS con aislamiento de red, entorno vacío con allowlist, fuente/herramientas de solo lectura, escritura exclusiva en scratch y límites explícitos de CPU, memoria, procesos, archivos, disco y tiempo.",
+      "Falta observar la combinación de asignaciones admitida y la mutación resultante; no se encontró autorización expresa de edición colaborativa ni compensación de persistencia."
+    ],
+    "validation_plan": {
+      "local": "En sandbox completo sin red, crear ACTIVE con A/B responsables del mismo indicador y EVIDENCE_COLLECT. A crea borrador con cobertura/referencia. Como B, comprobar que requireEditableVersion deniega y getVersion permite. Eliminar una cobertura con UUID/If-Match y observar persistencia. En fixture limpio remitir como B y comprobar solo SUBMITTED y actor de EVIDENCE_SUBMITTED. Esperado: rechazo de mutación ajena; delegación intencional debe conservar actor real. Detenerse en observaciones mínimas."
+    }
+  },
+  {
+    "verdict": "needs_validation",
+    "fingerprint": "identityaccess:AccessAuditController.search:scope-collapse",
+    "title": "La consulta de auditoría pierde las restricciones de proceso del auditor",
+    "description": "Una identidad humana activa con ACCESS_READ_AUDIT solo en P1 puede alcanzar eventos y conteos de P2 de la misma carrera. La proyección incluye identificadores, fecha, correlación, acción, objeto, resultado, motivo y ámbitos. No devuelve metadata_json ni se afirma exposición de secretos. Ruta verificada por fuente, sin fixture ejecutado.",
+    "claimed_root_cause": "auditCareerIds usa repository.authorizedCareerIds, cuyo SELECT DISTINCT career_id elimina proceso e indicador. AuditQueryRepository recibe solo carreras y no conserva ámbito efectivo en search/count; hasOperation acredita alguna asignación, sin autorizar cada evento.",
+    "trace": [
+      {
+        "kind": "entrypoint",
+        "file": "backend/src/main/java/ec/edu/unl/sec/identityaccess/api/AccessAuditController.java",
+        "line": 26,
+        "scope": "GET /audit-events",
+        "description": "Consulta autenticada obtiene careerIds para selección y conteo."
+      },
+      {
+        "kind": "propagation",
+        "file": "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java",
+        "line": 347,
+        "scope": "auditCareerIds",
+        "description": "Exige capacidad general y obtiene carreras sin procesos/indicadores."
+      },
+      {
+        "kind": "propagation",
+        "file": "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java",
+        "line": 424,
+        "scope": "authorizedCareerIds",
+        "description": "Devuelve DISTINCT career_id de asignaciones vigentes."
+      },
+      {
+        "kind": "sink",
+        "file": "backend/src/main/java/ec/edu/unl/sec/audit/infrastructure/JpaAuditAdapter.java",
+        "line": 99,
+        "scope": "AuditQueryRepository.filter",
+        "description": "Filtra por carrera, sin proceso; controlador solicita includeUnscoped=true."
+      }
+    ],
+    "evidence": [
+      {
+        "file": "specs/001-identity-access-scopes/spec.md",
+        "line": 92,
+        "description": "Exige no devolver eventos, conteos o indicios ajenos al ámbito."
+      },
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/ScopeAuthorizationService.java",
+        "line": 35,
+        "description": "La decisión ordinaria sí exige contains(requested), distingue P1/P2."
+      },
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/identityaccess/api/AccessAuditController.java",
+        "line": 42,
+        "description": "search/count reciben solo carreras sin filtrado posterior."
+      },
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/audit/infrastructure/JpaAuditAdapter.java",
+        "line": 72,
+        "description": "Proyección sin metadata_json ni columnas de actor."
+      }
+    ],
+    "blockers": [
+      "No se ejecutó una reproducción: no está establecido un sandbox OS con aislamiento de red, entorno vacío con allowlist, fuente/herramientas de solo lectura, escritura exclusiva en scratch y límites explícitos de CPU, memoria, procesos, archivos, disco y tiempo."
+    ],
+    "validation_plan": {
+      "local": "En sandbox completo, base descartable y sin red externa, crear carrera con procesos P1/P2, auditor solo P1 y evento sintético por proceso. Comprobar autorización ordinaria deniega P2. Una petición local GET /api/v1/audit-events comprueba si devuelve evento P2 y total=2. Esperado solo P1 y total=1. Detenerse tras la observación mínima."
+    }
+  },
+  {
+    "verdict": "needs_validation",
+    "fingerprint": "identityaccess:IdentityAdministrationService.assign:destination-scope",
+    "title": "El alta de asignaciones no comprueba la autoridad sobre el ámbito destino",
+    "description": "Un administrador humano limitado a carrera A puede solicitar una asignación en B. La ruta exige capacidad administrativa en algún ámbito, pero no autorización sobre B. El resultado candidato es conceder funciones fuera del ámbito delegado, incluso a sí mismo. createException presenta la misma pérdida del ámbito destino. No se ejecutó una reproducción.",
+    "claimed_root_cause": "assign y createException usan require/hasOperation como autorización suficiente y persisten un AuthorizationScope de la solicitud sin comprobar isAllowed para ese destino. Estructura, claves foráneas y vigencia no comprueban competencia del otorgante.",
+    "trace": [
+      {
+        "kind": "entrypoint",
+        "file": "backend/src/main/java/ec/edu/unl/sec/identityaccess/api/IdentityAdministrationController.java",
+        "line": 86,
+        "scope": "POST /users/{userId}/assignments",
+        "description": "Recibe función y ámbito del solicitante autenticado."
+      },
+      {
+        "kind": "propagation",
+        "file": "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java",
+        "line": 157,
+        "scope": "assign",
+        "description": "Exige ACCESS_ASSIGN_SCOPE; construye ámbito en 172 y persiste en 237 sin isAllowed del destino."
+      },
+      {
+        "kind": "sink",
+        "file": "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java",
+        "line": 249,
+        "scope": "createAssignment",
+        "description": "Inserta la asignación para el ámbito recibido sin comprobar competencia del otorgante."
+      }
+    ],
+    "evidence": [
+      {
+        "file": "specs/001-identity-access-scopes/spec.md",
+        "line": 43,
+        "description": "Exige rechazar creación, cambio o revocación fuera del ámbito del administrador."
+      },
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/ScopeAuthorizationService.java",
+        "line": 53,
+        "description": "hasOperation no recibe el ámbito destino; isAllowed sí compara contains en línea 35."
+      },
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java",
+        "line": 258,
+        "description": "La revocación sí aplica isAllowed sobre el ámbito de la asignación."
+      },
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java",
+        "line": 288,
+        "description": "createException exige capacidad general, construye ámbito en 301 y persiste en 322 sin decisión por destino."
+      }
+    ],
+    "blockers": [
+      "No se ejecutó una reproducción: no está establecido un sandbox OS con aislamiento de red, entorno vacío con allowlist, fuente/herramientas de solo lectura, escritura exclusiva en scratch y límites explícitos de CPU, memoria, procesos, archivos, disco y tiempo."
+    ],
+    "validation_plan": {
+      "local": "En sandbox completo sin red, crear carreras ficticias A/B, administrador con ACCESS_ASSIGN_SCOPE solo en A y receptor activo sin B. Comprobar isAllowed del otorgante para B==false; invocar assign en B con función válida sin conflictos; observar como máximo una inserción y una decisión funcional del receptor. Esperado: rechazo sin escritura. En un fixture separado, usar gestor con ACCESS_MANAGE_EXCEPTIONS únicamente en A, política vigente y receptor con función aplicable, e intentar createException para B. Detenerse tras observar si se inserta una única excepción fuera de ámbito."
+    }
+  },
+  {
+    "verdict": "needs_validation",
+    "fingerprint": "identityaccess:IdentityAdministrationService.assign:inline-conflict-capability",
+    "title": "El alta de asignaciones crea excepciones sin exigir el permiso específico",
+    "description": "Un otorgante con ACCESS_ASSIGN_SCOPE pero sin ACCESS_MANAGE_EXCEPTIONS puede alcanzar una rama que crea una excepción aprobada por él al aportar exceptionReason. El endpoint independiente exige la capacidad específica. El escenario requiere una matriz que separe ambas capacidades; no se verificó el despliegue ni se ejecutó un fixture.",
+    "claimed_root_cause": "La rama de conflicto de assign valida longitud del motivo y llama createConflictException sin exigir ACCESS_MANAGE_EXCEPTIONS. Dominio e INSERT no comprueban competencia del aprobador.",
+    "trace": [
+      {
+        "kind": "entrypoint",
+        "file": "backend/src/main/java/ec/edu/unl/sec/identityaccess/api/IdentityAdministrationController.java",
+        "line": 86,
+        "scope": "POST /users/{userId}/assignments",
+        "description": "Acepta función, ámbito, vigencia y exceptionReason."
+      },
+      {
+        "kind": "propagation",
+        "file": "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java",
+        "line": 157,
+        "scope": "assign",
+        "description": "Exige ACCESS_ASSIGN_SCOPE; la rama de 195 admite motivo de 10 a 1000 caracteres."
+      },
+      {
+        "kind": "propagation",
+        "file": "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java",
+        "line": 204,
+        "scope": "assign conflict branch",
+        "description": "Crea excepción aprobada por el otorgante sin comprobar la capacidad específica."
+      },
+      {
+        "kind": "sink",
+        "file": "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java",
+        "line": 406,
+        "scope": "createConflictException",
+        "description": "Inserta la excepción; assign persiste después la función incompatible."
+      }
+    ],
+    "evidence": [
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java",
+        "line": 288,
+        "description": "createException sí exige ACCESS_MANAGE_EXCEPTIONS."
+      },
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java",
+        "line": 362,
+        "description": "require comprueba exclusivamente la operación recibida."
+      },
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java",
+        "line": 182,
+        "description": "La evaluación efectiva acepta excepción vigente sin volver a verificar la competencia de approvedBy."
+      },
+      {
+        "file": "specs/001-identity-access-scopes/spec.md",
+        "line": 134,
+        "description": "FR-004 permite únicamente excepciones expresamente autorizadas."
+      }
+    ],
+    "blockers": [
+      "No se ejecutó una reproducción: no está establecido un sandbox OS con aislamiento de red, entorno vacío con allowlist, fuente/herramientas de solo lectura, escritura exclusiva en scratch y límites explícitos de CPU, memoria, procesos, archivos, disco y tiempo.",
+      "No se observó la matriz efectiva del despliegue; requiere otorgante con capacidad de asignar pero sin gestionar excepciones."
+    ],
+    "validation_plan": {
+      "local": "En sandbox completo sin red, otorgante ASSIGNER humano con solo ACCESS_ASSIGN_SCOPE y autoridad en el mismo ámbito del receptor RESPONSIBLE; configurar conflicto RESPONSIBLE/REVIEWER. Comprobar ausencia de ACCESS_MANAGE_EXCEPTIONS y comparar assign sin motivo con assign de REVIEWER y motivo válido. Observar como máximo una excepción/asignación y una decisión resultante; comparar createException, que debe denegar. Detenerse. No mezclar con el defecto de ámbito.",
+      "deployment": "El propietario puede inspeccionar una exportación local de function_operation y asignaciones vigentes para determinar si ambas capacidades se separan; sin solicitudes de prueba al despliegue."
+    }
+  },
+  {
+    "verdict": "needs_validation",
+    "fingerprint": "improvement:ActionProgressService:mutations-ignore-process-suspension",
+    "title": "El registro de avances de mejora omite la suspensión del proceso",
+    "description": "Una identidad humana con IMPROVEMENT_PROGRESS vigente puede alcanzar el registro de avances de una acción durante SUSPENDED. Resultado candidato: insertar avance e incrementar revisión sin reanudación institucional. Permiso de ámbito y revisión optimista existen, pero no sustituyen la suspensión. Sin reproducción ejecutada.",
+    "claimed_root_cause": "lockScope devuelve cualquier estado tras comprobar autorización. recordProgress rechaza VERIFIED y especializa CLOSED, pero no SUSPENDED antes de appendProgress/advanceHead. decide comparte omisión; persistencia no añade control.",
+    "trace": [
+      {
+        "kind": "entrypoint",
+        "file": "backend/src/main/java/ec/edu/unl/sec/improvement/api/ImprovementController.java",
+        "line": 125,
+        "scope": "POST /improvement-actions/{actionId}/progress",
+        "description": "Recibe acción, If-Match y datos de avance."
+      },
+      {
+        "kind": "propagation",
+        "file": "backend/src/main/java/ec/edu/unl/sec/improvement/application/ActionProgressService.java",
+        "line": 68,
+        "scope": "recordProgress",
+        "description": "Obtiene proceso, comprueba revisión/acción, solo especializa CLOSED."
+      },
+      {
+        "kind": "propagation",
+        "file": "backend/src/main/java/ec/edu/unl/sec/improvement/application/ActionProgressService.java",
+        "line": 178,
+        "scope": "lockScope",
+        "description": "Bloquea proceso y autoriza ámbito sin rechazar SUSPENDED."
+      },
+      {
+        "kind": "sink",
+        "file": "backend/src/main/java/ec/edu/unl/sec/improvement/application/ActionProgressService.java",
+        "line": 88,
+        "scope": "recordProgress",
+        "description": "Inserta avance y aumenta revisión de acción."
+      }
+    ],
+    "evidence": [
+      {
+        "file": "specs/005-complete-evaluation-workflows/spec.md",
+        "line": 84,
+        "description": "Suspensión debe bloquear actuaciones ordinarias hasta reanudación autorizada."
+      },
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/improvement/application/ImprovementPlanService.java",
+        "line": 31,
+        "description": "Creación/revisión paralelas sí incluyen SUSPENDED en fases bloqueadas."
+      },
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/DocumentaryProcessService.java",
+        "line": 24,
+        "description": "lock devuelve estado persistido sin exigir fase de escritura."
+      },
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/improvement/infrastructure/JdbcImprovementRepository.java",
+        "line": 122,
+        "description": "appendProgress inserta sin comprobar fase; replaceHead en 102 usa identificador/revisión."
+      },
+      {
+        "file": "backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/ProcessStateMachine.java",
+        "line": 10,
+        "description": "ACTIVE puede suspenderse sin eliminar acciones existentes."
+      }
+    ],
+    "blockers": [
+      "No se ejecutó una reproducción: no está establecido un sandbox OS con aislamiento de red, entorno vacío con allowlist, fuente/herramientas de solo lectura, escritura exclusiva en scratch y límites explícitos de CPU, memoria, procesos, archivos, disco y tiempo."
+    ],
+    "validation_plan": {
+      "local": "En sandbox completo sin red, crear ACTIVE, acción APPROVED/IN_PROGRESS y actor con IMPROVEMENT_PROGRESS vigente. Suspender mediante transición institucional, conservar acción/asignación. Una petición local POST /api/v1/improvement-actions/{actionId}/progress con sesión/CSRF ficticios, If-Match vigente, descripción válida, valor/fecha/evidencia sintética comprueba si inserta avance y aumenta revisión mientras SUSPENDED. Esperado rechazo sin escritura. Detenerse tras observación mínima."
+    }
+  }
+]
