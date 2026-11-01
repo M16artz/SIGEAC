@@ -1,0 +1,1988 @@
+% Adaptación de FORMATOAPE.tex para APE2; original preservado.
+
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{makecell}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{helvet}
+\usepackage{ragged2e}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{xurl}
+\usepackage{microtype}
+\usepackage{float}
+\emergencystretch=2em
+\renewcommand{\familydefault}{\sfdefault}
+\geometry{a4paper,left=3cm,right=3cm,top=2.35cm,bottom=2.35cm,headheight=1.9cm,headsep=0.45cm}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.3em}
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\IfFileExists{reporte_tecnico_overleaf_logo.png}{\includegraphics[height=1.35cm]{reporte_tecnico_overleaf_logo.png}}{\small Universidad Nacional de Loja}}
+\fancyhead[R]{\small FEIRNNR -- Carrera de Computación}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+\titleformat{\section}{\bfseries\fontsize{15}{17}\selectfont}{\thesection.}{0.8em}{}
+\titlespacing*{\section}{0pt}{1.0ex}{0.3ex}
+\newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+\lstset{basicstyle=\ttfamily\footnotesize,breaklines=true,frame=single,showstringspaces=false,columns=fullflexible}
+\hypersetup{hidelinks}
+
+% Soporte mínimo del contenido académico extenso.
+\usepackage{longtable}
+\usepackage{calc}
+\usepackage{fvextra}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\begin{document}
+\thispagestyle{fancy}
+\begin{center}
+{\bfseries\fontsize{21}{24}\selectfont Reporte Técnico de Actividades\\ Práctico-Experimentales Nro. 002\par}
+\vspace{0.25cm}
+{\large Elaboración y refinamiento de specification.md con historias de usuario, requisitos, criterios de aceptación y contratos preliminares.}
+\end{center}
+
+\section{Datos de Identificación del Estudiante y la Práctica}
+\begin{tabularx}{\textwidth}{|L{0.43\textwidth}|Y|}
+\hline
+\textbf{Nombre del estudiante(s)} & [PENDIENTE: integrantes reales del equipo] \\ \hline
+\textbf{Asignatura} & Desarrollo Basado en Plataformas \\ \hline
+\textbf{Ciclo} & 5 A \\ \hline
+\textbf{Unidad} & 1 \\ \hline
+\textbf{Resultado de aprendizaje} & Discute cómo los estándares Web influyen en el desarrollo de software, bajo los principios de solidaridad, transparencia, responsabilidad y honestidad. \\ \hline
+\textbf{Práctica Nro.} & 002 \\ \hline
+\textbf{Título de la Práctica} & Elaboración y refinamiento de specification.md con historias de usuario, requisitos, criterios de aceptación y contratos preliminares. \\ \hline
+\textbf{Nombre del Docente} & Edison Leonardo Coronel Romero \\ \hline
+\textbf{Fecha} & Semana 2; [PENDIENTE: fecha real de la sesión] \\ \hline
+\textbf{Horario} & Por definir según horario académico \\ \hline
+\textbf{Lugar} & Aula / laboratorio asignado \\ \hline
+\textbf{Tiempo planificado en el Sílabo} & 3 horas \\ \hline
+\end{tabularx}
+
+\textbf{Proyecto:} SIGEAC / SEC-UNL.\par
+\textbf{Estado:} desarrollo documental preparado; validación docente, participación y publicación pendientes de evidencia.\par
+Los datos corresponden a la guía actual de Desarrollo Basado en Plataformas. ACD2 se utiliza como insumo y no se cambia retrospectivamente su asignatura.
+\section{Objetivo(s) de la Práctica}\label{objetivos-de-la-pruxe1ctica}
+
+\begin{itemize}
+\tightlist
+\item
+  Construir y refinar la especificación funcional del proyecto mediante
+  Spec-Driven Development (SDD).
+\item
+  Transformar las necesidades de los actores en requisitos funcionales y
+  no funcionales claros y verificables.
+\item
+  Definir historias de usuario y criterios de aceptación que permitan
+  comprobar el comportamiento esperado.
+\item
+  Establecer contratos preliminares que sirvan de base para el diseño
+  posterior de la API.
+\item
+  Validar la especificación con el docente e incorporar la
+  retroalimentación de manera trazable.
+\end{itemize}
+
+Los cuatro primeros objetivos tienen desarrollo documental en los
+archivos de esta carpeta. El quinto requiere revisión real de Edison
+Leonardo Coronel Romero; no se acredita mediante una redacción supuesta.
+
+\section{Materiales, Reactivos, Equipos y
+Herramientas}\label{materiales-reactivos-equipos-y-herramientas}
+
+\subsection{Insumos solicitados y
+disponibles}\label{insumos-solicitados-y-disponibles}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Insumo de la guía
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Evidencia localizada
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Tratamiento
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Banco de proyectos y análisis ACD1 & No se aportó/localizó una entrega
+académica nominal ACD1 en esta preparación. & Recuperar contexto de
+\path|docs/requirements/spec.md|; no inventar el banco ni una actividad
+realizada. \\
+Actores y fundamentos SDD de AA1 & No se aportó/localizó AA1 como
+entrega independiente. & Utilizar actores de especificaciones y
+constitución; incorporar AA1 real cuando exista. \\
+Requisitos y observaciones de ACD2 &
+\path|documentos-academicos/ACD2-semana-2/ACD2_SEMANA_2.md|. & Usar
+refinamientos técnicos; retroalimentación de aula sigue pendiente. \\
+Repositorio configurado APE1 & Git local y origin
+\path|git@github.com:M16artz/SIGEAC.git|. & Se verifica configuración
+actual, no la ejecución de APE1 por integrantes. \\
+Documentación del proyecto & \path|docs/requirements/|, \path|specs/|,
+\path|docs/testing/|. & Fuentes de requisitos, estados y
+trazabilidad. \\
+Diagnóstico previo & \path|AUDITORIA_DOCUMENTACION_SDD.md|. &
+Identificar inconsistencias sin tratar el diagnóstico como
+aprobación. \\
+\end{longtable}
+}
+
+\subsection{Herramientas y función
+real}\label{herramientas-y-funciuxf3n-real}
+
+Se utilizaron archivos del repositorio, Git de solo lectura para
+identificar rama/commit/remote, Markdown, inspección de fuentes Java y
+consulta de documentación técnica. La estructura de historias,
+requisitos, entidades y criterios se tomó de
+\path|.specify/templates/spec-template.md|. No se ejecutó el CLI de Spec
+Kit ni se crearon ramas, tareas de implementación o migraciones por una
+actividad documental.
+
+Quarto/Pandoc se utiliza para convertir el contenido a LaTeX, respetando
+la plantilla APE original. Se conservará su recurso de logo disponible.
+No hay motor TeX local disponible en PATH; la compilación y revisión
+visual del PDF quedan pendientes de Overleaf.
+
+No se realizaron instalaciones, llamadas a APIs del proyecto, pruebas de
+carga ni despliegues. Tampoco se atribuye uso efectivo de VS Code o
+herramientas colaborativas a estudiantes sin evidencia.
+
+\section{Procedimiento / Metodología
+Ejecutada}\label{procedimiento-metodologuxeda-ejecutada}
+
+\subsection{Revisar los insumos
+existentes}\label{revisar-los-insumos-existentes}
+
+Se revisaron contexto, actores, alcance, exclusiones y decisiones CL de
+\path|docs/requirements/spec.md|, reglas de dominio, catálogo P01--P16,
+especificación 005 y ACD2. El código permite contrastar catálogo, sesión
+y preparación de proceso. Los resultados de pruebas anteriores no se
+presentan como ejecución nueva.
+
+Hallazgos que orientaron el refinamiento:
+
+\begin{itemize}
+\tightlist
+\item
+  El problema funcional está descrito, pero falta evidencia empírica del
+  proceso institucional actual.
+\item
+  La denominación SIGEAC/SEC-UNL debe explicitarse para identificar el
+  mismo repositorio.
+\item
+  Las competencias institucionales y vigencia normativa siguen
+  pendientes.
+\item
+  Los documentos históricos pueden llamar borrador al estado que el
+  código actual crea como PREPARATION.
+\item
+  Crear proceso y activarlo son operaciones distintas.
+\item
+  RNF-003 dice fallos consecutivos, mientras el repositorio cuenta
+  fallos en ventana; no se escoge una política sin decisión.
+\item
+  El OpenAPI común contiene diferencias con controladores; contratos
+  preliminares se contrastaron con código.
+\end{itemize}
+
+\subsection{Refinar problema y
+alcance}\label{refinar-problema-y-alcance}
+
+Se propuso un incremento U1 de acceso autorizado, catálogo de carreras y
+preparación de proceso con modelo publicado. El objetivo es identificar
+carrera, período, versión y actor antes de decisiones institucionales
+posteriores.
+
+Se excluyeron del recorte autorización/activación, planificación
+avanzada, evidencias, revisión, valoración, informes, mejora y archivo.
+La exclusión corresponde a la selección de esta práctica; varios módulos
+existen en el proyecto. La propuesta es viable como trabajo de
+especificación en 3 horas, no como promesa de implementar todos los
+comportamientos en ese tiempo.
+
+La validación del recorte se registra como CL-APE-01 pendiente. No se
+introducen capacidades nuevas ajenas al código o a la documentación.
+
+\subsection{Formular requisitos
+funcionales}\label{formular-requisitos-funcionales}
+
+Se redactaron diez requisitos locales APE-FR-01--10 en
+\url{specification.md}, vinculados a FR canónicos. Se separan alta de
+carrera, consulta, modificación histórica, selección de modelo y
+preparación de proceso. Se describen actor, condición y resultado
+observable sin imponer una clase, tabla o framework como requisito de
+negocio.
+
+Ejemplo de refinamiento: ``gestionar carreras'' se desglosa en registrar
+datos válidos y código único; consultar catálogo autorizado;
+modificar/desactivar conservando identidad e historial. Cada operación
+tiene escenarios de éxito y rechazo propios.
+
+\subsection{Formular requisitos no
+funcionales}\label{formular-requisitos-no-funcionales}
+
+Se seleccionaron diez verificaciones APE-NFR-01--10 relativas a
+seguridad, rendimiento, disponibilidad, concurrencia, auditoría,
+accesibilidad, mantenibilidad, interoperabilidad, usabilidad y datos
+sintéticos. Se mantienen los umbrales existentes de sesión y p95; el
+entorno experimental y la aplicación de usabilidad al recorte requieren
+confirmación.
+
+Se distingue una condición verificable de una certificación: disponer de
+ETag no prueba toda la concurrencia; disponer de etiquetas no acredita
+WCAG AA; usar JSON no demuestra por sí solo interoperabilidad. No se
+inventa un porcentaje de disponibilidad ni una medición de rendimiento.
+
+\subsection{Elaborar historias de
+usuario}\label{elaborar-historias-de-usuario}
+
+Se elaboraron tres recorridos priorizados:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Historia
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Necesidad y beneficio
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Prueba independiente planteada
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+US1, P1: acceder y consultar funciones & N-01; terminar acceso y operar
+dentro de funciones vigentes. & Identidad sintética preexistente: login,
+identidad y logout. \\
+US2, P1: catálogo identificable e histórico & N-02; disponer de carrera
+inequívoca sin borrar historial. & Administrador/unidad existentes:
+alta, consulta, cambio y desactivación. \\
+US3, P2: preparar proceso & N-03; identificar evaluación sin activación
+institucional implícita. & Carrera/modelo publicados existentes: alta y
+consulta de PREPARATION. \\
+\end{longtable}
+}
+
+Independencia significa poder validar el recorrido con prerrequisitos
+disponibles, no ausencia total de dependencias del dominio.
+
+\subsection{Definir criterios de
+aceptación}\label{definir-criterios-de-aceptaciuxf3n}
+
+Se formularon 18 escenarios Dado--Cuando--Entonces: cuatro de acceso,
+ocho de catálogo y seis de preparación. Cubren éxito, campos/fechas
+inválidas, duplicados, ámbito, cierre/expiración de sesión y
+concurrencia.
+
+Ejemplo: Dado que la carrera/unidad están activas, el período es válido
+y el modelo está publicado, cuando el coordinador con capacidad de
+gestión crea un proceso, entonces queda PREPARATION con las referencias
+exactas y sin activarse. Los escenarios identificados se conectan a
+requisitos y posibles pruebas; no se declara que ya fueron aprobados.
+
+\subsection{Ejecutar clarificación}\label{ejecutar-clarificaciuxf3n}
+
+Se identificaron y registraron las ambigüedades. Se adoptaron dos
+decisiones editoriales verificables: nombre \path|specification.md|
+dentro de la carpeta académica, y uso de los datos de esta guía. Se
+dejaron seis preguntas CL-APE pendientes sobre recorte, competencias,
+intentos fallidos, problema empírico, protocolos y retroalimentación.
+
+\textbf{No se completó una clarificación con el docente}, porque no se
+proporcionaron respuestas ni una sesión verificable. Este paso queda
+preparado para realizarlo honestamente, con campos de persona, fecha,
+respuesta y respaldo.
+
+\subsection{Identificar contratos
+preliminares}\label{identificar-contratos-preliminares}
+
+Se redactaron nueve fichas CP-01--09 en \url{CONTRATOS_PRELIMINARES.md}.
+Relacionan necesidad/requisito, recurso, operación, entrada,
+precondición, resultado y errores. Las rutas se recuperaron de
+controladores reales, pero no se exige formalizar OpenAPI definitivo en
+esta práctica.
+
+Se conservaron diferencias importantes del código: entrada de carrera
+plana y respuesta con \path|data|; revisión inicial de carrera 1 y de
+proceso 0; errores de campos 400 frente a algunas reglas 422; catálogo
+paginado y listado de procesos sin paginación declarada. La sesión
+utiliza cookie y CSRF, no JWT supuesto.
+
+\subsection{Actualizar specification.md dentro de la estructura de Spec
+Kit}\label{actualizar-specification.md-dentro-de-la-estructura-de-spec-kit}
+
+Se conservaron las secciones \path|User Scenarios & Testing|,
+\path|Requirements|, \path|Key Entities|, \path|Success Criteria| y
+\path|Assumptions| de la plantilla local. Se añadieron contexto,
+actores, alcance, restricciones, clarificaciones, referencias a
+contratos y matriz de trazabilidad.
+
+La ubicación de entrega es
+\path|documentos-academicos/APE2-semana-2/specification.md|. Se conserva
+la nomenclatura \path|spec.md| de los paquetes canónicos para no romper
+sus enlaces. Esta es una selección académica enlazada con el producto;
+no se afirma que haya reemplazado ni aprobado la especificación global.
+
+Se guardó una versión de trabajo inicial real de esta preparación y una
+versión refinada, junto a un diff y hashes. No se presenta el borrador
+inicial como trabajo de la semana anterior ni como un commit
+inexistente.
+
+\subsection{Validar con el docente}\label{validar-con-el-docente}
+
+Se preparó el guion: problema abordado, actores, incluido/excluido,
+requisitos del recorte, criterios de comprobación y preguntas abiertas.
+La validación y cambios acordados están pendientes. El registro al final
+de \path|specification.md| deberá completarse con la observación real y
+los IDs afectados.
+
+Propuesta de distribución de las 3 horas, \textbf{no registro de tiempos
+ejecutados}:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Bloque & Minutos previstos \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Insumos, problema y alcance & 25 \\
+Requisitos funcionales/no funcionales & 35 \\
+Historias y aceptación & 35 \\
+Clarificaciones y contratos & 35 \\
+Revisión docente, ajustes y trazabilidad & 30 \\
+Evidencia individual e historial & 20 \\
+Total & 180 \\
+\end{longtable}
+}
+
+\section{Resultados}\label{resultados}
+
+\subsection{Productos preparados}\label{productos-preparados}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Producto solicitado
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Resultado local
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Límite
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+specification.md actualizado & Documento refinado con contexto, diez FR
+locales, diez NFR, tres historias, 18 AC y criterios de éxito. &
+Pendiente de validar recorte/políticas; no aprobado por docente. \\
+Contratos preliminares & Nueve fichas con requisitos, recursos y
+comportamientos. & No son OpenAPI final ni tráfico capturado. \\
+Clarificación & Dos decisiones editoriales y seis preguntas explícitas.
+& Sin respuestas docentes inventadas. \\
+Historial de cambios & Borrador v01, especificación refinada, diff y
+hashes. & Historial local de esta preparación; no sustituye un commit
+publicado. \\
+Nota individual & Desarrollo orientativo y campos de aporte/enlace. &
+Identidad, revisión personal y commit/PR pendientes. \\
+Enlace al repositorio & Origin deriva en
+\path|https://github.com/M16artz/SIGEAC|. & No se verificó acceso
+externo ni publicación de archivos nuevos. \\
+\end{longtable}
+}
+
+\subsection{Correspondencia de
+calidad}\label{correspondencia-de-calidad}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Criterio
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Evidencia
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Claridad & Roles, acciones y resultados diferenciados; creación no
+equivale a activación. \\
+Especificidad & Código normalizado, vigencia, modelo publicado, estado
+inicial y revisión de cambios. \\
+Pertinencia & Cada requisito se relaciona con N-01--04 y con el recorte
+U1 propuesto. \\
+Verificabilidad & 18 AC y comprobaciones RNF con métodos y límites
+indicados. \\
+Consistencia & IDs locales enlazados a FR/RNF canónicos; exclusiones
+expresas y políticas pendientes. \\
+Transparencia & Fuentes identificadas; sin resultados, asistencia o
+retroalimentación inventados. \\
+\end{longtable}
+}
+
+\subsection{Influencia de estándares Web y
+valores}\label{influencia-de-estuxe1ndares-web-y-valores}
+
+HTTP permite distinguir recurso, método, representación y resultado; los
+contratos hacen visibles esas decisiones entre cliente y servicio.
+OpenAPI puede formalizar posteriormente la descripción de la API, pero
+un documento válido no demuestra implementación o permisos correctos.
+Spec Kit organiza el trabajo guiado por especificación; el uso de su
+estructura no certifica por sí solo el resultado.
+
+La solidaridad se concreta en compartir un vocabulario y revisar
+escenarios del equipo; la transparencia, en declarar fuentes y
+pendientes; la responsabilidad, en exigir verificación y proteger datos;
+la honestidad, en no presentar borradores, fixtures o correcciones
+asistidas como validación institucional o contribución personal
+demostrada.
+
+\section{Preguntas de Control}\label{preguntas-de-control}
+
+\subsection{¿Qué diferencia existe entre una necesidad, un requisito y
+una decisión de
+implementación?}\label{quuxe9-diferencia-existe-entre-una-necesidad-un-requisito-y-una-decisiuxf3n-de-implementaciuxf3n}
+
+La necesidad expresa el problema o beneficio del actor: identificar qué
+carrera y modelo corresponden a una evaluación. El requisito especifica
+un comportamiento exigible: crear un proceso con carrera, período y
+versión publicada en preparación. La decisión de implementación
+determina cómo resolverlo: un controlador Spring que delega a un
+servicio y persiste en PostgreSQL. La necesidad justifica; el requisito
+permite comprobar; la decisión técnica puede cambiar conservando el
+comportamiento.
+
+\subsection{¿Qué característica permite considerar que un requisito es
+verificable?}\label{quuxe9-caracteruxedstica-permite-considerar-que-un-requisito-es-verificable}
+
+Debe permitir decidir con evidencia si se cumple: condiciones de
+entrada, acción, resultado observable y criterio de aprobación/rechazo.
+``Catálogo rápido'' no basta; p95 de resultado visible ≤ 2 s en un
+entorno y carga definidos sí permite una medición. Si el entorno falta,
+el requisito todavía necesita precisión experimental. ``Crear proceso en
+PREPARATION y no activarlo'' puede comprobarse consultando el estado
+guardado y ausencia de activación.
+
+\subsection{¿Por qué una historia de usuario debe expresar el beneficio
+esperado?}\label{por-quuxe9-una-historia-de-usuario-debe-expresar-el-beneficio-esperado}
+
+El beneficio explica para qué existe la capacidad y permite priorizarla
+según una necesidad. En US3 no se solicita llenar un formulario por sí
+mismo: se busca identificar la autoevaluación antes de su autorización.
+Esa intención permite rechazar una activación implícita aunque la
+interfaz parezca más cómoda y ayuda a evitar funcionalidades ajenas al
+incremento.
+
+\subsection{¿Qué relación existe entre una historia y sus criterios de
+aceptación?}\label{quuxe9-relaciuxf3n-existe-entre-una-historia-y-sus-criterios-de-aceptaciuxf3n}
+
+La historia expresa actor, capacidad y beneficio; sus criterios
+delimitan qué resultados hacen aceptable esa capacidad. Una historia
+puede necesitar varios escenarios: alta válida, código repetido, unidad
+inexistente y acceso sin permiso. Los criterios no describen cada línea
+de código, pero son una base para diseñar pruebas. Aprobar un único caso
+feliz no cubre todos los criterios de la historia.
+
+\subsection{¿Qué debe hacerse cuando existe una ambigüedad que el equipo
+aún no puede
+resolver?}\label{quuxe9-debe-hacerse-cuando-existe-una-ambiguxfcedad-que-el-equipo-auxfan-no-puede-resolver}
+
+Registrar una pregunta identificada, alternativas, impacto, responsable
+de decidir y estado pendiente; consultar al docente o persona
+competente. Mientras tanto, limitar el alcance o usar un supuesto
+explícito reversible sin presentarlo como aprobación. Aquí CL-APE-03
+conserva la diferencia entre fallos consecutivos y acumulados; no se
+cambia una política de seguridad por conveniencia de redacción.
+
+\subsection{¿Por qué los contratos definidos en esta práctica se
+consideran
+preliminares?}\label{por-quuxe9-los-contratos-definidos-en-esta-pruxe1ctica-se-consideran-preliminares}
+
+Porque identifican recursos, operaciones y datos para acordar
+comportamiento, pero todavía requieren validación de alcance, esquemas,
+errores, permisos y compatibilidad con clientes. Que las fichas se
+apoyen en código existente reduce especulación, pero no les concede
+aprobación docente ni las convierte en un OpenAPI final. Podrán
+refinarse en el diseño posterior conservando su vínculo con requisitos y
+evitando romper contratos operativos.
+
+\subsection{¿Cómo se relacionará posteriormente un requisito con una
+prueba
+automatizada?}\label{cuxf3mo-se-relacionaruxe1-posteriormente-un-requisito-con-una-prueba-automatizada}
+
+Se enlaza necesidad → requisito → historia → criterio → prueba →
+ejecución. Por ejemplo, APE-FR-03 se relaciona con AC-U2-02: crear dos
+carreras con código normalizado equivalente debe rechazar la segunda y
+dejar una sola. La prueba automatizada comprobará estado HTTP o
+excepción de dominio y persistencia, utilizando datos sintéticos. Se
+registrarán commit, entorno, fecha y resultado. La existencia de
+\path|CareerAdministrationServiceTest| es un punto de partida, no una
+nueva ejecución ni prueba de todo el requisito.
+
+\section{Conclusiones}\label{conclusiones}
+
+Se preparó una especificación académica acotada al acceso, catálogo y
+preparación de procesos, con necesidades, actores y límites explícitos.
+La separación de alta y activación permite conservar la intención
+institucional sin inventar competencias. Los requisitos se relacionan
+con historias, escenarios y operaciones preliminares, lo que facilita su
+revisión y posterior automatización.
+
+La práctica deja pendientes verificables: aceptación docente del
+alcance, evidencia institucional del problema, resolución de políticas
+abiertas, protocolos RNF y contribuciones individuales. La validación
+docente y publicación no se sustituyen por un documento elaborado ni por
+un enlace al commit base.
+
+\section{Recomendaciones}\label{recomendaciones}
+
+\begin{itemize}
+\tightlist
+\item
+  Presentar \path|specification.md| al docente y completar CL-APE con
+  respuestas y respaldo real.
+\item
+  Incorporar ACD1, AA1 y APE1 si el equipo dispone de esos archivos; no
+  reconstruirlos como hechos pasados.
+\item
+  Validar los contratos contra controladores y corregir OpenAPI en una
+  tarea posterior autorizada.
+\item
+  Registrar el aporte de cada integrante con revisión personal, cambio
+  verificable y enlace real de commit/PR cuando se publique.
+\item
+  Versionar los archivos de esta actividad de forma selectiva; no
+  incluir otros archivos locales ni secretos por usar una operación Git
+  indiscriminada.
+\item
+  Compilar en Overleaf y revisar tablas/enlaces antes de entregar el PDF
+  si el docente lo solicita.
+\end{itemize}
+
+\section{Bibliografía / Referencias}\label{bibliografuxeda-referencias}
+
+\begin{itemize}
+\tightlist
+\item
+  Guía de Actividades Práctico-Experimentales Nro. 002, Desarrollo
+  Basado en Plataformas, proporcionada por el usuario; datos y preguntas
+  reproducidos en este reporte.
+\item
+  Proyecto SIGEAC/SEC-UNL, commit
+  \path|faf868ea5a8a85285290c06d3baf8fa49889edac|:
+  \path|docs/requirements/spec.md|,
+  \path|docs/requirements/domain-rules.md|,
+  \path|docs/requirements/process-flows.md|,
+  \path|specs/005-complete-evaluation-workflows/spec.md| y
+  \path|.specify/templates/spec-template.md|.
+\item
+  \href{../ACD2-semana-2/ACD2_SEMANA_2.md}{ACD2, insumo académico} y
+  \href{../../AUDITORIA_DOCUMENTACION_SDD.md}{auditoría documental}.
+\item
+  \href{https://github.com/github/spec-kit}{GitHub Spec Kit, repositorio
+  oficial}. Se utiliza como referencia del enfoque y se inspecciona la
+  plantilla local; no se declara ejecución del CLI.
+\item
+  \href{https://www.rfc-editor.org/rfc/rfc9110.html}{RFC 9110: HTTP
+  Semantics}, Fielding, Nottingham y Reschke, 2022.
+\item
+  \href{https://spec.openapis.org/oas/latest.html}{OpenAPI
+  Specification}, OpenAPI Initiative; referencia de descripción de
+  interfaces HTTP, no actualización de la versión del proyecto.
+\end{itemize}
+
+\section{Anexos}\label{anexos}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Anexo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Archivo
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+A. Especificación refinada & \url{specification.md} \\
+B. Contratos preliminares & \url{CONTRATOS_PRELIMINARES.md} \\
+C. Historial local y evidencia de diferencias &
+\url{HISTORIAL_CAMBIOS.md} \\
+D. Nota individual para personalizar & \url{NOTA_INDIVIDUAL.md} \\
+\end{longtable}
+}
+
+La versión LaTeX incorpora la especificación, los contratos y la nota
+individual como anexos de contenido. El historial/diff y manifiesto
+permanecen como evidencia digital enlazada, sin capturas ficticias.
+
+\subsection{Anexo A. Especificación
+refinada}\label{anexo-a.-especificaciuxf3n-refinada}
+
+\textbf{Feature Branch}: \path|main|, rama observada; esta práctica
+documental no crea una rama de implementación.
+
+\textbf{Created}: 2026-10-31, fecha de preparación del documento; no
+equivale a fecha de asistencia a clase.
+
+\textbf{Status}: Draft académico refinado --- pendiente de validación
+docente y del equipo.
+
+\textbf{Input}: Guía APE2 Nro. 002, Desarrollo Basado en Plataformas,
+Unidad 1. Insumos disponibles: especificaciones del repositorio,
+auditoría documental y ACD2. Los documentos nominales ACD1, AA1 y APE1
+no fueron aportados/localizados como entregas académicas independientes
+en esta preparación.
+
+\textbf{Repositorio}:
+\href{https://github.com/M16artz/SIGEAC}{M16artz/SIGEAC}, dirección
+derivada del remote origin; publicación de esta entrega y accesibilidad
+externa no verificadas.
+
+\textbf{Línea base inspeccionada}:
+\path|faf868ea5a8a85285290c06d3baf8fa49889edac|.
+
+\subsubsection{Contexto, problema y
+necesidades}\label{contexto-problema-y-necesidades}
+
+SIGEAC, denominado SEC-UNL en los documentos funcionales, apoya la
+autoevaluación interna de carreras. El problema abordado por la
+especificación es identificar qué carrera se evalúa, qué versión del
+modelo se utiliza, quién puede actuar y cómo se conservan datos y
+decisiones sin confundir recopilación, revisión documental y valoración
+académica.
+
+Para este incremento, la necesidad se concentra en preparar información
+de partida fiable y autorizada antes de iniciar actuaciones
+institucionales. No se afirma que se hayan medido pérdidas documentales,
+tiempos de gestión o errores en la institución: faltan entrevistas y
+diagnóstico empírico verificables.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Necesidad identificada
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Actor
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Fuente existente
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+N-01: acceder únicamente a operaciones y datos autorizados. & Usuario
+habilitado y consultor autorizado. & FR-001--006 de
+\path|docs/requirements/spec.md|. \\
+N-02: identificar carreras, unidades y vigencias sin códigos ambiguos ni
+pérdida histórica. & Administrador funcional. & FR-043 de
+\path|specs/005-complete-evaluation-workflows/spec.md|; P02. \\
+N-03: preparar una evaluación con carrera, período y versión publicada
+exacta. & Coordinador con función autorizada para gestionar procesos. &
+FR-011--012; P05; \path|docs/requirements/domain-rules.md|. \\
+N-04: comprender rechazos y resolver cambios concurrentes sin
+sobrescritura silenciosa. & Administrador/coordinador. & FR-039; RNF-011
+y RNF-013. \\
+\end{longtable}
+}
+
+\subsubsection{Actores}\label{actores}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Actor
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Responsabilidad del incremento
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Límite
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Usuario habilitado & Iniciar/cerrar sesión y consultar su identidad y
+funciones. & Tener sesión no concede administración. \\
+Administrador funcional autorizado & Crear y mantener unidades/carreras
+y consultar historial. & Requiere capacidad de catálogo; no se infiere
+autoridad académica. \\
+Coordinador autorizado & Consultar modelos disponibles y preparar un
+proceso. & Para crear requiere la capacidad de gestionar procesos en la
+carrera; el nombre del cargo no basta. \\
+Consultor autorizado & Leer catálogo/procesos según su asignación
+vigente. & No modifica recursos por permiso de lectura. \\
+Administrador técnico / cuenta técnica & Operación técnica según las
+políticas existentes. & No adopta decisiones institucionales; no es
+actor de alta ordinaria del catálogo en el servicio actual. \\
+\end{longtable}
+}
+
+\subsubsection{Objetivo del incremento y alcance para la Unidad
+1}\label{objetivo-del-incremento-y-alcance-para-la-unidad-1}
+
+Permitir especificar y comprobar un recorrido reducido: autenticar una
+identidad autorizada, disponer de una carrera identificable, seleccionar
+una versión publicada y crear un proceso en preparación, con errores y
+cambios de catálogo trazables.
+
+\textbf{Incluye}: sesión y consulta de identidad; listado/consulta de
+unidades; alta de unidad cuando el actor esté autorizado; alta,
+consulta, modificación y desactivación de carrera con historial;
+consulta de versión publicada como prerrequisito; creación y consulta de
+proceso en \path|PREPARATION|; controles de ámbito, concurrencia,
+auditoría y errores aplicables.
+
+\textbf{Excluye de este incremento académico}: asignación de nuevas
+autoridades; publicación o edición del modelo; autorización y activación
+institucional del proceso; equipos, actividades, evidencias, revisión
+documental, cálculos, informes, mejora y archivo. Son exclusiones de
+esta selección, no afirmaciones de ausencia en el repositorio.
+
+\textbf{Exclusiones del producto inicial que se conservan}: acreditación
+oficial, evaluación externa, integración institucional productiva,
+aplicación móvil, operación sin conexión y datos institucionales reales
+no autorizados.
+
+\textbf{Viabilidad}: la práctica dura 3 horas y produce especificación,
+clarificaciones y contratos preliminares; no se plantea construir ni
+certificar todo el sistema en ese tiempo. El recorte propuesto debe ser
+confirmado por el docente (CL-APE-01).
+
+\subsubsection{Restricciones y separación de
+decisiones}\label{restricciones-y-separaciuxf3n-de-decisiones}
+
+\begin{itemize}
+\tightlist
+\item
+  Mantener la separación entre revisión documental, valoración y
+  acreditación, aun cuando no se ejecuten aquí.
+\item
+  Usar identidades y datos sintéticos; conservar los identificadores
+  canónicos FR/RNF y referenciar sus refinamientos.
+\item
+  No cambiar políticas institucionales ni presentar datos demo como
+  normativa corroborada.
+\item
+  Las tecnologías existentes son contexto de contraste, no parte de la
+  redacción de necesidades: Angular, Spring Boot, PostgreSQL y el
+  backend modular se describen fuera de los requisitos funcionales.
+\item
+  Conservar los archivos históricos; las correcciones académicas quedan
+  en este documento y en el registro de cambios, sin sustituir
+  silenciosamente las especificaciones del producto.
+\end{itemize}
+
+\subsubsection{User Scenarios \& Testing}\label{user-scenarios-testing}
+
+Esta sección conserva la estructura de
+\path|.specify/templates/spec-template.md|: historias priorizadas,
+motivo, prueba independiente y escenarios de aceptación. Se utiliza
+Dado--Cuando--Entonces en español. Las pruebas se describen para
+validación; no se declara su ejecución en esta práctica.
+
+\paragraph{User Story 1 - Acceder y consultar funciones vigentes
+(Priority:
+P1)}\label{user-story-1---acceder-y-consultar-funciones-vigentes-priority-p1}
+
+Como usuario habilitado, quiero iniciar y cerrar mi sesión y consultar
+mis funciones vigentes, para operar solo mientras mi acceso esté
+autorizado y poder terminarlo cuando finalice mi trabajo.
+
+\textbf{Why this priority}: protege el acceso a los demás recorridos y
+proporciona valor independiente al comprobar identidad y ámbitos.
+
+\textbf{Independent Test}: utilizar una identidad sintética ya
+habilitada; iniciar sesión, consultar identidad, cerrar sesión e
+intentar repetir la consulta, sin necesitar crear una carrera o proceso.
+
+\textbf{Acceptance Scenarios}:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{AC-U1-01}: \textbf{Dado que} la identidad está activa y sus
+  credenciales son válidas, \textbf{cuando} inicia sesión y consulta su
+  identidad, \textbf{entonces} obtiene sesión y funciones vigentes sin
+  datos de otras identidades.
+\item
+  \textbf{AC-U1-02}: \textbf{Dado que} la sesión está activa,
+  \textbf{cuando} se cierra y se intenta reutilizar, \textbf{entonces}
+  la operación protegida es rechazada.
+\item
+  \textbf{AC-U1-03}: \textbf{Dado que} las credenciales son incorrectas
+  o la identidad no existe, \textbf{cuando} intenta autenticarse,
+  \textbf{entonces} no se concede sesión y el rechazo no confirma la
+  existencia de la cuenta.
+\item
+  \textbf{AC-U1-04}: \textbf{Dado que} han transcurrido 30 minutos sin
+  actividad o la identidad fue desactivada, \textbf{cuando} solicita una
+  operación protegida, \textbf{entonces} debe autenticarse nuevamente y
+  no recibe el recurso protegido.
+\end{enumerate}
+
+\paragraph{User Story 2 - Mantener catálogo identificable e histórico
+(Priority:
+P1)}\label{user-story-2---mantener-catuxe1logo-identificable-e-histuxf3rico-priority-p1}
+
+Como administrador funcional autorizado, quiero registrar y mantener
+carreras con unidad y vigencia, para preparar evaluaciones sobre un
+catálogo identificable sin borrar sus relaciones históricas.
+
+\textbf{Why this priority}: la carrera es la unidad evaluada y su
+identidad condiciona el proceso posterior.
+
+\textbf{Independent Test}: con administrador y unidad sintéticos
+disponibles, crear una carrera, consultar, modificar con revisión
+vigente, desactivar y comprobar historial sin crear un proceso. La alta
+de unidad es un prerrequisito o alternativa administrativa, no obliga a
+implementar todas las historias juntas.
+
+\textbf{Acceptance Scenarios}:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{AC-U2-01}: \textbf{Dado que} la unidad existe y está activa y
+  los datos son válidos, \textbf{cuando} registra una carrera con código
+  no utilizado tras normalización, \textbf{entonces} se crea con
+  identidad, unidad, vigencia y revisión inicial.
+\item
+  \textbf{AC-U2-02}: \textbf{Dado que} el código normalizado ya existe,
+  \textbf{cuando} intenta registrar otro equivalente, \textbf{entonces}
+  se rechaza y no aparece un duplicado.
+\item
+  \textbf{AC-U2-03}: \textbf{Dado que} falta un campo obligatorio, la
+  unidad no está disponible o la vigencia termina antes de iniciar,
+  \textbf{cuando} envía el alta, \textbf{entonces} se informa el error
+  correspondiente y no se crea la carrera.
+\item
+  \textbf{AC-U2-04}: \textbf{Dado que} consulta la revisión vigente,
+  \textbf{cuando} actualiza campos válidos, \textbf{entonces} se
+  conserva una nueva revisión y la anterior permanece consultable.
+\item
+  \textbf{AC-U2-05}: \textbf{Dado que} dos clientes parten de la misma
+  revisión, \textbf{cuando} ambos intentan modificar, \textbf{entonces}
+  una modificación basada en revisión obsoleta no sobrescribe la otra;
+  se exige recargar.
+\item
+  \textbf{AC-U2-06}: \textbf{Dado que} una carrera tiene historial,
+  \textbf{cuando} se desactiva con motivo, \textbf{entonces} conserva su
+  identidad y referencias históricas; no se realiza eliminación física.
+\item
+  \textbf{AC-U2-07}: \textbf{Dado que} una identidad carece de capacidad
+  de administración, \textbf{cuando} intenta crear/modificar/desactivar,
+  \textbf{entonces} el catálogo no se modifica.
+\item
+  \textbf{AC-U2-08}: \textbf{Dado que} una identidad lectora solo tiene
+  carrera A autorizada, \textbf{cuando} consulta listado, total o
+  detalle de B, \textbf{entonces} no recibe información de B ni totales
+  ajenos.
+\end{enumerate}
+
+\paragraph{User Story 3 - Preparar un proceso con modelo publicado
+(Priority:
+P2)}\label{user-story-3---preparar-un-proceso-con-modelo-publicado-priority-p2}
+
+Como coordinador autorizado para gestionar procesos en una carrera,
+quiero registrar carrera, período y versión publicada del modelo, para
+preparar una autoevaluación identificable sin presumir que ya fue
+autorizada institucionalmente.
+
+\textbf{Why this priority}: utiliza el catálogo y modelo disponibles; es
+posterior a las bases de acceso, pero puede validarse con fixtures sin
+ejecutar altas nuevas ni activación.
+
+\textbf{Independent Test}: utilizar una carrera activa y un modelo
+publicado sintéticos preexistentes; crear el proceso y consultarlo como
+el mismo actor, sin activar ni remitir evidencias.
+
+\textbf{Acceptance Scenarios}:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{AC-U3-01}: \textbf{Dado que} el actor está autorizado, la
+  carrera/unidad están activas, el período pertenece a su vigencia y el
+  modelo está publicado, \textbf{cuando} prepara el proceso,
+  \textbf{entonces} se conserva con estado \path|PREPARATION|, carrera,
+  período y versión exacta del modelo.
+\item
+  \textbf{AC-U3-02}: \textbf{Dado que} la carrera está desactivada o la
+  unidad no está disponible, \textbf{cuando} intenta preparar un
+  proceso, \textbf{entonces} se rechaza sin crear uno parcialmente
+  válido.
+\item
+  \textbf{AC-U3-03}: \textbf{Dado que} el período termina antes de
+  comenzar o excede la vigencia de la carrera, \textbf{cuando} intenta
+  crear, \textbf{entonces} se rechaza sin guardar un proceso.
+\item
+  \textbf{AC-U3-04}: \textbf{Dado que} la versión del modelo no está
+  publicada o no está disponible, \textbf{cuando} intenta crear,
+  \textbf{entonces} se rechaza y no se sustituye automáticamente por
+  otra versión.
+\item
+  \textbf{AC-U3-05}: \textbf{Dado que} existe un proceso en preparación
+  de su ámbito, \textbf{cuando} lo consulta, \textbf{entonces} observa
+  las referencias guardadas y ningún estado de activación o acreditación
+  inferido.
+\item
+  \textbf{AC-U3-06}: \textbf{Dado que} no tiene capacidad/ámbito de
+  gestión o consulta, \textbf{cuando} intenta crear o leer un proceso
+  ajeno, \textbf{entonces} no produce cambios ni recibe información
+  protegida.
+\end{enumerate}
+
+\paragraph{Edge Cases}\label{edge-cases}
+
+\begin{itemize}
+\tightlist
+\item
+  Diferencias de mayúsculas y espacios de un código no deben permitir
+  duplicados conforme a la normalización definida.
+\item
+  \path|validUntil = null| representa vigencia sin término explícito; no
+  equivale a cadena vacía ni a la cadena \path|"null"|.
+\item
+  Una carrera activa en estado puede no estar vigente en la fecha de
+  consulta o requerir clasificación; no basta comprobar solo la palabra
+  ACTIVE.
+\item
+  Crear proceso fija la referencia publicada; activar exige políticas
+  adicionales excluidas aquí. No se mezcla publicación técnica con
+  vigencia normativa institucional.
+\item
+  La revisión inicial de carrera es 1 y la del proceso actual es 0; no
+  imponer una revisión inicial común a todos los recursos.
+\item
+  Paginación fuera de rango es inválida; un listado vacío autorizado no
+  demuestra ausencia de registros en otros ámbitos.
+\item
+  Si falla una escritura crítica o su auditoría obligatoria, no debe
+  presentarse como cambio completado sin evidencia consistente; el fallo
+  requiere verificación transaccional específica.
+\item
+  La regla de cinco fallos ``consecutivos'' frente a acumulados en
+  ventana de 15 min sigue pendiente; no se incluye una solución
+  inventada.
+\end{itemize}
+
+\subsubsection{Requirements}\label{requirements}
+
+\paragraph{Functional Requirements}\label{functional-requirements}
+
+Los IDs \path|APE-FR-*| identifican la selección de esta práctica y no
+reemplazan los FR canónicos. Se mantienen separados comportamiento
+observable y detalle de implementación.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+ID local / origen
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Requisito refinado
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Verificación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+APE-FR-01 / FR-001,005 & El sistema deberá permitir iniciar/cerrar
+sesión a identidades habilitadas y consultar sus funciones vigentes; al
+cerrar o desactivar la identidad impedirá acceso posterior con esa
+sesión. & AC-U1-01--04. \\
+APE-FR-02 / FR-002,003 & Cada operación protegida deberá comprobar
+capacidad y ámbito vigente; el acceso lector no concederá modificación
+ni el privilegio técnico concederá competencia institucional. &
+AC-U2-07/08, AC-U3-06. \\
+APE-FR-03 / FR-043 & El administrador autorizado podrá registrar
+unidades y carreras con código normalizado único y campos obligatorios;
+una carrera requerirá unidad activa y vigencia válida. &
+AC-U2-01--03. \\
+APE-FR-04 / FR-043 & La consulta de catálogo deberá permitir identificar
+carreras, unidades y vigencia y limitar listados, conteos y detalle al
+ámbito efectivo del actor. & AC-U2-08; escenario lector y administrador
+separados. \\
+APE-FR-05 / FR-043 & Modificar o desactivar una carrera conservará
+identidad, revisiones previas y relaciones históricas; desactivar
+requerirá motivo y no eliminará físicamente la carrera. &
+AC-U2-04/06. \\
+APE-FR-06 / FR-010,012 & El actor autorizado podrá consultar e
+identificar una versión publicada del modelo para utilizar su referencia
+exacta al preparar el proceso. & AC-U3-01/04; fixture con versión
+publicada. \\
+APE-FR-07 / FR-011 & El actor con gestión vigente podrá crear un proceso
+para carrera activa, período permitido y versión publicada; el resultado
+quedará en preparación, sin activarse por el alta. & AC-U3-01--04. \\
+APE-FR-08 / FR-002,011,012 & El actor autorizado podrá consultar el
+proceso preparado y recuperar carrera, período, estado y versión del
+modelo; una consulta ajena no revelará el recurso. & AC-U3-05/06. \\
+APE-FR-09 / FR-006 & Los cambios críticos de catálogo y creación de
+procesos deberán conservar actor, fecha, objeto, acción y resultado
+mediante la auditoría definida para la operación. & Consulta de
+historial y registros; fallo de auditoría por ensayar. \\
+APE-FR-10 / FR-039 & Ante entrada inválida, falta de acceso o conflicto,
+el sistema rechazará la operación con código y descripción estables y
+correlación, sin exponer secretos ni datos ajenos. & Casos negativos de
+US1--US3 y contratos CP-01--09. \\
+\end{longtable}
+}
+
+\paragraph{Non-functional
+Requirements}\label{non-functional-requirements}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+ID local / origen
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Atributo y requisito verificable
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Método de comprobación / límite
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+APE-NFR-01 / RNF-001--002,005 & Credenciales con hash adaptativo y sal;
+sesiones expiran tras 30 min de inactividad; respuestas y registros no
+expondrán secretos. & Inspección de almacenamiento y pruebas con reloj;
+no equivale a auditoría completa. \\
+APE-NFR-02 / RNF-006 & p95 de resultado visible de las operaciones
+interactivas seleccionadas ≤ 2 s bajo carga piloto, excluyendo archivos
+e informes. & Fijar entorno y operaciones; la campaña histórica de
+consultas no demuestra este subconjunto completo. \\
+APE-NFR-03 / RNF-009 & Fallos de canales complementarios ajenos al
+incremento no deberán impedir acceso, catálogo ni preparación. & Repetir
+recorridos con canal indisponible; no se inventa porcentaje de
+disponibilidad. \\
+APE-NFR-04 / RNF-011 & Las modificaciones deberán detectar revisión
+obsoleta y rechazarla sin pérdida silenciosa de cambios. & Dos clientes
+parten de la misma revisión; uno debe recargar. \\
+APE-NFR-05 / RNF-012--013 & Eventos de auditoría serán inmutables para
+usuarios ordinarios y las solicitudes tendrán correlación para
+investigar fallos sin datos sensibles. & Intento de modificación y
+consulta autorizada; comprobar correlación. \\
+APE-NFR-06 / RNF-014 & Los recorridos seleccionados deberán completarse
+con teclado, foco visible y controles etiquetados, y verificarse contra
+criterios aplicables WCAG 2.2 AA. & Revisión automática/manual; no se
+declara conformidad completa por disponer de etiquetas. \\
+APE-NFR-07 / RNF-017--018 & Las reglas de estados y autorización
+permanecerán separadas de presentación/persistencia y tendrán pruebas
+reproducibles con datos sintéticos. & Revisión de dependencias y
+pruebas; reconocer límites de acoplamiento SQL. \\
+APE-NFR-08 / contratos y FR-039 & La especificación de los intercambios
+del incremento identificará recurso, operación, datos, resultados y
+errores para que un cliente interprete su representación. & Comparar
+CP-01--09 con controladores; refinamiento académico de
+interoperabilidad, pendiente de ratificar como RNF independiente. \\
+APE-NFR-09 / SC-007 & Las tareas de acceso, alta y preparación deberán
+tener protocolo de usabilidad con participantes representativos y datos
+sintéticos; el criterio global del proyecto es 19 de 20 participantes al
+primer intento. & La aplicación de ese umbral al recorte U1 requiere
+CL-APE-05; no se declara medición. \\
+APE-NFR-10 / RNF-019 & Las demostraciones y pruebas del incremento
+utilizarán identidades y datos sintéticos sin requerir información
+institucional real. & Fixtures identificados y revisión de ejemplos; no
+publicar tokens ni contraseñas reales. \\
+\end{longtable}
+}
+
+\paragraph{Key Entities}\label{key-entities}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Identidad}: persona/cuenta, estado habilitado y referencia de
+  autenticación; la desactivación conserva autoría.
+\item
+  \textbf{Asignación}: función/capacidad, ámbito y vigencia;
+  preexistente en este recorte.
+\item
+  \textbf{Unidad académica}: identificador, código, nombre y estado.
+\item
+  \textbf{Carrera}: identificador, código, nombre, unidad, vigencia,
+  estado y revisiones históricas.
+\item
+  \textbf{Versión de modelo}: identidad y número de una versión
+  publicada; no se edita en este incremento.
+\item
+  \textbf{Proceso}: identidad, código, nombre, carrera, período, versión
+  publicada y estado de preparación.
+\item
+  \textbf{Evento de auditoría}: actor, acción, objeto, fecha, resultado
+  y correlación.
+\end{itemize}
+
+\subsubsection{Success Criteria}\label{success-criteria}
+
+\paragraph{Measurable Outcomes}\label{measurable-outcomes}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{APE-SC-01}: todos los escenarios funcionales AC-U1-01--04,
+  AC-U2-01--08 y AC-U3-01--06 deberán tener resultado registrado antes
+  de aceptar el incremento; esta entrega solo los especifica.
+\item
+  \textbf{APE-SC-02}: en los casos definidos de código normalizado
+  duplicado se creará cero carreras adicionales.
+\item
+  \textbf{APE-SC-03}: las modificaciones exitosas conservarán una
+  revisión anterior recuperable; la modificación obsoleta causará cero
+  sobrescrituras silenciosas.
+\item
+  \textbf{APE-SC-04}: todos los procesos creados en el recorrido de alta
+  quedarán en preparación y conservarán carrera, período y versión
+  seleccionada; cero activaciones implícitas.
+\item
+  \textbf{APE-SC-05}: todos los requisitos locales tendrán origen
+  canónico, historia/escenario y operación preliminar o método de
+  verificación identificados.
+\item
+  \textbf{APE-SC-06}: cada decisión de clarificación resuelta tendrá
+  persona, fecha, respuesta y respaldo; las no resueltas permanecerán
+  pendientes, sin respuestas supuestas.
+\item
+  \textbf{APE-SC-07}: el objetivo p95 y los criterios de
+  accesibilidad/usabilidad tendrán protocolo definido y resultado
+  acotado; no se aceptará ``cumplido'' sin medición aplicable.
+\end{itemize}
+
+\subsubsection{Assumptions}\label{assumptions}
+
+\begin{itemize}
+\tightlist
+\item
+  Se utilizan usuarios y asignaciones sintéticos ya habilitados; no se
+  exige crear una nueva autoridad.
+\item
+  Existe una versión publicada de demostración; no se presume vigencia
+  normativa institucional.
+\item
+  El cliente dispone de conexión y entorno documentado; no se exige modo
+  sin conexión.
+\item
+  El recorte U1 es propuesta de esta preparación, pendiente del docente;
+  no es una decisión de una clase cuya evidencia no se aportó.
+\item
+  Los datos de ACD2 se usan como insumo técnico; las entregas
+  ACD1/AA1/APE1 y su retroalimentación real deben incorporarse si el
+  equipo las tiene.
+\item
+  Los contratos se recuperan del código operativo como punto de partida,
+  pero no se convierten en OpenAPI definitivo ni certifican todos sus
+  permisos.
+\end{itemize}
+
+\subsubsection{Clarifications}\label{clarifications}
+
+No se ha efectuado una reunión con el docente en esta preparación. El
+registro distingue decisión editorial adoptada de aprobación externa.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+ID
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Pregunta / decisión
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Estado y tratamiento
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Validación requerida
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+DEC-APE-01 & ¿Cómo se nombrará la entrega? & Adoptada documentalmente:
+\path|specification.md| en esta carpeta académica; se conservan
+\path|spec.md| canónicos. & Verificar que el docente acepta el enlace
+como producto de práctica. \\
+DEC-APE-02 & ¿Qué asignatura y datos se usan? & Se usan los de la guía
+actual: Desarrollo Basado en Plataformas, 5 A, Unidad 1 y docente Edison
+Leonardo Coronel Romero. & No trasladar la asignatura SDD de ACD2 como
+nombre de esta guía. \\
+CL-APE-01 & ¿Es suficiente acceso, catálogo y preparación sin activación
+para Unidad 1? & Pendiente; se propone por viabilidad y dependencia de
+autoridades no validadas. & Docente; respuesta, fecha y respaldo por
+registrar. \\
+CL-APE-02 & ¿Qué actores/asignaciones están institucionalmente
+autorizados? & Pendiente CL-001/002/015; usar política sintética y no
+activar institucionalmente. & Autoridad competente y docente según
+alcance. \\
+CL-APE-03 & ¿Se consideran cinco fallos consecutivos o acumulados en 15
+min? & Pendiente: RNF-003 y SQL difieren; no cambiar política por
+documentación. & Equipo/docente y responsable de seguridad. \\
+CL-APE-04 & ¿Qué evidencia institucional sustenta el problema? &
+Pendiente: no se aportaron entrevistas o actas. & Equipo; incorporar
+fuente real sin inventar cifras. \\
+CL-APE-05 & ¿Qué carga, entorno y tareas se medirán para RNF y
+usabilidad? & Pendiente; conservar umbrales existentes y delimitar
+protocolos. & Equipo/docente. \\
+CL-APE-06 & ¿Qué correcciones indicó el docente al revisar esta
+especificación? & Pendiente; no existe una observación de sesión
+aportada. & Registrar texto, persona, fecha, IDs y cambio aceptado. \\
+\end{longtable}
+}
+
+\subsubsection{Contratos preliminares}\label{contratos-preliminares}
+
+Las fichas \href{CONTRATOS_PRELIMINARES.md}{CP-01--CP-09} integran este
+documento por referencia. Identifican requisitos, recurso, operación,
+entrada, resultado y errores. Su estado es preliminar académico,
+contrastado con código; no se anuncia una API nueva ni se modifican
+contratos productivos.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Contrato
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Operación / recurso
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Requisitos
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+CP-01 & Iniciar/cerrar sesión y consultar identidad. & APE-FR-01/02/10;
+APE-NFR-01. \\
+CP-02 & Consultar/registrar unidad académica. & APE-FR-03/04/09/10. \\
+CP-03 & Registrar carrera. & APE-FR-03/09/10. \\
+CP-04 & Consultar catálogo, detalle e historial. & APE-FR-04/05/10. \\
+CP-05 & Modificar carrera con precondición. & APE-FR-05/09/10;
+APE-NFR-04. \\
+CP-06 & Desactivar carrera con motivo. & APE-FR-05/09/10. \\
+CP-07 & Consultar modelo/versiones existentes. & APE-FR-06. \\
+CP-08 & Preparar proceso. & APE-FR-07/09/10. \\
+CP-09 & Consultar proceso preparado. & APE-FR-08/10. \\
+\end{longtable}
+}
+
+\subsubsection{Trazabilidad inicial y verificación
+posterior}\label{trazabilidad-inicial-y-verificaciuxf3n-posterior}
+
+Las rutas son relativas a la raíz del repositorio; los nombres de
+pruebas se citan como existentes, no como resultados nuevos.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Necesidad
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Requisitos / historia
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Escenarios
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Código y prueba candidata
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+N-01 & APE-FR-01/02; US1 & AC-U1-01--04, AC-U2-07/08, AC-U3-06 &
+\path|backend/src/main/java/ec/edu/unl/sec/identityaccess/application/SessionService.java|;
+\path|backend/src/test/java/ec/edu/unl/sec/identityaccess/application/SessionServiceTest.java|;
+\path|ScopeAuthorizationServiceTest.java| del mismo directorio. \\
+N-02 & APE-FR-03--05; US2 & AC-U2-01--08 &
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/application/CareerAdministrationService.java|;
+\path|backend/src/test/java/ec/edu/unl/sec/selfassessment/application/CareerAdministrationServiceTest.java|;
+\path|tests/acceptance/career-catalog.spec.ts|. \\
+N-03 & APE-FR-06--08; US3 & AC-U3-01--06 &
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/application/SelfAssessmentService.java|;
+\path|backend/src/test/java/ec/edu/unl/sec/selfassessment/api/SelfAssessmentControllerTest.java|;
+\path|tests/acceptance/complete-workflows.spec.ts|, subconjunto P05. \\
+N-04 & APE-FR-09/10; APE-NFR-04/05 & AC-U2-04/05, negativos US1--US3 &
+\path|backend/src/main/java/ec/edu/unl/sec/shared/api/EntityTagSupport.java|;
+\path|backend/src/test/java/ec/edu/unl/sec/selfassessment/application/SelfAssessmentAuditServiceTest.java|. \\
+\end{longtable}
+}
+
+La relación posterior será necesidad → requisito → historia → AC →
+prueba identificada → ejecución con versión/entorno/resultado. Los RNF
+requieren su verificación adicional; un endpoint presente o una prueba
+con nombre parecido no acredita cumplimiento.
+
+\subsubsection{Revisión de calidad y
+cambios}\label{revisiuxf3n-de-calidad-y-cambios}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Problema detectado
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Refinamiento realizado
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Motivo verificable
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+``Gestionar carreras'' engloba alta, consulta y cambios. &
+APE-FR-03/04/05 y AC-U2 separados. & Cada comportamiento tiene entrada,
+resultado y rechazo identificables. \\
+``Crear proceso'' puede interpretarse como activarlo. & APE-FR-07 exige
+PREPARATION; activación fuera de recorte. & Cero activaciones implícitas
+en APE-SC-04. \\
+``Acceso seguro'' puede significar solo login. & Sesión, permiso, ámbito
+y estados diferenciados. & Casos de sesión válida sin permiso y consulta
+ajena. \\
+``Rendimiento adecuado'' no define aprobación. & APE-NFR-02 mantiene p95
+≤ 2 s y exige protocolo. & Medición reproducible; entorno aún
+pendiente. \\
+``Datos de demostración'' puede confundirse con decisiones oficiales. &
+Supuestos y CL-APE-02/04 explícitos. & No se atribuye vigencia ni
+competencia por fixture. \\
+\end{longtable}
+}
+
+El documento es claro y pertinente al recorte propuesto; la
+verificabilidad se expresa con AC e indicadores. La consistencia final
+de alcance y políticas se mantiene pendiente de CL-APE. Las versiones
+reales de trabajo y su diferencia se conservan en
+\url{HISTORIAL_CAMBIOS.md}.
+
+\subsubsection{Validación con el
+docente}\label{validaciuxf3n-con-el-docente}
+
+Guion de presentación: el sistema prepara autoevaluación interna para
+usuarios autorizados; este incremento identifica carrera y versión de
+modelo y guarda el proceso en preparación. Incluye catálogo, sesión,
+controles y errores; excluye activación, evidencias y decisiones
+posteriores. Se comprobará con los 18 AC y las verificaciones RNF,
+usando datos sintéticos. Siguen pendientes diagnóstico empírico,
+políticas y aceptación del recorte.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Revisor
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Fecha real
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Observación
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+IDs afectados
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Cambio acordado
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Evidencia
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+{[}PENDIENTE: revisión de Edison Leonardo Coronel Romero{]} &
+{[}PENDIENTE{]} & {[}PENDIENTE: observación real{]} & {[}PENDIENTE{]} &
+{[}PENDIENTE{]} & {[}PENDIENTE{]} \\
+\end{longtable}
+}
+
+No existe aprobación docente registrada. El enlace GitHub de este
+archivo solo será evidencia remota después de que el equipo lo versione
+y publique.
+
+\subsection{Anexo B. Contratos
+preliminares}\label{anexo-b.-contratos-preliminares}
+
+\textbf{Estado:} fichas académicas preliminares, recuperadas del código
+existente. No son un OpenAPI definitivo, una API nueva ni evidencia de
+ejecución. Complementan \url{specification.md}.
+
+\textbf{Base:} commit \path|faf868ea|; prefijo HTTP observado
+\path|/api/v1|. Los códigos se obtuvieron de controladores, servicios y
+manejadores de errores, no únicamente del OpenAPI, que presenta
+divergencias documentadas en la auditoría.
+
+\subsubsection{Convenciones y fuentes}\label{convenciones-y-fuentes}
+
+\begin{itemize}
+\tightlist
+\item
+  Solicitudes/respuestas de negocio en JSON; errores estructurados como
+  Problem Details con \path|code|, \path|detail|, \path|correlationId| y
+  campos HTTP relacionados.
+\item
+  Autenticación existente: cookie \path|SEC_SESSION|. Las mutaciones
+  autenticadas requieren \path|X-CSRF-TOKEN|; no se supone JWT/Bearer.
+\item
+  Consultas de recurso revisable entregan ETag cuando el controlador lo
+  implementa. Cambios existentes de carrera requieren \path|If-Match|
+  fuerte, por ejemplo \path|"1"|.
+\item
+  Los nombres y DTO descritos reflejan el código actual. Los futuros
+  cambios de esquema, versionado o política deben confirmarse; no se
+  corrigen en esta práctica.
+\item
+  Los campos ID, autor, fecha y revisión los asigna el servidor; no se
+  aceptan como decisiones de autoridad enviadas por el cliente.
+\item
+  Un ejemplo de resultado parcial en una ficha no reemplaza el DTO
+  completo ni su esquema.
+\end{itemize}
+
+Rutas de fuente, relativas a la raíz:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Referencia
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Archivo
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+API-S &
+\path|backend/src/main/java/ec/edu/unl/sec/identityaccess/api/SessionController.java| \\
+API-C &
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/api/CareerController.java| \\
+API-M &
+\path|backend/src/main/java/ec/edu/unl/sec/evaluationmodel/api/EvaluationModelController.java| \\
+API-P &
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/api/SelfAssessmentController.java| \\
+SVC-C &
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/application/CareerAdministrationService.java| \\
+SVC-P &
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/application/SelfAssessmentService.java| \\
+ERR-C &
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/api/CareerCatalogProblemHandler.java| \\
+ERR-P &
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/api/ProcessExceptionHandler.java| \\
+ERR-G &
+\path|backend/src/main/java/ec/edu/unl/sec/shared/api/ApiProblemHandler.java| \\
+REV &
+\path|backend/src/main/java/ec/edu/unl/sec/shared/api/EntityTagSupport.java| \\
+\end{longtable}
+}
+
+\subsubsection{CP-01 --- Sesión e
+identidad}\label{cp-01-sesiuxf3n-e-identidad}
+
+\begin{itemize}
+\tightlist
+\item
+  Necesidad/requisitos: N-01; APE-FR-01/02/10, APE-NFR-01.
+\item
+  Operaciones: POST \path|/sessions|, GET \path|/me|, DELETE
+  \path|/sessions|.
+\item
+  Entrada de login: \path|username| (3--100 caracteres), \path|password|
+  (12--256), conforme al DTO. No publicar valores reales.
+\item
+  Resultado: POST devuelve 201, cookie y
+  \path|{userId, expiresAt, csrfToken}|; GET 200 con
+  identidad/funciones; DELETE 204 y cookie expirada, sin cuerpo.
+\item
+  Permisos: login público; consulta/cierre requieren sesión vigente.
+  Logout autenticado exige CSRF.
+\item
+  Errores relevantes: 400 entrada inválida; 401 sesión/credenciales
+  inválidas; 403 CSRF; 429 limitación de intentos. Los errores no
+  confirman existencia de la cuenta.
+\item
+  Escenarios: AC-U1-01--04. Fuente: API-S y componentes de sesión.
+\item
+  Pendiente: resolver diferencia de consecutividad del umbral antes de
+  declarar cumplimiento de RNF-003.
+\end{itemize}
+
+\subsubsection{CP-02 --- Unidad académica
+disponible}\label{cp-02-unidad-acaduxe9mica-disponible}
+
+\begin{itemize}
+\tightlist
+\item
+  Necesidad/requisitos: N-02; APE-FR-03/04/09/10.
+\item
+  Operaciones: GET/POST \path|/academic-units|; GET
+  \path|/academic-units/{id}|.
+\item
+  Entrada GET de colección: \path|page| (predeterminado 0), \path|size|
+  (20) y \path|q| (texto). No se inventa filtro \path|status| para este
+  listado.
+\item
+  Entrada POST: \path|{code, name}|. Requiere sesión, CSRF y capacidad
+  de administración de catálogo.
+\item
+  Resultado: GET 200 con página o unidad; POST 201 con unidad, Location
+  y ETag. Revisión inicial de unidad 1.
+\item
+  Errores: 400 datos/paginación inválidos; 401 sin sesión; 403 sin
+  capacidad; 404 detalle no disponible/visible; 409 código duplicado.
+\item
+  Fuentes: API-C, SVC-C y ERR-C.
+\item
+  Nota: el alta de unidad puede evitarse en una prueba independiente
+  mediante fixture activo. No se exige implementar una entidad nueva.
+\end{itemize}
+
+\subsubsection{CP-03 --- Registrar
+carrera}\label{cp-03-registrar-carrera}
+
+\begin{itemize}
+\tightlist
+\item
+  Necesidad/requisitos: N-02; APE-FR-03/09/10.
+\item
+  Operación: POST \path|/careers|.
+\item
+  Entrada: \path|code| obligatorio hasta 100 caracteres; \path|name|
+  obligatorio hasta 300; \path|academicUnitId| UUID obligatorio;
+  \path|validFrom| fecha obligatoria; \path|validUntil| fecha o
+  \path|null|.
+\item
+  Precondición: administrador autorizado, unidad activa, código
+  normalizado único y vigencia coherente.
+\item
+  Resultado: 201 con Career; Location \path|/api/v1/careers/{id}|; ETag
+  \path|"1"|; estado ACTIVE y revisión 1. Atributos de negocio se
+  serializan dentro de \path|data|; el cuerpo de entrada es plano.
+\item
+  Errores: 400 campos/JSON inválidos; 401 sin sesión; 403
+  capacidad/CSRF; 409 DUPLICATE\_CODE; 422 UNIT\_UNAVAILABLE cuando la
+  unidad no está disponible.
+\item
+  Escenarios: AC-U2-01--03/07. Fuentes: API-C, SVC-C y
+  \path|selfassessment/domain/Career.java|.
+\end{itemize}
+
+Ejemplo sintético de entrada, condicionado a que la unidad exista y esté
+activa:
+
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\footnotesize]
+{
+  "code": "U1-DEMO",
+  "name": "Carrera sintética Unidad 1",
+  "academicUnitId": "11111111-1111-4111-8111-111111111111",
+  "validFrom": "2026-01-01",
+  "validUntil": null
+}
+\end{Verbatim}
+
+\subsubsection{CP-04 --- Consultar catálogo, detalle e
+historial}\label{cp-04-consultar-catuxe1logo-detalle-e-historial}
+
+\begin{itemize}
+\tightlist
+\item
+  Necesidad/requisitos: N-02/N-04; APE-FR-04/05/10.
+\item
+  Operaciones: GET \path|/careers|; GET \path|/careers/{id}|; GET
+  \path|/careers/{id}/history|.
+\item
+  Consulta de catálogo: \path|page|, \path|size|, \path|q|,
+  \path|status|, \path|academicUnitId|. Estados del catálogo:
+  ACTIVE/DISABLED.
+\item
+  Consulta de historial: \path|page|, \path|size|. El detalle usa ID de
+  ruta, no cuerpo de solicitud.
+\item
+  Resultado: 200; listado/historial paginados según CatalogPage, detalle
+  Career con ETag. Los totales deben corresponder al ámbito filtrado.
+\item
+  Permiso: capacidad de lectura vigente o administración según la
+  política actual; no confundir un administrador global autorizado con
+  un lector acotado a carrera.
+\item
+  Errores: 400 paginación/filtros inválidos; 401 sesión; 403 falta de
+  capacidad de colección; 404 recurso ajeno/desconocido según servicio.
+\item
+  Escenarios: AC-U2-04/08. Fuentes: API-C y SVC-C.
+\item
+  Pendiente: revisar política completa de alcance administrativo
+  institucional; el contrato preliminar no prueba todos sus controles.
+\end{itemize}
+
+\subsubsection{CP-05 --- Modificar carrera sin sobrescribir
+cambios}\label{cp-05-modificar-carrera-sin-sobrescribir-cambios}
+
+\begin{itemize}
+\tightlist
+\item
+  Necesidad/requisitos: N-02/N-04; APE-FR-05/09/10 y APE-NFR-04.
+\item
+  Operación: PATCH \path|/careers/{id}|.
+\item
+  Entrada: ID de ruta; cabecera If-Match; mismo CareerInput completo de
+  CP-03. Aunque sea PATCH, el controlador no acepta cualquier
+  subconjunto de campos.
+\item
+  Precondición: administrador, sesión/CSRF y revisión vigente; unidad
+  activa, código no duplicado y fechas válidas.
+\item
+  Resultado: 200 con Career, revisión incrementada y nuevo ETag;
+  historial anterior conservado.
+\item
+  Errores: 400 datos/ETag malformados o débiles; 403 sin capacidad/CSRF;
+  404 no encontrado; 409 código duplicado; 412 STALE\_REVISION; 422
+  unidad no disponible; 428 falta If-Match.
+\item
+  Escenarios: AC-U2-04/05/07. Fuentes: API-C, SVC-C y REV.
+\item
+  Verificación: consultar revisión, modificar desde dos clientes y
+  comprobar que la revisión obsoleta no sobrescribe el cambio exitoso.
+  No se afirma ejecución.
+\end{itemize}
+
+\subsubsection{CP-06 --- Desactivar carrera con
+motivo}\label{cp-06-desactivar-carrera-con-motivo}
+
+\begin{itemize}
+\tightlist
+\item
+  Necesidad/requisitos: N-02; APE-FR-05/09/10.
+\item
+  Operación: POST \path|/careers/{id}/state-decisions|.
+\item
+  Entrada: If-Match y
+  \path|{status: "DISABLED", reason: "motivo de 10 a 4000 caracteres"}|.
+\item
+  Resultado: 201 con carrera, revisión incrementada y ETag; no se
+  elimina su ID ni historial.
+\item
+  Errores: 400 validación de DTO; 403 sin capacidad/CSRF; 404 recurso
+  ausente; 409 STATE\_UNCHANGED si no hay cambio; 412 revisión obsoleta;
+  422 razón inválida cuando la detecta la regla; 428 sin precondición.
+\item
+  Escenario: AC-U2-06. Fuentes: API-C y SVC-C.
+\item
+  Límite: desactivar carrera no implica borrar ni cerrar automáticamente
+  procesos anteriores. La reactivación existe en el servicio pero no
+  amplía el recorte propuesto sin revisión del equipo.
+\end{itemize}
+
+\subsubsection{CP-07 --- Seleccionar una versión publicada
+existente}\label{cp-07-seleccionar-una-versiuxf3n-publicada-existente}
+
+\begin{itemize}
+\tightlist
+\item
+  Necesidad/requisitos: N-03; APE-FR-06.
+\item
+  Operaciones: GET \path|/models|; GET
+  \path|/models/{modelId}/versions|; GET \path|/model-versions/{id}|.
+  Existen además variantes \path|/configured|, pero no se exige
+  migrarlas en esta práctica.
+\item
+  Entrada: identidad autorizada, modelo o versión existente. Sin cuerpo
+  en estas consultas.
+\item
+  Resultado: 200 con catálogo/lista/versión; el detalle entrega ETag.
+  Identificar ID, número y estado de publicación.
+\item
+  Validación: el proceso solo puede prepararse con versión publicada
+  disponible; no seleccionar automáticamente ``la última'' por nombre.
+\item
+  Fuentes: API-M, SVC-P y el puerto de catálogo publicado.
+\item
+  Límite: consultar o publicar técnicamente no demuestra aplicabilidad
+  normativa para activación institucional. Publicación/activación quedan
+  fuera del recorte U1.
+\end{itemize}
+
+\subsubsection{CP-08 --- Preparar proceso}\label{cp-08-preparar-proceso}
+
+\begin{itemize}
+\tightlist
+\item
+  Necesidad/requisitos: N-03; APE-FR-07/09/10.
+\item
+  Operación: POST \path|/processes|.
+\item
+  Entrada: \path|careerId|, \path|code| (hasta 100), \path|name| (hasta
+  300), \path|periodStart|, \path|periodEnd|, \path|modelVersionId|,
+  todos obligatorios. No se recibe un campo \path|state| para que el
+  cliente fuerce activación.
+\item
+  Precondición: capacidad PROCESS\_MANAGE en carrera, identidad humana
+  habilitada, carrera/unidad activas y período dentro de vigencia,
+  versión publicada disponible.
+\item
+  Resultado: 201 con SelfAssessmentProcess; Location
+  \path|/api/v1/processes/{id}|; estado PREPARATION; revisión inicial 0
+  y ETag \path|"0"|. La referencia conserva \path|modelVersionId| y
+  \path|modelVersionNumber|.
+\item
+  Errores relevantes: 400 DTO o MODEL\_VERSION\_NOT\_PUBLISHED; 401 sin
+  sesión; 403 PROCESS\_SCOPE\_DENIED; 404 carrera inexistente/no visible
+  según regla; 409 CAREER\_INACTIVE; 422 UNIT\_UNAVAILABLE o
+  CAREER\_PERIOD\_MISMATCH. Diferenciar error de tipo/sintaxis de regla
+  de período.
+\item
+  Escenarios: AC-U3-01--04/06. Fuentes: API-P, SVC-P, SVC-C y
+  ERR-P/ERR-C.
+\item
+  Límite: aquí no se verifican todas las reglas de aplicabilidad
+  normativa de activación; no declarar que el alta concede autorización
+  institucional.
+\end{itemize}
+
+Ejemplo sintético de entrada, condicionado a fixtures existentes:
+
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\footnotesize]
+{
+  "careerId": "22222222-2222-4222-8222-222222222222",
+  "code": "PROCESO-U1-DEMO",
+  "name": "Preparación sintética Unidad 1",
+  "periodStart": "2026-01-01",
+  "periodEnd": "2026-12-31",
+  "modelVersionId": "33333333-3333-4333-8333-333333333333"
+}
+\end{Verbatim}
+
+\subsubsection{CP-09 --- Consultar proceso
+preparado}\label{cp-09-consultar-proceso-preparado}
+
+\begin{itemize}
+\tightlist
+\item
+  Necesidad/requisitos: N-03; APE-FR-08/10.
+\item
+  Operaciones: GET \path|/processes/{id}| y GET \path|/processes|.
+\item
+  Entrada: sesión y ID; el listado actual no declara paginación en su
+  controlador. No inventar \path|page/size| como contrato implementado
+  de procesos.
+\item
+  Resultado: 200 con proceso o lista filtrada; detalle con ETag.
+  Permisos y proyección visible pueden diferir según
+  funciones/indicadores. En preparación se consulta con un actor de
+  gestión autorizado, no se presume acceso de un responsable sin
+  indicadores asignados.
+\item
+  Errores: 401 sin sesión; 404 PROCESS\_NOT\_FOUND para recurso
+  ausente/no visible según SVC-P.
+\item
+  Escenarios: AC-U3-05/06. Fuentes: API-P y SVC-P.
+\end{itemize}
+
+\subsubsection{Qué debe decidirse antes de convertir estas fichas en
+contrato
+definitivo}\label{quuxe9-debe-decidirse-antes-de-convertir-estas-fichas-en-contrato-definitivo}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Punto
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Evidencia disponible
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Decisión pendiente
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Alcance de recursos de U1 & CP-01--09 sobre rutas existentes. &
+Aceptación de CL-APE-01. \\
+Nombres, esquemas y versión de API & Código v1 y OpenAPI común;
+discrepancias conocidas. & Reconciliar sin romper clientes; no presentar
+v2 como disponible. \\
+Permisos administrativos & Política implementada y reglas
+institucionales pendientes. & Confirmar competencia y alcance real. \\
+Errores y paginación & 400/422 dependen de regla; catálogo paginado,
+procesos no. & Documentar por operación; evitar una regla genérica
+falsa. \\
+Concurrencia & ETag/If-Match actuales. & Mantener revisiones de cada
+agregado; no asumir todas empiezan en 1. \\
+Validación de interfaces & Fuentes y pruebas existentes. & Ejecutar
+posteriormente pruebas de esquema/HTTP en entorno sintético. \\
+\end{longtable}
+}
+
+Los estándares HTTP y OpenAPI ayudan a describir operaciones y
+representaciones, pero su existencia no obliga a que esta práctica
+produzca ya un OpenAPI final. Referencias:
+\href{https://www.rfc-editor.org/rfc/rfc9110.html}{RFC 9110} y
+\href{https://spec.openapis.org/oas/latest.html}{OpenAPI}. No se cambia
+la versión OpenAPI del repositorio por consultar el estándar actual.
+
+\subsection{Anexo C. Nota individual}\label{anexo-c.-nota-individual}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Dato & Registro \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Estudiante & {[}PENDIENTE: nombre completo{]} \\
+Asignatura & Desarrollo Basado en Plataformas \\
+Ciclo & 5 A \\
+Docente & Edison Leonardo Coronel Romero \\
+Práctica & 002 --- Semana 2 \\
+Fecha de contribución personal & {[}PENDIENTE: fecha real{]} \\
+Equipo & {[}PENDIENTE{]} \\
+\end{longtable}
+}
+
+\subsubsection{Desarrollo técnico disponible para revisión
+personal}\label{desarrollo-tuxe9cnico-disponible-para-revisiuxf3n-personal}
+
+En la preparación asistida se delimitó un incremento de acceso, catálogo
+y preparación de proceso. Se separaron los requisitos de carrera en
+alta, consulta y modificación histórica, y se hizo explícito que crear
+proceso no significa activarlo. Estas tareas están desarrolladas en
+\url{specification.md}, APE-FR-03--08 y escenarios AC-U2/AC-U3.
+
+La diferencia verificable entre el borrador de esta preparación y la
+especificación refinada está en
+\url{evidencias/refinamiento-v01-v02.diff}. Es evidencia de los archivos
+elaborados con apoyo de IA, no demuestra por sí sola la intervención
+individual de un estudiante ni corresponde a cambios de una clase
+anterior.
+
+\subsubsection{Nota breve que debe completar cada
+estudiante}\label{nota-breve-que-debe-completar-cada-estudiante}
+
+``Mi contribución consistió en {[}aporte personal real{]}. Revisé {[}IDs
+o secciones{]} y modifiqué {[}contenido anterior{]} por {[}contenido
+revisado{]}, porque {[}justificación{]}. El cambio se puede verificar en
+{[}enlace de commit, Pull Request o evidencia real{]}. Durante la
+validación recibí {[}observación real, si existe{]} y la incorporé en
+{[}ID/sección{]}; permanece pendiente {[}decisión aún abierta{]}''.
+
+No atribuirse como trabajo personal independiente todo el contenido
+preparado ni inventar una observación del docente. Identificar el uso de
+IA y la revisión humana efectivamente realizada.
+
+\subsubsection{Evidencia verificable}\label{evidencia-verificable}
+
+\begin{itemize}
+\tightlist
+\item
+  Repositorio detectado:
+  \href{https://github.com/M16artz/SIGEAC}{M16artz/SIGEAC}, derivado de
+  origin; accesibilidad externa no verificada.
+\item
+  Commit base inspeccionado:
+  \path|faf868ea5a8a85285290c06d3baf8fa49889edac|. \textbf{No es un
+  commit de este APE2.}
+\item
+  Commit/PR individual de APE2: \textbf{{[}PENDIENTE: crear con la
+  identidad real del estudiante y registrar su enlace después de
+  publicar{]}}.
+\item
+  Evidencia local alternativa de la preparación:
+  \url{HISTORIAL_CAMBIOS.md}, diff y manifiesto de hashes.
+\item
+  Evidencia de participación personal: \textbf{{[}PENDIENTE: revisión,
+  acta, anotación o entrega real identificable{]}}.
+\end{itemize}
+
+Se prepararon documentos locales; no se creó commit ni se publicó en
+GitHub automáticamente. Un enlace a \path|main| no demuestra que los
+archivos nuevos estén publicados.
+
+\section{Declaración de uso de Inteligencia
+Artificial}\label{declaraciuxf3n-de-uso-de-inteligencia-artificial}
+
+Se utilizó ChatGPT/Codex para inspeccionar documentación y código del
+repositorio, seleccionar un incremento académico, redactar y refinar
+requisitos, historias, criterios, contratos y respuestas de control, y
+generar los archivos Markdown/LaTeX y su evidencia local. También se
+consultaron fuentes técnicas públicas oficiales.
+
+No se ejecutaron pruebas de negocio ni solicitudes HTTP, no se crearon
+commits/PR ni se publicó la entrega. No se atribuye al docente una
+revisión no realizada ni a estudiantes una contribución no identificada.
+Los integrantes deben revisar el contenido, completar sus datos,
+registrar su aporte y asumir responsabilidad por la versión presentada.
+La revisión humana final continúa pendiente.
+
+\end{document}

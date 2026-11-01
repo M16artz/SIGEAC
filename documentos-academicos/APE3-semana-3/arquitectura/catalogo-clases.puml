@@ -1,0 +1,76 @@
+@startuml
+title APE3 - Elementos de codigo existentes del catalogo (vista parcial)
+skinparam classAttributeIconSize 0
+package "api" {
+  class CareerController {
+    +createCareer(input, request)
+    +career(id)
+    +updateCareer(id, match, input, request)
+    +history(id, page, size)
+  }
+  class "CareerController.CareerInput" as CareerInput <<record>> {
+    code : String
+    name : String
+    academicUnitId : UUID
+    validFrom : LocalDate
+    validUntil : LocalDate
+  }
+}
+package "application" {
+  class CareerAdministrationService {
+    +createCareer(data, correlation) : Career
+    +getCareer(id) : Career
+    +updateCareer(id, expected, data, correlation) : Career
+    +history(id, page, size) : CatalogPage
+    +requireActiveCareer(id, start, end)
+  }
+  interface CareerCatalogRepository
+  interface CurrentActorPort
+  interface AuthorizationPort
+  interface AuditPort
+}
+package "domain" {
+  class Career <<record>> {
+    id : UUID
+    data : Data
+    status : Status
+    revision : long
+    createdBy : UUID
+    createdAt : Instant
+    classificationPending : boolean
+    +replace(value) : Career
+    +state(value) : Career
+    +activeOn(date) : boolean
+  }
+  class "Career.Data" as CareerData <<record>> {
+    code : String
+    name : String
+    academicUnitId : UUID
+    validFrom : LocalDate
+    validUntil : LocalDate
+  }
+  enum "Career.Status" as CareerStatus {
+    ACTIVE
+    DISABLED
+  }
+}
+package "infrastructure" {
+  class JdbcCareerCatalogRepository
+}
+CareerController --> CareerAdministrationService : delegar
+CareerController ..> CareerInput : validar DTO
+CareerInput ..> CareerData : construir
+CareerAdministrationService --> CareerCatalogRepository
+CareerAdministrationService --> CurrentActorPort
+CareerAdministrationService --> AuthorizationPort
+CareerAdministrationService --> AuditPort
+CareerAdministrationService ..> Career
+Career *-- CareerData
+Career --> CareerStatus
+JdbcCareerCatalogRepository ..|> CareerCatalogRepository
+note bottom of CareerAdministrationService
+  Verificar unidad activa, unicidad, permisos y revision.
+  API y dominio tienen validaciones adicionales.
+  No es una implementacion Django ni un modelo completo.
+end note
+@enduml

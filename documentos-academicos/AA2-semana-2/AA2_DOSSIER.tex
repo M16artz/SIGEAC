@@ -1,0 +1,1991 @@
+% Adaptación de FORMATO.tex para AA2; plantilla original preservada.
+\documentclass[12pt,a4paper]{report}
+
+% ------------------------------------------
+%   PAQUETES BÁSICOS
+% ------------------------------------------
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+  \geometry{left=3cm, right=2.5cm, top=3cm, bottom=2.5cm}
+\usepackage{setspace}
+  \onehalfspacing
+\usepackage{titlesec} 
+  \titleformat{\chapter}[block]{\bfseries\large}{\thechapter.}{1em}{}
+  \titleformat{\section}[block]{\bfseries}{\thesection.}{1em}{}
+\usepackage{tocloft}
+  \setlength{\cftbeforechapskip}{6pt}
+  \renewcommand{\cftchapfont}{\bfseries}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{verbatim}
+
+\usepackage{cite}
+\usepackage{hyperref}
+% Soporte mínimo para tablas, rutas y bloques técnicos.
+\usepackage{calc}
+\usepackage{xurl}
+\usepackage{fvextra}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setlength{\emergencystretch}{3em}
+
+\addto\captionsspanish{
+    \renewcommand{\contentsname}{Índice General}
+    \renewcommand{\tablename}{Tabla}
+}
+
+% ------------------------------------------
+%   FONDO DE PÁGINA (SOLO CARÁTULA)
+% ------------------------------------------
+\usepackage{eso-pic}
+\newcommand\BackgroundPic{%
+  \put(0,0){%
+    \parbox[b][\paperheight]{\paperwidth}{%
+      \vfill
+      \centering
+      \IfFileExists{fondo.jpeg}{\includegraphics[width=\paperwidth,height=\paperheight]{fondo.jpeg}}{\parbox{0.8\paperwidth}{\centering\small [PENDIENTE: fondo.jpeg original]}}%
+      \vfill
+}}}
+
+% ------------------------------------------
+%   ENCABEZADO CON LOGO (OTRAS PÁGINAS)
+% ------------------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{40pt}
+\fancyhead[L]{\IfFileExists{logo_unl.jpeg}{\includegraphics[height=1.2cm]{logo_unl.jpeg}}{\fbox{\scriptsize PENDIENTE: logo\_unl.jpeg}}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \fancyhead[L]{\IfFileExists{logo_unl.jpeg}{\includegraphics[height=1.2cm]{logo_unl.jpeg}}{\fbox{\scriptsize PENDIENTE: logo\_unl.jpeg}}}
+    \fancyfoot[C]{\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+}
+
+% ------------------------------------------
+%   METADATOS DEL DOCUMENTO
+% ------------------------------------------
+\newcommand{\TituloTrabajo}{AA2 -- Dossier de requisitos y matriz de trazabilidad}
+\newcommand{\Autor}{[PENDIENTE: estudiante]}
+\newcommand{\Director}{Edison Leonardo Coronel Romero (referencia APE2)}
+\newcommand{\Carrera}{Carrera de Computación}
+\newcommand{\Facultad}{Facultad de la Energía, las Industrias y los Recursos Naturales No Renovables}
+\newcommand{\Universidad}{Universidad Nacional de Loja}
+\newcommand{\Ciudad}{Loja, Ecuador}
+\newcommand{\Fecha}{Semana 2 -- [PENDIENTE: fecha real]}
+
+\begin{document}
+
+\AddToShipoutPictureBG*{\BackgroundPic}
+
+% ------------------------------------------
+%   PORTADA
+% ------------------------------------------
+\begin{titlepage}
+  \centering
+  \vspace*{2cm}
+  {\bfseries\Large \Universidad}\\[0.5cm]
+  {\bfseries\large \Facultad}\\[0.5cm]
+  {\bfseries\large \Carrera}\\[2cm]
+  {\bfseries\Large \TituloTrabajo}\\[2.5cm]
+
+  \begin{flushright}
+    \setlength{\fboxsep}{8pt}
+    \fbox{%
+      \begin{minipage}{0.4\textwidth}\small
+        Desarrollo Basado en Plataformas (referencia APE2).
+      \end{minipage}%
+    }
+  \end{flushright}
+  \vspace{1cm}
+
+  {\bfseries \large AUTOR:}\\[0.5em]
+  {\large \Autor}\\[2em]
+  {\bfseries \large TUTOR:}\\[0.5em]
+  {\large \Director}\\[2em]
+  {\bfseries \large \Ciudad}\\[1em]
+  {\bfseries \large \Fecha}
+\end{titlepage}
+
+% ------------------------------------------
+%   DECLARACIÓN DE USO DE IA GENERATIVA
+% ------------------------------------------
+\newpage
+\chapter*{Declaración de Delegación a IA Generativa}
+\addcontentsline{toc}{chapter}{Declaración de uso de IA Generativa}
+Se utilizó ChatGPT/Codex para revisar documentación y fuentes técnicas y del dominio, proponer depuración de historias y requisitos, construir la matriz y generar los documentos. No se realizaron entrevistas, validación docente, pruebas de negocio, solicitudes al backend ni publicación.
+
+El estudiante debe revisar el contenido, identificar su aporte real y asumir responsabilidad por su entrega. No se declara supervisión humana ya completada ni se reutilizan autores o herramientas del informe previo contenido en la plantilla.
+
+\noindent\textbf{Declaración enviada por: [PENDIENTE: estudiante real].}
+\newpage
+\tableofcontents
+\clearpage
+\chapter*{Ficha de la actividad}
+\addcontentsline{toc}{chapter}{Ficha de la actividad}
+\textbf{Proyecto:} SIGEAC / SEC-UNL.\par
+\textbf{Actividad:} AA2, Semana 2, Actividad Autónoma.\par
+\textbf{Modalidad:} trabajo individual articulado con el proyecto grupal.\par
+\textbf{Duración prevista:} 4,5 horas; no es tiempo de ejecución medido.\par
+\textbf{Asignatura, docente y ciclo:} referencias de continuidad con APE2, pendientes de confirmación si esta guía corresponde a otra asignatura.\par
+\textbf{Base técnica:} commit \texttt{faf868ea5a8a85285290c06d3baf8fa49889edac} y especificación académica local APE2.\par
+\textbf{Propósito:} justificar el origen de cada requisito y cómo se verificará, vinculando actor, necesidad, comportamiento, criterio y fuente.
+
+El dossier incluye la matriz, referencias y nota individual como anexos. Las fuentes primarias consultadas no certifican vigencia ni competencias del piloto. La revisión individual y validación de dominio siguen pendientes.
+\chapter{Revisión de fuentes y fundamentos
+técnicos}\label{dossier-revisiuxf3n-de-fuentes-y-fundamentos-tuxe9cnicos}
+
+\section{Método y criterios de
+depuración}\label{dossier-muxe9todo-y-criterios-de-depuraciuxf3n}
+
+Se contrastaron las tres historias y los diez FR/diez NFR de APE2 con
+las necesidades del proyecto, documentos primarios y fuentes
+ejecutables. Se separaron comportamientos compuestos, se explicitaron
+límites de las fuentes y se retiraron de la selección activa compromisos
+cuya pertinencia al recorte no estaba justificada suficientemente.
+``Retirar de la selección'' no elimina el requisito global ni significa
+aprobación de un cambio de alcance.
+
+Cada elemento se evalúa por claridad, necesidad, consistencia,
+verificabilidad, ausencia de redundancia y compatibilidad con su fuente.
+La revisión diferencia decisiones del producto, fundamento técnico,
+contexto institucional e implementación observada. Ninguna fuente se
+utiliza para atribuir una entrevista, designación o aprobación
+inexistente.
+
+\section{Fuentes consultadas y alcance de la
+evidencia}\label{dossier-fuentes-consultadas-y-alcance-de-la-evidencia}
+
+El registro completo F-01--F-14 está en \url{FUENTES_REFERENCIAS.md},
+con autor, localizador, relación y límite. Los principales insumos son
+APE2, especificación y reglas del equipo, los PDFs oficiales CACES/UNL,
+RFC 9110 y WCAG 2.2.
+
+El
+\href{https://www.caces.gob.ec/wp-content/uploads/2024/04/Modelo-generico-para-la-evaluacio\%CC\%81n-del-entorno-de-aprendizaje-de-carreras-de-grado.pdf}{Modelo
+Genérico CACES 2024}, secciones II y V, respalda contextualizar la
+evaluación mediante modelo, fuentes y períodos. El
+\href{https://www.unl.edu.ec/sites/default/files/gaceta/resolucion/2022-06/Resoluci\%C3\%B3n\%20Nro.\%20037-R-UNL-2022-\%20Instructivo\%20para\%20el\%20Aseguramiento\%20de\%20la\%20Calidad\%20de\%20la\%20UNL-signed.pdf}{Instructivo
+UNL 037-R-UNL-2022}, artículos 9--12, aporta un correlato institucional
+para funciones de evaluación.
+
+Estas consultas permiten avanzar en procedencia documental respecto a
+APE2. No corroboran las configuraciones sintéticas ni la vigencia actual
+de esas disposiciones para el piloto. F-10 mantiene expresamente
+\path|institutionalValidity: false|; no se altera ese registro. El
+vínculo entre órganos institucionales y roles del software continúa
+pendiente de designaciones y validación.
+
+\section{Lectura de RFC 9110 aplicada al
+proyecto}\label{dossier-lectura-de-rfc-9110-aplicada-al-proyecto}
+
+Síntesis de la \href{https://www.rfc-editor.org/rfc/rfc9110.html}{RFC
+9110}, organizada por los seis conceptos solicitados:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Concepto / localizador
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Síntesis técnica
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Métodos, §§9.2--9.3 & GET recupera; POST procesa; PUT expresa reemplazo;
+DELETE solicita retirar una asociación. Seguridad e idempotencia son
+propiedades distintas. \\
+Representación, §§8.1--8.3 & El recurso se comunica mediante
+representaciones y metadatos; Content-Type identifica el tipo. \\
+Estados, §15 & El estado distingue éxito, rechazo y error; 201 indica
+creación y 412 una precondición incumplida. \\
+Cabeceras, §§5, 8.8.3, 10.2.2, 12.5.1 & ETag identifica una
+representación; Location referencia el recurso; Accept expresa
+preferencias. \\
+Contenido, §6.4 & El significado depende de método y estado; 204 no
+incluye contenido. \\
+Seguridad, §§11 y 17 & Considerar autenticación, divulgación e
+intermediarios; HTTP por sí solo no resuelve la autorización de
+negocio. \\
+\end{longtable}
+}
+
+La definición de PATCH se consulta aparte en F-14. Estas fuentes no
+fijan los 30 minutos de sesión ni el p95 de 2 s; ambos son decisiones
+del proyecto F-03.
+
+\section{Decisiones y límites observados en la
+API}\label{dossier-decisiones-y-luxedmites-observados-en-la-api}
+
+El código C-01 establece sesión con cookie y entrega CSRF; no se deduce
+soporte JWT/Bearer del ejemplo académico. C-03 separa alta y
+modificación de carrera. C-05 crea procesos en preparación y no permite
+que el cliente envíe un estado de activación en su DTO de alta.
+
+En el contrato actual, editar una carrera utiliza PATCH con CareerInput
+completo; no debe enviarse un subconjunto arbitrario por creer que el
+método lo admite. La revisión empieza en 1 para carrera y en 0 para
+proceso. Esas diferencias son de los DTO/controladores, no reglas
+universales de HTTP.
+
+C-06 acepta un ETag fuerte numérico y produce 400/428 ante formatos o
+precondición ausente según su contrato. La gramática general de If-Match
+es más amplia; no se califica una lista o \path|*| como inválida para
+todo HTTP por la restricción local. Referencia de contraste: F-09
+§13.1.1.
+
+\textbf{Observación HTTP-AA-01, pendiente:} RFC 9110 §15.5.2 exige un
+desafío WWW-Authenticate en 401. C-07/C-08 no lo establecen
+explícitamente y no se localizó la cabecera en fuentes principales.
+Falta observar respuestas reales y decidir el desafío aplicable; no se
+incorpora un Bearer ficticio ni se afirma conformidad integral de
+autenticación.
+
+La aceptación de los contratos preliminares CP-01--09 de APE2 queda
+condicionada a ese contraste. Los ejemplos son reconstruidos y no se
+ejecutaron solicitudes.
+
+\chapter{Dossier depurado del
+incremento}\label{dossier-dossier-depurado-del-incremento}
+
+\section{Síntesis del problema y
+alcance}\label{dossier-suxedntesis-del-problema-y-alcance}
+
+El proyecto organiza información y decisiones de autoevaluación interna.
+Para iniciar un proceso necesita identificar carrera, unidad, período,
+versión de modelo y actores autorizados, conservando el historial sin
+atribuir acreditación. No se aportó un diagnóstico empírico que mida
+pérdidas de documentos o tiempos institucionales; tales cifras no se
+inventan.
+
+Se conserva el recorte propuesto en APE2: acceso, catálogo de
+unidades/carreras y preparación/consulta de un proceso con modelo
+publicado. No incluye autorización/activación institucional, evidencias,
+revisión, valoración, informes, mejora ni archivo. Su aceptación docente
+sigue pendiente en CL-APE-01.
+
+Las decisiones de tecnología se mantienen fuera de las necesidades: las
+fuentes muestran Angular, Spring Boot y persistencia, pero el actor
+necesita una operación identificable y autorizada, no una clase o un
+framework concreto.
+
+\section{Actores y necesidades
+justificadas}\label{dossier-actores-y-necesidades-justificadas}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+ID
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Actor documentado
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Necesidad
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Fuente y límite
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+A-AA-01 & Usuario habilitado & N-AA-01: conocer su acceso vigente y
+terminarlo cuando concluya su trabajo. & F-03/F-05; identidad sintética
+disponible, persona real no identificada. \\
+A-AA-02 & Administrador funcional autorizado & N-AA-02: mantener
+unidades/carreras identificables y con historial. & F-03/F-06;
+competencia institucional exacta por confirmar. \\
+A-AA-03 & Coordinador con capacidad de gestión en la carrera & N-AA-03:
+preparar una evaluación con referencia exacta de carrera, período y
+modelo. & F-03/F-04; contexto F-07/F-08. No se equipara a una comisión
+por inferencia. \\
+A-AA-04 & Consultor o lector autorizado & N-AA-04: consultar únicamente
+recursos visibles y comprender su estado. & F-03/F-05; los permisos de
+catálogo y proceso no son intercambiables. \\
+A-AA-02/03 & Actores que modifican recursos & N-AA-05: evitar pérdida de
+cambios y poder explicar qué ocurrió. & RNF-011--013 y FR-006/039 de
+F-03; respaldo técnico F-09. \\
+\end{longtable}
+}
+
+Los actores son roles documentados con correlato de dominio parcial, no
+participantes entrevistados ni nombramientos acreditados. Un rol técnico
+no concede automáticamente función académica.
+
+\section{Historias de usuario
+depuradas}\label{dossier-historias-de-usuario-depuradas}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+ID / prioridad
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Historia
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Origen y mejora
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+HU-AA-01 / P1 & Como usuario habilitado, quiero iniciar y terminar mi
+acceso y consultar mis funciones vigentes, para operar mientras mi
+sesión esté autorizada y finalizarla al concluir. & APE2/US1; conserva
+beneficio y distingue sesión de permisos. \\
+HU-AA-02 / P1 & Como administrador funcional autorizado, quiero
+registrar unidades y carreras con datos válidos, para disponer de un
+catálogo identificable antes de preparar evaluaciones. & Alta de
+APE2/US2; el registro de unidad puede ser prerrequisito con fixture. \\
+HU-AA-03 / P1 & Como lector autorizado, quiero consultar catálogo,
+detalle e historial visibles, para identificar información de mi ámbito
+sin acceder a datos ajenos. & Consulta separada de APE2/US2; no concede
+modificación. \\
+HU-AA-04 / P2 & Como administrador funcional autorizado, quiero corregir
+datos de una carrera conservando revisiones, para actualizar el catálogo
+sin perder el estado anterior ni sobrescribir cambios ajenos. & Edición
+separada de APE2/US2; criterio propio de concurrencia. \\
+HU-AA-05 / P2 & Como administrador funcional autorizado, quiero
+desactivar una carrera con motivo, para impedir su uso en nuevos
+procesos conservando identidad y referencias históricas. & Cambio de
+estado separado de APE2/US2; no se presupone cierre de procesos
+anteriores. \\
+HU-AA-06 / P2 & Como coordinador autorizado para gestionar procesos,
+quiero preparar y consultar una autoevaluación con carrera, período y
+modelo publicado, para identificarla antes de tramitar su autorización
+institucional. & APE2/US3; no incluye activación ni presupone autoridad
+de inicio. \\
+\end{longtable}
+}
+
+La división de US2 no aumenta el alcance; hace revisables sus objetivos
+de alta, lectura, corrección y desactivación. Cada historia puede
+comprobarse con prerrequisitos sintéticos existentes.
+
+\section{Requisitos funcionales}\label{dossier-requisitos-funcionales}
+
+Los IDs AA-RF son locales al dossier. La columna de origen conserva el
+enlace a APE2 y a los FR del producto; no los renumera oficialmente.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+ID
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Requisito observable depurado
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Origen
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+AA-RF-01 & Permitir iniciar sesión a una identidad habilitada con
+credenciales válidas y rechazar credenciales inválidas sin confirmar si
+la identidad existe. & APE-FR-01; FR-001/005. \\
+AA-RF-02 & Permitir cerrar la sesión actual y rechazar su reutilización
+posterior para operaciones protegidas. & APE-FR-01; FR-001. \\
+AA-RF-03 & Permitir a la identidad autenticada consultar sus funciones y
+ámbitos vigentes, sin devolver los de otra identidad. & APE-FR-01;
+FR-001/002. \\
+AA-RF-04 & Comprobar capacidad y ámbito vigentes antes de cada operación
+protegida; leer no concederá modificar y un recurso ajeno no expondrá
+información protegida. & APE-FR-02; FR-002/003. \\
+AA-RF-05 & Permitir al administrador autorizado registrar una unidad con
+código normalizado único y nombre, conservando identidad y estado del
+alta. & Alta de unidad de APE-FR-03; FR-043. \\
+AA-RF-06 & Permitir registrar una carrera con código normalizado único,
+nombre, unidad activa y vigencia coherente; rechazar entrada inválida
+sin crear una carrera parcial. & Alta de carrera de APE-FR-03;
+FR-043. \\
+AA-RF-07 & Permitir consultar catálogo, detalle e historial de
+carreras/unidades según la operación, filtrando resultados y totales por
+la visibilidad efectiva del actor. & APE-FR-04/05; FR-043/002. \\
+AA-RF-08 & Permitir modificar datos válidos de carrera conservando
+identidad, nueva revisión e historial anterior; no completar el cambio
+sobre una revisión obsoleta. & APE-FR-05; FR-043; RNF-011. \\
+AA-RF-09 & Permitir desactivar una carrera con motivo y revisión vigente
+sin eliminación física; no activar nuevos procesos sobre una carrera no
+utilizable. & APE-FR-05/07; FR-043/011. \\
+AA-RF-10 & Permitir consultar e identificar la versión publicada del
+modelo disponible para preparar el proceso, sin sustituir
+automáticamente la elegida por otra versión. & APE-FR-06; FR-010/012. \\
+AA-RF-11 & Permitir al actor con gestión vigente crear un proceso para
+carrera/unidad activas, período permitido y versión publicada; guardarlo
+en preparación sin activación implícita. & APE-FR-07; FR-011. \\
+AA-RF-12 & Permitir al actor autorizado consultar el proceso preparado y
+recuperar sus referencias y estado; rechazar una consulta ajena sin
+exponer el recurso. & APE-FR-08; FR-002/011/012. \\
+AA-RF-13 & Registrar cambios críticos de catálogo y creación de procesos
+con actor, fecha, acción, objeto y resultado, conforme al catálogo de
+auditoría aplicable; no declarar completado un cambio cuya auditoría
+obligatoria no se conserve. & APE-FR-09; FR-006 y refinamiento
+FR-006a. \\
+AA-RF-14 & Rechazar solicitudes inválidas, conflictos o falta de acceso
+con estructura y código estables que permitan identificar el problema
+sin detalles técnicos sensibles. & APE-FR-10; FR-039. \\
+\end{longtable}
+}
+
+No se establece una revisión inicial uniforme entre agregados ni un
+código HTTP único para todas las validaciones. Los contratos concretos
+de APE2 conservan esas diferencias.
+
+\section{Requisitos no funcionales
+retenidos}\label{dossier-requisitos-no-funcionales-retenidos}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+ID
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Atributo y condición verificable
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Fuente/origen y estado
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+AA-RNF-01 & Contraseñas mediante hash adaptativo con sal, sin
+almacenamiento reversible ni exposición en respuestas. & RNF-001, parte
+de APE-NFR-01; revisión de controles, no certificación. \\
+AA-RNF-02 & La sesión expirará tras 30 minutos sin actividad y la
+desactivación de identidad invalidará su acceso posterior. & RNF-002,
+parte de APE-NFR-01; umbral del producto F-03. \\
+AA-RNF-03 & Respuestas y registros de los recorridos seleccionados no
+expondrán contraseñas, tokens completos ni datos ajenos al ámbito
+permitido. & RNF-005; privacidad separada de login y de estructura de
+error. \\
+AA-RNF-04 & El p95 de resultado visible de las operaciones interactivas
+seleccionadas será \ensuremath{\leq} 2 s bajo el entorno/carga piloto que se acuerde;
+archivos e informes están excluidos. & RNF-006, APE-NFR-02; en revisión
+hasta fijar protocolo. \\
+AA-RNF-05 & Una actualización concurrente basada en revisión obsoleta
+será detectada antes de sobrescribir y conservará el cambio exitoso
+anterior. & RNF-011, APE-NFR-04; propiedad transversal complementaria de
+AA-RF-08. \\
+AA-RNF-06 & La auditoría será inmutable para usuarios ordinarios y
+consultable únicamente con permisos aplicables. & RNF-012, parte de
+APE-NFR-05; retención institucional pendiente. \\
+AA-RNF-07 & Cada solicitud tendrá correlación que permita relacionar
+respuesta y diagnóstico técnico sin revelar datos sensibles. & RNF-013,
+parte de APE-NFR-05; comprobar errores y éxitos. \\
+AA-RNF-08 & Los recorridos seleccionados se completarán con teclado,
+foco visible y controles identificables; el objetivo de accesibilidad es
+WCAG 2.2 AA con revisión de todos los criterios aplicables. & RNF-014,
+APE-NFR-06; F-13; no certificado. \\
+AA-RNF-09 & Las reglas de estado/autorización estarán separadas de
+controladores y persistencia y tendrán comprobaciones reproducibles con
+datos sintéticos. & RNF-017/018, APE-NFR-07; revisión de código y
+dependencias. \\
+AA-RNF-10 & Los intercambios HTTP seleccionados tendrán método, entrada,
+representación, cabeceras, resultado y errores documentados y coherentes
+con el contrato aceptado. & APE-NFR-08; F-09/F-14 y FR-039; revisión
+técnica abierta HTTP-AA-01. \\
+\end{longtable}
+}
+
+\textbf{Decisiones de depuración:} APE-NFR-10 (datos sintéticos) se
+conserva como restricción del trabajo y de todas las pruebas, evitando
+presentarlo además como atributo duplicado del comportamiento
+productivo. APE-NFR-03 (canales complementarios) se mantiene en backlog
+global RNF-009: el recorte no contiene un canal operativo que permita
+justificar su ensayo aquí. APE-NFR-09 (19 de 20 participantes) sigue
+como objetivo global SC-007 y pregunta metodológica; no se promete un
+estudio humano dentro del AA individual. No se elimina ninguno del
+producto ni se afirma aprobación docente del aplazamiento.
+
+\section{Criterios de aceptación
+funcionales}\label{dossier-criterios-de-aceptaciuxf3n-funcionales}
+
+Los AC-AA reemplazan la agrupación local de criterios APE2 solo en este
+dossier. Los casos de entrada inválida se separan para que su ejecución
+posterior sea interpretable.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+ID
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Criterio Dado--Cuando--Entonces
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+AC-AA-01 & \textbf{Dado que} la identidad está habilitada y las
+credenciales son válidas, \textbf{cuando} inicia sesión,
+\textbf{entonces} obtiene una sesión para esa identidad. \\
+AC-AA-02 & \textbf{Dado que} la identidad no existe o la contraseña es
+incorrecta, \textbf{cuando} intenta iniciar sesión, \textbf{entonces} no
+se concede sesión ni se revela cuál de las dos causas ocurrió. \\
+AC-AA-03 & \textbf{Dado que} existe una sesión activa, \textbf{cuando}
+se cierra y se reutiliza, \textbf{entonces} la solicitud protegida es
+rechazada. \\
+AC-AA-04 & \textbf{Dado que} hay sesión vigente, \textbf{cuando}
+consulta su identidad, \textbf{entonces} obtiene sus funciones/ámbitos
+vigentes y no los de otra persona. \\
+AC-AA-05 & \textbf{Dado que} no hay sesión válida, \textbf{cuando} se
+pide una operación protegida, \textbf{entonces} no se entrega su
+representación. \\
+AC-AA-06 & \textbf{Dado que} una identidad carece de capacidad de
+administrar, \textbf{cuando} intenta alta o cambio de catálogo,
+\textbf{entonces} se rechaza y el catálogo permanece igual. \\
+AC-AA-07 & \textbf{Dado que} existe una unidad con código normalizado,
+\textbf{cuando} se intenta registrar otro equivalente, \textbf{entonces}
+se rechaza sin duplicar la unidad. \\
+AC-AA-08 & \textbf{Dado que} la unidad está activa y el código de
+carrera es nuevo, \textbf{cuando} el administrador registra datos
+válidos, \textbf{entonces} se conserva la carrera con unidad y
+vigencia. \\
+AC-AA-09 & \textbf{Dado que} ya existe el código normalizado de carrera,
+\textbf{cuando} se envía un alta equivalente, \textbf{entonces} se
+rechaza sin crear otra carrera. \\
+AC-AA-10 & \textbf{Dado que} falta un campo obligatorio o un dato tiene
+formato inválido, \textbf{cuando} se solicita el alta, \textbf{entonces}
+se informa el error y no se crea el recurso. \\
+AC-AA-11 & \textbf{Dado que} la unidad no existe o no está activa,
+\textbf{cuando} se registra carrera, \textbf{entonces} no se crea la
+carrera. \\
+AC-AA-12 & \textbf{Dado que} la vigencia termina antes de su inicio,
+\textbf{cuando} se registra carrera, \textbf{entonces} se rechaza y no
+queda una carrera parcial. \\
+AC-AA-13 & \textbf{Dado que} el lector solo tiene carrera A autorizada,
+\textbf{cuando} consulta lista, total o detalle de B, \textbf{entonces}
+no recibe datos ni totales ajenos a su visibilidad. \\
+AC-AA-14 & \textbf{Dado que} la revisión está vigente y los nuevos datos
+son válidos, \textbf{cuando} modifica la carrera, \textbf{entonces}
+cambia su revisión conservando identidad y estado anterior
+consultable. \\
+AC-AA-15 & \textbf{Dado que} dos clientes parten de la misma revisión y
+uno guarda, \textbf{cuando} el otro envía la revisión anterior,
+\textbf{entonces} su cambio se rechaza y el primero permanece
+intacto. \\
+AC-AA-16 & \textbf{Dado que} la carrera tiene historial, \textbf{cuando}
+se desactiva con motivo válido y revisión vigente, \textbf{entonces}
+conserva identidad e historial y no es utilizable para un proceso
+nuevo. \\
+AC-AA-17 & \textbf{Dado que} no existe un cambio de estado,
+\textbf{cuando} se solicita repetirlo, \textbf{entonces} no se crea una
+transición ficticia. \\
+AC-AA-18 & \textbf{Dado que} el actor tiene acceso al modelo,
+\textbf{cuando} consulta una versión publicada identificada,
+\textbf{entonces} recupera su identidad/número/estado sin reemplazo
+automático por otra. \\
+AC-AA-19 & \textbf{Dado que} hay gestión autorizada, carrera/unidad
+activas, período válido y versión publicada, \textbf{cuando} se prepara
+el proceso, \textbf{entonces} queda PREPARATION con las referencias
+elegidas. \\
+AC-AA-20 & \textbf{Dado que} la carrera está desactivada o no es
+utilizable, \textbf{cuando} se intenta preparar un proceso nuevo,
+\textbf{entonces} no se crea el proceso. \\
+AC-AA-21 & \textbf{Dado que} el período es inválido o excede la vigencia
+permitida, \textbf{cuando} se prepara el proceso, \textbf{entonces} se
+rechaza sin persistencia parcial. \\
+AC-AA-22 & \textbf{Dado que} la versión no está publicada/disponible,
+\textbf{cuando} se intenta preparar proceso, \textbf{entonces} no se
+crea ni se elige silenciosamente otra versión. \\
+AC-AA-23 & \textbf{Dado que} el actor tiene acceso al proceso preparado,
+\textbf{cuando} consulta, \textbf{entonces} recupera carrera, período,
+modelo y estado de preparación sin acreditación inferida. \\
+AC-AA-24 & \textbf{Dado que} el recurso es ajeno al ámbito del lector,
+\textbf{cuando} intenta acceder al proceso, \textbf{entonces} no recibe
+su representación protegida. \\
+AC-AA-25 & \textbf{Dado que} una escritura exige auditoría y su
+persistencia falla, \textbf{cuando} se ejecuta el comando,
+\textbf{entonces} no se presenta como cambio completado sin el registro
+obligatorio. \\
+AC-AA-26 & \textbf{Dado que} una solicitud debe rechazarse,
+\textbf{cuando} se responde, \textbf{entonces} la estructura documentada
+identifica código, descripción y correlación sin secretos. \\
+AC-AA-27 & \textbf{Dado que} el código de unidad es nuevo y el nombre
+válido, \textbf{cuando} el administrador registra la unidad,
+\textbf{entonces} obtiene identidad, estado y revisión y puede
+consultarla. \\
+\end{longtable}
+}
+
+AC-AA-27 incorpora el éxito de alta de unidad para no depender
+únicamente de su rechazo por duplicado. Se distinguen 27 AC funcionales
+y diez VC de calidad; son verificaciones especificadas, no resultados
+ejecutados.
+
+\section{Verificaciones de atributos de
+calidad}\label{dossier-verificaciones-de-atributos-de-calidad}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+ID
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Verificación propuesta, sin ejecución declarada
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+VC-AA-01 & Con credenciales sintéticas, inspeccionar hashes y comprobar
+algoritmo adaptativo/sal y ausencia de contraseña reversible o en
+respuestas. \\
+VC-AA-02 & Con reloj controlado, comprobar solicitud antes del límite,
+al cumplir 30 minutos sin actividad y después de desactivar la
+identidad. El límite se mide desde última actividad válida. \\
+VC-AA-03 & Ejecutar casos de éxito/rechazo con secretos de prueba y
+comprobar cuerpos y registros: no deben contenerlos completos ni datos
+ajenos. \\
+VC-AA-04 & Acordar entorno y recorrido; medir desde acción en navegador
+hasta resultado visible y calcular p95. Los 2 s vienen de F-03; la
+campaña histórica F-12 no sustituye esta medición. \\
+VC-AA-05 & Repetir AC-AA-15 con dos actores autorizados; una revisión
+obsoleta debe causar cero sobrescrituras y conservar el cambio
+confirmado. \\
+VC-AA-06 & Con usuario ordinario, intentar modificar auditoría y
+consultar fuera de ámbito; no debe cambiar eventos ni obtener registros
+no autorizados. \\
+VC-AA-07 & Comprobar correlación presente y consistente en respuestas de
+éxito/error y diagnóstico autorizado correspondiente, sin secretos. \\
+VC-AA-08 & Completar login, catálogo y preparación con teclado; revisar
+foco, nombres, contraste y demás criterios AA aplicables; registrar
+criterio, pantalla y evidencia. \\
+VC-AA-09 & Revisar dependencias de reglas, controles y persistencia;
+ejecutar posteriormente reglas de arquitectura y pruebas relevantes,
+incluyendo revisión de SQL que ArchUnit no interpreta. \\
+VC-AA-10 & Comparar contratos con respuestas reales: tipos JSON, método,
+estado y cabeceras aplicables; comprobar además HTTP-AA-01 antes de
+afirmar compatibilidad completa de autenticación. \\
+\end{longtable}
+}
+
+\chapter{Trazabilidad, depuración y decisiones
+pendientes}\label{dossier-trazabilidad-depuraciuxf3n-y-decisiones-pendientes}
+
+\section{Matriz inicial y lectura de
+estados}\label{dossier-matriz-inicial-y-lectura-de-estados}
+
+La \href{MATRIZ_TRAZABILIDAD.md}{matriz de trazabilidad} contiene una
+fila por cada AA-RF y AA-RNF retenido. Sus 24 filas vinculan actor,
+necesidad, historia/requisito, AC o VC, fuente y estado. No se usa
+``Validado'' para un elemento que solo tiene respaldo documental.
+
+Las historias aportan beneficio; los requisitos definen obligación; los
+AC/VC definen comprobación; las fuentes justifican origen o
+implementación. Un vínculo a código es contraste, no causa suficiente
+para conservar una funcionalidad innecesaria.
+
+\section{Ejemplos de justificación
+completa}\label{dossier-ejemplos-de-justificaciuxf3n-completa}
+
+\textbf{Alta de carrera:} A-AA-02 necesita N-AA-02; HU-AA-02 y AA-RF-06
+definen el alta válida; AC-AA-08--12 distinguen éxito, duplicado,
+formato, unidad y fecha; F-03/F-06 justifican el catálogo y C-03/C-04
+permiten contrastar su comportamiento. F-08 aporta contexto
+institucional, pero no es una orden de implementar un endpoint de
+carreras.
+
+\textbf{Preparación de proceso:} A-AA-03 necesita N-AA-03; HU-AA-06 y
+AA-RF-11 exigen referencias exactas y PREPARATION; AC-AA-19--22 cubren
+sus condiciones. F-07/F-08 sostienen el contexto, F-03/F-04 la decisión
+del producto y C-05 el contraste. Las designaciones y activación siguen
+pendientes, fuera del recorte.
+
+\textbf{Concurrencia:} A-AA-02 necesita N-AA-05; AA-RF-08 es la
+operación y AA-RNF-05 su calidad transversal. AC-AA-15/VC-AA-05
+comprueban pérdida de cambios; RNF-011 de F-03 es la obligación y F-09
+el fundamento de la precondición HTTP. No se afirma una prueba superada
+por existir ETag.
+
+\section{Calidad y ausencia de
+redundancia}\label{dossier-calidad-y-ausencia-de-redundancia}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Aspecto
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Acción de depuración
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Límite restante
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Claridad & Separar login, logout e identidad; distinguir alta, lectura,
+edición y desactivación. & Confirmar vocabulario de roles
+institucionales. \\
+Necesidad & Cada requisito retenido se vincula a N-AA-01--05. &
+Necesidades del equipo documentadas, sin entrevista real aportada. \\
+Consistencia & Mantener recorte U1 y no convertir preparación en
+activación. & CL-APE-01 aún requiere aceptación. \\
+Verificabilidad & Separar validaciones compuestas de APE2 en
+AC-AA-10/11/12 y AC-AA-20/21/22. & Ejecución y protocolos de
+carga/humanos pendientes. \\
+No redundancia & Separar evento auditado de inmutabilidad; operación de
+edición de concurrencia; condición de ensayo de atributo de producto. &
+Conservar enlaces de refinamiento para evitar contar dos veces
+cobertura. \\
+Compatibilidad con fuentes & Contexto oficial y política del software
+separados; HTTP-AA-01 explícito. & Corroborar vigencia, roles y
+comportamiento de 401 en ejecución. \\
+\end{longtable}
+}
+
+\section{Observaciones y decisiones
+pendientes}\label{dossier-observaciones-y-decisiones-pendientes}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+ID
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Decisión o vacío
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Estado y tratamiento
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+P-AA-01 & Confirmar recorte U1 y autoridad de cada rol. & Pendiente
+docente/equipo y designaciones; hereda CL-APE-01/02. \\
+P-AA-02 & Verificar vigencia y aplicabilidad institucional de F-07/F-08.
+& Fuente primaria consultada; no se cierran CL-011--017 ni se reescriben
+manifiestos. \\
+P-AA-03 & Aportar entrevistas o diagnóstico del proceso actual. & No
+inventar cifras de tiempo o pérdida documental; hereda CL-APE-04. \\
+P-AA-04 & Resolver cinco fallos consecutivos frente a acumulados. &
+Mantener RNF-003/CL-APE-03 como pendiente; no elegir política por código
+existente. \\
+P-AA-05 & Acordar entorno/carga de p95 y protocolo humano de usabilidad.
+& AA-RNF-04 en revisión; SC-007 global no medido aquí. \\
+P-AA-06 & Comprobar WWW-Authenticate en 401 y desafío aplicable. &
+HTTP-AA-01: contraste técnico pendiente; no se inventa JWT. \\
+P-AA-07 & Confirmar utilidad de ensayar canales complementarios
+ausentes. & APE-NFR-03 permanece global/diferido, fuera de la selección
+activa AA2. \\
+P-AA-08 & Identificar estudiante, revisión personal y enlace de
+contribución. & La asistencia de IA no acredita una participación
+individual. \\
+\end{longtable}
+}
+
+\section{Producto, revisión individual y tiempo
+previsto}\label{dossier-producto-revisiuxf3n-individual-y-tiempo-previsto}
+
+El producto local incluye dossier, matriz, fuentes, nota de cambios y
+versión LaTeX. El remoto observado es
+\href{https://github.com/M16artz/SIGEAC}{M16artz/SIGEAC}; no se verificó
+acceso externo ni se publicó este AA2. El commit base no es un commit de
+la actividad.
+
+Distribución sugerida de 4,5 horas, no cronometraje: 45 min para RFC; 45
+min para fuentes del dominio; 60 min para historias/requisitos; 60 min
+para matriz/criterios; 45 min para dossier/nota; 15 min para revisión y
+evidencia individual. Total: 270 minutos.
+
+El estudiante debe revisar los cambios de la
+\href{NOTA_CAMBIOS_INDIVIDUAL.md}{nota individual}, justificar con sus
+palabras los elementos modificados e identificar su evidencia real. No
+se atribuyen correcciones al docente ni a un integrante sin registro.
+
+\section{Declaración de uso de IA y
+límites}\label{dossier-declaraciuxf3n-de-uso-de-ia-y-luxedmites}
+
+Se utilizó ChatGPT/Codex para revisar archivos y fuentes públicas,
+depurar textos, construir la matriz y generar documentos. No se
+realizaron entrevistas, validación con docente, solicitudes al backend,
+pruebas de negocio, commits ni publicación. Las comprobaciones
+documentales no equivalen a cumplimiento funcional o institucional. La
+revisión personal, datos del estudiante y aprobación del equipo
+permanecen pendientes.
+
+\cleardoublepage
+\nocite{proyecto,ape2,rfc9110,caces2024,unl2022,wcag22,rfc5789}
+\bibliographystyle{IEEEtran}
+\bibliography{referencias}
+\appendix
+\chapter{Anexos}
+\section{Matriz inicial de trazabilidad --- fichas
+completas}\label{matriz-matriz-inicial-de-trazabilidad-fichas-completas}
+
+Los 24 registros conservan todos los campos de la matriz Markdown. TR
+significa trazado documental; DP, confirmación de dominio pendiente; VM,
+verificación o medición pendiente; RT, revisión técnica pendiente. No
+son aprobaciones ni resultados de ejecución.
+
+\subsection{AA-RF-01}\label{matriz-aa-rf-01}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Actor & A-AA-01, usuario habilitado \\
+Necesidad & N-AA-01: acceder sin exponer identidad ajena. \\
+Historia / requisito & HU-AA-01: conceder sesión solo a identidad
+habilitada con credenciales válidas. \\
+Criterio de aceptación o verificación & AC-AA-01/02: Dado acceso
+válido/erróneo, cuando autentica, entonces concede solo el válido sin
+enumerar cuentas. \\
+Fuente & F-02 APE-FR-01; F-03 FR-001/005; F-11 C-01/02. \\
+Estado & TR; VM de autenticación. \\
+\end{longtable}
+}
+
+\subsection{AA-RF-02}\label{matriz-aa-rf-02}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Actor & A-AA-01, usuario habilitado \\
+Necesidad & N-AA-01: terminar acceso. \\
+Historia / requisito & HU-AA-01: cerrar e invalidar sesión. \\
+Criterio de aceptación o verificación & AC-AA-03: Dado sesión activa,
+cuando cierra y reutiliza, entonces se rechaza acceso protegido. \\
+Fuente & F-02 APE-FR-01; F-03 FR-001; F-11 C-01/02. \\
+Estado & TR; VM de revocación. \\
+\end{longtable}
+}
+
+\subsection{AA-RF-03}\label{matriz-aa-rf-03}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Actor & A-AA-01, usuario habilitado \\
+Necesidad & N-AA-01: conocer funciones vigentes. \\
+Historia / requisito & HU-AA-01: consultar identidad y ámbitos
+propios. \\
+Criterio de aceptación o verificación & AC-AA-04: Dado sesión vigente,
+cuando consulta identidad, entonces recibe únicamente sus
+funciones/ámbitos. \\
+Fuente & F-03 FR-001/002; F-05 P01; F-11 C-01. \\
+Estado & TR; DP del catálogo de funciones. \\
+\end{longtable}
+}
+
+\subsection{AA-RF-04}\label{matriz-aa-rf-04}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Actor & A-AA-01/02/03/04 \\
+Necesidad & N-AA-01/04: actuar/leer solo dentro de permiso. \\
+Historia / requisito & HU-AA-01--06: comprobar capacidad y ámbito por
+operación. \\
+Criterio de aceptación o verificación & AC-AA-05/06/13/24: Dado falta de
+sesión, permiso o ámbito, cuando opera, entonces no modifica ni revela
+recursos ajenos. \\
+Fuente & F-03 FR-002/003; F-04 responsabilidades; F-11 C-04/05. \\
+Estado & TR; DP de autoridades y VM de cobertura. \\
+\end{longtable}
+}
+
+\subsection{AA-RF-05}\label{matriz-aa-rf-05}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Actor & A-AA-02, administrador funcional \\
+Necesidad & N-AA-02: identificar unidad de la carrera. \\
+Historia / requisito & HU-AA-02: registrar unidad válida y única. \\
+Criterio de aceptación o verificación & AC-AA-07/27: Dado código
+nuevo/duplicado, cuando registra, entonces crea solo el nuevo sin
+duplicados. \\
+Fuente & F-02 APE-FR-03; F-06 FR-043; F-11 C-03/04. \\
+Estado & TR; DP de administración. \\
+\end{longtable}
+}
+
+\subsection{AA-RF-06}\label{matriz-aa-rf-06}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Actor & A-AA-02, administrador funcional \\
+Necesidad & N-AA-02: carrera inequívoca y válida. \\
+Historia / requisito & HU-AA-02: alta con código, unidad y vigencia. \\
+Criterio de aceptación o verificación & AC-AA-08--12: Dado datos válidos
+o inválidos, cuando registra, entonces conserva solo alta válida y
+rechaza cada causa sin parcialidad. \\
+Fuente & F-03/F-06 FR-043; F-05 P02; F-11 C-03/04. \\
+Estado & TR; VM de variantes. \\
+\end{longtable}
+}
+
+\subsection{AA-RF-07}\label{matriz-aa-rf-07}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Actor & A-AA-04 y A-AA-02 \\
+Necesidad & N-AA-04: leer datos/historial visibles. \\
+Historia / requisito & HU-AA-03: consultar catálogo, detalle e historial
+autorizado. \\
+Criterio de aceptación o verificación & AC-AA-13/14: Dado visibilidad
+acotada e historial, cuando consulta, entonces obtiene únicamente
+recursos y revisiones permitidos. \\
+Fuente & F-02 APE-FR-04/05; F-03 FR-002; F-06 FR-043; C-03/04. \\
+Estado & TR; VM de listados/totales. \\
+\end{longtable}
+}
+
+\subsection{AA-RF-08}\label{matriz-aa-rf-08}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Actor & A-AA-02, administrador funcional \\
+Necesidad & N-AA-02/05: corregir sin perder historia. \\
+Historia / requisito & HU-AA-04: actualizar con revisión vigente y
+conservar predecesora. \\
+Criterio de aceptación o verificación & AC-AA-14/15: Dado revisión
+actual/obsoleta, cuando cambia, entonces guarda la actual y rechaza la
+obsoleta sin sobrescribir. \\
+Fuente & F-02 APE-FR-05; F-06 FR-043; F-03 RNF-011; C-04/06. \\
+Estado & TR; VM concurrente. \\
+\end{longtable}
+}
+
+\subsection{AA-RF-09}\label{matriz-aa-rf-09}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Actor & A-AA-02 y A-AA-03 \\
+Necesidad & N-AA-02/03: no usar carreras desactivadas. \\
+Historia / requisito & HU-AA-05/06: desactivar con motivo e impedir
+nuevos procesos. \\
+Criterio de aceptación o verificación & AC-AA-16/17/20: Dado cambio
+válido/repetido o carrera inutilizable, cuando solicita, entonces
+conserva historia y bloquea alta indebida. \\
+Fuente & F-06 FR-043; F-03 FR-011; F-04 estados; C-04/05. \\
+Estado & TR; VM de cambio/uso posterior. \\
+\end{longtable}
+}
+
+\subsection{AA-RF-10}\label{matriz-aa-rf-10}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Actor & A-AA-03 con lectura de modelos \\
+Necesidad & N-AA-03: identificar modelo exacto. \\
+Historia / requisito & HU-AA-06: consultar versión publicada sin
+selección implícita. \\
+Criterio de aceptación o verificación & AC-AA-18/22: Dado versión
+identificada, cuando consulta/prepara, entonces conserva la disponible
+publicada o rechaza sin sustitución. \\
+Fuente & F-03 FR-010/012; F-07 contexto; F-10 límite sintético; F-11
+C-05. \\
+Estado & TR; DP de aplicabilidad normativa. \\
+\end{longtable}
+}
+
+\subsection{AA-RF-11}\label{matriz-aa-rf-11}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Actor & A-AA-03, gestor autorizado \\
+Necesidad & N-AA-03: preparar antes de autorizar. \\
+Historia / requisito & HU-AA-06: crear PREPARATION con referencias
+exactas. \\
+Criterio de aceptación o verificación & AC-AA-19--22: Dado
+prerrequisitos válidos/ausentes, cuando prepara, entonces guarda solo el
+proceso válido sin activación. \\
+Fuente & F-03 FR-011; F-04/F-05 P05; F-07/F-08 contexto; C-05. \\
+Estado & TR; DP del recorte/roles; VM. \\
+\end{longtable}
+}
+
+\subsection{AA-RF-12}\label{matriz-aa-rf-12}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Actor & A-AA-03; lector con acceso aplicable \\
+Necesidad & N-AA-04: conocer proceso permitido. \\
+Historia / requisito & HU-AA-06: consultar estado y referencias, sin
+datos ajenos. \\
+Criterio de aceptación o verificación & AC-AA-23/24: Dado proceso
+visible/ajeno, cuando consulta, entonces recupera solo el visible y no
+infiere acreditación. \\
+Fuente & F-03 FR-002/011/012; F-04 alcance; F-11 C-05. \\
+Estado & TR; VM de permiso del proceso. \\
+\end{longtable}
+}
+
+\subsection{AA-RF-13}\label{matriz-aa-rf-13}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Actor & A-AA-02/03 y auditor autorizado \\
+Necesidad & N-AA-05: explicar cambios críticos. \\
+Historia / requisito & HU-AA-02/04/05/06: registrar actor, fecha,
+acción, objeto y resultado. \\
+Criterio de aceptación o verificación & AC-AA-25: Dado auditoría
+obligatoria fallida, cuando ejecuta, entonces no declara cambio
+completado sin registro. \\
+Fuente & F-03 FR-006; specs/001 FR-006a; F-11 C-04/05; F-12. \\
+Estado & TR; VM de transacción y fallos. \\
+\end{longtable}
+}
+
+\subsection{AA-RF-14}\label{matriz-aa-rf-14}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Actor & A-AA-01/02/03/04 \\
+Necesidad & N-AA-05: comprender el rechazo. \\
+Historia / requisito & HU-AA-01--06: error estable sin secretos. \\
+Criterio de aceptación o verificación & AC-AA-26: Dado rechazo, cuando
+responde, entonces informa código, descripción y correlación segura. \\
+Fuente & F-03 FR-039; F-11 C-07/08/09; contratos APE2. \\
+Estado & TR; RT HTTP-AA-01 y VM. \\
+\end{longtable}
+}
+
+\subsection{AA-RNF-01}\label{matriz-aa-rnf-01}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Actor & A-AA-01; administrador técnico autorizado \\
+Necesidad & N-AA-01: proteger credenciales. \\
+Historia / requisito & HU-AA-01: hash adaptativo con sal; sin
+reversibilidad. \\
+Criterio de aceptación o verificación & VC-AA-01: Dado credenciales
+sintéticas, cuando se inspecciona almacenamiento/respuesta, entonces no
+hay secreto reversible ni expuesto. \\
+Fuente & F-03 RNF-001; F-02 APE-NFR-01; F-11 C-02. \\
+Estado & TR; VM de almacenamiento. \\
+\end{longtable}
+}
+
+\subsection{AA-RNF-02}\label{matriz-aa-rnf-02}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Actor & A-AA-01, usuario habilitado \\
+Necesidad & N-AA-01: limitar acceso inactivo. \\
+Historia / requisito & HU-AA-01: expiración de 30 min e invalidación. \\
+Criterio de aceptación o verificación & VC-AA-02: Dado reloj controlado
+y límite alcanzado, cuando solicita, entonces se rechaza sesión
+expirada/desactivada. \\
+Fuente & F-03 RNF-002; F-02 APE-NFR-01; F-11 C-02. \\
+Estado & TR; VM de frontera temporal. \\
+\end{longtable}
+}
+
+\subsection{AA-RNF-03}\label{matriz-aa-rnf-03}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Actor & A-AA-01/02/03/04 \\
+Necesidad & N-AA-01/04: privacidad. \\
+Historia / requisito & HU-AA-01--06: no exponer secretos ni datos
+ajenos. \\
+Criterio de aceptación o verificación & VC-AA-03: Dado marcadores
+secretos sintéticos, cuando consulta/inspecciona registros, entonces no
+aparecen completos ni datos ajenos. \\
+Fuente & F-03 RNF-005; F-09 §17 como contexto; F-11. \\
+Estado & TR; VM de cobertura. \\
+\end{longtable}
+}
+
+\subsection{AA-RNF-04}\label{matriz-aa-rnf-04}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Actor & A-AA-01/02/03/04 \\
+Necesidad & N-AA-04: resultado oportuno. \\
+Historia / requisito & HU-AA-01--06: p95 visible \ensuremath{\leq} 2 s bajo protocolo
+acordado. \\
+Criterio de aceptación o verificación & VC-AA-04: Dado entorno/carga
+definidos, cuando mide resultado visible, entonces p95 satisface el
+umbral del producto. \\
+Fuente & F-03 RNF-006; F-02 APE-NFR-02; F-12 alcance limitado. \\
+Estado & VM; entorno/carga pendientes. \\
+\end{longtable}
+}
+
+\subsection{AA-RNF-05}\label{matriz-aa-rnf-05}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Actor & A-AA-02/03 que modifican \\
+Necesidad & N-AA-05: evitar pérdida silenciosa. \\
+Historia / requisito & HU-AA-04/05: precondición de revisión. \\
+Criterio de aceptación o verificación & VC-AA-05 / AC-AA-15: Dado dos
+clientes, cuando uno utiliza revisión vieja, entonces no sobrescribe el
+cambio confirmado. \\
+Fuente & F-03 RNF-011; F-09 §13.1.1; F-11 C-06. \\
+Estado & TR; VM de concurrencia. \\
+\end{longtable}
+}
+
+\subsection{AA-RNF-06}\label{matriz-aa-rnf-06}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Actor & Auditor autorizado; actores A-AA-02/03 \\
+Necesidad & N-AA-05: historial confiable. \\
+Historia / requisito & Historias con cambios: auditoría inmutable y
+consulta autorizada. \\
+Criterio de aceptación o verificación & VC-AA-06: Dado usuario
+ordinario/ajeno, cuando intenta alterar/leer, entonces no modifica
+eventos ni recibe los no autorizados. \\
+Fuente & F-03 RNF-012; F-04 responsabilidades; F-12. \\
+Estado & TR; DP de retención y VM. \\
+\end{longtable}
+}
+
+\subsection{AA-RNF-07}\label{matriz-aa-rnf-07}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Actor & A-AA-01/02/03/04; soporte autorizado \\
+Necesidad & N-AA-05: investigar fallos. \\
+Historia / requisito & Historias transversales: correlación segura. \\
+Criterio de aceptación o verificación & VC-AA-07: Dado éxito/error,
+cuando relaciona respuesta y diagnóstico, entonces hay correlación
+consistente sin secretos. \\
+Fuente & F-03 RNF-013; F-11 C-07/08/09. \\
+Estado & TR; VM de respuesta/registro. \\
+\end{longtable}
+}
+
+\subsection{AA-RNF-08}\label{matriz-aa-rnf-08}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Actor & A-AA-01/02/03/04 \\
+Necesidad & N-AA-01/04: completar recorridos accesibles. \\
+Historia / requisito & HU-AA-01--06: teclado, foco y criterios AA
+aplicables. \\
+Criterio de aceptación o verificación & VC-AA-08: Dado interacción con
+teclado, cuando completa recorridos y auditoría, entonces satisface
+criterios aplicables con evidencia. \\
+Fuente & F-03 RNF-014; F-13; F-12 con límites. \\
+Estado & VM; sin certificación WCAG. \\
+\end{longtable}
+}
+
+\subsection{AA-RNF-09}\label{matriz-aa-rnf-09}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Actor & A-AA-01--04 como beneficiarios; verificación técnica \\
+Necesidad & N-AA-05: mantener reglas verificables. \\
+Historia / requisito & Reglas de todas las historias separadas y
+reproducibles. \\
+Criterio de aceptación o verificación & VC-AA-09: Dado código y
+fixtures, cuando revisa dependencias y prueba reglas, entonces detecta
+acoplamientos y verifica invariantes. \\
+Fuente & F-03 RNF-017/018; constitución; F-11/F-12. \\
+Estado & TR; VM y revisión SQL. \\
+\end{longtable}
+}
+
+\subsection{AA-RNF-10}\label{matriz-aa-rnf-10}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Actor & Cliente/actor A-AA-01--04 \\
+Necesidad & N-AA-04/05: interpretar intercambio. \\
+Historia / requisito & HU-AA-01--06: contrato HTTP coherente. \\
+Criterio de aceptación o verificación & VC-AA-10: Dado contrato
+aceptado, cuando compara intercambios, entonces tipos, estados y
+cabeceras coinciden; comprobar HTTP-AA-01. \\
+Fuente & F-02 APE-NFR-08; F-09/F-14; F-11 C-01/03/06/07/08. \\
+Estado & RT; pendiente compatibilidad de 401. \\
+\end{longtable}
+}
+\section{Registro de fuentes y
+referencias}\label{fuentes-registro-de-fuentes-y-referencias}
+
+\textbf{Fecha de consulta documental:} 2026-10-31. Las rutas locales son
+relativas a la raíz del repositorio. El texto identifica qué se consultó
+y qué permite justificar; no equipara consulta con vigencia
+institucional ni con ejecución de pruebas.
+
+\subsection{Fuentes del proyecto y de la
+actividad}\label{fuentes-fuentes-del-proyecto-y-de-la-actividad}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+ID
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Fuente identificable
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Localizador consultado
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relación y límite
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+F-01 & Guía AA2 proporcionada por el usuario & Actividades 1--7 y
+producto esperado & Define el dossier individual, revisión de fuentes y
+cadena actor--necesidad--requisito--aceptación--fuente. No es aprobación
+del producto. \\
+F-02 & Especificación APE2 &
+\path|documentos-academicos/APE2-semana-2/specification.md|: US1--3,
+APE-FR-01--10, APE-NFR-01--10 y CL-APE & Línea base académica para
+depuración; sigue pendiente de validación docente. \\
+F-03 & Especificación general SEC-UNL &
+\path|docs/requirements/spec.md|: Contexto, Actores, FR-001--040,
+RNF-001--019, SC y CL & Fuente de requisitos del equipo. Los 30 minutos
+y p95 de 2 s provienen de este documento, no de RFC 9110. \\
+F-04 & Reglas del dominio & \path|docs/requirements/domain-rules.md|:
+responsabilidades, estados, decisiones y procedencia & Fuente de
+política del software y límites institucionales; no constituye normativa
+oficial por sí sola. \\
+F-05 & Procesos del proyecto &
+\path|docs/requirements/process-flows.md|: P01, P02 y P05 & Escenarios y
+actores del incremento. \\
+F-06 & Especificación reconciliada &
+\path|specs/005-complete-evaluation-workflows/spec.md|: FR-043, FR-044,
+FR-048, FR-067--070 & Catálogo, procedencia y separación entre
+publicación, autorización y alcance. \\
+F-10 & Manifiestos normativos sintéticos &
+\path|tests/fixtures/models/normative-verification.json| y
+\path|tests/fixtures/models/normative-manifest.json| & Declaran
+\path|synthetic: true|, \path|institutionalValidity: false| y
+verificaciones pendientes. No justifican vigencia ni equivalencia de los
+cinco modelos. \\
+F-11 & Fuentes ejecutables & Archivos C-01--C-10 de la sección 4 &
+Permiten comprobar DTO y controles observados; el código no sustituye la
+necesidad del actor ni prueba corrección normativa. \\
+F-12 & Pruebas y resultados históricos &
+\path|docs/testing/traceability.md|;
+\path|tests/acceptance/results/performance-p01-p16.md|; pruebas
+indicadas en el dossier & Orientan verificaciones posteriores. No se
+reejecutaron y su cobertura no se extiende automáticamente al recorte
+AA2. \\
+\end{longtable}
+}
+
+\subsection{Fuentes primarias del dominio
+consultadas}\label{fuentes-fuentes-primarias-del-dominio-consultadas}
+
+\subsubsection{F-07 --- Modelo Genérico CACES, marzo de
+2024}\label{fuentes-f-07-modelo-genuxe9rico-caces-marzo-de-2024}
+
+\begin{itemize}
+\tightlist
+\item
+  Autor institucional: Consejo de Aseguramiento de la Calidad de la
+  Educación Superior (CACES).
+\item
+  Identificación: Modelo genérico para la evaluación del entorno de
+  aprendizaje de carreras de grado, marzo de 2024.
+\item
+  \href{https://www.caces.gob.ec/wp-content/uploads/2024/04/Modelo-generico-para-la-evaluacio\%CC\%81n-del-entorno-de-aprendizaje-de-carreras-de-grado.pdf}{PDF
+  publicado por CACES}.
+\item
+  Localizadores: sección II, Introducción; sección V, Estructura del
+  modelo y definiciones. Lectura acotada, no transcripción exhaustiva de
+  indicadores.
+\item
+  Hallazgo pertinente: relaciona la evaluación con estándares, fuentes y
+  períodos. Se utiliza como respaldo contextual de N-AA-03: identificar
+  el modelo y período elegidos para un proceso.
+\item
+  Límite: la consulta del PDF oficial no corrobora los fixtures ni
+  establece qué versión debe usarse para cada carrera hoy. No impone por
+  sí sola los campos técnicos del backend ni exige un algoritmo de
+  autenticación.
+\item
+  Estado: \textbf{documento primario localizado y consultado;
+  aplicabilidad al piloto por confirmar}.
+\end{itemize}
+
+\subsubsection{F-08 --- Instructivo UNL, Resolución
+037-R-UNL-2022}\label{fuentes-f-08-instructivo-unl-resoluciuxf3n-037-r-unl-2022}
+
+\begin{itemize}
+\tightlist
+\item
+  Autor institucional: Universidad Nacional de Loja.
+\item
+  Identificación: resolución 037-R-UNL-2022, instructivo de
+  aseguramiento de la calidad institucional, carreras y posgrados.
+\item
+  \href{https://www.unl.edu.ec/sites/default/files/gaceta/resolucion/2022-06/Resoluci\%C3\%B3n\%20Nro.\%20037-R-UNL-2022-\%20Instructivo\%20para\%20el\%20Aseguramiento\%20de\%20la\%20Calidad\%20de\%20la\%20UNL-signed.pdf}{PDF
+  publicado en la gaceta de la UNL}.
+\item
+  Localizadores: artículos 1--2 (objeto/ámbito), 9--10 (comisión de
+  carrera/programa) y 12 (responsabilidades de comités). La revisión no
+  abarca todas sus disposiciones.
+\item
+  Hallazgo pertinente: identifica comisiones y comités con
+  responsabilidades en autoevaluación. Respalda el contexto
+  institucional de N-AA-03 y la necesidad de explicitar quién
+  interviene.
+\item
+  Límite: no se convierte automáticamente a una comisión en el rol
+  \path|coordinador|, ni a cada miembro en administrador de catálogo. No
+  se certifican vigencia actual, designaciones o delegaciones del
+  piloto.
+\item
+  Estado: \textbf{documento primario localizado y consultado;
+  correspondencia de roles y vigencia por validar}.
+\end{itemize}
+
+\subsubsection{Fuentes aún
+insuficientes}\label{fuentes-fuentes-auxfan-insuficientes}
+
+No se aportaron entrevistas al requirente, actas de designación ni una
+decisión institucional vigente para el piloto. Las ediciones específicas
+de Medicina, Enfermería, Odontología y Derecho continúan fuera de la
+corroboración de este AA2. La localización de F-07/F-08 mejora la
+procedencia documental, pero no resuelve CL-011--017 ni modifica los
+manifiestos originales.
+
+\subsection{Fuentes técnicas}\label{fuentes-fuentes-tuxe9cnicas}
+
+\subsubsection{F-09 --- RFC 9110, HTTP
+Semantics}\label{fuentes-f-09-rfc-9110-http-semantics}
+
+\begin{itemize}
+\tightlist
+\item
+  Autores: R. Fielding, M. Nottingham y J. Reschke; junio de 2022.
+\item
+  \href{https://www.rfc-editor.org/rfc/rfc9110.html}{Documento oficial
+  RFC Editor}.
+\item
+  Localizadores revisados: §§5 y 6.3--6.4; §§8.1--8.3 y 8.8.3;
+  §§9.2--9.3; §§10.2.2, 11.6, 12.5.1 y 13.1.1; §15; §17.
+\item
+  Uso: fundamento de decisiones HTTP y revisión de compatibilidad; no
+  fuente de necesidades institucionales ni de umbrales de
+  rendimiento/sesión del proyecto.
+\item
+  Estado: \textbf{referencia técnica consultada}; conformidad completa
+  de la aplicación no acreditada.
+\end{itemize}
+
+\subsubsection{F-13 --- WCAG 2.2}\label{fuentes-f-13-wcag-2.2}
+
+\begin{itemize}
+\tightlist
+\item
+  Autor institucional: W3C, Web Content Accessibility Guidelines 2.2.
+\item
+  \href{https://www.w3.org/TR/WCAG22/}{Recomendación W3C}.
+\item
+  Localizadores de inicio para verificación: teclado 2.1.1, foco visible
+  2.4.7 y contraste 1.4.3; el nivel AA exige revisar todos los criterios
+  aplicables, no solo esos tres.
+\item
+  Uso: delimitar verificaciones de AA-RNF-08; RNF-014 del proyecto
+  expresa el nivel objetivo.
+\item
+  Estado: \textbf{referencia técnica consultada; accesibilidad no
+  certificada}.
+\end{itemize}
+
+\subsubsection{F-14 --- RFC 5789, PATCH Method for
+HTTP}\label{fuentes-f-14-rfc-5789-patch-method-for-http}
+
+\begin{itemize}
+\tightlist
+\item
+  Autores: L. Dusseault y J. Snell; marzo de 2010.
+\item
+  \href{https://www.rfc-editor.org/rfc/rfc5789.html}{Documento oficial
+  RFC Editor}, sección 2.
+\item
+  Uso: aclarar que PATCH tiene especificación propia. No atribuir su
+  definición a RFC 9110 ni suponer JSON Merge Patch sin contrato.
+\item
+  Estado: \textbf{referencia complementaria consultada}.
+\end{itemize}
+
+\subsection{Índice del contraste con
+implementación}\label{fuentes-uxedndice-del-contraste-con-implementaciuxf3n}
+
+Todas las rutas se expresan desde la raíz del proyecto.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Código
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Archivo exacto
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Qué permite observar
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+C-01 &
+\path|backend/src/main/java/ec/edu/unl/sec/identityaccess/api/SessionController.java|
+& Login, logout, consulta de identidad, DTO y códigos. \\
+C-02 &
+\path|backend/src/main/java/ec/edu/unl/sec/identityaccess/application/SessionService.java|
+& Vigencia/revocación, hash y control de intentos. \\
+C-03 &
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/api/CareerController.java|
+& Alta/consulta/cambios de unidades y carreras. \\
+C-04 &
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/application/CareerAdministrationService.java|
+& Código único, revisión, vigencia, consulta y permisos. \\
+C-05 &
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/application/SelfAssessmentService.java|
+& Creación en preparación, selección publicada y acceso al proceso. \\
+C-06 &
+\path|backend/src/main/java/ec/edu/unl/sec/shared/api/EntityTagSupport.java|
+& Formato local de ETag y precondición. \\
+C-07 &
+\path|backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/AccessProblemWriter.java|
+& Construcción de errores de acceso; no añade WWW-Authenticate. \\
+C-08 &
+\path|backend/src/main/java/ec/edu/unl/sec/identityaccess/api/IdentityAccessExceptionHandler.java|
+& Errores de autenticación; no declara desafío de autenticación. \\
+C-09 &
+\path|backend/src/main/java/ec/edu/unl/sec/shared/api/ApiProblemHandler.java|
+& Errores comunes con correlación. \\
+C-10 &
+\path|backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java|
+& Conteo de fallos por ventana, sin reinicio por éxito en esa
+consulta. \\
+\end{longtable}
+}
+
+\subsection{Reglas de uso de las
+fuentes}\label{fuentes-reglas-de-uso-de-las-fuentes}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Un documento del equipo respalda una decisión del producto; una norma
+  primaria puede respaldar contexto, pero requiere revisar
+  aplicabilidad.
+\item
+  Una norma HTTP no justifica quién administra una carrera; un
+  instructivo institucional no define automáticamente rutas o tokens.
+\item
+  El código muestra implementación observada; una prueba existente no
+  equivale a un resultado ejecutado en esta actividad.
+\item
+  El estado de una fila de trazabilidad debe reflejar sus límites de
+  fuente, diseño y ejecución. En esta entrega no se asigna ``Validado
+  institucionalmente''.
+\end{enumerate}
+\section{Nota de cambios y evidencia
+individual}\label{nota-nota-de-cambios-y-evidencia-individual}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Identificación
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Registro
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Estudiante & {[}PENDIENTE: nombre completo{]} \\
+Proyecto & SIGEAC / SEC-UNL \\
+Actividad & AA2, dossier y matriz inicial; 4,5 horas previstas \\
+Documento previo &
+\path|documentos-academicos/APE2-semana-2/specification.md| \\
+Revisión actual & \url{DOSSIER_REQUISITOS_AA2.md} y
+\url{MATRIZ_TRAZABILIDAD.md} \\
+Revisión personal / fecha & {[}PENDIENTE{]} \\
+\end{longtable}
+}
+
+\subsection{Principales cambios efectivamente
+preparados}\label{nota-principales-cambios-efectivamente-preparados}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Se consultaron RFC 9110, dos documentos primarios CACES/UNL y
+  referencias de accesibilidad/PATCH, registrando localizadores y
+  límites en F-01--14.
+\item
+  La historia de catálogo APE2/US2 se separó en alta, lectura, edición y
+  desactivación: HU-AA-02--05. Se conservaron acceso y preparación como
+  HU-AA-01/06, sin ampliar alcance.
+\item
+  Los diez FR locales de APE2 se desglosaron en catorce obligaciones
+  para evitar que login, logout, consulta de identidad o cambios de
+  carrera se consideren un único caso probado.
+\item
+  Se separaron seguridad, expiración y privacidad, y evento de auditoría
+  frente a su inmutabilidad/correlación. Se retienen diez RNF con
+  verificaciones VC-AA-01--10.
+\item
+  Se separaron los rechazos compuestos de APE2 en criterios por formato,
+  unidad y fechas; el dossier contiene 27 AC y diez VC, no resultados de
+  ejecución.
+\item
+  Se construyeron 24 relaciones completas en la matriz; el estado
+  expresa trazado, revisión, medición o validación de dominio pendiente.
+\item
+  Se registró HTTP-AA-01: contraste pendiente de WWW-Authenticate en
+  respuestas 401. No se inventó un esquema Bearer ni se modificó código.
+\end{enumerate}
+
+\subsection{Equivalencia de requisitos
+funcionales}\label{nota-equivalencia-de-requisitos-funcionales}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Origen APE2
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Elementos AA2
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Razón de la revisión
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+APE-FR-01 & AA-RF-01/02/03 & Separar iniciar sesión, cerrarla y
+consultar funciones. \\
+APE-FR-02 & AA-RF-04 & Conservar autorización por capacidad/ámbito sin
+repetirla como beneficio de todas las historias. \\
+APE-FR-03 & AA-RF-05/06 & Separar alta de unidad y carrera y sus
+validaciones. \\
+APE-FR-04 & AA-RF-07 & Precisar catálogo, detalle e historial
+visible. \\
+APE-FR-05 & AA-RF-08/09 & Distinguir edición y desactivación; comparten
+conservación histórica, no resultado. \\
+APE-FR-06 & AA-RF-10 & Identificar versión publicada sin inferir
+vigencia institucional. \\
+APE-FR-07 & AA-RF-11 & Preparación con referencias exactas, sin
+activación. \\
+APE-FR-08 & AA-RF-12 & Consulta de proceso según permiso aplicable. \\
+APE-FR-09 & AA-RF-13 & Distinguir registro obligatorio de la calidad de
+inmutabilidad. \\
+APE-FR-10 & AA-RF-14 & Mantener error estable, con
+privacidad/correlación verificadas aparte. \\
+\end{longtable}
+}
+
+\subsection{Equivalencia y disposición de requisitos no
+funcionales}\label{nota-equivalencia-y-disposiciuxf3n-de-requisitos-no-funcionales}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Origen APE2
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Tratamiento en AA2
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Justificación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+APE-NFR-01 & AA-RNF-01/02/03 & Hash, expiración y privacidad son
+comprobaciones diferentes. \\
+APE-NFR-02 & AA-RNF-04 & Se conserva el umbral del proyecto y se declara
+falta de protocolo. \\
+APE-NFR-03 & Global RNF-009, diferido del recorte & No hay canal
+complementario operativo en el incremento para justificar su ensayo
+local. No se elimina del producto. \\
+APE-NFR-04 & AA-RNF-05 & Concurrencia definida como ausencia de pérdida
+silenciosa, no como presencia de una cabecera. \\
+APE-NFR-05 & AA-RNF-06/07 & Inmutabilidad y correlación requieren
+evidencias diferentes. \\
+APE-NFR-06 & AA-RNF-08 & Criterios aplicables y revisión humana; no
+certificar AA por etiquetas. \\
+APE-NFR-07 & AA-RNF-09 & Mantener reglas reproducibles y revisar
+acoplamiento SQL. \\
+APE-NFR-08 & AA-RNF-10 & Contraste de contrato y protocolo, incluida la
+observación HTTP-AA-01. \\
+APE-NFR-09 & Objetivo global SC-007 y P-AA-05 & No trasladar una campaña
+de 20 personas al trabajo individual sin diseño ni aprobación. \\
+APE-NFR-10 & Restricción de pruebas/demostración & Datos sintéticos se
+mantienen como condición transversal; evita duplicar un atributo de
+calidad de ejecución. \\
+\end{longtable}
+}
+
+Estos cambios son una propuesta de depuración académica; no se presentan
+como aprobación del equipo ni modifican los documentos previos.
+
+\subsection{Evidencia y contribución que debe identificar el
+estudiante}\label{nota-evidencia-y-contribuciuxf3n-que-debe-identificar-el-estudiante}
+
+La preparación fue asistida por ChatGPT/Codex. Para que sea evidencia
+individual, completar:
+
+\begin{itemize}
+\tightlist
+\item
+  Elementos revisados personalmente: {[}PENDIENTE: IDs de
+  historias/requisitos/filas{]}.
+\item
+  Fuentes comprobadas personalmente y localizador: {[}PENDIENTE{]}.
+\item
+  Corrección adoptada y justificación propia: {[}PENDIENTE{]}.
+\item
+  Pregunta que permanece abierta y razón: {[}PENDIENTE{]}.
+\item
+  Fecha y enlace a revisión/commit/PR real, si se publica:
+  {[}PENDIENTE{]}.
+\end{itemize}
+
+Texto de nota breve para completar: ``Revisé personalmente {[}IDs{]}. A
+partir de {[}fuente/localizador{]} cambié {[}antes{]} por {[}después{]},
+porque {[}motivo{]}. Relacioné el resultado con {[}AC/VC{]} y dejé
+pendiente {[}decisión{]}. Mi evidencia verificable es {[}ruta o enlace
+real{]}''.
+
+El commit base \path|faf868ea5a8a85285290c06d3baf8fa49889edac|
+identifica el código inspeccionado; \textbf{no acredita autoría del
+AA2}. No se crearon commits, PR ni publicaciones. El manifiesto de esta
+carpeta identifica integridad y línea base, no quién participó ni cuánto
+tiempo trabajó.
+
+\end{document}

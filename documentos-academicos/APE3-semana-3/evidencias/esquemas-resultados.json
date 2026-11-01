@@ -1,0 +1,118 @@
+{
+  "executed_at_utc": "2026-11-01T02:31:59.474Z",
+  "schema": "openapi-observado.yaml",
+  "cases": [
+    {
+      "case": "HTTP-01 unauthenticated",
+      "passed": true,
+      "errors": null
+    },
+    {
+      "case": "HTTP-02 login",
+      "passed": true,
+      "errors": null
+    },
+    {
+      "case": "HTTP-03 create unit",
+      "passed": true,
+      "errors": null
+    },
+    {
+      "case": "HTTP-04 CSRF rejected",
+      "passed": true,
+      "errors": null
+    },
+    {
+      "case": "HTTP-05 invalid input",
+      "passed": true,
+      "errors": null
+    },
+    {
+      "case": "HTTP-06 create career",
+      "passed": true,
+      "errors": null
+    },
+    {
+      "case": "HTTP-07 duplicate",
+      "passed": true,
+      "errors": null
+    },
+    {
+      "case": "HTTP-08 read career",
+      "passed": true,
+      "errors": null
+    },
+    {
+      "case": "HTTP-09 missing precondition",
+      "passed": true,
+      "errors": null
+    },
+    {
+      "case": "HTTP-10 update",
+      "passed": true,
+      "errors": null
+    },
+    {
+      "case": "HTTP-11 stale revision",
+      "passed": true,
+      "errors": null
+    },
+    {
+      "case": "HTTP-12 history",
+      "passed": true,
+      "errors": null
+    },
+    {
+      "case": "HTTP-13 filtered list",
+      "passed": true,
+      "errors": null
+    },
+    {
+      "case": "HTTP-14 missing resource",
+      "passed": true,
+      "errors": null
+    },
+    {
+      "case": "HTTP-15 state decision",
+      "passed": true,
+      "errors": null
+    },
+    {
+      "case": "HTTP-16 legacy representation rejected",
+      "passed": true,
+      "errors": null
+    },
+    {
+      "case": "HTTP-16B configured representation",
+      "passed": true,
+      "errors": null
+    },
+    {
+      "case": "HTTP-17 prepare process",
+      "passed": true,
+      "errors": null
+    },
+    {
+      "case": "HTTP-18 read process",
+      "passed": true,
+      "errors": null
+    },
+    {
+      "case": "HTTP-19 list processes",
+      "passed": true,
+      "errors": null
+    },
+    {
+      "case": "HTTP-20 logout",
+      "passed": true,
+      "body": "absent"
+    },
+    {
+      "case": "HTTP-21 revoked access",
+      "passed": true,
+      "errors": null
+    }
+  ],
+  "passed": true,
+  "limitations": "Response-body sample validation only. Does not validate all headers, requests, security, business coverage or proposed envelope."
+}

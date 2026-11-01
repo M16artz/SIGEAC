@@ -1,0 +1,4043 @@
+openapi: 3.1.0
+info:
+  title: SIGEAC APE3 - sobre universal PROPUESTO
+  version: 0.1.0
+  description: NO IMPLEMENTADO. Propuesta de envoltura para revision, no sustituye
+    el contrato observado ni publica una API v2.
+servers:
+  - url: /api-objetivo-no-implementada
+    description: Identificador de contrato propuesto; no existe servidor en esta ruta
+security:
+  - sessionCookie: []
+paths:
+  /sessions:
+    post:
+      tags:
+        - Access
+      operationId: createSession
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest_25c2dc"
+      responses:
+        "201":
+          description: SesiÃƒÂ³n creada; establece cookie opaca y devuelve token CSRF.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: true
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/SessionView_25c2dc"
+                  errors:
+                    type: "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "400":
+          description: Entrada, DTO, UUID o ETag invalido segun operacion
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "401":
+          description: Sesion ausente, invalida o expirada
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "429":
+          description: Limite de intentos de autenticacion
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+      summary: createSession
+    delete:
+      tags:
+        - Access
+      operationId: revokeCurrentSession
+      parameters:
+        - $ref: "#/components/parameters/CsrfToken_25c2dc"
+      responses:
+        "204":
+          description: SesiÃƒÂ³n revocada
+        "401":
+          description: Sesion ausente, invalida o expirada
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "403":
+          description: Capacidad denegada o CSRF invalido en mutaciones
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+      summary: revokeCurrentSession
+  /academic-units:
+    post:
+      tags:
+        - P02
+      operationId: createAcademicUnit
+      summary: Registrar unidad académica
+      description: Registrar unidad académica Cada operación reevalúa función,
+        vigencia y ámbito; las mutaciones registran auditoría obligatoria.
+      x-required-capability: CAREER_ADMIN
+      x-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/CsrfToken_8ea29b"
+      responses:
+        "201":
+          description: Resultado autorizado; operación implementada en D1.
+          headers:
+            ETag:
+              description: Revisión fuerte del recurso o agregado consultado.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: true
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/Unit_8ea29b"
+                  errors:
+                    type: "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "400":
+          description: Entrada, DTO, UUID o ETag invalido segun operacion
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "401":
+          description: Sesion ausente, invalida o expirada
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "403":
+          description: Capacidad denegada o CSRF invalido en mutaciones
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "409":
+          description: Duplicado, estado incompatible o representacion legada no aplicable
+            segun operacion
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UnitInput_8ea29b"
+  /careers:
+    get:
+      tags:
+        - P02
+      operationId: listCareers
+      summary: Consultar carreras de su ámbito
+      description: Consultar carreras de su ámbito Cada operación reevalúa función,
+        vigencia y ámbito; las mutaciones registran auditoría obligatoria.
+      x-required-capability: CAREER_READ
+      x-implementation-status: implemented
+      parameters:
+        - name: q
+          in: query
+          schema:
+            type: string
+            maxLength: 300
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum:
+              - ACTIVE
+              - DISABLED
+        - name: academicUnitId
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - $ref: "#/components/parameters/Page_8ea29b"
+        - $ref: "#/components/parameters/Size_8ea29b"
+      responses:
+        "200":
+          description: Resultado autorizado; operación implementada en D1.
+          headers:
+            ETag:
+              description: Revisión fuerte del recurso o agregado consultado.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: true
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/CareerPage_8ea29b"
+                  errors:
+                    type: "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "400":
+          description: Entrada, DTO, UUID o ETag invalido segun operacion
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "401":
+          description: Sesion ausente, invalida o expirada
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "403":
+          description: Capacidad denegada o CSRF invalido en mutaciones
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+    post:
+      tags:
+        - P02
+      operationId: createCareer
+      summary: Registrar carrera con código único
+      description: Registrar carrera con código único Cada operación reevalúa función,
+        vigencia y ámbito; las mutaciones registran auditoría obligatoria.
+      x-required-capability: CAREER_ADMIN
+      x-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/CsrfToken_8ea29b"
+      responses:
+        "201":
+          description: Resultado autorizado; operación implementada en D1.
+          headers:
+            ETag:
+              description: Revisión fuerte del recurso o agregado consultado.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: true
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/Career_8ea29b"
+                  errors:
+                    type: "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "400":
+          description: Entrada, DTO, UUID o ETag invalido segun operacion
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "401":
+          description: Sesion ausente, invalida o expirada
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "403":
+          description: Capacidad denegada o CSRF invalido en mutaciones
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "409":
+          description: Duplicado, estado incompatible o representacion legada no aplicable
+            segun operacion
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "422":
+          description: Regla de unidad, motivo o vigencia no satisfecha segun operacion
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CareerInput_8ea29b"
+  /careers/{careerId}:
+    get:
+      tags:
+        - P02
+      operationId: getCareer
+      summary: Consultar carrera exacta
+      description: Consultar carrera exacta Cada operación reevalúa función, vigencia
+        y ámbito; las mutaciones registran auditoría obligatoria.
+      x-required-capability: CAREER_READ
+      x-implementation-status: implemented
+      parameters:
+        - name: careerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Resultado autorizado; operación implementada en D1.
+          headers:
+            ETag:
+              description: Revisión fuerte del recurso o agregado consultado.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: true
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/Career_8ea29b"
+                  errors:
+                    type: "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "400":
+          description: Entrada, DTO, UUID o ETag invalido segun operacion
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "401":
+          description: Sesion ausente, invalida o expirada
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "404":
+          description: Recurso inexistente o no visible
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+    patch:
+      tags:
+        - P02
+      operationId: updateCareer
+      summary: Actualizar datos de carrera preservando historial
+      description: Actualizar datos de carrera preservando historial Cada operación
+        reevalúa función, vigencia y ámbito; las mutaciones registran auditoría
+        obligatoria.
+      x-required-capability: CAREER_ADMIN
+      x-implementation-status: implemented
+      parameters:
+        - name: careerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - $ref: "#/components/parameters/CsrfToken_8ea29b"
+        - $ref: "#/components/parameters/IfMatch_8ea29b"
+      responses:
+        "200":
+          description: Resultado autorizado; operación implementada en D1.
+          headers:
+            ETag:
+              description: Revisión fuerte del recurso o agregado consultado.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: true
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/Career_8ea29b"
+                  errors:
+                    type: "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "400":
+          description: Entrada, DTO, UUID o ETag invalido segun operacion
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "401":
+          description: Sesion ausente, invalida o expirada
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "403":
+          description: Capacidad denegada o CSRF invalido en mutaciones
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "404":
+          description: Recurso inexistente o no visible
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "409":
+          description: Duplicado, estado incompatible o representacion legada no aplicable
+            segun operacion
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "412":
+          description: Revision obsoleta
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "422":
+          description: Regla de unidad, motivo o vigencia no satisfecha segun operacion
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "428":
+          description: Falta If-Match requerido
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CareerInput_8ea29b"
+  /careers/{careerId}/history:
+    parameters:
+      - name: careerId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - P02
+      operationId: getCareerHistory
+      x-required-capability: CAREER_READ
+      x-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/Page_8ea29b"
+        - $ref: "#/components/parameters/Size_8ea29b"
+      responses:
+        "200":
+          description: Versiones anteriores conservadas en orden ascendente
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: true
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/CareerPage_8ea29b"
+                  errors:
+                    type: "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "400":
+          description: Entrada, DTO, UUID o ETag invalido segun operacion
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "401":
+          description: Sesion ausente, invalida o expirada
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "403":
+          description: Capacidad denegada o CSRF invalido en mutaciones
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "404":
+          description: Recurso inexistente o no visible
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+      summary: getCareerHistory
+  /careers/{careerId}/state-decisions:
+    post:
+      tags:
+        - P02
+      operationId: changeCareerState
+      summary: Desactivar o reactivar sin borrar historia
+      description: Desactivar o reactivar sin borrar historia Cada operación reevalúa
+        función, vigencia y ámbito; las mutaciones registran auditoría
+        obligatoria.
+      x-required-capability: CAREER_ADMIN
+      x-implementation-status: implemented
+      parameters:
+        - name: careerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - $ref: "#/components/parameters/CsrfToken_8ea29b"
+        - $ref: "#/components/parameters/IfMatch_8ea29b"
+      responses:
+        "201":
+          description: Resultado autorizado; operación implementada en D1.
+          headers:
+            ETag:
+              description: Revisión fuerte del recurso o agregado consultado.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: true
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/Career_8ea29b"
+                  errors:
+                    type: "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "400":
+          description: Entrada, DTO, UUID o ETag invalido segun operacion
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "401":
+          description: Sesion ausente, invalida o expirada
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "403":
+          description: Capacidad denegada o CSRF invalido en mutaciones
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "404":
+          description: Recurso inexistente o no visible
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "409":
+          description: Duplicado, estado incompatible o representacion legada no aplicable
+            segun operacion
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "412":
+          description: Revision obsoleta
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "422":
+          description: Regla de unidad, motivo o vigencia no satisfecha segun operacion
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "428":
+          description: Falta If-Match requerido
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StateChange_8ea29b"
+  /model-versions/{versionId}:
+    get:
+      tags:
+        - Models
+      operationId: getModelVersion
+      description: Una versiÃƒÂ³n con nodos tipados requiere el contrato v2
+        planificado y devuelve 409 MODEL_VERSION_REQUIRES_V2 en v1.
+      parameters:
+        - $ref: "#/components/parameters/VersionId_25c2dc"
+      responses:
+        "200":
+          description: VersiÃƒÂ³n completa del modelo filtrada por ÃƒÂ¡mbito.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: true
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/ModelVersionView_25c2dc"
+                  errors:
+                    type: "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "400":
+          description: Entrada, DTO, UUID o ETag invalido segun operacion
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "401":
+          description: Sesion ausente, invalida o expirada
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "403":
+          description: Capacidad denegada o CSRF invalido en mutaciones
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "404":
+          description: Recurso inexistente o no visible
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "409":
+          description: Duplicado, estado incompatible o representacion legada no aplicable
+            segun operacion
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+      summary: getModelVersion
+  /processes:
+    get:
+      tags:
+        - Processes
+      operationId: listProcesses
+      responses:
+        "200":
+          description: Procesos visibles dentro del ÃƒÂ¡mbito autorizado; listado actual
+            sin paginaciÃƒÂ³n.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: true
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ProcessView_25c2dc"
+                  errors:
+                    type: "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "401":
+          description: Sesion ausente, invalida o expirada
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+      summary: listProcesses
+    post:
+      tags:
+        - Processes
+      operationId: createProcess
+      parameters:
+        - $ref: "#/components/parameters/CsrfToken_25c2dc"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProcessCommand_25c2dc"
+      responses:
+        "201":
+          description: Recurso creado
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: true
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/ResourceView_25c2dc"
+                  errors:
+                    type: "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "400":
+          description: Entrada, DTO, UUID o ETag invalido segun operacion
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "401":
+          description: Sesion ausente, invalida o expirada
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "403":
+          description: Capacidad denegada o CSRF invalido en mutaciones
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "404":
+          description: Recurso inexistente o no visible
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "409":
+          description: Duplicado, estado incompatible o representacion legada no aplicable
+            segun operacion
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "422":
+          description: Regla de unidad, motivo o vigencia no satisfecha segun operacion
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+      summary: createProcess
+  /processes/{processId}:
+    get:
+      tags:
+        - Processes
+      operationId: getProcess
+      parameters:
+        - $ref: "#/components/parameters/ProcessId_25c2dc"
+      responses:
+        "200":
+          description: Proceso y referencia inmutable de modelo.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: true
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/ProcessView_25c2dc"
+                  errors:
+                    type: "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "400":
+          description: Entrada, DTO, UUID o ETag invalido segun operacion
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "401":
+          description: Sesion ausente, invalida o expirada
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "404":
+          description: Recurso inexistente o no visible
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+      summary: getProcess
+  /model-versions/{versionId}/configured:
+    get:
+      operationId: ape3GetConfiguredVersion
+      tags:
+        - Models
+      summary: Consultar representacion configurada completa
+      description: Ruta real de EvaluationModelController; no cambia la version base v1.
+      parameters:
+        - name: versionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Version configurada
+          headers:
+            ETag:
+              schema:
+                type: string
+              description: Revision fuerte
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: true
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/ConfiguredModelVersionView_25c2dc"
+                  errors:
+                    type: "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "400":
+          description: Entrada, DTO, UUID o ETag invalido segun operacion
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "401":
+          description: Sesion ausente, invalida o expirada
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "403":
+          description: Capacidad denegada o CSRF invalido en mutaciones
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+        "404":
+          description: Recurso inexistente o no visible
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                  - errors
+                  - meta
+                additionalProperties: false
+                properties:
+                  success:
+                    type: boolean
+                    const: false
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - code
+                        - message
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        field:
+                          type:
+                            - string
+                            - "null"
+                  meta:
+                    type: object
+                    required:
+                      - correlationId
+                    properties:
+                      correlationId:
+                        type: string
+                    additionalProperties: true
+components:
+  schemas:
+    LoginRequest_25c2dc:
+      type: object
+      additionalProperties: false
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          minLength: 3
+          maxLength: 100
+        password:
+          type: string
+          minLength: 12
+          maxLength: 256
+    SessionView_25c2dc:
+      type: object
+      required:
+        - userId
+        - expiresAt
+        - csrfToken
+      properties:
+        userId:
+          type: string
+          format: uuid
+        expiresAt:
+          type: string
+          format: date-time
+        csrfToken:
+          type: string
+    Unit_8ea29b:
+      allOf:
+        - $ref: "#/components/schemas/Record_8ea29b"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/UnitInput_8ea29b"
+            status:
+              type: string
+              enum:
+                - ACTIVE
+                - DISABLED
+          required:
+            - data
+    Record_8ea29b:
+      type: object
+      additionalProperties: true
+      required:
+        - id
+        - revision
+        - createdAt
+        - createdBy
+      properties:
+        id:
+          type: string
+          format: uuid
+        revision:
+          type: integer
+          minimum: 1
+        createdAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          format: uuid
+    UnitInput_8ea29b:
+      type: object
+      additionalProperties: false
+      required:
+        - code
+        - name
+      properties:
+        code:
+          type: string
+          minLength: 1
+          maxLength: 100
+        name:
+          type: string
+          minLength: 1
+          maxLength: 300
+    CareerPage_8ea29b:
+      type: object
+      additionalProperties: false
+      required:
+        - items
+        - page
+        - size
+        - totalElements
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Career_8ea29b"
+        page:
+          type: integer
+          minimum: 0
+        size:
+          type: integer
+          minimum: 1
+          maximum: 100
+        totalElements:
+          type: integer
+          minimum: 0
+    Career_8ea29b:
+      allOf:
+        - $ref: "#/components/schemas/Record_8ea29b"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/CareerInput_8ea29b"
+            classificationPending:
+              type: boolean
+            status:
+              type: string
+              enum:
+                - ACTIVE
+                - DISABLED
+          required:
+            - data
+    CareerInput_8ea29b:
+      type: object
+      additionalProperties: false
+      required:
+        - code
+        - name
+        - academicUnitId
+        - validFrom
+      properties:
+        code:
+          type: string
+          minLength: 1
+          maxLength: 100
+        name:
+          type: string
+          minLength: 1
+          maxLength: 300
+        academicUnitId:
+          type: string
+          format: uuid
+        validFrom:
+          type: string
+          format: date
+        validUntil:
+          type:
+            - string
+            - "null"
+          format: date
+    StateChange_8ea29b:
+      type: object
+      additionalProperties: false
+      required:
+        - status
+        - reason
+      properties:
+        status:
+          type: string
+          enum:
+            - ACTIVE
+            - DISABLED
+        reason:
+          type: string
+          minLength: 10
+          maxLength: 4000
+    ModelVersionView_25c2dc:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - modelId
+        - versionNumber
+        - status
+        - sourceReference
+        - criteria
+        - ratingOptions
+        - progressFormula
+      properties:
+        id:
+          type: string
+          format: uuid
+        modelId:
+          type: string
+          format: uuid
+        versionNumber:
+          type: integer
+          minimum: 1
+        status:
+          type: string
+          enum:
+            - DRAFT
+            - PUBLISHED
+            - SUPERSEDED
+        sourceReference:
+          type: string
+        criteria:
+          type: array
+          items:
+            $ref: "#/components/schemas/CriterionCommand_25c2dc"
+        ratingOptions:
+          type: array
+          items:
+            $ref: "#/components/schemas/RatingOptionCommand_25c2dc"
+        progressFormula:
+          $ref: "#/components/schemas/ProgressFormulaCommand_25c2dc"
+    CriterionCommand_25c2dc:
+      type: object
+      additionalProperties: false
+      required:
+        - code
+        - title
+        - ordinal
+        - standards
+      properties:
+        code:
+          type: string
+          pattern: ^[A-Z0-9_.-]{1,40}$
+        title:
+          type: string
+          minLength: 3
+          maxLength: 300
+        description:
+          type: string
+          maxLength: 4000
+        ordinal:
+          type: integer
+          minimum: 1
+        standards:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/StandardCommand_25c2dc"
+    StandardCommand_25c2dc:
+      type: object
+      additionalProperties: false
+      required:
+        - code
+        - title
+        - ordinal
+        - indicators
+      properties:
+        code:
+          type: string
+          pattern: ^[A-Z0-9_.-]{1,40}$
+        title:
+          type: string
+          minLength: 3
+          maxLength: 300
+        description:
+          type: string
+          maxLength: 4000
+        ordinal:
+          type: integer
+          minimum: 1
+        indicators:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/IndicatorCommand_25c2dc"
+    IndicatorCommand_25c2dc:
+      type: object
+      additionalProperties: false
+      required:
+        - code
+        - title
+        - ordinal
+        - mandatory
+      properties:
+        code:
+          type: string
+          pattern: ^[A-Z0-9_.-]{1,40}$
+        title:
+          type: string
+          minLength: 3
+          maxLength: 300
+        description:
+          type: string
+          maxLength: 4000
+        ordinal:
+          type: integer
+          minimum: 1
+        mandatory:
+          type: boolean
+        weight:
+          type:
+            - number
+            - "null"
+          minimum: 0
+    RatingOptionCommand_25c2dc:
+      type: object
+      additionalProperties: false
+      required:
+        - code
+        - label
+        - ordinal
+      properties:
+        code:
+          type: string
+          pattern: ^[A-Z0-9_.-]{1,40}$
+        label:
+          type: string
+          minLength: 1
+          maxLength: 200
+        ordinal:
+          type: integer
+          minimum: 1
+        numericValue:
+          type:
+            - number
+            - "null"
+    ProgressFormulaCommand_25c2dc:
+      type: object
+      additionalProperties: false
+      required:
+        - formulaVersion
+        - collectionRule
+        - reviewRule
+        - evaluationRule
+        - closurePolicyVersion
+      properties:
+        formulaVersion:
+          type: string
+          minLength: 1
+          maxLength: 40
+        collectionRule:
+          type: string
+          enum:
+            - SUBMITTED_MANDATORY_INDICATORS
+        reviewRule:
+          type: string
+          enum:
+            - ACCEPTED_MANDATORY_INDICATORS
+        evaluationRule:
+          type: string
+          enum:
+            - FINAL_MANDATORY_INDICATORS
+        closurePolicyVersion:
+          type: string
+          minLength: 1
+          maxLength: 40
+    ResourceView_25c2dc:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          format: uuid
+        version:
+          type: integer
+          minimum: 0
+        status:
+          type: string
+    ProcessView_25c2dc:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - careerId
+        - modelVersionId
+        - modelVersionNumber
+        - code
+        - name
+        - periodStart
+        - periodEnd
+        - state
+        - revision
+        - indicators
+        - createdBy
+        - createdAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        careerId:
+          type: string
+          format: uuid
+        modelVersionId:
+          type: string
+          format: uuid
+        code:
+          type: string
+        name:
+          type: string
+        periodStart:
+          type: string
+          format: date
+        periodEnd:
+          type: string
+          format: date
+        modelVersionNumber:
+          type: integer
+          minimum: 1
+        state:
+          type: string
+          enum:
+            - DRAFT
+            - PREPARATION
+            - ACTIVE
+            - SUSPENDED
+            - DOCUMENTARY_CLOSED
+            - CLOSING
+            - CLOSED
+            - REOPENED
+        revision:
+          type: integer
+          minimum: 0
+        createdBy:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        indicators:
+          type: array
+          items:
+            type: object
+            required:
+              - id
+              - code
+              - name
+            properties:
+              id:
+                type: string
+                format: uuid
+              code:
+                type: string
+              name:
+                type: string
+        authorization:
+          anyOf:
+            - $ref: "#/components/schemas/ProcessStartAuthorizationView_25c2dc"
+            - type: "null"
+    ProcessStartAuthorizationView_25c2dc:
+      allOf:
+        - $ref: "#/components/schemas/ProcessStartAuthorizationCommand_25c2dc"
+        - type: object
+          required:
+            - id
+            - authorizedBy
+            - authorizedAt
+          properties:
+            id:
+              type: string
+              format: uuid
+            authorizedBy:
+              type: string
+              format: uuid
+            authorizedAt:
+              type: string
+              format: date-time
+    ProcessStartAuthorizationCommand_25c2dc:
+      type: object
+      required:
+        - authorityAssignmentId
+        - legalBasis
+        - documentReference
+        - reason
+      properties:
+        authorityAssignmentId:
+          type: string
+          format: uuid
+        legalBasis:
+          type: string
+          minLength: 1
+          maxLength: 4000
+        documentReference:
+          type: string
+          minLength: 1
+          maxLength: 2000
+        reason:
+          type: string
+          minLength: 10
+          maxLength: 4000
+    ProcessCommand_25c2dc:
+      type: object
+      required:
+        - careerId
+        - modelVersionId
+        - code
+        - name
+        - periodStart
+        - periodEnd
+      properties:
+        careerId:
+          type: string
+          format: uuid
+        modelVersionId:
+          type: string
+          format: uuid
+        code:
+          type: string
+          minLength: 2
+          maxLength: 40
+        name:
+          type: string
+          minLength: 3
+          maxLength: 200
+        periodStart:
+          type: string
+          format: date
+        periodEnd:
+          type: string
+          format: date
+    ConfiguredModelVersionView_25c2dc:
+      type: object
+      description: Snapshot completo del dominio. configuration conserva las
+        definiciones por indicador sin conversión al DTO legado; sus campos
+        internos se validan al publicar.
+      required:
+        - id
+        - modelId
+        - versionNumber
+        - status
+        - source
+        - authorId
+        - revision
+        - criteria
+        - configuration
+      properties:
+        id:
+          type: string
+          format: uuid
+        modelId:
+          type: string
+          format: uuid
+        versionNumber:
+          type: integer
+          minimum: 1
+        status:
+          type: string
+          enum:
+            - DRAFT
+            - PUBLISHED
+            - SUPERSEDED
+        source:
+          type: string
+          maxLength: 2000
+        authorId:
+          type: string
+          format: uuid
+        approverId:
+          type:
+            - string
+            - "null"
+          format: uuid
+        predecessorId:
+          type:
+            - string
+            - "null"
+          format: uuid
+        revision:
+          type: integer
+          minimum: 0
+        criteria:
+          type: array
+          items:
+            type: object
+        configuration:
+          type:
+            - object
+            - "null"
+  responses: {}
+  parameters:
+    CsrfToken_25c2dc:
+      name: X-CSRF-TOKEN
+      in: header
+      required: true
+      schema:
+        type: string
+        minLength: 32
+    Page_8ea29b:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    Size_8ea29b:
+      name: size
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    CsrfToken_8ea29b:
+      name: X-CSRF-TOKEN
+      in: header
+      required: true
+      schema:
+        type: string
+        minLength: 32
+    IfMatch_8ea29b:
+      name: If-Match
+      in: header
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    VersionId_25c2dc:
+      name: versionId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    ProcessId_25c2dc:
+      name: processId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: SEC_SESSION
+      description: Sesion opaca revocable; no token Bearer
+tags:
+  - name: Access
+    description: Operaciones seleccionadas de Access
+  - name: P02
+    description: Operaciones seleccionadas de P02
+  - name: Models
+    description: Operaciones seleccionadas de Models
+  - name: Processes
+    description: Operaciones seleccionadas de Processes
+x-implementation: not-implemented-proposal
+x-pagination-decision: Pages remain data.items/page/size/totalElements; meta
+  carries correlation. Subject to teacher/team review.

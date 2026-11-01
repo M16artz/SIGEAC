@@ -1,0 +1,68 @@
+{
+  "artifact": "ACD3 - Clinica de arquitectura y contrato de API",
+  "created_at_utc": "2026-11-01T01:41:13.060497+00:00",
+  "source_commit": "faf868ea5a8a85285290c06d3baf8fa49889edac",
+  "scope": "Preparacion documental asistida; clinica, participacion y retroalimentacion pendientes de registro real.",
+  "business_tests_run": false,
+  "http_requests_executed": false,
+  "tex_compiled": false,
+  "mermaid_rendered_to_latex": false,
+  "git_commit_created": false,
+  "published": false,
+  "template_sha256": "fc8b87a75830dfb4e686b77ef5297b181be5ee652607e8c864d9822a226fbece",
+  "checks": {
+    "week2_packages": "unchanged",
+    "source_paths": 56,
+    "implemented_operations": 18,
+    "json_examples": 3,
+    "c4_views": 3,
+    "latex_static": "balanced environments, unique labels, 8 chapters, resolved bibliography"
+  },
+  "files": [
+    {
+      "path": "ACD3_CLINICA.tex",
+      "bytes": 85964,
+      "sha256": "aa8d743bb9a9a9d043cb7c9e044984ba64b3f4b6d651ffb1402e027553de5aaf"
+    },
+    {
+      "path": "ACD3_CLINICA_ARQUITECTURA_API.md",
+      "bytes": 17720,
+      "sha256": "7b0f3ec67739eedb8ce0bb9f9c3145f71fb5dd101b1cbf51bed6d3a4373fe47f"
+    },
+    {
+      "path": "ARQUITECTURA_C4.md",
+      "bytes": 7249,
+      "sha256": "bce64304f63e3dbf9b28d539f29c71970072d1b99fb3bebd4a72d953d0e67fe9"
+    },
+    {
+      "path": "CONTRATO_API_INICIAL.md",
+      "bytes": 18955,
+      "sha256": "bbe49ebc7ae25d2c9ffbfff50e96d8fe8dee0bfa8ba7a4686ef6d964902f71f9"
+    },
+    {
+      "path": "EVIDENCIA_INDIVIDUAL.md",
+      "bytes": 2633,
+      "sha256": "4beb426d64fae472a96baa9f22cf01417c6b46f5e2f3cffb3143b6a3d6a9c5f7"
+    },
+    {
+      "path": "FUENTES.md",
+      "bytes": 8925,
+      "sha256": "107240a05069a64cf13a86ebf5107f98b7988abecf30c05dc574ede5e85bc63e"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3066,
+      "sha256": "2fb5fccf248a63e44fd12255d22ddb91536233e8ee24d3c5696796045ac83774"
+    },
+    {
+      "path": "referencias.bib",
+      "bytes": 1407,
+      "sha256": "02a83cc41ed3b60fed052a947406f5dec15bd262792e4bc90a8ba0f572c7e102"
+    },
+    {
+      "path": "REGISTRO_OBSERVACIONES.md",
+      "bytes": 4089,
+      "sha256": "4eb7727f9552cd7285b952004d3e5de47df1cffc763ca20c4354644d110c974c"
+    }
+  ]
+}

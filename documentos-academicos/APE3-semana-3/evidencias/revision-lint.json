@@ -1,0 +1,16 @@
+{
+  "executed_at_utc": "2026-11-01T02:34:41.139Z",
+  "command": [
+    "node",
+    "frontend/node_modules/@redocly/cli/bin/cli.js",
+    "lint",
+    "documentos-academicos/APE3-semana-3/contratos/openapi-observado.yaml",
+    "documentos-academicos/APE3-semana-3/contratos/openapi-objetivo.yaml",
+    "--format=stylish"
+  ],
+  "exit_code": 0,
+  "passed": true,
+  "stdout": "",
+  "stderr": "\n    ╔═══════════════════════════════════════════════════════╗\n    ║                                                       ║\n    ║  A new version of Redocly CLI (2.71.0) is available.  ║\n    ║  Update now: `npm i -g @redocly/cli@latest`.          ║\n    ║  Changelog: https://redocly.com/docs/cli/changelog/   ║\n    ║                                                       ║\n    ╚═══════════════════════════════════════════════════════╝\n\nvalidating documentos-academicos\\APE3-semana-3\\contratos\\openapi-observado.yaml...\ndocumentos-academicos\\APE3-semana-3\\contratos\\openapi-observado.yaml: validated in 37ms\n\nvalidating documentos-academicos\\APE3-semana-3\\contratos\\openapi-objetivo.yaml...\ndocumentos-academicos\\APE3-semana-3\\contratos\\openapi-objetivo.yaml: validated in 35ms\n\nWoohoo! Your API descriptions are valid. 🎉\n\n",
+  "no_backend_requests": true
+}

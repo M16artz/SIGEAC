@@ -1,0 +1,92 @@
+---
+title: "SIGEAC — APE3: arquitectura, OpenAPI y endpoints base"
+lang: es
+format:
+  html:
+    toc: true
+    embed-resources: true
+    code-fold: false
+execute:
+  enabled: false
+---
+
+## Alcance y estado
+
+Incremento académico de catálogo y preparación de procesos, trazado a APE2/AA2/ACD3. La implementación real es Spring Boot; Django REST Framework y el sobre universal exigidos por la guía permanecen pendientes de decisión/implementación o excepción docente. No se presenta este informe como práctica íntegramente aprobada.
+
+El [reporte](../APE3_SEMANA_3.md) contiene datos de la guía, procedimientos, siete respuestas de control y límites. Las fuentes de arquitectura son [Structurizr DSL](../arquitectura/workspace.dsl) y UML de [clases](../arquitectura/catalogo-clases.puml) / [secuencia](../arquitectura/alta-carrera-secuencia.puml). El render oficial de esos formatos está pendiente; los siguientes esquemas Mermaid son una ayuda visual resumida.
+
+## C1 — Contexto
+
+```{mermaid}
+flowchart LR
+  a[Administrador funcional] -->|Mantener catalogo| s[SIGEAC / SEC-UNL]
+  g[Gestor autorizado] -->|Preparar procesos| s
+  l[Lector autorizado] -->|Consultar datos visibles| s
+```
+
+No hay proveedor institucional de identidad ni API CACES confirmado en estos recorridos. Los actores son funciones documentadas, no personas entrevistadas.
+
+## C2 — Contenedores
+
+```{mermaid}
+flowchart TB
+  u[Personas autorizadas] --> web[Aplicacion Angular]
+  subgraph sys[SIGEAC]
+    web -->|HTTP JSON cookie CSRF| api[Backend Spring Boot]
+    api -->|SQL JDBC| db[(PostgreSQL principal)]
+  end
+  api -.->|Solo perfil auxiliar de esta prueba| test[(SQLite sintetica aislada)]
+  style sys fill:#f3f6fa,stroke:#667085,color:#172b4d
+```
+
+PostgreSQL es persistencia principal; SQLite es alternativa de entorno auxiliar, no una segunda base simultánea obligatoria ni una prueba de aceptación PostgreSQL. Backend único modular; no microservicios.
+
+## C3 — Componentes seleccionados
+
+```{mermaid}
+flowchart TB
+  auth[Identidad y acceso] --> api[API de catalogo y procesos]
+  api --> app[Servicios de aplicacion]
+  app -->|Reglas| dom[Career y SelfAssessmentProcess]
+  app -->|Persistir| repos[Puertos y adaptadores JDBC]
+  app -->|Version publicada| models[ModelCatalogPort]
+  app -->|Cambio critico| audit[AuditPort]
+  app -->|Permisos y ambito| auth
+```
+
+La vista simplifica el workspace DSL. Los servicios de aplicación comprueban permisos aunque la solicitud ya haya pasado el filtro. Los adaptadores internos no son servicios HTTP externos.
+
+## Contrato
+
+[OpenAPI observado](../contratos/openapi-observado.yaml): 14 operaciones existentes con cookie/CSRF, recursos directos y Problem Details. [OpenAPI objetivo](../contratos/openapi-objetivo.yaml): sobre universal **no implementado**, con servidor marcador explícito. No son contratos intercambiables ni prueban disponibilidad de v2.
+
+Se conserva `204` sin cuerpo. PATCH de carrera requiere todos los datos editables e If-Match; revisión vieja produce 412. La ruta de modelo legado puede rechazar con 409; `/configured` proporciona estructura completa cuando la versión necesita configuración.
+
+## Resultados observados
+
+| Verificación | Resultado | Límite |
+|---|---|---|
+| Maven seleccionado | 23 tests, 0 fallos/errores/omitidos | API standalone, aplicación, dominio y arquitectura; no toda la suite. |
+| Recorrido HTTP final | 22 casos correctos | Spring/SQLite, sin navegador; conservar primer intento fallido. |
+| Muestras contra OpenAPI | 22 conformes al observado | No prueba todas las combinaciones ni headers. |
+| Redocly | Ambos OpenAPI válidos | Objetivo sin implementar. |
+| Swagger / api-docs | Disponibilidad HTTP 200 | Sin operación interactiva desde Swagger. |
+
+[Pruebas Maven](../evidencias/pruebas-maven.json), [HTTP final](../evidencias/http-resultados.json), [intento inicial](../evidencias/http-intento-inicial.json), [muestras](../evidencias/esquemas-resultados.json), [Swagger](../evidencias/swagger-disponibilidad.json). Tokens y credenciales redactados.
+
+## Trazabilidad y decisiones
+
+[Matriz](../TRAZABILIDAD.md): actor/necesidad→RF/HU→AC→proceso→componente→API→prueba. [ADR tecnología](../adr/APE3-001-alineacion-tecnologica.md) y [ADR contrato](../adr/APE3-002-contrato-universal.md), ambos propuestos. [Observaciones](../OBSERVACIONES.md) separa hallazgos de preparación de retroalimentación real pendiente.
+
+Ejemplo: AA-RF-08 / AC-AA-14/15 → mantener carrera → CareerAdministrationService → PATCH carrera → HTTP-09–12. La revisión obsoleta se comprobó secuencialmente; falta ensayo concurrente de dos clientes y PostgreSQL.
+
+## Reproducción y cierre
+
+Seguir [VERIFICACION.md](../VERIFICACION.md) para arrancar el backend temporal, ejecutar el cliente y validar contratos. Para regenerar esta página, desde raíz:
+
+```powershell
+quarto render documentos-academicos/APE3-semana-3/tecnico/APE3.qmd --to html
+```
+
+Pendientes: DRF/sobre, validación PostgreSQL, diagramas, navegador, PDF, presentación/feedback docente y contribuciones versionadas. No se crearon commits ni se atribuyen aportes humanos no identificados. Véase [nota individual](../NOTA_INDIVIDUAL.md) y [fuentes](../FUENTES.md).

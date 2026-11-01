@@ -1,0 +1,26 @@
+{
+  "reviewed_at_utc": "2026-11-01T02:35:10.058123+00:00",
+  "guide": "APE 003 - Arquitectura OpenAPI y endpoints base",
+  "overall": "Partially fulfilled; explicit DRF implementation and universal envelope remain unmet",
+  "methodology_rows": 14,
+  "control_answers": 7,
+  "openapi_operations_per_contract": 14,
+  "lint_repeated_passed": true,
+  "saved_response_samples_revalidated": 22,
+  "http_requests_repeated": false,
+  "maven_tests_repeated": false,
+  "prior_http_and_maven_evidence": "unchanged",
+  "documentation_fix": "ADR pagination aligned with generated proposed contract: data.items/page/size/totalElements; meta correlation; acceptance pending",
+  "angular_ui_mandatory_in_guide": false,
+  "source_code_modified": false,
+  "other_academic_packages": "unchanged",
+  "latex_static": "11 sections, unique labels, balanced environments; not compiled",
+  "changed_preexisting_files": [
+    "adr/APE3-002-contrato-universal.md",
+    "APE3_SEMANA_3.md",
+    "APE3_SEMANA_3.tex",
+    "evidencias/esquemas-resultados.json",
+    "OBSERVACIONES.md",
+    "README.md"
+  ]
+}

@@ -1,0 +1,2390 @@
+% Adaptación de FORMATO.tex para ACD3; plantilla original preservada.
+\documentclass[12pt,a4paper]{report}
+
+% ------------------------------------------
+%   PAQUETES BÁSICOS
+% ------------------------------------------
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+  \geometry{left=3cm, right=2.5cm, top=3cm, bottom=2.5cm}
+\usepackage{setspace}
+  \onehalfspacing
+\usepackage{titlesec} 
+  \titleformat{\chapter}[block]{\bfseries\large}{\thechapter.}{1em}{}
+  \titleformat{\section}[block]{\bfseries}{\thesection.}{1em}{}
+\usepackage{tocloft}
+  \setlength{\cftbeforechapskip}{6pt}
+  \renewcommand{\cftchapfont}{\bfseries}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{verbatim}
+
+\usepackage{cite}
+\usepackage{hyperref}
+% Soporte mínimo para tablas, rutas y bloques técnicos.
+\usepackage{calc}
+\usepackage{xurl}
+\usepackage{fvextra}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setlength{\emergencystretch}{3em}
+
+\addto\captionsspanish{
+    \renewcommand{\contentsname}{Índice General}
+    \renewcommand{\tablename}{Tabla}
+}
+
+% ------------------------------------------
+%   FONDO DE PÁGINA (SOLO CARÁTULA)
+% ------------------------------------------
+\usepackage{eso-pic}
+\newcommand\BackgroundPic{%
+  \put(0,0){%
+    \parbox[b][\paperheight]{\paperwidth}{%
+      \vfill
+      \centering
+      \IfFileExists{fondo.jpeg}{\includegraphics[width=\paperwidth,height=\paperheight]{fondo.jpeg}}{\parbox{0.8\paperwidth}{\centering\small [PENDIENTE: fondo.jpeg original]}}%
+      \vfill
+}}}
+
+% ------------------------------------------
+%   ENCABEZADO CON LOGO (OTRAS PÁGINAS)
+% ------------------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{40pt}
+\fancyhead[L]{\IfFileExists{logo_unl.jpeg}{\includegraphics[height=1.2cm]{logo_unl.jpeg}}{\fbox{\scriptsize PENDIENTE: logo\_unl.jpeg}}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \fancyhead[L]{\IfFileExists{logo_unl.jpeg}{\includegraphics[height=1.2cm]{logo_unl.jpeg}}{\fbox{\scriptsize PENDIENTE: logo\_unl.jpeg}}}
+    \fancyfoot[C]{\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+}
+
+% ------------------------------------------
+%   METADATOS DEL DOCUMENTO
+% ------------------------------------------
+\newcommand{\TituloTrabajo}{ACD3 -- Clínica de arquitectura y contrato de API}
+\newcommand{\Autor}{[PENDIENTE: integrantes del equipo]}
+\newcommand{\Director}{[PENDIENTE: docente]}
+\newcommand{\Carrera}{Carrera de Computación}
+\newcommand{\Facultad}{Facultad de la Energía, las Industrias y los Recursos Naturales No Renovables}
+\newcommand{\Universidad}{Universidad Nacional de Loja}
+\newcommand{\Ciudad}{Loja, Ecuador}
+\newcommand{\Fecha}{Semana 3 -- [PENDIENTE: fecha real]}
+
+\begin{document}
+
+\AddToShipoutPictureBG*{\BackgroundPic}
+
+% ------------------------------------------
+%   PORTADA
+% ------------------------------------------
+\begin{titlepage}
+  \centering
+  \vspace*{2cm}
+  {\bfseries\Large \Universidad}\\[0.5cm]
+  {\bfseries\large \Facultad}\\[0.5cm]
+  {\bfseries\large \Carrera}\\[2cm]
+  {\bfseries\Large \TituloTrabajo}\\[2.5cm]
+
+  \begin{flushright}
+    \setlength{\fboxsep}{8pt}
+    \fbox{%
+      \begin{minipage}{0.4\textwidth}\small
+        [PENDIENTE: asignatura].
+      \end{minipage}%
+    }
+  \end{flushright}
+  \vspace{1cm}
+
+  {\bfseries \large AUTOR:}\\[0.5em]
+  {\large \Autor}\\[2em]
+  {\bfseries \large TUTOR:}\\[0.5em]
+  {\large \Director}\\[2em]
+  {\bfseries \large \Ciudad}\\[1em]
+  {\bfseries \large \Fecha}
+\end{titlepage}
+
+% ------------------------------------------
+%   DECLARACIÓN DE USO DE IA GENERATIVA
+% ------------------------------------------
+\newpage
+\chapter*{Declaración de Delegación a IA Generativa}
+\addcontentsline{toc}{chapter}{Declaración de uso de IA Generativa}
+Se utilizó ChatGPT/Codex para inspeccionar fuentes, arquitectura y API, consultar referencias y elaborar documentos. No se realizaron solicitudes al backend, pruebas de negocio ni validación docente. La clínica y participación individual están pendientes de registro real.
+
+\noindent\textbf{Declaración enviada por: [PENDIENTE: integrantes reales].}
+\newpage
+\tableofcontents
+\clearpage
+\chapter*{Ficha de la actividad}
+\addcontentsline{toc}{chapter}{Ficha de la actividad}
+Proyecto SIGEAC / SEC-UNL. ACD3, Semana 3. Trabajo grupal con evidencia individual. Datos de asignatura, docente, integrantes y fecha pendientes. Diagramas Mermaid disponibles en Markdown; su fuente textual se conserva en anexos.
+
+Semana 3 · Actividad grupal con evidencia individual · Proyecto SIGEAC /
+SEC-UNL.
+
+\textbf{Estado:} preparación documental para la clínica, contrastada con
+el repositorio. No acredita exposición, asistencia, aprobación docente
+ni observaciones recibidas. Integrantes, asignatura, docente y fecha de
+sesión: \textbf{pendientes de confirmar}. No se modifica código, OpenAPI
+de producto ni requisitos de Semana 2.
+
+\chapter{Problema, procesos y arquitectura preliminar}\label{informe-parte1}
+
+\section{1. Revisión de requisitos y flujo
+principal}\label{informe-1-revisiuxf3n-de-requisitos-y-flujo-principal}
+
+El problema es organizar la autoevaluación de carreras con referencias
+identificables, acceso por ámbito y trazabilidad, evitando cambios sin
+historia y preparación con carreras o modelos inadecuados. Fuente:
+\path|docs/requirements/spec.md|,
+\path|docs/requirements/process-flows.md| y el
+\href{../AA2-semana-2/DOSSIER_REQUISITOS_AA2.md}{dossier AA2}.
+
+Se conserva como \textbf{propuesta de incremento de Unidad 1}, pendiente
+de ratificación, el acceso, catálogo académico y preparación/consulta de
+procesos. La clínica selecciona dos flujos: F-ACD3-01, registrar o
+corregir una carrera; F-ACD3-02, preparar y consultar un proceso.
+Inicio/cierre de sesión son soporte transversal. Quedan fuera del
+incremento la autorización institucional, activación, carga de
+evidencias, valoración, informes, mejora y archivo; que existan
+implementados en el producto no los incorpora automáticamente al
+ejercicio.
+
+\textbf{Flujo / necesidad }: F-ACD3-01 / N-AA-02 y N-AA-05
+
+\textbf{Actor documentado en AA2 }: A-AA-02, administrador funcional con
+capacidad de catálogo; lector A-AA-04
+
+\textbf{Requisito e historia }: AA-RF-05--09; HU-AA-02--05
+
+\textbf{Criterios AA2 }: AC-AA-07--17 y 27
+
+\textbf{Operaciones de negocio }: Registrar unidad; registrar carrera;
+consultar catálogo; actualizar datos con revisión; registrar decisión de
+estado; consultar historial.
+
+\medskip\hrule\medskip
+
+\textbf{Flujo / necesidad }: F-ACD3-02 / N-AA-03 y N-AA-04
+
+\textbf{Actor documentado en AA2 }: A-AA-03, gestor autorizado; lector
+con permiso aplicable
+
+\textbf{Requisito e historia }: AA-RF-10--12; HU-AA-06
+
+\textbf{Criterios AA2 }: AC-AA-18--24
+
+\textbf{Operaciones de negocio }: Consultar modelo y versión; validar
+carrera/período; preparar proceso; consultar estado y referencias.
+
+\medskip\hrule\medskip
+
+\textbf{Flujo / necesidad }: Acceso, integridad y explicación
+
+\textbf{Actor documentado en AA2 }: A-AA-01--04 según operación
+
+\textbf{Requisito e historia }: AA-RF-01--04 y 13--14; AA-RNF-01--03,
+05--07 y 10
+
+\textbf{Criterios AA2 }: AC-AA-01--06 y 25--26; VC-AA-01--03, 05--07 y
+10
+
+\textbf{Operaciones de negocio }: Autenticar; autorizar; registrar
+auditoría; detectar revisión obsoleta; comunicar error seguro.
+
+\medskip\hrule\medskip
+
+Los criterios completos permanecen en AA2; esta tabla no los redefine.
+Los roles son funciones de la especificación, no personas entrevistadas.
+Administrar catálogo no concede competencia institucional para autorizar
+procesos. La viabilidad del recorte se apoya en que estos
+comportamientos ya tienen servicios/controladores; no constituye
+estimación de esfuerzo ni aprobación académica.
+
+\section{2. Análisis textual previo al
+modelado}\label{informe-2-anuxe1lisis-textual-previo-al-modelado}
+
+\subsection{F-ACD3-01 --- Mantener una carrera
+identificable}\label{informe-f-acd3-01--mantener-una-carrera-identificable}
+
+\textbf{Participantes y responsabilidades:} administrador funcional,
+proporcionar datos y motivo; frontend, capturar y mostrar resultados;
+backend, comprobar identidad, capacidad, reglas y revisión; repositorio,
+conservar datos/historia; auditoría, registrar cambio crítico. Frontend,
+repositorio y auditoría son participantes técnicos del proceso, no
+actores humanos adicionales.
+
+\textbf{Inicio:} solicitar el registro o corrección de una carrera.
+\textbf{Precondiciones:} disponer de sesión vigente y
+\path|CAREER_ADMIN|; para alta/edición disponer de unidad activa; para
+edición obtener detalle y ETag actuales.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Capturar código, nombre, unidad y vigencia.
+\item
+  Validar campos y formato de solicitud.
+\item
+  Comprobar identidad y capacidad de administración.
+\item
+  Consultar unidad y verificar su estado activo.
+\item
+  Verificar unicidad del código normalizado.
+\item
+  Verificar revisión vigente cuando se solicite modificación.
+\item
+  Registrar carrera o nueva revisión dentro de la transacción.
+\item
+  Conservar historial y registrar auditoría del cambio.
+\item
+  Devolver representación, ETag y, al crear, Location.
+\item
+  Mostrar resultado y permitir consultar historial.
+\end{enumerate}
+
+\textbf{Decisiones:} ¿es alta o modificación?, ¿la entrada es válida?,
+¿la unidad está activa?, ¿el código ya existe?, ¿coincide la revisión?
+Las actividades de validación de esta descripción no fijan un orden de
+precedencia universal de errores: el DTO, filtro y servicio pueden
+rechazar antes de etapas posteriores.
+
+\textbf{Alternativa de estado:} consultar revisión; capturar estado y
+motivo; validar transición; registrar decisión; conservar carrera e
+historia. Desactivar no elimina el recurso. Una unidad con carreras
+activas no puede desactivarse. La aplicación devuelve la carrera/unidad
+actualizada al registrar la decisión, no una representación separada de
+decisión.
+
+\textbf{Excepciones:} 400 por campos/formato; 401 sin sesión; 403 sin
+capacidad o CSRF inválido; 404 al consultar identificador inexistente/no
+visible; 409 por código duplicado o estado sin cambio; 422 por unidad no
+disponible; 428 sin If-Match; 412 por revisión obsoleta. Un fallo
+técnico puede resultar en 500; la atomicidad requiere prueba, no se
+demuestra por la anotación transaccional sola.
+
+\textbf{Datos:} UUID, código, nombre, unidad, fechas, estado, revisión,
+creador y fecha del servidor, motivo y correlación. \textbf{Resultado:}
+carrera identificable o rechazo sin declarar cambio completado;
+historial y auditoría esperados según AC-AA-14/25. Fuente ejecutable:
+\path|CareerController|, \path|CareerAdministrationService|,
+\path|Career|, \path|JdbcCareerCatalogRepository| y migración V008, en
+las rutas del registro de fuentes.
+
+\subsection{F-ACD3-02 --- Preparar y consultar un
+proceso}\label{informe-f-acd3-02--preparar-y-consultar-un-proceso}
+
+\textbf{Participantes:} gestor autorizado, seleccionar
+carrera/período/modelo; frontend, presentar selecciones; backend,
+autorizar y validar; catálogo de carreras, determinar aptitud; catálogo
+de modelos, resolver versión publicada; repositorio y auditoría,
+conservar proceso y evento.
+
+\textbf{Inicio:} solicitar la preparación de un proceso para una
+carrera. \textbf{Precondiciones:} sesión humana vigente,
+\path|PROCESS_MANAGE| en el ámbito de carrera, carrera clasificada y
+activa en la fecha actual UTC, unidad activa, período contenido en la
+vigencia y versión publicada identificada explícitamente.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Consultar carreras visibles y seleccionar carrera.
+\item
+  Consultar modelos/versiones visibles y seleccionar versión exacta.
+\item
+  Capturar código, nombre y fechas del proceso.
+\item
+  Comprobar identidad, capacidad y ámbito de carrera.
+\item
+  Validar actividad de carrera/unidad y pertenencia del período a su
+  vigencia.
+\item
+  Resolver versión publicada sin reemplazarla por otra implícitamente.
+\item
+  Crear proceso en \path|PREPARATION|, con revisión inicial 0.
+\item
+  Guardar proceso y registrar auditoría en la transacción.
+\item
+  Devolver 201, Location, ETag y representación.
+\item
+  Consultar proceso por identificador y mostrar estado/referencias
+  permitidos.
+\end{enumerate}
+
+\textbf{Decisiones:} ¿está permitido gestionar esa carrera?, ¿es
+utilizable?, ¿pertenece el período a su vigencia?, ¿está publicada la
+versión?, ¿es visible el proceso consultado? \textbf{Excepciones:}
+entrada ilegible/inválida o versión no publicada \ensuremath{\rightarrow} 400; sin identidad \ensuremath{\rightarrow}
+401; gestión fuera de ámbito \ensuremath{\rightarrow} 403; carrera inexistente o proceso no
+visible \ensuremath{\rightarrow} 404; carrera inactiva \ensuremath{\rightarrow} 409; período fuera de vigencia \ensuremath{\rightarrow} 422.
+No se promete 409 por código de proceso duplicado: debe comprobarse la
+regla y su traducción antes de incorporarla al contrato.
+
+\textbf{Datos:} \path|careerId|, \path|code|, \path|name|,
+\path|periodStart|, \path|periodEnd|, \path|modelVersionId|; servidor:
+ID, número de versión, estado, revisión, actor y fecha.
+\textbf{Resultado:} preparación persistida, sin autorización ni
+activación automática. \path|ModelApplicabilityService| se consulta en
+activación, fuera del recorte: crear en preparación no demuestra
+aplicabilidad normativa institucional. Fuente:
+\path|SelfAssessmentService.create/get/list| y
+\path|SelfAssessmentController|.
+
+\section{3. Arquitectura C4
+preliminar}\label{informe-3-arquitectura-c4-preliminar}
+
+El \href{ARQUITECTURA_C4.md}{documento C4} incluye C1, C2, C3,
+responsabilidades, tecnologías y fronteras. Los diagramas son vistas
+académicas derivadas del código actual, no decisiones nuevas aprobadas.
+Se distingue el producto completo del recorte de esta clínica.
+
+En C1 se representan personas y el sistema; no se inventa una
+integración activa con CACES, SSO, correo o sistemas académicos. Los
+documentos de CACES/UNL son fuentes del dominio, no servicios invocados
+por estos recorridos. C2 separa aplicación Angular, backend Spring Boot
+y PostgreSQL. El almacenamiento local pertenece al producto completo y
+queda fuera de los flujos seleccionados. C3 descompone el backend en
+identidad, API, aplicación, dominio, repositorios y puertos de
+catálogo/auditoría.
+
+El backend es un \textbf{monolito modular}, según ADR-0001. La
+comunicación de navegador a API y de backend a PostgreSQL cruza
+procesos; las llamadas entre módulos del backend son internas al mismo
+despliegue. No se atribuyen microservicios, broker o transacciones
+distribuidas al incremento.
+
+\chapter{Decisiones, recursos y trazabilidad}\label{informe-parte2}
+
+\section{4. Decisiones y alternativas para
+discusión}\label{informe-4-decisiones-y-alternativas-para-discusiuxf3n}
+
+\textbf{ID }: DA-01
+
+\textbf{Decisión y evidencia existente }: Monolito modular por
+capacidades; ADR-0001
+
+\textbf{Alternativa, ventaja y desventaja }: Microservicios: despliegue
+independiente, mayor operación y consistencia distribuida. Capas
+globales: arranque simple, más acoplamiento entre capacidades.
+
+\textbf{Justificación / estado }: Conservar límites existentes y
+transacciones locales para el recorte. Decisión de producto aceptada; no
+nueva aprobación de clínica.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: DA-02
+
+\textbf{Decisión y evidencia existente
+}: \path|api/application/domain/infrastructure|; paquetes reales
+
+\textbf{Alternativa, ventaja y desventaja }: Reglas en controlador:
+menos clases, acopla HTTP y negocio; CRUD genérico: uniforme,
+insuficiente para estados/ámbito.
+
+\textbf{Justificación / estado }: API traduce HTTP; aplicación coordina;
+dominio impone invariantes; infraestructura persiste. ArchUnit existe;
+no se ejecutó aquí.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: DA-03
+
+\textbf{Decisión y evidencia existente }: Java \textbf{21} en
+\path|backend/pom.xml|; Spring Boot \textbf{4.1.1}; Angular
+\textbf{22.2.3} en \path|frontend/package.json|
+
+\textbf{Alternativa, ventaja y desventaja }: Cambiar versión de Java:
+puede alinear planificación, exige verificar herramientas/CI y
+compatibilidad. Mantener configuración: reduce cambio, exige corregir
+investigación.
+
+\textbf{Justificación / estado }: \path|docs/architecture/research.md|
+menciona Java 25. Documentar divergencia y decidir en equipo; no
+certificar compatibilidad mediante lectura del POM.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: DA-04
+
+\textbf{Decisión y evidencia existente }: PostgreSQL como persistencia
+principal; Flyway, JDBC y partes JPA
+
+\textbf{Alternativa, ventaja y desventaja }: SQLite auxiliar:
+preparación sencilla, no sustituye concurrencia/SQL de aceptación.
+Documentos como almacén principal: flexibilidad, menor ajuste a
+relaciones/revisiones existentes.
+
+\textbf{Justificación / estado }: Referencias y revisiones requieren
+integridad; no introducir event sourcing ni cambiar migraciones
+aplicadas. ADR-0018.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: DA-05
+
+\textbf{Decisión y evidencia existente }: Sesión opaca revocable y
+autorización por ámbito; ADR-0004
+
+\textbf{Alternativa, ventaja y desventaja }: JWT autocontenido:
+verificación local, revocación más compleja. SSO: centraliza identidad,
+proveedor/contrato no confirmados.
+
+\textbf{Justificación / estado }: Conservar cookie \path|SEC_SESSION| y
+CSRF en mutaciones; no inventar Bearer. Roles técnicos no implican
+autoridad funcional.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: DA-06
+
+\textbf{Decisión y evidencia existente }: Puertos
+\path|ModelCatalogPort|, \path|AuthorizationPort|, \path|AuditPort|;
+adaptadores existentes
+
+\textbf{Alternativa, ventaja y desventaja }: Acceder a tablas de otro
+módulo: menor intermediación, rompe límites. Servicio externo
+obligatorio: independencia, añade disponibilidad/operación.
+
+\textbf{Justificación / estado }: La consulta de modelo es interna, sin
+llamada HTTP externa en el flujo. El MVP no requiere integraciones
+externas.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: DA-07
+
+\textbf{Decisión y evidencia existente }: ETag/If-Match y revisiones;
+\path|EntityTagSupport|
+
+\textbf{Alternativa, ventaja y desventaja }: Último escritor gana:
+sencillo, pierde cambios; bloqueo largo: reduce carreras de
+actualización, más contención.
+
+\textbf{Justificación / estado }: Conservar detección de edición
+obsoleta. Revisiones iniciales distintas son contrato vigente, no
+uniformarlas silenciosamente.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: DA-08
+
+\textbf{Decisión y evidencia existente }: DTO directo y Problem Details
+actuales frente al sobre pedido
+
+\textbf{Alternativa, ventaja y desventaja }: Migración coordinada:
+satisface forma académica, rompe clientes si se aplica sin versionar.
+Mantener Problem Details: compatibilidad, exige acordar excepción a
+guía.
+
+\textbf{Justificación / estado }: Presentar sobre objetivo académico y
+pedir decisión de compatibilidad. No afirmar que ya está implementado.
+Ver contrato.
+
+\medskip\hrule\medskip
+
+Estas alternativas son análisis preparado para discusión, no
+alternativas debatidas efectivamente en clase. No se crean ADR aceptados
+ni se cambia el estado de los existentes.
+
+\section{5. Recursos, operaciones y
+contrato}\label{informe-5-recursos-operaciones-y-contrato}
+
+El \href{CONTRATO_API_INICIAL.md}{contrato inicial} identifica 18
+operaciones observadas, sus requisitos, entradas, validaciones,
+autorizaciones, resultados y la propuesta de respuesta común. Las rutas
+se toman de controladores y la base \path|/api/v1| de
+\path|application.yml|; un archivo OpenAPI por sí solo no demuestra
+implementación.
+
+Recursos principales: sesión vigente, identidad propia, unidad
+académica, carrera, revisión histórica, decisión de estado, modelo,
+versión de modelo y proceso. Se utiliza
+\path|POST /careers/{id}/state-decisions| como recurso de decisión, ya
+existente. No se añade \path|/createCareer|. No se incorpora
+\path|/activate| al incremento; su existencia en el producto se declara
+como exclusión, sin esconderla.
+
+\section{6. Trazabilidad inicial de arquitectura y
+API}\label{informe-6-trazabilidad-inicial-de-arquitectura-y-api}
+
+\textbf{Problema / necesidad }: Acceso autorizado N-AA-01
+
+\textbf{RF / historia / criterio AA2 }: AA-RF-01--04; HU-AA-01;
+AC-AA-01--06
+
+\textbf{Proceso }: Acceso transversal
+
+\textbf{Componente principal }: SessionController, SessionService,
+ScopeAuthorizationService
+
+\textbf{Recurso / operaciones del contrato }: OP-01--03
+
+\textbf{Verificación posterior }: Sesión válida/inválida, revocación,
+ámbito y CSRF.
+
+\medskip\hrule\medskip
+
+\textbf{Problema / necesidad }: Catálogo coherente N-AA-02
+
+\textbf{RF / historia / criterio AA2 }: AA-RF-05--07; HU-AA-02/03;
+AC-AA-07--13/27
+
+\textbf{Proceso }: F-ACD3-01
+
+\textbf{Componente principal }: CareerController,
+CareerAdministrationService, Career
+
+\textbf{Recurso / operaciones del contrato }: OP-04--09, 17
+
+\textbf{Verificación posterior }: Alta, normalización, duplicados,
+filtros y visibilidad.
+
+\medskip\hrule\medskip
+
+\textbf{Problema / necesidad }: Corregir sin perder historia N-AA-05
+
+\textbf{RF / historia / criterio AA2 }: AA-RF-08/09; HU-AA-04/05;
+AC-AA-14--17; AA-RNF-05
+
+\textbf{Proceso }: F-ACD3-01
+
+\textbf{Componente principal }: Servicio de catálogo, repositorio y
+auditoría
+
+\textbf{Recurso / operaciones del contrato }: OP-10--12
+
+\textbf{Verificación posterior }: Dos clientes/revisiones, no
+sobrescritura, motivo y estado.
+
+\medskip\hrule\medskip
+
+\textbf{Problema / necesidad }: Preparar con referencias exactas N-AA-03
+
+\textbf{RF / historia / criterio AA2 }: AA-RF-10/11; HU-AA-06;
+AC-AA-18--22
+
+\textbf{Proceso }: F-ACD3-02
+
+\textbf{Componente principal }: SelfAssessmentService, ModelCatalogPort
+
+\textbf{Recurso / operaciones del contrato }: OP-13/14/18
+
+\textbf{Verificación posterior }: Modelo publicado, carrera vigente,
+PREPARATION y revisión 0.
+
+\medskip\hrule\medskip
+
+\textbf{Problema / necesidad }: Consultar únicamente lo visible N-AA-04
+
+\textbf{RF / historia / criterio AA2 }: AA-RF-12; HU-AA-06; AC-AA-23/24
+
+\textbf{Proceso }: F-ACD3-02
+
+\textbf{Componente principal }: SelfAssessmentService y autorización
+
+\textbf{Recurso / operaciones del contrato }: OP-15/16
+
+\textbf{Verificación posterior }: Listado filtrado e identificador ajeno
+oculto.
+
+\medskip\hrule\medskip
+
+\textbf{Problema / necesidad }: Explicar y auditar N-AA-05
+
+\textbf{RF / historia / criterio AA2 }: AA-RF-13/14; AC-AA-25/26;
+AA-RNF-06/07/10
+
+\textbf{Proceso }: Ambos
+
+\textbf{Componente principal }: Auditoría, handlers y CorrelationFilter
+
+\textbf{Recurso / operaciones del contrato }: Mutaciones y errores
+transversales
+
+\textbf{Verificación posterior }: Atomicidad, correlación y contrato
+cliente; pendiente de ejecución.
+
+\medskip\hrule\medskip
+
+Pruebas existentes que se pueden abrir:
+\path|backend/src/test/java/ec/edu/unl/sec/architecture/ModuleArchitectureTest.java|;
+\path|selfassessment/api/CareerControllerTest.java|,
+\path|SelfAssessmentControllerTest.java|;
+\path|selfassessment/application/CareerAdministrationServiceTest.java|,
+\path|SelfAssessmentServiceTest.java|,
+\path|SelfAssessmentAuditServiceTest.java|, bajo el mismo prefijo de
+pruebas; \path|tests/acceptance/career-catalog.spec.ts|;
+\path|docs/testing/traceability.md|. Esta es vinculación temática por
+revisión, no certificación de cobertura individual de todos los AC
+nuevos ni ejecución reciente.
+
+\chapter{Clínica y preparación de APE3}\label{informe-parte3}
+
+\section{7. Guion de la clínica y
+observaciones}\label{informe-7-guion-de-la-cluxednica-y-observaciones}
+
+Presentar, en este orden: problema/recorte; F-ACD3-01/02 y criterios;
+C1\ensuremath{\rightarrow}C2\ensuremath{\rightarrow}C3; decisiones DA-01--08; recursos/operaciones; ejemplo 201 y
+conflicto de revisión; incompatibilidad del sobre; preguntas pendientes.
+Llevar abiertos AA2, análisis textual, C4 y contrato. Cada integrante
+debe explicar una decisión y su cadena requisito\ensuremath{\rightarrow}proceso\ensuremath{\rightarrow}componente\ensuremath{\rightarrow}API.
+
+El \href{REGISTRO_OBSERVACIONES.md}{registro de observaciones} separa
+hallazgos de esta preparación de retroalimentación auténtica de la
+sesión. Para cada observación real se registrarán fuente/fecha,
+decisión, cambio o justificación, archivos y evidencia versionada.
+
+\section{8. Cumplimiento y entrega para
+APE3}\label{informe-8-cumplimiento-y-entrega-para-ape3}
+
+\textbf{Actividad de la guía }: 1. Revisar requisitos y flujo
+
+\textbf{Evidencia preparada }: Sección 1 y trazabilidad de sección 6
+
+\textbf{Estado / siguiente paso }: Documentado; ratificar
+recorte/actores.
+
+\medskip\hrule\medskip
+
+\textbf{Actividad de la guía }: 2. Análisis textual
+
+\textbf{Evidencia preparada }: Sección 2
+
+\textbf{Estado / siguiente paso }: Dos procesos, tareas en infinitivo,
+decisiones/excepciones/datos/resultados.
+
+\medskip\hrule\medskip
+
+\textbf{Actividad de la guía }: 3. C4
+
+\textbf{Evidencia preparada }: ARQUITECTURA\_C4.md y diagramas Mermaid
+
+\textbf{Estado / siguiente paso }: Tres niveles; revisar con
+equipo/docente.
+
+\medskip\hrule\medskip
+
+\textbf{Actividad de la guía }: 4. Decisiones
+
+\textbf{Evidencia preparada }: Sección 4
+
+\textbf{Estado / siguiente paso }: Ocho decisiones contrastadas y
+alternativas por discutir.
+
+\medskip\hrule\medskip
+
+\textbf{Actividad de la guía }: 5--6. Recursos y operaciones
+
+\textbf{Evidencia preparada }: CONTRATO\_API\_INICIAL.md
+
+\textbf{Estado / siguiente paso }: 18 operaciones reales; no nuevos
+endpoints ficticios.
+
+\medskip\hrule\medskip
+
+\textbf{Actividad de la guía }: 7. Respuesta común
+
+\textbf{Evidencia preparada }: Contrato, secciones 4--5
+
+\textbf{Estado / siguiente paso }: Sobre académico propuesto;
+incompatible con DTO/errores vigentes.
+
+\medskip\hrule\medskip
+
+\textbf{Actividad de la guía }: 8--9. Estados, entradas y validaciones
+
+\textbf{Evidencia preparada }: Contrato, secciones 2--3
+
+\textbf{Estado / siguiente paso }: Revisión estática; confirmar mediante
+pruebas de contrato.
+
+\medskip\hrule\medskip
+
+\textbf{Actividad de la guía }: 10. Clínica y ajustes
+
+\textbf{Evidencia preparada }: REGISTRO\_OBSERVACIONES.md
+
+\textbf{Estado / siguiente paso }: Registro preparado; sesión y
+retroalimentación pendientes.
+
+\medskip\hrule\medskip
+
+Para APE3: confirmar alcance y política de contrato; resolver preguntas;
+actualizar especificación/ADR solo tras acuerdo real; derivar OpenAPI
+del contrato aceptado; revisar schemas y seguridad; comprobar
+compatibilidad y respuestas sin cuerpo; implementar únicamente lo
+aprobado; ejecutar pruebas con datos sintéticos y registrar
+resultado/commit. No considerar este ACD autorización para reemplazar
+DTO v1, habilitar v2 o ampliar funciones de Unidad 1.
+
+\section{9. Fuentes y límites}\label{informe-9-fuentes-y-luxedmites}
+
+El \href{FUENTES.md}{registro de fuentes} identifica rutas exactas,
+decisiones existentes y documentación primaria consultada. Durante la
+preparación original ACD3 no se ejecutaron endpoints, pruebas de negocio
+ni compilación PDF. Los
+ejemplos son didácticos derivados del código, no capturas de ejecución.
+Se utilizó ChatGPT/Codex para inspección, análisis y elaboración
+documental; la revisión y atribución personal siguen pendientes.
+
+\nocite{c4context,c4container,c4component,rfc9110,rfc5789,rfc6585,rfc9457,fetch,proyecto}
+\bibliographystyle{IEEEtran}
+\bibliography{referencias}
+\appendix
+\chapter{Arquitectura C4 preliminar ---
+ACD3}\label{c4-arquitectura-c4-preliminar--acd3}
+
+Vistas académicas derivadas del repositorio. Alcance funcional
+seleccionado: catálogo y preparación/consulta de procesos con acceso y
+auditoría. El producto contiene más módulos, omitidos en C3 para
+mantener el foco. Las flechas indican dirección de uso/dependencia, no
+flujo temporal.
+
+\section{C1 --- Contexto del sistema}\label{c4-c1--contexto-del-sistema}
+
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\small]
+flowchart LR
+  admin["Persona: administrador funcional\nMantener catálogo autorizado"]
+  manager["Persona: gestor autorizado\nPreparar procesos de su ámbito"]
+  reader["Persona: lector autorizado\nConsultar información visible"]
+  system["Sistema: SIGEAC / SEC-UNL\nOrganizar autoevaluación de carreras\ncon referencias y trazabilidad"]
+  admin -->|Registrar y corregir catálogo| system
+  manager -->|Preparar y consultar procesos| system
+  reader -->|Consultar datos autorizados| system
+\end{Verbatim}
+
+\textbf{Frontera:} SIGEAC completo; personas fuera del sistema. A-AA-01
+es la condición común de usuario habilitado de estos actores, no un
+sistema externo. No se ha identificado dependencia directa de un sistema
+externo en los dos flujos. CACES y UNL aportan documentos del dominio;
+no se dibujan como APIs. SSO e integraciones de catálogo permanecen
+fuera del recorte, sin contrato confirmado.
+
+Fuente: AA2 actores A-AA-01--04; \path|docs/requirements/spec.md|;
+\path|docs/adr/0004-opaque-sessions-scope-authorization.md|. Las
+competencias institucionales siguen sujetas a confirmación.
+
+\section{C2 --- Contenedores}\label{c4-c2--contenedores}
+
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\small]
+flowchart LR
+  people["Personas autorizadas"]
+  subgraph system["Sistema SIGEAC / SEC-UNL"]
+    ui["Contenedor: aplicación web\nAngular 22.2.3 / TypeScript\nCapturar entradas y presentar resultados"]
+    api["Contenedor: backend API\nJava 21 configurado / Spring Boot 4.1.1\nAutorizar, validar y ejecutar casos de uso"]
+    db[("Contenedor: PostgreSQL\nPersistir catálogo, procesos, sesiones y auditoría")]
+    files[("Almacén: sistema de archivos local\nEvidencias del producto completo\nFUERA de estos flujos")]
+    ui -->|HTTP JSON; cookie y CSRF| api
+    api -->|JDBC / acceso SQL; transacciones| db
+    api -.->|Puerto de almacenamiento; solo otros flujos| files
+  end
+  people -->|Usar navegador| ui
+\end{Verbatim}
+
+La aplicación web se ejecuta en navegador; el backend es un único
+desplegable con módulos por capacidades. El almacén de archivos es un
+contenedor de datos en sentido C4, no necesariamente un servicio
+independiente ni un contenedor Docker. PostgreSQL es el destino
+principal; SQLite es auxiliar de pruebas/desarrollo y no acredita
+equivalencia operativa.
+
+\textbf{Contenedor }: Aplicación web
+
+\textbf{Responsabilidad y relación }: Formularios y consultas; cliente
+HTTP del backend, sin acceso directo a DB
+
+\textbf{Evidencia }: \path|frontend/package.json|,
+\path|frontend/angular.json|, \path|frontend/proxy.conf.json|,
+\path|frontend/src/|.
+
+\medskip\hrule\medskip
+
+\textbf{Contenedor }: Backend
+
+\textbf{Responsabilidad y relación }: Autenticación, permisos, reglas,
+transacciones y respuesta HTTP
+
+\textbf{Evidencia }: \path|backend/pom.xml|,
+\path|backend/src/main/java/ec/edu/unl/sec/|.
+
+\medskip\hrule\medskip
+
+\textbf{Contenedor }: PostgreSQL
+
+\textbf{Responsabilidad y relación }: Persistencia relacional y
+revisiones; accesible desde backend
+
+\textbf{Evidencia }: \path|backend/src/main/resources/application.yml|,
+\path|backend/src/main/resources/db/migration/|.
+
+\medskip\hrule\medskip
+
+\textbf{Contenedor }: Archivos locales, fuera del recorte
+
+\textbf{Responsabilidad y relación }: Persistencia de evidencias a
+través de puerto
+
+\textbf{Evidencia }: \path|docs/adr/0002-file-storage-port.md|,
+configuración \path|sec.files.root| en application.yml.
+
+\medskip\hrule\medskip
+
+La relación frontend--API usa HTTP en el proxy local observado; HTTPS es
+una condición de despliegue a acordar/verificar, no algo demostrado por
+el diagrama. \path|SEC_COOKIE_SECURE| es configurable. No se introducen
+colas, cachés o proveedores cloud sin evidencia.
+
+\section{C3 --- Componentes del backend
+seleccionado}\label{c4-c3--componentes-del-backend-seleccionado}
+
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\small]
+flowchart TB
+  ui["Contenedor externo al foco: aplicación Angular"]
+  db[("Contenedor externo al foco: PostgreSQL")]
+  subgraph backend["Contenedor backend Spring Boot — vista parcial"]
+    security["Identidad y acceso\nSessionAuthenticationFilter / SessionService\nScopeAuthorizationService"]
+    api["API\nCareerController / SelfAssessmentController\nEvaluationModelController / handlers"]
+    catalog["Aplicación de catálogo\nCareerAdministrationService"]
+    process["Aplicación de procesos\nSelfAssessmentService"]
+    domain["Dominio\nCareer / AcademicUnit / SelfAssessmentProcess\nInvariantes y revisiones"]
+    model["Puerto de catálogo de modelos\nModelCatalogPort / ModelCatalogAdapter"]
+    repos["Puertos de repositorio e implementaciones\nCareerCatalogRepository / SelfAssessmentRepository\nJdbcCareerCatalogRepository / JdbcSelfAssessmentRepository"]
+    audit["Auditoría\nAuditPort / SelfAssessmentAuditService"]
+    api -->|Invocar casos de catálogo| catalog
+    api -->|Invocar casos de proceso| process
+    api -->|Consultar modelos vía servicio de modelos| model
+    catalog -->|Resolver actor y permisos por puertos| security
+    process -->|Resolver actor y permisos por puertos| security
+    process -->|Comprobar carrera vigente| catalog
+    process -->|Resolver versión publicada| model
+    catalog -->|Construir y validar| domain
+    process -->|Construir y validar| domain
+    catalog -->|Persistir / consultar| repos
+    process -->|Persistir / consultar| repos
+    catalog -->|Registrar cambio| audit
+    process -->|Registrar cambio| audit
+  end
+  ui -->|HTTP JSON| security
+  security -->|Continuar filtro HTTP| api
+  repos -->|SQL| db
+  audit -->|Persistir evento en DB por infraestructura| db
+  model -->|Consultar persistencia de modelos por infraestructura| db
+\end{Verbatim}
+
+El bloque de modelos agrupa puerto, adaptador y aplicación para
+legibilidad: \path|EvaluationModelController| usa
+\path|EvaluationModelService|, mientras \path|SelfAssessmentService|
+depende de \path|ModelCatalogPort|. No se afirma que el controlador
+inyecte directamente el puerto. El filtro no reemplaza la autorización
+de ámbito de cada caso de uso. CorrelationFilter y los handlers son
+transversales; no se desdoblan en contenedores.
+
+Dependencias reales a señalar en la clínica:
+\path|SelfAssessmentService| llama directamente a
+\path|CareerAdministrationService| dentro del módulo selfassessment; no
+se inventa un microservicio de carreras ni un puerto que no existe. El
+dominio de carreras normaliza código y valida fechas; la aplicación
+verifica unidad, permisos, unicidad y revisión; el repositorio conserva
+revisiones y usa SQL. Algunas validaciones permanecen en servicios/DTO;
+la separación no implica dominio completamente independiente de todo
+detalle por el simple nombre de paquete.
+
+\section{Correspondencia con C4 y
+revisión}\label{c4-correspondencia-con-c4-y-revisiuxf3n}
+
+C1 muestra el sistema y sus usuarios; C2, aplicaciones/almacenes y
+tecnologías; C3, componentes internos de un solo contenedor. Se usa
+Mermaid con etiquetas explícitas y fronteras, sin pretender una
+validación automática de notación C4. Fundamento:
+\href{https://c4model.com/diagrams/system-context}{contexto},
+\href{https://c4model.com/diagrams/container}{contenedores} y
+\href{https://c4model.com/diagrams/component}{componentes}.
+
+Para revisar: confirmar actor/capacidad; seguir cada flecha hasta
+código; comprobar que los módulos no accedan a detalles privados de
+otros módulos; contrastar pruebas ArchUnit; acordar entorno de
+despliegue y TLS. Diagramas editables en Markdown; el informe LaTeX
+conserva su fuente Mermaid como anexo textual y no afirma haberla
+renderizado.
+\chapter{ACD3 --- Recursos y contrato inicial de
+API}\label{contrato-acd3--recursos-y-contrato-inicial-de-api}
+
+\section{1. Estado y reglas de
+interpretación}\label{contrato-1-estado-y-reglas-de-interpretaciuxf3n}
+
+\textbf{Base implementada:} \path|/api/v1|, configurada en
+\path|backend/src/main/resources/application.yml|. \textbf{Alcance:} 18
+operaciones seleccionadas de sesiones, catálogo, modelos y procesos. No
+es un inventario completo de la API ni un OpenAPI nuevo. La propuesta de
+sobre común de la sección 4 \textbf{no está implementada} en estos
+endpoints. Rutas, DTO y estados observados se mantienen separados del
+objetivo académico.
+
+Fuentes principales: \path|SessionController|, \path|CareerController|,
+\path|EvaluationModelController|, \path|SelfAssessmentController| y sus
+servicios/handlers, con rutas exactas en \url{FUENTES.md}. El contrato
+v1 está en \path|docs/technical/contracts/openapi.yaml|;
+\path|specs/005-complete-evaluation-workflows/contracts/openapi.yaml|
+contiene además diseño objetivo v2 y excepciones v1. No se combinan
+ambos como si todo estuviera desplegado.
+
+\textbf{Seguridad común S:} cookie de sesión \path|SEC_SESSION|;
+comprobar actor humano y capacidad/ámbito; para mutaciones autenticadas,
+\path|X-CSRF-TOKEN| vigente. POST de sesión está exceptuado del CSRF de
+este filtro. A una lectura protegida sin sesión le corresponde 401; una
+capacidad denegada puede producir 403 y un identificador fuera del
+ámbito puede ocultarse con 404. El resultado exacto depende del servicio
+y orden de rechazo. No se usa \path|Authorization: Bearer| en los
+ejemplos.
+
+\textbf{Resultados transversales:} 400 para JSON/UUID/DTO inválidos; 401
+falta de autenticación; 403 denegación o CSRF inválido en mutaciones;
+500 fallo técnico no controlado. Estas posibilidades no prueban que
+todos ocurran en toda operación. 429 está asociado al rechazo de
+autenticación por intentos; no se generaliza a cada recurso.
+
+\section{2. Tabla de operaciones
+observadas}\label{contrato-2-tabla-de-operaciones-observadas}
+
+Las rutas de la tabla incluyen la base real. Los cuerpos se detallan en
+sección 3. \path|GET| no recibe cuerpo en estas operaciones. \path|size|
+no existe en el listado de procesos.
+
+\textbf{ID / requisito AA2 }: OP-01 / AA-RF-01
+
+\textbf{Método y ruta }: POST \path|/api/v1/sessions|
+
+\textbf{Entrada y permiso }: Login; sin sesión previa
+
+\textbf{Respuesta de éxito observada }: 201; SessionView; Set-Cookie
+
+\textbf{Rechazos relevantes y causa }: 400 formato; 401 credenciales
+rechazadas; 429 límite de intentos.
+
+\medskip\hrule\medskip
+
+\textbf{ID / requisito AA2 }: OP-02 / AA-RF-02
+
+\textbf{Método y ruta }: DELETE \path|/api/v1/sessions|
+
+\textbf{Entrada y permiso }: S; sin cuerpo
+
+\textbf{Respuesta de éxito observada }: 204 sin cuerpo; borrar cookie
+
+\textbf{Rechazos relevantes y causa }: 401 falta de sesión; 403 CSRF.
+
+\medskip\hrule\medskip
+
+\textbf{ID / requisito AA2 }: OP-03 / AA-RF-03
+
+\textbf{Método y ruta }: GET \path|/api/v1/me|
+
+\textbf{Entrada y permiso }: S; sin parámetros
+
+\textbf{Respuesta de éxito observada }: 200; identidad y
+funciones/ámbitos vigentes propios
+
+\textbf{Rechazos relevantes y causa }: 401 no autenticado.
+
+\medskip\hrule\medskip
+
+\textbf{ID / requisito AA2 }: OP-04 / AA-RF-05
+
+\textbf{Método y ruta }: POST \path|/api/v1/academic-units|
+
+\textbf{Entrada y permiso }: UnitInput; S y CAREER\_ADMIN
+
+\textbf{Respuesta de éxito observada }: 201; AcademicUnit; Location y
+ETag
+
+\textbf{Rechazos relevantes y causa }: 400 entrada; 403 capacidad; 409
+código duplicado.
+
+\medskip\hrule\medskip
+
+\textbf{ID / requisito AA2 }: OP-05 / AA-RF-07
+
+\textbf{Método y ruta }: GET \path|/api/v1/academic-units|
+
+\textbf{Entrada y permiso }: page, size, q; S y lectura de catálogo
+aplicable
+
+\textbf{Respuesta de éxito observada }: 200; página de unidades visibles
+
+\textbf{Rechazos relevantes y causa }: 400 paginación/búsqueda; 403 sin
+capacidad de lectura.
+
+\medskip\hrule\medskip
+
+\textbf{ID / requisito AA2 }: OP-06 / AA-RF-07
+
+\textbf{Método y ruta }: GET \path|/api/v1/academic-units/{id}|
+
+\textbf{Entrada y permiso }: UUID; S y visibilidad de unidad
+
+\textbf{Respuesta de éxito observada }: 200; AcademicUnit; ETag
+
+\textbf{Rechazos relevantes y causa }: 400 UUID; 404 inexistente/no
+visible.
+
+\medskip\hrule\medskip
+
+\textbf{ID / requisito AA2 }: OP-07 / AA-RF-06
+
+\textbf{Método y ruta }: POST \path|/api/v1/careers|
+
+\textbf{Entrada y permiso }: CareerInput; S y CAREER\_ADMIN
+
+\textbf{Respuesta de éxito observada }: 201; Career; Location y ETag
+
+\textbf{Rechazos relevantes y causa }: 400 entrada/fechas; 403
+capacidad; 409 código duplicado; 422 unidad no disponible.
+
+\medskip\hrule\medskip
+
+\textbf{ID / requisito AA2 }: OP-08 / AA-RF-07
+
+\textbf{Método y ruta }: GET \path|/api/v1/careers|
+
+\textbf{Entrada y permiso }: page, size, q, status, academicUnitId; S y
+lectura visible
+
+\textbf{Respuesta de éxito observada }: 200; página de carreras con
+total filtrado
+
+\textbf{Rechazos relevantes y causa }: 400 filtros/formato/página; 403
+sin lectura.
+
+\medskip\hrule\medskip
+
+\textbf{ID / requisito AA2 }: OP-09 / AA-RF-07/08
+
+\textbf{Método y ruta }: GET \path|/api/v1/careers/{id}|
+
+\textbf{Entrada y permiso }: UUID; S y acceso aplicable
+
+\textbf{Respuesta de éxito observada }: 200; Career; ETag
+
+\textbf{Rechazos relevantes y causa }: 400 UUID; 404 inexistente/no
+visible.
+
+\medskip\hrule\medskip
+
+\textbf{ID / requisito AA2 }: OP-10 / AA-RF-08
+
+\textbf{Método y ruta }: PATCH \path|/api/v1/careers/{id}|
+
+\textbf{Entrada y permiso }: UUID, If-Match, CareerInput completo; S y
+CAREER\_ADMIN
+
+\textbf{Respuesta de éxito observada }: 200; Career con nueva revisión y
+ETag
+
+\textbf{Rechazos relevantes y causa }: 400 entrada/ETag; 404 ID; 409
+duplicado; 412 revisión vieja; 422 unidad; 428 falta If-Match.
+
+\medskip\hrule\medskip
+
+\textbf{ID / requisito AA2 }: OP-11 / AA-RF-07/08
+
+\textbf{Método y ruta }: GET \path|/api/v1/careers/{id}/history|
+
+\textbf{Entrada y permiso }: UUID, page, size; S y visibilidad
+
+\textbf{Respuesta de éxito observada }: 200; página de revisiones
+
+\textbf{Rechazos relevantes y causa }: 400 página; 404 carrera no
+visible/inexistente.
+
+\medskip\hrule\medskip
+
+\textbf{ID / requisito AA2 }: OP-12 / AA-RF-09
+
+\textbf{Método y ruta }: POST
+\path|/api/v1/careers/{id}/state-decisions|
+
+\textbf{Entrada y permiso }: UUID, If-Match, StateChange; S y
+CAREER\_ADMIN
+
+\textbf{Respuesta de éxito observada }: 201; Career y ETag; sin Location
+explícita en controlador
+
+\textbf{Rechazos relevantes y causa }: 400 DTO/ETag; 404 ID; 409 sin
+cambio o reactivación no posible; 412 revisión; 422 motivo/unidad según
+escenario; 428 sin precondición.
+
+\medskip\hrule\medskip
+
+\textbf{ID / requisito AA2 }: OP-13 / AA-RF-10
+
+\textbf{Método y ruta }: GET \path|/api/v1/models|
+
+\textbf{Entrada y permiso }: S y MODEL\_READ
+
+\textbf{Respuesta de éxito observada }: 200; lista de modelos
+
+\textbf{Rechazos relevantes y causa }: 401 identidad; 403 capacidad
+según servicio.
+
+\medskip\hrule\medskip
+
+\textbf{ID / requisito AA2 }: OP-14 / AA-RF-10
+
+\textbf{Método y ruta }: GET \path|/api/v1/model-versions/{id}|
+
+\textbf{Entrada y permiso }: UUID; S y lectura de modelo
+
+\textbf{Respuesta de éxito observada }: 200; LegacyModelVersion y ETag
+cuando la estructura es compatible
+
+\textbf{Rechazos relevantes y causa }: 400 UUID; 404 versión
+inexistente/no visible; 409 MODEL\_VERSION\_REQUIRES\_V2 cuando requiere
+representación configurada. Consultar no garantiza que esté publicada.
+
+\medskip\hrule\medskip
+
+\textbf{ID / requisito AA2 }: OP-15 / AA-RF-12
+
+\textbf{Método y ruta }: GET \path|/api/v1/processes|
+
+\textbf{Entrada y permiso }: S; filtrar por capacidades/ámbitos; sin
+paginación declarada
+
+\textbf{Respuesta de éxito observada }: 200; arreglo de procesos
+visibles
+
+\textbf{Rechazos relevantes y causa }: 401 identidad; no prometer
+total/paginación.
+
+\medskip\hrule\medskip
+
+\textbf{ID / requisito AA2 }: OP-16 / AA-RF-12
+
+\textbf{Método y ruta }: GET \path|/api/v1/processes/{id}|
+
+\textbf{Entrada y permiso }: UUID; S y acceso a proceso/indicadores
+según servicio
+
+\textbf{Respuesta de éxito observada }: 200; SelfAssessmentProcess y
+ETag
+
+\textbf{Rechazos relevantes y causa }: 400 UUID; 404 inexistente/no
+visible.
+
+\medskip\hrule\medskip
+
+\textbf{ID / requisito AA2 }: OP-17 / AA-RF-04/07
+
+\textbf{Método y ruta }: GET \path|/api/v1/careers/access|
+
+\textbf{Entrada y permiso }: S y acceso al catálogo
+
+\textbf{Respuesta de éxito observada }: 200;
+\path|{ "canManage": true }| o false según permiso
+
+\textbf{Rechazos relevantes y causa }: 403 cuenta técnica o sin
+capacidad de catálogo. No reemplaza autorización de mutaciones.
+
+\medskip\hrule\medskip
+
+\textbf{ID / requisito AA2 }: OP-18 / AA-RF-11
+
+\textbf{Método y ruta }: POST \path|/api/v1/processes|
+
+\textbf{Entrada y permiso }: ProcessCommand; S y PROCESS\_MANAGE en
+carrera
+
+\textbf{Respuesta de éxito observada }: 201; SelfAssessmentProcess;
+Location, ETag
+
+\textbf{Rechazos relevantes y causa }: 400 DTO/período invertido/modelo
+no publicado; 403 ámbito; 404 carrera ausente; 409 carrera inactiva; 422
+período fuera de vigencia.
+
+\medskip\hrule\medskip
+
+AA-RF-13/14 y RNF de privacidad, auditoría, correlación y contrato son
+transversales. La existencia de un código en el servicio no demuestra su
+respuesta integrada: validar con pruebas/solicitudes en APE3. No se
+añade 422 a todo error de validación: los DTO actuales usan 400. No se
+asume 409 por cualquier error SQL.
+
+\section{3. Entradas, restricciones y representaciones
+actuales}\label{contrato-3-entradas-restricciones-y-representaciones-actuales}
+
+\subsection{3.1 Parámetros y
+paginación}\label{contrato-31-paruxe1metros-y-paginaciuxf3n}
+
+Los \path|id| y \path|academicUnitId| son UUID. Catálogos/historial usan
+\path|page| desde 0, \path|size| por defecto 20, permitido 1--100;
+\path|page| debe ser no negativo y no superar
+\path|Integer.MAX_VALUE/100|. \path|q| por defecto vacío, longitud
+máxima 300, recortado por el servicio. Carreras admite \path|status|
+ACTIVE o DISABLED y filtro de unidad. No inventar filtros de fecha o de
+modelo para \path|/processes|.
+
+\path|If-Match| se obtiene de ETag del detalle actual, por ejemplo
+\path|"1"|. \path|EntityTagSupport| admite un único entero no negativo
+entre comillas fuertes; rechaza forma débil y otras formas con 400,
+ausencia con 428. La gramática general de HTTP es más amplia que este
+subconjunto del proyecto; revisar esa restricción como decisión de
+contrato, no enseñarla como gramática universal. Revisión vieja \ensuremath{\rightarrow} 412
+sin sobrescritura.
+
+\subsection{3.2 Cuerpos}\label{contrato-32-cuerpos}
+
+\textbf{Tipo }: LoginRequest
+
+\textbf{Campos y restricciones del DTO / dominio }: username no vacío,
+3--100; password no vacío, 12--256
+
+\textbf{Validación de negocio adicional }: Identidad habilitada,
+comprobación de credencial, política de intentos; no registrar
+contraseña.
+
+\medskip\hrule\medskip
+
+\textbf{Tipo }: UnitInput
+
+\textbf{Campos y restricciones del DTO / dominio }: code no vacío,
+máximo 100; name no vacío, máximo 300
+
+\textbf{Validación de negocio adicional }: Código único normalizado;
+creador/revisión por servidor.
+
+\medskip\hrule\medskip
+
+\textbf{Tipo }: CareerInput
+
+\textbf{Campos y restricciones del DTO / dominio }: code/name con
+límites 100/300; academicUnitId y validFrom obligatorios; validUntil
+opcional
+
+\textbf{Validación de negocio adicional }: Unidad activa, código único;
+validUntil no anterior a validFrom. Código se recorta, normaliza
+espacios y convierte a mayúsculas.
+
+\medskip\hrule\medskip
+
+\textbf{Tipo }: StateChange
+
+\textbf{Campos y restricciones del DTO / dominio }: status obligatorio
+ACTIVE/DISABLED; reason no vacío de 10--4000
+
+\textbf{Validación de negocio adicional }: Estado diferente; reactivar
+exige unidad activa y clasificación resuelta.
+
+\medskip\hrule\medskip
+
+\textbf{Tipo }: ProcessCommand
+
+\textbf{Campos y restricciones del DTO / dominio
+}: careerId/modelVersionId obligatorios; code/name no vacíos, máximo
+100/300; periodStart/periodEnd obligatorios
+
+\textbf{Validación de negocio adicional }: Inicio no posterior al fin;
+período contenido en vigencia; carrera utilizable en fecha actual UTC;
+versión publicada.
+
+\medskip\hrule\medskip
+
+UnitInput, CareerInput y StateChange rechazan campos desconocidos
+mediante \path|JsonAnySetter|; no generalizar esta garantía a
+ProcessCommand sin comprobar configuración/prueba. Los ID, actor, fecha
+y revisión se asignan en servidor.
+
+\subsection{3.3 Formas actuales
+relevantes}\label{contrato-33-formas-actuales-relevantes}
+
+\begin{itemize}
+\tightlist
+\item
+  Career: \path|id|, \path|data| con campos de negocio, \path|status|,
+  \path|revision|, \path|createdBy|, \path|createdAt|,
+  \path|classificationPending|; revisión inicial 1. La entrada de
+  creación es plana, no contiene un \path|data| externo.
+\item
+  AcademicUnit: campos de catálogo propios y revisión inicial 1;
+  confirmar schema exacto en su record antes de derivar OpenAPI.
+\item
+  CatalogPage: \path|items|, \path|page|, \path|size|,
+  \path|totalElements|; los totales deben respetar visibilidad.
+\item
+  SessionView: \path|userId|, \path|expiresAt|, \path|csrfToken|; cookie
+  de sesión por Set-Cookie, no contraseña/token opaco en JSON.
+\item
+  Proceso: \path|id|, \path|careerId|, \path|code|, \path|name|, fechas,
+  \path|modelVersionId|, \path|modelVersionNumber|, \path|state|,
+  \path|revision|, \path|createdBy|, \path|createdAt|,
+  \path|indicators|, \path|authorization|; en preparación inicial,
+  revisión 0, indicadores vacíos y autorización ausente.
+\item
+  Modelo por OP-14: DTO \path|LegacyModelVersion| solo cuando su
+  estructura es compatible; en otro caso responde 409
+  \path|MODEL_VERSION_REQUIRES_V2|. Para configuración
+  completa existe GET \path|/api/v1/model-versions/{id}/configured|. Es
+  una ruta real complementaria, fuera de las 18 seleccionadas; no tratar
+  DTO legado y configurado como intercambiables. Esta precisión se
+  confirmó posteriormente en APE3, casos HTTP-16/16B; no es una
+  observación docente.
+\item
+  Error: Problem Details con \path|type|, \path|title|, \path|status|,
+  \path|detail|, \path|instance| y extensiones \path|code|,
+  \path|correlationId|, \path|details| según handler. No contiene
+  automáticamente \path|success|/\path|errors| del sobre académico.
+\end{itemize}
+
+\section{4. Sobre común solicitado: propuesta académica
+pendiente}\label{contrato-4-sobre-comuxfan-solicitado-propuesta-acaduxe9mica-pendiente}
+
+La guía solicita esta estructura; se propone como \textbf{contrato
+objetivo para discutir}, sin atribuirla al código. Mantener el estado
+HTTP real y los headers semánticos. Una respuesta con error no debe usar
+200 por llevar \path|success: false|.
+
+\textbf{Escenario }: Alta con representación
+
+\textbf{Uso propuesto del sobre }: success=true; message informativo;
+data=representación; errors=null; meta con correlación
+
+\textbf{Estado propuesto / límite }: 201 y Location cuando identifica el
+recurso creado.
+
+\medskip\hrule\medskip
+
+\textbf{Escenario }: Lectura individual
+
+\textbf{Uso propuesto del sobre }: data=representación; errors=null
+
+\textbf{Estado propuesto / límite }: 200; ETag donde se implemente
+precondición/revisión.
+
+\medskip\hrule\medskip
+
+\textbf{Escenario }: Colección paginada
+
+\textbf{Uso propuesto del sobre }: data=arreglo de items;
+meta=\{page,size,totalElements,correlationId\}
+
+\textbf{Estado propuesto / límite }: 200; no duplicar simultáneamente
+paginación en data y meta.
+
+\medskip\hrule\medskip
+
+\textbf{Escenario }: Colección no paginada
+
+\textbf{Uso propuesto del sobre }: data=arreglo; meta con correlación,
+sin total/página inventados
+
+\textbf{Estado propuesto / límite }: 200 para procesos mientras no
+cambie la operación.
+
+\medskip\hrule\medskip
+
+\textbf{Escenario }: Validación
+
+\textbf{Uso propuesto del sobre }: success=false; data=null; errors con
+código/campo/descripción; meta con correlación
+
+\textbf{Estado propuesto / límite }: 400 para DTO inválido; 422 solo
+para reglas que lo justifiquen.
+
+\medskip\hrule\medskip
+
+\textbf{Escenario }: Acceso denegado
+
+\textbf{Uso propuesto del sobre }: success=false; data=null; mensaje
+seguro; errors con código
+
+\textbf{Estado propuesto / límite }: 401/403 según
+autenticación/capacidad; respetar ocultación 404.
+
+\medskip\hrule\medskip
+
+\textbf{Escenario }: Recurso ausente/no visible
+
+\textbf{Uso propuesto del sobre }: success=false; data=null; mensaje
+indistinguible para ocultación
+
+\textbf{Estado propuesto / límite }: 404.
+
+\medskip\hrule\medskip
+
+\textbf{Escenario }: Conflicto o precondición
+
+\textbf{Uso propuesto del sobre }: data=null; errors identifican código
+estable y acción recuperable
+
+\textbf{Estado propuesto / límite }: 409 para duplicado/estado; 412
+revisión vieja; 428 If-Match ausente.
+
+\medskip\hrule\medskip
+
+\textbf{Escenario }: Sin contenido
+
+\textbf{Uso propuesto del sobre }: Ningún sobre ni JSON, ni objeto vacío
+
+\textbf{Estado propuesto / límite }: 204, por ejemplo logout; tampoco se
+añade cuerpo a HEAD/304.
+
+\medskip\hrule\medskip
+
+Los campos \path|message|, \path|errors[].field| y
+\path|meta.correlationId| son propuesta de forma; no códigos/contratos
+aprobados adicionales. \path|Content-Type: application/json| para este
+sobre; no etiquetarlo \path|application/problem+json| porque no es un
+Problem Details de primer nivel.
+
+\textbf{Compatibilidad que debe resolver el equipo/docente:}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Acordar si la entrega exige migrar el producto o documentar un
+  contrato futuro y su diferencia actual.
+\item
+  Si se adopta el sobre, escoger versión/frontera y migrar
+  coordinadamente frontend, OpenAPI, handlers, filtros de autenticación,
+  pruebas y clientes. No envolver únicamente controladores exitosos y
+  dejar errores fuera por accidente.
+\item
+  Si se conserva Problem Details, registrar aprobación real de la
+  excepción académica; no afirmar que el sobre ya está cumplido.
+\item
+  Mantener cabeceras, permisos y errores semánticos en cualquier
+  alternativa. \path|/api/v2| ya aparece como diseño objetivo de 005: no
+  reutilizarlo para este cambio sin revisar sus otros compromisos.
+\end{enumerate}
+
+\section{5. Ejemplos explicados}\label{contrato-5-ejemplos-explicados}
+
+Valores e identificadores sintéticos; no son respuestas capturadas ni
+solicitudes ejecutadas. Las representaciones parciales se etiquetan como
+extractos, sin presentarlas como respuesta completa.
+
+\subsection{5.1 Alta de carrera: formato
+actual}\label{contrato-51-alta-de-carrera-formato-actual}
+
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\small]
+POST /api/v1/careers HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Accept: application/json
+Cookie: SEC_SESSION=<sesion-sintetica>
+X-CSRF-TOKEN: <csrf-de-la-sesion>
+
+{
+  "code": "DEMO-C01",
+  "name": "Carrera de demostracion",
+  "academicUnitId": "11111111-1111-4111-8111-111111111111",
+  "validFrom": "2026-01-01",
+  "validUntil": null
+}
+\end{Verbatim}
+
+Si la sesión tiene CAREER\_ADMIN, la unidad es activa y el código es
+nuevo, el controlador construye esta clase de respuesta. Las
+fechas/identidades siguientes son ilustrativas:
+
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\small]
+HTTP/1.1 201 Created
+Content-Type: application/json
+Location: /api/v1/careers/22222222-2222-4222-8222-222222222222
+ETag: "1"
+
+{
+  "id": "22222222-2222-4222-8222-222222222222",
+  "data": {
+    "code": "DEMO-C01",
+    "name": "Carrera de demostracion",
+    "academicUnitId": "11111111-1111-4111-8111-111111111111",
+    "validFrom": "2026-01-01",
+    "validUntil": null
+  },
+  "status": "ACTIVE",
+  "revision": 1,
+  "createdBy": "33333333-3333-4333-8333-333333333333",
+  "createdAt": "2026-10-31T12:00:00Z",
+  "classificationPending": false
+}
+\end{Verbatim}
+
+POST solicita crear un elemento de la colección; 201 comunica creación.
+Location identifica su URI y ETag permite una edición condicional
+posterior. El \path|data| mostrado es un campo real de Career;
+\textbf{no} es el sobre de éxito pedido por la guía. Content-Type
+describe el JSON enviado y Accept expresa la representación solicitada.
+
+\subsection{5.2 Revisión obsoleta y
+recuperación}\label{contrato-52-revisiuxf3n-obsoleta-y-recuperaciuxf3n}
+
+Tras consultar GET \path|/api/v1/careers/{id}| y recibir ETag
+\path|"1"|, otro cliente puede guardar revisión 2. El primer cliente
+intenta PATCH con \path|If-Match: "1"|, cookie/CSRF y \textbf{todos los
+campos de CareerInput}, no solamente name. El servicio rechaza con 412 y
+código \path|STALE_REVISION|; debe recargar y conciliar cambios antes de
+reenviar. Un error actual didáctico tiene forma:
+
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\small]
+{
+  "type": "urn:sec-unl:problem:stale-revision",
+  "title": "Precondition Failed",
+  "status": 412,
+  "detail": "El recurso cambió; recargue antes de continuar.",
+  "instance": "/api/v1/careers/22222222-2222-4222-8222-222222222222",
+  "code": "STALE_REVISION",
+  "correlationId": "44444444-4444-4444-8444-444444444444",
+  "details": {}
+}
+\end{Verbatim}
+
+La forma se deriva del handler de catálogo; verificar
+serialización/cabeceras con prueba integrada antes de presentarla como
+captura. \path|ETag| no sustituye autorización ni es token CSRF.
+
+\subsection{5.3 Sobre académico: colección
+propuesta}\label{contrato-53-sobre-acaduxe9mico-colecciuxf3n-propuesta}
+
+Para una consulta paginada vacía de carreras, el \textbf{objetivo
+propuesto}, no respuesta actual, sería 200 con:
+
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\small]
+{
+  "success": true,
+  "message": "Consulta realizada correctamente.",
+  "data": [],
+  "errors": null,
+  "meta": {
+    "page": 0,
+    "size": 20,
+    "totalElements": 0,
+    "correlationId": "44444444-4444-4444-8444-444444444444"
+  }
+}
+\end{Verbatim}
+
+Ejemplo propuesto de código duplicado: HTTP 409, Content-Type
+application/json:
+
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\small]
+{
+  "success": false,
+  "message": "El código ya está registrado.",
+  "data": null,
+  "errors": [{"code": "DUPLICATE_CODE", "field": "code", "message": "El código ya está registrado."}],
+  "meta": {"correlationId": "44444444-4444-4444-8444-444444444444"}
+}
+\end{Verbatim}
+
+\subsection{5.4 Cierre de sesión}\label{contrato-54-cierre-de-sesiuxf3n}
+
+DELETE \path|/api/v1/sessions| con cookie y CSRF válidos devuelve
+\textbf{204 sin cuerpo}, con Set-Cookie para retirar la cookie. No se
+devuelve el sobre ni \path|{}|. Reutilizar una sesión revocada en una
+ruta protegida debe rechazarse; AC-AA-03 exige comprobarlo, no se afirma
+haberlo ejecutado.
+
+\section{6. Métodos, estados y cabeceras: justificación limitada al
+caso}\label{contrato-6-muxe9todos-estados-y-cabeceras-justificaciuxf3n-limitada-al-caso}
+
+Según \href{https://www.rfc-editor.org/rfc/rfc9110.html\#section-9}{RFC
+9110, §9}, GET consulta, POST procesa contenido según recurso, PUT
+reemplaza y DELETE elimina la asociación del recurso. Seguridad
+semántica e idempotencia no equivalen a idéntico código en cada
+repetición. Aquí DELETE actúa sobre sesión vigente, no borra carreras.
+PUT no se selecciona porque no existe reemplazo PUT de estos recursos en
+los controladores revisados.
+
+\href{https://www.rfc-editor.org/rfc/rfc5789.html\#section-2}{RFC 5789,
+§2} define PATCH para modificaciones parciales. La implementación de
+catálogo conserva ID/estado/historial pero exige el bloque completo de
+datos editables: documentar esta restricción y discutir si conviene un
+documento de cambios específico. No denominarlo JSON Patch ni JSON Merge
+Patch: no implementa esos formatos por llamarse PATCH.
+
+200 representa resultado con contenido; 201 creación; 204 éxito sin
+contenido; 400 entrada inválida; 401 autenticación necesaria; 403
+denegación; 404 ausencia/ocultación; 409 conflicto actual; 412
+precondición falsa; 422 contenido no procesable por regla; 500 fallo no
+esperado. 428 se fundamenta en
+\href{https://www.rfc-editor.org/rfc/rfc6585.html\#section-3}{RFC 6585
+§3}, no en RFC 9110. Solo asociar cada estado a escenarios de la tabla,
+sin prometer códigos no implementados.
+
+Content-Type y Accept describen/negocian representación; Location
+identifica recurso creado; ETag e If-Match coordinan revisión;
+Cookie/Set-Cookie mantienen sesión; X-CSRF-TOKEN protege mutaciones
+según filtro. 401 requiere revisar la cabecera de desafío
+WWW-Authenticate conforme a
+\href{https://www.rfc-editor.org/rfc/rfc9110.html\#section-15.5.2}{RFC
+9110 §15.5.2}: AA2 ya registró HTTP-AA-01 y el código revisado no la
+fija explícitamente. No inventar un esquema Bearer como corrección.
+
+\section{7. CORS y límites
+distribuidos}\label{contrato-7-cors-y-luxedmites-distribuidos}
+
+En desarrollo \path|frontend/proxy.conf.json| reenvía \path|/api| a
+\path|http://localhost:8080|: el navegador puede usar el mismo origen
+visible del frontend. Si se despliegan frontend y API en orígenes
+distintos, acordar política CORS, credenciales y exposición de
+ETag/Location para que el cliente pueda leerlas. El uso de cookies y
+cabeceras de aplicación exige revisar preflight y configuración de
+despliegue; no hay evidencia aquí de una política CORS productiva
+validada. CORS no concede permisos funcionales ni sustituye CSRF.
+Fundamento:
+\href{https://fetch.spec.whatwg.org/\#http-cors-protocol}{Fetch,
+protocolo CORS}.
+
+El navegador/API y backend/DB son fronteras de comunicación separadas.
+No reintentar POST automáticamente tras timeout sin resolver
+resultado/idempotencia: no se ha definido clave de idempotencia en este
+contrato. Las transacciones entre catálogo, proceso y auditoría son
+locales al backend/DB; no se atribuye commit distribuido. Para APE3
+habrá que probar pérdida de respuesta, errores, correlación y ausencia
+de efectos parciales.
+\chapter{ACD3 --- Observaciones y
+ajustes}\label{observaciones-acd3--observaciones-y-ajustes}
+
+\section{1. Hallazgos de preparación
+documental}\label{observaciones-1-hallazgos-de-preparaciuxf3n-documental}
+
+Estos hallazgos surgen de la inspección asistida del repositorio.
+\textbf{No son observaciones recibidas del docente ni de otros equipos.}
+Las acciones son propuestas para decidir durante la clínica.
+
+\textbf{ID }: H-01
+
+\textbf{Observación y evidencia }: DTO directos y Problem Details frente
+al sobre solicitado; controladores y handlers
+
+\textbf{Decisión propuesta }: Acordar migración compatible o excepción
+académica explícita
+
+\textbf{Ajuste documental preparado / pendiente }: Separar contrato
+actual/objetivo en CONTRATO\_API\_INICIAL.md. No cambiar backend.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: H-02
+
+\textbf{Observación y evidencia }: Java 25 en research.md frente a
+java.version=21 en pom.xml
+
+\textbf{Decisión propuesta }: Confirmar versión de trabajo y corregir la
+fuente discrepante tras acuerdo
+
+\textbf{Ajuste documental preparado / pendiente }: C2 muestra Java 21
+configurado; DA-03 registra divergencia.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: H-03
+
+\textbf{Observación y evidencia }: PATCH de catálogo exige CareerInput
+completo
+
+\textbf{Decisión propuesta }: Acordar semántica/documento de
+modificación o mantener restricción explícita
+
+\textbf{Ajuste documental preparado / pendiente }: Documentar entrada
+real; no presentarla como JSON Patch.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: H-04
+
+\textbf{Observación y evidencia }: POST state-decisions devuelve carrera
+con 201 y sin Location explícita
+
+\textbf{Decisión propuesta }: Aclarar si existe recurso de decisión
+consultable y su URI; o revisar estado/representación
+
+\textbf{Ajuste documental preparado / pendiente }: No inventar GET de
+decisión ni Location inexistente.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: H-05
+
+\textbf{Observación y evidencia }: Proceso inicia revisión 0; catálogo
+en 1; ADR-0018 conserva compatibilidad
+
+\textbf{Decisión propuesta }: Mantener distinción salvo migración
+aprobada
+
+\textbf{Ajuste documental preparado / pendiente }: Ejemplos y tabla
+conservan ambos valores.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: H-06
+
+\textbf{Observación y evidencia }: Modelo publicado permite preparar;
+aplicabilidad se exige después en activación
+
+\textbf{Decisión propuesta }: Confirmar límites de Unidad 1 y validación
+normativa
+
+\textbf{Ajuste documental preparado / pendiente }: F-ACD3-02 evita
+equiparar PREPARATION con autorización/aplicabilidad.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: H-07
+
+\textbf{Observación y evidencia }: AA2 HTTP-AA-01: desafío 401 no fijado
+explícitamente en escritor revisado
+
+\textbf{Decisión propuesta }: Comprobar intercambio real y decidir
+solución compatible con cookie
+
+\textbf{Ajuste documental preparado / pendiente }: No inventar Bearer ni
+declarar conformidad HTTP completa.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: H-08
+
+\textbf{Observación y evidencia }: \path|/processes| devuelve lista sin
+parámetros de página
+
+\textbf{Decisión propuesta }: Mantener contrato real o aprobar diseño
+paginado
+
+\textbf{Ajuste documental preparado / pendiente }: No fabricar
+meta.page/total en contrato actual.
+
+\medskip\hrule\medskip
+
+\section{2. Preguntas para resolver en
+clínica}\label{observaciones-2-preguntas-para-resolver-en-cluxednica}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  ¿Se ratifica el recorte de catálogo y preparación, excluyendo
+  activación/gobierno?
+\item
+  ¿Quién puede administrar catálogo y gestionar procesos en cada ámbito?
+  Confirmar asignaciones sin equiparar permisos técnicos con
+  competencias institucionales.
+\item
+  ¿Cómo se cumplirá el sobre de la guía sin romper los clientes v1 y el
+  objetivo v2 existente?
+\item
+  ¿Se conserva PATCH con datos editables completos o se especifica un
+  documento parcial distinto?
+\item
+  ¿Qué recurso crea state-decisions y qué URI/estado deben representar
+  la operación?
+\item
+  ¿Cuál es la versión Java acordada para código, documentación y
+  herramientas?
+\item
+  ¿Qué entorno/orígenes se usarán para probar cookies, TLS, CORS y
+  cabeceras?
+\item
+  ¿Qué alcance y casos de prueba demostrarán atomicidad, visibilidad y
+  revisión concurrente?
+\end{enumerate}
+
+\section{3. Registro de retroalimentación
+auténtica}\label{observaciones-3-registro-de-retroalimentaciuxf3n-autuxe9ntica}
+
+Estado inicial: \textbf{sin registro de sesión aportado}. Completar
+exclusivamente con observaciones recibidas realmente.
+
+\textbf{ID }: OBS-01
+
+\textbf{Fecha / persona y rol }: Pendiente
+
+\textbf{Observación recibida }: Pendiente de sesión
+
+\textbf{Decisión y justificación }: Pendiente
+
+\textbf{Cambio realizado o razón para mantener }: Pendiente
+
+\textbf{Requisito / archivo / evidencia }: Pendiente de enlace/commit
+real
+
+\textbf{Responsable }: Pendiente
+
+\medskip\hrule\medskip
+
+No convertir H-01--09 en OBS sin una observación real identificada. Si
+se mantiene el diseño, registrar el argumento y la fuente, no inventar
+un cambio para llenar la tabla.
+
+\section{4. Cambios ya preparados en esta
+actividad}\label{observaciones-4-cambios-ya-preparados-en-esta-actividad}
+
+Se elaboraron dos procesos textuales, tres vistas C4, ocho decisiones
+con alternativas, selección de 18 operaciones, contrato objetivo
+diferenciado y trazabilidad de Semana 2 a componentes/API. Son cambios
+en documentación académica; no hubo implementación, migración de
+contratos, ejecución de negocio, publicación ni commit nuevo. Las
+correcciones derivadas de la clínica permanecen pendientes hasta recibir
+retroalimentación real.
+\chapter{ACD3 --- Evidencia individual para
+completar}\label{individual-acd3--evidencia-individual-para-completar}
+
+\textbf{Estudiante:} pendiente. \textbf{Equipo:} pendiente.
+\textbf{Fecha de sesión:} pendiente. \textbf{Rol/aporte efectivamente
+realizado:} pendiente. Esta nota no acredita intervención oral ni
+revisión personal terminada.
+
+\section{Material preparado para la revisión
+personal}\label{individual-material-preparado-para-la-revisiuxf3n-personal}
+
+Seleccionar y revisar al menos una cadena completa de las siguientes;
+registrar únicamente lo realizado por el estudiante.
+
+\textbf{Tema disponible }: Catálogo y concurrencia
+
+\textbf{Cadena para explicar }: AA-RF-06/08 \ensuremath{\rightarrow} HU-AA-02/04 \ensuremath{\rightarrow} AC-AA-08--15
+\ensuremath{\rightarrow} F-ACD3-01 \ensuremath{\rightarrow} CareerAdministrationService \ensuremath{\rightarrow} POST/PATCH careers \ensuremath{\rightarrow}
+ETag/412
+
+\textbf{Archivos que abrir }: Dossier AA2, informe ACD3, contrato,
+CareerController/CareerAdministrationService/EntityTagSupport.
+
+\medskip\hrule\medskip
+
+\textbf{Tema disponible }: Preparación y límites
+
+\textbf{Cadena para explicar }: AA-RF-10/11 \ensuremath{\rightarrow} HU-AA-06 \ensuremath{\rightarrow} AC-AA-18--22 \ensuremath{\rightarrow}
+F-ACD3-02 \ensuremath{\rightarrow} SelfAssessmentService \ensuremath{\rightarrow} POST processes \ensuremath{\rightarrow} 201/PREPARATION
+
+\textbf{Archivos que abrir }: Dossier AA2, C4, contrato y servicio de
+procesos.
+
+\medskip\hrule\medskip
+
+\textbf{Tema disponible }: Contrato y compatibilidad
+
+\textbf{Cadena para explicar }: AA-RF-14 / AA-RNF-10 \ensuremath{\rightarrow} AC-AA-26 /
+VC-AA-10 \ensuremath{\rightarrow} handlers \ensuremath{\rightarrow} Problem Details actual frente a sobre propuesto
+
+\textbf{Archivos que abrir }: Contrato, handlers, ADR-0018 y registro
+H-01.
+
+\medskip\hrule\medskip
+
+Las rutas exactas se encuentran en FUENTES.md. Antes de atribuir el
+aporte, abrir las fuentes, contrastar el comportamiento y explicar la
+decisión con palabras propias.
+
+\section{Registro del aporte
+real}\label{individual-registro-del-aporte-real}
+
+\begin{itemize}
+\tightlist
+\item
+  Elementos revisados personalmente: \textbf{pendiente}.
+\item
+  Hallazgo y fuente concreta (archivo/símbolo/sección):
+  \textbf{pendiente}.
+\item
+  Decisión defendida y alternativa considerada: \textbf{pendiente}.
+\item
+  Cambio realizado personalmente o justificación para conservar
+  propuesta: \textbf{pendiente}.
+\item
+  Observación realmente recibida, persona/rol y fecha:
+  \textbf{pendiente}.
+\item
+  Uso de la observación y vínculo a OBS real: \textbf{pendiente}.
+\item
+  Evidencia verificable: \textbf{pendiente de commit, PR, historial o
+  acta real}.
+\end{itemize}
+
+\section{Ejercicio disponible, no presentado como
+ejecución}\label{individual-ejercicio-disponible-no-presentado-como-ejecuciuxf3n}
+
+Explicar por qué PATCH \path|/api/v1/careers/{id}| necesita cookie, CSRF
+y If-Match; qué envía CareerInput; por qué una revisión vieja produce
+412; qué diferencia existe con 409 por código duplicado; cómo se
+recupera sin sobrescribir. Para preparación, explicar por qué 201 y
+Location no significan activación ni autorización institucional.
+
+\section{Declaración de
+asistencia}\label{individual-declaraciuxf3n-de-asistencia}
+
+Los documentos iniciales fueron preparados con ChatGPT/Codex mediante
+inspección estática y consulta de fuentes. Cada integrante debe
+identificar su revisión, corrección y participación reales. No
+reutilizar el commit base como prueba de contribución a ACD3 ni
+presentar el texto generado como registro de una clínica ya realizada.
+\chapter{ACD3 --- Fuentes y
+evidencia}\label{fuentes-acd3--fuentes-y-evidencia}
+
+Las rutas siguientes son relativas a la raíz del repositorio. Se
+inspeccionó código/documentación, sin ejecutar el backend ni pruebas. El
+commit base se registra en \path|evidencias/manifest.json|; los
+documentos académicos no tienen commit nuevo creado por esta actividad.
+
+\section{Insumos de Semana 2}\label{fuentes-insumos-de-semana-2}
+
+\textbf{Archivo
+}: \path|documentos-academicos/APE2-semana-2/specification.md|
+
+\textbf{Uso / límite }: Propuesta de incremento y contratos
+preliminares; no aprobación docente.
+
+\medskip\hrule\medskip
+
+\textbf{Archivo
+}: \path|documentos-academicos/APE2-semana-2/CONTRATOS_PRELIMINARES.md|
+
+\textbf{Uso / límite }: Línea base de sesiones, catálogo y procesos.
+
+\medskip\hrule\medskip
+
+\textbf{Archivo
+}: \path|documentos-academicos/AA2-semana-2/DOSSIER_REQUISITOS_AA2.md|
+
+\textbf{Uso / límite }: Actores, necesidades, HU-AA-01--06, AA-RF-01--14
+y AA-RNF-01--10, AC/VC.
+
+\medskip\hrule\medskip
+
+\textbf{Archivo
+}: \path|documentos-academicos/AA2-semana-2/MATRIZ_TRAZABILIDAD.md|
+
+\textbf{Uso / límite }: Procedencia documental y pendientes de
+validación.
+
+\medskip\hrule\medskip
+
+\textbf{Archivo }: \path|docs/requirements/spec.md|
+
+\textbf{Uso / límite }: Problema, alcance, FR/RNF y clarificaciones de
+producto.
+
+\medskip\hrule\medskip
+
+\textbf{Archivo }: \path|docs/requirements/process-flows.md|
+
+\textbf{Uso / límite }: Procesos y límites de responsabilidades.
+
+\medskip\hrule\medskip
+
+\section{Arquitectura y
+configuración}\label{fuentes-arquitectura-y-configuraciuxf3n}
+
+\textbf{Archivo / sección }: \path|docs/adr/0001-modular-monolith.md|
+--- Decisión/alternativas
+
+\textbf{Uso }: Monolito por capacidades, límites entre módulos.
+
+\medskip\hrule\medskip
+
+\textbf{Archivo / sección }: \path|docs/adr/0002-file-storage-port.md|
+
+\textbf{Uso }: Almacenamiento fuera de DB; solo contexto del producto.
+
+\medskip\hrule\medskip
+
+\textbf{Archivo / sección
+}: \path|docs/adr/0004-opaque-sessions-scope-authorization.md|
+
+\textbf{Uso }: Sesiones, hash de token y ámbitos.
+
+\medskip\hrule\medskip
+
+\textbf{Archivo / sección
+}: \path|docs/adr/0018-catalog-contract-migration-compatibility.md|
+
+\textbf{Uso }: Compatibilidad v1/v2, catálogo y revisiones, alcance de
+capacidades.
+
+\medskip\hrule\medskip
+
+\textbf{Archivo / sección }: \path|docs/architecture/research.md| ---
+Versiones base / arquitectura / errores
+
+\textbf{Uso }: Justificaciones existentes; Java 25 difiere del Java 21
+configurado. No reiterar versiones como recomendación vigente externa.
+
+\medskip\hrule\medskip
+
+\textbf{Archivo / sección }: \path|backend/pom.xml| ---
+parent/properties/dependencies
+
+\textbf{Uso }: Java 21, Spring Boot 4.1.1, dependencias de persistencia,
+Flyway y ArchUnit. No prueba entorno instalado.
+
+\medskip\hrule\medskip
+
+\textbf{Archivo / sección }: \path|frontend/package.json| ---
+dependencies
+
+\textbf{Uso }: Angular 22.2.3 declarado.
+
+\medskip\hrule\medskip
+
+\textbf{Archivo / sección }: \path|frontend/angular.json| ---
+serve/proxyConfig
+
+\textbf{Uso }: Uso de proxy de desarrollo.
+
+\medskip\hrule\medskip
+
+\textbf{Archivo / sección }: \path|frontend/proxy.conf.json|
+
+\textbf{Uso }: \path|/api| hacia localhost:8080; no política CORS
+productiva demostrada.
+
+\medskip\hrule\medskip
+
+\textbf{Archivo / sección
+}: \path|backend/src/main/resources/application.yml|
+
+\textbf{Uso }: Base API, PostgreSQL, sesiones y almacenamiento.
+
+\medskip\hrule\medskip
+
+\textbf{Archivo / sección
+}: \path|backend/src/main/resources/db/migration/V008__career_catalog.sql|
+
+\textbf{Uso }: Esquema/revisiones del catálogo; integridad no ejecutada
+aquí.
+
+\medskip\hrule\medskip
+
+\textbf{Archivo / sección
+}: \path|docs/technical/contracts/openapi.yaml|
+
+\textbf{Uso }: Contrato común v1 con referencias externas.
+
+\medskip\hrule\medskip
+
+\textbf{Archivo / sección
+}: \path|specs/005-complete-evaluation-workflows/contracts/openapi.yaml|
+
+\textbf{Uso }: Objetivo y excepciones por ruta; no demuestra backend v2
+disponible.
+
+\medskip\hrule\medskip
+
+\section{Código de los flujos}\label{fuentes-cuxf3digo-de-los-flujos}
+
+Para evitar abreviaturas ambiguas, se registran rutas completas de cada
+fuente relevante.
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/identityaccess/api/SessionController.java|
+
+\textbf{Símbolo y evidencia }: create/revokeCurrentSession/me y DTO;
+OP-01--03.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/identityaccess/application/SessionService.java|
+
+\textbf{Símbolo y evidencia }: Creación, autenticación y revocación.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/identityaccess/application/ScopeAuthorizationService.java|
+
+\textbf{Símbolo y evidencia }: Capacidades y ámbitos.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/identityaccess/application/AuthorizationPort.java|
+
+\textbf{Símbolo y evidencia }: Frontera de autorización de casos de uso.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SessionAuthenticationFilter.java|
+
+\textbf{Símbolo y evidencia }: Autenticación por cookie y CSRF propio en
+mutaciones.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SessionCookie.java|
+
+\textbf{Símbolo y evidencia }: Nombres y atributos de cookie/CSRF.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/AccessProblemWriter.java|
+
+\textbf{Símbolo y evidencia }: Errores anteriores al controlador;
+revisar cabecera de desafío 401.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/selfassessment/api/CareerController.java|
+
+\textbf{Símbolo y evidencia }: Rutas, DTO completos, Location y ETag;
+OP-04--12/17.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/selfassessment/api/CareerCatalogProblemHandler.java|
+
+\textbf{Símbolo y evidencia }: Conversión de CareerCatalogException a
+ProblemDetail.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/selfassessment/application/CareerAdministrationService.java|
+
+\textbf{Símbolo y evidencia }: Autorización, normalización de consulta,
+unicidad, unidad, historial y estados.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/Career.java|
+
+\textbf{Símbolo y evidencia }: Datos, vigencia, estado y revisión.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/AcademicUnit.java|
+
+\textbf{Símbolo y evidencia }: Representación de unidad.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/selfassessment/application/CareerCatalogRepository.java|
+
+\textbf{Símbolo y evidencia }: Puerto de catálogo.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/selfassessment/infrastructure/JdbcCareerCatalogRepository.java|
+
+\textbf{Símbolo y evidencia }: Persistencia y visibilidad paginada.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/selfassessment/api/SelfAssessmentController.java|
+
+\textbf{Símbolo y evidencia }: List/get/create y ProcessCommand;
+OP-15/16/18.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/selfassessment/api/ProcessExceptionHandler.java|
+
+\textbf{Símbolo y evidencia }: Estado HTTP según Kind; INVALID produce
+400.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/selfassessment/application/SelfAssessmentService.java|
+
+\textbf{Símbolo y evidencia }: create/get/list, versión publicada,
+PREPARATION, revisión 0, permisos.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/SelfAssessmentProcess.java|
+
+\textbf{Símbolo y evidencia }: Representación y validación de
+período/estado.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/selfassessment/application/SelfAssessmentRepository.java|
+
+\textbf{Símbolo y evidencia }: Puerto de procesos.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/selfassessment/infrastructure/JdbcSelfAssessmentRepository.java|
+
+\textbf{Símbolo y evidencia }: Adaptador de persistencia de procesos.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/selfassessment/application/SelfAssessmentAuditService.java|
+
+\textbf{Símbolo y evidencia }: Auditoría del caso de proceso.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/evaluationmodel/api/EvaluationModelController.java|
+
+\textbf{Símbolo y evidencia }: DTO legado/configurado; OP-13/14.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/EvaluationModelService.java|
+
+\textbf{Símbolo y evidencia }: Lectura de modelos y comprobación de
+capacidad.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/ModelCatalogPort.java|
+
+\textbf{Símbolo y evidencia }: Consulta publicada desde procesos.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/evaluationmodel/infrastructure/ModelCatalogAdapter.java|
+
+\textbf{Símbolo y evidencia }: Adaptador interno, no API externa.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/audit/application/AuditPort.java|
+
+\textbf{Símbolo y evidencia }: Frontera de registro de auditoría.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/shared/api/EntityTagSupport.java|
+
+\textbf{Símbolo y evidencia }: ETag fuerte numérico y errores 400/428.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/shared/api/ApiProblemHandler.java|
+
+\textbf{Símbolo y evidencia }: DTO inválido 400, permisos 403, errores
+inesperados 500 y formato de error.
+
+\medskip\hrule\medskip
+
+\textbf{Ruta
+}: \path|backend/src/main/java/ec/edu/unl/sec/shared/infrastructure/CorrelationFilter.java|
+
+\textbf{Símbolo y evidencia }: Correlación de solicitud para
+errores/auditoría.
+
+\medskip\hrule\medskip
+
+Pruebas a consultar:
+\path|backend/src/test/java/ec/edu/unl/sec/architecture/ModuleArchitectureTest.java|,
+\path|backend/src/test/java/ec/edu/unl/sec/selfassessment/api/CareerControllerTest.java|,
+\path|backend/src/test/java/ec/edu/unl/sec/selfassessment/api/SelfAssessmentControllerTest.java|,
+\path|backend/src/test/java/ec/edu/unl/sec/selfassessment/application/CareerAdministrationServiceTest.java|,
+\path|backend/src/test/java/ec/edu/unl/sec/selfassessment/application/SelfAssessmentServiceTest.java|,
+\path|backend/src/test/java/ec/edu/unl/sec/selfassessment/application/SelfAssessmentAuditServiceTest.java|,
+\path|tests/acceptance/career-catalog.spec.ts| y
+\path|docs/testing/traceability.md|. Son evidencia de mecanismos
+existentes; no se ejecutaron en esta elaboración.
+
+\section{Fuentes técnicas primarias
+consultadas}\label{fuentes-fuentes-tuxe9cnicas-primarias-consultadas}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://c4model.com/diagrams/system-context}{C4: contexto}:
+  frontera de sistema/personas.
+\item
+  \href{https://c4model.com/diagrams/container}{C4: contenedores}:
+  aplicaciones/almacenes y relaciones tecnológicas; no equivale a
+  Docker.
+\item
+  \href{https://c4model.com/diagrams/component}{C4: componentes}:
+  descomposición interna de un contenedor.
+\item
+  \href{https://www.rfc-editor.org/rfc/rfc9110.html}{RFC 9110}: §9
+  métodos, §8.8.3 ETag, §10.2.2 Location, §13.1.1 If-Match, §15 estados,
+  en particular §15.5.2 para desafío 401.
+\item
+  \href{https://www.rfc-editor.org/rfc/rfc5789.html}{RFC 5789}: §2,
+  semántica de PATCH; no identifica JSON Patch por sí misma.
+\item
+  \href{https://www.rfc-editor.org/rfc/rfc6585.html}{RFC 6585}: §3
+  precondición requerida y §4 límite de solicitudes.
+\item
+  \href{https://www.rfc-editor.org/rfc/rfc9457.html}{RFC 9457}: §3,
+  Problem Details y extensiones; sustento del formato actual, distinto
+  del sobre de la guía.
+\item
+  \href{https://fetch.spec.whatwg.org/\#http-cors-protocol}{WHATWG
+  Fetch}: protocolo CORS, credenciales y exposición de cabeceras.
+\end{itemize}
+
+Estas fuentes justifican interpretación técnica, no necesidades
+institucionales ni aprobación del contrato propuesto. El alcance se
+justifica en los documentos de requisitos, no por autoridad de una RFC.
+
+\chapter{Revisión de la guía y precisión posterior a APE3}
+
+La guía nuevamente aportada corresponde al mismo ACD3. La matriz completa
+de sus diez puntos se encuentra en \path|REVISION_GUIA.md|. Se mantienen
+los dos procesos textuales, las vistas C1/C2/C3, ocho decisiones con
+alternativas y dieciocho operaciones con entradas, permisos y estados.
+El sobre común continúa como propuesta separada del formato implementado;
+204 conserva ausencia de cuerpo. Clínica, observaciones docentes y
+contribuciones individuales siguen pendientes de evidencia real.
+
+\section{Hallazgo H-09 y corrección del contrato}
+
+La evidencia posterior de APE3 registra 409
+\path|MODEL_VERSION_REQUIRES_V2| al consultar una versión configurada
+mediante DTO legado y 200 al consultar
+\path|/api/v1/model-versions/{id}/configured|. Se precisa OP-14 y se
+añade H-09 al registro técnico. La fuente es
+\path|LegacyModelVersion.from|, que llama a
+\path|EvaluationModelService.requireLegacy|, junto con los casos
+HTTP-16/16B de \path|../APE3-semana-3/evidencias/http-resultados.json|.
+La ruta configurada sigue siendo complementaria al inventario original;
+el nombre del código de error no demuestra que exista un backend v2.
+
+\section{Procedencia y límites de la actualización}
+
+Los 23 tests seleccionados y 22 casos HTTP finales pertenecen a APE3 y
+se citan como evidencia posterior. No se reejecutaron en esta revisión
+ni se atribuyen a una clínica previamente celebrada. Se conserva la
+diferencia entre propuesta inicial, implementación observada,
+verificación posterior y acuerdo docente pendiente. LaTeX continúa sin
+compilación ni inspección de PDF local.
+
+\end{document}

@@ -1,0 +1,70 @@
+{
+  "artifact": "AA2 - Dossier de requisitos y matriz de trazabilidad",
+  "created_at_utc": "2026-11-01T01:31:23.826300+00:00",
+  "source_commit": "faf868ea5a8a85285290c06d3baf8fa49889edac",
+  "scope": "Preparacion documental asistida; no acredita autoria individual, aprobacion docente ni validacion institucional.",
+  "git_commit_created": false,
+  "published": false,
+  "business_tests_run": false,
+  "http_requests_executed": false,
+  "tex_compiled": false,
+  "pending": [
+    "Revision y autoria personal",
+    "Confirmacion del alcance y decisiones de dominio",
+    "Validacion docente",
+    "Mediciones de calidad",
+    "Compilacion e inspeccion del PDF"
+  ],
+  "template_sha256": "fc8b87a75830dfb4e686b77ef5297b181be5ee652607e8c864d9822a226fbece",
+  "ape2_baseline_sha256": "bd4029a0e7e999dd2de2d22e37afabea4ae3d8d9beb91e275f780a0bfa39db98",
+  "document_checks": {
+    "functional_requirements": 14,
+    "nonfunctional_requirements": 10,
+    "user_stories": 6,
+    "functional_acceptance_criteria": 27,
+    "quality_verifications": 10,
+    "traceability_rows": 24,
+    "registered_sources": 14,
+    "latex_environments": "balanced",
+    "latex_labels": "unique",
+    "ape2_files": "unchanged",
+    "original_template": "unchanged"
+  },
+  "files": [
+    {
+      "path": "AA2_DOSSIER.tex",
+      "bytes": 84435,
+      "sha256": "e95c9676cf47561c9681e44886ecc26b91c2533a5c27224d0acdce902e1c0a35"
+    },
+    {
+      "path": "DOSSIER_REQUISITOS_AA2.md",
+      "bytes": 29231,
+      "sha256": "76167680223026e8cb35891df28e58234d59104284cb1519e5a47169a7853505"
+    },
+    {
+      "path": "FUENTES_REFERENCIAS.md",
+      "bytes": 9048,
+      "sha256": "9b593f5bf32314774f390eb94d037cba39a549b67dd5ad0a325283c75adbd7e2"
+    },
+    {
+      "path": "MATRIZ_TRAZABILIDAD.md",
+      "bytes": 10142,
+      "sha256": "b6687913c534e23ccb48aa1c458db87bedb399c56a56a7f830f3aa4c2a7c8517"
+    },
+    {
+      "path": "NOTA_CAMBIOS_INDIVIDUAL.md",
+      "bytes": 5249,
+      "sha256": "6bcc73a227f89e21ab735a1107a1e457d50e60c60725e3a215d3656020d4f653"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4086,
+      "sha256": "84ecebe8c4f1269659154f9bde040ec069180e20ca69d1d4af0b84fab81ca81b"
+    },
+    {
+      "path": "referencias.bib",
+      "bytes": 2170,
+      "sha256": "41d5c8b398fda1160bda6ee6373d8b0aba2dfeabfb92e5e69d7f7acd5a814834"
+    }
+  ]
+}

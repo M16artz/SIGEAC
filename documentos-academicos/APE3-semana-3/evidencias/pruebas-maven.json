@@ -1,0 +1,76 @@
+{
+  "recorded_at_utc": "2026-11-01T02:00:30.861776+00:00",
+  "command": "backend/mvnw.cmd -Dtest=CareerControllerTest,CareerAdministrationServiceTest,CareerTest,ModuleArchitectureTest test",
+  "result": "BUILD SUCCESS",
+  "tests": 23,
+  "suites": [
+    {
+      "class": "ec.edu.unl.sec.selfassessment.api.CareerControllerTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "time_seconds": 2.611,
+      "timestamp": null,
+      "test_cases": [
+        "rejectsExtraFieldsRatherThanTrustingClientIdentityOrRevision",
+        "requiresEtagBeforeUpdatingAndNeverExposesADeleteOperation",
+        "returnsThePlannedNestedDtoWithStrongRevision"
+      ]
+    },
+    {
+      "class": "ec.edu.unl.sec.selfassessment.application.CareerAdministrationServiceTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "time_seconds": 0.297,
+      "timestamp": null,
+      "test_cases": [
+        "foreignDirectIdsAreHiddenAndCollectionsUseOnlyAuthorizedCareers",
+        "blocksNewProcessesForInactiveCareersAndUnitDeactivationWithActiveCareers",
+        "stateChangesAreVersionedAndAudited",
+        "validatesPaginationAndRejectsTechnicalIdentities",
+        "rejectsNormalizedDuplicatesAndStaleMutations"
+      ]
+    },
+    {
+      "class": "ec.edu.unl.sec.selfassessment.domain.CareerTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "time_seconds": 0.005,
+      "timestamp": null,
+      "test_cases": [
+        "normalizesCodesAndPreservesIdentityAndPreviousSnapshot",
+        "validatesRequiredUnitAndValidityInterval"
+      ]
+    },
+    {
+      "class": "ec.edu.unl.sec.architecture.ModuleArchitectureTest",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "time_seconds": 9.579,
+      "timestamp": null,
+      "test_cases": [
+        "GOVERNANCE_USES_PUBLIC_CROSS_MODULE_PORTS",
+        "IMPROVEMENT_USES_PUBLIC_CROSS_MODULE_PORTS",
+        "ARCHIVE_USES_PUBLIC_CROSS_MODULE_PORTS",
+        "REPORTING_USES_PUBLIC_SOURCE_PORTS",
+        "DOCUMENTARY_REPORTING_IS_INDEPENDENT_OF_LATER_WORKFLOWS",
+        "DOMAIN_IS_INDEPENDENT",
+        "APPLICATION_IGNORES_API_AND_INFRASTRUCTURE",
+        "MVP_DOES_NOT_DEPEND_ON_INTEGRATION",
+        "OTHER_MODULES_DO_NOT_IMPORT_IDENTITY_INFRASTRUCTURE",
+        "EVALUATION_MODEL_USES_ONLY_PUBLIC_CROSS_MODULE_PORTS",
+        "SELF_ASSESSMENT_USES_ONLY_PUBLIC_CROSS_MODULE_PORTS",
+        "EVIDENCE_AND_STORAGE_DOMAINS_IGNORE_ADAPTERS",
+        "EVIDENCE_DOES_NOT_DEPEND_ON_LATER_MVP_MODULES"
+      ]
+    }
+  ],
+  "limitations": "MockMvc standalone, application/domain and architecture tests; not PostgreSQL integration or browser E2E."
+}

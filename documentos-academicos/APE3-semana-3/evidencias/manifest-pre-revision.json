@@ -1,0 +1,202 @@
+{
+  "artifact": "APE3 - Arquitectura OpenAPI y endpoints base",
+  "created_at_utc": "2026-11-01T02:10:42.011044+00:00",
+  "source_commit": "faf868ea5a8a85285290c06d3baf8fa49889edac",
+  "scope": "Academic artifacts and limited verification of existing Spring backend; not a completed DRF implementation or teacher-approved submission.",
+  "source_template": ".agents/skills/informes-latex-unl/assets/FORMATOAPE.tex",
+  "source_template_sha256": "8e5f8f4da3167de3d6e81a5de9b8ccd76c9f4e6eec4b8fce5ab44cff5a0b966d",
+  "new_application_endpoints_implemented": false,
+  "drf_implemented": false,
+  "universal_envelope_implemented": false,
+  "postgres_acceptance_run": false,
+  "application_browser_e2e_run": false,
+  "documentation_browser_checked": true,
+  "tex_compiled": false,
+  "official_structurizr_plantuml_parsers_run": false,
+  "git_commit_created": false,
+  "gitflow_applied": false,
+  "published": false,
+  "checks": {
+    "prior_packages": "unchanged",
+    "product_sources": "unchanged; generated tracked test reports restored after extracting current evidence",
+    "latex_static": "11 institutional sections; balanced environments; unique labels; original logo",
+    "control_answers": 7,
+    "diagram_static": "3 DSL views, 2 PlantUML sources; official parsers not run",
+    "http_cases": 22,
+    "maven_tests": 23,
+    "response_samples": 22,
+    "openapi_lint": "both valid",
+    "quarto": "rendered HTML and visually inspected screenshot; 3 SVG; no JS errors/overflow",
+    "temporary_backend": "stopped"
+  },
+  "pending": [
+    "Teacher/team technology and envelope decisions",
+    "DRF or explicit teacher exception",
+    "PostgreSQL acceptance and browser E2E",
+    "Official diagram parser/render",
+    "PDF compilation",
+    "Teacher feedback and personal contributions/versioning"
+  ],
+  "files": [
+    {
+      "path": "adr/APE3-001-alineacion-tecnologica.md",
+      "bytes": 2433,
+      "sha256": "0424976b079bd02c2f37411403eb9441ab651ec7a2dc7df82703716f9a47d97f"
+    },
+    {
+      "path": "adr/APE3-002-contrato-universal.md",
+      "bytes": 1785,
+      "sha256": "1469901bb996cbd5d85ddbad72c78122c21564870450c307b3e0798fd1d38058"
+    },
+    {
+      "path": "APE3_SEMANA_3.md",
+      "bytes": 21679,
+      "sha256": "aee2549c686d74fec68ef13107743927c13eda48c4bc7bb96e6926370b321607"
+    },
+    {
+      "path": "APE3_SEMANA_3.tex",
+      "bytes": 84248,
+      "sha256": "57b7f9ed3c167c5a89f4e3174e1b2dac8965960346625228ae896ee75c7f8512"
+    },
+    {
+      "path": "arquitectura/alta-carrera-secuencia.puml",
+      "bytes": 1276,
+      "sha256": "826a1f0be1c7c095f0e0359821fb31a40647bae5c3c4ed02220fa77c27c37b0b"
+    },
+    {
+      "path": "arquitectura/catalogo-clases.puml",
+      "bytes": 2180,
+      "sha256": "6e50667af342561af67352113f111231f1880abbb4f65ea6de78d94a3b978a2c"
+    },
+    {
+      "path": "arquitectura/workspace.dsl",
+      "bytes": 5059,
+      "sha256": "b11e94d07985868f612d435b8505b637d3fd0dc84fe84d3964b53ebb41c572fd"
+    },
+    {
+      "path": "contratos/openapi-objetivo.yaml",
+      "bytes": 122663,
+      "sha256": "53c9e8f074ff570c8ac6879d9527df19c20a20e3edfda3c063643f08ea215809"
+    },
+    {
+      "path": "contratos/openapi-observado.yaml",
+      "bytes": 40389,
+      "sha256": "9b5ee01c75569358880ef75532a385462c72a3cf02540ccd5f781c51e817689e"
+    },
+    {
+      "path": "evidencias/esquemas-resultados.json",
+      "bytes": 2377,
+      "sha256": "5c2ee74b6328f21218a7acf0e8024cd727b7dbfe2b8fd7bd0c2da763910ee03c"
+    },
+    {
+      "path": "evidencias/http-intento-inicial.json",
+      "bytes": 17117,
+      "sha256": "c84614ff93a99290ad4f69414ce5a8d5022bdede88931cb63b1d3e523bf333f2"
+    },
+    {
+      "path": "evidencias/http-resultados.json",
+      "bytes": 27676,
+      "sha256": "f7ffe1286fdb1f8506ab122cfb996576b985ae3a9dfe2ec70d66042d0377f455"
+    },
+    {
+      "path": "evidencias/openapi-lint.json",
+      "bytes": 1540,
+      "sha256": "a2a4f98a19cad9b0c2aa39cd4b37db16635125e85fdd8dc3bde787e01d3ee630"
+    },
+    {
+      "path": "evidencias/pruebas-maven.json",
+      "bytes": 2795,
+      "sha256": "78b16be43a640a7bec5a6b244d6bceb0172658bcb23582fd6dd695c1443110e8"
+    },
+    {
+      "path": "evidencias/quarto-documentacion.png",
+      "bytes": 288883,
+      "sha256": "c65481facab3053052c63ab60a0f50e7f148fa28b489689ae847c3f881cee14c"
+    },
+    {
+      "path": "evidencias/quarto-verificacion.json",
+      "bytes": 255,
+      "sha256": "749d8102f26cfc9173e47992a3c5fc4d4f81a62ec16f6d296b8f5ec8af77138b"
+    },
+    {
+      "path": "evidencias/swagger-disponibilidad.json",
+      "bytes": 409,
+      "sha256": "d4bb17b883e2b30ee7e3cf25ed6133a301492fbe628bfd4afcbf520964a9df0a"
+    },
+    {
+      "path": "FUENTES.md",
+      "bytes": 7858,
+      "sha256": "70876c713fbc7c29c78da31b40d31dfbf97b68136c3c43eea0bcb7d177a361ac"
+    },
+    {
+      "path": "NOTA_INDIVIDUAL.md",
+      "bytes": 2349,
+      "sha256": "dbc11b2e07f2994d925d334c061ab345c768d06a15b7f022cb5fc46caa944a33"
+    },
+    {
+      "path": "OBSERVACIONES.md",
+      "bytes": 2562,
+      "sha256": "36a23a3a2cea42afbe7e25b655019e93499f8fc2fd73f674dc205a4d9b98f799"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3216,
+      "sha256": "57fd6350c3e3a5cdb48872685f6a3c4c27d8dfb7e039b9de790232b824c59491"
+    },
+    {
+      "path": "referencias.bib",
+      "bytes": 896,
+      "sha256": "0c8af40e720874151c2c5bab2a2777530537cdbc7e2cfd3534bf284e355ffa1c"
+    },
+    {
+      "path": "reporte_tecnico_overleaf_logo.png",
+      "bytes": 170221,
+      "sha256": "e9217d666d42d3c73f066e1c3e55940c0b2a42ae4043701d10f7e112d34c0a26"
+    },
+    {
+      "path": "tecnico/.gitignore",
+      "bytes": 30,
+      "sha256": "c98307bbe20958ee0588c22c3e0e2c723e53024d885ca743f2949f881df0e532"
+    },
+    {
+      "path": "tecnico/_quarto.yml",
+      "bytes": 76,
+      "sha256": "1bfdfd509866a53bdedcbbb5033bcdeb8cb701bb0fb6f0d0bddd199e6b2ddee6"
+    },
+    {
+      "path": "tecnico/APE3.html",
+      "bytes": 3965177,
+      "sha256": "a80861cbe93a6bd395fa356216df0433e4ddcacb7c70cf992fe1fecf6386e174"
+    },
+    {
+      "path": "tecnico/APE3.qmd",
+      "bytes": 5219,
+      "sha256": "3357c240fd4cc1e484250bb9b8d6260e7cdd12cb6379d328a0ce0e8c18285bff"
+    },
+    {
+      "path": "TRAZABILIDAD.md",
+      "bytes": 6129,
+      "sha256": "6cf09e93d82ddfbd6c90c76267d1eea2c60e1bca4759f625f1c90aa07a792e47"
+    },
+    {
+      "path": "verificacion/generar_contratos.mjs",
+      "bytes": 9637,
+      "sha256": "c44c6c433aba3bfd3f2ba016c920da2e2cf3fbbfa8f24eb73fff211dc38d88db"
+    },
+    {
+      "path": "verificacion/validar_respuestas.mjs",
+      "bytes": 2359,
+      "sha256": "8c86017cf97853be73ebd92b2335b30347378a36b9f23c64cbf1a09bc5cb3e63"
+    },
+    {
+      "path": "verificacion/verificar_http.py",
+      "bytes": 6786,
+      "sha256": "110edb61ed137f9eb3dd7fb174146e449c4cac290ef5d41963a2d57587061b11"
+    },
+    {
+      "path": "VERIFICACION.md",
+      "bytes": 7800,
+      "sha256": "41d89bc144e7b538f5ee715789b08414d4066188fa1a87162bd13ed7f93abf27"
+    }
+  ]
+}

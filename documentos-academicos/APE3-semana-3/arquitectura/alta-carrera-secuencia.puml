@@ -1,0 +1,32 @@
+@startuml
+title APE3 - Alta de carrera existente; resultado esperado, no captura ejecutada
+actor "Administrador funcional" as Admin
+participant "CareerController" as API
+participant "CareerAdministrationService" as App
+participant "CurrentActorPort / AuthorizationPort" as Auth
+participant "CareerCatalogRepository" as Repo
+participant "AuditPort" as Audit
+Admin -> API : POST /api/v1/careers\nCookie + CSRF + JSON
+note over API
+  Filtros autentican y verifican CSRF antes del controlador.
+  DTO invalido puede rechazar antes de llegar al servicio.
+end note
+API -> App : createCareer(input.data(), correlation)
+App -> Auth : requireAdmin()
+App -> Repo : findUnit(academicUnitId)
+App -> Repo : careerCodeExists(code, null)
+alt Unidad activa y codigo disponible
+  App -> App : Crear Career ACTIVE, revision 1
+  App -> Repo : saveCareer(value, -1, actor, CAREER_CREATED)
+  App -> Audit : record(evento)
+  App --> API : Career
+  API --> Admin : 201 + Location + ETag + Career
+else Unidad no disponible o codigo duplicado
+  App --> API : CareerCatalogException(422 o 409)
+  API --> Admin : Problem Details del handler
+end
+note over App, Audit
+  Servicio transaccional: verificar atomicidad con prueba integrada.
+  No inferir commit exitoso solo por este diagrama.
+end note
+@enduml

@@ -1,0 +1,82 @@
+{
+  "artifact": "AA3 - ADR de alternativas arquitectonicas",
+  "created_at_utc": "2026-11-01T02:21:02.043520+00:00",
+  "source_commit": "faf868ea5a8a85285290c06d3baf8fa49889edac",
+  "scope": "Documentary research and proposed individual decision. No human authorship, acceptance, implementation or measured comparison claimed.",
+  "adr_id": "ADR-AA3-001",
+  "selected_alternative": "C - explicit presentation adapters and shared response policy",
+  "adr_accepted": false,
+  "application_code_modified": false,
+  "business_tests_run": false,
+  "http_requests_executed": false,
+  "previous_ape3_evidence_reviewed": true,
+  "tex_compiled": false,
+  "diagram_rendered": false,
+  "git_commit_created": false,
+  "published": false,
+  "source_template_sha256": "fc8b87a75830dfb4e686b77ef5297b181be5ee652607e8c864d9822a226fbece",
+  "official_spring_docs_version_observed": "Spring Framework 7.0.10; does not certify project resolved version",
+  "checks": {
+    "prior_packages": "unchanged",
+    "product_sources": "unchanged",
+    "alternatives": 3,
+    "comparison_criteria": 7,
+    "risks": 7,
+    "future_verifications": 5,
+    "guide_activities": 9,
+    "project_source_records": 9,
+    "official_source_records": 8,
+    "source_paths_verified": 29,
+    "adr_status": "Proposed, not accepted or implemented",
+    "latex_static": "balanced environments; unique labels; 3 main chapters and 4 appendices; bibliography resolved"
+  },
+  "pending": [
+    "Personal identity and actual contribution review",
+    "Envelope, technology, pagination and compatibility decisions",
+    "ADR approval and framework version confirmation",
+    "Future PF checks after implementation",
+    "PDF compilation and original missing JPEG assets"
+  ],
+  "files": [
+    {
+      "path": "AA3_ADR.tex",
+      "bytes": 59629,
+      "sha256": "0a4ed7dccae238e718e93818960bb0f8152534e42983a1629ad2af37b189ccae"
+    },
+    {
+      "path": "AA3_ALTERNATIVAS_ARQUITECTONICAS.md",
+      "bytes": 15724,
+      "sha256": "9cc1a27bc37042a400e900f0f3b7ee11b8cd2fc18f392b4d5da5fa942706bedc"
+    },
+    {
+      "path": "ADR-AA3-001-adaptacion-respuestas-api.md",
+      "bytes": 11034,
+      "sha256": "ee550e63843d7dbb15c156ce47969412d979f5a759199be539243957ebf04c63"
+    },
+    {
+      "path": "FUENTES.md",
+      "bytes": 7924,
+      "sha256": "04695855fb153b0e2be59eb012fc4202740efe7bb2bbb800ad4e64915987f188"
+    },
+    {
+      "path": "NOTA_INDIVIDUAL.md",
+      "bytes": 2662,
+      "sha256": "0062245cef763eb07b706ca7940f209666db4960b5e805cc08160328d8c22043"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3028,
+      "sha256": "1999d3587b71a9cb71541c34f83c5094a98fcb3b78b320b504c201acc6d98360"
+    },
+    {
+      "path": "referencias.bib",
+      "bytes": 1500,
+      "sha256": "6154386c903baae2f1faaf736e1b313ddc4ce66b2e3bdeacd2b84450714b0f27"
+    },
+    {
+      "path": "TRAZABILIDAD_ADR.md",
+      "bytes": 4253,
+      "sha256": "3a5d5c7a0e51f27ad65213cde58985cc42318d4d92de211ff6d119df0940ca1d"
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "artifact": "ACD3 - Clinica de arquitectura y contrato de API",
+  "created_at_utc": "2026-11-01T01:41:13.060497+00:00",
+  "source_commit": "faf868ea5a8a85285290c06d3baf8fa49889edac",
+  "scope": "Preparacion documental asistida; clinica, participacion y retroalimentacion pendientes de registro real.",
+  "business_tests_run": false,
+  "http_requests_executed": false,
+  "tex_compiled": false,
+  "mermaid_rendered_to_latex": false,
+  "git_commit_created": false,
+  "published": false,
+  "template_sha256": "fc8b87a75830dfb4e686b77ef5297b181be5ee652607e8c864d9822a226fbece",
+  "checks": {
+    "week2_packages": "unchanged",
+    "source_paths": 56,
+    "implemented_operations": 18,
+    "json_examples": 3,
+    "c4_views": 3,
+    "latex_static": "balanced environments, unique labels, 9 chapters, appendix with later evidence",
+    "guide_points": 10,
+    "ape3_package": "unchanged",
+    "local_links": "valid"
+  },
+  "files": [
+    {
+      "path": "ACD3_CLINICA.tex",
+      "bytes": 88002,
+      "sha256": "2c981380927224e8e2c68464e5a000d2c6b63a3af04f9e98d454d30dce85a6b8"
+    },
+    {
+      "path": "ACD3_CLINICA_ARQUITECTURA_API.md",
+      "bytes": 18162,
+      "sha256": "895675d236afba8706fb632c6608764a6be606c507dd02885356a64d2b216d5c"
+    },
+    {
+      "path": "ARQUITECTURA_C4.md",
+      "bytes": 7249,
+      "sha256": "bce64304f63e3dbf9b28d539f29c71970072d1b99fb3bebd4a72d953d0e67fe9"
+    },
+    {
+      "path": "CONTRATO_API_INICIAL.md",
+      "bytes": 19281,
+      "sha256": "7a907a00e39de026ece30401b96336bcaa275fa558234bafbf0cee59b5a5c400"
+    },
+    {
+      "path": "EVIDENCIA_INDIVIDUAL.md",
+      "bytes": 2633,
+      "sha256": "4beb426d64fae472a96baa9f22cf01417c6b46f5e2f3cffb3143b6a3d6a9c5f7"
+    },
+    {
+      "path": "evidencias/manifest-pre-revision.json",
+      "bytes": 2301,
+      "sha256": "31fe789f00b2ec99834351a31739125f80d48d3cef0d88a2a167496898ca136b"
+    },
+    {
+      "path": "FUENTES.md",
+      "bytes": 8925,
+      "sha256": "107240a05069a64cf13a86ebf5107f98b7988abecf30c05dc574ede5e85bc63e"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3330,
+      "sha256": "859699d27355dea219bbb36771c3c156ee75bc5de7e0e51a4941a0aee80d9c42"
+    },
+    {
+      "path": "referencias.bib",
+      "bytes": 1407,
+      "sha256": "02a83cc41ed3b60fed052a947406f5dec15bd262792e4bc90a8ba0f572c7e102"
+    },
+    {
+      "path": "REGISTRO_OBSERVACIONES.md",
+      "bytes": 4372,
+      "sha256": "e420c75a23e85305e15df3ed4efe74c108f0addc233c56b91e797367c6e4a214"
+    },
+    {
+      "path": "REVISION_GUIA.md",
+      "bytes": 6457,
+      "sha256": "90e3695bbe73b9e1b6ec109b7476c6f42f2bdacc74423a84c6e97356898c34f2"
+    }
+  ],
+  "revised_at_utc": "2026-11-01T02:13:27.438674+00:00",
+  "revision_scope": "Review against ten guide points; OP-14 corrected using later APE3 evidence. No new HTTP or business test execution in this ACD3 revision."
+}

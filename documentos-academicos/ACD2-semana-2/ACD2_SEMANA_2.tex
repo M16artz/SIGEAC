@@ -1,0 +1,1741 @@
+% Adaptación de FORMATO.tex para ACD2; original sin cambios.
+\documentclass[12pt,a4paper]{report}
+
+% ------------------------------------------
+%   PAQUETES BÁSICOS
+% ------------------------------------------
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+  \geometry{left=3cm, right=2.5cm, top=3cm, bottom=2.5cm}
+\usepackage{setspace}
+  \onehalfspacing
+\usepackage{titlesec} 
+  \titleformat{\chapter}[block]{\bfseries\large}{\thechapter.}{1em}{}
+  \titleformat{\section}[block]{\bfseries}{\thesection.}{1em}{}
+\usepackage{tocloft}
+  \setlength{\cftbeforechapskip}{6pt}
+  \renewcommand{\cftchapfont}{\bfseries}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{verbatim}
+
+\usepackage{cite}
+\usepackage{hyperref}
+% Soporte mínimo para tablas, rutas y ejemplos HTTP.
+\usepackage{calc}
+\usepackage{xurl}
+\usepackage{fvextra}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setlength{\emergencystretch}{3em}
+
+\addto\captionsspanish{
+    \renewcommand{\contentsname}{Índice General}
+    \renewcommand{\tablename}{Tabla}
+}
+
+% ------------------------------------------
+%   FONDO DE PÁGINA (SOLO CARÁTULA)
+% ------------------------------------------
+\usepackage{eso-pic}
+\newcommand\BackgroundPic{%
+  \put(0,0){%
+    \parbox[b][\paperheight]{\paperwidth}{%
+      \vfill
+      \centering
+      \IfFileExists{fondo.jpeg}{\includegraphics[width=\paperwidth,height=\paperheight]{fondo.jpeg}}{\parbox{0.8\paperwidth}{\centering\small [PENDIENTE: fondo.jpeg original]}}%
+      \vfill
+}}}
+
+% ------------------------------------------
+%   ENCABEZADO CON LOGO (OTRAS PÁGINAS)
+% ------------------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{40pt}
+\fancyhead[L]{\IfFileExists{logo_unl.jpeg}{\includegraphics[height=1.2cm]{logo_unl.jpeg}}{\fbox{\scriptsize PENDIENTE: logo\_unl.jpeg}}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \fancyhead[L]{\IfFileExists{logo_unl.jpeg}{\includegraphics[height=1.2cm]{logo_unl.jpeg}}{\fbox{\scriptsize PENDIENTE: logo\_unl.jpeg}}}
+    \fancyfoot[C]{\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+}
+
+% ------------------------------------------
+%   METADATOS DEL DOCUMENTO
+% ------------------------------------------
+\newcommand{\TituloTrabajo}{ACD2 -- Semana 2: Requisitos verificables y HTTP}
+\newcommand{\Autor}{[PENDIENTE: integrantes]}
+\newcommand{\Director}{[PENDIENTE: docente]}
+\newcommand{\Carrera}{Carrera de Computación}
+\newcommand{\Facultad}{Facultad de la Energía, las Industrias y los Recursos Naturales No Renovables}
+\newcommand{\Universidad}{Universidad Nacional de Loja}
+\newcommand{\Ciudad}{Loja, Ecuador}
+\newcommand{\Fecha}{[PENDIENTE: fecha de la sesión]}
+
+\begin{document}
+
+\AddToShipoutPictureBG*{\BackgroundPic}
+
+% ------------------------------------------
+%   PORTADA
+% ------------------------------------------
+\begin{titlepage}
+  \centering
+  \vspace*{2cm}
+  {\bfseries\Large \Universidad}\\[0.5cm]
+  {\bfseries\large \Facultad}\\[0.5cm]
+  {\bfseries\large \Carrera}\\[2cm]
+  {\bfseries\Large \TituloTrabajo}\\[2.5cm]
+
+  \begin{flushright}
+    \setlength{\fboxsep}{8pt}
+    \fbox{%
+      \begin{minipage}{0.4\textwidth}\small
+        Desarrollo de Software Distribuido.
+      \end{minipage}%
+    }
+  \end{flushright}
+  \vspace{1cm}
+
+  {\bfseries \large AUTOR:}\\[0.5em]
+  {\large \Autor}\\[2em]
+  {\bfseries \large TUTOR:}\\[0.5em]
+  {\large \Director}\\[2em]
+  {\bfseries \large \Ciudad}\\[1em]
+  {\bfseries \large \Fecha}
+\end{titlepage}
+
+% ------------------------------------------
+%   DECLARACIÓN DE USO DE IA GENERATIVA
+% ------------------------------------------
+\newpage
+\chapter*{Declaración de Delegación a IA Generativa}
+\addcontentsline{toc}{chapter}{Declaración de uso de IA Generativa}
+Se utilizó ChatGPT/Codex para inspección estática del repositorio, contraste de requisitos con código, consulta de documentación técnica y redacción de esta entrega. No se utilizaron resultados de ejecución nuevos ni se atribuyen al docente o a estudiantes observaciones no aportadas.
+
+El equipo deberá revisar el contenido, completar los datos y asumir responsabilidad por la versión presentada. La revisión humana final, participación y retroalimentación de clase permanecen pendientes. No se declara supervisión humana ya completada ni se trasladan las declaraciones del informe anterior contenido en la plantilla.
+
+\noindent\textbf{Declaración enviada por: [PENDIENTE: responsable real].}
+\newpage
+\tableofcontents
+\clearpage
+\chapter*{Ficha de la actividad}
+\addcontentsline{toc}{chapter}{Ficha de la actividad}
+\textbf{Modalidad:} Actividad grupal con evidencia individual.\par
+\textbf{Proyecto:} SIGEAC / SEC-UNL.\par
+\textbf{Ciclo y paralelo:} [PENDIENTE].\par
+\textbf{Base de revisión:} commit \texttt{faf868ea}.\par
+\textbf{Propósito:} Formular requisitos funcionales y no funcionales verificables a partir del problema del proyecto y comprender los fundamentos de HTTP como protocolo base para la comunicación entre clientes y servicios web.
+
+Esta entrega es una actualización académica complementaria de la especificación inicial. Conserva sus identificadores y diferencia requisitos existentes, mejoras propuestas y decisiones pendientes. No sustituye la aprobación institucional. Los ejemplos HTTP son reconstrucciones sintéticas del código y no capturas de tráfico. No se arrancaron servicios ni se ejecutaron suites para elaborar el informe.
+\chapter{Metodología de análisis de requisitos y
+HTTP}\label{metodologuxeda-de-anuxe1lisis-de-requisitos-y-http}
+
+\section{Fuentes y procedimiento}\label{fuentes-y-procedimiento}
+
+Se partió del diagnóstico de \path|AUDITORIA_DOCUMENTACION_SDD.md| y se
+contrastaron las fuentes del proyecto con controladores y DTO reales. El
+procedimiento fue: revisar contexto y alcance; seleccionar requisitos
+principales; hacer explícitas condiciones y resultados; relacionar
+escenarios y aceptación; interpretar solicitudes/respuestas; registrar
+correcciones y pendientes de socialización.
+
+Fuentes de producto, relativas a la raíz del repositorio:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Código
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Archivo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Uso en la actividad
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+D1 & \path|docs/requirements/spec.md| & Actores, alcance, FR-001--040,
+RNF-001--019, criterios SC y CL-001--010. \\
+D2 & \path|docs/requirements/domain-rules.md| & Estados, fórmulas,
+responsabilidades y CL-011--017. \\
+D3 & \path|docs/requirements/process-flows.md| & Procesos P01--P16 y
+escenarios alternativos. \\
+D4 & \path|specs/005-complete-evaluation-workflows/spec.md| &
+FR-041--070 e historias de flujos completos. \\
+D5 & \path|docs/testing/process-acceptance.md| & Criterios AC-P y
+AC-X. \\
+D6 & \path|docs/testing/traceability.md| & Relaciones entre requisitos,
+historias, tareas y pruebas. \\
+D7 & \path|docs/technical/contracts/openapi.yaml| & Contrato HTTP; debe
+contrastarse con los controladores. \\
+D8 & \path|docs/architecture/complete-workflows.md| & Contexto,
+contenedores y límites del backend modular. \\
+\end{longtable}
+}
+
+Fuentes ejecutables específicas:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Código
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Archivo exacto
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+C1 &
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/api/CareerController.java| \\
+C2 &
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/application/CareerAdministrationService.java| \\
+C3 &
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/Career.java| \\
+C4 &
+\path|backend/src/main/java/ec/edu/unl/sec/identityaccess/api/SessionController.java| \\
+C5 &
+\path|backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SessionAuthenticationFilter.java| \\
+C6 &
+\path|backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SessionCookie.java| \\
+C7 &
+\path|backend/src/main/java/ec/edu/unl/sec/evaluationmodel/api/EvaluationModelController.java| \\
+C8 &
+\path|backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceSourceController.java| \\
+C9 &
+\path|backend/src/main/java/ec/edu/unl/sec/reporting/domain/DocumentaryProgressCalculator.java| \\
+C10 &
+\path|backend/src/main/java/ec/edu/unl/sec/shared/api/ApiProblemHandler.java| \\
+C11 &
+\path|backend/src/main/java/ec/edu/unl/sec/shared/api/EntityTagSupport.java| \\
+C12 & \path|frontend/src/app/core/http/api-client.ts| \\
+C13 & \path|frontend/proxy.conf.json| y \path|frontend/angular.json| \\
+C14 &
+\path|backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SecurityConfiguration.java| \\
+C15 &
+\path|backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java| \\
+C16 &
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/api/CareerCatalogProblemHandler.java| \\
+\end{longtable}
+}
+
+Los ejemplos HTTP se reconstruyen a partir de estas fuentes con valores
+sintéticos. No son capturas de tráfico ni resultados de pruebas
+realizadas para esta entrega. La revisión es documental y estática; no
+se arrancaron servicios ni se modificó el código de negocio.
+
+\section{Problema del proyecto y
+necesidad}\label{problema-del-proyecto-y-necesidad}
+
+El proyecto aborda la organización y trazabilidad de la autoevaluación
+interna de carreras: configurar modelos, planificar responsables,
+aportar información, revisar documentación y conservar las decisiones y
+resultados. La especificación exige distinguir tres actos: recopilar
+información, aceptar documentalmente una evidencia y valorar
+académicamente un indicador.
+
+La necesidad funcional documentada consiste en disponer de información
+identificable por carrera, proceso, indicador, fuente y versión, con
+acceso autorizado e historial. Sin esa separación, una carga o
+aceptación documental podría interpretarse indebidamente como
+cumplimiento académico; el proyecto establece explícitamente que tal
+equivalencia no debe producirse.
+
+\textbf{Límite de la evidencia:} no se encontraron entrevistas, cifras
+de tiempos actuales ni un diagnóstico institucional que pruebe cómo se
+desarrolla hoy el proceso fuera del sistema. La descripción anterior
+resume el problema abordado por la especificación; no afirma que una
+institución utilice actualmente hojas de cálculo, pierda documentos o
+tenga una tasa de errores determinada.
+
+\section{Actores y responsabilidades}\label{actores-y-responsabilidades}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Actor
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Responsabilidad pertinente
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Administrador funcional & Mantener catálogos, modelos y asignaciones
+dentro de sus capacidades autorizadas. \\
+Coordinador de autoevaluación & Preparar y planificar procesos;
+consultar avance y tramitar decisiones autorizadas. \\
+Responsable documental & Crear borradores, aportar contenido y remitir
+evidencias de su ámbito. \\
+Revisor documental & Decidir sobre coberturas de una versión remitida,
+conservando fundamento. \\
+Evaluador académico & Valorar indicadores con reglas y sustentos
+autorizados; no modificar revisión documental. \\
+Consultor autorizado & Consultar resultados e historial dentro del
+ámbito otorgado. \\
+Administrador técnico & Operar configuración y cuentas según sus
+capacidades, sin adquirir competencia académica. \\
+Cuenta técnica & Ejecutar tareas técnicas explícitas; no adoptar
+decisiones humanas por privilegio técnico. \\
+\end{longtable}
+}
+
+Las autoridades, comisiones y funciones de aprobación de P12--P16 están
+descritas como configurables. Su competencia real sigue pendiente de
+validación institucional. No se equipara ``tener sesión'' con ``poder
+aprobar''.
+
+\section{Alcance y exclusiones}\label{alcance-y-exclusiones}
+
+El MVP documental comprende P01--P11 y consulta histórica básica de P16:
+acceso, carreras, modelos, autorización del proceso, planificación,
+evidencias, revisión, subsanación y seguimiento documental. Valoración
+académica, informes, mejora y cierre integral corresponden al alcance
+posterior D7--D8, aunque el repositorio ya contiene implementación y
+evidencias técnicas de esos módulos.
+
+Se excluyen acreditación oficial, evaluación externa en el alcance
+inicial, datos reales no autorizados, integraciones institucionales
+productivas, aplicación móvil y operación sin conexión durante el MVP.
+La disponibilidad multirregión y el despliegue productivo tampoco son
+compromisos de esta actividad.
+
+Para ACD2 se analizan escenarios representativos del MVP; la valoración
+se incluye para demostrar la separación entre aceptación documental y
+resultado académico.
+
+\section{Clarificaciones de la semana
+anterior}\label{clarificaciones-de-la-semana-anterior}
+
+Se recuperan decisiones existentes; no se inventan respuestas previas.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Registro
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Pregunta recuperada o reformulada
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Información documentada
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Estado de confirmación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+CL-001 / CL-015 & ¿Qué función y autoridad pueden autorizar cada
+actuación? & Funciones y política sintética; asignación y constancia
+obligatorias. & Pendiente de validación institucional. \\
+CL-002 & ¿Cuándo se permite combinar funciones o autorrevisar? &
+Política de conflictos y excepciones temporales auditables. & Confirmar
+autoridad y procedimiento de excepción. \\
+CL-005 / CL-013 & ¿Qué escala o regla se aplica y qué puede
+automatizarse? & Escalas configurables; cálculo solo con reglas
+validadas. & Confirmar metodología de cada indicador. \\
+CL-006 & ¿Cómo se calcula el avance? & Fuentes obligatorias aplicables;
+métricas separadas. & Regla del piloto documentada; validación
+institucional pendiente. \\
+CL-008 & ¿Qué archivos y conservación se requieren? & Máximo inicial 25
+MiB y conservación durante la vida del proceso. & Tipos, retención y
+eliminación institucional por confirmar. \\
+CL-011 / CL-014 & ¿Se utilizan cinco modelos completos y vigentes? &
+Configuraciones representativas; procedencia y vigencia por corroborar.
+& No confundir prueba sintética con catálogo normativo completo. \\
+CL-016 / CL-017 & ¿Quién aprueba informes y qué permite cerrar? &
+Políticas versionadas, pendientes y excepciones explícitas. & Sin
+constancia institucional de aprobación. \\
+\end{longtable}
+}
+
+No existe evidencia suficiente para afirmar que estas preguntas fueron
+respondidas en la sesión anterior. El equipo debe completar persona,
+fecha, respuesta y respaldo cuando disponga del registro real.
+
+\chapter{Resultados de la actividad: especificación académica
+revisada}\label{resultados-de-la-actividad-especificaciuxf3n-acaduxe9mica-revisada}
+
+\section{Requisitos funcionales
+principales}\label{requisitos-funcionales-principales}
+
+Se conservan los IDs del proyecto. Las formulaciones siguientes precisan
+la intención de sus fuentes para esta actividad; no introducen
+funcionalidades ajenas ni cambian su aprobación institucional.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+ID y fuente
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Formulación verificable
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Actor y verificación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+FR-001--002, D1 & Antes de atender una operación protegida, el servidor
+deberá comprobar sesión vigente, capacidad y ámbito aplicables. Si no se
+satisfacen, rechazará la operación sin modificar el recurso. & Todos;
+sesión ausente, válida y fuera de ámbito. \\
+FR-005, D1 & Un administrador autorizado podrá habilitar o desactivar
+una identidad y conservará su autoría histórica; la desactivación
+impedirá acceso posterior. & Administrador; desactivar y repetir
+solicitud con sesión previa. \\
+FR-043, D4 & El administrador funcional podrá registrar carreras con
+código normalizado único, nombre, unidad académica y vigencia válida; se
+rechazará el código duplicado y se conservará el historial de cambios. &
+Administrador; alta válida, duplicado y cambio histórico. \\
+FR-007/045, D1/D4 & Una versión de modelo admitirá nodos tipados con
+distinta profundidad; rechazará ciclos y pertenencias inválidas antes de
+publicarse. & Administrador de modelos; indicador directo/anidado y
+ciclo. \\
+FR-008--009, D1 & La publicación validará estructura, fuentes,
+metodología y revisión independiente; una versión publicada no podrá
+sobrescribirse y su corrección originará una sucesora. & Autor/revisor;
+publicación incompleta y sucesión. \\
+FR-011/048, D1/D4 & El coordinador podrá preparar un proceso para
+carrera, período y modelo; la activación exigirá carrera/modelo
+aplicables y autorización registrada y verificada. &
+Coordinador/autoridad; sin autorización permanece PREPARATION. \\
+FR-013/050, D1/D4 & La planificación asignará participantes o equipos
+con función, indicador y vigencia explícitos; rechazará asignaciones
+incompatibles sin excepción válida. & Coordinador; vigencia, conflicto y
+ámbito. \\
+FR-016--018/051, D1/D4 & El responsable podrá preparar evidencia de su
+ámbito y declarar coberturas exactas; remitir exigirá metadatos
+completos y contenido compatible con cada fuente cubierta. &
+Responsable; fuente ajena, contenido incompleto y caso válido. \\
+FR-019--020, D1 & Una remisión conservará versión, autor y fecha; no
+admitirá edición posterior. Una corrección creará una sucesora sin
+eliminar la predecesora. & Responsable; remitir, intentar edición y
+corregir. \\
+FR-021--022, D1 & El revisor autorizado registrará resultados por
+cobertura de una versión remitida y se derivará el estado global de esos
+resultados, conservando actor, fecha y fundamento aplicable. & Revisor;
+aceptar una cobertura y observar otra. \\
+FR-023/055, D1/D4 & Aceptar documentalmente una evidencia no creará una
+valoración académica ni marcará el indicador como cumplido. &
+Revisor/evaluador; comparar registros académicos antes/después. \\
+FR-053, D4 y D2 & La recopilación será el número de IDs distintos de
+fuentes obligatorias aplicables con cobertura remitida vigente dividido
+entre las fuentes obligatorias aplicables, por cien; borradores y
+fuentes opcionales no contarán. & Coordinador; 3 de 4 = 75 \%. \\
+FR-054, D4 y D2 & La revisión documental contará fuentes obligatorias
+aplicables cuya cardinalidad se satisfaga con coberturas aceptadas
+vigentes; no duplicará una fuente por tener varios archivos. &
+Coordinador; 2 de 4 = 50 \% y cardinalidad mayor que uno. \\
+FR-030, D1 & Desde un agregado autorizado, el usuario podrá acceder a
+indicadores, decisiones y versiones que explican el conteo, conservando
+las restricciones de ámbito. & Consultor/coordinador; cada destino abre
+el sustento correspondiente. \\
+FR-031/064, D1/D4 & El sistema distinguirá un corte sin cambio de estado
+del cierre documental sujeto a política; ninguno exigirá ejecutar
+valoración, informes o mejora posteriores. & Coordinador; corte con
+pendientes y MVP sin P12--P15. \\
+FR-039, D1 & Los errores expondrán una estructura estable con código,
+descripción, instancia y correlación, sin secretos ni información de
+ámbitos ajenos. & Todos; entrada inválida y error de negocio. \\
+\end{longtable}
+}
+
+Observaciones: FR-030 mantiene implementación parcial en el tablero
+localizado. La consulta/registro de decisiones existe, pero no demuestra
+toda la política institucional. Los requisitos compuestos deben
+desglosarse al diseñar pruebas; aprobar un caso no verifica
+automáticamente todas sus cláusulas.
+
+\section{Requisitos no funcionales y mecanismo de
+medición}\label{requisitos-no-funcionales-y-mecanismo-de-mediciuxf3n}
+
+Los umbrales numéricos provienen del repositorio. Las condiciones
+experimentales pendientes se identifican, sin inventar resultados.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Categoría / ID
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Exigencia y forma de verificar
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Estado y límite
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Seguridad, RNF-001 & Almacenar contraseñas mediante hash adaptativo con
+sal; inspeccionar almacenamiento y verificar autenticación sin exponer
+secretos. & BCrypt localizado; no es auditoría integral de seguridad. \\
+Seguridad, RNF-002 & Expirar sesión tras 30 minutos de inactividad;
+cerrar sesión o desactivar cuenta invalidará acceso posterior. Verificar
+con reloj controlado y solicitudes sucesivas. & Mecanismos y pruebas
+existentes. \\
+Seguridad, RNF-003 & Limitar autenticaciones al alcanzar cinco fallos en
+15 minutos. Comparar error de usuario inexistente y contraseña
+incorrecta. & Confirmar si son consecutivos o acumulados: texto y SQL
+difieren. \\
+Rendimiento, RNF-006 & p95 de operaciones interactivas del MVP ≤ 2 s,
+excluyendo archivos e informes. Definir inicio/fin visibles, entorno,
+red y operaciones antes de medir. & Medición histórica de consultas
+seleccionadas: no acredita todos los recorridos visibles. \\
+Rendimiento/capacidad, RNF-007--008 & p95 de cargas hasta 25 MiB ≤ 15 s;
+al menos 100 usuarios, 30 sesiones, 500 indicadores, 10 000 versiones y
+100 GiB sin incumplir RNF-006. & Falta campaña de cargas y volumen 100
+GiB acreditado. \\
+Disponibilidad, RNF-009 & Un fallo de exportación/notificación futura no
+impedirá autenticación ni operaciones del MVP. Ejecutar recorridos con
+ese componente fallando y comparar estado. & No se exige un porcentaje
+de uptime no definido; ensayo de fallos pendiente. \\
+Recuperación, RNF-010 & Una interrupción entre metadatos y archivos
+dejará operación completa o recuperable, sin archivo ausente presentado
+como disponible. Interrumpir, reconciliar y comprobar integridad. &
+Recuperación localizada; RPO/RTO institucional por definir. \\
+Usabilidad, SC-003/007 & Recorrido D1--D6 en ≤ 45 min; al menos 19 de 20
+participantes completan la tarea al primer intento según protocolo. &
+Los datos deben ser sintéticos; los participantes humanos
+representativos. Protocolo/resultados pendientes. \\
+Accesibilidad, RNF-014 & Recorridos declarados con teclado, foco
+visible, etiquetas y contraste WCAG 2.2 AA. Verificar criterios
+aplicables automáticamente y con revisión humana. & Recorridos Edge no
+certifican todo el nivel AA. \\
+Mantenibilidad, RNF-017--018 & Mantener reglas separadas de
+controladores, persistencia e interfaz; verificar dependencias y pruebas
+reproducibles de estados, permisos y cálculo. & ArchUnit y suites
+disponibles; dependencias SQL requieren revisión adicional. \\
+Interoperabilidad, FR-035 y contratos & Validar formatos versionados,
+entradas y errores al intercambiar información; distinguir contrato
+operativo y futuro. & No existe RNF independiente específico;
+integración externa aún futura. \\
+\end{longtable}
+}
+
+\textbf{Candidato no aprobado de interoperabilidad (ACD-INT-01):} ``Los
+clientes de las operaciones HTTP seleccionadas deberán poder interpretar
+las representaciones JSON y los errores documentados, conservando
+nombres, tipos y semántica del contrato versionado''. Verificación
+propuesta: cliente HTTP independiente y pruebas de esquema contra rutas
+operativas. Se deriva del diseño REST; el equipo debe validarlo antes de
+integrarlo al catálogo RNF oficial. No obliga a habilitar CORS ni a
+implementar importación externa futura.
+
+\section{Calidad y requisitos
+corregidos}\label{calidad-y-requisitos-corregidos}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+ID
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Redacción o problema de partida
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Formulación revisada y justificación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+FR-053 & ``Fuentes aplicables'' puede incluir opcionales y duplicar
+coberturas. & Contar IDs distintos de fuentes obligatorias aplicables
+cubiertas por versión remitida vigente. Hace explícitos conjunto,
+denominador y vigencia; coincide con D2 y C9. \\
+FR-030 & ``Permitir navegar'' no define origen, destino ni comprobación.
+& Desde cada agregado autorizado se accederá a sus indicadores,
+decisiones y versiones exactas, manteniendo ámbito. Permite comprobar
+cada enlace y detectar una interfaz incompleta. \\
+RNF-006 & ``Resultado visible'' no equivale a duración del endpoint. &
+Mantener p95 ≤ 2 s y definir medición desde acción del usuario hasta
+presentación del resultado, con conjunto de operaciones y entorno
+registrado. Evita usar una medición API como prueba del recorrido
+completo. \\
+RNF-003 & El enunciado dice fallos consecutivos; el SQL cuenta fallos
+dentro de ventana. & Pendiente de decisión: conservar consecutividad y
+ajustar comportamiento, o aprobar ventana acumulada de cinco fallos/15
+min. No se elige una política silenciosamente. \\
+SC-007 & Se menciona ``participantes sintéticos''. & Participantes
+representativos utilizando datos sintéticos. La usabilidad requiere
+personas; la protección de datos se mantiene. \\
+\end{longtable}
+}
+
+Comprobación de los cinco criterios de la guía:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Requisito revisado
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Claro
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Específico
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Pertinente
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Verificable
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Consistente con alcance
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+FR-053 & Define qué se cuenta. & Distingue obligatorias y vigentes. &
+Seguimiento documental. & Ejemplo 3/4 y cero fuentes. & P11, MVP. \\
+FR-030 & Identifica navegación y sustentos. & Define destinos y ámbito.
+& Trazabilidad. & Apertura y permisos de cada destino. & MVP;
+implementación parcial. \\
+RNF-006 & Resultado visible definido. & p95 y exclusiones existentes. &
+Respuesta del sistema. & Requiere protocolo de entorno. & MVP; no amplía
+entregas. \\
+RNF-003 & Aún requiere elegir política. & Ventana/umbral conocidos. &
+Control de acceso. & Dos secuencias de intentos. & Acceso; no aprobado
+el cambio. \\
+SC-007 & Persona y datos diferenciados. & 19 de 20 participantes. &
+Usabilidad. & Registro de tareas y ayuda. & Recorridos documentales. \\
+\end{longtable}
+}
+
+\section{Casos de uso
+representativos}\label{casos-de-uso-representativos}
+
+Los identificadores P proceden de D3; se detallan cuatro escenarios
+suficientes para el propósito de ACD2.
+
+\subsection{P02 --- Registrar una
+carrera}\label{p02-registrar-una-carrera}
+
+\begin{itemize}
+\tightlist
+\item
+  Actor principal: administrador funcional autorizado.
+\item
+  Objetivo: disponer de una carrera identificable para posteriores
+  procesos.
+\item
+  Precondiciones: sesión vigente, capacidad de administración y unidad
+  académica activa.
+\item
+  Flujo principal: seleccionar unidad; introducir código, nombre y
+  vigencia; enviar; normalizar código; validar unicidad/unidad/fechas;
+  guardar historial y auditoría; responder con carrera, Location y ETag.
+\item
+  Alternativa: código repetido produce 409 y no crea otra carrera.
+\item
+  Excepción: solicitud malformada o campos inválidos produce 400; unidad
+  no disponible produce 422 según C2.
+\item
+  Postcondición de éxito: carrera activa con revisión inicial 1, unidad
+  y autoría conservadas.
+\item
+  Postcondición de rechazo: no se crea la carrera solicitada.
+\item
+  Requisitos: FR-043, FR-002, FR-006; RNF-011--012.
+\end{itemize}
+
+\subsection{P08 --- Remitir una versión de
+evidencia}\label{p08-remitir-una-versiuxf3n-de-evidencia}
+
+\begin{itemize}
+\tightlist
+\item
+  Actor principal: responsable documental.
+\item
+  Objetivo: poner una versión completa a disposición del revisor.
+\item
+  Precondiciones: proceso habilitado, asignación vigente, borrador
+  completo, contenido permitido y coberturas exactas.
+\item
+  Flujo principal: consultar versión/revisión; comprobar metadatos,
+  fuentes y contenido; remitir con revisión vigente; reautorizar y
+  validar integridad; conservar versión inmutable y autor/fecha;
+  incorporarla a revisión.
+\item
+  Alternativa: metadatos o fuentes incompletos conservan el borrador y
+  bloquean remisión.
+\item
+  Excepción: revisión obsoleta produce 412; no debe sobrescribirse la
+  versión ajena.
+\item
+  Postcondición: versión SUBMITTED inmutable o borrador conservado sin
+  remisión parcial.
+\item
+  Requisitos: FR-018--019, FR-051; RNF-010--012.
+\end{itemize}
+
+\subsection{P09 --- Revisar coberturas
+documentales}\label{p09-revisar-coberturas-documentales}
+
+\begin{itemize}
+\tightlist
+\item
+  Actor principal: revisor documental autorizado.
+\item
+  Objetivo: determinar aceptabilidad documental de cada cobertura.
+\item
+  Precondiciones: versión remitida vigente, capacidad de revisión y
+  separación de funciones aplicable.
+\item
+  Flujo principal: consultar contenido; revisar cada fuente; registrar
+  ACCEPTED/OBSERVED/REJECTED y fundamento; derivar global; conservar
+  decisión; actualizar proyección documental.
+\item
+  Alternativa: aceptar una cobertura y observar otra produce global
+  OBSERVED; únicamente la cobertura aceptada puede contribuir conforme a
+  cardinalidad.
+\item
+  Excepción: autorrevisión sin excepción válida o acceso no autorizado
+  se rechazan; la política de excepción exige validación adicional.
+\item
+  Postcondición: decisión conservada y sin valoración académica creada
+  automáticamente.
+\item
+  Requisitos: FR-021--024, FR-054--055.
+\end{itemize}
+
+\subsection{P11 --- Consultar seguimiento
+documental}\label{p11-consultar-seguimiento-documental}
+
+\begin{itemize}
+\tightlist
+\item
+  Actor principal: coordinador o consultor autorizado.
+\item
+  Objetivo: identificar pendientes sin confundir documentación con
+  cumplimiento académico.
+\item
+  Precondiciones: proceso existente y ámbito de consulta vigente.
+\item
+  Flujo principal: filtrar fuentes autorizadas; excluir opcionales/no
+  aplicables del denominador; contar remisiones y aceptaciones vigentes;
+  calcular porcentajes; mostrar sustento y política.
+\item
+  Alternativa: cuatro fuentes, tres remitidas y dos aceptadas producen
+  75 \% y 50 \%.
+\item
+  Excepción/caso límite: sin configuración devuelve porcentaje no
+  calculable; todas excluidas autorizadamente tampoco equivalen a 100
+  \%.
+\item
+  Postcondición: consulta sin cambios de estado y agregados
+  reproducibles.
+\item
+  Requisitos: FR-029--030, FR-053--054.
+\end{itemize}
+
+\section{Historias de usuario y criterios de
+aceptación}\label{historias-de-usuario-y-criterios-de-aceptaciuxf3n}
+
+Son selecciones/refinamientos académicos de historias existentes; no se
+atribuye su aprobación a la sesión.
+
+\subsection{HU-ACD-01 --- Catálogo de carreras
+(005/US1)}\label{hu-acd-01-catuxe1logo-de-carreras-005us1}
+
+Como administrador funcional, quiero registrar carreras con su unidad y
+vigencia, para preparar procesos sobre un catálogo identificable y
+conservar su historial.
+
+\begin{itemize}
+\tightlist
+\item
+  AC-01: \textbf{Dado que} la unidad está activa y el código no existe,
+  \textbf{cuando} registro campos válidos, \textbf{entonces} se crea una
+  carrera con revisión 1 y se devuelve 201 y su Location.
+\item
+  AC-02: \textbf{Dado que} el código normalizado ya existe,
+  \textbf{cuando} intento registrar otro igual, \textbf{entonces} recibo
+  409 y no se crea un duplicado.
+\item
+  AC-03: \textbf{Dado que} mi identidad no tiene capacidad de
+  administración, \textbf{cuando} intento crear, \textbf{entonces} la
+  operación se rechaza y no modifica el catálogo.
+\end{itemize}
+
+\subsection{HU-ACD-02 --- Remisión trazable (004/US3 y
+005/US4)}\label{hu-acd-02-remisiuxf3n-trazable-004us3-y-005us4}
+
+Como responsable documental, quiero remitir una versión completa
+vinculada a fuentes exactas, para que el revisor conozca qué
+documentación se aporta y bajo qué versión.
+
+\begin{itemize}
+\tightlist
+\item
+  AC-04: \textbf{Dado que} el borrador satisface metadatos, contenido y
+  cobertura, \textbf{cuando} lo remito con revisión vigente,
+  \textbf{entonces} queda SUBMITTED con autor y fecha y no admite
+  edición ordinaria.
+\item
+  AC-05: \textbf{Dado que} falta una cobertura requerida,
+  \textbf{cuando} intento remitir, \textbf{entonces} no se crea una
+  remisión parcial y se conserva el borrador.
+\item
+  AC-06: \textbf{Dado que} otro cambio avanzó la revisión,
+  \textbf{cuando} envío un If-Match obsoleto, \textbf{entonces} recibo
+  412 y debo recargar antes de decidir.
+\end{itemize}
+
+\subsection{HU-ACD-03 --- Revisión por cobertura (005/US5, parte del
+revisor)}\label{hu-acd-03-revisiuxf3n-por-cobertura-005us5-parte-del-revisor}
+
+Como revisor documental, quiero decidir por cobertura de una versión
+remitida, para comunicar su aceptabilidad sin atribuir un resultado
+académico.
+
+\begin{itemize}
+\tightlist
+\item
+  AC-07: \textbf{Dado que} hay dos coberturas, \textbf{cuando} acepto
+  una y observo otra con fundamento, \textbf{entonces} se conservan
+  ambos resultados y el global se deriva como OBSERVED.
+\item
+  AC-08: \textbf{Dado que} no existe valoración académica,
+  \textbf{cuando} acepto documentación, \textbf{entonces} no se crea una
+  valoración ni se marca cumplimiento académico.
+\end{itemize}
+
+\subsection{HU-ACD-04 --- Seguimiento reproducible
+(005/US6)}\label{hu-acd-04-seguimiento-reproducible-005us6}
+
+Como coordinador, quiero consultar conteos y porcentajes separados por
+fuentes, para intervenir sobre pendientes documentales y explicar el
+sustento de cada agregado.
+
+\begin{itemize}
+\tightlist
+\item
+  AC-09: \textbf{Dado que} hay cuatro fuentes obligatorias aplicables,
+  tres con remisión vigente y dos con cardinalidad aceptada,
+  \textbf{cuando} consulto seguimiento, \textbf{entonces} obtengo 75 \%
+  de recopilación y 50 \% de revisión.
+\item
+  AC-10: \textbf{Dado que} una fuente opcional tiene varios archivos,
+  \textbf{cuando} consulto, \textbf{entonces} no aumenta el denominador
+  obligatorio ni se cuenta varias veces.
+\item
+  AC-11: \textbf{Dado que} no existen fuentes obligatorias configuradas,
+  \textbf{cuando} consulto, \textbf{entonces} no se divide entre cero ni
+  se informa 100 \%.
+\end{itemize}
+
+\section{Trazabilidad de la
+selección}\label{trazabilidad-de-la-selecciuxf3n}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Necesidad
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Requisitos
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Historia / caso
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Implementación y prueba existente
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Identificar la carrera y preservar historial & FR-043 & HU-ACD-01 / P02
+& C1--C3; \path|tests/acceptance/career-catalog.spec.ts|. \\
+Conservar información remitida exacta & FR-018--020/051 & HU-ACD-02 /
+P08/P10 &
+\path|backend/src/main/java/ec/edu/unl/sec/evidence/application/SubmitEvidenceService.java|;
+\path|tests/acceptance/document-review-correction.spec.ts|. \\
+Separar dictamen documental de académico & FR-021--023/055 & HU-ACD-03 /
+P09 &
+\path|backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewService.java|;
+\path|tests/acceptance/complete-workflows.spec.ts|, AC-P09-01. \\
+Explicar avance por fuentes & FR-030/053/054 & HU-ACD-04 / P11 & C9;
+suite consolidada AC-P11-01. FR-030 sigue parcial en interfaz. \\
+\end{longtable}
+}
+
+Las pruebas se identifican como existentes, no como ejecutadas
+nuevamente. Las tres pruebas vacías \path|evidence-v1.spec.ts|,
+\path|evidence-v1-v2.spec.ts| y \path|evidence-audit.spec.ts| no se
+utilizan como prueba de cumplimiento.
+
+\chapter{Contraste técnico: HTTP, JSON y revisión
+final}\label{contraste-tuxe9cnico-http-json-y-revisiuxf3n-final}
+
+\section{Funcionamiento básico y
+arquitectura}\label{funcionamiento-buxe1sico-y-arquitectura}
+
+HTTP es un protocolo de aplicación de solicitud/respuesta. El método
+expresa la operación, la URL identifica el recurso, las cabeceras
+aportan metadatos y el contenido transporta una representación cuando
+corresponde. El servidor responde con estado, cabeceras y contenido
+opcional. La semántica del protocolo se mantiene aunque la aplicación
+conserve una sesión mediante cookies. Fuente:
+\href{https://www.rfc-editor.org/rfc/rfc9110.html}{RFC 9110}.
+
+En este proyecto, Angular utiliza rutas relativas \path|/api/v1|
+mediante C12; Spring Boot recibe las solicitudes, autoriza y coordina
+módulos, persistencia PostgreSQL y archivos. El backend es monolítico
+modular; no se afirma que existan microservicios ni un broker activo.
+
+Una solicitud comprende línea de petición, cabeceras, línea en blanco y
+cuerpo opcional. En los ejemplos se usa notación HTTP/1.1 legible; no se
+afirma que una captura real negociara esa versión. Una URL completa
+distingue esquema, host, puerto, ruta y consulta. Por ejemplo,
+\path|http://localhost:8080/api/v1/careers?page=0&size=20| identifica el
+servicio local, catálogo y parámetros de paginación; el fragmento de URL
+no se envía al servidor.
+
+\section{Comparación de GET, POST, PUT, PATCH y
+DELETE}\label{comparaciuxf3n-de-get-post-put-patch-y-delete}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Método
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Semántica general
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Ejemplo real del proyecto
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+GET & Recuperar una representación; seguro e idempotente. No se solicita
+una mutación de negocio. & \path|/api/v1/careers/{id}| devuelve carrera
+y ETag. \\
+POST & Procesar contenido conforme al recurso; puede crear o ejecutar
+una acción. No es idempotente por definición. & \path|/api/v1/careers|
+crea; \path|/api/v1/sessions| inicia sesión. \\
+PUT & Crear/reemplazar el estado representado del recurso objetivo;
+semántica idempotente. & \path|/api/v1/model-versions/{id}| reemplaza un
+borrador con el DTO legado. \\
+PATCH & Aplicar modificaciones a un recurso; no es necesariamente
+idempotente. & \path|/api/v1/users/{userId}| recibe
+\path|{active:false}|. \\
+DELETE & Solicitar retirar la asociación del recurso objetivo; semántica
+idempotente. & Retirar una referencia externa del borrador; logout en
+\path|/api/v1/sessions|. \\
+\end{longtable}
+}
+
+Fuentes:
+\href{https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods}{MDN:
+métodos} y \href{https://www.rfc-editor.org/rfc/rfc5789.html}{RFC 5789:
+PATCH}.
+
+Idempotencia significa que repetir una operación tiene el mismo efecto
+pretendido, no que siempre devuelva el mismo código. Un segundo DELETE
+puede ser rechazado o encontrar el recurso ausente. Un segundo PUT con
+revisión vieja puede recibir 412 sin contradecir esa semántica. PATCH no
+significa enviar cualquier subconjunto de campos: manda el contrato
+concreto. Por ejemplo, el PATCH de carreras exige todos los campos de
+CareerInput; no se debe omitir \path|academicUnitId| suponiendo un JSON
+Merge Patch genérico.
+
+\section{Códigos de estado
+solicitados}\label{cuxf3digos-de-estado-solicitados}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Estado
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Interpretación general
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Ejemplo respaldado por el código
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+200 OK & Solicitud atendida correctamente. & GET de carrera o PUT del
+borrador. \\
+201 Created & Se crearon uno o más recursos. & POST de carrera con
+Location. \\
+204 No Content & Operación completada sin contenido de respuesta. &
+DELETE de referencia o cierre de sesión. \\
+400 Bad Request & Solicitud no procesable por error del cliente. &
+JSON/UUID inválido o campos no válidos. \\
+401 Unauthorized & Faltan credenciales válidas para el recurso. & Sesión
+ausente, revocada o expirada. \\
+403 Forbidden & El servidor rechaza la operación. & Sesión válida sin
+capacidad o token CSRF inválido. \\
+404 Not Found & No se encuentra o no se revela el recurso. & Carrera
+desconocida o no visible. \\
+409 Conflict & Conflicto con el estado actual. & Código de carrera
+duplicado. \\
+422 Unprocessable Content & Contenido comprendido, instrucciones no
+procesables. & Unidad académica no disponible, según C2. \\
+500 Internal Server Error & Condición inesperada del servidor. & C10
+devuelve INTERNAL\_ERROR sin detalle técnico al cliente. \\
+\end{longtable}
+}
+
+Fuente de semántica general:
+\href{https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status}{MDN:
+estados HTTP}. La asociación con rutas concretas procede del
+repositorio.
+
+También son relevantes 412 (revisión obsoleta), 428 (falta If-Match),
+413 (archivo demasiado grande) y 429 (limitación de autenticación). Un
+error de negocio no debe interpretarse automáticamente como 500; el
+cuerpo explica el código de dominio. Un fallo de CORS del navegador
+tampoco equivale necesariamente a un 500 del backend.
+
+\section{Cabeceras y autenticación real del
+proyecto}\label{cabeceras-y-autenticaciuxf3n-real-del-proyecto}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Cabecera
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Propósito
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Aplicación o límite
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Content-Type & Describe el formato del contenido transportado. &
+\path|application/json|; para errores \path|application/problem+json|;
+los archivos se cargan con multipart. \\
+Accept & Indica formatos de respuesta admitidos por el cliente. & Puede
+indicar JSON y Problem Details; no convierte por sí sola el cuerpo
+enviado. \\
+Authorization & Transporta credenciales según un esquema de
+autenticación. & \path|Bearer <token>| es una forma común, pero no es el
+mecanismo implementado de SIGEAC. \\
+Location & Referencia un recurso creado o destino, según la respuesta. &
+En 201 de carrera: \path|/api/v1/careers/{id}|. No significa una
+redirección automática. \\
+ETag & Validador opaco de una representación. & C11 utiliza revisión
+fuerte entre comillas, por ejemplo \path|"1"|. No es credencial de
+autorización. \\
+If-Match & Condiciona la modificación al validador recibido. & Evita
+sobrescritura silenciosa; si está obsoleto, 412. \\
+Cookie / Set-Cookie & Envío y establecimiento de estado de sesión. &
+Cookie SEC\_SESSION; no enviar su valor real en el informe. \\
+X-CSRF-TOKEN & Token propio de protección de mutaciones autenticadas. &
+C5 valida su hash; una cookie válida no sustituye el token. \\
+\end{longtable}
+}
+
+Referencias:
+\href{https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Type}{Content-Type},
+\href{https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Accept}{Accept},
+\href{https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Authorization}{Authorization},
+\href{https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Location}{Location}
+y
+\href{https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/ETag}{ETag}.
+
+El login de C4 devuelve \path|csrfToken| y establece SEC\_SESSION. No
+devuelve JWT ni habilita \path|Authorization: Bearer| por el ejemplo de
+la guía. Se conserva ese concepto en el análisis general y se usa Cookie
+en los ejemplos del proyecto. En C14 Spring desactiva CSRF integrado,
+pero C5 implementa una comprobación propia; no se concluye ausencia de
+protección a partir de una sola línea.
+
+\section{Ejercicio resuelto: POST de carrera y respuesta
+JSON}\label{ejercicio-resuelto-post-de-carrera-y-respuesta-json}
+
+Ejemplo sintético compatible con C1--C3. Los UUID, fecha y tokens no
+representan personas ni solicitudes reales. Se presupone una unidad
+activa con el ID indicado y un administrador autorizado.
+
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\footnotesize]
+POST /api/v1/careers HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Accept: application/json, application/problem+json
+Cookie: SEC_SESSION=<sesion-sintetica>
+X-CSRF-TOKEN: <csrf-sintetico>
+
+{
+  "code": "CARRERA-DEMO",
+  "name": "Carrera de demostración",
+  "academicUnitId": "11111111-1111-4111-8111-111111111111",
+  "validFrom": "2026-01-01",
+  "validUntil": null
+}
+\end{Verbatim}
+
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\footnotesize]
+HTTP/1.1 201 Created
+Content-Type: application/json
+Location: /api/v1/careers/22222222-2222-4222-8222-222222222222
+ETag: "1"
+
+{
+  "id": "22222222-2222-4222-8222-222222222222",
+  "data": {
+    "code": "CARRERA-DEMO",
+    "name": "Carrera de demostración",
+    "academicUnitId": "11111111-1111-4111-8111-111111111111",
+    "validFrom": "2026-01-01",
+    "validUntil": null
+  },
+  "status": "ACTIVE",
+  "revision": 1,
+  "createdBy": "33333333-3333-4333-8333-333333333333",
+  "createdAt": "2026-01-01T12:00:00Z",
+  "classificationPending": false
+}
+\end{Verbatim}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Elemento
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Interpretación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Método & POST solicita crear una carrera mediante el catálogo. \\
+Recurso & \path|/api/v1/careers| es la colección; la carrera creada
+tiene URI propia. \\
+URL y Host & La ruta y \path|Host| permiten identificar el servicio y
+recurso. \\
+Cabeceras de petición & Content-Type describe JSON; Accept admite
+éxito/error; Cookie identifica sesión; CSRF protege la mutación. \\
+Cuerpo & Código, nombre, unidad y vigencia; el servidor asigna ID,
+autor, estado y revisión. \\
+Estado & 201 es apropiado porque se creó un recurso, no solo se consultó
+uno. \\
+Location & Identifica la nueva carrera; C1 implementa el GET de esa
+ruta. \\
+ETag & Revisión inicial \path|"1"| para futuras modificaciones
+condicionadas. \\
+Cuerpo de respuesta & Representación del recurso; \path|data| contiene
+los atributos de negocio. \\
+\end{longtable}
+}
+
+Si se repite el código, C2 lanza 409 DUPLICATE\_CODE; no se promete que
+repetir POST cree o devuelva siempre el mismo objeto. Si la unidad no
+está activa, se produce 422 UNIT\_UNAVAILABLE. El cuerpo debe respetar
+la distinción de fechas ISO, cadenas y \path|null|.
+
+\section{GET y PATCH: consulta y
+concurrencia}\label{get-y-patch-consulta-y-concurrencia}
+
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\footnotesize]
+GET /api/v1/careers/22222222-2222-4222-8222-222222222222 HTTP/1.1
+Host: localhost:8080
+Accept: application/json
+Cookie: SEC_SESSION=<sesion-sintetica>
+\end{Verbatim}
+
+La respuesta exitosa es 200 con la representación Career y ETag. No se
+envía cuerpo para este GET.
+
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\footnotesize]
+PATCH /api/v1/careers/22222222-2222-4222-8222-222222222222 HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Cookie: SEC_SESSION=<sesion-sintetica>
+X-CSRF-TOKEN: <csrf-sintetico>
+If-Match: "1"
+
+{
+  "code": "CARRERA-DEMO",
+  "name": "Carrera de demostración actualizada",
+  "academicUnitId": "11111111-1111-4111-8111-111111111111",
+  "validFrom": "2026-01-01",
+  "validUntil": null
+}
+\end{Verbatim}
+
+Con revisión 1 vigente, la respuesta es 200, revisión 2 y ETag
+\path|"2"|. Si otro cliente ya guardó la revisión 2, el PATCH anterior
+recibe 412 y no sobrescribe sus cambios. La respuesta de error tiene
+forma Problem Details; este ejemplo es reconstruido desde C2/C16:
+
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\footnotesize]
+HTTP/1.1 412 Precondition Failed
+Content-Type: application/problem+json
+
+{
+  "type": "urn:sec-unl:problem:stale-revision",
+  "title": "Precondition Failed",
+  "status": 412,
+  "detail": "El recurso cambió; recargue antes de continuar.",
+  "instance": "/api/v1/careers/22222222-2222-4222-8222-222222222222",
+  "code": "STALE_REVISION",
+  "correlationId": "44444444-4444-4444-8444-444444444444",
+  "details": {}
+}
+\end{Verbatim}
+
+No confundir 412 con 409: el primero señala que no se cumplió la
+condición de versión; el segundo puede señalar código duplicado o estado
+incompatible.
+
+\section{PUT y DELETE implementados}\label{put-y-delete-implementados}
+
+PUT operativo: \path|/api/v1/model-versions/{id}|. El DTO legado tiene
+\path|source|, \path|criteria|, \path|scale| y \path|formula|; el DTO
+configurado de \path|/configured| tiene \path|source|, \path|nodes| y
+\path|configuration|. Debe enviarse la representación admitida completa,
+sesión, CSRF e If-Match. Éxito: 200 y ETag. Un modelo publicado requiere
+sucesión; no se presupone que el PUT cree un recurso inexistente porque
+la semántica general lo permita.
+
+DELETE operativo: retirar una referencia externa de un borrador
+autorizado:
+
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\footnotesize]
+DELETE /api/v1/evidence-versions/55555555-5555-4555-8555-555555555555/external-references/66666666-6666-4666-8666-666666666666 HTTP/1.1
+Host: localhost:8080
+Cookie: SEC_SESSION=<sesion-sintetica>
+X-CSRF-TOKEN: <csrf-sintetico>
+If-Match: "3"
+\end{Verbatim}
+
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\footnotesize]
+HTTP/1.1 204 No Content
+ETag: "4"
+\end{Verbatim}
+
+No hay cuerpo JSON tras 204. Se retira la referencia del borrador, no
+necesariamente el contenido externo al que apunta. C8 llama al servicio
+que exige versión editable; no es un permiso para borrar versiones
+remitidas.
+
+\section{JSON: interpretación de datos y
+errores}\label{json-interpretaciuxf3n-de-datos-y-errores}
+
+JSON representa objetos, arreglos, cadenas, números, booleanos y
+\path|null|; los nombres de objeto y cadenas usan comillas dobles. No
+incorpora comentarios ni comas finales. Fechas e identificadores se
+representan como cadenas con convenciones del contrato. Fuente:
+\href{https://www.rfc-editor.org/rfc/rfc8259.html}{RFC 8259}.
+
+En el alta de carrera, \path|revision| es número,
+\path|classificationPending| booleano y \path|validUntil| puede ser
+\path|null|; \path|"null"| sería una cadena distinta. Un JSON
+sintácticamente válido todavía puede infringir una regla de negocio: por
+ejemplo, una unidad inexistente produce 422 en C2. Un cuerpo malformado
+se interpreta como 400 en C10. Los campos de autoría/revisión los
+controla el servidor y no se añaden al cuerpo CareerInput.
+
+\section{CORS y orígenes distintos}\label{cors-y-oruxedgenes-distintos}
+
+Un origen combina esquema, host y puerto. \path|http://localhost:4200| y
+\path|http://localhost:8080| son orígenes distintos. CORS permite al
+servidor declarar qué orígenes pueden leer respuestas desde el
+navegador; no sustituye autenticación ni autorización. Fuente:
+\href{https://fetch.spec.whatwg.org/\#http-cors-protocol}{Fetch
+Standard: CORS}.
+
+En C12 el cliente usa \path|/api/v1|; C13 configura proxy \path|/api|
+hacia \path|http://localhost:8080|. Si el navegador accede a Angular en
+4200 y solicita esa ruta relativa, ve el mismo origen; el proxy realiza
+el salto al backend. No se localizaron políticas CORS explícitas en las
+fuentes revisadas y no se afirma que el acceso directo entre orígenes
+esté habilitado.
+
+Si se despliegan frontend y API en orígenes distintos, deben definirse
+orígenes permitidos, métodos y cabeceras; con cookies, credenciales y
+política de cookies compatibles. Con credenciales no se usa
+\path|Access-Control-Allow-Origin: *|. Para leer ETag o Location desde
+JavaScript pueden requerirse \path|Access-Control-Expose-Headers|. JSON
+y cabeceras como If-Match/CSRF pueden provocar preflight OPTIONS.
+Referencia:
+\href{https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS}{MDN:
+CORS}.
+
+Ejercicio hipotético de preflight, \textbf{no implementado ni ejecutado
+como política del proyecto}:
+
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\footnotesize]
+OPTIONS /api/v1/careers HTTP/1.1
+Host: localhost:8080
+Origin: http://localhost:4200
+Access-Control-Request-Method: POST
+Access-Control-Request-Headers: content-type,x-csrf-token
+\end{Verbatim}
+
+Para permitir ese escenario, una configuración futura tendría que
+responder con origen explícito, método/cabeceras permitidos y
+credenciales cuando corresponda. Un navegador puede impedir leer la
+respuesta si faltan permisos CORS, aunque la API funcione en Postman. No
+se modifica la configuración como parte de ACD2.
+
+\section{Socialización y
+retroalimentación}\label{socializaciuxf3n-y-retroalimentaciuxf3n}
+
+No se ha aportado evidencia de la sesión. El análisis técnico siguiente
+sirve como insumo de discusión, no como testimonio de compañeros o
+docente.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Observación técnica preparada
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Mejora incorporada a este desarrollo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Validación grupal
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Un archivo no equivale a una fuente aceptada ni a cumplimiento
+académico. & FR-053/054 distinguen fuentes, remisiones y aceptación;
+AC-08/09 comprueban separación. & {[}PENDIENTE: confirmar discusión y
+acuerdo{]} \\
+``Rápido'' no ofrece un criterio de aprobación. & RNF-006 conserva p95 ≤
+2 s y exige protocolo del resultado visible. & {[}PENDIENTE{]} \\
+El ejemplo Bearer de la guía no coincide con la aplicación. & Ejercicios
+usan SEC\_SESSION y CSRF, sin inventar JWT. & {[}PENDIENTE{]} \\
+Una cabecera ETag sin If-Match no evita por sí sola sobrescrituras. &
+Ejercicio de concurrencia interpreta 412 y recarga. & {[}PENDIENTE{]} \\
+\end{longtable}
+}
+
+Registro para la sesión real:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Persona que observa
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Observación recibida y fecha
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Requisito/ejercicio afectado
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Cambio realizado
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Evidencia/acuerdo
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+{[}PENDIENTE{]} & {[}PENDIENTE: observación real{]} & {[}PENDIENTE{]} &
+{[}PENDIENTE{]} & {[}PENDIENTE{]} \\
+\end{longtable}
+}
+
+No debe marcarse esta tabla como completada copiando una observación
+hipotética. La evidencia individual complementaria contiene dos
+requisitos corregidos y un ejercicio desarrollado, pero también exige el
+comentario real de retroalimentación de cada estudiante.
+
+\section{Comprobación de la guía y
+conclusiones}\label{comprobaciuxf3n-de-la-guuxeda-y-conclusiones}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Criterio de la actividad
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Evidencia preparada
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Pendiente real
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Problema, actores, alcance y clarificaciones & Secciones 1.2--1.5,
+fuentes D1--D4. & Diagnóstico institucional y respuestas verificadas. \\
+Requisitos funcionales & Sección 2.1 y verificaciones. & Aprobación del
+equipo y decisiones abiertas. \\
+Siete categorías de RNF & Sección 2.2, umbrales y límites. & Protocolos
+y resultados que faltan. \\
+Redacción clara y verificable & Sección 2.3 y justificaciones. &
+Registrar aceptación de correcciones. \\
+Casos de uso e historias & Secciones 2.4--2.6; AC-01--11. &
+Socialización y ajustes acordados. \\
+HTTP y JSON & Secciones 3.1--3.8; solicitudes/respuestas resueltas. & Si
+se pide ejecución, capturas reales sanitizadas. \\
+CORS & Sección 3.9 y proxy existente. & Decidir política solo si el
+despliegue lo requiere. \\
+Evidencia individual & \path|EVIDENCIA_INDIVIDUAL.md|. & Nombre, aporte
+real, retroalimentación y revisión personal. \\
+Participación y retroalimentación & Registro preparado en 3.10. & No
+acreditada todavía. \\
+\end{longtable}
+}
+
+El aporte del análisis consiste en vincular necesidades documentadas con
+condiciones y resultados comprobables: conservar versiones, autorizar
+por ámbito y contar fuentes distintas. Los ejemplos HTTP muestran que el
+mismo recurso puede consultarse, crearse o modificarse con métodos y
+precondiciones diferentes. ETag/If-Match permite explicar concurrencia
+entre clientes; Cookie y CSRF reflejan la autenticación real del
+sistema. El informe no acredita participación, ejecución ni aprobación
+institucional inexistentes.
+
+\cleardoublepage
+\nocite{proyecto,rfc9110,rfc5789,rfc8259,fetch,mdnmethods,mdnstatus,mdncors,mdnetag,mdnauthorization,mdncontenttype,mdnaccept,mdnlocation}
+\bibliographystyle{IEEEtran}
+\bibliography{referencias}
+\appendix
+\chapter{Evidencia individual para
+personalizar}\label{evidencia-individual-para-personalizar}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Dato
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Valor
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Estudiante & {[}PENDIENTE: nombre completo{]} \\
+Equipo y ciclo/paralelo & {[}PENDIENTE{]} \\
+Fecha de participación & {[}PENDIENTE: fecha real{]} \\
+Actividad & ACD2 --- Semana 2, Desarrollo de Software Distribuido \\
+Proyecto & SIGEAC / SEC-UNL \\
+Estado & Desarrollo técnico propuesto; pendiente de revisión y
+atribución personal \\
+\end{longtable}
+}
+
+Este contenido desarrolla los ejercicios, pero no acredita por sí solo
+participación individual. Cada estudiante debe revisarlo, explicar su
+razonamiento y registrar su retroalimentación real. No presentar el
+mismo texto como aporte personal independiente de todos los integrantes
+sin identificar la colaboración y el uso de IA.
+
+\section{Dos requisitos revisados y
+justificación}\label{dos-requisitos-revisados-y-justificaciuxf3n}
+
+\subsection{FR-053 --- Cálculo de recopilación
+documental}\label{fr-053-cuxe1lculo-de-recopilaciuxf3n-documental}
+
+\textbf{Fuente:} \path|specs/005-complete-evaluation-workflows/spec.md|,
+complementada por \path|docs/requirements/domain-rules.md|, sección
+Cálculo documental sin ambigüedad.
+
+\textbf{Enunciado de partida:} ``El avance de recopilación DEBE
+calcularse como fuentes aplicables cubiertas por evidencia remitida
+dividido para fuentes requeridas aplicables, multiplicado por cien''.
+
+\textbf{Redacción corregida propuesta:} El avance de recopilación deberá
+calcularse como el número de IDs distintos de fuentes obligatorias
+aplicables cubiertas por al menos una versión remitida vigente, dividido
+entre el número de IDs distintos de fuentes obligatorias aplicables,
+multiplicado por cien. Se excluirán borradores y fuentes opcionales. Si
+el denominador es cero, se mostrará porcentaje no calculable y el estado
+correspondiente de configuración o no aplicabilidad; no se mostrará 100
+\%.
+
+\textbf{Justificación:} ``Fuentes aplicables'' no precisa por sí sola
+obligatoriedad, duplicación ni vigencia. La corrección conserva la
+intención y utiliza reglas existentes, haciendo posible diseñar casos de
+prueba sin depender del número de archivos.
+
+\textbf{Criterio:} Dado que existen cuatro fuentes obligatorias
+aplicables y tres tienen cobertura remitida vigente, cuando consulto
+recopilación, entonces obtengo 75 \%. Adjuntar dos archivos a una misma
+fuente no debe aumentar ese conteo.
+
+\textbf{Evidencia técnica:}
+\path|backend/src/main/java/ec/edu/unl/sec/reporting/domain/DocumentaryProgressCalculator.java|;
+escenario AC-P11-01 de
+\path|tests/acceptance/complete-workflows.spec.ts|. No se ejecutó la
+prueba durante la preparación documental.
+
+\subsection{FR-030 --- Navegación hacia los
+sustentos}\label{fr-030-navegaciuxf3n-hacia-los-sustentos}
+
+\textbf{Fuente:} \path|docs/requirements/spec.md|.
+
+\textbf{Enunciado de partida:} ``El tablero DEBE permitir navegar desde
+conteos agregados hasta indicadores, decisiones y evidencias autorizadas
+que los sustentan''.
+
+\textbf{Redacción corregida propuesta:} Desde cada conteo agregado
+presentado en el tablero, el usuario autorizado deberá poder acceder a
+los indicadores, decisiones documentales y versiones de evidencia
+exactas que forman el conteo. Cada consulta de destino mantendrá el
+ámbito del usuario y no expondrá registros ajenos. La interfaz deberá
+conservar el contexto del proceso consultado.
+
+\textbf{Justificación:} Se especifican origen, destinos y restricción
+observable. Así se distingue una navegación funcional de mostrar un UUID
+sin enlace. La conservación de contexto se propone para revisión del
+equipo y no se presenta como una decisión previamente aprobada.
+
+\textbf{Criterio:} Dado que un conteo incluye una cobertura aceptada de
+mi ámbito, cuando accedo a su sustento, entonces veo el indicador,
+decisión y versión exacta relacionados. Dado que carezco de autorización
+para un recurso, cuando intento abrirlo, entonces no recibo su contenido
+ni se amplía mi ámbito.
+
+\textbf{Evidencia y límite:}
+\path|frontend/src/app/features/reporting/pages/documentary-dashboard.page.ts|
+filtra por fuente, pero muestra UUID de versiones como texto; la
+navegación completa sigue parcial. Formular el requisito no demuestra
+que esté implementado.
+
+\textbf{Aporte personal a confirmar:} {[}PENDIENTE: explicar con
+palabras propias qué parte se revisó, qué decisión se discutió y cuál
+fue el cambio aceptado por el grupo{]}.
+
+\section{Ejercicio de análisis HTTP
+resuelto}\label{ejercicio-de-anuxe1lisis-http-resuelto}
+
+Ejemplo reconstruido del contrato de
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/api/CareerController.java|
+con datos sintéticos. Se presupone sesión administrativa vigente y
+unidad activa. No es una captura de ejecución real.
+
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\footnotesize]
+POST /api/v1/careers HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Accept: application/json
+Cookie: SEC_SESSION=<sesion-sintetica>
+X-CSRF-TOKEN: <csrf-sintetico>
+
+{
+  "code": "CARRERA-DEMO",
+  "name": "Carrera de demostración",
+  "academicUnitId": "11111111-1111-4111-8111-111111111111",
+  "validFrom": "2026-01-01",
+  "validUntil": null
+}
+\end{Verbatim}
+
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\footnotesize]
+HTTP/1.1 201 Created
+Content-Type: application/json
+Location: /api/v1/careers/22222222-2222-4222-8222-222222222222
+ETag: "1"
+
+{
+  "id": "22222222-2222-4222-8222-222222222222",
+  "data": {
+    "code": "CARRERA-DEMO",
+    "name": "Carrera de demostración",
+    "academicUnitId": "11111111-1111-4111-8111-111111111111",
+    "validFrom": "2026-01-01",
+    "validUntil": null
+  },
+  "status": "ACTIVE",
+  "revision": 1,
+  "createdBy": "33333333-3333-4333-8333-333333333333",
+  "createdAt": "2026-01-01T12:00:00Z",
+  "classificationPending": false
+}
+\end{Verbatim}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Elemento solicitado
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Interpretación
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Método & POST: se solicita crear una carrera. \\
+Recurso & Colección \path|/api/v1/careers|; el servidor asigna una URI a
+la carrera nueva. \\
+Host & \path|localhost:8080| identifica el servicio usado en el
+ejemplo. \\
+Content-Type & El cuerpo de la petición es JSON; la respuesta también
+declara JSON. \\
+Accept & El cliente solicita una representación JSON de respuesta. \\
+Cookie & Lleva la sesión opaca; el servidor comprueba su vigencia y
+permisos. \\
+X-CSRF-TOKEN & Protege la mutación autenticada contra solicitudes
+cruzadas no autorizadas. \\
+Cuerpo de petición & Código, nombre, ID de unidad y vigencia. No envía
+autor ni revisión. \\
+Estado & 201 Created confirma creación; no es simplemente una consulta
+200. \\
+Location & Identifica la carrera recién creada y permite construir una
+consulta posterior. \\
+ETag & \path|"1"| es la revisión inicial; se usa con If-Match en cambios
+posteriores. \\
+Cuerpo de respuesta & Representación Career, incluyendo atributos de
+negocio en \path|data| y metadatos del servidor. \\
+Significado completo & Se creó una carrera activa, con unidad y vigencia
+válidas, bajo una identidad autorizada. \\
+\end{longtable}
+}
+
+\textbf{Comparación de rechazos:} sin sesión corresponde 401; sin
+capacidad o con CSRF inválido, 403; código duplicado, 409; unidad no
+disponible, 422 según el servicio. No todos los JSON erróneos producen
+422: errores sintácticos o de validación de campos pueden producir 400.
+
+\textbf{Pregunta de concurrencia resuelta:} si leo ETag \path|"1"| y
+otro cliente modifica antes, mi PATCH con If-Match \path|"1"| recibe
+412; debo recargar. ETag no autentica mi identidad y no autoriza mi
+acción.
+
+\textbf{Pregunta CORS resuelta:} el cliente Angular usa rutas relativas
+y un proxy de desarrollo. Si llama directamente desde un origen distinto
+al backend, el navegador requiere una política CORS compatible; Postman
+no verifica ese comportamiento del navegador. No se presume CORS
+habilitado.
+
+\textbf{Authorization de la guía:} su ejemplo usa Bearer; este sistema
+utiliza SEC\_SESSION y CSRF. Se interpreta Authorization como cabecera
+general sin afirmar soporte JWT en el proyecto.
+
+Fuentes conceptuales:
+\href{https://www.rfc-editor.org/rfc/rfc9110.html}{RFC 9110},
+\href{https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/ETag}{MDN:
+ETag} y \href{https://fetch.spec.whatwg.org/\#http-cors-protocol}{Fetch:
+CORS}. Las rutas, DTO y códigos aplicados proceden del repositorio.
+
+\section{Comentario de retroalimentación
+real}\label{comentario-de-retroalimentaciuxf3n-real}
+
+No se proporcionó una observación recibida en clase. Completar el
+siguiente registro después de la socialización; no atribuir la revisión
+de IA al docente o a un compañero.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Campo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Registro
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Persona que realizó la observación & {[}PENDIENTE{]} \\
+Fecha y contexto & {[}PENDIENTE{]} \\
+Observación recibida & {[}PENDIENTE: texto fiel o resumen
+identificado{]} \\
+Requisito o ejercicio afectado & {[}PENDIENTE{]} \\
+Cambio utilizado para mejorar el trabajo & {[}PENDIENTE{]} \\
+Justificación de cómo resolvió el problema & {[}PENDIENTE{]} \\
+Evidencia de participación & {[}PENDIENTE: acta, revisión, entrega o
+registro real{]} \\
+\end{longtable}
+}
+
+Estructura de redacción para completar: ``Durante la sesión,
+{[}persona{]} observó que {[}observación real{]}. A partir de ello
+revisé {[}ID o ejercicio{]} y cambié {[}antes{]} por {[}después{]},
+porque {[}justificación verificable{]}''.
+
+\section{Comprobación individual}\label{comprobaciuxf3n-individual}
+
+\begin{itemize}
+\tightlist
+\item
+  Dos requisitos revisados con justificación: desarrollados en 1.1--1.2;
+  revisión y adopción personal pendientes.
+\item
+  Solicitud/respuesta interpretadas con método, recurso, cabeceras,
+  cuerpo y estado: desarrolladas en 2.
+\item
+  Retroalimentación real y uso explicado: pendiente en 3.
+\item
+  Nombre, fecha y contribución individual: pendientes.
+\item
+  Las solicitudes son sintéticas y las pruebas no se presentan como
+  ejecutadas.
+\end{itemize}
+
+\end{document}

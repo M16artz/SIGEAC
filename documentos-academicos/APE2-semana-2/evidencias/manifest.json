@@ -1,0 +1,80 @@
+{
+  "artifact": "APE2 - Practica 002",
+  "created_at_utc": "2026-11-01T00:40:58.520934+00:00",
+  "source_commit": "faf868ea5a8a85285290c06d3baf8fa49889edac",
+  "scope": "Preparacion documental asistida; no valida participacion individual ni aprobacion docente.",
+  "git_commit_created": false,
+  "published": false,
+  "teacher_validation": "pending",
+  "business_tests_run": false,
+  "http_requests_executed": false,
+  "tex_compiled": false,
+  "template_sha256": "8e5f8f4da3167de3d6e81a5de9b8ccd76c9f4e6eec4b8fce5ab44cff5a0b966d",
+  "document_checks": {
+    "passed": true,
+    "functional_requirements": 10,
+    "nonfunctional_requirements": 10,
+    "user_stories": 3,
+    "acceptance_scenarios": 18,
+    "preliminary_contracts": 9,
+    "control_answers": 7,
+    "valid_json_examples": 2,
+    "latex_environments": "balanced",
+    "original_template": "unchanged",
+    "original_logo": "identical_copy",
+    "refinement_diff": "recomputed_and_equal"
+  },
+  "files": [
+    {
+      "path": "APE2_SEMANA_2.md",
+      "bytes": 22221,
+      "sha256": "a0c7efce97404e0e5fa22d4ebc0753ddee67a85bd6af9cce63ff3c66cda6574a"
+    },
+    {
+      "path": "APE2_SEMANA_2.tex",
+      "bytes": 85889,
+      "sha256": "d4f580aa2fd31165d5f857d25a9a7621e0f31e0851cc2dbef024317132a050de"
+    },
+    {
+      "path": "CONTRATOS_PRELIMINARES.md",
+      "bytes": 12405,
+      "sha256": "9ebd98778b9b6f3a3071800e6139af00215952cc35221d1ac30cd96e644bf5d0"
+    },
+    {
+      "path": "evidencias/refinamiento-v01-v02.diff",
+      "bytes": 30468,
+      "sha256": "978eff7cf6cb409a0221469761ce81aea64f817023e755d2322acabf2c171beb"
+    },
+    {
+      "path": "evidencias/specification-v01.md",
+      "bytes": 2291,
+      "sha256": "a1af2cf146a7508b2c81b2065f2b3b79cb8f737b43875ea183294f1da0adb3a7"
+    },
+    {
+      "path": "HISTORIAL_CAMBIOS.md",
+      "bytes": 4239,
+      "sha256": "b47d12b5bbaa0c82ff7f2acd9a2243ca9eed3bef08604981f081a73f1cb3e7ca"
+    },
+    {
+      "path": "NOTA_INDIVIDUAL.md",
+      "bytes": 2606,
+      "sha256": "896000c621eeea69fe761fb09c3c64b8e5722e6620f385af2571a52190619ac9"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3350,
+      "sha256": "f065e7982b95b7b0c784e37cf54cc7c155dc8633d7ae1ea4acaed610734f8084"
+    },
+    {
+      "path": "reporte_tecnico_overleaf_logo.png",
+      "bytes": 170221,
+      "sha256": "e9217d666d42d3c73f066e1c3e55940c0b2a42ae4043701d10f7e112d34c0a26"
+    },
+    {
+      "path": "specification.md",
+      "bytes": 27695,
+      "sha256": "bd4029a0e7e999dd2de2d22e37afabea4ae3d8d9beb91e275f780a0bfa39db98"
+    }
+  ],
+  "note": "El manifiesto excluye su propio hash. Los hashes acreditan integridad de archivos, no identidad, autoria, aceptacion ni funcionamiento del sistema."
+}

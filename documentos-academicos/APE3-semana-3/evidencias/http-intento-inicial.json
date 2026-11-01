@@ -1,0 +1,538 @@
+{
+  "executed_at_utc": "2026-11-01T01:57:20.439101+00:00",
+  "base_url": "http://127.0.0.1:18093/api/v1",
+  "implementation": "existing Spring Boot backend",
+  "database": "isolated SQLite auxiliary profile, not PostgreSQL acceptance",
+  "ui_browser_test": false,
+  "cases": [
+    {
+      "case": "HTTP-01 unauthenticated",
+      "method": "GET",
+      "path": "/careers",
+      "request_body": null,
+      "if_match": null,
+      "csrf_sent": false,
+      "expected_status": 401,
+      "actual_status": 401,
+      "headers": {
+        "Content-Type": "application/problem+json"
+      },
+      "body": {
+        "type": "urn:sec-unl:problem:authentication-required",
+        "title": "Unauthorized",
+        "status": 401,
+        "detail": "Se requiere una sesion vigente.",
+        "instance": "/api/v1/careers",
+        "code": "AUTHENTICATION_REQUIRED",
+        "correlationId": "unavailable",
+        "details": {}
+      },
+      "body_bytes": 238,
+      "duration_ms": 82.43,
+      "status_passed": true
+    },
+    {
+      "case": "HTTP-02 login",
+      "method": "POST",
+      "path": "/sessions",
+      "request_body": "[CREDENTIALS REDACTED]",
+      "if_match": null,
+      "csrf_sent": false,
+      "expected_status": 201,
+      "actual_status": 201,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "userId": "8985ab35-02a0-3601-8baa-5c4c225070b4",
+        "expiresAt": "2026-11-01T02:27:20.593499900Z",
+        "csrfToken": "[REDACTED]"
+      },
+      "body_bytes": 152,
+      "duration_ms": 582.53,
+      "status_passed": true
+    },
+    {
+      "case": "HTTP-03 create unit",
+      "method": "POST",
+      "path": "/academic-units",
+      "request_body": {
+        "code": "APE3-BA10D95D640B",
+        "name": "APE3 synthetic unit"
+      },
+      "if_match": null,
+      "csrf_sent": true,
+      "expected_status": 201,
+      "actual_status": 201,
+      "headers": {
+        "Content-Type": "application/json",
+        "Location": "/api/v1/academic-units/0a2736a2-cf46-43e8-bd24-82f8a470066d",
+        "ETag": "\"1\""
+      },
+      "body": {
+        "id": "0a2736a2-cf46-43e8-bd24-82f8a470066d",
+        "data": {
+          "code": "APE3-BA10D95D640B",
+          "name": "APE3 synthetic unit"
+        },
+        "status": "ACTIVE",
+        "revision": 1,
+        "createdBy": "8985ab35-02a0-3601-8baa-5c4c225070b4",
+        "createdAt": "2026-11-01T01:57:21.148Z"
+      },
+      "body_bytes": 231,
+      "duration_ms": 58.7,
+      "status_passed": true
+    },
+    {
+      "case": "HTTP-04 CSRF rejected",
+      "method": "POST",
+      "path": "/careers",
+      "request_body": {
+        "code": "APE3-BA10D95D640B",
+        "name": "APE3 synthetic career",
+        "academicUnitId": "0a2736a2-cf46-43e8-bd24-82f8a470066d",
+        "validFrom": "2020-01-01",
+        "validUntil": null
+      },
+      "if_match": null,
+      "csrf_sent": false,
+      "expected_status": 403,
+      "actual_status": 403,
+      "headers": {
+        "Content-Type": "application/problem+json"
+      },
+      "body": {
+        "type": "urn:sec-unl:problem:csrf-token-invalid",
+        "title": "Forbidden",
+        "status": 403,
+        "detail": "La solicitud requiere un token CSRF vigente.",
+        "instance": "/api/v1/careers",
+        "code": "CSRF_TOKEN_INVALID",
+        "correlationId": "unavailable",
+        "details": {}
+      },
+      "body_bytes": 238,
+      "duration_ms": 31.06,
+      "status_passed": true
+    },
+    {
+      "case": "HTTP-05 invalid input",
+      "method": "POST",
+      "path": "/careers",
+      "request_body": {
+        "code": ""
+      },
+      "if_match": null,
+      "csrf_sent": true,
+      "expected_status": 400,
+      "actual_status": 400,
+      "headers": {
+        "Content-Type": "application/problem+json"
+      },
+      "body": {
+        "detail": "La solicitud contiene datos inválidos.",
+        "instance": "/api/v1/careers",
+        "status": 400,
+        "title": "Bad Request",
+        "type": "urn:sec-unl:problem:validation-failed",
+        "code": "VALIDATION_FAILED",
+        "correlationId": "20666168-a0c8-4ab5-b569-3bb638f83753",
+        "details": {
+          "code": "must not be blank",
+          "validFrom": "must not be null",
+          "academicUnitId": "must not be null",
+          "name": "must not be blank"
+        }
+      },
+      "body_bytes": 378,
+      "duration_ms": 70.86,
+      "status_passed": true
+    },
+    {
+      "case": "HTTP-06 create career",
+      "method": "POST",
+      "path": "/careers",
+      "request_body": {
+        "code": "APE3-BA10D95D640B",
+        "name": "APE3 synthetic career",
+        "academicUnitId": "0a2736a2-cf46-43e8-bd24-82f8a470066d",
+        "validFrom": "2020-01-01",
+        "validUntil": null
+      },
+      "if_match": null,
+      "csrf_sent": true,
+      "expected_status": 201,
+      "actual_status": 201,
+      "headers": {
+        "Content-Type": "application/json",
+        "Location": "/api/v1/careers/ecd44d3a-ebb7-4c40-971d-4096e6b99132",
+        "ETag": "\"1\""
+      },
+      "body": {
+        "id": "ecd44d3a-ebb7-4c40-971d-4096e6b99132",
+        "data": {
+          "code": "APE3-BA10D95D640B",
+          "name": "APE3 synthetic career",
+          "academicUnitId": "0a2736a2-cf46-43e8-bd24-82f8a470066d",
+          "validFrom": "2020-01-01",
+          "validUntil": null
+        },
+        "status": "ACTIVE",
+        "revision": 1,
+        "createdBy": "8985ab35-02a0-3601-8baa-5c4c225070b4",
+        "createdAt": "2026-11-01T01:57:21.307Z",
+        "classificationPending": false
+      },
+      "body_bytes": 362,
+      "duration_ms": 55.3,
+      "status_passed": true
+    },
+    {
+      "case": "HTTP-07 duplicate",
+      "method": "POST",
+      "path": "/careers",
+      "request_body": {
+        "code": " ape3-ba10d95d640b ",
+        "name": "APE3 synthetic career",
+        "academicUnitId": "0a2736a2-cf46-43e8-bd24-82f8a470066d",
+        "validFrom": "2020-01-01",
+        "validUntil": null
+      },
+      "if_match": null,
+      "csrf_sent": true,
+      "expected_status": 409,
+      "actual_status": 409,
+      "headers": {
+        "Content-Type": "application/problem+json"
+      },
+      "body": {
+        "detail": "El código ya está registrado.",
+        "instance": "/api/v1/careers",
+        "status": 409,
+        "title": "Conflict",
+        "type": "urn:sec-unl:problem:duplicate-code",
+        "code": "DUPLICATE_CODE",
+        "details": {},
+        "correlationId": "a31521ee-5b8e-49ac-ae40-e9350df8257b"
+      },
+      "body_bytes": 241,
+      "duration_ms": 39.14,
+      "status_passed": true
+    },
+    {
+      "case": "HTTP-08 read career",
+      "method": "GET",
+      "path": "/careers/ecd44d3a-ebb7-4c40-971d-4096e6b99132",
+      "request_body": null,
+      "if_match": null,
+      "csrf_sent": false,
+      "expected_status": 200,
+      "actual_status": 200,
+      "headers": {
+        "Content-Type": "application/json",
+        "ETag": "\"1\""
+      },
+      "body": {
+        "id": "ecd44d3a-ebb7-4c40-971d-4096e6b99132",
+        "data": {
+          "code": "APE3-BA10D95D640B",
+          "name": "APE3 synthetic career",
+          "academicUnitId": "0a2736a2-cf46-43e8-bd24-82f8a470066d",
+          "validFrom": "2020-01-01",
+          "validUntil": null
+        },
+        "status": "ACTIVE",
+        "revision": 1,
+        "createdBy": "8985ab35-02a0-3601-8baa-5c4c225070b4",
+        "createdAt": "2026-11-01T01:57:21.307Z",
+        "classificationPending": false
+      },
+      "body_bytes": 362,
+      "duration_ms": 11.78,
+      "status_passed": true
+    },
+    {
+      "case": "HTTP-09 missing precondition",
+      "method": "PATCH",
+      "path": "/careers/ecd44d3a-ebb7-4c40-971d-4096e6b99132",
+      "request_body": {
+        "code": "APE3-BA10D95D640B",
+        "name": "APE3 synthetic career",
+        "academicUnitId": "0a2736a2-cf46-43e8-bd24-82f8a470066d",
+        "validFrom": "2020-01-01",
+        "validUntil": null
+      },
+      "if_match": null,
+      "csrf_sent": true,
+      "expected_status": 428,
+      "actual_status": 428,
+      "headers": {
+        "Content-Type": "application/problem+json"
+      },
+      "body": {
+        "detail": "Se requiere If-Match.",
+        "instance": "/api/v1/careers/ecd44d3a-ebb7-4c40-971d-4096e6b99132",
+        "status": 428,
+        "title": "Precondition Required",
+        "type": "urn:sec-unl:problem:precondition-required",
+        "code": "PRECONDITION_REQUIRED",
+        "correlationId": "6aa4fca1-3dfb-4f2f-8b00-6b612ee47a98",
+        "details": {}
+      },
+      "body_bytes": 295,
+      "duration_ms": 28.73,
+      "status_passed": true
+    },
+    {
+      "case": "HTTP-10 update",
+      "method": "PATCH",
+      "path": "/careers/ecd44d3a-ebb7-4c40-971d-4096e6b99132",
+      "request_body": {
+        "code": "APE3-BA10D95D640B",
+        "name": "APE3 updated career",
+        "academicUnitId": "0a2736a2-cf46-43e8-bd24-82f8a470066d",
+        "validFrom": "2020-01-01",
+        "validUntil": null
+      },
+      "if_match": "\"1\"",
+      "csrf_sent": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "headers": {
+        "Content-Type": "application/json",
+        "ETag": "\"2\""
+      },
+      "body": {
+        "id": "ecd44d3a-ebb7-4c40-971d-4096e6b99132",
+        "data": {
+          "code": "APE3-BA10D95D640B",
+          "name": "APE3 updated career",
+          "academicUnitId": "0a2736a2-cf46-43e8-bd24-82f8a470066d",
+          "validFrom": "2020-01-01",
+          "validUntil": null
+        },
+        "status": "ACTIVE",
+        "revision": 2,
+        "createdBy": "8985ab35-02a0-3601-8baa-5c4c225070b4",
+        "createdAt": "2026-11-01T01:57:21.307Z",
+        "classificationPending": false
+      },
+      "body_bytes": 360,
+      "duration_ms": 50.64,
+      "status_passed": true
+    },
+    {
+      "case": "HTTP-11 stale revision",
+      "method": "PATCH",
+      "path": "/careers/ecd44d3a-ebb7-4c40-971d-4096e6b99132",
+      "request_body": {
+        "code": "APE3-BA10D95D640B",
+        "name": "APE3 synthetic career",
+        "academicUnitId": "0a2736a2-cf46-43e8-bd24-82f8a470066d",
+        "validFrom": "2020-01-01",
+        "validUntil": null
+      },
+      "if_match": "\"1\"",
+      "csrf_sent": true,
+      "expected_status": 412,
+      "actual_status": 412,
+      "headers": {
+        "Content-Type": "application/problem+json"
+      },
+      "body": {
+        "detail": "El recurso cambió; recargue antes de continuar.",
+        "instance": "/api/v1/careers/ecd44d3a-ebb7-4c40-971d-4096e6b99132",
+        "status": 412,
+        "title": "Precondition Failed",
+        "type": "urn:sec-unl:problem:stale-revision",
+        "code": "STALE_REVISION",
+        "details": {},
+        "correlationId": "8384e8ad-de63-4693-892c-3ba31b59fd97"
+      },
+      "body_bytes": 306,
+      "duration_ms": 15.92,
+      "status_passed": true
+    },
+    {
+      "case": "HTTP-12 history",
+      "method": "GET",
+      "path": "/careers/ecd44d3a-ebb7-4c40-971d-4096e6b99132/history",
+      "request_body": null,
+      "if_match": null,
+      "csrf_sent": false,
+      "expected_status": 200,
+      "actual_status": 200,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "items": [
+          {
+            "id": "ecd44d3a-ebb7-4c40-971d-4096e6b99132",
+            "data": {
+              "code": "APE3-BA10D95D640B",
+              "name": "APE3 synthetic career",
+              "academicUnitId": "0a2736a2-cf46-43e8-bd24-82f8a470066d",
+              "validFrom": "2020-01-01",
+              "validUntil": null
+            },
+            "status": "ACTIVE",
+            "revision": 1,
+            "createdBy": "8985ab35-02a0-3601-8baa-5c4c225070b4",
+            "createdAt": "2026-11-01T01:57:21.307Z",
+            "classificationPending": false
+          },
+          {
+            "id": "ecd44d3a-ebb7-4c40-971d-4096e6b99132",
+            "data": {
+              "code": "APE3-BA10D95D640B",
+              "name": "APE3 updated career",
+              "academicUnitId": "0a2736a2-cf46-43e8-bd24-82f8a470066d",
+              "validFrom": "2020-01-01",
+              "validUntil": null
+            },
+            "status": "ACTIVE",
+            "revision": 2,
+            "createdBy": "8985ab35-02a0-3601-8baa-5c4c225070b4",
+            "createdAt": "2026-11-01T01:57:21.307Z",
+            "classificationPending": false
+          }
+        ],
+        "page": 0,
+        "size": 20,
+        "totalElements": 2
+      },
+      "body_bytes": 772,
+      "duration_ms": 54.57,
+      "status_passed": true
+    },
+    {
+      "case": "HTTP-13 filtered list",
+      "method": "GET",
+      "path": "/careers?q=APE3-BA10D95D640B",
+      "request_body": null,
+      "if_match": null,
+      "csrf_sent": false,
+      "expected_status": 200,
+      "actual_status": 200,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "items": [
+          {
+            "id": "ecd44d3a-ebb7-4c40-971d-4096e6b99132",
+            "data": {
+              "code": "APE3-BA10D95D640B",
+              "name": "APE3 updated career",
+              "academicUnitId": "0a2736a2-cf46-43e8-bd24-82f8a470066d",
+              "validFrom": "2020-01-01",
+              "validUntil": null
+            },
+            "status": "ACTIVE",
+            "revision": 2,
+            "createdBy": "8985ab35-02a0-3601-8baa-5c4c225070b4",
+            "createdAt": "2026-11-01T01:57:21.307Z",
+            "classificationPending": false
+          }
+        ],
+        "page": 0,
+        "size": 20,
+        "totalElements": 1
+      },
+      "body_bytes": 409,
+      "duration_ms": 37.6,
+      "status_passed": true
+    },
+    {
+      "case": "HTTP-14 missing resource",
+      "method": "GET",
+      "path": "/careers/ffffffff-ffff-ffff-ffff-ffffffffffff",
+      "request_body": null,
+      "if_match": null,
+      "csrf_sent": false,
+      "expected_status": 404,
+      "actual_status": 404,
+      "headers": {
+        "Content-Type": "application/problem+json"
+      },
+      "body": {
+        "detail": "El recurso no existe o no está visible.",
+        "instance": "/api/v1/careers/ffffffff-ffff-ffff-ffff-ffffffffffff",
+        "status": 404,
+        "title": "Not Found",
+        "type": "urn:sec-unl:problem:resource-not-found",
+        "code": "RESOURCE_NOT_FOUND",
+        "details": {},
+        "correlationId": "46c319d2-30f2-429e-a286-66be55a740a0"
+      },
+      "body_bytes": 296,
+      "duration_ms": 29.4,
+      "status_passed": true
+    },
+    {
+      "case": "HTTP-15 state decision",
+      "method": "POST",
+      "path": "/careers/ecd44d3a-ebb7-4c40-971d-4096e6b99132/state-decisions",
+      "request_body": {
+        "status": "DISABLED",
+        "reason": "APE3 synthetic state decision"
+      },
+      "if_match": "\"2\"",
+      "csrf_sent": true,
+      "expected_status": 201,
+      "actual_status": 201,
+      "headers": {
+        "Content-Type": "application/json",
+        "ETag": "\"3\""
+      },
+      "body": {
+        "id": "ecd44d3a-ebb7-4c40-971d-4096e6b99132",
+        "data": {
+          "code": "APE3-BA10D95D640B",
+          "name": "APE3 updated career",
+          "academicUnitId": "0a2736a2-cf46-43e8-bd24-82f8a470066d",
+          "validFrom": "2020-01-01",
+          "validUntil": null
+        },
+        "status": "DISABLED",
+        "revision": 3,
+        "createdBy": "8985ab35-02a0-3601-8baa-5c4c225070b4",
+        "createdAt": "2026-11-01T01:57:21.307Z",
+        "classificationPending": false
+      },
+      "body_bytes": 362,
+      "duration_ms": 45.61,
+      "status_passed": true
+    },
+    {
+      "case": "HTTP-16 read model version",
+      "method": "GET",
+      "path": "/model-versions/60000000-0000-0000-0000-000000000002",
+      "request_body": null,
+      "if_match": null,
+      "csrf_sent": false,
+      "expected_status": 200,
+      "actual_status": 409,
+      "headers": {
+        "Content-Type": "application/problem+json"
+      },
+      "body": {
+        "detail": "La estructura de esta versión requiere el contrato de modelos v2.",
+        "instance": "/api/v1/model-versions/60000000-0000-0000-0000-000000000002",
+        "status": 409,
+        "title": "Conflict",
+        "type": "urn:sec-unl:problem:model-version-requires-v2",
+        "code": "MODEL_VERSION_REQUIRES_V2",
+        "correlationId": "310ba40f-1dd7-4716-bce4-c332e957da6f",
+        "details": {}
+      },
+      "body_bytes": 342,
+      "duration_ms": 54.16,
+      "status_passed": false
+    }
+  ],
+  "passed": false,
+  "failure": "AssertionError: HTTP-16 read model version: expected 200, got 409"
+}

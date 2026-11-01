@@ -1,0 +1,13 @@
+{
+  "executed_at_utc": "2026-11-01T02:09:39.495Z",
+  "html_loaded": true,
+  "page_errors": [],
+  "result": {
+    "mermaid_svg": 3,
+    "width": 1440,
+    "viewport": 1440
+  },
+  "documentation_only": true,
+  "application_ui_e2e": false,
+  "passed": true
+}
