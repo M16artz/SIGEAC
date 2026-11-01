@@ -14,7 +14,7 @@
   \geometry{left=3cm, right=2.5cm, top=3cm, bottom=2.5cm}
 \usepackage{setspace}
   \onehalfspacing
-\usepackage{titlesec} 
+\usepackage{titlesec}
   \titleformat{\chapter}[block]{\bfseries\large}{\thechapter.}{1em}{}
   \titleformat{\section}[block]{\bfseries}{\thesection.}{1em}{}
 \usepackage{tocloft}
@@ -125,18 +125,7 @@ Se utilizó ChatGPT/Codex para inspección estática del repositorio, contraste 
 El equipo deberá revisar el contenido, completar los datos y asumir responsabilidad por la versión presentada. La revisión humana final, participación y retroalimentación de clase permanecen pendientes. No se declara supervisión humana ya completada ni se trasladan las declaraciones del informe anterior contenido en la plantilla.
 
 \noindent\textbf{Declaración enviada por: [PENDIENTE: responsable real].}
-\newpage
-\tableofcontents
-\clearpage
-\chapter*{Ficha de la actividad}
-\addcontentsline{toc}{chapter}{Ficha de la actividad}
-\textbf{Modalidad:} Actividad grupal con evidencia individual.\par
-\textbf{Proyecto:} SIGEAC / SEC-UNL.\par
-\textbf{Ciclo y paralelo:} [PENDIENTE].\par
-\textbf{Base de revisión:} commit \texttt{faf868ea}.\par
-\textbf{Propósito:} Formular requisitos funcionales y no funcionales verificables a partir del problema del proyecto y comprender los fundamentos de HTTP como protocolo base para la comunicación entre clientes y servicios web.
 
-Esta entrega es una actualización académica complementaria de la especificación inicial. Conserva sus identificadores y diferencia requisitos existentes, mejoras propuestas y decisiones pendientes. No sustituye la aprobación institucional. Los ejemplos HTTP son reconstrucciones sintéticas del código y no capturas de tráfico. No se arrancaron servicios ni se ejecutaron suites para elaborar el informe.
 \chapter{Metodología de análisis de requisitos y
 HTTP}\label{metodologuxeda-de-anuxe1lisis-de-requisitos-y-http}
 
@@ -150,12 +139,11 @@ escenarios y aceptación; interpretar solicitudes/respuestas; registrar
 correcciones y pendientes de socialización.
 
 Fuentes de producto, relativas a la raíz del repositorio:
-
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.1000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.4500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.4500}}@{}}
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Código
@@ -186,13 +174,10 @@ D8 & \path|docs/architecture/complete-workflows.md| & Contexto,
 contenedores y límites del backend modular. \\
 \end{longtable}
 }
-
-Fuentes ejecutables específicas:
-
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.1500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.8500}}@{}}
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Código
@@ -327,8 +312,6 @@ resultado académico.
 \section{Clarificaciones de la semana
 anterior}\label{clarificaciones-de-la-semana-anterior}
 
-Se recuperan decisiones existentes; no se inventan respuestas previas.
-
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
@@ -372,10 +355,6 @@ Políticas versionadas, pendientes y excepciones explícitas. & Sin
 constancia institucional de aprobación. \\
 \end{longtable}
 }
-
-No existe evidencia suficiente para afirmar que estas preguntas fueron
-respondidas en la sesión anterior. El equipo debe completar persona,
-fecha, respuesta y respaldo cuando disponga del registro real.
 
 \chapter{Resultados de la actividad: especificación académica
 revisada}\label{resultados-de-la-actividad-especificaciuxf3n-acaduxe9mica-revisada}
@@ -935,12 +914,11 @@ no se envía al servidor.
 
 \section{Comparación de GET, POST, PUT, PATCH y
 DELETE}\label{comparaciuxf3n-de-get-post-put-patch-y-delete}
-
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.1500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.4250}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.4250}}@{}}
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Método
@@ -970,20 +948,6 @@ idempotente. & Retirar una referencia externa del borrador; logout en
 \path|/api/v1/sessions|. \\
 \end{longtable}
 }
-
-Fuentes:
-\href{https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods}{MDN:
-métodos} y \href{https://www.rfc-editor.org/rfc/rfc5789.html}{RFC 5789:
-PATCH}.
-
-Idempotencia significa que repetir una operación tiene el mismo efecto
-pretendido, no que siempre devuelva el mismo código. Un segundo DELETE
-puede ser rechazado o encontrar el recurso ausente. Un segundo PUT con
-revisión vieja puede recibir 412 sin contradecir esa semántica. PATCH no
-significa enviar cualquier subconjunto de campos: manda el contrato
-concreto. Por ejemplo, el PATCH de carreras exige todos los campos de
-CareerInput; no se debe omitir \path|academicUnitId| suponiendo un JSON
-Merge Patch genérico.
 
 \section{Códigos de estado
 solicitados}\label{cuxf3digos-de-estado-solicitados}
@@ -1083,13 +1047,6 @@ C5 valida su hash; una cookie válida no sustituye el token. \\
 \end{longtable}
 }
 
-Referencias:
-\href{https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Type}{Content-Type},
-\href{https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Accept}{Accept},
-\href{https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Authorization}{Authorization},
-\href{https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Location}{Location}
-y
-\href{https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/ETag}{ETag}.
 
 El login de C4 devuelve \path|csrfToken| y establece SEC\_SESSION. No
 devuelve JWT ni habilita \path|Authorization: Bearer| por el ejemplo de
@@ -1144,11 +1101,10 @@ ETag: "1"
   "classificationPending": false
 }
 \end{Verbatim}
-
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.8000}}@{}}
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Elemento
@@ -1178,11 +1134,6 @@ Cuerpo de respuesta & Representación del recurso; \path|data| contiene
 los atributos de negocio. \\
 \end{longtable}
 }
-
-Si se repite el código, C2 lanza 409 DUPLICATE\_CODE; no se promete que
-repetir POST cree o devuelva siempre el mismo objeto. Si la unidad no
-está activa, se produce 422 UNIT\_UNAVAILABLE. El cuerpo debe respetar
-la distinción de fechas ISO, cadenas y \path|null|.
 
 \section{GET y PATCH: consulta y
 concurrencia}\label{get-y-patch-consulta-y-concurrencia}
@@ -1330,78 +1281,6 @@ credenciales cuando corresponda. Un navegador puede impedir leer la
 respuesta si faltan permisos CORS, aunque la API funcione en Postman. No
 se modifica la configuración como parte de ACD2.
 
-\section{Socialización y
-retroalimentación}\label{socializaciuxf3n-y-retroalimentaciuxf3n}
-
-No se ha aportado evidencia de la sesión. El análisis técnico siguiente
-sirve como insumo de discusión, no como testimonio de compañeros o
-docente.
-
-{\def\LTcaptype{none} % do not increment counter
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Observación técnica preparada
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Mejora incorporada a este desarrollo
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Validación grupal
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-Un archivo no equivale a una fuente aceptada ni a cumplimiento
-académico. & FR-053/054 distinguen fuentes, remisiones y aceptación;
-AC-08/09 comprueban separación. & {[}PENDIENTE: confirmar discusión y
-acuerdo{]} \\
-``Rápido'' no ofrece un criterio de aprobación. & RNF-006 conserva p95 ≤
-2 s y exige protocolo del resultado visible. & {[}PENDIENTE{]} \\
-El ejemplo Bearer de la guía no coincide con la aplicación. & Ejercicios
-usan SEC\_SESSION y CSRF, sin inventar JWT. & {[}PENDIENTE{]} \\
-Una cabecera ETag sin If-Match no evita por sí sola sobrescrituras. &
-Ejercicio de concurrencia interpreta 412 y recarga. & {[}PENDIENTE{]} \\
-\end{longtable}
-}
-
-Registro para la sesión real:
-
-{\def\LTcaptype{none} % do not increment counter
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Persona que observa
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Observación recibida y fecha
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Requisito/ejercicio afectado
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Cambio realizado
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Evidencia/acuerdo
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-{[}PENDIENTE{]} & {[}PENDIENTE: observación real{]} & {[}PENDIENTE{]} &
-{[}PENDIENTE{]} & {[}PENDIENTE{]} \\
-\end{longtable}
-}
-
-No debe marcarse esta tabla como completada copiando una observación
-hipotética. La evidencia individual complementaria contiene dos
-requisitos corregidos y un ejercicio desarrollado, pero también exige el
-comentario real de retroalimentación de cada estudiante.
-
 \section{Comprobación de la guía y
 conclusiones}\label{comprobaciuxf3n-de-la-guuxeda-y-conclusiones}
 
@@ -1455,40 +1334,7 @@ institucional inexistentes.
 \cleardoublepage
 \nocite{proyecto,rfc9110,rfc5789,rfc8259,fetch,mdnmethods,mdnstatus,mdncors,mdnetag,mdnauthorization,mdncontenttype,mdnaccept,mdnlocation}
 \bibliographystyle{IEEEtran}
-\bibliography{referencias}
-\appendix
-\chapter{Evidencia individual para
-personalizar}\label{evidencia-individual-para-personalizar}
 
-{\def\LTcaptype{none} % do not increment counter
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Dato
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Valor
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-Estudiante & {[}PENDIENTE: nombre completo{]} \\
-Equipo y ciclo/paralelo & {[}PENDIENTE{]} \\
-Fecha de participación & {[}PENDIENTE: fecha real{]} \\
-Actividad & ACD2 --- Semana 2, Desarrollo de Software Distribuido \\
-Proyecto & SIGEAC / SEC-UNL \\
-Estado & Desarrollo técnico propuesto; pendiente de revisión y
-atribución personal \\
-\end{longtable}
-}
-
-Este contenido desarrolla los ejercicios, pero no acredita por sí solo
-participación individual. Cada estudiante debe revisarlo, explicar su
-razonamiento y registrar su retroalimentación real. No presentar el
-mismo texto como aporte personal independiente de todos los integrantes
-sin identificar la colaboración y el uso de IA.
 
 \section{Dos requisitos revisados y
 justificación}\label{dos-requisitos-revisados-y-justificaciuxf3n}
@@ -1680,62 +1526,5 @@ Fuentes conceptuales:
 \href{https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/ETag}{MDN:
 ETag} y \href{https://fetch.spec.whatwg.org/\#http-cors-protocol}{Fetch:
 CORS}. Las rutas, DTO y códigos aplicados proceden del repositorio.
-
-\section{Comentario de retroalimentación
-real}\label{comentario-de-retroalimentaciuxf3n-real}
-
-No se proporcionó una observación recibida en clase. Completar el
-siguiente registro después de la socialización; no atribuir la revisión
-de IA al docente o a un compañero.
-
-{\def\LTcaptype{none} % do not increment counter
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Campo
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Registro
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-Persona que realizó la observación & {[}PENDIENTE{]} \\
-Fecha y contexto & {[}PENDIENTE{]} \\
-Observación recibida & {[}PENDIENTE: texto fiel o resumen
-identificado{]} \\
-Requisito o ejercicio afectado & {[}PENDIENTE{]} \\
-Cambio utilizado para mejorar el trabajo & {[}PENDIENTE{]} \\
-Justificación de cómo resolvió el problema & {[}PENDIENTE{]} \\
-Evidencia de participación & {[}PENDIENTE: acta, revisión, entrega o
-registro real{]} \\
-\end{longtable}
-}
-
-Estructura de redacción para completar: ``Durante la sesión,
-{[}persona{]} observó que {[}observación real{]}. A partir de ello
-revisé {[}ID o ejercicio{]} y cambié {[}antes{]} por {[}después{]},
-porque {[}justificación verificable{]}''.
-
-\section{Comprobación individual}\label{comprobaciuxf3n-individual}
-
-\begin{itemize}
-\tightlist
-\item
-  Dos requisitos revisados con justificación: desarrollados en 1.1--1.2;
-  revisión y adopción personal pendientes.
-\item
-  Solicitud/respuesta interpretadas con método, recurso, cabeceras,
-  cuerpo y estado: desarrolladas en 2.
-\item
-  Retroalimentación real y uso explicado: pendiente en 3.
-\item
-  Nombre, fecha y contribución individual: pendientes.
-\item
-  Las solicitudes son sintéticas y las pruebas no se presentan como
-  ejecutadas.
-\end{itemize}
 
 \end{document}

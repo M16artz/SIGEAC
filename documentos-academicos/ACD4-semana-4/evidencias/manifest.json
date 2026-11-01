@@ -1,0 +1,81 @@
+{
+  "artifact": "ACD4-semana-4",
+  "created_at_utc": "2026-11-01T18:36:02.029552+00:00",
+  "source_commit": "8ec04b78bd81523253b8892ca26b7d8b1a64d249",
+  "scope": "Academic documentation and proposed artifacts; not a completed implementation, security audit, test campaign or deployment",
+  "template": "FORMATO.tex",
+  "template_sha256": "fc8b87a75830dfb4e686b77ef5297b181be5ee652607e8c864d9822a226fbece",
+  "shared_manifest": "../soporte-semanas-4-5/evidencias/manifest.json",
+  "shared_manifest_sha256": "4cfb25a1f4d24d0ad73981db0e1d2d91f3562ccd174da4f79301dd61cf0c6da3",
+  "business_tests_run": false,
+  "target_code_executed": false,
+  "functional_security_patch_validated": false,
+  "image_built": false,
+  "deployment_url": null,
+  "published": false,
+  "tex_compiled": false,
+  "git_commit_created": false,
+  "human_participation_verified": false,
+  "files": [
+    {
+      "path": "ACD4_MODELO_AMENAZAS.md",
+      "bytes": 9023,
+      "sha256": "b0436986c67a8eca915b089217813a5df54a59757e3f3137a0e1c4f2f7dd9419"
+    },
+    {
+      "path": "ACD4_MODELO_AMENAZAS.tex",
+      "bytes": 58082,
+      "sha256": "9aa9b4b3be99217c18baa50a671fcb73b33b313725a0b1db0d2a7af5acc6602e"
+    },
+    {
+      "path": "evidencias/auditoria/architecture.md",
+      "bytes": 329,
+      "sha256": "0dfa144beb0ddea43c1752dc14e5d5523370167bc499b3400c6af012f3e7b86b"
+    },
+    {
+      "path": "evidencias/auditoria/coverage-ledger.json",
+      "bytes": 4,
+      "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+    },
+    {
+      "path": "evidencias/auditoria/FINDINGS-DETAIL.md",
+      "bytes": 276,
+      "sha256": "c4294f5f5379edf264ce98856ff91a2530ab19d86b432f1a898891a96d332755"
+    },
+    {
+      "path": "evidencias/auditoria/findings.json",
+      "bytes": 4,
+      "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+    },
+    {
+      "path": "evidencias/auditoria/NEEDS-VALIDATION.md",
+      "bytes": 302,
+      "sha256": "e77c532be2182dde5919ed89be57cc4b52101608227956a2c8b987efb53ed58c"
+    },
+    {
+      "path": "evidencias/auditoria/REPORT.md",
+      "bytes": 252,
+      "sha256": "ab3a60191b3c8256bd78b659260be3b9b8fc8080c66ea06226641bf617688fd0"
+    },
+    {
+      "path": "evidencias/auditoria/run-metadata.json",
+      "bytes": 1181,
+      "sha256": "40c699f13ebdc05a1a9b0aaca13cba2b24ad397e3aae77630f89379e5851bbd6"
+    },
+    {
+      "path": "NOTA_INDIVIDUAL.md",
+      "bytes": 1097,
+      "sha256": "0d4ea4dbb5fb10a13ceed3a79b97527d5dd3c3e1c958af085838cd44a4713183"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1027,
+      "sha256": "d5caaee4c3756739b2ec25bcf1a66aa9df6f34ee0ef113b6a02777e383d5b81f"
+    },
+    {
+      "path": "referencias.bib",
+      "bytes": 1454,
+      "sha256": "3e0b85a543093d044e7340a460b40da0c6e08521912d25f59073b7042466a123"
+    }
+  ]
+}

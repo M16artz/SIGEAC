@@ -14,7 +14,7 @@
   \geometry{left=3cm, right=2.5cm, top=3cm, bottom=2.5cm}
 \usepackage{setspace}
   \onehalfspacing
-\usepackage{titlesec} 
+\usepackage{titlesec}
   \titleformat{\chapter}[block]{\bfseries\large}{\thechapter.}{1em}{}
   \titleformat{\section}[block]{\bfseries}{\thesection.}{1em}{}
 \usepackage{tocloft}
@@ -123,21 +123,7 @@
 Se utilizó ChatGPT/Codex para inspeccionar fuentes, arquitectura y API, consultar referencias y elaborar documentos. No se realizaron solicitudes al backend, pruebas de negocio ni validación docente. La clínica y participación individual están pendientes de registro real.
 
 \noindent\textbf{Declaración enviada por: [PENDIENTE: integrantes reales].}
-\newpage
-\tableofcontents
-\clearpage
-\chapter*{Ficha de la actividad}
-\addcontentsline{toc}{chapter}{Ficha de la actividad}
-Proyecto SIGEAC / SEC-UNL. ACD3, Semana 3. Trabajo grupal con evidencia individual. Datos de asignatura, docente, integrantes y fecha pendientes. Diagramas Mermaid disponibles en Markdown; su fuente textual se conserva en anexos.
 
-Semana 3 · Actividad grupal con evidencia individual · Proyecto SIGEAC /
-SEC-UNL.
-
-\textbf{Estado:} preparación documental para la clínica, contrastada con
-el repositorio. No acredita exposición, asistencia, aprobación docente
-ni observaciones recibidas. Integrantes, asignatura, docente y fecha de
-sesión: \textbf{pendientes de confirmar}. No se modifica código, OpenAPI
-de producto ni requisitos de Semana 2.
 
 \chapter{Problema, procesos y arquitectura preliminar}\label{informe-parte1}
 
@@ -153,22 +139,22 @@ historia y preparación con carreras o modelos inadecuados. Fuente:
 
 Se conserva como \textbf{propuesta de incremento de Unidad 1}, pendiente
 de ratificación, el acceso, catálogo académico y preparación/consulta de
-procesos. La clínica selecciona dos flujos: F-ACD3-01, registrar o
-corregir una carrera; F-ACD3-02, preparar y consultar un proceso.
+procesos. La clínica selecciona dos flujos: F3-01, registrar o
+corregir una carrera; F3-02, preparar y consultar un proceso.
 Inicio/cierre de sesión son soporte transversal. Quedan fuera del
 incremento la autorización institucional, activación, carga de
 evidencias, valoración, informes, mejora y archivo; que existan
 implementados en el producto no los incorpora automáticamente al
 ejercicio.
 
-\textbf{Flujo / necesidad }: F-ACD3-01 / N-AA-02 y N-AA-05
+\textbf{Flujo / necesidad }: F3-01 / N-02 y N-05
 
-\textbf{Actor documentado en AA2 }: A-AA-02, administrador funcional con
-capacidad de catálogo; lector A-AA-04
+\textbf{Actor documentado en AA2 }: A-02, administrador funcional con
+capacidad de catálogo; lector A-04
 
-\textbf{Requisito e historia }: AA-RF-05--09; HU-AA-02--05
+\textbf{Requisito e historia }: RF-05--09; HU-02--05
 
-\textbf{Criterios AA2 }: AC-AA-07--17 y 27
+\textbf{Criterios AA2 }: AC-07--17 y 27
 
 \textbf{Operaciones de negocio }: Registrar unidad; registrar carrera;
 consultar catálogo; actualizar datos con revisión; registrar decisión de
@@ -176,14 +162,14 @@ estado; consultar historial.
 
 \medskip\hrule\medskip
 
-\textbf{Flujo / necesidad }: F-ACD3-02 / N-AA-03 y N-AA-04
+\textbf{Flujo / necesidad }: F3-02 / N-03 y N-04
 
-\textbf{Actor documentado en AA2 }: A-AA-03, gestor autorizado; lector
+\textbf{Actor documentado en AA2 }: A-03, gestor autorizado; lector
 con permiso aplicable
 
-\textbf{Requisito e historia }: AA-RF-10--12; HU-AA-06
+\textbf{Requisito e historia }: RF-10--12; HU-06
 
-\textbf{Criterios AA2 }: AC-AA-18--24
+\textbf{Criterios AA2 }: AC-18--24
 
 \textbf{Operaciones de negocio }: Consultar modelo y versión; validar
 carrera/período; preparar proceso; consultar estado y referencias.
@@ -192,12 +178,12 @@ carrera/período; preparar proceso; consultar estado y referencias.
 
 \textbf{Flujo / necesidad }: Acceso, integridad y explicación
 
-\textbf{Actor documentado en AA2 }: A-AA-01--04 según operación
+\textbf{Actor documentado en AA2 }: A-01--04 según operación
 
-\textbf{Requisito e historia }: AA-RF-01--04 y 13--14; AA-RNF-01--03,
+\textbf{Requisito e historia }: RF-01--04 y 13--14; RNF-01--03,
 05--07 y 10
 
-\textbf{Criterios AA2 }: AC-AA-01--06 y 25--26; VC-AA-01--03, 05--07 y
+\textbf{Criterios AA2 }: AC-01--06 y 25--26; VC-01--03, 05--07 y
 10
 
 \textbf{Operaciones de negocio }: Autenticar; autorizar; registrar
@@ -205,18 +191,11 @@ auditoría; detectar revisión obsoleta; comunicar error seguro.
 
 \medskip\hrule\medskip
 
-Los criterios completos permanecen en AA2; esta tabla no los redefine.
-Los roles son funciones de la especificación, no personas entrevistadas.
-Administrar catálogo no concede competencia institucional para autorizar
-procesos. La viabilidad del recorte se apoya en que estos
-comportamientos ya tienen servicios/controladores; no constituye
-estimación de esfuerzo ni aprobación académica.
-
 \section{2. Análisis textual previo al
 modelado}\label{informe-2-anuxe1lisis-textual-previo-al-modelado}
 
-\subsection{F-ACD3-01 --- Mantener una carrera
-identificable}\label{informe-f-acd3-01--mantener-una-carrera-identificable}
+\subsection{F3-01 --- Mantener una carrera
+identificable}\label{informe-F3-01--mantener-una-carrera-identificable}
 
 \textbf{Participantes y responsabilidades:} administrador funcional,
 proporcionar datos y motivo; frontend, capturar y mostrar resultados;
@@ -278,13 +257,13 @@ demuestra por la anotación transaccional sola.
 \textbf{Datos:} UUID, código, nombre, unidad, fechas, estado, revisión,
 creador y fecha del servidor, motivo y correlación. \textbf{Resultado:}
 carrera identificable o rechazo sin declarar cambio completado;
-historial y auditoría esperados según AC-AA-14/25. Fuente ejecutable:
+historial y auditoría esperados según AC-14/25. Fuente ejecutable:
 \path|CareerController|, \path|CareerAdministrationService|,
 \path|Career|, \path|JdbcCareerCatalogRepository| y migración V008, en
 las rutas del registro de fuentes.
 
-\subsection{F-ACD3-02 --- Preparar y consultar un
-proceso}\label{informe-f-acd3-02--preparar-y-consultar-un-proceso}
+\subsection{F3-02 --- Preparar y consultar un
+proceso}\label{informe-F3-02--preparar-y-consultar-un-proceso}
 
 \textbf{Participantes:} gestor autorizado, seleccionar
 carrera/período/modelo; frontend, presentar selecciones; backend,
@@ -522,10 +501,10 @@ como exclusión, sin esconderla.
 \section{6. Trazabilidad inicial de arquitectura y
 API}\label{informe-6-trazabilidad-inicial-de-arquitectura-y-api}
 
-\textbf{Problema / necesidad }: Acceso autorizado N-AA-01
+\textbf{Problema / necesidad }: Acceso autorizado N-01
 
-\textbf{RF / historia / criterio AA2 }: AA-RF-01--04; HU-AA-01;
-AC-AA-01--06
+\textbf{RF / historia / criterio AA2 }: RF-01--04; HU-01;
+AC-01--06
 
 \textbf{Proceso }: Acceso transversal
 
@@ -539,12 +518,12 @@ ScopeAuthorizationService
 
 \medskip\hrule\medskip
 
-\textbf{Problema / necesidad }: Catálogo coherente N-AA-02
+\textbf{Problema / necesidad }: Catálogo coherente N-02
 
-\textbf{RF / historia / criterio AA2 }: AA-RF-05--07; HU-AA-02/03;
-AC-AA-07--13/27
+\textbf{RF / historia / criterio AA2 }: RF-05--07; HU-02/03;
+AC-07--13/27
 
-\textbf{Proceso }: F-ACD3-01
+\textbf{Proceso }: F3-01
 
 \textbf{Componente principal }: CareerController,
 CareerAdministrationService, Career
@@ -556,12 +535,12 @@ filtros y visibilidad.
 
 \medskip\hrule\medskip
 
-\textbf{Problema / necesidad }: Corregir sin perder historia N-AA-05
+\textbf{Problema / necesidad }: Corregir sin perder historia N-05
 
-\textbf{RF / historia / criterio AA2 }: AA-RF-08/09; HU-AA-04/05;
-AC-AA-14--17; AA-RNF-05
+\textbf{RF / historia / criterio AA2 }: RF-08/09; HU-04/05;
+AC-14--17; RNF-05
 
-\textbf{Proceso }: F-ACD3-01
+\textbf{Proceso }: F3-01
 
 \textbf{Componente principal }: Servicio de catálogo, repositorio y
 auditoría
@@ -573,12 +552,12 @@ sobrescritura, motivo y estado.
 
 \medskip\hrule\medskip
 
-\textbf{Problema / necesidad }: Preparar con referencias exactas N-AA-03
+\textbf{Problema / necesidad }: Preparar con referencias exactas N-03
 
-\textbf{RF / historia / criterio AA2 }: AA-RF-10/11; HU-AA-06;
-AC-AA-18--22
+\textbf{RF / historia / criterio AA2 }: RF-10/11; HU-06;
+AC-18--22
 
-\textbf{Proceso }: F-ACD3-02
+\textbf{Proceso }: F3-02
 
 \textbf{Componente principal }: SelfAssessmentService, ModelCatalogPort
 
@@ -589,11 +568,11 @@ PREPARATION y revisión 0.
 
 \medskip\hrule\medskip
 
-\textbf{Problema / necesidad }: Consultar únicamente lo visible N-AA-04
+\textbf{Problema / necesidad }: Consultar únicamente lo visible N-04
 
-\textbf{RF / historia / criterio AA2 }: AA-RF-12; HU-AA-06; AC-AA-23/24
+\textbf{RF / historia / criterio AA2 }: RF-12; HU-06; AC-23/24
 
-\textbf{Proceso }: F-ACD3-02
+\textbf{Proceso }: F3-02
 
 \textbf{Componente principal }: SelfAssessmentService y autorización
 
@@ -604,10 +583,10 @@ oculto.
 
 \medskip\hrule\medskip
 
-\textbf{Problema / necesidad }: Explicar y auditar N-AA-05
+\textbf{Problema / necesidad }: Explicar y auditar N-05
 
-\textbf{RF / historia / criterio AA2 }: AA-RF-13/14; AC-AA-25/26;
-AA-RNF-06/07/10
+\textbf{RF / historia / criterio AA2 }: RF-13/14; AC-25/26;
+RNF-06/07/10
 
 \textbf{Proceso }: Ambos
 
@@ -638,7 +617,7 @@ nuevos ni ejecución reciente.
 \section{7. Guion de la clínica y
 observaciones}\label{informe-7-guion-de-la-cluxednica-y-observaciones}
 
-Presentar, en este orden: problema/recorte; F-ACD3-01/02 y criterios;
+Presentar, en este orden: problema/recorte; F3-01/02 y criterios;
 C1\ensuremath{\rightarrow}C2\ensuremath{\rightarrow}C3; decisiones DA-01--08; recursos/operaciones; ejemplo 201 y
 conflicto de revisión; incompatibilidad del sobre; preguntas pendientes.
 Llevar abiertos AA2, análisis textual, C4 y contrato. Cada integrante
@@ -724,13 +703,6 @@ retroalimentación pendientes.
 
 \medskip\hrule\medskip
 
-Para APE3: confirmar alcance y política de contrato; resolver preguntas;
-actualizar especificación/ADR solo tras acuerdo real; derivar OpenAPI
-del contrato aceptado; revisar schemas y seguridad; comprobar
-compatibilidad y respuestas sin cuerpo; implementar únicamente lo
-aprobado; ejecutar pruebas con datos sintéticos y registrar
-resultado/commit. No considerar este ACD autorización para reemplazar
-DTO v1, habilitar v2 o ampliar funciones de Unidad 1.
 
 \section{9. Fuentes y límites}\label{informe-9-fuentes-y-luxedmites}
 
@@ -743,9 +715,6 @@ Se utilizó ChatGPT/Codex para inspección, análisis y elaboración
 documental; la revisión y atribución personal siguen pendientes.
 
 \nocite{c4context,c4container,c4component,rfc9110,rfc5789,rfc6585,rfc9457,fetch,proyecto}
-\bibliographystyle{IEEEtran}
-\bibliography{referencias}
-\appendix
 \chapter{Arquitectura C4 preliminar ---
 ACD3}\label{c4-arquitectura-c4-preliminar--acd3}
 
@@ -768,14 +737,14 @@ flowchart LR
   reader -->|Consultar datos autorizados| system
 \end{Verbatim}
 
-\textbf{Frontera:} SIGEAC completo; personas fuera del sistema. A-AA-01
+\textbf{Frontera:} SIGEAC completo; personas fuera del sistema. A-01
 es la condición común de usuario habilitado de estos actores, no un
 sistema externo. No se ha identificado dependencia directa de un sistema
 externo en los dos flujos. CACES y UNL aportan documentos del dominio;
 no se dibujan como APIs. SSO e integraciones de catálogo permanecen
 fuera del recorte, sin contrato confirmado.
 
-Fuente: AA2 actores A-AA-01--04; \path|docs/requirements/spec.md|;
+Fuente: AA2 actores A-01--04; \path|docs/requirements/spec.md|;
 \path|docs/adr/0004-opaque-sessions-scope-authorization.md|. Las
 competencias institucionales siguen sujetas a confirmación.
 
@@ -904,23 +873,6 @@ revisiones y usa SQL. Algunas validaciones permanecen en servicios/DTO;
 la separación no implica dominio completamente independiente de todo
 detalle por el simple nombre de paquete.
 
-\section{Correspondencia con C4 y
-revisión}\label{c4-correspondencia-con-c4-y-revisiuxf3n}
-
-C1 muestra el sistema y sus usuarios; C2, aplicaciones/almacenes y
-tecnologías; C3, componentes internos de un solo contenedor. Se usa
-Mermaid con etiquetas explícitas y fronteras, sin pretender una
-validación automática de notación C4. Fundamento:
-\href{https://c4model.com/diagrams/system-context}{contexto},
-\href{https://c4model.com/diagrams/container}{contenedores} y
-\href{https://c4model.com/diagrams/component}{componentes}.
-
-Para revisar: confirmar actor/capacidad; seguir cada flecha hasta
-código; comprobar que los módulos no accedan a detalles privados de
-otros módulos; contrastar pruebas ArchUnit; acordar entorno de
-despliegue y TLS. Diagramas editables en Markdown; el informe LaTeX
-conserva su fuente Mermaid como anexo textual y no afirma haberla
-renderizado.
 \chapter{ACD3 --- Recursos y contrato inicial de
 API}\label{contrato-acd3--recursos-y-contrato-inicial-de-api}
 
@@ -965,7 +917,7 @@ Las rutas de la tabla incluyen la base real. Los cuerpos se detallan en
 sección 3. \path|GET| no recibe cuerpo en estas operaciones. \path|size|
 no existe en el listado de procesos.
 
-\textbf{ID / requisito AA2 }: OP-01 / AA-RF-01
+\textbf{ID / requisito AA2 }: OP-01 / RF-01
 
 \textbf{Método y ruta }: POST \path|/api/v1/sessions|
 
@@ -978,7 +930,7 @@ rechazadas; 429 límite de intentos.
 
 \medskip\hrule\medskip
 
-\textbf{ID / requisito AA2 }: OP-02 / AA-RF-02
+\textbf{ID / requisito AA2 }: OP-02 / RF-02
 
 \textbf{Método y ruta }: DELETE \path|/api/v1/sessions|
 
@@ -990,7 +942,7 @@ rechazadas; 429 límite de intentos.
 
 \medskip\hrule\medskip
 
-\textbf{ID / requisito AA2 }: OP-03 / AA-RF-03
+\textbf{ID / requisito AA2 }: OP-03 / RF-03
 
 \textbf{Método y ruta }: GET \path|/api/v1/me|
 
@@ -1003,7 +955,7 @@ funciones/ámbitos vigentes propios
 
 \medskip\hrule\medskip
 
-\textbf{ID / requisito AA2 }: OP-04 / AA-RF-05
+\textbf{ID / requisito AA2 }: OP-04 / RF-05
 
 \textbf{Método y ruta }: POST \path|/api/v1/academic-units|
 
@@ -1017,7 +969,7 @@ código duplicado.
 
 \medskip\hrule\medskip
 
-\textbf{ID / requisito AA2 }: OP-05 / AA-RF-07
+\textbf{ID / requisito AA2 }: OP-05 / RF-07
 
 \textbf{Método y ruta }: GET \path|/api/v1/academic-units|
 
@@ -1031,7 +983,7 @@ capacidad de lectura.
 
 \medskip\hrule\medskip
 
-\textbf{ID / requisito AA2 }: OP-06 / AA-RF-07
+\textbf{ID / requisito AA2 }: OP-06 / RF-07
 
 \textbf{Método y ruta }: GET \path|/api/v1/academic-units/{id}|
 
@@ -1044,7 +996,7 @@ visible.
 
 \medskip\hrule\medskip
 
-\textbf{ID / requisito AA2 }: OP-07 / AA-RF-06
+\textbf{ID / requisito AA2 }: OP-07 / RF-06
 
 \textbf{Método y ruta }: POST \path|/api/v1/careers|
 
@@ -1057,7 +1009,7 @@ capacidad; 409 código duplicado; 422 unidad no disponible.
 
 \medskip\hrule\medskip
 
-\textbf{ID / requisito AA2 }: OP-08 / AA-RF-07
+\textbf{ID / requisito AA2 }: OP-08 / RF-07
 
 \textbf{Método y ruta }: GET \path|/api/v1/careers|
 
@@ -1072,7 +1024,7 @@ sin lectura.
 
 \medskip\hrule\medskip
 
-\textbf{ID / requisito AA2 }: OP-09 / AA-RF-07/08
+\textbf{ID / requisito AA2 }: OP-09 / RF-07/08
 
 \textbf{Método y ruta }: GET \path|/api/v1/careers/{id}|
 
@@ -1085,7 +1037,7 @@ visible.
 
 \medskip\hrule\medskip
 
-\textbf{ID / requisito AA2 }: OP-10 / AA-RF-08
+\textbf{ID / requisito AA2 }: OP-10 / RF-08
 
 \textbf{Método y ruta }: PATCH \path|/api/v1/careers/{id}|
 
@@ -1100,7 +1052,7 @@ duplicado; 412 revisión vieja; 422 unidad; 428 falta If-Match.
 
 \medskip\hrule\medskip
 
-\textbf{ID / requisito AA2 }: OP-11 / AA-RF-07/08
+\textbf{ID / requisito AA2 }: OP-11 / RF-07/08
 
 \textbf{Método y ruta }: GET \path|/api/v1/careers/{id}/history|
 
@@ -1113,7 +1065,7 @@ visible/inexistente.
 
 \medskip\hrule\medskip
 
-\textbf{ID / requisito AA2 }: OP-12 / AA-RF-09
+\textbf{ID / requisito AA2 }: OP-12 / RF-09
 
 \textbf{Método y ruta }: POST
 \path|/api/v1/careers/{id}/state-decisions|
@@ -1130,7 +1082,7 @@ escenario; 428 sin precondición.
 
 \medskip\hrule\medskip
 
-\textbf{ID / requisito AA2 }: OP-13 / AA-RF-10
+\textbf{ID / requisito AA2 }: OP-13 / RF-10
 
 \textbf{Método y ruta }: GET \path|/api/v1/models|
 
@@ -1143,7 +1095,7 @@ según servicio.
 
 \medskip\hrule\medskip
 
-\textbf{ID / requisito AA2 }: OP-14 / AA-RF-10
+\textbf{ID / requisito AA2 }: OP-14 / RF-10
 
 \textbf{Método y ruta }: GET \path|/api/v1/model-versions/{id}|
 
@@ -1158,7 +1110,7 @@ representación configurada. Consultar no garantiza que esté publicada.
 
 \medskip\hrule\medskip
 
-\textbf{ID / requisito AA2 }: OP-15 / AA-RF-12
+\textbf{ID / requisito AA2 }: OP-15 / RF-12
 
 \textbf{Método y ruta }: GET \path|/api/v1/processes|
 
@@ -1173,7 +1125,7 @@ total/paginación.
 
 \medskip\hrule\medskip
 
-\textbf{ID / requisito AA2 }: OP-16 / AA-RF-12
+\textbf{ID / requisito AA2 }: OP-16 / RF-12
 
 \textbf{Método y ruta }: GET \path|/api/v1/processes/{id}|
 
@@ -1188,7 +1140,7 @@ visible.
 
 \medskip\hrule\medskip
 
-\textbf{ID / requisito AA2 }: OP-17 / AA-RF-04/07
+\textbf{ID / requisito AA2 }: OP-17 / RF-04/07
 
 \textbf{Método y ruta }: GET \path|/api/v1/careers/access|
 
@@ -1202,7 +1154,7 @@ capacidad de catálogo. No reemplaza autorización de mutaciones.
 
 \medskip\hrule\medskip
 
-\textbf{ID / requisito AA2 }: OP-18 / AA-RF-11
+\textbf{ID / requisito AA2 }: OP-18 / RF-11
 
 \textbf{Método y ruta }: POST \path|/api/v1/processes|
 
@@ -1218,7 +1170,7 @@ período fuera de vigencia.
 
 \medskip\hrule\medskip
 
-AA-RF-13/14 y RNF de privacidad, auditoría, correlación y contrato son
+RF-13/14 y RNF de privacidad, auditoría, correlación y contrato son
 transversales. La existencia de un código en el servicio no demuestra su
 respuesta integrada: validar con pruebas/solicitudes en APE3. No se
 añade 422 a todo error de validación: los DTO actuales usan 400. No se
@@ -1378,8 +1330,7 @@ precondición/revisión.
 
 \textbf{Escenario }: Colección paginada
 
-\textbf{Uso propuesto del sobre }: data=arreglo de items;
-meta=\{page,size,totalElements,correlationId\}
+\textbf{Uso propuesto del sobre}: \texttt{data} = arreglo de ítems; \texttt{meta} = \{page, size, totalElements, correlationId\}
 
 \textbf{Estado propuesto / límite }: 200; no duplicar simultáneamente
 paginación en data y meta.
@@ -1597,7 +1548,7 @@ application/json:
 DELETE \path|/api/v1/sessions| con cookie y CSRF válidos devuelve
 \textbf{204 sin cuerpo}, con Set-Cookie para retirar la cookie. No se
 devuelve el sobre ni \path|{}|. Reutilizar una sesión revocada en una
-ruta protegida debe rechazarse; AC-AA-03 exige comprobarlo, no se afirma
+ruta protegida debe rechazarse; AC-03 exige comprobarlo, no se afirma
 haberlo ejecutado.
 
 \section{6. Métodos, estados y cabeceras: justificación limitada al
@@ -1741,7 +1692,7 @@ aplicabilidad se exige después en activación
 \textbf{Decisión propuesta }: Confirmar límites de Unidad 1 y validación
 normativa
 
-\textbf{Ajuste documental preparado / pendiente }: F-ACD3-02 evita
+\textbf{Ajuste documental preparado / pendiente }: F3-02 evita
 equiparar PREPARATION con autorización/aplicabilidad.
 
 \medskip\hrule\medskip
@@ -1858,8 +1809,8 @@ registrar únicamente lo realizado por el estudiante.
 
 \textbf{Tema disponible }: Catálogo y concurrencia
 
-\textbf{Cadena para explicar }: AA-RF-06/08 \ensuremath{\rightarrow} HU-AA-02/04 \ensuremath{\rightarrow} AC-AA-08--15
-\ensuremath{\rightarrow} F-ACD3-01 \ensuremath{\rightarrow} CareerAdministrationService \ensuremath{\rightarrow} POST/PATCH careers \ensuremath{\rightarrow}
+\textbf{Cadena para explicar }: RF-06/08 \ensuremath{\rightarrow} HU-02/04 \ensuremath{\rightarrow} AC-08--15
+\ensuremath{\rightarrow} F3-01 \ensuremath{\rightarrow} CareerAdministrationService \ensuremath{\rightarrow} POST/PATCH careers \ensuremath{\rightarrow}
 ETag/412
 
 \textbf{Archivos que abrir }: Dossier AA2, informe ACD3, contrato,
@@ -1869,8 +1820,8 @@ CareerController/CareerAdministrationService/EntityTagSupport.
 
 \textbf{Tema disponible }: Preparación y límites
 
-\textbf{Cadena para explicar }: AA-RF-10/11 \ensuremath{\rightarrow} HU-AA-06 \ensuremath{\rightarrow} AC-AA-18--22 \ensuremath{\rightarrow}
-F-ACD3-02 \ensuremath{\rightarrow} SelfAssessmentService \ensuremath{\rightarrow} POST processes \ensuremath{\rightarrow} 201/PREPARATION
+\textbf{Cadena para explicar }: RF-10/11 \ensuremath{\rightarrow} HU-06 \ensuremath{\rightarrow} AC-18--22 \ensuremath{\rightarrow}
+F3-02 \ensuremath{\rightarrow} SelfAssessmentService \ensuremath{\rightarrow} POST processes \ensuremath{\rightarrow} 201/PREPARATION
 
 \textbf{Archivos que abrir }: Dossier AA2, C4, contrato y servicio de
 procesos.
@@ -1879,8 +1830,8 @@ procesos.
 
 \textbf{Tema disponible }: Contrato y compatibilidad
 
-\textbf{Cadena para explicar }: AA-RF-14 / AA-RNF-10 \ensuremath{\rightarrow} AC-AA-26 /
-VC-AA-10 \ensuremath{\rightarrow} handlers \ensuremath{\rightarrow} Problem Details actual frente a sobre propuesto
+\textbf{Cadena para explicar }: RF-14 / RNF-10 \ensuremath{\rightarrow} AC-26 /
+VC-10 \ensuremath{\rightarrow} handlers \ensuremath{\rightarrow} Problem Details actual frente a sobre propuesto
 
 \textbf{Archivos que abrir }: Contrato, handlers, ADR-0018 y registro
 H-01.
@@ -1961,8 +1912,8 @@ preliminares; no aprobación docente.
 \textbf{Archivo
 }: \path|documentos-academicos/AA2-semana-2/DOSSIER_REQUISITOS_AA2.md|
 
-\textbf{Uso / límite }: Actores, necesidades, HU-AA-01--06, AA-RF-01--14
-y AA-RNF-01--10, AC/VC.
+\textbf{Uso / límite }: Actores, necesidades, HU-01--06, RF-01--14
+y RNF-01--10, AC/VC.
 
 \medskip\hrule\medskip
 
@@ -2354,37 +2305,5 @@ consultadas}\label{fuentes-fuentes-tuxe9cnicas-primarias-consultadas}
 Estas fuentes justifican interpretación técnica, no necesidades
 institucionales ni aprobación del contrato propuesto. El alcance se
 justifica en los documentos de requisitos, no por autoridad de una RFC.
-
-\chapter{Revisión de la guía y precisión posterior a APE3}
-
-La guía nuevamente aportada corresponde al mismo ACD3. La matriz completa
-de sus diez puntos se encuentra en \path|REVISION_GUIA.md|. Se mantienen
-los dos procesos textuales, las vistas C1/C2/C3, ocho decisiones con
-alternativas y dieciocho operaciones con entradas, permisos y estados.
-El sobre común continúa como propuesta separada del formato implementado;
-204 conserva ausencia de cuerpo. Clínica, observaciones docentes y
-contribuciones individuales siguen pendientes de evidencia real.
-
-\section{Hallazgo H-09 y corrección del contrato}
-
-La evidencia posterior de APE3 registra 409
-\path|MODEL_VERSION_REQUIRES_V2| al consultar una versión configurada
-mediante DTO legado y 200 al consultar
-\path|/api/v1/model-versions/{id}/configured|. Se precisa OP-14 y se
-añade H-09 al registro técnico. La fuente es
-\path|LegacyModelVersion.from|, que llama a
-\path|EvaluationModelService.requireLegacy|, junto con los casos
-HTTP-16/16B de \path|../APE3-semana-3/evidencias/http-resultados.json|.
-La ruta configurada sigue siendo complementaria al inventario original;
-el nombre del código de error no demuestra que exista un backend v2.
-
-\section{Procedencia y límites de la actualización}
-
-Los 23 tests seleccionados y 22 casos HTTP finales pertenecen a APE3 y
-se citan como evidencia posterior. No se reejecutaron en esta revisión
-ni se atribuyen a una clínica previamente celebrada. Se conserva la
-diferencia entre propuesta inicial, implementación observada,
-verificación posterior y acuerdo docente pendiente. LaTeX continúa sin
-compilación ni inspección de PDF local.
 
 \end{document}

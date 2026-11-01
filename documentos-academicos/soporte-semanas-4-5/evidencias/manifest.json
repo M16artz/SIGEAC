@@ -1,0 +1,95 @@
+{
+  "artifact": "Shared academic support weeks 4 and 5",
+  "created_at_utc": "2026-11-01T18:36:02.029552+00:00",
+  "source_commit": "8ec04b78bd81523253b8892ca26b7d8b1a64d249",
+  "scope": "source-focused documentary review; formal audit incomplete; no target execution or deployment",
+  "checks": {
+    "product_source_changes": false,
+    "institutional_latex_reports": 6,
+    "latex_static": "balanced environments, unique labels, correct modality; APE 11 sections, AA/ACD 3 main chapters plus appendices; no compilation",
+    "pytest_source": "AST parsed, 7 proposed tests, not imported or executed",
+    "compose": "YAML syntax parsed with installed Pandoc; two services, RO API, no DB published port, internal network; Docker semantic validation/build not run",
+    "assets": 8,
+    "threat_scenarios": 8,
+    "protocol_observations": 1,
+    "security_observations_or_potential_risks": 5,
+    "new_confirmed_vulnerabilities": 0,
+    "verification_plan_cases": 12,
+    "acd4_guide_rows": 16,
+    "ape4_control_answers": 7,
+    "secret_scan": "1091 bounded tracked texts; 3 patterns; 0 matches; no complete-history or absence guarantee",
+    "preexisting_manifest_differences": [
+      {
+        "activity": "APE2-semana-2",
+        "path": "APE2_SEMANA_2.tex",
+        "status": "pre-existing artifact differs from its old manifest; not rewritten by this work"
+      },
+      {
+        "activity": "AA2-semana-2",
+        "path": "AA2_DOSSIER.tex",
+        "status": "pre-existing artifact differs from its old manifest; not rewritten by this work"
+      },
+      {
+        "activity": "ACD3-semana-3",
+        "path": "ACD3_CLINICA.tex",
+        "status": "pre-existing artifact differs from its old manifest; not rewritten by this work"
+      },
+      {
+        "activity": "APE3-semana-3",
+        "path": "APE3_SEMANA_3.tex",
+        "status": "pre-existing artifact differs from its old manifest; not rewritten by this work"
+      },
+      {
+        "activity": "AA3-semana-3",
+        "path": "AA3_ADR.tex",
+        "status": "pre-existing artifact differs from its old manifest; not rewritten by this work"
+      }
+    ],
+    "recorded_at_utc": "2026-11-01T18:36:02.029552+00:00",
+    "runtime_backend_tests_run": false,
+    "deployment_run": false,
+    "pdf_compiled": false
+  },
+  "files": [
+    {
+      "path": "evidencias/antecedentes-auditoria.json",
+      "bytes": 2752,
+      "sha256": "ea2948e773b0e30e2ea810950f90566055a1a85ed8e9022399be4f93dc38acaf"
+    },
+    {
+      "path": "evidencias/secretos-metadatos.json",
+      "bytes": 635,
+      "sha256": "5de0ede52630a827d4956f76aeff083c426d211164c0ec858f39046146bc1235"
+    },
+    {
+      "path": "evidencias/validacion-documental.json",
+      "bytes": 1949,
+      "sha256": "b4b772323336d5d02ec3168b91ef270b1314ccb2cdb9a20fbed955fd44dade30"
+    },
+    {
+      "path": "FUENTES.md",
+      "bytes": 9288,
+      "sha256": "b61948be1781f95d802f2fa0058cdba0a1d4818699ba681e571708c456769987"
+    },
+    {
+      "path": "generar_informes.py",
+      "bytes": 12423,
+      "sha256": "724a487adfd3b2124762dcdbd899abb5a33862637b070a71e437aa96be3f23e4"
+    },
+    {
+      "path": "HALLAZGOS_Y_TRAZABILIDAD.md",
+      "bytes": 8505,
+      "sha256": "8e442ed8a8b558ac09d65b36e2349b3974629113326b7dbb785d5c9b135c67cf"
+    },
+    {
+      "path": "indice-tecnico.qmd",
+      "bytes": 1506,
+      "sha256": "90b6dce05912db0de7b9516c4e0d42b7a938b095a56372987388ff1b678a0a90"
+    },
+    {
+      "path": "MATRIZ_AMENAZAS.md",
+      "bytes": 8979,
+      "sha256": "02d167544d4a74c94131d93bd5434c607406b4dae89cdccc8c809b63a4f21696"
+    }
+  ]
+}

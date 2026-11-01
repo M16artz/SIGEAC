@@ -1,0 +1,1737 @@
+\documentclass[12pt,a4paper]{report}
+
+% ------------------------------------------
+%   PAQUETES BÁSICOS
+% ------------------------------------------
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+  \geometry{left=3cm, right=2.5cm, top=3cm, bottom=2.5cm}
+\usepackage{setspace}
+  \onehalfspacing
+\usepackage{titlesec} 
+  \titleformat{\chapter}[block]{\bfseries\large}{\thechapter.}{1em}{}
+  \titleformat{\section}[block]{\bfseries}{\thesection.}{1em}{}
+\usepackage{tocloft}
+  \setlength{\cftbeforechapskip}{6pt}
+  \renewcommand{\cftchapfont}{\bfseries}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{verbatim}
+
+\usepackage{cite}
+\usepackage{hyperref}
+\usepackage{calc}
+\usepackage{xurl}
+\usepackage{fvextra}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\addto\captionsspanish{
+    \renewcommand{\contentsname}{Índice General}
+    \renewcommand{\tablename}{Tabla}
+}
+
+% ------------------------------------------
+%   FONDO DE PÁGINA (SOLO CARÁTULA)
+% ------------------------------------------
+\usepackage{eso-pic}
+\newcommand\BackgroundPic{%
+  \put(0,0){%
+    \parbox[b][\paperheight]{\paperwidth}{%
+      \vfill
+      \centering
+      \IfFileExists{fondo.jpeg}{\includegraphics[width=\paperwidth,height=\paperheight]{fondo.jpeg}}{\parbox{0.8\paperwidth}{\centering [PENDIENTE: fondo.jpeg original]}}%
+      \vfill
+}}}
+
+% ------------------------------------------
+%   ENCABEZADO CON LOGO (OTRAS PÁGINAS)
+% ------------------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{40pt}
+\fancyhead[L]{\IfFileExists{logo_unl.jpeg}{\includegraphics[height=1.2cm]{logo_unl.jpeg}}{\fbox{\scriptsize PENDIENTE: logo\_unl.jpeg}}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \fancyhead[L]{\IfFileExists{logo_unl.jpeg}{\includegraphics[height=1.2cm]{logo_unl.jpeg}}{\fbox{\scriptsize PENDIENTE: logo\_unl.jpeg}}}
+    \fancyfoot[C]{\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+}
+
+% ------------------------------------------
+%   METADATOS DEL DOCUMENTO
+% ------------------------------------------
+\newcommand{\TituloTrabajo}{ACD 4 — Modelo de amenazas y revisión de seguridad}
+\newcommand{\Autor}{[PENDIENTE: estudiante/integrantes reales]}
+\newcommand{\Director}{Edison Leonardo Coronel Romero (referencia APE4; confirmar)}
+\newcommand{\Carrera}{Carrera de Computación}
+\newcommand{\Facultad}{Facultad de la Energía, las Industrias y los Recursos Naturales No Renovables}
+\newcommand{\Universidad}{Universidad Nacional de Loja}
+\newcommand{\Ciudad}{Loja, Ecuador}
+\newcommand{\Fecha}{Semana 4 -- [PENDIENTE: fecha real]}
+
+\begin{document}
+
+\AddToShipoutPictureBG*{\BackgroundPic}
+
+% ------------------------------------------
+%   PORTADA
+% ------------------------------------------
+\begin{titlepage}
+  \centering
+  \vspace*{2cm}
+  {\bfseries\Large \Universidad}\\[0.5cm]
+  {\bfseries\large \Facultad}\\[0.5cm]
+  {\bfseries\large \Carrera}\\[2cm]
+  {\bfseries\Large \TituloTrabajo}\\[2.5cm]
+
+  \begin{flushright}
+    \setlength{\fboxsep}{8pt}
+    \fbox{%
+      \begin{minipage}{0.4\textwidth}\small
+        Desarrollo Basado en Plataformas (referencia APE4; confirmar).
+      \end{minipage}%
+    }
+  \end{flushright}
+  \vspace{1cm}
+
+  {\bfseries \large AUTOR:}\\[0.5em]
+  {\large \Autor}\\[2em]
+  {\bfseries \large TUTOR:}\\[0.5em]
+  {\large \Director}\\[2em]
+  {\bfseries \large \Ciudad}\\[1em]
+  {\bfseries \large \Fecha}
+\end{titlepage}
+
+% ------------------------------------------
+%   DECLARACIÓN DE USO DE IA GENERATIVA
+% ------------------------------------------
+\newpage
+\chapter*{Declaración de Delegación a IA Generativa}
+\addcontentsline{toc}{chapter}{Declaración de uso de IA Generativa}
+
+Se utilizó ChatGPT/Codex para inspección de fuentes, consulta oficial y preparación de documentos, tests y configuración propuestos. No se ejecutó código del target, no hay parche funcional o despliegue nuevos ni participación/aceptación humana atribuida.
+
+\noindent\textbf{Declaración enviada por: [PENDIENTE: persona real].}
+\newpage
+% ------------------------------------------
+%   ÍNDICES
+% ------------------------------------------
+\tableofcontents
+\clearpage
+
+% ------------------------------------------
+%   CUERPO DEL TRABAJO
+% ------------------------------------------
+
+Semana 4 · Actividad grupal con evidencia individual · SIGEAC / SEC-UNL.
+
+Integrantes y fecha de sesión pendientes. Asignatura/docente se toman
+como referencia de APE4, Desarrollo Basado en Plataformas / Edison
+Leonardo Coronel Romero, sujetos a confirmar para esta ACD. No se
+declara una sesión ni revisión cruzada realizada.
+
+\chapter{1. Incremento, activos y
+fronteras}\label{ACD4-semana-4-1-incremento-activos-y-fronteras}
+
+Se revisan los dos flujos de Semana 3: catálogo con historial y
+preparación/consulta de proceso, con identidad, autorización y auditoría
+como dependencias. Requisitos: AA-RF-01--14, AA-RNF-01--03/05--07/09/10
+y los AC/VC del dossier AA2. C4 y OpenAPI provienen de APE3. El backend
+real es Spring Boot, no DRF; sobre universal y decisión tecnológica
+siguen pendientes.
+
+La \href{../soporte-semanas-4-5/MATRIZ_AMENAZAS.md}{matriz de amenazas}
+define ocho activos A-01--08, seis fronteras F-01--06, ocho amenazas
+T-01--08 y una observación protocolaria T-09, razones de impacto y
+permisos. Debe leerse como parte de este informe. Protege
+cuentas/credenciales, sesión/CSRF, catálogo, procesos, auditoría,
+configuración, recursos y artefactos. Los documentos/evidencias del
+producto completo quedan fuera de los endpoints seleccionados; no se
+presupone inexistencia global ni ausencia de riesgo en ellos.
+
+Superficies: POST sessions, rutas protegidas de
+carreras/unidades/procesos/modelos, UUID/path, filtros de
+búsqueda/página, JSON, cookies, CSRF, If-Match/ETag, configuración env y
+DB. Swagger aparece permitido por el filtro, pero el perfil prod
+deshabilita sus endpoints: no se acusa exposición productiva a partir de
+una regla aislada. Recuperación de cuenta, uploads y servicios externos
+no se fuerzan en este modelo sin operación del recorte que los
+justifique.
+
+Personas sin sesión no obtienen recursos protegidos; lectores tienen
+ámbito; administración de catálogo no concede gestión de proceso ni
+autoridad institucional. Las cuentas técnicas se rechazan para
+operaciones funcionales del servicio. La matriz separa quién puede hacer
+qué sobre cada recurso; no trata ``autenticado'' como un rol universal.
+
+\chapter{2. Revisión de controles y
+amenazas}\label{ACD4-semana-4-2-revisiuxf3n-de-controles-y-amenazas}
+
+\section{Autenticación}\label{ACD4-semana-4-autenticaciuxf3n}
+
+SessionService normaliza usuario, compara BCrypt y usa hash ficticio
+para desconocido, registra intentos, emite 32 bytes aleatorios para
+token/CSRF y persiste hashes SHA-256. Revalida identidad activa,
+revocación y expiración/inactividad; logout revoca. SessionCookie usa
+HttpOnly, SameSite=Lax y Secure configurable. Por fuente existe una
+limitación por sujeto en 15 minutos; no se asume que registrar sourceKey
+implemente un limitador global.
+
+SEC-02 registra la discrepancia ``consecutivos'' frente al conteo
+acumulado de fallos de la ventana. Primero confirmar política; después
+cambiar requisito o código con prueba de secuencia fallo-éxito-fallo. No
+inventar un bypass a partir de esa diferencia. Credencial válida
+determina identidad, no competencias ni acceso a una carrera.
+
+\section{Autorización}\label{ACD4-semana-4-autorizaciuxf3n}
+
+ScopeAuthorizationService comprueba usuario activo no técnico,
+asignación vigente, scope que contiene el solicitado, capacidad y
+conflicto no exceptuado. CareerAdministrationService distingue
+administración global y lectura por carrera, incluidos totales e
+historial; SelfAssessmentService evalúa PROCESS\_MANAGE por carrera y
+visibilidad al consultar. Revisar cada ruta: UUID conocido no es
+permiso. Los candidatos de asignaciones/auditoría del antecedente
+securityOutputs son needs\_validation y no se dan por resueltos o
+confirmados aquí.
+
+\section{Validación sintáctica y de
+negocio}\label{ACD4-semana-4-validaciuxf3n-sintuxe1ctica-y-de-negocio}
+
+\textbf{Operación }: POST sessions
+
+\textbf{Sintaxis/estructura }: username/password obligatorios con
+longitudes DTO
+
+\textbf{Negocio y protección }: Identidad habilitada, credencial,
+ventana de intentos
+
+\textbf{Resultado relevante }: 201 / 400 / 401 / 429 según caso.
+
+\medskip\hrule\medskip
+
+\textbf{Operación }: POST careers
+
+\textbf{Sintaxis/estructura }: code/name/UUID/validFrom; límites
+100/300; validUntil opcional
+
+\textbf{Negocio y protección }: Unidad activa, código normalizado único,
+vigencia coherente, CAREER\_ADMIN, CSRF
+
+\textbf{Resultado relevante }: 201 / 400 / 403 / 409 / 422.
+
+\medskip\hrule\medskip
+
+\textbf{Operación }: PATCH careers/\{id\}
+
+\textbf{Sintaxis/estructura }: UUID, cuerpo completo editable e If-Match
+fuerte numérico
+
+\textbf{Negocio y protección }: Revisión vigente, unidad/código válidos,
+capacidad y auditoría
+
+\textbf{Resultado relevante }: 200 / 400 / 412 / 428 además de rechazos
+de ámbito/negocio.
+
+\medskip\hrule\medskip
+
+\textbf{Operación }: POST processes
+
+\textbf{Sintaxis/estructura }: Referencias y fechas con
+tipos/obligatoriedad
+
+\textbf{Negocio y protección }: Career/unidad activas, período dentro de
+vigencia, versión publicada y scope
+
+\textbf{Resultado relevante }: 201 PREPARATION; 400/403/404/409/422
+según causa.
+
+\medskip\hrule\medskip
+
+\textbf{Operación }: GET careers
+
+\textbf{Sintaxis/estructura }: Filtros/página dentro de límites
+
+\textbf{Negocio y protección }: Visibilidad y total autorizado
+
+\textbf{Resultado relevante }: 200 o rechazo; no mezclar página válida
+con permiso a todos.
+
+\medskip\hrule\medskip
+
+Una fecha con formato válido puede estar fuera de la vigencia. Una
+relación UUID bien formada puede no existir o no estar autorizada. Los
+DTO de catálogo rechazan campos extra; no extender esa afirmación
+automáticamente a todo comando. No se declaran pruebas de archivos del
+incremento cuando no se seleccionaron uploads.
+
+\section{Errores, secretos y
+configuración}\label{ACD4-semana-4-errores-secretos-y-configuraciuxf3n}
+
+Handlers/writer retornan Problem Details con código y correlación;
+errores inesperados tienen descripción genérica y registro técnico. Las
+muestras anteriores muestran 400/401/403/404/409/412/428 y 204 sin
+cuerpo, pero no todas las rutas/500. No se certifica ausencia de
+secretos en todos los logs. El sobre académico aún no se aplica; eso es
+diferencia contractual, no prueba de vulnerabilidad explotable. SEC-04
+identifica el desafío401 ausente sin inventar Bearer.
+
+Se inspeccionaron \path|.gitignore|, ejemplo env, prod y workflow
+manual; valores de ejemplo/CI sintéticos no se clasifican como
+credenciales reales. El escaneo confiable de 1.091 archivos de texto
+rastreados, acotado por tamaño/exclusiones, buscó tres formatos de
+credencial y retuvo solo metadatos: cero coincidencias. Se revisaron
+nombres históricos .env/pem/key, sin coincidencias; no se escaneó todo
+el contenido histórico ni formatos arbitrarios. No abrir ni copiar
+archivos personales de credenciales para llenar evidencia.
+
+\section{Mitigación y
+priorización}\label{ACD4-semana-4-mitigaciuxf3n-y-priorizaciuxf3n}
+
+Cada amenaza tiene control, P/I, mitigación y prioridad. El análisis AA4
+utiliza exactamente la matriz de la guía: 1--2 Bajo, 3--4 Medio, 6 Alto,
+9 Crítico. El modelo incluye escenarios con controles presentes, no solo
+debilidades. No hay nuevas vulnerabilidades confirmadas ni se asigna
+severidad de vulnerabilidad a needs\_validation. Los SEC son
+observaciones fuente o riesgos potenciales documentados en
+\href{../soporte-semanas-4-5/HALLAZGOS_Y_TRAZABILIDAD.md}{hallazgos y
+trazabilidad}.
+
+\chapter{3. Clínica, evidencias y
+ajustes}\label{ACD4-semana-4-3-cluxednica-evidencias-y-ajustes}
+
+\textbf{Actividad ACD4 }: 1 Revisar incremento
+
+\textbf{Desarrollo / evidencia }: Sección 1, fuentes F-01--12 y límites.
+
+\medskip\hrule\medskip
+
+\textbf{Actividad ACD4 }: 2 Identificar activos
+
+\textbf{Desarrollo / evidencia }: Matriz compartida A-01--08 y
+razones/impacto/acceso.
+
+\medskip\hrule\medskip
+
+\textbf{Actividad ACD4 }: 3 Actores/confianza
+
+\textbf{Desarrollo / evidencia }: Fronteras y matriz por
+capacidad/ámbito.
+
+\medskip\hrule\medskip
+
+\textbf{Actividad ACD4 }: 4 Superficies
+
+\textbf{Desarrollo / evidencia }: Sesión, rutas, URL/query/JSON/headers,
+configuración y DB; exclusiones explícitas.
+
+\medskip\hrule\medskip
+
+\textbf{Actividad ACD4 }: 5 STRIDE
+
+\textbf{Desarrollo / evidencia }: T-01--09 pertinentes, sin forzar una
+categoría en una ruta inexistente.
+
+\medskip\hrule\medskip
+
+\textbf{Actividad ACD4 }: 6 Matriz
+
+\textbf{Desarrollo / evidencia }: Activo, causa/condición, P/I, riesgo
+de escenario y controles.
+
+\medskip\hrule\medskip
+
+\textbf{Actividad ACD4 }: 7 Autenticación
+
+\textbf{Desarrollo / evidencia }: Sesión/hash/expiración/invalidación y
+política pendiente.
+
+\medskip\hrule\medskip
+
+\textbf{Actividad ACD4 }: 8 Autorización
+
+\textbf{Desarrollo / evidencia }: Matriz de operaciones y scopes;
+lectura/administración no equivalentes.
+
+\medskip\hrule\medskip
+
+\textbf{Actividad ACD4 }: 9 Entradas
+
+\textbf{Desarrollo / evidencia }: Tabla sintaxis frente a negocio con
+fuentes concretas.
+
+\medskip\hrule\medskip
+
+\textbf{Actividad ACD4 }: 10 Errores
+
+\textbf{Desarrollo / evidencia }: Estados, Problem Details, correlación
+y vacío del sobre.
+
+\medskip\hrule\medskip
+
+\textbf{Actividad ACD4 }: 11 Secretos/config
+
+\textbf{Desarrollo / evidencia }: Metadatos de escaneo, configuración y
+límites de historia.
+
+\medskip\hrule\medskip
+
+\textbf{Actividad ACD4 }: 12 Riesgos API
+
+\textbf{Desarrollo / evidencia }: BOLA potencial, volumen/listados,
+permisos y configuración.
+
+\medskip\hrule\medskip
+
+\textbf{Actividad ACD4 }: 13 Mitigaciones
+
+\textbf{Desarrollo / evidencia }: Una o más por amenaza;
+ubicación/prueba en SEC/VT.
+
+\medskip\hrule\medskip
+
+\textbf{Actividad ACD4 }: 14 Prioridad
+
+\textbf{Desarrollo / evidencia }: Justificación diferenciada, sin todos
+altos/críticos.
+
+\medskip\hrule\medskip
+
+\textbf{Actividad ACD4 }: 15 Revisión cruzada
+
+\textbf{Desarrollo / evidencia }: CRUZADA-04-01 preparada; falta otro
+integrante/equipo y observación auténtica.
+
+\medskip\hrule\medskip
+
+\textbf{Actividad ACD4 }: 16 Ajustes
+
+\textbf{Desarrollo / evidencia }: CF-04-01 y trazabilidad preparados; no
+se inventa parche ejecutado.
+
+\medskip\hrule\medskip
+
+Guion de socialización: mostrar C4/DFD y activos; elegir T-02 y T-05;
+seguir endpoint\ensuremath{\rightarrow}control\ensuremath{\rightarrow}test; explicar autenticación/autorización;
+revisar SEC-02; pedir observación sobre scope, lista/total y límites;
+registrar responsable/fecha/decisión/cambio. Una revisión asistida no
+equivale a revisión cruzada humana.
+
+La auditoría formal queda \textbf{incompleta}: falta sandbox OS
+completo, no hay Docker/Podman ni límites de ejecución acreditados. Sus
+metadatos y vacíos están en \path|evidencias/auditoria/|. La habilidad
+exige no ejecutar target sin esas condiciones. Solo se revisaron fuentes
+y evidencia anterior, y se generaron metadatos con código confiable del
+analista. No se corrieron nuevos tests funcionales ni se probaron
+servicios ajenos.
+
+Evidencia grupal: informe, matrices compartidas, fuentes, plan VT y
+trazabilidad. Evidencia individual: \url{NOTA_INDIVIDUAL.md}, a
+completar con revisión y observación reales. No hay aceptación docente,
+commits ni corrección de seguridad simulados.
+
+\nocite{*}
+\bibliographystyle{IEEEtran}
+\bibliography{referencias}
+\appendix
+\chapter{Incremento SIGEAC --- Activos, amenazas y
+controles}\label{ACD4-semana-4-anexo0-incremento-sigeac--activos-amenazas-y-controles}
+
+Base común ACD4/APE4/AA4. Alcance: sesión, catálogo y
+preparación/consulta de procesos de Semana 3; identidad y auditoría como
+dependencias. Carga de evidencias, recuperación de cuenta e
+integraciones externas no forman parte del incremento seleccionado. No
+afirmar que estén ausentes de todo el producto por quedar fuera de este
+análisis.
+
+\section{Activos y
+confianza}\label{ACD4-semana-4-anexo0-activos-y-confianza}
+
+\textbf{ID }: A-01
+
+\textbf{Activo / importancia }: Identidades, credenciales y hash de
+contraseña
+
+\textbf{Acceso esperado }: Usuario para autenticarse; gestión por
+capacidad y ámbito definidos
+
+\textbf{Impacto de exposición, alteración o pérdida }: Suplantación y
+pérdida de acceso. No devolver contraseña/hash en API.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: A-02
+
+\textbf{Activo / importancia }: Cookie SEC\_SESSION, token CSRF y hashes
+de sesión
+
+\textbf{Acceso esperado }: Navegador titular; backend valida/revoca
+
+\textbf{Impacto de exposición, alteración o pérdida }: Secuestro de
+sesión o acciones falsificadas. El token opaco no es JWT.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: A-03
+
+\textbf{Activo / importancia }: Catálogo de unidades/carreras y
+revisiones
+
+\textbf{Acceso esperado }: CAREER\_ADMIN global para cambios;
+CAREER\_READ según ámbito para consulta
+
+\textbf{Impacto de exposición, alteración o pérdida }: Datos
+inconsistentes, decisiones basadas en carrera incorrecta e historia
+perdida.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: A-04
+
+\textbf{Activo / importancia }: Procesos, período y versión fijada
+
+\textbf{Acceso esperado }: Gestor con PROCESS\_MANAGE en carrera;
+consulta según permisos del proceso
+
+\textbf{Impacto de exposición, alteración o pérdida }: Preparación
+ilegítima o información de ámbito ajeno. No equivale a acreditación.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: A-05
+
+\textbf{Activo / importancia }: Auditoría y correlación
+
+\textbf{Acceso esperado }: Servicio para registrar, auditor autorizado
+para consultar
+
+\textbf{Impacto de exposición, alteración o pérdida }: Repudio,
+privacidad y pérdida de investigación de incidentes.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: A-06
+
+\textbf{Activo / importancia }: Configuración, secreto HMAC y
+credenciales DB
+
+\textbf{Acceso esperado }: Operador autorizado, fuera de Git
+
+\textbf{Impacto de exposición, alteración o pérdida }: Acceso indebido,
+alteración de controles o indisponibilidad.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: A-07
+
+\textbf{Activo / importancia }: API, CPU, memoria y DB
+
+\textbf{Acceso esperado }: Clientes dentro de límites; operación por
+personal autorizado
+
+\textbf{Impacto de exposición, alteración o pérdida }: Agotamiento y
+pérdida de disponibilidad.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: A-08
+
+\textbf{Activo / importancia }: Código, contratos, pruebas y artefacto
+desplegable
+
+\textbf{Acceso esperado }: Equipo por flujo versionado/revisado
+
+\textbf{Impacto de exposición, alteración o pérdida }: Cambio no
+trazable, dependencia no reproducible o despliegue de artefacto
+equivocado.
+
+\medskip\hrule\medskip
+
+Fronteras: F-01 cliente no confiable\ensuremath{\rightarrow}API; F-02 sesión\ensuremath{\rightarrow}autorización por
+objeto; F-03 controlador\ensuremath{\rightarrow}aplicación/dominio; F-04
+aplicación\ensuremath{\rightarrow}DB/auditoría; F-05 operador/configuración\ensuremath{\rightarrow}proceso; F-06
+repositorio/artefacto\ensuremath{\rightarrow}despliegue. Autenticado no significa administrador
+ni acceso universal.
+
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\footnotesize]
+flowchart LR
+  c[Cliente no confiable] -->|F01 HTTP JSON cookie headers| f[Filtro de sesion y CSRF]
+  f -->|F02 identidad no es permiso| api[API]
+  api -->|F03| app[Aplicacion y permisos de objeto]
+  app --> dom[Dominio]
+  app -->|F04| db[(PostgreSQL principal)]
+  app --> audit[Auditoria]
+  cfg[Operador y configuracion] -->|F05| f
+  git[Codigo y artefacto versionado] -->|F06| api
+\end{Verbatim}
+
+\section{Escala de
+planificación}\label{ACD4-semana-4-anexo0-escala-de-planificaciuxf3n}
+
+Probabilidad 1 Baja, 2 Media, 3 Alta; impacto 1 Bajo, 2 Medio, 3 Alto.
+Producto 1--2 Bajo, 3--4 Medio, 6 Alto, 9 Crítico, como pide AA4. Estos
+valores priorizan \textbf{escenarios del modelo}, no prueban
+vulnerabilidades ni asignan severidad a hipótesis no validadas. Las
+valoraciones son cualitativas del análisis, pendientes de revisión
+cruzada, sin medición estadística.
+
+\section{Matriz de
+amenazas}\label{ACD4-semana-4-anexo0-matriz-de-amenazas}
+
+\textbf{ID / STRIDE }: T-01 Spoofing
+
+\textbf{Activo / frontera / escenario }: A-01/02, F-01; adivinar
+credenciales y reutilizar sesión
+
+\textbf{Causa o condición razonable }: Credencial comprometida o
+automatización; no se presume bypass
+
+\textbf{Control existente / evidencia }: BCrypt, token aleatorio de 32
+bytes, hashes, ventana de intentos, expiración/revocación;
+SessionService y SessionCookie
+
+\textbf{P }: 2
+
+\textbf{I }: 3
+
+\textbf{P\ensuremath{\times}I / nivel de escenario }: 6 Alto
+
+\textbf{Mitigación y prioridad }: Mantener controles y verificar
+credencial inválida, expiración y revocación; ensayar protección ante
+automatización acotada en sandbox. Alta por impacto en identidad;
+explotación no demostrada.
+
+\medskip\hrule\medskip
+
+\textbf{ID / STRIDE }: T-02 Elevation / Disclosure
+
+\textbf{Activo / frontera / escenario }: A-03/04, F-02; consultar o
+alterar recurso ajeno
+
+\textbf{Causa o condición razonable }: Omisión futura de autorización
+por objeto o ámbito mal configurado
+
+\textbf{Control existente / evidencia }: ScopeAuthorizationService y
+servicios de carrera/proceso comprueban capacidades/ámbito; UUID no es
+permiso
+
+\textbf{P }: 1
+
+\textbf{I }: 3
+
+\textbf{P\ensuremath{\times}I / nivel de escenario }: 3 Medio
+
+\textbf{Mitigación y prioridad }: Pruebas lector A/objeto B,
+lista/total/detalle, cuenta técnica; asegurar denegación en cada ruta.
+Media; hay controles fuente, no BOLA confirmado en este recorte.
+
+\medskip\hrule\medskip
+
+\textbf{ID / STRIDE }: T-03 Tampering
+
+\textbf{Activo / frontera / escenario }: A-03, F-01/03; escribir sin
+intención o revisión válida
+
+\textbf{Causa o condición razonable }: CSRF o edición con revisión vieja
+
+\textbf{Control existente / evidencia }: Filtro propio verifica
+X-CSRF-TOKEN; ETag/If-Match y revisiones; APE3 HTTP-04/09/11
+
+\textbf{P }: 1
+
+\textbf{I }: 2
+
+\textbf{P\ensuremath{\times}I / nivel de escenario }: 2 Bajo
+
+\textbf{Mitigación y prioridad }: Regresión y prueba de dos clientes; no
+aceptar control solo frontend. Baja residual de planificación, no
+aceptación formal del riesgo.
+
+\medskip\hrule\medskip
+
+\textbf{ID / STRIDE }: T-04 Information Disclosure
+
+\textbf{Activo / frontera / escenario }: A-02/06, F-05; cookie por
+transporte no protegido
+
+\textbf{Causa o condición razonable }: Desplegar sin TLS o perfil
+equivocado
+
+\textbf{Control existente / evidencia }: Default cookie-secure=false
+para local; prod=true y demo=false; configuración externa puede
+prevalecer
+
+\textbf{P }: 1
+
+\textbf{I }: 3
+
+\textbf{P\ensuremath{\times}I / nivel de escenario }: 3 Medio
+
+\textbf{Mitigación y prioridad }: Exigir perfil/env efectivos, TLS y
+cookie Secure en despliegue. Media; no hay evidencia de exposición
+productiva.
+
+\medskip\hrule\medskip
+
+\textbf{ID / STRIDE }: T-05 DoS
+
+\textbf{Activo / frontera / escenario }: A-07, F-02/04; listado de
+procesos consume recursos en exceso
+
+\textbf{Causa o condición razonable }: Repositorio carga todos los
+procesos antes del filtrado del servicio
+
+\textbf{Control existente / evidencia }: JDBC list sin LIMIT; GET
+/processes sin parámetros de paginación; no se efectuó prueba de carga
+
+\textbf{P }: 2
+
+\textbf{I }: 2
+
+\textbf{P\ensuremath{\times}I / nivel de escenario }: 4 Medio
+
+\textbf{Mitigación y prioridad }: Paginación/límites y filtrado
+autorizado en DB, contrato compatible y pruebas de total/ámbito. Media;
+agotamiento no reproducido.
+
+\medskip\hrule\medskip
+
+\textbf{ID / STRIDE }: T-06 Repudiation
+
+\textbf{Activo / frontera / escenario }: A-03/04/05, F-04; cambio
+crítico sin registro fiable
+
+\textbf{Causa o condición razonable }: Falla de auditoría o política de
+retención/permisos incorrecta
+
+\textbf{Control existente / evidencia }: Servicios transaccionales y
+AuditPort; historial de catálogo
+
+\textbf{P }: 1
+
+\textbf{I }: 3
+
+\textbf{P\ensuremath{\times}I / nivel de escenario }: 3 Medio
+
+\textbf{Mitigación y prioridad }: Inyectar fallo en fixture y comprobar
+rollback; validar permisos de auditoría/retención. Media; no declarar
+atomicidad solo por @Transactional.
+
+\medskip\hrule\medskip
+
+\textbf{ID / STRIDE }: T-07 Information Disclosure
+
+\textbf{Activo / frontera / escenario }: A-06/08, F-05/06; secreto real
+versionado
+
+\textbf{Causa o condición razonable }: Configuración local o credencial
+copiada al repositorio
+
+\textbf{Control existente / evidencia }: .gitignore, env placeholders y
+CI sintética; escaneo acotado sin coincidencias de tres patrones
+
+\textbf{P }: 1
+
+\textbf{I }: 3
+
+\textbf{P\ensuremath{\times}I / nivel de escenario }: 3 Medio
+
+\textbf{Mitigación y prioridad }: Gestión externa/rotación, revisión de
+diffs y ampliar escaneo si hay indicio; metadatos sin valores. Media;
+ausencia de coincidencias no certifica ausencia total.
+
+\medskip\hrule\medskip
+
+\textbf{ID / STRIDE }: T-08 DoS / Spoofing
+
+\textbf{Activo / frontera / escenario }: A-01/07, F-01; coste BCrypt
+distribuido por muchos sujetos
+
+\textbf{Causa o condición razonable }: Límite por sujeto no establece un
+límite global de admisión
+
+\textbf{Control existente / evidencia }: SessionService limita
+cuenta/ventana; registra sourceKey, sin inferir límite por IP de esa
+persistencia
+
+\textbf{P }: 2
+
+\textbf{I }: 2
+
+\textbf{P\ensuremath{\times}I / nivel de escenario }: 4 Medio
+
+\textbf{Mitigación y prioridad }: Verificar control global/proxy con
+propietario; límites razonables sin sustituir bloqueo por cuenta ni
+perjudicar usuarios compartiendo IP. Media; no se ha demostrado
+agotamiento.
+
+\medskip\hrule\medskip
+
+\textbf{ID / STRIDE }: T-09 Observación de interoperabilidad; no amenaza
+STRIDE afirmada
+
+\textbf{Activo / frontera / escenario }: A-03/08, F-01; consumidor
+interpreta error incorrecto o pierde diagnóstico
+
+\textbf{Causa o condición razonable }: Contrato común académico difiere
+del implementado; 401 sin desafío en muestra previa
+
+\textbf{Control existente / evidencia }: Problem Details con
+código/correlación; no stack en cuerpo en muestras; AA3 propuesta de
+adaptación
+
+\textbf{P }: 1
+
+\textbf{I }: 1
+
+\textbf{P\ensuremath{\times}I / nivel de escenario }: 1 Bajo
+
+\textbf{Mitigación y prioridad }: Acordar contrato, revisar
+WWW-Authenticate y validar cuerpos/headers; no inventar Bearer. No se
+clasifica como filtración ni bypass sin evidencia.
+
+\medskip\hrule\medskip
+
+No se agrega una amenaza de archivos/SSRF/recuperación de cuenta sin
+ruta del recorte que la justifique. El modelo no agota el producto. Los
+siete registros needs\_validation de securityOutputs/run-1 pertenecen a
+una revisión anterior más amplia; no se convierten en confirmados ni se
+consideran resueltos por estas tablas.
+
+\section{Permisos comprobables por capacidad y
+ámbito}\label{ACD4-semana-4-anexo0-permisos-comprobables-por-capacidad-y-uxe1mbito}
+
+\textbf{Recurso / operación }: POST sessions
+
+\textbf{Sin sesión }: Credenciales válidas según política
+
+\textbf{Lector con ámbito }: Autenticar su identidad
+
+\textbf{Administrador funcional de catálogo }: Autenticar su identidad
+
+\textbf{Gestor de proceso }: Autenticar su identidad
+
+\textbf{Cuenta técnica }: Identidad técnica no implica capacidades
+funcionales
+
+\medskip\hrule\medskip
+
+\textbf{Recurso / operación }: Consultar carrera/lista/historia
+
+\textbf{Sin sesión }: Denegar
+
+\textbf{Lector con ámbito }: CAREER\_READ y carrera visible; totales
+filtrados
+
+\textbf{Administrador funcional de catálogo }: CAREER\_ADMIN según
+servicio global
+
+\textbf{Gestor de proceso }: Solo si dispone también de lectura
+aplicable
+
+\textbf{Cuenta técnica }: Servicio de catálogo rechaza actor técnico
+
+\medskip\hrule\medskip
+
+\textbf{Recurso / operación }: Crear/editar/estado catálogo
+
+\textbf{Sin sesión }: Denegar
+
+\textbf{Lector con ámbito }: Denegar sin CAREER\_ADMIN
+
+\textbf{Administrador funcional de catálogo }: Permitir con
+validaciones, CSRF y revisión cuando corresponde
+
+\textbf{Gestor de proceso }: PROCESS\_MANAGE no concede CAREER\_ADMIN
+
+\textbf{Cuenta técnica }: Denegar
+
+\medskip\hrule\medskip
+
+\textbf{Recurso / operación }: Preparar proceso
+
+\textbf{Sin sesión }: Denegar
+
+\textbf{Lector con ámbito }: Denegar sin capacidad
+
+\textbf{Administrador funcional de catálogo }: CAREER\_ADMIN por sí solo
+no habilita
+
+\textbf{Gestor de proceso }: PROCESS\_MANAGE y ámbito de carrera,
+carrera/unidad/modelo válidos
+
+\textbf{Cuenta técnica }: Denegar
+
+\medskip\hrule\medskip
+
+\textbf{Recurso / operación }: Consultar proceso
+
+\textbf{Sin sesión }: Denegar
+
+\textbf{Lector con ámbito }: Según capacidades y ámbito implementados
+
+\textbf{Administrador funcional de catálogo }: No acceso universal por
+administrar catálogo
+
+\textbf{Gestor de proceso }: Según permiso del proceso
+
+\textbf{Cuenta técnica }: Denegar
+
+\medskip\hrule\medskip
+
+\textbf{Recurso / operación }: Autorizar institucionalmente
+
+\textbf{Sin sesión }: Fuera del incremento
+
+\textbf{Lector con ámbito }: No inferir
+
+\textbf{Administrador funcional de catálogo }: No inferir por rol
+técnico
+
+\textbf{Gestor de proceso }: PROCESS\_MANAGE no equivale a autoridad
+institucional
+
+\textbf{Cuenta técnica }: No inferir
+
+\medskip\hrule\medskip
+
+La matriz resume código visible; cada caso debe probarse con fixtures.
+No se asignan personas/órganos institucionales sin validación.
+\chapter{Hallazgos académicos, controles y trazabilidad --- Semanas
+4--5}\label{ACD4-semana-4-anexo1-hallazgos-acaduxe9micos-controles-y-trazabilidad--semanas-45}
+
+Se diferencia \textbf{observación fuente comprobada}, \textbf{evidencia
+histórica de ejecución}, \textbf{riesgo potencial} y
+\textbf{vulnerabilidad confirmada mediante reproducción}. Esta revisión
+no establece nuevas vulnerabilidades confirmadas. Los puntajes
+siguientes pertenecen a escenarios de planificación AA4 y no son CVSS ni
+severidades de registros needs\_validation.
+
+\textbf{ID }: SEC-01
+
+\textbf{Activo / amenaza / causa }: A-07 / T-05; cargar procesos
+completos antes de filtrar
+
+\textbf{Evidencia concreta }: JdbcSelfAssessmentRepository.list
+selecciona sin LIMIT; SelfAssessmentService.list filtra luego
+
+\textbf{Estado de certeza }: Mecanismo fuente comprobado; agotamiento
+potencial, no reproducido
+
+\textbf{P / I / resultado / nivel de escenario }: 2 / 2 / 4 Medio:
+requiere volumen, afecta disponibilidad del listado
+
+\textbf{Control actual }: Autenticación y filtrado de visibilidad, sin
+paginación declarada
+
+\textbf{Acción, ubicación y comprobación }: Cambiar
+servicio/repositorio/contrato y cliente conjuntamente; paginar en DB
+conservando scope/total; VT-08, límite y prueba de ámbito.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: SEC-02
+
+\textbf{Activo / amenaza / causa }: A-01 / T-01; política de intentos no
+coincide literalmente con RNF-003
+
+\textbf{Evidencia concreta }: RNF-003 dice consecutivos; countFailures
+cuenta todos los fallos en ventana y no recorta tras éxito
+
+\textbf{Estado de certeza }: Discrepancia fuente comprobada; efecto de
+política requiere confirmación y prueba
+
+\textbf{P / I / resultado / nivel de escenario }: 2 / 2 / 4 Medio:
+secuencia razonable, puede limitar acceso legítimo; no es bypass probado
+
+\textbf{Control actual }: Limitación por sujeto, auditoría y errores
+uniformes
+
+\textbf{Acción, ubicación y comprobación }: Confirmar acumulados vs
+consecutivos; después corregir requisito o consulta/servicio y test
+fallo-éxito-fallo. No cambiar política unilateralmente. VT-03.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: SEC-03
+
+\textbf{Activo / amenaza / causa }: A-02/06 / T-04; transportar sesión
+sin condiciones de producción
+
+\textbf{Evidencia concreta }: application.yml local false;
+application-prod.yml true; SessionCookie usa propiedad
+
+\textbf{Estado de certeza }: Riesgo condicionado a despliegue; no
+exposición productiva comprobada
+
+\textbf{P / I / resultado / nivel de escenario }: 1 / 3 / 3 Medio: exige
+configuración equivocada, comprometería sesión
+
+\textbf{Control actual }: Perfil prod y flag Secure,
+HttpOnly/SameSite=Lax
+
+\textbf{Acción, ubicación y comprobación }: Verificar configuración
+efectiva, TLS/proxy y cookie en entorno aislado; rechazo de
+demo/credenciales reales en imagen. VT-09.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: SEC-04
+
+\textbf{Activo / amenaza / causa }: A-08 / T-09; 401 sin
+WWW-Authenticate
+
+\textbf{Evidencia concreta }: AccessProblemWriter no lo establece; APE3
+HTTP-01/21 no lo registró
+
+\textbf{Estado de certeza }: Observación de protocolo apoyada por
+fuente/muestra previa; no explotación
+
+\textbf{P / I / resultado / nivel de escenario }: 1 / 1 / 1 Bajo:
+impacto observado de interoperabilidad, sin bypass
+
+\textbf{Control actual }: 401 y cuerpo seguro/correlación
+
+\textbf{Acción, ubicación y comprobación }: Resolver desafío compatible
+con mecanismo elegido; probar header y no enumeración VT-01/02. No
+añadir JWT/Bearer por conveniencia.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: SEC-05
+
+\textbf{Activo / amenaza / causa }: A-01/07 / T-08; admisión distribuida
+de intentos costosos
+
+\textbf{Evidencia concreta }: SessionService cuenta por subject y
+calcula BCrypt; sourceKey registrado no equivale a throttling
+
+\textbf{Estado de certeza }: Riesgo potencial; controles de
+proxy/operación no observados
+
+\textbf{P / I / resultado / nivel de escenario }: 2 / 2 / 4 Medio:
+múltiples sujetos pueden aumentar coste, sin DoS demostrado
+
+\textbf{Control actual }: Límite por cuenta y ventana; hash ficticio
+evita respuesta diferencial simple
+
+\textbf{Acción, ubicación y comprobación }: Propietario debe confirmar
+límites globales; ensayo acotado con límites de CPU/tiempo, sin
+inundación. VT-10.
+
+\medskip\hrule\medskip
+
+La prioridad de ejecución de controles de identidad T-01 es alta por el
+activo, aunque SEC-02/05 no sean vulnerabilidades explotadas
+confirmadas. No se clasifica todo como alto/crítico. Los niveles 1--2
+Bajo, 3--4 Medio, 6 Alto y 9 Crítico se aplican exactamente como AA4.
+
+\section{Matriz SDD}\label{ACD4-semana-4-anexo1-matriz-sdd}
+
+\textbf{Amenaza / hallazgo }: T-01 / SEC-02/05
+
+\textbf{Requisito / criterio previo }: AA-RF-01; AA-RNF-01/02; RNF-003;
+AC-AA-01/02
+
+\textbf{Componente / endpoint }: Identidad; POST sessions
+
+\textbf{Control }: BCrypt, ventana, sesión aleatoria revocable
+
+\textbf{Prueba / evidencia }: SessionServiceTest existe; APE3 HTTP-02;
+VT-01--03 planificados
+
+\textbf{Corrección y estado }: Confirmación de política y validación
+pendientes.
+
+\medskip\hrule\medskip
+
+\textbf{Amenaza / hallazgo }: T-02
+
+\textbf{Requisito / criterio previo }: AA-RF-04/07/12; AC-AA-06/13/24
+
+\textbf{Componente / endpoint }: Catálogo/procesos;
+detalle/listados/mutación
+
+\textbf{Control }: ScopeAuthorizationService, chequeo por objeto
+
+\textbf{Prueba / evidencia }: CareerAdministrationServiceTest; VT-04/05
+pendientes de nueva ejecución
+
+\textbf{Corrección y estado }: Sin nueva omisión confirmada en este
+recorte; mantener regresión.
+
+\medskip\hrule\medskip
+
+\textbf{Amenaza / hallazgo }: T-03
+
+\textbf{Requisito / criterio previo }: AA-RF-08; AA-RNF-05; AC-AA-14/15
+
+\textbf{Componente / endpoint }: PATCH careers
+
+\textbf{Control }: CSRF y If-Match
+
+\textbf{Prueba / evidencia }: APE3 HTTP-04/09--12; VT-06/07
+
+\textbf{Corrección y estado }: Revisión secuencial previa; prueba
+concurrente pendiente.
+
+\medskip\hrule\medskip
+
+\textbf{Amenaza / hallazgo }: T-04/07 / SEC-03
+
+\textbf{Requisito / criterio previo }: AA-RNF-03; RNF-005; VC-AA-03
+
+\textbf{Componente / endpoint }: Configuración/cookie/despliegue
+
+\textbf{Control }: prod, env, .gitignore
+
+\textbf{Prueba / evidencia }: Escaneo acotado y fuente; VT-09
+
+\textbf{Corrección y estado }: Sin secreto real confirmado; TLS y
+entorno efectivo no comprobados.
+
+\medskip\hrule\medskip
+
+\textbf{Amenaza / hallazgo }: T-05 / SEC-01
+
+\textbf{Requisito / criterio previo }: AA-RNF-04/10; VC-AA-04/10
+
+\textbf{Componente / endpoint }: GET processes, repositorio
+
+\textbf{Control }: Filtro de ámbito; límites pendientes
+
+\textbf{Prueba / evidencia }: Fuente; VT-08
+
+\textbf{Corrección y estado }: Cambio compatible de paginación
+planificado, no implementado.
+
+\medskip\hrule\medskip
+
+\textbf{Amenaza / hallazgo }: T-06
+
+\textbf{Requisito / criterio previo }: AA-RF-13; AA-RNF-06/07; AC-AA-25
+
+\textbf{Componente / endpoint }: Auditoría y mutaciones
+
+\textbf{Control }: Transacción y registro
+
+\textbf{Prueba / evidencia }: SelfAssessmentAuditServiceTest existe;
+VT-11
+
+\textbf{Corrección y estado }: Inyección de fallo no ejecutada.
+
+\medskip\hrule\medskip
+
+\textbf{Amenaza / hallazgo }: T-09 / SEC-04
+
+\textbf{Requisito / criterio previo }: AA-RF-14; AA-RNF-10; AC-AA-26;
+HTTP-AA-01
+
+\textbf{Componente / endpoint }: Handlers/writer; respuestas
+400/401/403/404/409/500
+
+\textbf{Control }: Problem Details, código/correlación
+
+\textbf{Prueba / evidencia }: APE3 JSON y VT-01/12
+
+\textbf{Corrección y estado }: Contrato universal y desafío pendientes;
+AA3 ADR propuesto, no aplicado.
+
+\medskip\hrule\medskip
+
+\section{Inventario de verificación a ejecutar en sandbox
+conforme}\label{ACD4-semana-4-anexo1-inventario-de-verificaciuxf3n-a-ejecutar-en-sandbox-conforme}
+
+\textbf{ID }: VT-01
+
+\textbf{Caso y resultado que debe comprobarse }: Sesión ausente: 401,
+cuerpo seguro, desafío válido según decisión
+
+\textbf{Fuente o prueba existente
+}: SecurityConfiguration/AccessProblemWriter; prueba académica propuesta
+
+\textbf{Estado actual }: Muestra previa 401; desafío ausente; nueva
+regresión sin ejecutar.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: VT-02
+
+\textbf{Caso y resultado que debe comprobarse }: Credenciales
+válidas/incorrectas/desconocidas: éxito solo válido y fallo uniforme
+
+\textbf{Fuente o prueba existente }: SessionServiceTest,
+unknownAndWrongCredentialsShareTheSameFailureCode
+
+\textbf{Estado actual }: Test fuente existente; no se ejecutó en Semana
+4.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: VT-03
+
+\textbf{Caso y resultado que debe comprobarse }: Expiración
+antes/después de 30 min, revocación y secuencia de fallos
+
+\textbf{Fuente o prueba existente }: SessionServiceTest; reloj
+controlado
+
+\textbf{Estado actual }: No esperar 30 min ni manipular cuentas reales;
+nueva ejecución pendiente.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: VT-04
+
+\textbf{Caso y resultado que debe comprobarse }: Lector A no obtiene
+carrera B ni total/lista ajenos
+
+\textbf{Fuente o prueba existente }: CareerAdministrationServiceTest y
+prueba HTTP propuesta
+
+\textbf{Estado actual }: Control fuente y prueba existente; sin nueva
+reproducción.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: VT-05
+
+\textbf{Caso y resultado que debe comprobarse }: Lector o cuenta técnica
+no cambia catálogo
+
+\textbf{Fuente o prueba existente }: Servicio +
+ScopeAuthorizationServiceTest
+
+\textbf{Estado actual }: Nueva ejecución pendiente.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: VT-06
+
+\textbf{Caso y resultado que debe comprobarse }: Mutación autenticada
+sin CSRF devuelve 403
+
+\textbf{Fuente o prueba existente }: APE3 HTTP-04
+
+\textbf{Estado actual }: Evidencia histórica, no campaña nueva.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: VT-07
+
+\textbf{Caso y resultado que debe comprobarse }: DTO inválido 400;
+duplicado 409; If-Match ausente 428/viejo 412; fechas/relaciones
+inválidas
+
+\textbf{Fuente o prueba existente }: APE3 casos y
+CareerControllerTest/CareerTest
+
+\textbf{Estado actual }: Parcial histórico; reglas faltantes pendientes.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: VT-08
+
+\textbf{Caso y resultado que debe comprobarse
+}: Página/límite/ámbito/total de procesos y recursos usados
+
+\textbf{Fuente o prueba existente }: Contrato/servicio/repositorio a
+refinar
+
+\textbf{Estado actual }: Sin paginación nueva ni carga ejecutada.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: VT-09
+
+\textbf{Caso y resultado que debe comprobarse }: TLS/cookie efectiva,
+demo false, secretos externos y ausencia en logs/imagen
+
+\textbf{Fuente o prueba existente }: Configuración prod y despliegue
+propuesto
+
+\textbf{Estado actual }: Solo revisión estática; no despliegue
+observado.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: VT-10
+
+\textbf{Caso y resultado que debe comprobarse }: Admisión de login con
+límites globales razonables
+
+\textbf{Fuente o prueba existente }: Servicio y posible proxy del
+propietario
+
+\textbf{Estado actual }: Sin load test, sin límite global comprobado.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: VT-11
+
+\textbf{Caso y resultado que debe comprobarse }: Fallo de auditoría no
+presenta cambio crítico completado
+
+\textbf{Fuente o prueba existente }: AuditPort, tests relacionados
+
+\textbf{Estado actual }: Pendiente de fixture con fallo controlado.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: VT-12
+
+\textbf{Caso y resultado que debe comprobarse }: 204 sin cuerpo,
+errores/correlación sin secretos; schema real aceptado
+
+\textbf{Fuente o prueba existente }: APE3 HTTP-20 y errores; OpenAPI/AA3
+
+\textbf{Estado actual }: Histórico parcial; sobre universal sin
+implementar.
+
+\medskip\hrule\medskip
+
+\section{Correcciones y revisión
+cruzada}\label{ACD4-semana-4-anexo1-correcciones-y-revisiuxf3n-cruzada}
+
+No hay corrección de código de seguridad nueva ejecutada y validada en
+estas entregas. El rechazo 409 de modelo legado de APE3 llevó a corregir
+un escenario/contrato, pero \textbf{no es evidencia de parche de
+seguridad de APE4}. CF-04-01 queda reservado para una regresión real,
+cambio y reejecución; no se rellena con un resultado ficticio.
+
+\textbf{Registro }: CRUZADA-04-01
+
+\textbf{Amenaza / observación recibida }: Pendiente de otro
+integrante/equipo identificado y fecha real
+
+\textbf{Decisión / mitigación / artefacto }: Registrar qué cambia o por
+qué se mantiene, responsable, requisito/componente/endpoint y commit
+
+\textbf{Estado }: No realizada ni atribuida.
+
+\medskip\hrule\medskip
+
+\textbf{Registro }: CF-04-01
+
+\textbf{Amenaza / observación recibida }: Pendiente de fallo de prueba o
+hallazgo validado
+
+\textbf{Decisión / mitigación / artefacto }: Registrar
+antes\ensuremath{\rightarrow}parche\ensuremath{\rightarrow}después y evidencia reproducible
+
+\textbf{Estado }: No implementada/verificada.
+
+\medskip\hrule\medskip
+
+La corrección documental, el escaneo acotado y la preparación de
+tests/configuración sí están realizados; no sustituyen una mitigación
+funcional demostrada.
+\chapter{Fuentes compartidas --- Semanas 4 y
+5}\label{ACD4-semana-4-anexo2-fuentes-compartidas--semanas-4-y-5}
+
+\section{Evidencia del
+repositorio}\label{ACD4-semana-4-anexo2-evidencia-del-repositorio}
+
+\textbf{ID }: F-01
+
+\textbf{Rutas desde la raíz / símbolo relevante
+}: \path|docs/requirements/spec.md|, RNF-001--005/011--014/017--019;
+\path|documentos-academicos/AA2-semana-2/DOSSIER_REQUISITOS_AA2.md|;
+\path|documentos-academicos/APE3-semana-3/TRAZABILIDAD.md|
+
+\textbf{Relación y límite }: Requisitos, AC y verificaciones. No
+inventar aprobaciones institucionales.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: F-02
+
+\textbf{Rutas desde la raíz / símbolo relevante
+}: \path|backend/src/main/java/ec/edu/unl/sec/identityaccess/application/SessionService.java|,
+login/authenticateForRequest/logout;
+\path|backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SessionCookie.java|;
+\path|backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SessionAuthenticationFilter.java|
+
+\textbf{Relación y límite }: Sesión aleatoria, hashes, expiración,
+cookie y CSRF propio. No deducir ausencia de CSRF por deshabilitar el
+mecanismo estándar.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: F-03
+
+\textbf{Rutas desde la raíz / símbolo relevante
+}: \path|backend/src/main/java/ec/edu/unl/sec/identityaccess/application/ScopeAuthorizationService.java|;
+\path|backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SecurityConfiguration.java|;
+\path|backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java|,
+countFailures
+
+\textbf{Relación y límite }: Capacidad/ámbito y política de
+autenticación; countFailures no recorta tras éxito.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: F-04
+
+\textbf{Rutas desde la raíz / símbolo relevante
+}: \path|backend/src/main/java/ec/edu/unl/sec/selfassessment/api/CareerController.java|;
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/application/CareerAdministrationService.java|;
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/Career.java|;
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/infrastructure/JdbcCareerCatalogRepository.java|
+
+\textbf{Relación y límite }: Validación sintáctica/de negocio,
+normalización, unicidad, visibilidad, revisiones y auditoría.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: F-05
+
+\textbf{Rutas desde la raíz / símbolo relevante
+}: \path|backend/src/main/java/ec/edu/unl/sec/selfassessment/api/SelfAssessmentController.java|;
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/application/SelfAssessmentService.java|,
+list/create;
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/infrastructure/JdbcSelfAssessmentRepository.java|,
+list
+
+\textbf{Relación y límite }: Preparación y consulta; listado materializa
+sin LIMIT antes de filtrar. DoS no demostrado.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: F-06
+
+\textbf{Rutas desde la raíz / símbolo relevante
+}: \path|backend/src/main/resources/application.yml|;
+\path|backend/src/main/resources/application-prod.yml|;
+\path|backend/.env.example|; \path|.gitignore|;
+\path|.github/workflows/backend-ci.yml|
+
+\textbf{Relación y límite }: Perfil, parámetros, variables y CI manual
+con PostgreSQL/contraseña sintética. Ejemplos no equivalen a
+credenciales reales ni entorno desplegado.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: F-07
+
+\textbf{Rutas desde la raíz / símbolo relevante
+}: \path|backend/src/main/java/ec/edu/unl/sec/shared/api/ApiProblemHandler.java|;
+\path|backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/AccessProblemWriter.java|;
+\path|backend/src/main/java/ec/edu/unl/sec/shared/api/EntityTagSupport.java|
+
+\textbf{Relación y límite }: Errores seguros por intención, correlación
+y precondiciones. Revisar cuerpo real; no afirmar ausencia total de
+secretos por el nombre de handler.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: F-08
+
+\textbf{Rutas desde la raíz / símbolo relevante
+}: \path|backend/src/test/java/ec/edu/unl/sec/identityaccess/application/SessionServiceTest.java|;
+\path|backend/src/test/java/ec/edu/unl/sec/identityaccess/application/ScopeAuthorizationServiceTest.java|;
+\path|backend/src/test/java/ec/edu/unl/sec/selfassessment/application/CareerAdministrationServiceTest.java|;
+\path|backend/src/test/java/ec/edu/unl/sec/selfassessment/api/CareerControllerTest.java|;
+\path|backend/src/test/java/ec/edu/unl/sec/selfassessment/domain/CareerTest.java|;
+\path|backend/src/test/java/ec/edu/unl/sec/selfassessment/application/SelfAssessmentAuditServiceTest.java|
+
+\textbf{Relación y límite }: Tests existentes inspeccionados; no
+ejecutados nuevamente en Semanas 4--5.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: F-09
+
+\textbf{Rutas desde la raíz / símbolo relevante
+}: \path|documentos-academicos/APE3-semana-3/evidencias/http-resultados.json|;
+\path|pruebas-maven.json|; \path|http-intento-inicial.json|;
+\path|esquemas-resultados.json|, bajo la misma carpeta
+
+\textbf{Relación y límite }: Evidencia previa, 22 casos HTTP finales y
+23 tests seleccionados. Muestras no son nuevas pruebas APE4, ni cubren
+toda seguridad.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: F-10
+
+\textbf{Rutas desde la raíz / símbolo relevante
+}: \path|documentos-academicos/APE3-semana-3/arquitectura/workspace.dsl|;
+\path|documentos-academicos/APE3-semana-3/contratos/openapi-observado.yaml|;
+\path|openapi-objetivo.yaml| en la misma carpeta contratos;
+\path|documentos-academicos/AA3-semana-3/ADR-AA3-001-adaptacion-respuestas-api.md|
+
+\textbf{Relación y límite }: C4, contrato real/objetivo y propuesta;
+sobre universal y DRF pendientes.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: F-11
+
+\textbf{Rutas desde la raíz / símbolo relevante
+}: \path|securityOutputs/run-1/run-metadata.json|;
+\path|securityOutputs/run-1/findings.json|;
+\path|securityOutputs/run-1/coverage-ledger.json|
+
+\textbf{Relación y límite }: Antecedente incompleto de otro commit;
+siete needs\_validation, ninguno confirmado. No heredar conclusión ni
+severidad sin revalidación independiente.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: F-12
+
+\textbf{Rutas desde la raíz / símbolo relevante
+}: \path|backend/pom.xml|; \path|.specify/memory/constitution.md|;
+\path|docs/adr/0001-modular-monolith.md|;
+\path|docs/adr/0018-catalog-contract-migration-compatibility.md|;
+\path|docs/technical/quickstart.md|
+
+\textbf{Relación y límite }: Stack real Java21/Boot4.1.1 configurados,
+límites SDD/compatibilidad y operación existente. JDK local25 no
+redefine nivel de compilación.
+
+\medskip\hrule\medskip
+
+Los archivos auxiliares nuevos de APE4/APE5 son propuestas de
+tests/configuración. Una comprobación de sintaxis de Python/YAML o un
+manifiesto no prueba autenticación, aislamiento, build,
+contenedorización ni despliegue.
+
+\section{Referencias oficiales
+consultadas}\label{ACD4-semana-4-anexo2-referencias-oficiales-consultadas}
+
+\textbf{ID }: O-01
+
+\textbf{Referencia
+}: \href{https://api-security.owasp.org/editions/2023/en/0xa1-broken-object-level-authorization/}{OWASP
+API1:2023 BOLA}
+
+\textbf{Uso acotado }: Revisar autorización por objeto, no solo sesión o
+UUID.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: O-02
+
+\textbf{Referencia
+}: \href{https://api-security.owasp.org/editions/2023/en/0xa4-unrestricted-resource-consumption/}{OWASP
+API4:2023 Resource Consumption}
+
+\textbf{Uso acotado }: Analizar límites de listado y coste de
+peticiones; no demuestra DoS del proyecto.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: O-03
+
+\textbf{Referencia
+}: \href{https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html}{OWASP
+Authentication}, Login Throttling / Responses
+
+\textbf{Uso acotado }: Política por cuenta y respuesta uniforme; un
+registro de IP no equivale a admisión global limitada.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: O-04
+
+\textbf{Referencia
+}: \href{https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html}{OWASP
+Session Management}, Cookies / Expiration
+
+\textbf{Uso acotado }: Revisar Secure/HttpOnly/SameSite y expiración; el
+entorno efectivo importa.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: O-05
+
+\textbf{Referencia
+}: \href{https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html}{OWASP
+Authorization}, Least Privileges / Every Request
+
+\textbf{Uso acotado }: Denegar por defecto y verificar permiso de cada
+operación/recurso.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: O-06
+
+\textbf{Referencia
+}: \href{https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html}{OWASP
+Secrets Management}
+
+\textbf{Uso acotado }: Gestión externa, alcance y ciclo de vida; no
+publicar los valores hallados.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: O-07
+
+\textbf{Referencia
+}: \href{https://cheatsheetseries.owasp.org/cheatsheets/Error_Handling_Cheat_Sheet.html}{OWASP
+Error Handling}
+
+\textbf{Uso acotado }: Diagnóstico con información pública acotada;
+separar registro técnico del cuerpo de respuesta.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: O-08
+
+\textbf{Referencia
+}: \href{https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html}{OWASP
+Input Validation}
+
+\textbf{Uso acotado }: Validación sintáctica y semántica; no sustituye
+permisos.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: O-09
+
+\textbf{Referencia
+}: \href{https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool-threats}{Microsoft:
+amenazas STRIDE}
+
+\textbf{Uso acotado }: Estructura de amenazas pertinentes, sin forzar
+categorías vacías.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: D-01
+
+\textbf{Referencia
+}: \href{https://docs.docker.com/reference/compose-file/services/}{Docker
+Compose: services}
+
+\textbf{Uso acotado }: Configuración de servicio, límites,
+usuario/volúmenes; debe validarse con motor/versiones.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: D-02
+
+\textbf{Referencia
+}: \href{https://docs.docker.com/reference/compose-file/networks/}{Docker
+Compose: networks}, internal
+
+\textbf{Uso acotado }: Red interna propuesta; no certifica sandbox o
+host.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: D-03
+
+\textbf{Referencia
+}: \href{https://raw.githubusercontent.com/docker-library/docs/master/postgres/README.md}{Imagen
+oficial PostgreSQL}, PGDATA
+
+\textbf{Uso acotado }: Montaje PostgreSQL18 bajo /var/lib/postgresql;
+verificar imagen fijada y migración.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: D-04
+
+\textbf{Referencia
+}: \href{https://docs.spring.io/spring-boot/reference/packaging/container-images/index.html}{Spring
+Boot: Container Images}
+
+\textbf{Uso acotado }: Dockerfile/Buildpacks como opciones; página
+consultada identifica Boot4.1.2, no actualiza el POM4.1.1.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: D-05
+
+\textbf{Referencia
+}: \href{https://docs.pytest.org/en/stable/how-to/skipping.html}{pytest:
+skip y xfail}
+
+\textbf{Uso acotado }: Una omisión es limitación, no test satisfactorio.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: H-01
+
+\textbf{Referencia
+}: \href{https://www.rfc-editor.org/rfc/rfc9110.html}{RFC9110},
+§§9/15.5.2; \href{https://www.rfc-editor.org/rfc/rfc9457.html}{RFC9457}
+
+\textbf{Uso acotado }: Semántica HTTP, desafío401 y Problem Details;
+sobre académico distinto. Revisadas en actividades previas.
+
+\medskip\hrule\medskip
+
+Estas fuentes guían el análisis; no se copian listas OWASP como
+hallazgos. Las inferencias locales y las valoraciones P/I se identifican
+en las matrices. No se investigaron CVE nuevas ni se hizo una SCA
+transitiva completa; no se certifican dependencias por no encontrar
+patrones de secretos.
+
+\section{Ejecución y
+límites}\label{ACD4-semana-4-anexo2-ejecuciuxf3n-y-luxedmites}
+
+La habilidad de seguridad exige aislamiento OS con
+red/entorno/escrituras/recursos restringidos. Docker y Podman no estaban
+disponibles; WSL visible no acredita por sí solo una distribución
+aislada configurada. El proceso de auditoría queda incompleto por esa
+capacidad y no ejecuta código del target. Se conservaron metadatos de
+escaneo confiable de texto y antecedentes; no se realizaron ataques ni
+pruebas en servicios ajenos.
+
+Las actividades académicas contienen propuestas y análisis completos
+hasta donde hay evidencia, pero las partes de implementación,
+reejecución y despliegue siguen pendientes. No se produjeron
+aprobaciones, correcciones funcionales, commits o feedback grupal
+ficticios.
+\chapter{ACD4 ? Evidencia individual por
+completar}\label{ACD4-semana-4-anexo3-acd4--evidencia-individual-por-completar}
+
+Estudiante, equipo y fecha real: pendientes. Este archivo no acredita
+participacion presencial, implementacion o validacion personal.
+
+\section{Material
+preparado}\label{ACD4-semana-4-anexo3-material-preparado}
+
+Modelo de amenazas y revision de seguridad. Revisar el informe y sus
+fuentes; seleccionar una cadena requisito/control/contrato/prueba y
+explicar la decision con palabras propias. Las matrices y recetas son
+preparacion asistida; los resultados APE3 conservan su procedencia.
+
+\section{Registro personal
+real}\label{ACD4-semana-4-anexo3-registro-personal-real}
+
+\begin{itemize}
+\tightlist
+\item
+  Elemento revisado y fuente exacta: pendiente.
+\item
+  Amenaza, requisito, estandar o decision analizados: pendiente.
+\item
+  Cambio realizado personalmente y justificacion: pendiente.
+\item
+  Prueba/entorno/resultado efectivamente ejecutados: pendiente.
+\item
+  Observacion recibida, persona/rol y uso: pendiente.
+\item
+  Commit, PR, acta o historial verificable: pendiente.
+\end{itemize}
+
+No declarar un test omitido como satisfactorio, una configuracion
+propuesta como despliegue ni una correccion documental como parche de
+seguridad. El commit base del manifiesto no acredita aporte individual a
+esta actividad.
+
+\end{document}

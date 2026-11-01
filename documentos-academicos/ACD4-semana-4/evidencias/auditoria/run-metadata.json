@@ -1,0 +1,33 @@
+{
+  "run_id": "academic-week4-source-review",
+  "repo": "SIGEAC",
+  "target": "C:\\Users\\Det-Pc\\OneDrive\\Desktop\\SIGEAC",
+  "source_ref": {
+    "commit": "8ec04b78bd81523253b8892ca26b7d8b1a64d249",
+    "dirty": true,
+    "scope": "working tree source; academic artifacts untracked"
+  },
+  "profile": "quick",
+  "scope_paths": [
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment",
+    "backend/src/main/resources",
+    "backend/src/test/java/ec/edu/unl/sec/identityaccess",
+    ".github/workflows"
+  ],
+  "budget": null,
+  "execution_policy": "sandboxed-source-and-local-only",
+  "target_execution_performed": false,
+  "prior_run_paths": [
+    "securityOutputs/run-1"
+  ],
+  "shared_file_owners": {
+    "parent": "root"
+  },
+  "run_status": "incomplete",
+  "incomplete_reason": "OS_enforced_execution_sandbox_not_established_before_full_audit_setup",
+  "independent_validation_complete": false,
+  "new_confirmed_findings": 0,
+  "coverage_claim": "academic source-focused analysis only; no complete audit coverage claim",
+  "recorded_at_utc": "2026-11-01T18:20:22.159954+00:00"
+}

@@ -1,0 +1,86 @@
+{
+  "artifact": "APE5-semana-5",
+  "created_at_utc": "2026-11-01T18:36:02.029552+00:00",
+  "source_commit": "8ec04b78bd81523253b8892ca26b7d8b1a64d249",
+  "scope": "Academic documentation and proposed artifacts; not a completed implementation, security audit, test campaign or deployment",
+  "template": "FORMATOAPE.tex",
+  "template_sha256": "8e5f8f4da3167de3d6e81a5de9b8ccd76c9f4e6eec4b8fce5ab44cff5a0b966d",
+  "shared_manifest": "../soporte-semanas-4-5/evidencias/manifest.json",
+  "shared_manifest_sha256": "4cfb25a1f4d24d0ad73981db0e1d2d91f3562ccd174da4f79301dd61cf0c6da3",
+  "business_tests_run": false,
+  "target_code_executed": false,
+  "functional_security_patch_validated": false,
+  "image_built": false,
+  "deployment_url": null,
+  "published": false,
+  "tex_compiled": false,
+  "git_commit_created": false,
+  "human_participation_verified": false,
+  "files": [
+    {
+      "path": "APE5_INTEGRACION_CONTENEDORES_DESPLIEGUE.md",
+      "bytes": 6808,
+      "sha256": "627369f513cb76ee03c9a534bc7d06dcbdbe2fd1230713ef44961420ea22a7dc"
+    },
+    {
+      "path": "APE5_INTEGRACION_CONTENEDORES_DESPLIEGUE.tex",
+      "bytes": 13281,
+      "sha256": "9091cfa43173119aefc01a63a448c6dae253638097c67fdeba0859d98de97141"
+    },
+    {
+      "path": "despliegue/.env.example",
+      "bytes": 159,
+      "sha256": "0fa04d1fc0cb9a76c014ae3105abfa4ababdb8b44cfeafd3cd99f1ece6875129"
+    },
+    {
+      "path": "despliegue/.gitignore",
+      "bytes": 34,
+      "sha256": "64d7609cf9474cdd924f597862d98a58da78a577f10bbfee2b445ec7b7fd2950"
+    },
+    {
+      "path": "despliegue/compose.yaml",
+      "bytes": 1797,
+      "sha256": "22530cdf8c323ba29516b3a50d7eb7a3807727d89b6e87113d101f6953772680"
+    },
+    {
+      "path": "despliegue/context/.dockerignore",
+      "bytes": 11,
+      "sha256": "e94036fd3fa3877bad72e36cdfcef0ae61df607e56a7cd3d3992457ee7d638e2"
+    },
+    {
+      "path": "despliegue/Dockerfile",
+      "bytes": 337,
+      "sha256": "b5928e8ef3f44ef475c75cdea529154f985b51123dd7655578312d5f2455d152"
+    },
+    {
+      "path": "evidencias/estado-despliegue.json",
+      "bytes": 432,
+      "sha256": "b728258042f0f8869ca01bae176b0b6fcdfe73c776e6ed26acd2d2ad7f581cbc"
+    },
+    {
+      "path": "INSTRUCCIONES_DESPLIEGUE.md",
+      "bytes": 5838,
+      "sha256": "c2faf844ca074ba9540974cce455f9715c540e0b61aae0a283d1aca9159f8d28"
+    },
+    {
+      "path": "NOTA_INDIVIDUAL.md",
+      "bytes": 1092,
+      "sha256": "79436b5158ea4db2bcf678ec54c70383edff1dbcaeb45e316120f5d53318aeb9"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1268,
+      "sha256": "53e4db92895c6d4a2fd713c066daae56258c1e62395773a67f15c0a85c04cd52"
+    },
+    {
+      "path": "referencias.bib",
+      "bytes": 1454,
+      "sha256": "3e0b85a543093d044e7340a460b40da0c6e08521912d25f59073b7042466a123"
+    },
+    {
+      "path": "reporte_tecnico_overleaf_logo.png",
+      "bytes": 170221,
+      "sha256": "e9217d666d42d3c73f066e1c3e55940c0b2a42ae4043701d10f7e112d34c0a26"
+    }
+  ]
+}

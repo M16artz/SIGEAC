@@ -1,0 +1,351 @@
+
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{makecell}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{helvet}
+\usepackage{ragged2e}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{xurl}
+\usepackage{microtype}
+\usepackage{float}
+\emergencystretch=2em
+\renewcommand{\familydefault}{\sfdefault}
+\geometry{a4paper,left=3cm,right=3cm,top=2.35cm,bottom=2.35cm,headheight=1.9cm,headsep=0.45cm}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.3em}
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\IfFileExists{reporte_tecnico_overleaf_logo.png}{\includegraphics[height=1.35cm]{reporte_tecnico_overleaf_logo.png}}{\small Universidad Nacional de Loja}}
+\fancyhead[R]{\small FEIRNNR -- Carrera de Computación}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+\titleformat{\section}{\bfseries\fontsize{15}{17}\selectfont}{\thesection.}{0.8em}{}
+\titlespacing*{\section}{0pt}{1.0ex}{0.3ex}
+\newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+\lstset{basicstyle=\ttfamily\footnotesize,breaklines=true,frame=single,showstringspaces=false,columns=fullflexible}
+\hypersetup{hidelinks}
+
+\usepackage{calc}
+\usepackage{fvextra}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\begin{document}
+\thispagestyle{fancy}
+\begin{center}
+{\bfseries\fontsize{21}{24}\selectfont Reporte Técnico de Actividades\\ Práctico-Experimentales Nro. 005\par}
+\vspace{0.25cm}
+{\large Integración, contenedorización y despliegue del backend}
+\end{center}
+
+\section{Datos de Identificación del Estudiante y la Práctica}
+\begin{tabularx}{\textwidth}{|L{0.43\textwidth}|Y|}
+\hline
+\textbf{Nombre del estudiante(s)} & [PENDIENTE: integrantes reales] \\ \hline
+\textbf{Asignatura} & Desarrollo Basado en Plataformas (referencia APE4; confirmar) \\ \hline
+\textbf{Ciclo} & 5 A (referencia APE4) \\ \hline
+\textbf{Unidad} & 1 (referencia APE4) \\ \hline
+\textbf{Resultado de aprendizaje} & No aportado específicamente en la guía resumida de APE5. \\ \hline
+\textbf{Práctica Nro.} & 005 \\ \hline
+\textbf{Título de la Práctica} & Integración, contenedorización y despliegue del backend \\ \hline
+\textbf{Nombre del Docente} & Edison Leonardo Coronel Romero (referencia APE4; confirmar) \\ \hline
+\textbf{Fecha} & Semana 5; [PENDIENTE: fecha real] \\ \hline
+\textbf{Horario} & No especificado en la guía resumida; pendiente. \\ \hline
+\textbf{Lugar} & No especificado en la guía resumida; pendiente. \\ \hline
+\textbf{Tiempo planificado en el Sílabo} & 3 horas \\ \hline
+\end{tabularx}
+\textbf{Estado:} preparación documental y artefactos; ejecución funcional, corrección y despliegue pendientes.\par
+
+\section{Objetivo(s) de la
+Práctica}\label{APE5-semana-5-objetivos-de-la-pruxe1ctica}
+
+Integrar, contenedorizar y desplegar el backend; publicar documentación
+de API y evidencias de pruebas; mantener producto versionado,
+instrucciones reproducibles y contribución explicada. La guía se recibió
+resumida, por lo que esta organización desarrolla sus puntos sin
+inventar un procedimiento oficial numerado ni preguntas de control no
+aportadas.
+
+\section{Materiales, Reactivos, Equipos y
+Herramientas}\label{APE5-semana-5-materiales-reactivos-equipos-y-herramientas}
+
+Repositorio, especificación/arquitectura/contratos/tests anteriores;
+Java/Spring/PostgreSQL del producto; modelo de amenazas y riesgos
+Semana4. Se elaboran Dockerfile, Compose, contexto restringido y ejemplo
+env. Motor Docker/Podman no disponible, imágenes no descargadas, no
+build ni despliegue. Seguridad/DRF/sobre y aceptación PostgreSQL siguen
+abiertos. No hay proveedor, credencial de publicación ni URL desplegada
+aportados.
+
+\section{Procedimiento / Metodología
+Ejecutada}\label{APE5-semana-5-procedimiento--metodologuxeda-ejecutada}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Revisar correspondencia de flujos/requisitos y límites de evidencia
+  APE3/4.
+\item
+  Seleccionar empaquetado Spring \textbf{solo como propuesta para el
+  backend existente}, sin resolver unilateralmente DRF ni adaptar
+  cliente/contrato.
+\item
+  Preparar Dockerfile con imagen runtime por argumento, JAR explícito,
+  usuario no root y puerto8080; el contexto admite solo app.jar y no
+  incluye .git ni env del host.
+\item
+  Preparar Compose con DB PostgreSQL18 sin puerto público, red interna,
+  volumen, healthcheck, límites y API loopback18095; secrets fuera de
+  Git, prod/demo/cookie explícitos. Las imágenes deben fijarse por
+  digest y existir localmente; no se afirma esa disponibilidad.
+\item
+  Documentar construcción offline/aislada, hash/commit, migraciones,
+  fixture, TLS/cookie y permisos efectivos, backup/restauración y
+  rollback de imagen/schema; nada se ejecuta por escribir la receta.
+\item
+  Referenciar documentación de contrato existente y plan de publicación
+  estática separada. Prod deshabilita Swagger por configuración: no se
+  activa automáticamente para satisfacer ``publicar documentación''.
+\item
+  Preparar registro de estado de despliegue y checklist de aceptación;
+  sin URL ni logs de arranque nuevos. No se usa la disponibilidad local
+  temporal de APE3 como despliegue APE5.
+\end{enumerate}
+
+\url{INSTRUCCIONES_DESPLIEGUE.md} es la receta completa, con condiciones
+y comandos previstos. El motor debe validar Compose y permisos; revisar
+sintaxis YAML con una librería no equivale a
+\path|docker compose config|, build o aislamiento. Esta entrega mantiene
+la constitución: Docker no es único camino obligatorio y Actions no se
+dispara automáticamente.
+
+La propuesta usa propietarioDB para migración/arranque por simplicidad
+del fixture y lo declara: no alcanza mínimo privilegio productivo. Se
+requiere separar migrador/runtime y probar permisos antes de publicar.
+Cookie Secure=true exige TLS/proxy para un recorrido de navegador: no
+desactivarla en prod para una demo. No se incluyó un proxy/certificado
+ficticio ni se afirma CORS configurado.
+
+\section{Resultados}\label{APE5-semana-5-resultados}
+
+\textbf{Producto requerido }: Integración funcional
+
+\textbf{Evidencia disponible }: Código y resultados históricos APE3,
+matrices
+
+\textbf{Estado }: Parcial; no nueva integración ejecutada.
+
+\medskip\hrule\medskip
+
+\textbf{Producto requerido }: Contenedorización
+
+\textbf{Evidencia disponible }: Dockerfile y Compose versionables,
+contexto allowlist
+
+\textbf{Estado }: Artefactos preparados; no construidos/arrancados.
+
+\medskip\hrule\medskip
+
+\textbf{Producto requerido }: Despliegue / URL o evidencia
+
+\textbf{Evidencia disponible }: estado-despliegue.json declara ausencia
+
+\textbf{Estado }: Pendiente; localhost previsto no es URL desplegada.
+
+\medskip\hrule\medskip
+
+\textbf{Producto requerido }: Instrucciones reproducibles
+
+\textbf{Evidencia disponible }: Receta con imágenes/digests, env,
+DB/files, pruebas y rollback
+
+\textbf{Estado }: Documentadas, sin reproducción real certificada.
+
+\medskip\hrule\medskip
+
+\textbf{Producto requerido }: API y pruebas publicadas
+
+\textbf{Evidencia disponible }: Contratos locales y documentación
+existente; no hosting
+
+\textbf{Estado }: Disponibles localmente, publicación pendiente.
+
+\medskip\hrule\medskip
+
+\textbf{Producto requerido }: Repositorio versionado/aporte
+
+\textbf{Evidencia disponible }: Archivos y manifiesto; no commit/PR
+
+\textbf{Estado }: Contribución real por completar y versionar.
+
+\medskip\hrule\medskip
+
+\textbf{Producto requerido }: Seguridad básica
+
+\textbf{Evidencia disponible }: Configuración propuesta, controles
+previos y SEC pendientes
+
+\textbf{Estado }: No certificada ni cerrada.
+
+\medskip\hrule\medskip
+
+\section{Preguntas de Control}\label{APE5-semana-5-preguntas-de-control}
+
+La guía resumida de APE5 no aportó preguntas numeradas. No se inventan
+preguntas oficiales. Para revisar la reproducción: qué commit/JAR/image
+se desplegó, qué env/permisos fueron efectivos, qué flujo/pruebas
+pasaron, cómo persisten/restauran datos, y qué cambió cada integrante.
+Son preguntas de apoyo, no enunciados del docente.
+
+\section{Conclusiones}\label{APE5-semana-5-conclusiones}
+
+Se preparó un paquete de despliegue que evita enviar secretos al
+contexto y explicita dependencias/configuración. \textbf{La práctica no
+está completamente realizada:} faltan build, despliegue, pruebas,
+publicación, correcciones de seguridad y evidencia individual
+versionada. Tener un Dockerfile no equivale a un backend desplegado.
+
+\section{Recomendaciones}\label{APE5-semana-5-recomendaciones}
+
+Resolver tecnología/contrato; verificar controles pendientes; disponer
+de sandbox/motor e imágenes auditadas; reconstruir artefacto del commit
+actual; ejecutar pruebas y migraciones PostgreSQL; validar TLS/mínimo
+privilegio y restauración; publicar solo documentación/servicio
+autorizados con evidencia concreta. No limpiar volúmenes ni enviar
+secretos a logs/repo.
+
+\section{Bibliografía /
+Referencias}\label{APE5-semana-5-bibliografuxeda--referencias}
+
+\href{../soporte-semanas-4-5/FUENTES.md}{Fuentes compartidas}, D-01--04
+y F-01--12. Docker Compose/redes y PostgreSQL oficial respaldan la forma
+propuesta, no su ejecución. Documento Boot consultado4.1.2 no actualiza
+la dependencia configurada4.1.1.
+
+\nocite{*}
+\bibliographystyle{IEEEtran}
+\bibliography{referencias}
+\section{Anexos}\label{APE5-semana-5-anexos}
+
+\path|despliegue/Dockerfile|, \path|compose.yaml|, \path|.env.example|,
+\path|.gitignore|, \path|context/.dockerignore|, instrucciones, estado
+de despliegue, trazabilidad/bitácora AA5 y nota individual. No se
+entrega un JAR antiguo, una imagen no construida como si existiese ni
+una URL de producción inventada.
+
+
+
+
+
+
+\subsection{Fuente propuesta: Dockerfile}
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\footnotesize]
+# Proposal only: not built or deployed. Supply an audited locally available image.
+ARG RUNTIME_IMAGE
+FROM ${RUNTIME_IMAGE}
+WORKDIR /app
+RUN mkdir -p /data/files && chown -R 10001:10001 /data
+COPY --chown=10001:10001 app.jar /app/app.jar
+USER 10001:10001
+EXPOSE 8080
+ENTRYPOINT ["java", "-XX:MaxRAMPercentage=65", "-jar", "/app/app.jar"]
+
+\end{Verbatim}
+
+\subsection{Fuente propuesta: compose.yaml}
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\footnotesize]
+name: sigeac-academic-local
+services:
+  db:
+    image: ${POSTGRES_IMAGE:?Set an audited local PostgreSQL 18 image pinned by digest}
+    pull_policy: never
+    environment:
+      POSTGRES_DB: sec_unl
+      POSTGRES_USER: sec_owner
+      POSTGRES_PASSWORD: ${SEC_DB_PASSWORD:?Set outside version control}
+    volumes:
+      - pgdata:/var/lib/postgresql
+    networks: [backend]
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U sec_owner -d sec_unl"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    mem_limit: 512m
+    cpus: 1
+    pids_limit: 100
+    security_opt: [no-new-privileges:true]
+  api:
+    image: sigeac-academic-local:unverified
+    pull_policy: never
+    build:
+      context: ./context
+      dockerfile: ../Dockerfile
+      network: none
+      args:
+        RUNTIME_IMAGE: ${JAVA_RUNTIME_IMAGE:?Set an audited local Java 25 JRE image pinned by digest}
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SERVER_ADDRESS: 0.0.0.0
+      SEC_DB_URL: jdbc:postgresql://db:5432/sec_unl
+      SEC_DB_USER: sec_owner
+      SEC_DB_PASSWORD: ${SEC_DB_PASSWORD:?Set outside version control}
+      SEC_AUTH_HMAC_SECRET: ${SEC_AUTH_HMAC_SECRET:?Set a high entropy secret outside Git}
+      SEC_DEMO_DATA: "false"
+      SEC_COOKIE_SECURE: "true"
+      SEC_FILE_ROOT: /data/files
+      SPRINGDOC_API_DOCS_ENABLED: "false"
+      SPRINGDOC_SWAGGER_UI_ENABLED: "false"
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:18095:8080"
+    volumes:
+      - files:/data/files
+    networks: [backend]
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 768m
+    cpus: 1
+    pids_limit: 100
+networks:
+  backend:
+    internal: true
+volumes:
+  pgdata:
+  files:
+
+\end{Verbatim}
+\section{Declaración de uso de Inteligencia
+Artificial}\label{APE5-semana-5-declaraciuxf3n-de-uso-de-inteligencia-artificial}
+
+Se utilizó ChatGPT/Codex para inspeccionar fuentes y preparar
+documentos/configuración. Las comprobaciones de artefactos son estáticas
+y no validan seguridad efectiva. La contribución/aceptación humanas y la
+ejecución de build/despliegue siguen pendientes; no se atribuyen a
+integrantes desconocidos.
+
+\end{document}

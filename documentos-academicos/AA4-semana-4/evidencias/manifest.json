@@ -1,0 +1,46 @@
+{
+  "artifact": "AA4-semana-4",
+  "created_at_utc": "2026-11-01T18:36:02.029552+00:00",
+  "source_commit": "8ec04b78bd81523253b8892ca26b7d8b1a64d249",
+  "scope": "Academic documentation and proposed artifacts; not a completed implementation, security audit, test campaign or deployment",
+  "template": "FORMATO.tex",
+  "template_sha256": "fc8b87a75830dfb4e686b77ef5297b181be5ee652607e8c864d9822a226fbece",
+  "shared_manifest": "../soporte-semanas-4-5/evidencias/manifest.json",
+  "shared_manifest_sha256": "4cfb25a1f4d24d0ad73981db0e1d2d91f3562ccd174da4f79301dd61cf0c6da3",
+  "business_tests_run": false,
+  "target_code_executed": false,
+  "functional_security_patch_validated": false,
+  "image_built": false,
+  "deployment_url": null,
+  "published": false,
+  "tex_compiled": false,
+  "git_commit_created": false,
+  "human_participation_verified": false,
+  "files": [
+    {
+      "path": "AA4_INFORME_TECNICO_SEGURIDAD.md",
+      "bytes": 9556,
+      "sha256": "f6cb163cb8382f51ec24d477471ce34cc5e0eee9323baa835750b5014cc2b86c"
+    },
+    {
+      "path": "AA4_INFORME_TECNICO_SEGURIDAD.tex",
+      "bytes": 58463,
+      "sha256": "0b809b67f848c61ca4c8172d6a9044c744e00109c3d07896b92eaa42a4df3fe9"
+    },
+    {
+      "path": "NOTA_INDIVIDUAL.md",
+      "bytes": 1092,
+      "sha256": "d4e544c2bec1c7be327f70b7bc7c6d715e3ff6f7bd742dd95cacb71b3cc32cf3"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1040,
+      "sha256": "8a9aaa663f675c01f722b29ac3ec2aba1e0156bb0dd8ff4bdd16fa2d909c9c76"
+    },
+    {
+      "path": "referencias.bib",
+      "bytes": 1454,
+      "sha256": "3e0b85a543093d044e7340a460b40da0c6e08521912d25f59073b7042466a123"
+    }
+  ]
+}

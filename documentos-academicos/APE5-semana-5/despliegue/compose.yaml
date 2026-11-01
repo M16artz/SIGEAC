@@ -1,0 +1,64 @@
+name: sigeac-academic-local
+services:
+  db:
+    image: ${POSTGRES_IMAGE:?Set an audited local PostgreSQL 18 image pinned by digest}
+    pull_policy: never
+    environment:
+      POSTGRES_DB: sec_unl
+      POSTGRES_USER: sec_owner
+      POSTGRES_PASSWORD: ${SEC_DB_PASSWORD:?Set outside version control}
+    volumes:
+      - pgdata:/var/lib/postgresql
+    networks: [backend]
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U sec_owner -d sec_unl"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    mem_limit: 512m
+    cpus: 1
+    pids_limit: 100
+    security_opt: [no-new-privileges:true]
+  api:
+    image: sigeac-academic-local:unverified
+    pull_policy: never
+    build:
+      context: ./context
+      dockerfile: ../Dockerfile
+      network: none
+      args:
+        RUNTIME_IMAGE: ${JAVA_RUNTIME_IMAGE:?Set an audited local Java 25 JRE image pinned by digest}
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SERVER_ADDRESS: 0.0.0.0
+      SEC_DB_URL: jdbc:postgresql://db:5432/sec_unl
+      SEC_DB_USER: sec_owner
+      SEC_DB_PASSWORD: ${SEC_DB_PASSWORD:?Set outside version control}
+      SEC_AUTH_HMAC_SECRET: ${SEC_AUTH_HMAC_SECRET:?Set a high entropy secret outside Git}
+      SEC_DEMO_DATA: "false"
+      SEC_COOKIE_SECURE: "true"
+      SEC_FILE_ROOT: /data/files
+      SPRINGDOC_API_DOCS_ENABLED: "false"
+      SPRINGDOC_SWAGGER_UI_ENABLED: "false"
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:18095:8080"
+    volumes:
+      - files:/data/files
+    networks: [backend]
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 768m
+    cpus: 1
+    pids_limit: 100
+networks:
+  backend:
+    internal: true
+volumes:
+  pgdata:
+  files:

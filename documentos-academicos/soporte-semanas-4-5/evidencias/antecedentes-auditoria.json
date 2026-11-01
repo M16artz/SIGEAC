@@ -1,0 +1,53 @@
+{
+  "source": "securityOutputs/run-1",
+  "prior_commit": "61988addaf2611cb239574a528b3e04d486bd5e6",
+  "current_commit": "8ec04b78bd81523253b8892ca26b7d8b1a64d249",
+  "prior_status": "incomplete",
+  "prior_reason": "mandatory_cli_validators_unavailable_windows_nofollow_nonblocking",
+  "prior_record_count": 7,
+  "prior_ledger_count": 24,
+  "records": [
+    {
+      "fingerprint": "documentreview:decide:self-authorized-self-review-exception",
+      "verdict": "needs_validation",
+      "title": "La autorrevisión acepta una excepción declarada por el propio revisor",
+      "current_use": "not independently revalidated; not promoted to confirmed in this academic review"
+    },
+    {
+      "fingerprint": "documentreview:versionReview:missing-resource-authorization",
+      "verdict": "needs_validation",
+      "title": "La consulta individual de revisión documental omite la autorización del recurso",
+      "current_use": "not independently revalidated; not promoted to confirmed in this academic review"
+    },
+    {
+      "fingerprint": "evidence:draft-mutations:missing-author-check",
+      "verdict": "needs_validation",
+      "title": "Las mutaciones de cobertura y remisión omiten el control de autor del borrador",
+      "current_use": "not independently revalidated; not promoted to confirmed in this academic review"
+    },
+    {
+      "fingerprint": "identityaccess:AccessAuditController.search:scope-collapse",
+      "verdict": "needs_validation",
+      "title": "La consulta de auditoría pierde las restricciones de proceso del auditor",
+      "current_use": "not independently revalidated; not promoted to confirmed in this academic review"
+    },
+    {
+      "fingerprint": "identityaccess:IdentityAdministrationService.assign:destination-scope",
+      "verdict": "needs_validation",
+      "title": "El alta de asignaciones no comprueba la autoridad sobre el ámbito destino",
+      "current_use": "not independently revalidated; not promoted to confirmed in this academic review"
+    },
+    {
+      "fingerprint": "identityaccess:IdentityAdministrationService.assign:inline-conflict-capability",
+      "verdict": "needs_validation",
+      "title": "El alta de asignaciones crea excepciones sin exigir el permiso específico",
+      "current_use": "not independently revalidated; not promoted to confirmed in this academic review"
+    },
+    {
+      "fingerprint": "improvement:ActionProgressService:mutations-ignore-process-suspension",
+      "verdict": "needs_validation",
+      "title": "El registro de avances de mejora omite la suspensión del proceso",
+      "current_use": "not independently revalidated; not promoted to confirmed in this academic review"
+    }
+  ]
+}

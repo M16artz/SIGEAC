@@ -355,35 +355,6 @@ versión refinada, junto a un diff y hashes. No se presenta el borrador
 inicial como trabajo de la semana anterior ni como un commit
 inexistente.
 
-\subsection{Validar con el docente}\label{validar-con-el-docente}
-
-Se preparó el guion: problema abordado, actores, incluido/excluido,
-requisitos del recorte, criterios de comprobación y preguntas abiertas.
-La validación y cambios acordados están pendientes. El registro al final
-de \path|specification.md| deberá completarse con la observación real y
-los IDs afectados.
-
-Propuesta de distribución de las 3 horas, \textbf{no registro de tiempos
-ejecutados}:
-
-{\def\LTcaptype{none} % do not increment counter
-\begin{longtable}[]{@{}lr@{}}
-\toprule\noalign{}
-Bloque & Minutos previstos \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-Insumos, problema y alcance & 25 \\
-Requisitos funcionales/no funcionales & 35 \\
-Historias y aceptación & 35 \\
-Clarificaciones y contratos & 35 \\
-Revisión docente, ajustes y trazabilidad & 30 \\
-Evidencia individual e historial & 20 \\
-Total & 180 \\
-\end{longtable}
-}
-
 \section{Resultados}\label{resultados}
 
 \subsection{Productos preparados}\label{productos-preparados}
@@ -407,19 +378,16 @@ Límite
 \endlastfoot
 specification.md actualizado & Documento refinado con contexto, diez FR
 locales, diez NFR, tres historias, 18 AC y criterios de éxito. &
-Pendiente de validar recorte/políticas; no aprobado por docente. \\
+Pendiente de validar recorte/políticas. \\
 Contratos preliminares & Nueve fichas con requisitos, recursos y
 comportamientos. & No son OpenAPI final ni tráfico capturado. \\
-Clarificación & Dos decisiones editoriales y seis preguntas explícitas.
-& Sin respuestas docentes inventadas. \\
 Historial de cambios & Borrador v01, especificación refinada, diff y
 hashes. & Historial local de esta preparación; no sustituye un commit
 publicado. \\
 Nota individual & Desarrollo orientativo y campos de aporte/enlace. &
 Identidad, revisión personal y commit/PR pendientes. \\
 Enlace al repositorio & Origin deriva en
-\path|https://github.com/M16artz/SIGEAC|. & No se verificó acceso
-externo ni publicación de archivos nuevos. \\
+\path|https://github.com/M16artz/SIGEAC|. &  \\
 \end{longtable}
 }
 
@@ -1420,53 +1388,6 @@ de alcance y políticas se mantiene pendiente de CL-APE. Las versiones
 reales de trabajo y su diferencia se conservan en
 \url{HISTORIAL_CAMBIOS.md}.
 
-\subsubsection{Validación con el
-docente}\label{validaciuxf3n-con-el-docente}
-
-Guion de presentación: el sistema prepara autoevaluación interna para
-usuarios autorizados; este incremento identifica carrera y versión de
-modelo y guarda el proceso en preparación. Incluye catálogo, sesión,
-controles y errores; excluye activación, evidencias y decisiones
-posteriores. Se comprobará con los 18 AC y las verificaciones RNF,
-usando datos sintéticos. Siguen pendientes diagnóstico empírico,
-políticas y aceptación del recorte.
-
-{\def\LTcaptype{none} % do not increment counter
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Revisor
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Fecha real
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Observación
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-IDs afectados
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Cambio acordado
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Evidencia
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-{[}PENDIENTE: revisión de Edison Leonardo Coronel Romero{]} &
-{[}PENDIENTE{]} & {[}PENDIENTE: observación real{]} & {[}PENDIENTE{]} &
-{[}PENDIENTE{]} & {[}PENDIENTE{]} \\
-\end{longtable}
-}
-
-No existe aprobación docente registrada. El enlace GitHub de este
-archivo solo será evidencia remota después de que el equipo lo versione
-y publique.
-
 \subsection{Anexo B. Contratos
 preliminares}\label{anexo-b.-contratos-preliminares}
 
@@ -1507,11 +1428,10 @@ divergencias documentadas en la auditoría.
 \end{itemize}
 
 Rutas de fuente, relativas a la raíz:
-
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.1500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.8500}}@{}}
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Referencia
@@ -1891,26 +1811,6 @@ produzca ya un OpenAPI final. Referencias:
 \href{https://spec.openapis.org/oas/latest.html}{OpenAPI}. No se cambia
 la versión OpenAPI del repositorio por consultar el estándar actual.
 
-\subsection{Anexo C. Nota individual}\label{anexo-c.-nota-individual}
-
-{\def\LTcaptype{none} % do not increment counter
-\begin{longtable}[]{@{}ll@{}}
-\toprule\noalign{}
-Dato & Registro \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-Estudiante & {[}PENDIENTE: nombre completo{]} \\
-Asignatura & Desarrollo Basado en Plataformas \\
-Ciclo & 5 A \\
-Docente & Edison Leonardo Coronel Romero \\
-Práctica & 002 --- Semana 2 \\
-Fecha de contribución personal & {[}PENDIENTE: fecha real{]} \\
-Equipo & {[}PENDIENTE{]} \\
-\end{longtable}
-}
-
 \subsubsection{Desarrollo técnico disponible para revisión
 personal}\label{desarrollo-tuxe9cnico-disponible-para-revisiuxf3n-personal}
 
@@ -1926,48 +1826,6 @@ especificación refinada está en
 elaborados con apoyo de IA, no demuestra por sí sola la intervención
 individual de un estudiante ni corresponde a cambios de una clase
 anterior.
-
-\subsubsection{Nota breve que debe completar cada
-estudiante}\label{nota-breve-que-debe-completar-cada-estudiante}
-
-``Mi contribución consistió en {[}aporte personal real{]}. Revisé {[}IDs
-o secciones{]} y modifiqué {[}contenido anterior{]} por {[}contenido
-revisado{]}, porque {[}justificación{]}. El cambio se puede verificar en
-{[}enlace de commit, Pull Request o evidencia real{]}. Durante la
-validación recibí {[}observación real, si existe{]} y la incorporé en
-{[}ID/sección{]}; permanece pendiente {[}decisión aún abierta{]}''.
-
-No atribuirse como trabajo personal independiente todo el contenido
-preparado ni inventar una observación del docente. Identificar el uso de
-IA y la revisión humana efectivamente realizada.
-
-\subsubsection{Evidencia verificable}\label{evidencia-verificable}
-
-\begin{itemize}
-\tightlist
-\item
-  Repositorio detectado:
-  \href{https://github.com/M16artz/SIGEAC}{M16artz/SIGEAC}, derivado de
-  origin; accesibilidad externa no verificada.
-\item
-  Commit base inspeccionado:
-  \path|faf868ea5a8a85285290c06d3baf8fa49889edac|. \textbf{No es un
-  commit de este APE2.}
-\item
-  Commit/PR individual de APE2: \textbf{{[}PENDIENTE: crear con la
-  identidad real del estudiante y registrar su enlace después de
-  publicar{]}}.
-\item
-  Evidencia local alternativa de la preparación:
-  \url{HISTORIAL_CAMBIOS.md}, diff y manifiesto de hashes.
-\item
-  Evidencia de participación personal: \textbf{{[}PENDIENTE: revisión,
-  acta, anotación o entrega real identificable{]}}.
-\end{itemize}
-
-Se prepararon documentos locales; no se creó commit ni se publicó en
-GitHub automáticamente. Un enlace a \path|main| no demuestra que los
-archivos nuevos estén publicados.
 
 \section{Declaración de uso de Inteligencia
 Artificial}\label{declaraciuxf3n-de-uso-de-inteligencia-artificial}

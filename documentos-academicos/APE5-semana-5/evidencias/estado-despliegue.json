@@ -1,0 +1,15 @@
+{
+  "recorded_at_utc": "2026-11-01T18:27:46.420915+00:00",
+  "docker_available": false,
+  "podman_available": false,
+  "dockerfile_prepared": true,
+  "compose_prepared": true,
+  "image_built": false,
+  "containers_started": false,
+  "published": false,
+  "deployment_url": null,
+  "planned_loopback_port": 18095,
+  "postgres_acceptance_run": false,
+  "tls_verified": false,
+  "status": "proposal, not a deployment"
+}

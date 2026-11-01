@@ -1,0 +1,23 @@
+---
+title: "SIGEAC — Seguridad y dossier de integración, Semanas4–5"
+lang: es
+format: html
+execute:
+  enabled: false
+---
+
+## Estado y alcance
+
+Documentación académica y artefactos propuestos del incremento de acceso, catálogo y preparación de procesos. No hay nueva implementación DRF, parche validado, pruebas funcionales ejecutadas, imagen construida, despliegue o publicación. Los resultados APE3 conservan su procedencia. Esta fuente Quarto no se presenta como una web publicada.
+
+## Seguridad
+
+[Activos, STRIDE y permisos](MATRIZ_AMENAZAS.md), [SEC y trazabilidad](HALLAZGOS_Y_TRAZABILIDAD.md), [referencias](FUENTES.md), [ACD4](../ACD4-semana-4/README.md), [APE4](../APE4-semana-4/README.md) y [AA4](../AA4-semana-4/README.md).
+
+Los puntajes P×I priorizan escenarios y se separan de certeza. Sin sandbox OS conforme no se ejecuta target; los tests propuestos y una omisión no acreditan controles.
+
+## Integración, portabilidad y entrega
+
+[ACD5](../ACD5-semana-5/README.md), [APE5](../APE5-semana-5/README.md), [receta local propuesta](../APE5-semana-5/INSTRUCCIONES_DESPLIEGUE.md), [AA5](../AA5-semana-5/README.md), [matriz](../AA5-semana-5/MATRIZ_CIERRE.md) y [bitácora](../AA5-semana-5/BITACORA.md).
+
+HTTP/JSON/OpenAPI ayudan a interoperar si representación, estado y headers concuerdan; capas/ADR/tests ayudan a mantener reglas. Dockerfile/Compose son insumos, no prueba de runtime seguro ni DB restaurable. Se mantienen pendientes feedback, contribuciones y decisiones aceptadas.

@@ -1,0 +1,556 @@
+
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{makecell}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{helvet}
+\usepackage{ragged2e}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{xurl}
+\usepackage{microtype}
+\usepackage{float}
+\emergencystretch=2em
+\renewcommand{\familydefault}{\sfdefault}
+\geometry{a4paper,left=3cm,right=3cm,top=2.35cm,bottom=2.35cm,headheight=1.9cm,headsep=0.45cm}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.3em}
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\IfFileExists{reporte_tecnico_overleaf_logo.png}{\includegraphics[height=1.35cm]{reporte_tecnico_overleaf_logo.png}}{\small Universidad Nacional de Loja}}
+\fancyhead[R]{\small FEIRNNR -- Carrera de Computación}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+\titleformat{\section}{\bfseries\fontsize{15}{17}\selectfont}{\thesection.}{0.8em}{}
+\titlespacing*{\section}{0pt}{1.0ex}{0.3ex}
+\newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+\lstset{basicstyle=\ttfamily\footnotesize,breaklines=true,frame=single,showstringspaces=false,columns=fullflexible}
+\hypersetup{hidelinks}
+
+\usepackage{calc}
+\usepackage{fvextra}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\begin{document}
+\thispagestyle{fancy}
+\begin{center}
+{\bfseries\fontsize{21}{24}\selectfont Reporte Técnico de Actividades\\ Práctico-Experimentales Nro. 004\par}
+\vspace{0.25cm}
+{\large Implementación de seguridad, validaciones y pruebas de API}
+\end{center}
+
+\section{Datos de Identificación del Estudiante y la Práctica}
+\begin{tabularx}{\textwidth}{|L{0.43\textwidth}|Y|}
+\hline
+\textbf{Nombre del estudiante(s)} & [PENDIENTE: integrantes reales] \\ \hline
+\textbf{Asignatura} & Desarrollo Basado en Plataformas \\ \hline
+\textbf{Ciclo} & 5 A \\ \hline
+\textbf{Unidad} & 1 \\ \hline
+\textbf{Resultado de aprendizaje} & Discute cómo los estándares Web influyen en el desarrollo de software, bajo los principios de solidaridad, transparencia, responsabilidad y honestidad. \\ \hline
+\textbf{Práctica Nro.} & 004 \\ \hline
+\textbf{Título de la Práctica} & Implementación de seguridad, validaciones y pruebas de API \\ \hline
+\textbf{Nombre del Docente} & Edison Leonardo Coronel Romero \\ \hline
+\textbf{Fecha} & Semana 4; [PENDIENTE: fecha real] \\ \hline
+\textbf{Horario} & Por definir según horario académico \\ \hline
+\textbf{Lugar} & Aula / laboratorio asignado \\ \hline
+\textbf{Tiempo planificado en el Sílabo} & 3 horas \\ \hline
+\end{tabularx}
+\textbf{Estado:} preparación documental y artefactos; ejecución funcional, corrección y despliegue pendientes.\par
+
+\section{Objetivo(s) de la
+Práctica}\label{APE4-semana-4-objetivos-de-la-pruxe1ctica}
+
+\begin{itemize}
+\tightlist
+\item
+  Implementar mecanismos de autenticación y autorización coherentes con
+  los actores, roles y recursos del proyecto.
+\item
+  Aplicar validaciones de entrada, reglas de negocio y manejo seguro de
+  errores.
+\item
+  Verificar la protección de datos y secretos mediante prácticas básicas
+  de seguridad.
+\item
+  Implementar y ejecutar pruebas reproducibles de API, integración y
+  controles de acceso.
+\item
+  Corregir hallazgos identificados durante la revisión de seguridad y
+  mantener trazabilidad con requisitos y amenazas.
+\end{itemize}
+
+La documentación no convierte controles Spring previos en implementación
+nueva de DRF. Los objetivos de ejecución/corrección funcional no se dan
+por cumplidos.
+
+\section{Materiales, Reactivos, Equipos y
+Herramientas}\label{APE4-semana-4-materiales-reactivos-equipos-y-herramientas}
+
+Insumos: modelo/matriz ACD4 y fuentes compartidas, requisitos/AC AA2,
+OpenAPI y evidencia APE3, pruebas existentes de identidad/catálogo.
+Stack real: Java/Spring/PostgreSQL, SQLite auxiliar anterior; la guía
+exige Python/Django/DRF y pytest-django, no implementados/ejecutados
+aquí. Se prepara un cliente pytest, que no es un backend Django.
+
+Variables de entorno son mecanismo previsto de secretos; placeholders no
+son valores reales. Git/GitHub existen, GitFlow y contribución están
+pendientes. Actions del repositorio usa workflow\_dispatch, no se activa
+desde esta entrega. No hay Docker/Podman ni un sandbox conforme
+acreditado; WSL disponible no basta para afirmarlo. No se instalan
+dependencias ni se ejecuta target fuera del aislamiento exigido.
+
+\section{Procedimiento / Metodología
+Ejecutada}\label{APE4-semana-4-procedimiento--metodologuxeda-ejecutada}
+
+Inicio: se seleccionan sesión, catálogo y preparación de proceso; se
+relacionan actores/capacidades, T-01--09, SEC-01--05 y AC existentes.
+ACD4 no tiene aún retroalimentación humana real. La revisión es estática
+y usa evidencia histórica, no una nueva campaña local sobre servicio
+compartido.
+
+\textbf{Paso }: 1 Autenticación
+
+\textbf{Trabajo efectivamente preparado/revisado }: SessionService,
+BCrypt, hashes, cookie, expiración/revocación y ventana; VT-01--03
+
+\textbf{Estado de cumplimiento }: Implementado previamente en Spring;
+nueva ejecución y DRF pendientes.
+
+\medskip\hrule\medskip
+
+\textbf{Paso }: 2 Autorización
+
+\textbf{Trabajo efectivamente preparado/revisado
+}: ScopeAuthorizationService, CAREER\_ADMIN/READ, PROCESS\_MANAGE;
+fixtures lector A/carrera B
+
+\textbf{Estado de cumplimiento }: Fuente y matriz; prueba funcional
+nueva pendiente.
+
+\medskip\hrule\medskip
+
+\textbf{Paso }: 3 Validaciones
+
+\textbf{Trabajo efectivamente preparado/revisado }: DTO, sintaxis, UUID,
+fechas, relaciones, duplicado y ETag; VT-07
+
+\textbf{Estado de cumplimiento }: Controles previos inspeccionados, sin
+cambio de negocio.
+
+\medskip\hrule\medskip
+
+\textbf{Paso }: 4 Datos/secretos
+
+\textbf{Trabajo efectivamente preparado/revisado }: Escaneo acotado de
+texto y nombres históricos, env/prod/.gitignore; reporte sin valores
+
+\textbf{Estado de cumplimiento }: Comprobación documental limitada, no
+certificación de ausencia total.
+
+\medskip\hrule\medskip
+
+\textbf{Paso }: 5 Errores
+
+\textbf{Trabajo efectivamente preparado/revisado }: Problem Details,
+estados y correlación; desafío401/sobre pendientes
+
+\textbf{Estado de cumplimiento }: No se corrige protocolo ni se migra
+contrato por documentación.
+
+\medskip\hrule\medskip
+
+\textbf{Paso }: 6 Tests
+
+\textbf{Trabajo efectivamente preparado/revisado }: Siete tests pytest
+acotados en \path|pruebas/test_seguridad_api.py|; matriz VT-01--12
+
+\textbf{Estado de cumplimiento }: Código de prueba propuesto; no
+ejecutado. Sin gate se omite y no cuenta como aprobado.
+
+\medskip\hrule\medskip
+
+\textbf{Paso }: 7 Verificación segura
+
+\textbf{Trabajo efectivamente preparado/revisado }: Requisitos de
+sandbox y datos sintéticos en PLAN\_PRUEBAS
+
+\textbf{Estado de cumplimiento }: No se ejecuta target por falta de
+aislamiento completo. No servicios ajenos.
+
+\medskip\hrule\medskip
+
+\textbf{Paso }: 8 Correcciones
+
+\textbf{Trabajo efectivamente preparado/revisado }: Acciones SEC
+concretas y CF-04-01 reservado
+
+\textbf{Estado de cumplimiento }: Sin parche/regresión ejecutada; no hay
+antes\ensuremath{\rightarrow}después de seguridad acreditado.
+
+\medskip\hrule\medskip
+
+\textbf{Paso }: 9 Trazabilidad
+
+\textbf{Trabajo efectivamente preparado/revisado
+}: Amenaza\ensuremath{\rightarrow}SEC\ensuremath{\rightarrow}RF/RNF\ensuremath{\rightarrow}endpoint\ensuremath{\rightarrow}control\ensuremath{\rightarrow}VT\ensuremath{\rightarrow}estado
+
+\textbf{Estado de cumplimiento }: Matriz elaborada, código/contrato de
+producto sin modificar.
+
+\medskip\hrule\medskip
+
+Los tests propuestos incluyen ausencia de credencial, desafío401,
+identidad desconocida sintética, falta de CSRF, campos obligatorios,
+objeto ajeno y logout. El escenario 401 con desafío debe servir de
+regresión cuando se acuerde un mecanismo compatible; no se fuerza JWT.
+El plan limita red/host/tamaño/respuestas y datos, pero ese gate no es
+la sandbox OS.
+
+Para expiración se selecciona test existente con reloj controlado, no se
+espera media hora ni se alteran cuentas ajenas. Para rollback de
+auditoría y concurrencia se requiere fixture dedicado; no se extrapolan
+las aserciones secuenciales de APE3.
+
+Cierre: falta demostrar flujo protegido al docente, corrección de
+seguridad reproducida y contribución versionada real. Un test propuesto
+que se sabe que necesita corrección no es un fallo observado nuevo. El
+409 de modelo de APE3 corrigió el escenario de representación, no una
+vulnerabilidad APE4.
+
+\section{Resultados}\label{APE4-semana-4-resultados}
+
+\textbf{Resultado esperado }: Autenticación/autorización implementadas y
+verificadas
+
+\textbf{Resultado de esta entrega }: Código Spring existente
+inspeccionado y pruebas fuente localizadas
+
+\textbf{Pendiente }: DRF/decisión tecnológica y ejecución en sandbox.
+
+\medskip\hrule\medskip
+
+\textbf{Resultado esperado }: Validaciones y negocio
+
+\textbf{Resultado de esta entrega }: Matriz sintaxis/negocio y controles
+por operación
+
+\textbf{Pendiente }: Ejecutar variantes VT y corregir si fallan.
+
+\medskip\hrule\medskip
+
+\textbf{Resultado esperado }: Secretos fuera del código
+
+\textbf{Resultado de esta entrega }: Configuración externa y escaneo
+acotado sin coincidencias de tres patrones
+
+\textbf{Pendiente }: Formatos no cubiertos, historia completa/rotación
+si hay indicio.
+
+\medskip\hrule\medskip
+
+\textbf{Resultado esperado }: Errores/API
+
+\textbf{Resultado de esta entrega }: Formato actual y diferencias
+trazados
+
+\textbf{Pendiente }: Sobre universal/desafío y pruebas aceptadas.
+
+\medskip\hrule\medskip
+
+\textbf{Resultado esperado }: Pruebas reproducibles
+
+\textbf{Resultado de esta entrega }: Cliente pytest propuesto,
+PLAN\_PRUEBAS y VT
+
+\textbf{Pendiente }: Dependencias, sandbox, fixtures,
+ejecución/resultados.
+
+\medskip\hrule\medskip
+
+\textbf{Resultado esperado }: Correcciones
+
+\textbf{Resultado de esta entrega }: Acciones/localización/verificación
+definidas
+
+\textbf{Pendiente }: Ningún parche funcional nuevo demostrado.
+
+\medskip\hrule\medskip
+
+\textbf{Resultado esperado }: Trazabilidad
+
+\textbf{Resultado de esta entrega }: Matrices compartidas y relación con
+AC
+
+\textbf{Pendiente }: Añadir commit/resultados cuando existan.
+
+\medskip\hrule\medskip
+
+\textbf{Resultado esperado }: Contribución individual
+
+\textbf{Resultado de esta entrega }: Nota preparada
+
+\textbf{Pendiente }: Identidad y evidencia personal reales.
+
+\medskip\hrule\medskip
+
+\section{Preguntas de Control}\label{APE4-semana-4-preguntas-de-control}
+
+\subsection{1. ¿Qué diferencia existe entre autenticación y
+autorización?}\label{APE4-semana-4-1-quuxe9-diferencia-existe-entre-autenticaciuxf3n-y-autorizaciuxf3n}
+
+Autenticación determina la identidad mediante credencial/sesión;
+autorización evalúa capacidad y ámbito sobre una operación/recurso.
+SessionService valida token; CareerAdministrationService exige
+CAREER\_ADMIN o lectura visible. Una sesión no concede todas las
+capacidades.
+
+\subsection{2. ¿Por qué un usuario autenticado no debería poder acceder
+automáticamente a todos los
+recursos?}\label{APE4-semana-4-2-por-quuxe9-un-usuario-autenticado-no-deberuxeda-poder-acceder-automuxe1ticamente-a-todos-los-recursos}
+
+Porque carreras/procesos están sujetos a ámbito y separación de
+responsabilidades. Un lector de A no debe recibir detalle, lista ni
+totales de B. UUID y enlace visible no sustituyen la comprobación del
+backend.
+
+\subsection{3. ¿Qué diferencia existe entre validación sintáctica y
+validación de reglas de
+negocio?}\label{APE4-semana-4-3-quuxe9-diferencia-existe-entre-validaciuxf3n-sintuxe1ctica-y-validaciuxf3n-de-reglas-de-negocio}
+
+Sintaxis comprueba formato/tipo/longitud, por ejemplo UUID o fecha.
+Negocio verifica unidad activa, período permitido, duplicado normalizado
+y transición. Una fecha ISO válida puede exceder la vigencia de la
+carrera.
+
+\subsection{4. ¿Qué riesgos existen si se almacenan secretos
+directamente en el
+repositorio?}\label{APE4-semana-4-4-quuxe9-riesgos-existen-si-se-almacenan-secretos-directamente-en-el-repositorio}
+
+Pueden difundirse en clones, CI e historial aunque se borre el archivo
+actual; permitirían uso indebido de cuentas/datos. Usar configuración
+externa, mínimo privilegio y rotar/revocar ante exposición confirmada.
+No confundir contraseña sintética de fixture con secreto real sin
+clasificarla.
+
+\subsection{5. ¿Cómo puede una prueba demostrar que un control de
+autorización funciona
+correctamente?}\label{APE4-semana-4-5-cuxf3mo-puede-una-prueba-demostrar-que-un-control-de-autorizaciuxf3n-funciona-correctamente}
+
+Comparar mismo recurso/operación con principal autorizado y lector ajeno
+de fixture: permitir el primero y rechazar/ocultar el segundo sin efecto
+ni datos. Comprobar DB y totales si aplica. Un 401 anónimo no prueba
+permiso por objeto ni un mock cubre todo el filtro.
+
+\subsection{6. ¿Qué información no debería exponerse en una respuesta de
+error?}\label{APE4-semana-4-6-quuxe9-informaciuxf3n-no-deberuxeda-exponerse-en-una-respuesta-de-error}
+
+Contraseña, token completo, claves, SQL sensible, stack, detalles de
+infraestructura o datos ajenos. Devolver código público, detalle seguro
+y correlación; registrar diagnóstico protegido. La revisión actual no
+prueba todos los logs/500.
+
+\subsection{7. ¿Cómo se relacionan una amenaza, un control de seguridad
+y una prueba
+verificable?}\label{APE4-semana-4-7-cuxf3mo-se-relacionan-una-amenaza-un-control-de-seguridad-y-una-prueba-verificable}
+
+T-02 acceso ajeno\ensuremath{\rightarrow}permiso por capacidad/scope\ensuremath{\rightarrow}VT-04 con lector A/carrera
+B y rechazo sin dato/efecto. Si falla, registrar SEC/CF, cambiar el
+punto de control y repetir regresión; conservar resultados y commit
+reales, no solo un tick documental.
+
+\section{Conclusiones}\label{APE4-semana-4-conclusiones}
+
+Hay mecanismos Spring fuente y pruebas previas que permiten diseñar una
+verificación concreta, no una lista OWASP genérica. Esta entrega no
+acredita una nueva implementación DRF, una campaña APE4 ejecutada o un
+parche de seguridad. La práctica permanece parcial en esos puntos y en
+su cierre docente.
+
+\section{Recomendaciones}\label{APE4-semana-4-recomendaciones}
+
+Resolver tecnología y contrato; establecer sandbox; preparar fixture
+PostgreSQL; ejecutar VT con límites y clasificar fallos; aplicar la
+corrección mínima en el último punto confiable; reejecutar y versionar
+aportes reales. Mantener Actions manual y no usar despliegue ajeno para
+estas pruebas.
+
+\section{Bibliografía /
+Referencias}\label{APE4-semana-4-bibliografuxeda--referencias}
+
+\href{../soporte-semanas-4-5/FUENTES.md}{Fuentes compartidas}, F-01--12,
+OWASP O-01--08, HTTP H-01 y pytest D-05. La guía académica origina los
+resultados esperados; los mecanismos fuente no equivalen a seguridad
+certificada.
+
+\nocite{*}
+\bibliographystyle{IEEEtran}
+\bibliography{referencias}
+\section{Anexos}\label{APE4-semana-4-anexos}
+
+\url{PLAN_PRUEBAS.md}, prueba pytest propuesta, matrices compartidas,
+escaneo de metadatos, registro CF/CRUZADA, nota individual y manifiesto.
+Los JSON APE3 originales se referencian, no se recopian con fecha de
+Semana4.
+
+
+
+
+
+
+\subsection{Fuente propuesta: test\_seguridad\_api.py}
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\footnotesize]
+"""Proposed bounded tests; NOT executed or evidence of DRF implementation.
+
+Run only in the OS-isolated synthetic environment described in PLAN_PRUEBAS.md.
+The module skips by default and rejects remote URLs and redirects.
+"""
+import http.cookiejar
+import json
+import os
+from urllib.error import HTTPError
+from urllib.parse import urlsplit
+from urllib.request import HTTPRedirectHandler, HTTPCookieProcessor, ProxyHandler, Request, build_opener
+import uuid
+
+import pytest
+
+if os.environ.get("SDD_SECURITY_TESTS") != "1":
+    pytest.skip("Security runtime checks not explicitly enabled in isolated fixture", allow_module_level=True)
+
+BASE = os.environ.get("SDD_TEST_BASE_URL", "http://127.0.0.1:18094/api/v1").rstrip("/")
+url = urlsplit(BASE)
+if url.hostname not in ("127.0.0.1", "localhost", "::1") or url.scheme not in ("http", "https"):
+    raise RuntimeError("Only an isolated loopback backend is permitted")
+if url.username or url.password or url.query or url.fragment:
+    raise RuntimeError("Credentials/query/fragment are not allowed in base URL")
+
+
+class NoRedirects(HTTPRedirectHandler):
+    def redirect_request(self, request, fp, code, message, headers, newurl):
+        raise RuntimeError("Redirect rejected; remain inside isolated backend")
+
+
+class Client:
+    def __init__(self):
+        self.opener = build_opener(ProxyHandler({}), HTTPCookieProcessor(http.cookiejar.CookieJar()), NoRedirects())
+        self.csrf = None
+
+    def call(self, method, path, payload=None, csrf=True):
+        if not path.startswith("/") or path.startswith("//"):
+            raise ValueError("Expected relative API resource")
+        headers = {"Accept": "application/json, application/problem+json"}
+        if payload is not None:
+            headers["Content-Type"] = "application/json"
+        if csrf and self.csrf:
+            headers["X-CSRF-TOKEN"] = self.csrf
+        request = Request(BASE + path, method=method, headers=headers,
+                          data=None if payload is None else json.dumps(payload).encode())
+        try:
+            response = self.opener.open(request, timeout=10)
+        except HTTPError as error:
+            response = error
+        with response:
+            raw = response.read(262145)
+            if len(raw) > 262144:
+                raise RuntimeError("Response exceeds bounded fixture limit")
+            return response.status, response.headers, json.loads(raw) if raw else None
+
+    def login(self, prefix):
+        user = os.environ.get(prefix + "_USERNAME")
+        password = os.environ.get(prefix + "_PASSWORD")
+        if not user or not password:
+            pytest.skip("Synthetic principal variables are required; no credentials guessed")
+        status, _, body = self.call("POST", "/sessions", {"username": user, "password": password})
+        assert status == 201, "Synthetic principal login failed"
+        self.csrf = body["csrfToken"]
+
+
+@pytest.fixture
+def admin():
+    client = Client()
+    client.login("SDD_ADMIN")
+    try:
+        yield client
+    finally:
+        client.call("DELETE", "/sessions")
+
+
+def test_vt01_no_credentials_rejected():
+    status, _, body = Client().call("GET", "/careers")
+    assert status == 401
+    assert body["code"] and body["correlationId"]
+
+
+def test_vt01_challenge_header_regression():
+    status, headers, _ = Client().call("GET", "/careers")
+    assert status == 401
+    assert headers.get("WWW-Authenticate"), "Resolve HTTP-AA-01 using the accepted authentication scheme"
+
+
+def test_vt02_unknown_synthetic_identity_rejected():
+    status, _, body = Client().call("POST", "/sessions", {
+        "username": "missing-" + uuid.uuid4().hex[:12], "password": "Synthetic-Invalid-Only-2026"})
+    assert status == 401
+    assert body["code"] == "AUTHENTICATION_FAILED"
+
+
+def test_vt06_missing_csrf_rejected(admin):
+    status, _, _ = admin.call("POST", "/academic-units", {
+        "code": "VT-" + uuid.uuid4().hex[:8], "name": "Synthetic rejected unit"}, csrf=False)
+    assert status == 403
+
+
+def test_vt07_required_fields_rejected(admin):
+    status, _, _ = admin.call("POST", "/careers", {})
+    assert status == 400
+
+
+def test_vt04_foreign_fixture_hidden():
+    foreign_id = os.environ.get("SDD_FOREIGN_CAREER_ID")
+    if not foreign_id:
+        pytest.skip("A foreign synthetic fixture UUID is required")
+    uuid.UUID(foreign_id)
+    reader = Client()
+    reader.login("SDD_READER")
+    try:
+        status, _, _ = reader.call("GET", "/careers/" + foreign_id)
+        assert status == 404, "Fixture reader must not hold catalog admin or scope to target career"
+    finally:
+        reader.call("DELETE", "/sessions")
+
+
+def test_vt12_logout_has_no_body_and_revokes():
+    client = Client()
+    client.login("SDD_ADMIN")
+    status, _, body = client.call("DELETE", "/sessions")
+    assert status == 204 and body is None
+    assert client.call("GET", "/careers")[0] == 401
+
+\end{Verbatim}
+\section{Declaración de uso de Inteligencia
+Artificial}\label{APE4-semana-4-declaraciuxf3n-de-uso-de-inteligencia-artificial}
+
+ChatGPT/Codex apoyó revisión de fuentes, consulta oficial, elaboración
+de pruebas/documentos y comprobaciones estáticas de artefactos. No se
+ejecutó código del target ni se registraron feedback, commits, pruebas
+satisfactorias o cambios funcionales inexistentes. La revisión personal
+de los integrantes sigue pendiente.
+
+\end{document}

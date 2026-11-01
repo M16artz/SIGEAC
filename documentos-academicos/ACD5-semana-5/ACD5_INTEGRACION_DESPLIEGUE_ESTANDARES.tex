@@ -1,0 +1,1088 @@
+\documentclass[12pt,a4paper]{report}
+
+% ------------------------------------------
+%   PAQUETES BÁSICOS
+% ------------------------------------------
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+  \geometry{left=3cm, right=2.5cm, top=3cm, bottom=2.5cm}
+\usepackage{setspace}
+  \onehalfspacing
+\usepackage{titlesec} 
+  \titleformat{\chapter}[block]{\bfseries\large}{\thechapter.}{1em}{}
+  \titleformat{\section}[block]{\bfseries}{\thesection.}{1em}{}
+\usepackage{tocloft}
+  \setlength{\cftbeforechapskip}{6pt}
+  \renewcommand{\cftchapfont}{\bfseries}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{verbatim}
+
+\usepackage{cite}
+\usepackage{hyperref}
+\usepackage{calc}
+\usepackage{xurl}
+\usepackage{fvextra}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\addto\captionsspanish{
+    \renewcommand{\contentsname}{Índice General}
+    \renewcommand{\tablename}{Tabla}
+}
+
+% ------------------------------------------
+%   FONDO DE PÁGINA (SOLO CARÁTULA)
+% ------------------------------------------
+\usepackage{eso-pic}
+\newcommand\BackgroundPic{%
+  \put(0,0){%
+    \parbox[b][\paperheight]{\paperwidth}{%
+      \vfill
+      \centering
+      \IfFileExists{fondo.jpeg}{\includegraphics[width=\paperwidth,height=\paperheight]{fondo.jpeg}}{\parbox{0.8\paperwidth}{\centering [PENDIENTE: fondo.jpeg original]}}%
+      \vfill
+}}}
+
+% ------------------------------------------
+%   ENCABEZADO CON LOGO (OTRAS PÁGINAS)
+% ------------------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{40pt}
+\fancyhead[L]{\IfFileExists{logo_unl.jpeg}{\includegraphics[height=1.2cm]{logo_unl.jpeg}}{\fbox{\scriptsize PENDIENTE: logo\_unl.jpeg}}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \fancyhead[L]{\IfFileExists{logo_unl.jpeg}{\includegraphics[height=1.2cm]{logo_unl.jpeg}}{\fbox{\scriptsize PENDIENTE: logo\_unl.jpeg}}}
+    \fancyfoot[C]{\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+}
+
+% ------------------------------------------
+%   METADATOS DEL DOCUMENTO
+% ------------------------------------------
+\newcommand{\TituloTrabajo}{ACD 5 — Integración, despliegue y estándares del backend}
+\newcommand{\Autor}{[PENDIENTE: estudiante/integrantes reales]}
+\newcommand{\Director}{Edison Leonardo Coronel Romero (referencia APE4; confirmar)}
+\newcommand{\Carrera}{Carrera de Computación}
+\newcommand{\Facultad}{Facultad de la Energía, las Industrias y los Recursos Naturales No Renovables}
+\newcommand{\Universidad}{Universidad Nacional de Loja}
+\newcommand{\Ciudad}{Loja, Ecuador}
+\newcommand{\Fecha}{Semana 5 -- [PENDIENTE: fecha real]}
+
+\begin{document}
+
+\AddToShipoutPictureBG*{\BackgroundPic}
+
+% ------------------------------------------
+%   PORTADA
+% ------------------------------------------
+\begin{titlepage}
+  \centering
+  \vspace*{2cm}
+  {\bfseries\Large \Universidad}\\[0.5cm]
+  {\bfseries\large \Facultad}\\[0.5cm]
+  {\bfseries\large \Carrera}\\[2cm]
+  {\bfseries\Large \TituloTrabajo}\\[2.5cm]
+
+  \begin{flushright}
+    \setlength{\fboxsep}{8pt}
+    \fbox{%
+      \begin{minipage}{0.4\textwidth}\small
+        Desarrollo Basado en Plataformas (referencia APE4; confirmar).
+      \end{minipage}%
+    }
+  \end{flushright}
+  \vspace{1cm}
+
+  {\bfseries \large AUTOR:}\\[0.5em]
+  {\large \Autor}\\[2em]
+  {\bfseries \large TUTOR:}\\[0.5em]
+  {\large \Director}\\[2em]
+  {\bfseries \large \Ciudad}\\[1em]
+  {\bfseries \large \Fecha}
+\end{titlepage}
+
+% ------------------------------------------
+%   DECLARACIÓN DE USO DE IA GENERATIVA
+% ------------------------------------------
+\newpage
+\chapter*{Declaración de Delegación a IA Generativa}
+\addcontentsline{toc}{chapter}{Declaración de uso de IA Generativa}
+
+Se utilizó ChatGPT/Codex para inspección de fuentes, consulta oficial y preparación de documentos, tests y configuración propuestos. No se ejecutó código del target, no hay parche funcional o despliegue nuevos ni participación/aceptación humana atribuida.
+
+\noindent\textbf{Declaración enviada por: [PENDIENTE: persona real].}
+\newpage
+% ------------------------------------------
+%   ÍNDICES
+% ------------------------------------------
+\tableofcontents
+\clearpage
+
+% ------------------------------------------
+%   CUERPO DEL TRABAJO
+% ------------------------------------------
+
+Semana 5 · Actividad grupal con evidencia individual · SIGEAC / SEC-UNL.
+Datos personales, fecha y participación real pendientes;
+asignatura/docente de referencia APE4, no nuevos datos de una guía
+extendida no aportada.
+
+\chapter{1. Integración y demostración
+preparada}\label{ACD5-semana-5-1-integraciuxf3n-y-demostraciuxf3n-preparada}
+
+El backend real es monolito modular Spring, cliente Angular y PostgreSQL
+principal. Acceso/catálogo/preparación siguen las referencias AA2, C4 y
+contrato APE3. Se dispone de código y evidencia previa de 23 tests/22
+intercambios en Spring/SQLite; no se presentan como nueva demostración
+de Semana5. DRF/sobre universal y controles de seguridad pendientes
+condicionan la aceptación del incremento.
+
+Guion para demostrar en un entorno autorizado: identificar
+versión/artefacto; iniciar fixture y verificar esquema; autenticar
+usuario sintético; crear unidad/carrera, consultar/editar con ETag;
+probar rechazo de duplicado/revisión vieja/CSRF/ámbito; preparar proceso
+con referencias válidas; cerrar sesión y comprobar rechazo. Registrar
+estados, cuerpos/headers redactados y persistencia. Health200 o Swagger
+disponible no sustituyen este flujo. No se realizó esa presentación al
+docente.
+
+Los \href{../soporte-semanas-4-5/HALLAZGOS_Y_TRAZABILIDAD.md}{resultados
+y trazabilidad} separan antecedentes y verificaciones pendientes. La
+\href{../APE5-semana-5/INSTRUCCIONES_DESPLIEGUE.md}{propuesta de
+despliegue} incluye Dockerfile/Compose locales, no una URL pública ni
+contenedor ejecutado. Docker/Podman ausentes y sandbox no acreditado
+impiden afirmar ejecución.
+
+\chapter{2. Revisión de despliegue y discusión de
+estándares}\label{ACD5-semana-5-2-revisiuxf3n-de-despliegue-y-discusiuxf3n-de-estuxe1ndares}
+
+\textbf{Tema }: HTTP/REST
+
+\textbf{Evidencia / discusión aplicada }: GET consulta; POST
+crea/prepara; PATCH modifica bloque editable; DELETE revoca sesión;
+201/204/412/428
+
+\textbf{Consecuencia para el incremento }: Respetar
+método/estado/headers y no añadir sobre a204. REST no equivale a CRUD
+sin reglas ni a rutas que conceden permiso.
+
+\medskip\hrule\medskip
+
+\textbf{Tema }: JSON/OpenAPI
+
+\textbf{Evidencia / discusión aplicada }: Observado y objetivo APE3 son
+contratos diferentes; schemas y muestras previas válidos
+
+\textbf{Consecuencia para el incremento }: Cliente debe interpretar
+versión/shape correcto. YAML válido no demuestra endpoints ni
+autorización.
+
+\medskip\hrule\medskip
+
+\textbf{Tema }: Interoperabilidad
+
+\textbf{Evidencia / discusión aplicada }: Cookie/CSRF y CORS/TLS
+dependen de origen/despliegue; legacy model puede409
+
+\textbf{Consecuencia para el incremento }: Documentar mecanismo real; no
+cambiarlo a JWT por conveniencia ni asumir v2 operativa.
+
+\medskip\hrule\medskip
+
+\textbf{Tema }: Mantenibilidad
+
+\textbf{Evidencia / discusión aplicada }: Módulos
+api/application/domain/infrastructure, puertos y pruebas ArchUnit; AA3
+ADR propuesto
+
+\textbf{Consecuencia para el incremento }: Conservar negocio fuera de
+serialización; cambios contractuales requieren revisión de
+cliente/tests.
+
+\medskip\hrule\medskip
+
+\textbf{Tema }: Portabilidad
+
+\textbf{Evidencia / discusión aplicada }: Java/POM, imagen runtime
+fijada, PostgreSQL y volúmenes
+
+\textbf{Consecuencia para el incremento }: Imagen no elimina
+incompatibilidad de CPU, filesystem, schema o DB. SQLite no sustituye
+semántica PostgreSQL.
+
+\medskip\hrule\medskip
+
+\textbf{Tema }: Contenedores
+
+\textbf{Evidencia / discusión aplicada }: Contexto allowlist JAR;
+usuario10001, raíz RO, red interna, recursos, sin secretos en imagen
+
+\textbf{Consecuencia para el incremento }: Son propuestas sin validación
+de motor, permisos, imagen, arranque o seguridad efectiva.
+
+\medskip\hrule\medskip
+
+\textbf{Tema }: Seguridad
+
+\textbf{Evidencia / discusión aplicada }: Prod, demo false,
+cookieSecure, secretos externos y VT; DB owner simplificado
+
+\textbf{Consecuencia para el incremento }: Falta TLS validado y
+separación de cuenta migradora/runtime para producción; no publicar como
+seguro.
+
+\medskip\hrule\medskip
+
+\textbf{Tema }: Reproducibilidad
+
+\textbf{Evidencia / discusión aplicada }: Commit/hash JAR/digest
+imagen/dependencias, instrucciones de migración y backup/restore
+
+\textbf{Consecuencia para el incremento }: Sin esos registros y
+ejecución no hay despliegue reproducido, aunque exista Dockerfile.
+
+\medskip\hrule\medskip
+
+\textbf{Tema }: CI
+
+\textbf{Evidencia / discusión aplicada }: backend-ci usa activación
+manual
+
+\textbf{Consecuencia para el incremento }: No se activó Actions ni se
+cambió política. Una definición no acredita job verde nuevo.
+
+\medskip\hrule\medskip
+
+Alternativas de despliegue: ejecución local Java+PostgreSQL conserva
+menor dependencia de motor pero requiere alinear toolchain; contenedor
+estandariza empaquetado pero añade imágenes, volúmenes, red y operación.
+Para esta entrega se prepara la segunda como artefacto, sin hacerla
+obligatoria para desarrollo ni contradecir la constitución que permite
+ejecutar sin Docker. No se elige proveedor cloud ni se consumen
+servicios/pagos.
+
+\chapter{3. Retroalimentación final y evidencia
+individual}\label{ACD5-semana-5-3-retroalimentaciuxf3n-final-y-evidencia-individual}
+
+\textbf{Registro }: DEMO-05-01
+
+\textbf{Evidencia necesaria }: Docente/fecha, entorno, flujo,
+pasos/respuestas y resultado
+
+\textbf{Estado }: Pendiente.
+
+\medskip\hrule\medskip
+
+\textbf{Registro }: FEEDBACK-05-01
+
+\textbf{Evidencia necesaria }: Observación final real, decisión,
+cambio/justificación y vínculo
+
+\textbf{Estado }: Pendiente; no comentario fabricado.
+
+\medskip\hrule\medskip
+
+\textbf{Registro }: REFLEXION-05-01
+
+\textbf{Evidencia necesaria }: Reflexión individual sustentada en un
+estándar y una diferencia observada
+
+\textbf{Estado }: Material de apoyo preparado; autor/revisión real
+pendientes.
+
+\medskip\hrule\medskip
+
+Argumento disponible para reflexión: mantener códigos correctos y un
+schema no basta si un cliente espera csrfToken en otra posición; el
+sobre cambia interoperabilidad. De forma análoga, una imagen arrancada
+no prueba permisos/DB restaurable. La decisión responsable es conservar
+trazabilidad y límites en vez de declarar verde una demostración no
+realizada. El estudiante debe revisar, contrastar y registrar su propio
+razonamiento, no atribuirse una implementación que no ejecutó.
+
+Evidencia grupal: guion, resultados anteriores identificados, revisión
+de despliegue, matriz de riesgos y documentación. Criterios:
+funcionamiento todavía parcial; interpretación de estándares
+desarrollada con fuentes; participación pendiente de evidencia real. No
+se modificó el backend ni se ejecutó/desplegó para esta ACD. Fuentes en
+\href{../soporte-semanas-4-5/FUENTES.md}{registro común}; nota
+individual y LaTeX en esta carpeta.
+
+\nocite{*}
+\bibliographystyle{IEEEtran}
+\bibliography{referencias}
+\appendix
+\chapter{APE5 --- Construcción y despliegue local
+propuestos}\label{ACD5-semana-5-anexo0-ape5--construcciuxf3n-y-despliegue-local-propuestos}
+
+\textbf{Estado:} Dockerfile y Compose preparados, sin construcción,
+arranque, publicación ni URL desplegada. No hay Docker/Podman en PATH ni
+sandbox completo validado; no se ejecutó código del proyecto. Estos
+archivos sirven al backend Spring existente, no implementan un
+despliegue DRF. El tag local \path|unverified| evita etiquetar como
+validado un artefacto sin prueba.
+
+\section{Prerrequisitos y
+límites}\label{ACD5-semana-5-anexo0-prerrequisitos-y-luxedmites}
+
+Resolver la tecnología y el contrato pendientes de APE3. Si se acepta
+Spring, preparar JDK/Maven y dependencias ya disponibles y verificar el
+código en sandbox conforme; no usar el JAR antiguo de target sin
+reconstruir y registrar hash/commit. Confirmar motor Linux de
+contenedores, versiones y recursos. Las imágenes Java 25 JRE y
+PostgreSQL 18 deben estar auditadas, fijadas por digest y disponibles
+localmente; no se descargaron aquí. El Dockerfile espera una imagen
+Linux con java, mkdir y chown: verificar esa interfaz, no asumir
+compatibilidad de una distroless arbitraria.
+
+La red Compose interna y los límites son controles de operación
+propuestos, \textbf{no prueba suficiente de la sandbox de auditoría}. No
+montar Docker socket, repositorio completo, home o credenciales del
+host. El contexto de construcción contiene solo app.jar mediante
+allowlist; \path|.env| queda fuera y está ignorado. No imprimir
+\path|docker compose config| con secretos interpolados ni adjuntar
+\path|docker inspect| sin redacción.
+
+\section{Preparación reproducible
+prevista}\label{ACD5-semana-5-anexo0-preparaciuxf3n-reproducible-prevista}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  En el entorno de construcción aislado, ejecutar Maven verify/package
+  del commit seleccionado y conservar resultados y SHA-256 del JAR.
+  Comprobar que sus dependencias/Java corresponden al POM y contrato;
+  esta entrega no ejecuta ese paso.
+\item
+  Copiar \textbf{solo} el JAR nuevo a \path|despliegue/context/app.jar|.
+  No versionarlo. Comparar hash con el artefacto verificado antes de
+  construir.
+\item
+  Crear \path|despliegue/.env| local desde \path|.env.example|;
+  proporcionar imágenes por digest, contraseña sintética de DB y secreto
+  HMAC nuevo de alta entropía. No usar cadenas de ejemplo ni publicar
+  valores. El archivo de ejemplo no contiene claves reales.
+\item
+  Revisar Compose y validar sin revelar valores. En la máquina
+  autorizada, desde \path|despliegue|, la forma prevista es:
+\end{enumerate}
+
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\footnotesize]
+docker compose config --quiet
+docker compose build --pull=false api
+docker compose up -d --no-build
+docker compose ps
+\end{Verbatim}
+
+Son instrucciones \textbf{no ejecutadas}. Requieren validación semántica
+con la versión instalada y las imágenes elegidas. El contexto
+restringido evita enviar código/.git/secretos innecesarios al builder.
+La política pull never y build pull=false no reemplaza aislar el builder
+de red externa.
+
+\section{Persistencia, arranque y
+seguridad}\label{ACD5-semana-5-anexo0-persistencia-arranque-y-seguridad}
+
+PostgreSQL 18 oficial usa almacenamiento bajo
+\path|/var/lib/postgresql|, diferente de convenciones de versiones
+previas: el volumen se fija ahí y debe contrastarse con la
+imagen/digest. Nunca sustituir una imagen mayor sobre un volumen
+existente sin procedimiento de migración/restauración. La DB no publica
+puerto al host. API escucha en contenedor y expone \textbf{solo
+loopback} 18095; es una dirección prevista, no URL desplegada.
+
+Flyway inicializa/actualiza esquema mediante configuración del producto.
+La propuesta usa \path|sec_owner| para migración y arranque por
+simplicidad del fixture; esto no acredita mínimo privilegio para
+producción. Separar cuenta migradora y cuenta de ejecución y probar
+permisos antes de un despliegue real. Mantener backup y ensayar
+restauración coherente de DB y archivos; no se ejecutaron backup/restore
+aquí.
+
+La API usa prod, demo=false y cookie Secure=true, sin Swagger activo. Un
+navegador no debe enviar esa cookie por el HTTP local previsto: para
+demostrar sesión productiva se requiere TLS/proxy configurado y
+verificado, o un fixture local diferente claramente separado. \textbf{No
+desactivar Secure en prod para hacer pasar una demo.} No se declara TLS,
+CORS ni certificados desplegados.
+
+La imagen ejecuta como UID 10001 y raíz de contenedor de solo lectura;
+\path|/tmp| y volumen de archivos son escrituras explícitas. Revisar
+permisos/propietarios reales de volúmenes e imagen; no afirmar
+aislamiento por copiar estas líneas. Configuración por env queda visible
+a operadores del motor: evaluar secretos montados/gestor externo si el
+entorno lo requiere.
+
+\section{Validación y documentación de
+API}\label{ACD5-semana-5-anexo0-validaciuxf3n-y-documentaciuxf3n-de-api}
+
+Registrar estado de salud, logs redactados de arranque, migraciones,
+digest imagen, hash JAR, versión DB y resultados del flujo protegido.
+\path|pg_isready| solo indica disponibilidad de DB, no permisos ni éxito
+de API. Una respuesta health 200 no demuestra funcionalidad del
+incremento. Ejecutar casos VT y contrato aceptado en el aislamiento
+requerido, incluidos rechazos, reinicio y persistencia.
+
+El perfil prod deshabilita \path|/swagger-ui| y \path|/v3/api-docs| por
+diseño. Publicar \textbf{documentación estática del contrato aceptado} o
+un servicio de documentación separado y controlado; no habilitar
+demo/Swagger productivo automáticamente. Los YAML de APE3 están
+disponibles localmente; el objetivo sigue no implementado. No se publicó
+documentación en un host externo.
+
+\section{Parada, datos y
+rollback}\label{ACD5-semana-5-anexo0-parada-datos-y-rollback}
+
+Usar parada del proyecto específico; no comandos globales de limpieza ni
+borrado de volúmenes. Guardar respaldo antes de cambios; seleccionar
+imagen previa y plan de compatibilidad de schema. Un rollback de imagen
+no revierte una migración de DB. No se proporciona un \path|down -v|
+como operación rutinaria.
+
+\section{Evidencia aún
+necesaria}\label{ACD5-semana-5-anexo0-evidencia-auxfan-necesaria}
+
+Resultado real de build, parser Compose, arranque, flujo protegido con
+DB principal, pruebas de persistencia/restore, TLS/configuración, URL o
+captura/log local de despliegue, commit y contribución por integrante.
+El archivo \path|evidencias/estado-despliegue.json| registra que todo
+ello sigue pendiente; no constituye despliegue.
+\chapter{AA5 --- Corte de trazabilidad del
+backend}\label{ACD5-semana-5-anexo1-aa5--corte-de-trazabilidad-del-backend}
+
+``Cierre'' significa corte documental con estados explícitos; no
+aceptación del incremento ni resolución artificial de pendientes. Línea
+base: matriz AA2 de24 filas, procesos/C4/contratos APE3, ADR AA3,
+amenazas/SEC y verificaciones VT de Semana4, despliegue propuesto APE5.
+No se cambian requisitos aprobados por escribir esta tabla.
+
+\textbf{Requisito / AC }: AA-RF-01/02/03; AC-AA-01--04
+
+\textbf{Arquitectura e implementación }: Identidad,
+SessionController/SessionService
+
+\textbf{Contrato / operación }: sessions POST/DELETE; me GET
+
+\textbf{Seguridad y prueba }: T-01; VT-01--03/12; SessionServiceTest;
+APE3 login/logout
+
+\textbf{Despliegue / evidencia }: Spring/SQLite histórico; sin runtime
+nuevo
+
+\textbf{Estado al corte }: Parcial; errores/expiración/identidad y stack
+exigido requieren verificar.
+
+\medskip\hrule\medskip
+
+\textbf{Requisito / AC }: AA-RF-04; AC-AA-05/06/13/24
+
+\textbf{Arquitectura e implementación }: ScopeAuthorizationService y
+servicios de objeto
+
+\textbf{Contrato / operación }: Rutas protegidas catálogo/procesos
+
+\textbf{Seguridad y prueba }: T-02; VT-04/05; cuentas/ámbitos sintéticos
+
+\textbf{Despliegue / evidencia }: Sin autorización de producción
+observada
+
+\textbf{Estado al corte }: Parcial por fuente/evidencia previa; no todo
+objeto cubierto.
+
+\medskip\hrule\medskip
+
+\textbf{Requisito / AC }: AA-RF-05/06/07; AC-AA-07--13/27
+
+\textbf{Arquitectura e implementación
+}: CareerController/servicio/repositorio/dominio
+
+\textbf{Contrato / operación }: units/careers POST/GET y páginas
+
+\textbf{Seguridad y prueba }: VT-07; APE3 alta/duplicado/lista; fuente
+valida unidad/fechas
+
+\textbf{Despliegue / evidencia }: PostgreSQL principal no aceptado en
+campaña actual
+
+\textbf{Estado al corte }: Parcial; variantes de fecha/unidad,
+lector/total y DRF pendientes.
+
+\medskip\hrule\medskip
+
+\textbf{Requisito / AC }: AA-RF-08/09; AC-AA-14--17
+
+\textbf{Arquitectura e implementación }: Revisiones/historial/estado de
+catálogo
+
+\textbf{Contrato / operación }: PATCH, history, state-decisions
+
+\textbf{Seguridad y prueba }: T-03; VT-06/07; APE3
+ETag/historia/desactivación
+
+\textbf{Despliegue / evidencia }: Sin transacciones simultáneas/restore
+probado
+
+\textbf{Estado al corte }: Parcial; protección presente, regresión
+completa pendiente.
+
+\medskip\hrule\medskip
+
+\textbf{Requisito / AC }: AA-RF-10; AC-AA-18/22
+
+\textbf{Arquitectura e implementación }: ModelCatalogPort y servicio de
+modelos
+
+\textbf{Contrato / operación }: Modelo legado/configurado
+
+\textbf{Seguridad y prueba }: APE3 HTTP-16/16B, 409/200
+
+\textbf{Despliegue / evidencia }: Sin nueva publicación normativa
+
+\textbf{Estado al corte }: Parcial; fixtures no acreditan vigencia
+institucional.
+
+\medskip\hrule\medskip
+
+\textbf{Requisito / AC }: AA-RF-11/12; AC-AA-19--24
+
+\textbf{Arquitectura e implementación }: SelfAssessmentService;
+PREPARATION
+
+\textbf{Contrato / operación }: processes POST/GET y detalle
+
+\textbf{Seguridad y prueba }: T-02/05; SEC-01; VT-04/08
+
+\textbf{Despliegue / evidencia }: Evidencia previa solo SQLite
+
+\textbf{Estado al corte }: Parcial; límites/ámbitos/negativos y
+principalDB pendientes.
+
+\medskip\hrule\medskip
+
+\textbf{Requisito / AC }: AA-RF-13; AC-AA-25
+
+\textbf{Arquitectura e implementación }: AuditPort y transacciones
+
+\textbf{Contrato / operación }: Mutaciones/consulta autorizada
+
+\textbf{Seguridad y prueba }: T-06; VT-11; test fuente
+
+\textbf{Despliegue / evidencia }: Sin inyección de fallo ni restauración
+
+\textbf{Estado al corte }: Pendiente de verificación del caso crítico de
+auditoría.
+
+\medskip\hrule\medskip
+
+\textbf{Requisito / AC }: AA-RF-14; AC-AA-26; AA-RNF-10
+
+\textbf{Arquitectura e implementación }: Handlers/writer y ADR-AA3-001
+propuesto
+
+\textbf{Contrato / operación }: Problem Details actual vs sobre objetivo
+
+\textbf{Seguridad y prueba }: T-09; SEC-04; VT-01/12
+
+\textbf{Despliegue / evidencia }: Docs Swagger deshabilitadas en prod;
+publicación estática propuesta
+
+\textbf{Estado al corte }: Parcial; no sobre universal ni desafío
+resuelto.
+
+\medskip\hrule\medskip
+
+\textbf{Requisito / AC }: AA-RNF-01/02/03/05/06/07/09; VC
+correspondientes
+
+\textbf{Arquitectura e implementación }: Identidad, permisos,
+concurrencia, auditoría/límites de capas
+
+\textbf{Contrato / operación }: Seguridad transversal
+
+\textbf{Seguridad y prueba }: Matriz T/SEC/VT y pruebas fuente
+
+\textbf{Despliegue / evidencia }: Perfil/env/imagen propuestos no
+validados
+
+\textbf{Estado al corte }: Parcial; no certificación global ni parche de
+seguridad nuevo.
+
+\medskip\hrule\medskip
+
+\textbf{Requisito / AC }: AA-RNF-04/08; VC-AA-04/08
+
+\textbf{Arquitectura e implementación }: Frontend y recorridos, fuera de
+nueva campaña
+
+\textbf{Contrato / operación }: Rendimiento/accesibilidad
+
+\textbf{Seguridad y prueba }: Sin carga ni auditoría WCAG nueva
+
+\textbf{Despliegue / evidencia }: Sin medición de entorno principal
+
+\textbf{Estado al corte }: Pendiente; no extrapolar framework ni tiempos
+de HTTP previos.
+
+\medskip\hrule\medskip
+
+\textbf{Requisito / AC }: Guías Semana4: seguridad funcional
+
+\textbf{Arquitectura e implementación }: Tests pytest propuestos; siete
+casos
+
+\textbf{Contrato / operación }: Fixture loopback, no DRF
+
+\textbf{Seguridad y prueba }: Gate omitido no cuenta como aprobado; VT
+por ejecutar
+
+\textbf{Despliegue / evidencia }: Sandbox no establecido
+
+\textbf{Estado al corte }: Pendiente de implementación exigida,
+ejecución y CF-04-01.
+
+\medskip\hrule\medskip
+
+\textbf{Requisito / AC }: Guías Semana5: despliegue/portabilidad
+
+\textbf{Arquitectura e implementación }: Dockerfile/Compose/contexto/env
+propuestos
+
+\textbf{Contrato / operación }: Contrato aceptado por confirmar
+
+\textbf{Seguridad y prueba }: TLS/mínimo privilegio/DB/files por validar
+
+\textbf{Despliegue / evidencia }: Sin build/imagen/URL/publicación
+
+\textbf{Estado al corte }: Preparado documentalmente, no desplegado.
+
+\medskip\hrule\medskip
+
+\textbf{Requisito / AC }: Participación/feedback/versionado
+
+\textbf{Arquitectura e implementación }: Notas y bitácora
+
+\textbf{Contrato / operación }: Guías ACD/APE/AA
+
+\textbf{Seguridad y prueba }: CRUZADA-04-01/FEEDBACK-05-01
+
+\textbf{Despliegue / evidencia }: Sin commits/PR de estas entregas
+
+\textbf{Estado al corte }: Pendiente de evidencia humana verificable.
+
+\medskip\hrule\medskip
+
+Para convertir una fila en verificada: agregar prueba exacta y
+resultado, commit/artefacto, entorno, fecha, responsable y límites. Para
+aceptarla: registrar decisión humana y criterios cubiertos. No cerrar
+por existir un archivo, hash, pipeline o esquema sintácticamente válido.
+\chapter{Fuentes compartidas --- Semanas 4 y
+5}\label{ACD5-semana-5-anexo2-fuentes-compartidas--semanas-4-y-5}
+
+\section{Evidencia del
+repositorio}\label{ACD5-semana-5-anexo2-evidencia-del-repositorio}
+
+\textbf{ID }: F-01
+
+\textbf{Rutas desde la raíz / símbolo relevante
+}: \path|docs/requirements/spec.md|, RNF-001--005/011--014/017--019;
+\path|documentos-academicos/AA2-semana-2/DOSSIER_REQUISITOS_AA2.md|;
+\path|documentos-academicos/APE3-semana-3/TRAZABILIDAD.md|
+
+\textbf{Relación y límite }: Requisitos, AC y verificaciones. No
+inventar aprobaciones institucionales.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: F-02
+
+\textbf{Rutas desde la raíz / símbolo relevante
+}: \path|backend/src/main/java/ec/edu/unl/sec/identityaccess/application/SessionService.java|,
+login/authenticateForRequest/logout;
+\path|backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SessionCookie.java|;
+\path|backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SessionAuthenticationFilter.java|
+
+\textbf{Relación y límite }: Sesión aleatoria, hashes, expiración,
+cookie y CSRF propio. No deducir ausencia de CSRF por deshabilitar el
+mecanismo estándar.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: F-03
+
+\textbf{Rutas desde la raíz / símbolo relevante
+}: \path|backend/src/main/java/ec/edu/unl/sec/identityaccess/application/ScopeAuthorizationService.java|;
+\path|backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SecurityConfiguration.java|;
+\path|backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java|,
+countFailures
+
+\textbf{Relación y límite }: Capacidad/ámbito y política de
+autenticación; countFailures no recorta tras éxito.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: F-04
+
+\textbf{Rutas desde la raíz / símbolo relevante
+}: \path|backend/src/main/java/ec/edu/unl/sec/selfassessment/api/CareerController.java|;
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/application/CareerAdministrationService.java|;
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/Career.java|;
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/infrastructure/JdbcCareerCatalogRepository.java|
+
+\textbf{Relación y límite }: Validación sintáctica/de negocio,
+normalización, unicidad, visibilidad, revisiones y auditoría.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: F-05
+
+\textbf{Rutas desde la raíz / símbolo relevante
+}: \path|backend/src/main/java/ec/edu/unl/sec/selfassessment/api/SelfAssessmentController.java|;
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/application/SelfAssessmentService.java|,
+list/create;
+\path|backend/src/main/java/ec/edu/unl/sec/selfassessment/infrastructure/JdbcSelfAssessmentRepository.java|,
+list
+
+\textbf{Relación y límite }: Preparación y consulta; listado materializa
+sin LIMIT antes de filtrar. DoS no demostrado.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: F-06
+
+\textbf{Rutas desde la raíz / símbolo relevante
+}: \path|backend/src/main/resources/application.yml|;
+\path|backend/src/main/resources/application-prod.yml|;
+\path|backend/.env.example|; \path|.gitignore|;
+\path|.github/workflows/backend-ci.yml|
+
+\textbf{Relación y límite }: Perfil, parámetros, variables y CI manual
+con PostgreSQL/contraseña sintética. Ejemplos no equivalen a
+credenciales reales ni entorno desplegado.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: F-07
+
+\textbf{Rutas desde la raíz / símbolo relevante
+}: \path|backend/src/main/java/ec/edu/unl/sec/shared/api/ApiProblemHandler.java|;
+\path|backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/AccessProblemWriter.java|;
+\path|backend/src/main/java/ec/edu/unl/sec/shared/api/EntityTagSupport.java|
+
+\textbf{Relación y límite }: Errores seguros por intención, correlación
+y precondiciones. Revisar cuerpo real; no afirmar ausencia total de
+secretos por el nombre de handler.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: F-08
+
+\textbf{Rutas desde la raíz / símbolo relevante
+}: \path|backend/src/test/java/ec/edu/unl/sec/identityaccess/application/SessionServiceTest.java|;
+\path|backend/src/test/java/ec/edu/unl/sec/identityaccess/application/ScopeAuthorizationServiceTest.java|;
+\path|backend/src/test/java/ec/edu/unl/sec/selfassessment/application/CareerAdministrationServiceTest.java|;
+\path|backend/src/test/java/ec/edu/unl/sec/selfassessment/api/CareerControllerTest.java|;
+\path|backend/src/test/java/ec/edu/unl/sec/selfassessment/domain/CareerTest.java|;
+\path|backend/src/test/java/ec/edu/unl/sec/selfassessment/application/SelfAssessmentAuditServiceTest.java|
+
+\textbf{Relación y límite }: Tests existentes inspeccionados; no
+ejecutados nuevamente en Semanas 4--5.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: F-09
+
+\textbf{Rutas desde la raíz / símbolo relevante
+}: \path|documentos-academicos/APE3-semana-3/evidencias/http-resultados.json|;
+\path|pruebas-maven.json|; \path|http-intento-inicial.json|;
+\path|esquemas-resultados.json|, bajo la misma carpeta
+
+\textbf{Relación y límite }: Evidencia previa, 22 casos HTTP finales y
+23 tests seleccionados. Muestras no son nuevas pruebas APE4, ni cubren
+toda seguridad.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: F-10
+
+\textbf{Rutas desde la raíz / símbolo relevante
+}: \path|documentos-academicos/APE3-semana-3/arquitectura/workspace.dsl|;
+\path|documentos-academicos/APE3-semana-3/contratos/openapi-observado.yaml|;
+\path|openapi-objetivo.yaml| en la misma carpeta contratos;
+\path|documentos-academicos/AA3-semana-3/ADR-AA3-001-adaptacion-respuestas-api.md|
+
+\textbf{Relación y límite }: C4, contrato real/objetivo y propuesta;
+sobre universal y DRF pendientes.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: F-11
+
+\textbf{Rutas desde la raíz / símbolo relevante
+}: \path|securityOutputs/run-1/run-metadata.json|;
+\path|securityOutputs/run-1/findings.json|;
+\path|securityOutputs/run-1/coverage-ledger.json|
+
+\textbf{Relación y límite }: Antecedente incompleto de otro commit;
+siete needs\_validation, ninguno confirmado. No heredar conclusión ni
+severidad sin revalidación independiente.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: F-12
+
+\textbf{Rutas desde la raíz / símbolo relevante
+}: \path|backend/pom.xml|; \path|.specify/memory/constitution.md|;
+\path|docs/adr/0001-modular-monolith.md|;
+\path|docs/adr/0018-catalog-contract-migration-compatibility.md|;
+\path|docs/technical/quickstart.md|
+
+\textbf{Relación y límite }: Stack real Java21/Boot4.1.1 configurados,
+límites SDD/compatibilidad y operación existente. JDK local25 no
+redefine nivel de compilación.
+
+\medskip\hrule\medskip
+
+Los archivos auxiliares nuevos de APE4/APE5 son propuestas de
+tests/configuración. Una comprobación de sintaxis de Python/YAML o un
+manifiesto no prueba autenticación, aislamiento, build,
+contenedorización ni despliegue.
+
+\section{Referencias oficiales
+consultadas}\label{ACD5-semana-5-anexo2-referencias-oficiales-consultadas}
+
+\textbf{ID }: O-01
+
+\textbf{Referencia
+}: \href{https://api-security.owasp.org/editions/2023/en/0xa1-broken-object-level-authorization/}{OWASP
+API1:2023 BOLA}
+
+\textbf{Uso acotado }: Revisar autorización por objeto, no solo sesión o
+UUID.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: O-02
+
+\textbf{Referencia
+}: \href{https://api-security.owasp.org/editions/2023/en/0xa4-unrestricted-resource-consumption/}{OWASP
+API4:2023 Resource Consumption}
+
+\textbf{Uso acotado }: Analizar límites de listado y coste de
+peticiones; no demuestra DoS del proyecto.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: O-03
+
+\textbf{Referencia
+}: \href{https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html}{OWASP
+Authentication}, Login Throttling / Responses
+
+\textbf{Uso acotado }: Política por cuenta y respuesta uniforme; un
+registro de IP no equivale a admisión global limitada.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: O-04
+
+\textbf{Referencia
+}: \href{https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html}{OWASP
+Session Management}, Cookies / Expiration
+
+\textbf{Uso acotado }: Revisar Secure/HttpOnly/SameSite y expiración; el
+entorno efectivo importa.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: O-05
+
+\textbf{Referencia
+}: \href{https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html}{OWASP
+Authorization}, Least Privileges / Every Request
+
+\textbf{Uso acotado }: Denegar por defecto y verificar permiso de cada
+operación/recurso.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: O-06
+
+\textbf{Referencia
+}: \href{https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html}{OWASP
+Secrets Management}
+
+\textbf{Uso acotado }: Gestión externa, alcance y ciclo de vida; no
+publicar los valores hallados.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: O-07
+
+\textbf{Referencia
+}: \href{https://cheatsheetseries.owasp.org/cheatsheets/Error_Handling_Cheat_Sheet.html}{OWASP
+Error Handling}
+
+\textbf{Uso acotado }: Diagnóstico con información pública acotada;
+separar registro técnico del cuerpo de respuesta.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: O-08
+
+\textbf{Referencia
+}: \href{https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html}{OWASP
+Input Validation}
+
+\textbf{Uso acotado }: Validación sintáctica y semántica; no sustituye
+permisos.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: O-09
+
+\textbf{Referencia
+}: \href{https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool-threats}{Microsoft:
+amenazas STRIDE}
+
+\textbf{Uso acotado }: Estructura de amenazas pertinentes, sin forzar
+categorías vacías.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: D-01
+
+\textbf{Referencia
+}: \href{https://docs.docker.com/reference/compose-file/services/}{Docker
+Compose: services}
+
+\textbf{Uso acotado }: Configuración de servicio, límites,
+usuario/volúmenes; debe validarse con motor/versiones.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: D-02
+
+\textbf{Referencia
+}: \href{https://docs.docker.com/reference/compose-file/networks/}{Docker
+Compose: networks}, internal
+
+\textbf{Uso acotado }: Red interna propuesta; no certifica sandbox o
+host.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: D-03
+
+\textbf{Referencia
+}: \href{https://raw.githubusercontent.com/docker-library/docs/master/postgres/README.md}{Imagen
+oficial PostgreSQL}, PGDATA
+
+\textbf{Uso acotado }: Montaje PostgreSQL18 bajo /var/lib/postgresql;
+verificar imagen fijada y migración.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: D-04
+
+\textbf{Referencia
+}: \href{https://docs.spring.io/spring-boot/reference/packaging/container-images/index.html}{Spring
+Boot: Container Images}
+
+\textbf{Uso acotado }: Dockerfile/Buildpacks como opciones; página
+consultada identifica Boot4.1.2, no actualiza el POM4.1.1.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: D-05
+
+\textbf{Referencia
+}: \href{https://docs.pytest.org/en/stable/how-to/skipping.html}{pytest:
+skip y xfail}
+
+\textbf{Uso acotado }: Una omisión es limitación, no test satisfactorio.
+
+\medskip\hrule\medskip
+
+\textbf{ID }: H-01
+
+\textbf{Referencia
+}: \href{https://www.rfc-editor.org/rfc/rfc9110.html}{RFC9110},
+§§9/15.5.2; \href{https://www.rfc-editor.org/rfc/rfc9457.html}{RFC9457}
+
+\textbf{Uso acotado }: Semántica HTTP, desafío401 y Problem Details;
+sobre académico distinto. Revisadas en actividades previas.
+
+\medskip\hrule\medskip
+
+Estas fuentes guían el análisis; no se copian listas OWASP como
+hallazgos. Las inferencias locales y las valoraciones P/I se identifican
+en las matrices. No se investigaron CVE nuevas ni se hizo una SCA
+transitiva completa; no se certifican dependencias por no encontrar
+patrones de secretos.
+
+\section{Ejecución y
+límites}\label{ACD5-semana-5-anexo2-ejecuciuxf3n-y-luxedmites}
+
+La habilidad de seguridad exige aislamiento OS con
+red/entorno/escrituras/recursos restringidos. Docker y Podman no estaban
+disponibles; WSL visible no acredita por sí solo una distribución
+aislada configurada. El proceso de auditoría queda incompleto por esa
+capacidad y no ejecuta código del target. Se conservaron metadatos de
+escaneo confiable de texto y antecedentes; no se realizaron ataques ni
+pruebas en servicios ajenos.
+
+Las actividades académicas contienen propuestas y análisis completos
+hasta donde hay evidencia, pero las partes de implementación,
+reejecución y despliegue siguen pendientes. No se produjeron
+aprobaciones, correcciones funcionales, commits o feedback grupal
+ficticios.
+\chapter{ACD5 ? Evidencia individual por
+completar}\label{ACD5-semana-5-anexo3-acd5--evidencia-individual-por-completar}
+
+Estudiante, equipo y fecha real: pendientes. Este archivo no acredita
+participacion presencial, implementacion o validacion personal.
+
+\section{Material
+preparado}\label{ACD5-semana-5-anexo3-material-preparado}
+
+Integracion despliegue y estandares. Revisar el informe y sus fuentes;
+seleccionar una cadena requisito/control/contrato/prueba y explicar la
+decision con palabras propias. Las matrices y recetas son preparacion
+asistida; los resultados APE3 conservan su procedencia.
+
+\section{Registro personal
+real}\label{ACD5-semana-5-anexo3-registro-personal-real}
+
+\begin{itemize}
+\tightlist
+\item
+  Elemento revisado y fuente exacta: pendiente.
+\item
+  Amenaza, requisito, estandar o decision analizados: pendiente.
+\item
+  Cambio realizado personalmente y justificacion: pendiente.
+\item
+  Prueba/entorno/resultado efectivamente ejecutados: pendiente.
+\item
+  Observacion recibida, persona/rol y uso: pendiente.
+\item
+  Commit, PR, acta o historial verificable: pendiente.
+\end{itemize}
+
+No declarar un test omitido como satisfactorio, una configuracion
+propuesta como despliegue ni una correccion documental como parche de
+seguridad. El commit base del manifiesto no acredita aporte individual a
+esta actividad.
+
+\end{document}

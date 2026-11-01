@@ -1,0 +1,61 @@
+{
+  "artifact": "APE4-semana-4",
+  "created_at_utc": "2026-11-01T18:36:02.029552+00:00",
+  "source_commit": "8ec04b78bd81523253b8892ca26b7d8b1a64d249",
+  "scope": "Academic documentation and proposed artifacts; not a completed implementation, security audit, test campaign or deployment",
+  "template": "FORMATOAPE.tex",
+  "template_sha256": "8e5f8f4da3167de3d6e81a5de9b8ccd76c9f4e6eec4b8fce5ab44cff5a0b966d",
+  "shared_manifest": "../soporte-semanas-4-5/evidencias/manifest.json",
+  "shared_manifest_sha256": "4cfb25a1f4d24d0ad73981db0e1d2d91f3562ccd174da4f79301dd61cf0c6da3",
+  "business_tests_run": false,
+  "target_code_executed": false,
+  "functional_security_patch_validated": false,
+  "image_built": false,
+  "deployment_url": null,
+  "published": false,
+  "tex_compiled": false,
+  "git_commit_created": false,
+  "human_participation_verified": false,
+  "files": [
+    {
+      "path": "APE4_SEGURIDAD_VALIDACIONES_PRUEBAS.md",
+      "bytes": 10341,
+      "sha256": "d19e04bcb2162ced4da173b1328650d4d614c6c979351fef2cd4f0f2a95bdce9"
+    },
+    {
+      "path": "APE4_SEGURIDAD_VALIDACIONES_PRUEBAS.tex",
+      "bytes": 21565,
+      "sha256": "98ece2c6252963dda519f6a75f6405587420cf714cd3a5fa8a547a4387eba63e"
+    },
+    {
+      "path": "NOTA_INDIVIDUAL.md",
+      "bytes": 1094,
+      "sha256": "0762e2ef1ddbd46a3812775f908e19ae2cf2bc8a87afa603dd185bb7d7a240ba"
+    },
+    {
+      "path": "PLAN_PRUEBAS.md",
+      "bytes": 2897,
+      "sha256": "5d72fbd7dfe650b695a8724a74b1d4cbc74d811dc5225abdf3b6f83580953648"
+    },
+    {
+      "path": "pruebas/test_seguridad_api.py",
+      "bytes": 4871,
+      "sha256": "23e6452a8c9805a46664ed49a0ad27776f098609db12452b50b5239a06e72af9"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1267,
+      "sha256": "c095ea36bdadfc9b9c192bf6c60ceebcd3497162d848661a9ba8fadaa49efd96"
+    },
+    {
+      "path": "referencias.bib",
+      "bytes": 1454,
+      "sha256": "3e0b85a543093d044e7340a460b40da0c6e08521912d25f59073b7042466a123"
+    },
+    {
+      "path": "reporte_tecnico_overleaf_logo.png",
+      "bytes": 170221,
+      "sha256": "e9217d666d42d3c73f066e1c3e55940c0b2a42ae4043701d10f7e112d34c0a26"
+    }
+  ]
+}
