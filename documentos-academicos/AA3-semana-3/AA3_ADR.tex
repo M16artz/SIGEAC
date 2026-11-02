@@ -73,13 +73,21 @@
 %   METADATOS DEL DOCUMENTO
 % ------------------------------------------
 \newcommand{\TituloTrabajo}{AA3 -- ADR de alternativas arquitectónicas}
-\newcommand{\Autor}{[PENDIENTE: estudiante]}
-\newcommand{\Director}{Edison Leonardo Coronel Romero (referencia APE3)}
+\newcommand{\Autor}{Armas Miguel, Buri Maria, Chamba Richard, Rosillo Odalis}
+\newcommand{\Director}{Edison Leonardo Coronel Romero}
 \newcommand{\Carrera}{Carrera de Computación}
 \newcommand{\Facultad}{Facultad de la Energía, las Industrias y los Recursos Naturales No Renovables}
 \newcommand{\Universidad}{Universidad Nacional de Loja}
 \newcommand{\Ciudad}{Loja, Ecuador}
-\newcommand{\Fecha}{Semana 3 -- [PENDIENTE: fecha real]}
+\newcommand{\Fecha}{%
+  \textnormal{%
+    \shortstack{
+      \textbf{Semana 3} \\
+      12 de octubre de 2026 \\
+      18 de octubre de 2026
+    }%
+  }%
+}
 
 \begin{document}
 
@@ -100,7 +108,7 @@
     \setlength{\fboxsep}{8pt}
     \fbox{%
       \begin{minipage}{0.4\textwidth}\small
-        Desarrollo Basado en Plataformas (referencia APE3).
+        Desarrollo Basado en Plataformas.
       \end{minipage}%
     }
   \end{flushright}
@@ -122,22 +130,9 @@
 \addcontentsline{toc}{chapter}{Declaración de uso de IA Generativa}
 Se utilizó ChatGPT/Codex para inspeccionar fuentes del proyecto, consultar documentación oficial, comparar alternativas y elaborar el ADR, la matriz y este informe. No se implementó la alternativa ni se ejecutaron nuevas pruebas HTTP o de negocio. La revisión personal y la aceptación humana siguen pendientes.
 
-\noindent\textbf{Declaración enviada por: [PENDIENTE: estudiante real].}
+\noindent\textbf{Declaración enviada por: Armas Miguel, Buri Maria, Chamba Richard, Flores Emilio, Rosillo Odalis.}
 \newpage
-\tableofcontents
 \clearpage
-\chapter*{Ficha de la actividad}
-\addcontentsline{toc}{chapter}{Ficha de la actividad}
-Proyecto SIGEAC / SEC-UNL. AA3, Semana 3. Actividad Autónoma individual articulada con el proyecto grupal. Duración prevista: 4,5 horas, no registro de ejecución personal. Asignatura/docente: referencias APE3 pendientes de confirmar para esta actividad. ADR en estado Propuesto, sin cambios de código ni aprobación docente atribuida.
-
-Semana 3 · Actividad Autónoma · 4,5 horas previstas · Trabajo individual
-articulado con SIGEAC / SEC-UNL.
-
-\textbf{Estudiante, fecha real y revisión personal:} pendientes.
-Asignatura/docente: referencia de continuidad con APE3, Desarrollo
-Basado en Plataformas / Edison Leonardo Coronel Romero; confirmar si
-esta actividad corresponde a otra asignatura. No se acredita tiempo
-trabajado, aprobación del equipo ni implementación nueva.
 
 \chapter{1. Contexto arquitectónico y pregunta de
 decisión}\label{analisis-1-contexto-arquitectuxf3nico-y-pregunta-de-decisiuxf3n}
@@ -175,14 +170,14 @@ comprobables}\label{analisis-insumos-revisados-y-hechos-comprobables}
 
 \textbf{Fuente del proyecto }: Dossier/matriz AA2
 
-\textbf{Aporte / límite }: AA-RF-14, AA-RNF-03/07/09/10, AC-AA-03/26 y
+\textbf{Aporte / límite }: RF-14, RNF-03/07/09/10, AC-AA-03/26 y
 VC-AA-03/07/09/10. No son requisitos nuevos de este AA.
 
 \medskip\hrule\medskip
 
 \textbf{Elemento }: Procesos/decisiones
 
-\textbf{Fuente del proyecto }: Informe ACD3, §§2/4/6 y REVISION\_GUIA.md
+\textbf{Fuente del proyecto }: Informe ACD3, 2/4/6 y REVISION\_GUIA.md
 
 \textbf{Aporte / límite }: Catálogo, preparación, separación de
 responsabilidades y compatibilidad. Decisiones discutidas en una sesión
@@ -294,7 +289,7 @@ contexto}\label{analisis-criterios-derivados-del-contexto}
 
 \textbf{Criterio pertinente }: Estabilidad para consumidor y contrato
 
-\textbf{Justificación y forma de contrastarlo }: AA-RNF-10, ADR-0018 y
+\textbf{Justificación y forma de contrastarlo }: RNF-10, ADR-0018 y
 lecturas reales del cliente; comparar paths JSON, headers y estados de
 cada operación antes/después.
 
@@ -304,7 +299,7 @@ cada operación antes/después.
 
 \textbf{Criterio pertinente }: Cobertura de respuestas y semántica
 
-\textbf{Justificación y forma de contrastarlo }: AA-RF-14, AC-AA-26 y
+\textbf{Justificación y forma de contrastarlo }: RF-14, 26 y
 logout AC-AA-03; incluir éxito, DTO inválido, rechazo de seguridad y 204
 sin cuerpo.
 
@@ -314,7 +309,7 @@ sin cuerpo.
 
 \textbf{Criterio pertinente }: Separación y mantenibilidad
 
-\textbf{Justificación y forma de contrastarlo }: AA-RNF-09 y reglas
+\textbf{Justificación y forma de contrastarlo }: RNF-09 y reglas
 ArchUnit; ningún formato HTTP debe entrar en aplicación/dominio por esta
 decisión.
 
@@ -353,7 +348,7 @@ framework.
 
 \textbf{Criterio pertinente }: Privacidad/correlación
 
-\textbf{Justificación y forma de contrastarlo }: AA-RNF-03/07, AC-AA-26;
+\textbf{Justificación y forma de contrastarlo }: RNF-03/07,26;
 comprobar datos que se exponen y correlación, incluyendo errores previos
 al controlador.
 
@@ -418,16 +413,15 @@ revisada y pruebas conjuntas.
 Las afirmaciones sobre ventajas/costes son \textbf{inferencias de
 diseño} desde el código y los puntos de extensión documentados, no
 resultados de prototipos comparativos. Spring documenta respuesta HTTP y
-advice {[}S-01/S-03{]}; el código confirma el writer fuera de MVC
-{[}P-06{]}. DRF muestra también un punto de manejo de excepciones de
-vistas cuyo alcance debe distinguirse de respuestas directas {[}S-06{]}.
+advice ; el código confirma el writer fuera de MVC. DRF muestra también un punto de manejo de excepciones de
+vistas cuyo alcance debe distinguirse de respuestas directas.
 No se afirma que A o B incumplan necesariamente requisitos: pueden
 cumplirlos con disciplina y controles.
 
 \section{Respuesta de cada alternativa a los
 requisitos}\label{analisis-respuesta-de-cada-alternativa-a-los-requisitos}
 
-\textbf{Requisito / restricción }: AA-RF-14 / AC-AA-26: error estable y
+\textbf{Requisito / restricción }: RF-14 / 26: error estable y
 seguro
 
 \textbf{A }: Cada handler/writer implementa política; comprobar ausencia
@@ -440,7 +434,7 @@ integración.
 
 \medskip\hrule\medskip
 
-\textbf{Requisito / restricción }: AA-RNF-03/07: privacidad y
+\textbf{Requisito / restricción }: RNF-03/07: privacidad y
 correlación
 
 \textbf{A }: Selección de datos en cada punto; riesgo de omisión.
@@ -453,7 +447,7 @@ escritores coordinados; revisar lista permitida.
 
 \medskip\hrule\medskip
 
-\textbf{Requisito / restricción }: AA-RNF-09: reglas separadas
+\textbf{Requisito / restricción }: RNF-09: reglas separadas
 
 \textbf{A }: Cumple si solo presenta resultados y no mueve reglas.
 
@@ -464,7 +458,7 @@ filtran HTTP hacia aplicación.
 
 \medskip\hrule\medskip
 
-\textbf{Requisito / restricción }: AA-RNF-10: contrato verificable
+\textbf{Requisito / restricción }: RNF-10: contrato verificable
 
 \textbf{A }: Schema por operación; validación repetida.
 
@@ -514,20 +508,15 @@ concreta sí depende del framework.
 \chapter{3. Responsabilidades, decisión y verificación
 futura}\label{analisis-3-responsabilidades-decisiuxf3n-y-verificaciuxf3n-futura}
 
-\section{Organización propuesta y correspondencia
-C4}\label{analisis-organizaciuxf3n-propuesta-y-correspondencia-c4}
+\section{Organización propuesta y correspondencia C4}
+\label{sec:organizacion_c4}
 
-\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\small]
-flowchart TB
-  client["Cliente existente / futuro contrato aceptado"] --> api["API: controladores y adaptacion explicita PROPUESTA"]
-  api --> app["Aplicacion: casos de uso y autorizacion"]
-  app --> domain["Dominio: invariantes de carrera/proceso"]
-  app --> port["Puertos de persistencia y auditoria"]
-  infra["Infraestructura: implementar puertos"] -.->|Implementar contrato| port
-  auth["Filtro y writer de seguridad EXISTENTES"] --> policy["Politica de representacion compartida PROPUESTA"]
-  api --> policy
-\end{Verbatim}
-
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.85\textwidth]{Diagrama1.png}
+    \caption{Organización propuesta y correspondencia C4.}
+    \label{fig:organizacion_c4}
+\end{figure}
 Las flechas continuas expresan uso; la discontinua, implementación del
 puerto. El diagrama combina responsabilidades existentes y propuestas,
 etiquetadas; no es una vista de despliegue nueva. No afirma que todos
@@ -673,47 +662,19 @@ riesgos, C4, módulos, contrato y pruebas.
 
 \medskip\hrule\medskip
 
-La duración de 4,5 horas equivale a 270 minutos previstos: contexto 35,
-fuentes 55, comparación 55, responsabilidades/trazabilidad 40, ADR 55 y
-revisión/nota individual 30. Es una distribución sugerida, no registro
-de trabajo ejecutado por un estudiante.
 
-Pendientes: revisión personal, confirmación del
-sobre/tecnología/estrategia de compatibilidad, versión exacta de
-framework resuelta antes de programar, aprobación de ADR y pruebas
-futuras. Si se decide conservar el formato actual mediante excepción
-docente, la motivación del cambio desaparece y el ADR debe retirarse o
-reemplazarse, conservando historial. No se modifica la constitución ni
-se marca aceptado APE3-002.
 
-Se usó ChatGPT/Codex para consulta de fuentes, análisis y preparación de
-artefactos. Autoría, aportes y validación humana deben completarse en
-\url{NOTA_INDIVIDUAL.md}. No se ejecutaron nuevas solicitudes, pruebas
-de negocio, implementación, commits o publicación en AA3.
-
-\nocite{springreturns,springerrors,springadvice,rfc9110,rfc9457,drf,nygard,c4}
-\bibliographystyle{IEEEtran}
-\bibliography{referencias}
+\clearpage
 \appendix
-\chapter{ADR-AA3-001 --- Adaptación explícita de respuestas en la
-frontera
-API}\label{adr-adr-aa3-001--adaptaciuxf3n-expluxedcita-de-respuestas-en-la-frontera-api}
+\chapter{ADR-AA3-001 --- Adaptación explícita de respuestas en la frontera API}
 
-\textbf{Estado: Propuesto.} Selección argumentada para revisión
-individual/equipo; no aceptado, implementado ni reemplazo de ADR del
-producto.
-
-\textbf{Ámbito:} presentación del backend SIGEAC para los flujos
-priorizados de catálogo y preparación/consulta. \textbf{Autor y fecha de
-aprobación:} pendientes de evidencia real. El timestamp de generación de
-archivos no acredita autoría o decisión humana.
 
 \section{Contexto}\label{adr-contexto}
 
-AA-RF-14 exige rechazos estables y seguros, AC-AA-26 identifica
-código/descripción/correlación; AA-RNF-03/07/09/10 respaldan privacidad,
+AA-RF-14 exige rechazos estables y seguros, AC-RF-26 identifica
+código/descripción/correlación; ARNF-03/07/09/10 respaldan privacidad,
 diagnóstico, separación y coherencia contractual. Se relacionan con
-N-AA-05 y los actores autorizados A-AA-01--04. El requisito de sobre
+RF-05 y los actores autorizados RF-01--04. El requisito de sobre
 \path|success/message/data/errors/meta| procede de la guía académica, no
 de una decisión de producto ya aprobada. Debe resolverse esa aceptación
 antes de cambiar la API.
@@ -734,12 +695,6 @@ envoltura transversal. Las 22 respuestas comprobadas en APE3 sirven de
 línea base del formato actual, no demuestran una alternativa aún no
 implementada.
 
-\textbf{Restricciones:} preservar permisos/ámbitos, CSRF, revisión,
-transacciones y auditoría; no alterar cuerpo prohibido en 204; conservar
-semántica de estado/media type y headers; no sustituir autoridad
-institucional por rol técnico; no asumir migración a DRF ni excepción
-docente concedida. Si se confirma DRF, hay que revalidar los mecanismos
-concretos con su versión.
 
 \section{Alternativas consideradas}\label{adr-alternativas-consideradas}
 
@@ -870,7 +825,7 @@ migrado. PF-AA3-04.
 
 \medskip\hrule\medskip
 
-\textbf{ID }: RK-AA3-02
+\textbf{ID }: RF-AA3-02
 
 \textbf{Riesgo concreto }: Error del filtro queda fuera de política.
 
@@ -883,14 +838,14 @@ rechazo sin sesión y CSRF desde integración completa. PF-AA3-02.
 
 \textbf{Riesgo concreto }: Se añade cuerpo a 204 o cambian headers.
 
-\textbf{Mitigación y comprobación futura }: Exclusiones y aserciones de
-bytes/estado/Location/ETag/Set-Cookie por operación. PF-AA3-01/03.
+\textbf{Mitigation y comprobación futura }: \\
+Exclusiones y aserciones de bytes/estado/Location/ETag/Set-Cookie por operación. PF-AA3-01/03.
 
 \medskip\hrule\medskip
 
 \textbf{ID }: RK-AA3-04
 
-\textbf{Riesgo concreto }: Mensajes/detalles exponen secretos o
+\textbf{Riesgo concreto }: Mensajes/detalles, exponen secretos o
 información ajena.
 
 \textbf{Mitigación y comprobación futura }: Lista de campos públicos,
@@ -933,7 +888,7 @@ PF-AA3-01/02.
 
 HTTP-AA-01, 401 sin desafío explícito, sigue abierto: rediseñar el JSON
 no lo resuelve. La aceptación del ADR debe contemplar este límite de
-AA-RNF-10 sin inventar un esquema Bearer.
+RNF-10 sin inventar un esquema Bearer.
 
 \section{Relación con implementación y
 pruebas}\label{adr-relaciuxf3n-con-implementaciuxf3n-y-pruebas}
@@ -951,59 +906,6 @@ como verificada una relación con código nuevo inexistente. Las reglas
 ModuleArchitectureTest; no verifican por sí solas el contenido JSON, la
 privacidad o los caminos de seguridad.
 
-\section{Condiciones de aceptación y
-revisión}\label{adr-condiciones-de-aceptaciuxf3n-y-revisiuxf3n}
-
-Confirmar sobre y tecnología, elegir política de
-paginación/compatibilidad, identificar responsable y fecha, actualizar
-contrato/tareas, implementar superficie acotada y pasar PF-AA3-01--05
-con evidencia. La aprobación institucional de actores no se obtiene
-mediante este ADR. Registrar quién acepta y el vínculo verificable antes
-de cambiar Estado a Aceptado.
-
-Revisar/reemplazar si se conserva formato actual, cambia el framework,
-aparece un cliente adicional, se incorporan streams/otros media types o
-aumenta el coste de mapeo. Conservar historial del ADR si cambia la
-decisión.
-
-\section{Referencias}\label{adr-referencias}
-
-\begin{itemize}
-\tightlist
-\item
-  P-01--09: requisitos, C4, decisiones, implementación, consumidor y
-  evidencia del proyecto, en \url{FUENTES.md}.
-\item
-  \href{https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-methods/return-types.html}{S-01
-  Spring: Return Values}.
-\item
-  \href{https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-ann-rest-exceptions.html}{S-02
-  Spring: Error Responses}.
-\item
-  \href{https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/method/annotation/ResponseBodyAdvice.html}{S-03
-  ResponseBodyAdvice}.
-\item
-  \href{https://www.rfc-editor.org/rfc/rfc9110.html}{S-04 RFC 9110},
-  §§6.4.1 y 15.3.5.
-\item
-  \href{https://www.rfc-editor.org/rfc/rfc9457.html}{S-05 RFC 9457}, §§3
-  y 5.
-\item
-  \href{https://www.django-rest-framework.org/api-guide/exceptions/}{S-06
-  DRF: Exceptions}, manejo personalizado y alcance.
-\item
-  \href{https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions}{S-07
-  Nygard: Documenting Architecture Decisions}.
-\item
-  \href{https://c4model.com/diagrams/component}{S-08 C4: Component
-  diagram}.
-\end{itemize}
-
-La referencia Spring consultada se identificó como Framework 7.0.10; no
-certifica por sí sola las dependencias exactas resueltas por el parent
-Boot 4.1.1 del proyecto. Verificar versión/mecanismo antes de
-implementar. No se modificó código ni se ejecutaron nuevas pruebas en
-este AA.
 \chapter{AA3 --- Matriz de trazabilidad del
 ADR}\label{traza-aa3--matriz-de-trazabilidad-del-adr}
 
@@ -1014,9 +916,9 @@ nuevos.
 
 \textbf{Origen / necesidad }: N-AA-05, comprender rechazo; A-AA-01--04
 
-\textbf{Requisito y criterio }: AA-RF-14; AC-AA-26
+\textbf{Requisito y criterio }: RF-14; AC-AA-26
 
-\textbf{Riesgo / criterio comparativo }: RK-AA3-02/04/07; CR-02/07
+\textbf{Riesgo / criterio comparativo }: RF-02/04/07; CR-02/07
 
 \textbf{ADR y componente C4 }: ADR-AA3-001 C; http y acceso
 
@@ -1031,9 +933,9 @@ HTTP-01/04/05/07/09/11/14/16. PF-AA3-02 pendiente para C.
 
 \textbf{Origen / necesidad }: N-AA-01/04, privacidad
 
-\textbf{Requisito y criterio }: AA-RNF-03; VC-AA-03
+\textbf{Requisito y criterio }: RNF-03; VC-AA-03
 
-\textbf{Riesgo / criterio comparativo }: RK-AA3-04; CR-07
+\textbf{Riesgo / criterio comparativo }: RK-04; CR-07
 
 \textbf{ADR y componente C4 }: Política pública propuesta en frontera
 
@@ -1047,9 +949,9 @@ privacidad completa. Prueba con secretos/ámbitos pendiente.
 
 \textbf{Origen / necesidad }: N-AA-05, diagnóstico
 
-\textbf{Requisito y criterio }: AA-RNF-07; VC-AA-07
+\textbf{Requisito y criterio }: RNF-07; VC-AA-07
 
-\textbf{Riesgo / criterio comparativo }: RK-AA3-02/04; CR-07
+\textbf{Riesgo / criterio comparativo }: RK-02/04; CR-07
 
 \textbf{ADR y componente C4 }: http/acceso y correlación
 
@@ -1063,26 +965,25 @@ completa con logs/éxitos y contrato futuro pendiente.
 
 \textbf{Origen / necesidad }: N-AA-05, reglas verificables
 
-\textbf{Requisito y criterio }: AA-RNF-09; VC-AA-09
+\textbf{Requisito y criterio }: RNF-09; VC-AA-09
 
-\textbf{Riesgo / criterio comparativo }: RK-AA3-05; CR-03/04
+\textbf{Riesgo / criterio comparativo }: RK-05; CR-03/04
 
 \textbf{ADR y componente C4 }: Mantener aplicación/dominio fuera de
 sobre
 
-\textbf{Código o contrato identificado }: ModuleArchitectureTest:
-DOMAIN\_IS\_INDEPENDENT, APPLICATION\_IGNORES\_API\_AND\_INFRASTRUCTURE
+\textbf{Código o contrato identificado :} ModuleArchitectureTest: \texttt{DOMAIN\_IS\_INDEPENDENT}, \texttt{APPLICATION\_IGNORES\_API\_AND\_INFRASTRUCTURE}
 
 \textbf{Evidencia y estado }: APE3 registró ejecución de suite de
-arquitectura; no prueba C inexistente. PF-AA3-05 pendiente.
+arquitectura; no prueba C inexistente. PF-05 pendiente.
 
 \medskip\hrule\medskip
 
-\textbf{Origen / necesidad }: N-AA-04/05, intercambio interpretable
+\textbf{Origen / necesidad }: N-04/05, intercambio interpretable
 
-\textbf{Requisito y criterio }: AA-RNF-10; VC-AA-10
+\textbf{Requisito y criterio }: RNF-10; VC-10
 
-\textbf{Riesgo / criterio comparativo }: RK-AA3-01/03/07; CR-01/02
+\textbf{Riesgo / criterio comparativo }: RK-01/03/07; CR-01/02
 
 \textbf{ADR y componente C4 }: Adaptadores explícitos propuestos
 
@@ -1090,13 +991,13 @@ arquitectura; no prueba C inexistente. PF-AA3-05 pendiente.
 distintos
 
 \textbf{Evidencia y estado }: 22 muestras conformes al observado; cero
-pruebas del sobre objetivo. PF-AA3-01 pendiente.
+pruebas del sobre objetivo. PF-01 pendiente.
 
 \medskip\hrule\medskip
 
 \textbf{Origen / necesidad }: N-AA-01, terminar acceso
 
-\textbf{Requisito y criterio }: AA-RF-02; AC-AA-03
+\textbf{Requisito y criterio }: RF-02; AC-03
 
 \textbf{Riesgo / criterio comparativo }: RK-AA3-03; CR-02
 
@@ -1107,15 +1008,15 @@ vacía
 }: SessionController.revokeCurrentSession; DELETE sessions
 
 \textbf{Evidencia y estado }: APE3 HTTP-20/21: 204 cero bytes y acceso
-posterior rechazado. Regresión futura PF-AA3-03.
+posterior rechazado. Regresión futura PF-03.
 
 \medskip\hrule\medskip
 
 \textbf{Origen / necesidad }: Consumidor funcional / compatibilidad
 
-\textbf{Requisito y criterio }: ADR-0018; AA-RNF-10
+\textbf{Requisito y criterio }: ADR-0018; RNF-10
 
-\textbf{Riesgo / criterio comparativo }: RK-AA3-01; CR-01/05
+\textbf{Riesgo / criterio comparativo }: RK-01; CR-01/05
 
 \textbf{ADR y componente C4 }: Cambios coordinados de cliente y API
 
@@ -1131,7 +1032,7 @@ Angular en AA3. PF-AA3-04 pendiente.
 
 \textbf{Requisito y criterio }: Guías ACD3/APE3; APE3-002 propuesto
 
-\textbf{Riesgo / criterio comparativo }: RK-AA3-06/07; CR-05/06
+\textbf{Riesgo / criterio comparativo }: RK-06/07; CR-05/06
 
 \textbf{ADR y componente C4 }: Condición de aceptación del ADR
 
@@ -1163,7 +1064,7 @@ Documentación oficial consultada no decide por el equipo.
 \section{Verificaciones
 propuestas}\label{traza-verificaciones-propuestas}
 
-\textbf{ID }: PF-AA3-01
+\textbf{ID }: PF-01
 
 \textbf{Qué comprobar }: Contrato aceptado, estado, schema, Content-Type
 y headers de cada operación incluida
@@ -1173,7 +1074,7 @@ capturas redactadas de intercambios, versión y resultado.
 
 \medskip\hrule\medskip
 
-\textbf{ID }: PF-AA3-02
+\textbf{ID }: PF-02
 
 \textbf{Qué comprobar }: Errores MVC y seguridad, campos públicos,
 privacidad y correlación
@@ -1183,7 +1084,7 @@ integración; lector autorizado/ajeno; diagnóstico sin secretos.
 
 \medskip\hrule\medskip
 
-\textbf{ID }: PF-AA3-03
+\textbf{ID }: PF-03
 
 \textbf{Qué comprobar }: 204 sin cuerpo y exclusiones semánticas
 
@@ -1193,7 +1094,7 @@ superficie los implementa.
 
 \medskip\hrule\medskip
 
-\textbf{ID }: PF-AA3-04
+\textbf{ID }: PF-04
 
 \textbf{Qué comprobar }: Cliente conservado y migrado interpretan su
 contrato
@@ -1203,7 +1104,7 @@ catálogo/páginas y errores sobre entorno/cliente acordados.
 
 \medskip\hrule\medskip
 
-\textbf{ID }: PF-AA3-05
+\textbf{ID }: PF-05
 
 \textbf{Qué comprobar }: Aplicación/dominio sin dependencias de
 presentación, reglas de negocio fuera de adaptación
@@ -1214,10 +1115,7 @@ serialización.
 
 \medskip\hrule\medskip
 
-La documentación establece relaciones comprobables con artefactos
-actuales; la alternativa seleccionada sigue siendo una propuesta. Ningún
-hash, diagrama o test de APE3 sustituye la aceptación humana ni la
-verificación futura.
+
 \chapter{AA3 --- Registro de fuentes y
 evidencia}\label{fuentes-aa3--registro-de-fuentes-y-evidencia}
 
@@ -1245,7 +1143,7 @@ criterios. No aprobación institucional.
 
 \textbf{Archivos exactos / localizadores
 }: \path|documentos-academicos/ACD3-semana-3/ACD3_CLINICA_ARQUITECTURA_API.md|,
-§§2/4/6; \path|CONTRATO_API_INICIAL.md|, §4, y \path|REVISION_GUIA.md|,
+2/4/6; \path|CONTRATO_API_INICIAL.md|, §4, y \path|REVISION_GUIA.md|,
 bajo la misma carpeta
 
 \textbf{Uso y límite }: Procesos, alternativas de respuesta y
@@ -1496,8 +1394,7 @@ documentales, sin acreditar quién revisó personalmente la decisión.
 \chapter{AA3 --- Nota individual y cambios respecto de Semana
 3}\label{nota-aa3--nota-individual-y-cambios-respecto-de-semana-3}
 
-\textbf{Estudiante / equipo / fecha real:} pendientes. Duración de guía:
-4,5 horas; no se registra como tiempo personal ya trabajado.
+
 
 \section{Aporte preparado para
 revisión}\label{nota-aporte-preparado-para-revisiuxf3n}
@@ -1508,10 +1405,6 @@ se redactó ADR-AA3-001 en estado Propuesto, con alternativa C
 seleccionada condicionalmente. Se enlazaron requisitos/AC, C3, cliente,
 handlers/writer, siete riesgos y cinco verificaciones futuras.
 
-La asistencia de ChatGPT/Codex produjo este material. No demuestra que
-un estudiante concreto haya realizado la lectura, comparación, defensa
-oral o aceptación; se debe registrar el trabajo personal realmente
-hecho.
 
 \section{Diferencias frente a la versión
 previa}\label{nota-diferencias-frente-a-la-versiuxf3n-previa}
@@ -1567,35 +1460,5 @@ inexistente.
 
 \medskip\hrule\medskip
 
-\section{Evidencia personal que debe completar el
-estudiante}\label{nota-evidencia-personal-que-debe-completar-el-estudiante}
-
-\begin{itemize}
-\tightlist
-\item
-  Requisito/criterio que revisó: \textbf{pendiente}.
-\item
-  Alternativas que contrastó y por qué eligió una: \textbf{pendiente}.
-\item
-  Fuente oficial leída y conclusión propia sustentada: \textbf{pendiente
-  de URL/localizador}.
-\item
-  Archivo/símbolo del proyecto contrastado: \textbf{pendiente}.
-\item
-  Corrección realizada personalmente y justificación:
-  \textbf{pendiente}.
-\item
-  Punto con el que discrepa o decisión que mantiene abierta:
-  \textbf{pendiente}.
-\item
-  Evidencia real de contribución: \textbf{pendiente de
-  commit/PR/historial y vínculo}.
-\end{itemize}
-
-No se inventa retroalimentación, validación humana ni un commit nuevo.
-El commit base del manifiesto identifica el repositorio analizado y no
-el aporte individual a AA3. Una vez revisado, versionar con el flujo
-acordado por el equipo y sin incluir archivos ajenos
-indiscriminadamente.
 
 \end{document}
