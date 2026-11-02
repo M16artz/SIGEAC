@@ -79,7 +79,7 @@
 \newcommand{\Facultad}{Facultad de la Energía, las Industrias y los Recursos Naturales No Renovables}
 \newcommand{\Universidad}{Universidad Nacional de Loja}
 \newcommand{\Ciudad}{Loja, Ecuador}
-\newcommand{\Fecha}{Semana 3 - 22 de octubre de 2026}
+
 
 \begin{document}
 
@@ -122,9 +122,6 @@
 \addcontentsline{toc}{chapter}{Declaración de uso de IA Generativa}
 Se utilizó ChatGPT/Codex para inspeccionar fuentes, arquitectura y API, consultar referencias y elaborar documentos. No se realizaron solicitudes al backend, pruebas de negocio ni validación docente. La clínica y participación individual están pendientes de registro real.
 
-\noindent\textbf{Declaración enviada por: Miguel Armas, Maria Buri, Richard Chamba, Emilio Flores, Odalis
-Rosillo}
-
 
 \chapter{Problema, procesos y arquitectura preliminar}\label{informe-parte1}
 
@@ -133,12 +130,9 @@ principal}\label{informe-1-revisiuxf3n-de-requisitos-y-flujo-principal}
 
 El problema es organizar la autoevaluación de carreras con referencias
 identificables, acceso por ámbito y trazabilidad, evitando cambios sin
-historia y preparación con carreras o modelos inadecuados. Fuente:
-\path|docs/requirements/spec.md|,
-\path|docs/requirements/process-flows.md| y el
-\href{../AA2-semana-2/DOSSIER_REQUISITOS_AA2.md}{dossier AA2}.
+historia y preparación con carreras o modelos inadecuados.
 
-Se conserva como \textbf{propuesta de incremento de Unidad 1}, pendiente
+Se conserva como propuesta de incremento de Unidad 1}, pendiente
 de ratificación, el acceso, catálogo académico y preparación/consulta de
 procesos. La clínica selecciona dos flujos: F3-01, registrar o
 corregir una carrera; F3-02, preparar y consultar un proceso.
@@ -1784,107 +1778,7 @@ No convertir H-01--09 en OBS sin una observación real identificada. Si
 se mantiene el diseño, registrar el argumento y la fuente, no inventar
 un cambio para llenar la tabla.
 
-\section{4. Cambios ya preparados en esta
-actividad}\label{observaciones-4-cambios-ya-preparados-en-esta-actividad}
 
-Se elaboraron dos procesos textuales, tres vistas C4, ocho decisiones
-con alternativas, selección de 18 operaciones, contrato objetivo
-diferenciado y trazabilidad de Semana 2 a componentes/API. Son cambios
-en documentación académica; no hubo implementación, migración de
-contratos, ejecución de negocio, publicación ni commit nuevo. Las
-correcciones derivadas de la clínica permanecen pendientes hasta recibir
-retroalimentación real.
-\chapter{ACD3 --- Evidencia individual para
-completar}\label{individual-acd3--evidencia-individual-para-completar}
-
-\textbf{Estudiante:} pendiente. \textbf{Equipo:} pendiente.
-\textbf{Fecha de sesión:} pendiente. \textbf{Rol/aporte efectivamente
-realizado:} pendiente. Esta nota no acredita intervención oral ni
-revisión personal terminada.
-
-\section{Material preparado para la revisión
-personal}\label{individual-material-preparado-para-la-revisiuxf3n-personal}
-
-Seleccionar y revisar al menos una cadena completa de las siguientes;
-registrar únicamente lo realizado por el estudiante.
-
-\textbf{Tema disponible }: Catálogo y concurrencia
-
-\textbf{Cadena para explicar }: RF-06/08 \ensuremath{\rightarrow} HU-02/04 \ensuremath{\rightarrow} AC-08--15
-\ensuremath{\rightarrow} F3-01 \ensuremath{\rightarrow} CareerAdministrationService \ensuremath{\rightarrow} POST/PATCH careers \ensuremath{\rightarrow}
-ETag/412
-
-\textbf{Archivos que abrir }: Dossier AA2, informe ACD3, contrato,
-CareerController/CareerAdministrationService/EntityTagSupport.
-
-\medskip\hrule\medskip
-
-\textbf{Tema disponible }: Preparación y límites
-
-\textbf{Cadena para explicar }: RF-10/11 \ensuremath{\rightarrow} HU-06 \ensuremath{\rightarrow} AC-18--22 \ensuremath{\rightarrow}
-F3-02 \ensuremath{\rightarrow} SelfAssessmentService \ensuremath{\rightarrow} POST processes \ensuremath{\rightarrow} 201/PREPARATION
-
-\textbf{Archivos que abrir }: Dossier AA2, C4, contrato y servicio de
-procesos.
-
-\medskip\hrule\medskip
-
-\textbf{Tema disponible }: Contrato y compatibilidad
-
-\textbf{Cadena para explicar }: RF-14 / RNF-10 \ensuremath{\rightarrow} AC-26 /
-VC-10 \ensuremath{\rightarrow} handlers \ensuremath{\rightarrow} Problem Details actual frente a sobre propuesto
-
-\textbf{Archivos que abrir }: Contrato, handlers, ADR-0018 y registro
-H-01.
-
-\medskip\hrule\medskip
-
-Las rutas exactas se encuentran en FUENTES.md. Antes de atribuir el
-aporte, abrir las fuentes, contrastar el comportamiento y explicar la
-decisión con palabras propias.
-
-\section{Registro del aporte
-real}\label{individual-registro-del-aporte-real}
-
-\begin{itemize}
-\tightlist
-\item
-  Elementos revisados personalmente: \textbf{pendiente}.
-\item
-  Hallazgo y fuente concreta (archivo/símbolo/sección):
-  \textbf{pendiente}.
-\item
-  Decisión defendida y alternativa considerada: \textbf{pendiente}.
-\item
-  Cambio realizado personalmente o justificación para conservar
-  propuesta: \textbf{pendiente}.
-\item
-  Observación realmente recibida, persona/rol y fecha:
-  \textbf{pendiente}.
-\item
-  Uso de la observación y vínculo a OBS real: \textbf{pendiente}.
-\item
-  Evidencia verificable: \textbf{pendiente de commit, PR, historial o
-  acta real}.
-\end{itemize}
-
-\section{Ejercicio disponible, no presentado como
-ejecución}\label{individual-ejercicio-disponible-no-presentado-como-ejecuciuxf3n}
-
-Explicar por qué PATCH \path|/api/v1/careers/{id}| necesita cookie, CSRF
-y If-Match; qué envía CareerInput; por qué una revisión vieja produce
-412; qué diferencia existe con 409 por código duplicado; cómo se
-recupera sin sobrescribir. Para preparación, explicar por qué 201 y
-Location no significan activación ni autorización institucional.
-
-\section{Declaración de
-asistencia}\label{individual-declaraciuxf3n-de-asistencia}
-
-Los documentos iniciales fueron preparados con ChatGPT/Codex mediante
-inspección estática y consulta de fuentes. Cada integrante debe
-identificar su revisión, corrección y participación reales. No
-reutilizar el commit base como prueba de contribución a ACD3 ni
-presentar el texto generado como registro de una clínica ya realizada.
 \chapter{ACD3 --- Fuentes y
 evidencia}\label{fuentes-acd3--fuentes-y-evidencia}
 
@@ -2269,42 +2163,6 @@ Pruebas a consultar:
 \path|docs/testing/traceability.md|. Son evidencia de mecanismos
 existentes; no se ejecutaron en esta elaboración.
 
-\section{Fuentes técnicas primarias
-consultadas}\label{fuentes-fuentes-tuxe9cnicas-primarias-consultadas}
 
-\begin{itemize}
-\tightlist
-\item
-  \href{https://c4model.com/diagrams/system-context}{C4: contexto}:
-  frontera de sistema/personas.
-\item
-  \href{https://c4model.com/diagrams/container}{C4: contenedores}:
-  aplicaciones/almacenes y relaciones tecnológicas; no equivale a
-  Docker.
-\item
-  \href{https://c4model.com/diagrams/component}{C4: componentes}:
-  descomposición interna de un contenedor.
-\item
-  \href{https://www.rfc-editor.org/rfc/rfc9110.html}{RFC 9110}: §9
-  métodos, §8.8.3 ETag, §10.2.2 Location, §13.1.1 If-Match, §15 estados,
-  en particular §15.5.2 para desafío 401.
-\item
-  \href{https://www.rfc-editor.org/rfc/rfc5789.html}{RFC 5789}: §2,
-  semántica de PATCH; no identifica JSON Patch por sí misma.
-\item
-  \href{https://www.rfc-editor.org/rfc/rfc6585.html}{RFC 6585}: §3
-  precondición requerida y §4 límite de solicitudes.
-\item
-  \href{https://www.rfc-editor.org/rfc/rfc9457.html}{RFC 9457}: §3,
-  Problem Details y extensiones; sustento del formato actual, distinto
-  del sobre de la guía.
-\item
-  \href{https://fetch.spec.whatwg.org/\#http-cors-protocol}{WHATWG
-  Fetch}: protocolo CORS, credenciales y exposición de cabeceras.
-\end{itemize}
-
-Estas fuentes justifican interpretación técnica, no necesidades
-institucionales ni aprobación del contrato propuesto. El alcance se
-justifica en los documentos de requisitos, no por autoridad de una RFC.
 
 \end{document}
