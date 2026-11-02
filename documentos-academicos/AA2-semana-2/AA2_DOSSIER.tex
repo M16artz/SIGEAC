@@ -73,13 +73,19 @@
 %   METADATOS DEL DOCUMENTO
 % ------------------------------------------
 \newcommand{\TituloTrabajo}{AA2 -- Dossier de requisitos y matriz de trazabilidad}
-\newcommand{\Autor}{[PENDIENTE: estudiante]}
-\newcommand{\Director}{Edison Leonardo Coronel Romero (referencia APE2)}
+\newcommand{\Autor}{
+    Armas Ordoñez Miguel Alejandro,
+    Buri Camacho María Soledad,
+    Chamba Santín Richard Ariel,
+    Flores Gallardo Emilio Josué, 
+    Rosillo Gaona, Odalis Camila 
+}
+\newcommand{\Director}{Edison Leonardo Coronel Romero}
 \newcommand{\Carrera}{Carrera de Computación}
 \newcommand{\Facultad}{Facultad de la Energía, las Industrias y los Recursos Naturales No Renovables}
 \newcommand{\Universidad}{Universidad Nacional de Loja}
 \newcommand{\Ciudad}{Loja, Ecuador}
-\newcommand{\Fecha}{Semana 2 -- [PENDIENTE: fecha real]}
+
 
 \begin{document}
 
@@ -124,7 +130,7 @@ Se utilizó ChatGPT/Codex para revisar documentación y fuentes técnicas y del 
 
 El estudiante debe revisar el contenido, identificar su aporte real y asumir responsabilidad por su entrega. No se declara supervisión humana ya completada ni se reutilizan autores o herramientas del informe previo contenido en la plantilla.
 
-\noindent\textbf{Declaración enviada por: [PENDIENTE: estudiante real].}
+
 
 \chapter{Revisión de fuentes y fundamentos
 técnicos}\label{dossier-revisiuxf3n-de-fuentes-y-fundamentos-tuxe9cnicos}
@@ -143,9 +149,7 @@ aprobación de un cambio de alcance.
 Cada elemento se evalúa por claridad, necesidad, consistencia,
 verificabilidad, ausencia de redundancia y compatibilidad con su fuente.
 La revisión diferencia decisiones del producto, fundamento técnico,
-contexto institucional e implementación observada. Ninguna fuente se
-utiliza para atribuir una entrevista, designación o aprobación
-inexistente.
+contexto institucional e implementación observada.
 
 \section{Fuentes consultadas y alcance de la
 evidencia}\label{dossier-fuentes-consultadas-y-alcance-de-la-evidencia}
@@ -190,19 +194,19 @@ Síntesis técnica
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-Métodos, §§9.2--9.3 & GET recupera; POST procesa; PUT expresa reemplazo;
+Métodos, 9.2--9.3 & GET recupera; POST procesa; PUT expresa reemplazo;
 DELETE solicita retirar una asociación. Seguridad e idempotencia son
 propiedades distintas. \\
-Representación, §§8.1--8.3 & El recurso se comunica mediante
+Representación, 8.1--8.3 & El recurso se comunica mediante
 representaciones y metadatos; Content-Type identifica el tipo. \\
 Estados, §15 & El estado distingue éxito, rechazo y error; 201 indica
 creación y 412 una precondición incumplida. \\
-Cabeceras, §§5, 8.8.3, 10.2.2, 12.5.1 & ETag identifica una
+Cabeceras, 5, 8.8.3, 10.2.2, 12.5.1 & ETag identifica una
 representación; Location referencia el recurso; Accept expresa
 preferencias. \\
-Contenido, §6.4 & El significado depende de método y estado; 204 no
+Contenido, 6.4 & El significado depende de método y estado; 204 no
 incluye contenido. \\
-Seguridad, §§11 y 17 & Considerar autenticación, divulgación e
+Seguridad, 11 y 17 & Considerar autenticación, divulgación e
 intermediarios; HTTP por sí solo no resuelve la autorización de
 negocio. \\
 \end{longtable}
@@ -226,22 +230,7 @@ método lo admite. La revisión empieza en 1 para carrera y en 0 para
 proceso. Esas diferencias son de los DTO/controladores, no reglas
 universales de HTTP.
 
-C-06 acepta un ETag fuerte numérico y produce 400/428 ante formatos o
-precondición ausente según su contrato. La gramática general de If-Match
-es más amplia; no se califica una lista o \path|*| como inválida para
-todo HTTP por la restricción local. Referencia de contraste: F-09
-§13.1.1.
 
-\textbf{Observación HTTP -AA-01, pendiente:} RFC 9110 §15.5.2 exige un
-desafío WWW-Authenticate en 401. C-07/C-08 no lo establecen
-explícitamente y no se localizó la cabecera en fuentes principales.
-Falta observar respuestas reales y decidir el desafío aplicable; no se
-incorpora un Bearer ficticio ni se afirma conformidad integral de
-autenticación.
-
-La aceptación de los contratos preliminares CP-01--09 de APE2 queda
-condicionada a ese contraste. Los ejemplos son reconstruidos y no se
-ejecutaron solicitudes.
 
 \chapter{Dossier depurado del
 incremento}\label{dossier-dossier-depurado-del-incremento}
@@ -1536,69 +1525,4 @@ reejecutaron y su cobertura no se extiende automáticamente al recorte
 AA2. \\
 \end{longtable}
 }
-
-\subsection{Fuentes primarias del dominio
-consultadas}\label{fuentes-fuentes-primarias-del-dominio-consultadas}
-
-\subsubsection{F-07 --- Modelo Genérico CACES, marzo de
-2024}\label{fuentes-f-07-modelo-genuxe9rico-caces-marzo-de-2024}
-
-\begin{itemize}
-\tightlist
-\item
-  Autor institucional: Consejo de Aseguramiento de la Calidad de la
-  Educación Superior (CACES).
-\item
-  Identificación: Modelo genérico para la evaluación del entorno de
-  aprendizaje de carreras de grado, marzo de 2024.
-\item
-  \href{https://www.caces.gob.ec/wp-content/uploads/2024/04/Modelo-generico-para-la-evaluacio\%CC\%81n-del-entorno-de-aprendizaje-de-carreras-de-grado.pdf}{PDF
-  publicado por CACES}.
-\item
-  Localizadores: sección II, Introducción; sección V, Estructura del
-  modelo y definiciones. Lectura acotada, no transcripción exhaustiva de
-  indicadores.
-\item
-  Hallazgo pertinente: relaciona la evaluación con estándares, fuentes y
-  períodos. Se utiliza como respaldo contextual de N-03: identificar
-  el modelo y período elegidos para un proceso.
-\item
-  Límite: la consulta del PDF oficial no corrobora los fixtures ni
-  establece qué versión debe usarse para cada carrera hoy. No impone por
-  sí sola los campos técnicos del backend ni exige un algoritmo de
-  autenticación.
-\item
-  Estado: \textbf{documento primario localizado y consultado;
-  aplicabilidad al piloto por confirmar}.
-\end{itemize}
-
-\subsubsection{F-08 --- Instructivo UNL, Resolución
-037-R-UNL-2022}\label{fuentes-f-08-instructivo-unl-resoluciuxf3n-037-r-unl-2022}
-
-\begin{itemize}
-\tightlist
-\item
-  Autor institucional: Universidad Nacional de Loja.
-\item
-  Identificación: resolución 037-R-UNL-2022, instructivo de
-  aseguramiento de la calidad institucional, carreras y posgrados.
-\item
-  \href{https://www.unl.edu.ec/sites/default/files/gaceta/resolucion/2022-06/Resoluci\%C3\%B3n\%20Nro.\%20037-R-UNL-2022-\%20Instructivo\%20para\%20el\%20Aseguramiento\%20de\%20la\%20Calidad\%20de\%20la\%20UNL-signed.pdf}{PDF
-  publicado en la gaceta de la UNL}.
-\item
-  Localizadores: artículos 1--2 (objeto/ámbito), 9--10 (comisión de
-  carrera/programa) y 12 (responsabilidades de comités). La revisión no
-  abarca todas sus disposiciones.
-\item
-  Hallazgo pertinente: identifica comisiones y comités con
-  responsabilidades en autoevaluación. Respalda el contexto
-  institucional de N-03 y la necesidad de explicitar quién
-  interviene.
-\item
-  Límite: no se convierte automáticamente a una comisión en el rol
-  \path|coordinador|, ni a cada miembro en administrador de catálogo. No
-  se certifican vigencia actual, designaciones o delegaciones del
-  piloto.
-\end{itemize}
-
 \end{document}
