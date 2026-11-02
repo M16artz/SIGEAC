@@ -63,7 +63,7 @@
 \section{Datos de Identificación del Estudiante y la Práctica}
 \begin{tabularx}{\textwidth}{|L{0.43\textwidth}|Y|}
 \hline
-\textbf{Nombre del estudiante(s)} & [PENDIENTE: integrantes reales del equipo] \\ \hline
+\textbf{Nombre del estudiante(s)} & Miguel Armas, Soledad Buri, Richard Chamba, Emilio Flores, Odalis Rosillo \\ \hline
 \textbf{Asignatura} & Desarrollo Basado en Plataformas \\ \hline
 \textbf{Ciclo} & 5 A \\ \hline
 \textbf{Unidad} & 1 \\ \hline
@@ -71,7 +71,7 @@
 \textbf{Práctica Nro.} & 003 \\ \hline
 \textbf{Título de la Práctica} & Arquitectura, OpenAPI y endpoints base. \\ \hline
 \textbf{Nombre del Docente} & Edison Leonardo Coronel Romero \\ \hline
-\textbf{Fecha} & Semana 3; [PENDIENTE: fecha real de la sesión] \\ \hline
+\textbf{Fecha} & Semana 3; 1 Noviembre \\ \hline
 \textbf{Horario} & Por definir según horario académico \\ \hline
 \textbf{Lugar} & Aula / laboratorio asignado \\ \hline
 \textbf{Tiempo planificado en el Sílabo} & 3 horas \\ \hline
@@ -79,8 +79,6 @@
 \textbf{Proyecto:} SIGEAC / SEC-UNL.\par
 \textbf{Estado:} artefactos y pruebas parciales sobre Spring Boot; DRF, sobre universal, PostgreSQL y cierre docente pendientes.\par
 
-\textbf{Revisión posterior:} consultar \path|REVISION_CUMPLIMIENTO.md|
-para el dictamen por paso y los pendientes de la guía. Las verificaciones
 documentales repetidas no son una nueva ejecución del backend.\par
 
 \section{Objetivo(s) de la
@@ -114,14 +112,6 @@ explícita.
 Herramientas}\label{informe-materiales-reactivos-equipos-y-herramientas}
 
 \subsection{Insumos reales}\label{informe-insumos-reales}
-
-Se revisaron
-\path|documentos-academicos/APE2-semana-2/specification.md|, el dossier
-y matriz de AA2, y los procesos, decisiones y contrato de ACD3. El
-\href{../ACD3-semana-3/REGISTRO_OBSERVACIONES.md}{registro de ACD3}
-contiene hallazgos de preparación, no retroalimentación de una sesión
-efectivamente registrada. No se inventaron acuerdos docentes para
-resolverlos.
 
 Se inspeccionaron los controladores/servicios de catálogo, procesos,
 identidad y modelos; la constitución; ADR existentes; configuración y
@@ -211,13 +201,6 @@ utilizado en esta campaña.
 \textbf{Estado observado / uso en esta preparación }: Fuente técnica QMD
 y salida HTML del paquete; ver estado de render en evidencias.
 
-\medskip\hrule\medskip
-
-\textbf{Herramienta solicitada }: Editor / LaTeX
-
-\textbf{Estado observado / uso en esta preparación }: Archivos
-versionables editados; FORMATOAPE.tex adaptado. Sin motor TeX local, sin
-PDF compilado.
 
 \medskip\hrule\medskip
 
@@ -266,14 +249,6 @@ carrera utilizable, período contenido, publicación y visibilidad. Datos:
 careerId, code, name, periodStart, periodEnd y modelVersionId; servidor
 asigna ID, revisión 0, actor y fecha. Resultado: preparación, sin
 activación ni autorización automática.
-
-La verificación usó una carrera nueva para catálogo y la carrera piloto
-sintética ya habilitada para la preparación, pues \path|CAREER_ADMIN| no
-concede \path|PROCESS_MANAGE| automáticamente sobre una carrera recién
-creada. No se cambió la política de autorización para facilitar la
-demostración. El análisis extendido permanece en
-\href{../ACD3-semana-3/ACD3_CLINICA_ARQUITECTURA_API.md}{ACD3}, sección
-2.
 
 \subsection{Paso 2: arquitectura C4 y
 UML}\label{informe-paso-2-arquitectura-c4-y-uml}
@@ -465,12 +440,6 @@ límites. El servicio de procesos usa directamente
 \path|CareerAdministrationService| dentro del mismo módulo; no se
 inventa un puerto/microservicio inexistente.
 
-\textbf{No se implementaron nuevos endpoints DRF ni se migró el
-producto.} Python/DRF es una exigencia explícita pendiente; el sobre
-universal permanece solo especificado. La documentación y los resultados
-Spring no bastan para marcar esos pasos como cumplidos. Confirmar
-alternativa con docente/equipo y luego implementar lo acordado.
-
 \subsection{Paso 7: verificación
 real}\label{informe-paso-7-verificaciuxf3n-real}
 
@@ -505,12 +474,6 @@ cobertura parcial y pendiente. Se integra una
 \href{tecnico/APE3.qmd}{página Quarto}, fuentes de diagramas, contratos
 y reportes al paquete académico.
 
-Presentación docente, observaciones, aceptación del cambio
-tecnológico/sobre y contribuciones individuales siguen pendientes de
-registro. La carpeta contiene archivos versionables; \textbf{no
-significa que estén comprometidos en Git}. No se creó commit/PR ni se
-aplicó GitFlow sobre main. \url{NOTA_INDIVIDUAL.md} distingue trabajo
-preparado y aporte verificable que cada persona debe identificar.
 
 \section{Resultados}\label{informe-resultados}
 
@@ -1122,31 +1085,6 @@ la prueba HTTP crea unidades/carreras/procesos sintéticos en la base
 aislada. Esa base no se entrega como evidencia normativa ni se versiona.
 Las credenciales del perfil demo están ya en fixtures del repositorio;
 usar exclusivamente este entorno.
-
-\subsubsection{1. Pruebas existentes
-ejecutadas}\label{verificacion-1-pruebas-existentes-ejecutadas}
-
-Desde \path|backend|, se ejecutó:
-
-\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\footnotesize]
-.\mvnw.cmd "-Dtest=CareerControllerTest,CareerAdministrationServiceTest,CareerTest,ModuleArchitectureTest" test
-\end{Verbatim}
-
-Resultado: \textbf{BUILD SUCCESS; 23 tests, 0 fallos, 0 errores, 0
-omitidos}. Desglose: controlador 3; aplicación 5; dominio 2;
-arquitectura 13. \href{evidencias/pruebas-maven.json}{Resumen y
-nombres}, extraídos de los XML Surefire de esa ejecución. No se copiaron
-reportes antiguos de otras suites como si se hubieran ejecutado en APE3.
-
-El primer intento offline falló por parent no disponible para ese
-contexto; el intento de red dentro del sandbox falló con
-\path|Permission denied: getsockopt|. Tras la autorización de acceso, el
-comando terminó correctamente. Estos fallos de entorno no son fallos de
-las 23 pruebas ni se ocultan como ejecución exitosa inicial.
-
-MockMvc standalone usa servicio simulado en CareerControllerTest; no
-acredita por sí solo filtros, DB o recorrido extremo a extremo. Las
-pruebas de aplicación/dominio y ArchUnit tienen límites diferentes.
 
 \subsubsection{2. Arranque temporal
 reproducido}\label{verificacion-2-arranque-temporal-reproducido}
@@ -1931,10 +1869,6 @@ documentación/validación.
 
 \medskip\hrule\medskip
 
-Los restantes puertos y componentes citados están indexados con ruta
-completa en \path|documentos-academicos/ACD3-semana-3/FUENTES.md|. La
-lectura no implica haber ejecutado cada componente ni cubierto cada
-regla.
 
 \subsubsection{Pruebas ejecutadas y artefactos
 nuevos}\label{fuentes-pruebas-ejecutadas-y-artefactos-nuevos}
@@ -2011,7 +1945,7 @@ la más reciente.
 \textbf{Fuente }: \href{https://www.rfc-editor.org/rfc/rfc9110.html}{RFC
 9110}
 
-\textbf{Relación con el trabajo }: §9 métodos, §13 precondiciones, §15
+\textbf{Relación con el trabajo }: 9 métodos, 13 precondiciones, §15
 estados; ver análisis de ACD3/AA2.
 
 \medskip\hrule\medskip
@@ -2256,424 +2190,36 @@ end note
 
 \end{Verbatim}
 % BEGIN APE3 GUIDE REVIEW
-\subsection{APE3 --- Revisión de cumplimiento de la guía
-003}\label{revision-guia-ape3--revisiuxf3n-de-cumplimiento-de-la-guuxeda-003}
 
-\subsubsection{Dictamen}\label{revision-guia-dictamen}
+\section{Preguntas de control}
 
-\textbf{La entrega tiene desarrollo documental y evidencia técnica
-parcial, pero no cumple íntegramente la práctica tal como está
-redactada.} Los dos incumplimientos principales son el paso 6 con Django
-REST Framework y la aplicación efectiva del sobre universal del paso 4.
-El backend demostrado es Spring Boot y devuelve DTO directos/Problem
-Details. Una propuesta OpenAPI válida no implementa ese comportamiento
-ni concede una excepción docente.
+\subsection*{1. ¿Qué diferencia existe entre los niveles C1, C2 y C3 del modelo C4?}
 
-Esta revisión no migra el producto, no acepta ADR, no publica cambios ni
-inventa retroalimentación. Se contrastaron los archivos existentes con
-la guía aportada, se repitieron validaciones estáticas/de muestras y se
-corrigió una inconsistencia documental de paginación.
+C1 ubica personas, sistema y relaciones externas; C2 muestra aplicaciones, almacenes, responsabilidades y comunicaciones; C3 descompone un contenedor. En SIGEAC: personas $\leftrightarrow$ sistema; Angular $\leftrightarrow$ Spring $\leftrightarrow$ PostgreSQL; dentro de Spring, API, servicios, dominio, repositorios, identidad y auditoría. Un contenedor C4 no equivale necesariamente a Docker.
 
-\textbf{Estados:} Documentado = artefacto disponible; Verificado
-parcialmente = comprobación con límites identificados; Pendiente = falta
-evidencia o ejecución; No cumplido = hay una diferencia comprobada
-respecto de una exigencia expresa. Estos estados no equivalen a
-calificación docente.
+\subsection*{2. ¿Por qué un diagrama de clases no debe utilizarse como sustituto del modelo de arquitectura?}
 
-\subsubsection{1. Datos generales y
-objetivos}\label{revision-guia-1-datos-generales-y-objetivos}
+Muestra tipos, atributos y dependencias del código, pero no basta para identificar usuarios, fronteras, despliegues y comunicación. \texttt{Career} y su repositorio explican el catálogo; no explican por sí solos la relación del navegador con la API y la base de datos. Por eso UML complementa C4.
 
-\path|APE3_SEMANA_3.md|, tabla inicial, y \path|APE3_SEMANA_3.tex|,
-tabla institucional, corresponden a Desarrollo Basado en Plataformas, 5
-A, Unidad 1, práctica 003, Edison Leonardo Coronel Romero, Semana 3,
-horario por definir, aula/laboratorio y tres horas planificadas. El
-resultado de aprendizaje y los cinco objetivos están incorporados.
-Integrantes y fecha real siguen pendientes, sin reutilizar nombres de
-una plantilla ajena.
+\subsection*{3. ¿Qué relación debe existir entre un requisito, un recurso y un endpoint?}
 
-El objetivo de arquitectura/trazabilidad tiene desarrollo; el de
-contrato tiene propuesta y contraste; el de endpoints aporta ejecución
-de implementación previa Spring, \textbf{no nueva implementación DRF}.
-No se debe presentar la actividad completa como aprobada.
+El requisito expresa una necesidad comprobable, el recurso representa el concepto pertinente y el endpoint materializa una operación sobre él. AA-RF-06 exige registrar una carrera; el recurso es \texttt{Career} y la operación es \texttt{POST /api/v1/careers}; AC-AA-08--12 precisan el éxito y los rechazos. No deben derivarse necesidades institucionales solo porque exista una ruta.
 
-\subsubsection{2. Procedimiento: evidencia por
-actividad}\label{revision-guia-2-procedimiento-evidencia-por-actividad}
+\subsection*{4. ¿Cómo se selecciona el método HTTP apropiado para una operación?}
 
-\textbf{Punto de la guía }: Inicio 1: revisar Semana 2
+Por su semántica y efecto deseado, no por el nombre de un método de programación. El catálogo se consulta con \texttt{GET} y se crea con \texttt{POST}; \texttt{PATCH} modifica su bloque editable con precondición; \texttt{DELETE} revoca la sesión. \texttt{PUT} implicaría reemplazo y no se incorpora aquí. El cliente debe considerar seguridad semántica e idempotencia al reintentar, sin asumir que \texttt{POST} es idempotente.
 
-\textbf{Evidencia exacta }: Reporte, ``Inicio'';
-\path|../APE2-semana-2/specification.md|; dossier/matriz AA2;
-\path|TRAZABILIDAD.md|
+\subsection*{5. ¿Qué información mínima debe contener una operación documentada en OpenAPI?}
 
-\textbf{Estado }: Documentado
+Ruta y método, propósito e identificador \texttt{operationId}, parámetros con ubicación, obligatoriedad y \texttt{schema}, \texttt{requestBody} cuando corresponda, respuestas por estado con tipo de contenido, esquema y cabeceras pertinentes, seguridad y referencias válidas. En esta práctica también se explicitan condiciones de negocio y criterios de aceptación; OpenAPI no sustituye toda la especificación.
 
-\textbf{Qué falta / acción concreta }: Confirmar recorte/actores con
-equipo; los estados de validación institucional no se infieren.
+\subsection*{6. ¿Por qué una decisión arquitectónica relevante debería documentarse mediante ADR?}
 
-\medskip\hrule\medskip
+Para conservar el problema, contexto, restricciones, alternativas, decisión, estado y consecuencias. Evita presentar una preferencia como un acuerdo ya aprobado. APE3-001 registra la diferencia entre Spring y DRF; APE3-002, el impacto de adoptar el sobre universal en clientes v1. Ambos siguen propuestos.
 
-\textbf{Punto de la guía }: Inicio 2: seleccionar flujos
+\subsection*{7. ¿Cómo se comprueba que un endpoint conserva trazabilidad con la especificación?}
 
-\textbf{Evidencia exacta }: Reporte, ``Inicio'' y Paso 1; F-ACD3-01/02
-
-\textbf{Estado }: Documentado
-
-\textbf{Qué falta / acción concreta }: Ratificar que catálogo y
-preparación corresponden al incremento de Unidad 1.
-
-\medskip\hrule\medskip
-
-\textbf{Punto de la guía }: Inicio 3: revisar retroalimentación ACD3
-
-\textbf{Evidencia exacta
-}: \path|../ACD3-semana-3/REGISTRO_OBSERVACIONES.md|;
-\path|OBSERVACIONES.md|
-
-\textbf{Estado }: Pendiente de retroalimentación real
-
-\textbf{Qué falta / acción concreta }: Hay hallazgos técnicos, no
-observaciones docentes acreditadas. Incorporar las reales cuando se
-reciban.
-
-\medskip\hrule\medskip
-
-\textbf{Punto de la guía }: Paso 1: análisis textual
-
-\textbf{Evidencia exacta }: Reporte, Paso 1; informe ACD3 §2
-
-\textbf{Estado }: Documentado
-
-\textbf{Qué falta / acción concreta }: Incluye participantes,
-actividades en infinitivo, decisiones, datos, excepciones y resultados;
-validar con actores reales.
-
-\medskip\hrule\medskip
-
-\textbf{Punto de la guía }: Paso 2: C4 y UML
-
-\textbf{Evidencia exacta }: \path|arquitectura/workspace.dsl|, vistas
-C1/C2/C3; \path|catalogo-clases.puml|;
-\path|alta-carrera-secuencia.puml|
-
-\textbf{Estado }: Documentado; verificación de motores pendiente
-
-\textbf{Qué falta / acción concreta }: Fuentes editables disponibles.
-Abrir/validar/renderizar con herramientas correspondientes y corregir si
-se detectan errores; los SVG Mermaid del HTML no prueban el parseo de
-estos archivos.
-
-\medskip\hrule\medskip
-
-\textbf{Punto de la guía }: Paso 3: ADR
-
-\textbf{Evidencia exacta
-}: \path|adr/APE3-001-alineacion-tecnologica.md|;
-\path|adr/APE3-002-contrato-universal.md|; ADR-0001/0004/0018 del
-producto
-
-\textbf{Estado }: Documentado como propuesta
-
-\textbf{Qué falta / acción concreta }: Elegir y registrar decisiones
-reales; no cambiar estado a aceptado sin evidencia.
-
-\medskip\hrule\medskip
-
-\textbf{Punto de la guía }: Paso 4: contrato y sobre universal
-
-\textbf{Evidencia exacta }: \path|contratos/openapi-observado.yaml|;
-\path|openapi-objetivo.yaml|; generador
-
-\textbf{Estado }: No cumplido en ejecución del sobre; documentación
-disponible
-
-\textbf{Qué falta / acción concreta }: El sobre está solo propuesto.
-Implementarlo en la superficie aceptada, incluyendo errores de
-filtros/handlers, cliente y exclusiones sin cuerpo; o registrar
-excepción docente expresa.
-
-\medskip\hrule\medskip
-
-\textbf{Punto de la guía }: Paso 5: OpenAPI
-
-\textbf{Evidencia exacta }: Dos YAML de 14 operaciones;
-\path|evidencias/openapi-lint.json|; revalidación de esta revisión
-
-\textbf{Estado }: Verificado parcialmente
-
-\textbf{Qué falta / acción concreta }: Ambos archivos válidos; observado
-y objetivo tienen estados diferentes. Tras implementar el contrato
-aceptado, contrastar especificación definitiva y backend.
-
-\medskip\hrule\medskip
-
-\textbf{Punto de la guía }: Paso 6: endpoints DRF
-
-\textbf{Evidencia exacta }: Código actual
-\path|backend/src/main/java/ec/edu/unl/sec/|; POM; ADR APE3-001
-
-\textbf{Estado }: No cumplido
-
-\textbf{Qué falta / acción concreta }: Implementación comprobada Spring;
-Django/DRF no encontrados en el intérprete Python inspeccionado. Elegir
-incremento DRF o justificar excepción aceptada, sin etiquetar Java como
-DRF.
-
-\medskip\hrule\medskip
-
-\textbf{Punto de la guía }: Paso 7: solicitudes y validación
-
-\textbf{Evidencia exacta }: \path|verificacion/verificar_http.py|;
-\path|evidencias/http-resultados.json|; \path|esquemas-resultados.json|;
-\path|pruebas-maven.json|
-
-\textbf{Estado }: Verificado parcialmente
-
-\textbf{Qué falta / acción concreta }: 22 intercambios previos y 23
-tests seleccionados sobre Spring/SQLite; se revalidaron solo muestras.
-Repetir flujo del backend/contrato aceptados, completar negativos
-pertinentes y aceptación PostgreSQL.
-
-\medskip\hrule\medskip
-
-\textbf{Punto de la guía }: Paso 8: trazabilidad/documentación
-
-\textbf{Evidencia exacta }: \path|TRAZABILIDAD.md|;
-\path|tecnico/APE3.qmd| y HTML; reporte y fuentes
-
-\textbf{Estado }: Documentado
-
-\textbf{Qué falta / acción concreta }: Conectar futuras
-implementaciones/commits con cada AC; no marcar AC completo por
-cobertura parcial.
-
-\medskip\hrule\medskip
-
-\textbf{Punto de la guía }: Cierre 1: presentar flujo al docente
-
-\textbf{Evidencia exacta }: Reporte, ``Paso 8 y cierre''; registro vacío
-de sesión
-
-\textbf{Estado }: Pendiente
-
-\textbf{Qué falta / acción concreta }: Hay recorrido por cliente
-HTTP\ensuremath{\rightarrow}API\ensuremath{\rightarrow}servicios\ensuremath{\rightarrow}SQLite; no hay evidencia de presentación docente. La
-guía no exige expresamente Angular: definir el extremo a extremo del
-backend seleccionado, sin añadir una obligación de UI no indicada.
-
-\medskip\hrule\medskip
-
-\textbf{Punto de la guía }: Cierre 2: observaciones/ajustes
-
-\textbf{Evidencia exacta }: \path|OBSERVACIONES.md|, APE3-OBS-01
-
-\textbf{Estado }: Pendiente
-
-\textbf{Qué falta / acción concreta }: Registrar persona/fecha,
-observación, decisión, ajuste o justificación y evidencia real.
-
-\medskip\hrule\medskip
-
-\textbf{Punto de la guía }: Cierre 3: versionado/aporte
-
-\textbf{Evidencia exacta }: \path|NOTA_INDIVIDUAL.md|; Git observado en
-main sin commit de la entrega
-
-\textbf{Estado }: Pendiente
-
-\textbf{Qué falta / acción concreta }: Archivos versionables no son
-historial de cambios comprometidos. Aplicar estrategia GitFlow acordada,
-revisión y contribuciones identificables; no fabricar commits o autores.
-
-\medskip\hrule\medskip
-
-\subsubsection{3. Herramientas y resultados
-esperados}\label{revision-guia-3-herramientas-y-resultados-esperados}
-
-\textbf{Exigencia / resultado }: Git/GitHub y GitFlow
-
-\textbf{Hallazgo verificable }: Existe repositorio; paquete académico no
-comprometido; sin evidencia nueva de feature/develop/PR
-
-\textbf{Evaluación }: Falta evidencia del flujo y contribución. No se
-publica por el hecho de generar Markdown.
-
-\medskip\hrule\medskip
-
-\textbf{Exigencia / resultado }: Spec Kit
-
-\textbf{Hallazgo verificable }: Constitución, plantillas
-\path|.specify/| e insumos SDD presentes
-
-\textbf{Evaluación }: Insumos disponibles; no se acredita nueva
-ejecución de comandos Spec Kit durante APE3.
-
-\medskip\hrule\medskip
-
-\textbf{Exigencia / resultado }: Python/Django/DRF
-
-\textbf{Hallazgo verificable }: Python se utilizó como cliente HTTP;
-backend es Java
-
-\textbf{Evaluación }: La herramienta cliente no satisface el requisito
-de implementar con DRF.
-
-\medskip\hrule\medskip
-
-\textbf{Exigencia / resultado }: PostgreSQL
-
-\textbf{Hallazgo verificable }: Configuración principal existente;
-campaña APE3 usó perfil SQLite
-
-\textbf{Evaluación }: No hay aceptación PostgreSQL de esta campaña.
-
-\medskip\hrule\medskip
-
-\textbf{Exigencia / resultado }: C4/UML inicial
-
-\textbf{Hallazgo verificable }: Un DSL con tres vistas y dos fuentes
-PlantUML
-
-\textbf{Evaluación }: Artefactos disponibles; render/parseo oficial no
-acreditados.
-
-\medskip\hrule\medskip
-
-\textbf{Exigencia / resultado }: Decisiones justificadas
-
-\textbf{Hallazgo verificable }: ADR con contexto, alternativas y
-consecuencias
-
-\textbf{Evaluación }: Cumple elaboración documental, sin aceptación
-atribuida.
-
-\medskip\hrule\medskip
-
-\textbf{Exigencia / resultado }: OpenAPI/Swagger
-
-\textbf{Hallazgo verificable }: Dos contratos válidos; disponibilidad
-HTTP Swagger/api-docs 200 en evidencia previa
-
-\textbf{Evaluación }: No equivale a implementar sobre, ejecutar
-operaciones desde Swagger ni validar todos los caminos.
-
-\medskip\hrule\medskip
-
-\textbf{Exigencia / resultado }: Cliente HTTP equivalente
-
-\textbf{Hallazgo verificable }: urllib con cookie jar/CSRF y aserciones
-de casos
-
-\textbf{Evaluación }: Es herramienta equivalente admisible; no es
-obligatorio repetir con Postman solo por estar instalado.
-
-\medskip\hrule\medskip
-
-\textbf{Exigencia / resultado }: Endpoints implementados/ejecutables
-
-\textbf{Hallazgo verificable }: Spring existente ejecutado, no código
-DRF nuevo
-
-\textbf{Evaluación }: Resultado funcional parcial, tecnología exigida
-sin cumplir.
-
-\medskip\hrule\medskip
-
-\textbf{Exigencia / resultado }: Respuestas/códigos/validaciones
-
-\textbf{Hallazgo verificable }: Evidencia HTTP y muestras de cuerpo con
-Ajv
-
-\textbf{Evaluación }: Cobertura acotada; headers/errores/reglas
-restantes y sobre objetivo requieren prueba.
-
-\medskip\hrule\medskip
-
-\textbf{Exigencia / resultado }: Quarto/documentación
-
-\textbf{Hallazgo verificable }: QMD, HTML autónomo y verificación de
-documentación con tres SVG
-
-\textbf{Evaluación }: Render y revisión de documentación acreditados; no
-confundir con UI del producto.
-
-\medskip\hrule\medskip
-
-\textbf{Exigencia / resultado }: Historial y evidencia individual
-
-\textbf{Hallazgo verificable }: Nota preparada, integrantes/enlaces
-pendientes
-
-\textbf{Evaluación }: Falta atribución real y versionado.
-
-\medskip\hrule\medskip
-
-\subsubsection{4. Preguntas de
-control}\label{revision-guia-4-preguntas-de-control}
-
-Las siete preguntas están respondidas individualmente en
-\path|APE3_SEMANA_3.md|, sección ``Preguntas de Control'', y en el
-LaTeX. Se verificó su presencia y correspondencia temática:
-
-\textbf{N.º }: 1
-
-\textbf{Tema }: Diferenciar C1/C2/C3
-
-\textbf{Estado }: Respondida, aplicada a SIGEAC.
-
-\medskip\hrule\medskip
-
-\textbf{N.º }: 2
-
-\textbf{Tema }: Diferenciar clases y arquitectura
-
-\textbf{Estado }: Respondida, UML como complemento.
-
-\medskip\hrule\medskip
-
-\textbf{N.º }: 3
-
-\textbf{Tema }: Relacionar requisito/recurso/endpoint
-
-\textbf{Estado }: Respondida con AA-RF-06 y carrera.
-
-\medskip\hrule\medskip
-
-\textbf{N.º }: 4
-
-\textbf{Tema }: Seleccionar método HTTP
-
-\textbf{Estado }: Respondida sin inventar PUT implementado.
-
-\medskip\hrule\medskip
-
-\textbf{N.º }: 5
-
-\textbf{Tema }: Información mínima OpenAPI
-
-\textbf{Estado }: Respondida con método, ruta, entradas, respuestas,
-schemas y seguridad.
-
-\medskip\hrule\medskip
-
-\textbf{N.º }: 6
-
-\textbf{Tema }: Motivo para usar ADR
-
-\textbf{Estado }: Respondida, distingue propuesta y aceptación.
-
-\medskip\hrule\medskip
-
-\textbf{N.º }: 7
-
-\textbf{Tema }: Comprobar trazabilidad
-
-\textbf{Estado }: Respondida con AA-RF-08, AC y casos de revisión;
-reconoce límites.
-
-\medskip\hrule\medskip
-
-Tener respuestas correctas documentadas no prueba participación
-individual ni compensa los pasos de implementación pendientes.
+Se sigue la cadena necesidad $\rightarrow$ RF/HU $\rightarrow$ AC $\rightarrow$ proceso $\rightarrow$ componente $\rightarrow$ OpenAPI $\rightarrow$ código $\rightarrow$ prueba o evidencia exacta, comprobando resultados y límites. Para AA-RF-08: AC-AA-14/15, F-ACD3-01, \texttt{CareerAdministrationService}, \texttt{PATCH} de carrera y HTTP-09--12. Detectar una revisión antigua no demuestra por sí solo una condición de carrera real entre dos transacciones ni toda la auditoría; esos límites quedan en la matriz.
 
 \subsubsection{5. Correcciones y comprobaciones de esta
 revisión}\label{revision-guia-5-correcciones-y-comprobaciones-de-esta-revisiuxf3n}
@@ -2705,10 +2251,6 @@ revisión}\label{revision-guia-5-correcciones-y-comprobaciones-de-esta-revisiuxf
   registra los cambios documentales y límites.
 \end{enumerate}
 
-No se resolvieron por documentación las diferencias DRF/sobre, ni se
-recibió autorización docente. Las propuestas de AA3 ayudan a discutir
-responsabilidad de adaptación, pero no constituyen aprobación ni
-implementación en APE3.
 
 \subsubsection{6. Plan concreto para cerrar la
 práctica}\label{revision-guia-6-plan-concreto-para-cerrar-la-pruxe1ctica}
@@ -2791,10 +2333,6 @@ apoyo institucional del paquete.
 
 \medskip\hrule\medskip
 
-La falta de un recorrido Angular es un límite adicional de las pruebas
-previas, \textbf{no una exigencia independiente de esta guía}. Si el
-incremento acordado incluye interfaz, comprobarla; si la demostración
-solicitada es de backend, el cliente HTTP puede ser su punto de entrada.
 
 % END APE3 GUIDE REVIEW
 \section{Declaración de uso de Inteligencia
