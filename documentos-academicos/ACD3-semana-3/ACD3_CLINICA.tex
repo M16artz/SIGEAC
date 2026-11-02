@@ -47,7 +47,7 @@
     \parbox[b][\paperheight]{\paperwidth}{%
       \vfill
       \centering
-      \IfFileExists{fondo.jpeg}{\includegraphics[width=\paperwidth,height=\paperheight]{fondo.jpeg}}{\parbox{0.8\paperwidth}{\centering\small [PENDIENTE: fondo.jpeg original]}}%
+      \IfFileExists{fondo.jpeg}{\includegraphics[width=\paperwidth,height=\paperheight]{fondo.jpeg}}{}
       \vfill
 }}}
 
@@ -58,13 +58,13 @@
 \pagestyle{fancy}
 \fancyhf{}
 \setlength{\headheight}{40pt}
-\fancyhead[L]{\IfFileExists{logo_unl.jpeg}{\includegraphics[height=1.2cm]{logo_unl.jpeg}}{\fbox{\scriptsize PENDIENTE: logo\_unl.jpeg}}}
+\fancyhead[L]{\IfFileExists{logo_unl.jpeg}{\includegraphics[height=1.2cm]{logo_unl.jpeg}}{}}
 \fancyfoot[C]{\thepage}
 \renewcommand{\headrulewidth}{0pt}
 
 \fancypagestyle{plain}{
     \fancyhf{}
-    \fancyhead[L]{\IfFileExists{logo_unl.jpeg}{\includegraphics[height=1.2cm]{logo_unl.jpeg}}{\fbox{\scriptsize PENDIENTE: logo\_unl.jpeg}}}
+    \fancyhead[L]{\IfFileExists{logo_unl.jpeg}{\includegraphics[height=1.2cm]{logo_unl.jpeg}}{}}
     \fancyfoot[C]{\thepage}
     \renewcommand{\headrulewidth}{0pt}
 }
@@ -73,13 +73,13 @@
 %   METADATOS DEL DOCUMENTO
 % ------------------------------------------
 \newcommand{\TituloTrabajo}{ACD3 -- Clínica de arquitectura y contrato de API}
-\newcommand{\Autor}{[PENDIENTE: integrantes del equipo]}
-\newcommand{\Director}{[PENDIENTE: docente]}
+\newcommand{\Autor}{Miguel Armas, Maria Buri, Richard Chamba, Emilio Flores, Odalis Rosillo}
+\newcommand{\Director}{Ing. Edison Coronel}
 \newcommand{\Carrera}{Carrera de Computación}
 \newcommand{\Facultad}{Facultad de la Energía, las Industrias y los Recursos Naturales No Renovables}
 \newcommand{\Universidad}{Universidad Nacional de Loja}
 \newcommand{\Ciudad}{Loja, Ecuador}
-\newcommand{\Fecha}{Semana 3 -- [PENDIENTE: fecha real]}
+\newcommand{\Fecha}{Semana 3 - 22 de octubre de 2026}
 
 \begin{document}
 
@@ -100,7 +100,7 @@
     \setlength{\fboxsep}{8pt}
     \fbox{%
       \begin{minipage}{0.4\textwidth}\small
-        [PENDIENTE: asignatura].
+        Desarrollo Basado en Plataformas.
       \end{minipage}%
     }
   \end{flushright}
@@ -122,7 +122,8 @@
 \addcontentsline{toc}{chapter}{Declaración de uso de IA Generativa}
 Se utilizó ChatGPT/Codex para inspeccionar fuentes, arquitectura y API, consultar referencias y elaborar documentos. No se realizaron solicitudes al backend, pruebas de negocio ni validación docente. La clínica y participación individual están pendientes de registro real.
 
-\noindent\textbf{Declaración enviada por: [PENDIENTE: integrantes reales].}
+\noindent\textbf{Declaración enviada por: Miguel Armas, Maria Buri, Richard Chamba, Emilio Flores, Odalis
+Rosillo}
 
 
 \chapter{Problema, procesos y arquitectura preliminar}\label{informe-parte1}
