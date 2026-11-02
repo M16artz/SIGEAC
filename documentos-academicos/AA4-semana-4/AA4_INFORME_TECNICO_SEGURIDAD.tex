@@ -1,3 +1,4 @@
+% Adaptación de FORMATO.tex para ACD3; plantilla original preservada.
 \documentclass[12pt,a4paper]{report}
 
 % ------------------------------------------
@@ -13,7 +14,7 @@
   \geometry{left=3cm, right=2.5cm, top=3cm, bottom=2.5cm}
 \usepackage{setspace}
   \onehalfspacing
-\usepackage{titlesec} 
+\usepackage{titlesec}
   \titleformat{\chapter}[block]{\bfseries\large}{\thechapter.}{1em}{}
   \titleformat{\section}[block]{\bfseries}{\thesection.}{1em}{}
 \usepackage{tocloft}
@@ -25,10 +26,12 @@
 
 \usepackage{cite}
 \usepackage{hyperref}
+% Soporte mínimo para tablas, rutas y bloques técnicos.
 \usepackage{calc}
 \usepackage{xurl}
 \usepackage{fvextra}
 \providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setlength{\emergencystretch}{3em}
 
 \addto\captionsspanish{
     \renewcommand{\contentsname}{Índice General}
@@ -44,7 +47,7 @@
     \parbox[b][\paperheight]{\paperwidth}{%
       \vfill
       \centering
-      \IfFileExists{fondo.jpeg}{\includegraphics[width=\paperwidth,height=\paperheight]{fondo.jpeg}}{\parbox{0.8\paperwidth}{\centering [PENDIENTE: fondo.jpeg original]}}%
+      \IfFileExists{fondo.jpeg}{\includegraphics[width=\paperwidth,height=\paperheight]{fondo.jpeg}}{}
       \vfill
 }}}
 
@@ -55,13 +58,13 @@
 \pagestyle{fancy}
 \fancyhf{}
 \setlength{\headheight}{40pt}
-\fancyhead[L]{\IfFileExists{logo_unl.jpeg}{\includegraphics[height=1.2cm]{logo_unl.jpeg}}{\fbox{\scriptsize PENDIENTE: logo\_unl.jpeg}}}
+\fancyhead[L]{\IfFileExists{logo_unl.jpeg}{\includegraphics[height=1.2cm]{logo_unl.jpeg}}{}}
 \fancyfoot[C]{\thepage}
 \renewcommand{\headrulewidth}{0pt}
 
 \fancypagestyle{plain}{
     \fancyhf{}
-    \fancyhead[L]{\IfFileExists{logo_unl.jpeg}{\includegraphics[height=1.2cm]{logo_unl.jpeg}}{\fbox{\scriptsize PENDIENTE: logo\_unl.jpeg}}}
+    \fancyhead[L]{\IfFileExists{logo_unl.jpeg}{\includegraphics[height=1.2cm]{logo_unl.jpeg}}{}}
     \fancyfoot[C]{\thepage}
     \renewcommand{\headrulewidth}{0pt}
 }
@@ -70,13 +73,13 @@
 %   METADATOS DEL DOCUMENTO
 % ------------------------------------------
 \newcommand{\TituloTrabajo}{AA 4 — Informe técnico de seguridad y priorización de riesgos}
-\newcommand{\Autor}{[PENDIENTE: estudiante/integrantes reales]}
-\newcommand{\Director}{Edison Leonardo Coronel Romero (referencia APE4; confirmar)}
+\newcommand{\Autor}{Miguel Armas, Maria Buri, Richard Chamba, Emilio Flores, Odalis Rosillo}
+\newcommand{\Director}{Ing. Edison Coronel}
 \newcommand{\Carrera}{Carrera de Computación}
 \newcommand{\Facultad}{Facultad de la Energía, las Industrias y los Recursos Naturales No Renovables}
 \newcommand{\Universidad}{Universidad Nacional de Loja}
 \newcommand{\Ciudad}{Loja, Ecuador}
-\newcommand{\Fecha}{Semana 4 -- [PENDIENTE: fecha real]}
+\newcommand{\Fecha}{Semana 4 - 21 de Octubre de 2026}
 
 \begin{document}
 
@@ -97,7 +100,7 @@
     \setlength{\fboxsep}{8pt}
     \fbox{%
       \begin{minipage}{0.4\textwidth}\small
-        Desarrollo Basado en Plataformas (referencia APE4; confirmar).
+        Desarrollo Basado en Plataformas.
       \end{minipage}%
     }
   \end{flushright}
@@ -120,7 +123,7 @@
 
 Se utilizó ChatGPT/Codex para inspección de fuentes, consulta oficial y preparación de documentos, tests y configuración propuestos. No se ejecutó código del target, no hay parche funcional o despliegue nuevos ni participación/aceptación humana atribuida.
 
-\noindent\textbf{Declaración enviada por: [PENDIENTE: persona real].}
+\noindent\textbf{Declaración enviada por: Miguel Armas, Maria Buri, Richard Chamba, Emilio Flores, Odalis Rosillo.}
 \newpage
 % ------------------------------------------
 %   ÍNDICES
@@ -131,11 +134,6 @@ Se utilizó ChatGPT/Codex para inspección de fuentes, consulta oficial y prepar
 % ------------------------------------------
 %   CUERPO DEL TRABAJO
 % ------------------------------------------
-
-Semana 4 · Actividad Autónoma · 4,5 horas previstas · Individual
-articulada con SIGEAC / SEC-UNL. Estudiante, revisión personal y fecha
-real de entrega pendientes. Referencia de asignatura/docente: APE4, por
-confirmar para esta AA.
 
 \chapter{1. Identificación, alcance y
 fundamentos}\label{AA4-semana-4-1-identificaciuxf3n-alcance-y-fundamentos}
@@ -401,14 +399,8 @@ medir límites globales/operacionales y agotamiento.
 
 \medskip\hrule\medskip
 
-Los puntajes son valoración de planificación, no CVSS/severidad de
-vulnerabilidades needs\_validation. Se identifica certeza separadamente
-del impacto hipotético; ninguna clasificación crítica se inventa para
-completar la tabla. T-01 tiene riesgo inherente alto en el modelo de
-suplantación por credencial comprometida, pero eso no acredita un bypass
-local.
 
-\chapter{3. Acciones, trazabilidad y
+\chapter{Acciones, trazabilidad y
 limitaciones}\label{AA4-semana-4-3-acciones-trazabilidad-y-limitaciones}
 
 SEC-01: cambiar SelfAssessmentRepository/JDBC/servicio y OpenAPI/cliente
@@ -455,10 +447,6 @@ ChatGPT/Codex para investigación/organización y verificaciones estáticas
 de artefactos; no se declara supervisión/aceptación humana concluida ni
 práctica funcional cerrada.
 
-\nocite{*}
-\bibliographystyle{IEEEtran}
-\bibliography{referencias}
-\appendix
 \chapter{Incremento SIGEAC --- Activos, amenazas y
 controles}\label{AA4-semana-4-anexo0-incremento-sigeac--activos-amenazas-y-controles}
 
@@ -920,8 +908,6 @@ institucional
 
 \medskip\hrule\medskip
 
-La matriz resume código visible; cada caso debe probarse con fixtures.
-No se asignan personas/órganos institucionales sin validación.
 \chapter{Hallazgos académicos, controles y trazabilidad --- Semanas
 4--5}\label{AA4-semana-4-anexo1-hallazgos-acaduxe9micos-controles-y-trazabilidad--semanas-45}
 
@@ -1518,183 +1504,7 @@ redefine nivel de compilación.
 
 \medskip\hrule\medskip
 
-Los archivos auxiliares nuevos de APE4/APE5 son propuestas de
-tests/configuración. Una comprobación de sintaxis de Python/YAML o un
-manifiesto no prueba autenticación, aislamiento, build,
-contenedorización ni despliegue.
 
-\section{Referencias oficiales
-consultadas}\label{AA4-semana-4-anexo2-referencias-oficiales-consultadas}
-
-\textbf{ID }: O-01
-
-\textbf{Referencia
-}: \href{https://api-security.owasp.org/editions/2023/en/0xa1-broken-object-level-authorization/}{OWASP
-API1:2023 BOLA}
-
-\textbf{Uso acotado }: Revisar autorización por objeto, no solo sesión o
-UUID.
-
-\medskip\hrule\medskip
-
-\textbf{ID }: O-02
-
-\textbf{Referencia
-}: \href{https://api-security.owasp.org/editions/2023/en/0xa4-unrestricted-resource-consumption/}{OWASP
-API4:2023 Resource Consumption}
-
-\textbf{Uso acotado }: Analizar límites de listado y coste de
-peticiones; no demuestra DoS del proyecto.
-
-\medskip\hrule\medskip
-
-\textbf{ID }: O-03
-
-\textbf{Referencia
-}: \href{https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html}{OWASP
-Authentication}, Login Throttling / Responses
-
-\textbf{Uso acotado }: Política por cuenta y respuesta uniforme; un
-registro de IP no equivale a admisión global limitada.
-
-\medskip\hrule\medskip
-
-\textbf{ID }: O-04
-
-\textbf{Referencia
-}: \href{https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html}{OWASP
-Session Management}, Cookies / Expiration
-
-\textbf{Uso acotado }: Revisar Secure/HttpOnly/SameSite y expiración; el
-entorno efectivo importa.
-
-\medskip\hrule\medskip
-
-\textbf{ID }: O-05
-
-\textbf{Referencia
-}: \href{https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html}{OWASP
-Authorization}, Least Privileges / Every Request
-
-\textbf{Uso acotado }: Denegar por defecto y verificar permiso de cada
-operación/recurso.
-
-\medskip\hrule\medskip
-
-\textbf{ID }: O-06
-
-\textbf{Referencia
-}: \href{https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html}{OWASP
-Secrets Management}
-
-\textbf{Uso acotado }: Gestión externa, alcance y ciclo de vida; no
-publicar los valores hallados.
-
-\medskip\hrule\medskip
-
-\textbf{ID }: O-07
-
-\textbf{Referencia
-}: \href{https://cheatsheetseries.owasp.org/cheatsheets/Error_Handling_Cheat_Sheet.html}{OWASP
-Error Handling}
-
-\textbf{Uso acotado }: Diagnóstico con información pública acotada;
-separar registro técnico del cuerpo de respuesta.
-
-\medskip\hrule\medskip
-
-\textbf{ID }: O-08
-
-\textbf{Referencia
-}: \href{https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html}{OWASP
-Input Validation}
-
-\textbf{Uso acotado }: Validación sintáctica y semántica; no sustituye
-permisos.
-
-\medskip\hrule\medskip
-
-\textbf{ID }: O-09
-
-\textbf{Referencia
-}: \href{https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool-threats}{Microsoft:
-amenazas STRIDE}
-
-\textbf{Uso acotado }: Estructura de amenazas pertinentes, sin forzar
-categorías vacías.
-
-\medskip\hrule\medskip
-
-\textbf{ID }: D-01
-
-\textbf{Referencia
-}: \href{https://docs.docker.com/reference/compose-file/services/}{Docker
-Compose: services}
-
-\textbf{Uso acotado }: Configuración de servicio, límites,
-usuario/volúmenes; debe validarse con motor/versiones.
-
-\medskip\hrule\medskip
-
-\textbf{ID }: D-02
-
-\textbf{Referencia
-}: \href{https://docs.docker.com/reference/compose-file/networks/}{Docker
-Compose: networks}, internal
-
-\textbf{Uso acotado }: Red interna propuesta; no certifica sandbox o
-host.
-
-\medskip\hrule\medskip
-
-\textbf{ID }: D-03
-
-\textbf{Referencia
-}: \href{https://raw.githubusercontent.com/docker-library/docs/master/postgres/README.md}{Imagen
-oficial PostgreSQL}, PGDATA
-
-\textbf{Uso acotado }: Montaje PostgreSQL18 bajo /var/lib/postgresql;
-verificar imagen fijada y migración.
-
-\medskip\hrule\medskip
-
-\textbf{ID }: D-04
-
-\textbf{Referencia
-}: \href{https://docs.spring.io/spring-boot/reference/packaging/container-images/index.html}{Spring
-Boot: Container Images}
-
-\textbf{Uso acotado }: Dockerfile/Buildpacks como opciones; página
-consultada identifica Boot4.1.2, no actualiza el POM4.1.1.
-
-\medskip\hrule\medskip
-
-\textbf{ID }: D-05
-
-\textbf{Referencia
-}: \href{https://docs.pytest.org/en/stable/how-to/skipping.html}{pytest:
-skip y xfail}
-
-\textbf{Uso acotado }: Una omisión es limitación, no test satisfactorio.
-
-\medskip\hrule\medskip
-
-\textbf{ID }: H-01
-
-\textbf{Referencia
-}: \href{https://www.rfc-editor.org/rfc/rfc9110.html}{RFC9110},
-§§9/15.5.2; \href{https://www.rfc-editor.org/rfc/rfc9457.html}{RFC9457}
-
-\textbf{Uso acotado }: Semántica HTTP, desafío401 y Problem Details;
-sobre académico distinto. Revisadas en actividades previas.
-
-\medskip\hrule\medskip
-
-Estas fuentes guían el análisis; no se copian listas OWASP como
-hallazgos. Las inferencias locales y las valoraciones P/I se identifican
-en las matrices. No se investigaron CVE nuevas ni se hizo una SCA
-transitiva completa; no se certifican dependencias por no encontrar
-patrones de secretos.
 
 \section{Ejecución y
 límites}\label{AA4-semana-4-anexo2-ejecuciuxf3n-y-luxedmites}
@@ -1707,47 +1517,5 @@ capacidad y no ejecuta código del target. Se conservaron metadatos de
 escaneo confiable de texto y antecedentes; no se realizaron ataques ni
 pruebas en servicios ajenos.
 
-Las actividades académicas contienen propuestas y análisis completos
-hasta donde hay evidencia, pero las partes de implementación,
-reejecución y despliegue siguen pendientes. No se produjeron
-aprobaciones, correcciones funcionales, commits o feedback grupal
-ficticios.
-\chapter{AA4 ? Evidencia individual por
-completar}\label{AA4-semana-4-anexo3-aa4--evidencia-individual-por-completar}
-
-Estudiante, equipo y fecha real: pendientes. Este archivo no acredita
-participacion presencial, implementacion o validacion personal.
-
-\section{Material
-preparado}\label{AA4-semana-4-anexo3-material-preparado}
-
-Informe tecnico de seguridad y riesgos. Revisar el informe y sus
-fuentes; seleccionar una cadena requisito/control/contrato/prueba y
-explicar la decision con palabras propias. Las matrices y recetas son
-preparacion asistida; los resultados APE3 conservan su procedencia.
-
-\section{Registro personal
-real}\label{AA4-semana-4-anexo3-registro-personal-real}
-
-\begin{itemize}
-\tightlist
-\item
-  Elemento revisado y fuente exacta: pendiente.
-\item
-  Amenaza, requisito, estandar o decision analizados: pendiente.
-\item
-  Cambio realizado personalmente y justificacion: pendiente.
-\item
-  Prueba/entorno/resultado efectivamente ejecutados: pendiente.
-\item
-  Observacion recibida, persona/rol y uso: pendiente.
-\item
-  Commit, PR, acta o historial verificable: pendiente.
-\end{itemize}
-
-No declarar un test omitido como satisfactorio, una configuracion
-propuesta como despliegue ni una correccion documental como parche de
-seguridad. El commit base del manifiesto no acredita aporte individual a
-esta actividad.
 
 \end{document}
