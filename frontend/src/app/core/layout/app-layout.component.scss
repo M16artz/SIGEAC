@@ -1,0 +1,193 @@
+
+:host {
+  display: block;
+}
+
+/* ========================================
+   PANEL PRINCIPAL BLANCO
+======================================== */
+
+.main-panel {
+  box-shadow:
+    0 18px 40px rgba(8, 72, 120, 0.12),
+    0 6px 18px rgba(8, 72, 120, 0.08);
+}
+
+/* Espacio para la barra lateral en escritorio */
+@media (min-width: 1024px) {
+  .main-panel--with-sidebar {
+    padding-left: 22.5rem;
+  }
+}
+
+/* ========================================
+   BARRA LATERAL GENERAL
+======================================== */
+
+.app-sidebar {
+  transform: translateX(-105%);
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: 0 2rem 2rem 0;
+
+  box-shadow:
+    0 18px 36px rgba(8, 72, 120, 0.20),
+    0 6px 14px rgba(8, 72, 120, 0.10);
+
+  transition: transform 220ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.app-sidebar--open {
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+@media (min-width: 1024px) {
+  .app-sidebar {
+    transform: none;
+    pointer-events: auto;
+    border-radius: 2rem;
+
+    box-shadow:
+      0 20px 42px rgba(8, 72, 120, 0.18),
+      0 8px 18px rgba(8, 72, 120, 0.10);
+  }
+}
+
+/* ========================================
+   PRIMERA COLUMNA DE MODULOS
+======================================== */
+
+.module-rail {
+  gap: 1.1rem;
+  overflow: visible;
+
+  background: linear-gradient(
+    180deg,
+    #1164a6 0%,
+    #0b5a95 100%
+  );
+
+  box-shadow:
+    inset -1px 0 0 rgba(255, 255, 255, 0.05),
+    4px 0 12px rgba(3, 35, 65, 0.08);
+}
+
+/* ========================================
+   BOTONES DE LOS MODULOS
+======================================== */
+
+.module-item {
+  position: relative;
+  width: 72px;
+  height: 56px;
+  flex-shrink: 0;
+  isolation: isolate;
+
+  /* Iconos no seleccionados: blancos */
+  color: rgba(255, 255, 255, 0.9);
+
+  transition: color 0.25s ease;
+}
+
+/* Modulo seleccionado: azul oscuro */
+.module-item.module-item--active {
+  color: #084878;
+}
+
+/* Efecto al pasar el mouse por otro modulo */
+.module-item:not(.module-item--active):hover {
+  color: #ffffff;
+}
+
+/* ========================================
+   PESTAÑA BLANCA
+   NO MODIFICAR: DISEÑO APROBADO
+======================================== */
+
+.module-tab {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: -1;
+
+  width: 76px;
+  height: 100px;
+
+  transform: translateY(-50%);
+  pointer-events: none;
+
+  filter: drop-shadow(
+    2px 5px 8px rgba(8, 72, 120, 0.13)
+  );
+}
+
+/* ========================================
+   ICONOS DE LOS MODULOS
+======================================== */
+
+/* Todos los iconos */
+.module-item > svg:not(.module-tab) {
+  position: relative;
+  z-index: 2;
+
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease,
+    stroke-width 0.25s ease;
+}
+
+/* Icono seleccionado */
+.module-item--active > svg:not(.module-tab) {
+  color: #084878;
+  stroke-width: 2.5;
+  transform: scale(1.12);
+}
+
+/* Iconos no seleccionados */
+.module-item:not(.module-item--active) > svg:not(.module-tab) {
+  color: rgba(255, 255, 255, 0.9);
+  stroke-width: 1.7;
+  transform: scale(1);
+}
+
+/* ========================================
+   SUBMENU ACTIVO
+======================================== */
+
+.submenu-link--active {
+  background: rgba(125, 195, 255, 0.18);
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.07),
+    0 6px 14px rgba(3, 35, 65, 0.08);
+
+  color: #ffffff;
+}
+
+/* ========================================
+   PERFIL INFERIOR
+======================================== */
+
+.sidebar-profile {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ========================================
+   PANTALLAS DE POCA ALTURA
+======================================== */
+
+@media (max-height: 680px) and (min-width: 1024px) {
+  .module-rail {
+    justify-content: flex-start;
+    overflow-y: auto;
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+    scrollbar-width: none;
+  }
+
+  .module-rail::-webkit-scrollbar {
+    display: none;
+  }
+}

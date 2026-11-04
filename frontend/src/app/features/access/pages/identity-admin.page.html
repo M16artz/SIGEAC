@@ -1,0 +1,644 @@
+<section class="users-admin" aria-labelledby="users-title">
+  <header
+    class="relative overflow-hidden rounded-[1.75rem] border border-[#e3edf7] bg-white px-6 py-8 shadow-[0_30px_70px_-50px_rgba(8,72,120,0.55)] sm:px-8 sm:py-9"
+  >
+    <div class="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full border-[30px] border-institutional-blue/[0.05]"></div>
+    <div class="pointer-events-none absolute -bottom-28 right-1/3 h-56 w-56 rounded-full bg-institutional-blue/[0.04] blur-2xl"></div>
+
+    <div class="relative z-10 flex flex-col gap-6 xl:flex-row xl:items-center xl:justify-between">
+      <div class="max-w-2xl">
+        <span
+          class="inline-flex items-center gap-2 rounded-full bg-institutional-blue-soft px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-institutional-blue"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="h-3.5 w-3.5"
+          >
+            <path d="M12 3.5 19 6.3v5.2c0 4.2-2.9 7.7-7 9-4.1-1.3-7-4.8-7-9V6.3L12 3.5Z M9.2 12l2 2 3.8-4" />
+          </svg>
+          Acceso
+        </span>
+
+        <h1 id="users-title" class="users-hero-title">Usuarios y asignaciones</h1>
+        <p class="users-hero-copy max-w-xl">
+          Administre identidades sintéticas y asigne funciones con ámbito y vigencia explícitos.
+        </p>
+      </div>
+
+      <div
+        class="flex w-full max-w-xs items-center gap-4 rounded-2xl border border-[#e3edf7] bg-institutional-bg px-4 py-3 md:w-auto"
+      >
+        <span
+          class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-white text-institutional-blue shadow-sm"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="h-6 w-6"
+          >
+            <path d="M16 19.5a5 5 0 0 0-10 0 M11 12a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z M17.5 12.5a3 3 0 1 0 0-6 M19 19.5a4.5 4.5 0 0 0-2.4-3.9" />
+          </svg>
+        </span>
+        <span class="min-w-0">
+          <span class="block text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-slate-400">
+            Usuarios registrados
+          </span>
+          <span class="users-stat-value block">{{ loading() ? '—' : total() }}</span>
+          <span class="mt-0.5 block text-[0.7rem] text-slate-500">Página {{ page() + 1 }}</span>
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <section class="sigeac-card mt-6 overflow-hidden" aria-labelledby="create-user-title">
+    <div
+      class="flex flex-col gap-3 border-b border-[#eef2f7] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
+    >
+      <div class="flex items-start gap-3">
+        <span
+          class="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-institutional-blue-soft text-institutional-blue"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="h-5 w-5"
+          >
+            <path d="M15 19.5a6 6 0 0 0-12 0 M9 11.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z M18 8v6 M15 11h6" />
+          </svg>
+        </span>
+        <div>
+          <h2 id="create-user-title" class="users-section-title">Registrar usuario</h2>
+          <p class="users-section-copy">Cree una identidad sintética con credenciales iniciales.</p>
+        </div>
+      </div>
+      <span class="sigeac-badge self-start sm:self-auto">Campos * obligatorios</span>
+    </div>
+
+    <form [formGroup]="createForm" (ngSubmit)="createUser()" novalidate class="p-5 sm:p-6">
+      <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div class="sigeac-field">
+          <label class="sigeac-label" for="newUsername">
+            Usuario <span class="sigeac-required" aria-hidden="true">*</span>
+          </label>
+          <input
+            id="newUsername"
+            class="sigeac-input"
+            type="text"
+            formControlName="username"
+            autocomplete="off"
+            required
+            [attr.aria-invalid]="createForm.controls.username.touched && createForm.controls.username.invalid ? 'true' : null"
+          >
+          @if (createForm.controls.username.touched && createForm.controls.username.invalid) {
+            <p class="sigeac-field-error">Ingrese un usuario de 3 a 100 caracteres.</p>
+          }
+        </div>
+
+        <div class="sigeac-field">
+          <label class="sigeac-label" for="newDisplayName">
+            Nombre visible <span class="sigeac-required" aria-hidden="true">*</span>
+          </label>
+          <input
+            id="newDisplayName"
+            class="sigeac-input"
+            type="text"
+            formControlName="displayName"
+            required
+            [attr.aria-invalid]="createForm.controls.displayName.touched && createForm.controls.displayName.invalid ? 'true' : null"
+          >
+          @if (createForm.controls.displayName.touched && createForm.controls.displayName.invalid) {
+            <p class="sigeac-field-error">Ingrese el nombre visible (máximo 200 caracteres).</p>
+          }
+        </div>
+
+        <div class="sigeac-field">
+          <label class="sigeac-label" for="newPassword">
+            Contraseña inicial <span class="sigeac-required" aria-hidden="true">*</span>
+          </label>
+          <input
+            id="newPassword"
+            class="sigeac-input"
+            type="password"
+            formControlName="initialPassword"
+            autocomplete="new-password"
+            required
+            [attr.aria-invalid]="createForm.controls.initialPassword.touched && createForm.controls.initialPassword.invalid ? 'true' : null"
+          >
+          <p class="sigeac-help">Mínimo 12 caracteres.</p>
+          @if (createForm.controls.initialPassword.touched && createForm.controls.initialPassword.invalid) {
+            <p class="sigeac-field-error">Ingrese una contraseña de 12 a 256 caracteres.</p>
+          }
+        </div>
+      </div>
+
+      <div class="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <label class="sigeac-check">
+          <input class="sigeac-checkbox" type="checkbox" formControlName="technical">
+          <span>
+            <span class="block font-semibold text-slate-700">Cuenta técnica</span>
+            <span class="mt-0.5 block text-xs font-normal text-slate-500">
+              Identidad sin acceso interactivo, destinada a integraciones.
+            </span>
+          </span>
+        </label>
+
+        <button type="submit" class="sigeac-btn w-full sm:w-auto" [disabled]="creating()">
+          @if (creating()) {
+            <svg class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" opacity="0.25" />
+              <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          }
+          {{ creating() ? 'Registrando…' : 'Registrar usuario' }}
+        </button>
+      </div>
+
+      @if (createError()) {
+        <p class="sigeac-alert sigeac-alert--error mt-4" role="alert">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="mt-0.5 h-4 w-4 shrink-0"
+          >
+            <path d="M12 3.5 21 20H3L12 3.5Z M12 9.5v4 M12 17h.01" />
+          </svg>
+          <span>{{ createError() }}</span>
+        </p>
+      }
+      @if (createMessage()) {
+        <p class="sigeac-alert sigeac-alert--success mt-4" role="status">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="mt-0.5 h-4 w-4 shrink-0"
+          >
+            <path d="M12 3.5 20 7v5c0 4.5-3.2 8.2-8 9.5-4.8-1.3-8-5-8-9.5V7l8-3.5Z M9 12l2 2 4-4.5" />
+          </svg>
+          <span>{{ createMessage() }}</span>
+        </p>
+      }
+    </form>
+  </section>
+
+  <section
+    class="sigeac-card mt-6 overflow-hidden"
+    aria-labelledby="users-list-title"
+    [attr.aria-busy]="loading()"
+  >
+    <div
+      class="flex flex-col gap-3 border-b border-[#eef2f7] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
+    >
+      <div class="flex items-start gap-3">
+        <span
+          class="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-institutional-blue-soft text-institutional-blue"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="h-5 w-5"
+          >
+            <path d="M4 6.5h16 M4 12h16 M4 17.5h16" />
+          </svg>
+        </span>
+        <div>
+          <h2 id="users-list-title" class="users-section-title">Usuarios registrados</h2>
+          <p class="users-section-copy">Identidades visibles para la administración funcional.</p>
+        </div>
+      </div>
+      <span class="sigeac-badge self-start sm:self-auto">
+        {{ loading() ? 'Cargando…' : total() + (total() === 1 ? ' usuario' : ' usuarios') }}
+      </span>
+    </div>
+
+    @if (listError()) {
+      <div class="px-5 pt-4 sm:px-6">
+        <p class="sigeac-alert sigeac-alert--error" role="alert">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="mt-0.5 h-4 w-4 shrink-0"
+          >
+            <path d="M12 3.5 21 20H3L12 3.5Z M12 9.5v4 M12 17h.01" />
+          </svg>
+          <span>{{ listError() }}</span>
+        </p>
+      </div>
+    }
+
+    @if (loading()) {
+      <div class="sigeac-empty" aria-live="polite">
+        <svg class="h-6 w-6 animate-spin text-institutional-blue" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" opacity="0.25" />
+          <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        <span>Cargando usuarios…</span>
+      </div>
+    } @else if (users().length === 0) {
+      <div class="sigeac-empty">
+        <span class="grid h-12 w-12 place-items-center rounded-2xl bg-institutional-blue-soft text-institutional-blue">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="h-5 w-5"
+          >
+            <path d="M15 19.5a6 6 0 0 0-12 0 M9 11.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z M17 8l4 4 M21 8l-4 4" />
+          </svg>
+        </span>
+        <span class="block font-semibold text-slate-700">No hay usuarios registrados.</span>
+        <span class="sigeac-help">Registre el primer usuario con el formulario superior.</span>
+      </div>
+    } @else {
+      <div class="overflow-x-auto">
+        <table class="sigeac-table min-w-[46rem]">
+          <caption class="sr-only">Usuarios visibles para la administración funcional</caption>
+          <thead>
+            <tr>
+              <th scope="col">Usuario</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Tipo</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (user of users(); track user.id) {
+              <tr [attr.data-user-id]="user.id" [class.users-row--selected]="selected()?.id === user.id">
+                <td>
+                  <span class="block text-sm font-semibold text-slate-800">{{ user.username }}</span>
+                </td>
+                <td>
+                  <span class="block text-sm text-slate-700">{{ user.displayName }}</span>
+                </td>
+                <td>
+                  <span class="sigeac-badge" [class.sigeac-badge--muted]="user.technical">
+                    {{ user.technical ? 'Técnica' : 'Humana' }}
+                  </span>
+                </td>
+                <td>
+                  <span class="sigeac-badge" [class.sigeac-badge--danger]="!user.active">
+                    {{ user.active ? 'Activa' : 'Desactivada' }}
+                  </span>
+                </td>
+                <td>
+                  <div class="users-actions">
+                    <button
+                      type="button"
+                      class="sigeac-btn sigeac-btn--secondary sigeac-btn--sm"
+                      (click)="select(user)"
+                      [attr.aria-pressed]="selected()?.id === user.id"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                        class="h-3.5 w-3.5"
+                      >
+                        <path d="M4 7h16 M4 12h16 M4 17h10" />
+                      </svg>
+                      Asignaciones
+                    </button>
+                    <button
+                      type="button"
+                      class="sigeac-btn sigeac-btn--sm"
+                      [class.sigeac-btn--danger-soft]="user.active"
+                      [class.sigeac-btn--secondary]="!user.active"
+                      (click)="toggle(user)"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                        class="h-3.5 w-3.5"
+                      >
+                        <path d="M12 3.5v8 M6.3 6.5a8 8 0 1 0 11.4 0" />
+                      </svg>
+                      {{ user.active ? 'Desactivar' : 'Activar' }}
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div
+        class="flex flex-col gap-3 border-t border-[#eef2f7] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
+      >
+        <p class="sigeac-help">Página {{ page() + 1 }} · {{ total() }} usuarios</p>
+        <div class="flex gap-2">
+          <button
+            type="button"
+            class="sigeac-btn sigeac-btn--secondary sigeac-btn--sm"
+            (click)="load(page() - 1)"
+            [disabled]="page() === 0"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              class="h-3.5 w-3.5"
+            >
+              <path d="M19 12H5 M11 6l-6 6 6 6" />
+            </svg>
+            Anterior
+          </button>
+          <button
+            type="button"
+            class="sigeac-btn sigeac-btn--secondary sigeac-btn--sm"
+            (click)="load(page() + 1)"
+            [disabled]="(page() + 1) * size() >= total()"
+          >
+            Siguiente
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              class="h-3.5 w-3.5"
+            >
+              <path d="M5 12h14 M13 6l6 6-6 6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    }
+  </section>
+
+  @if (selected(); as user) {
+    <section class="sigeac-card mt-6 overflow-hidden" aria-labelledby="assignments-title">
+      <div
+        class="flex flex-col gap-3 border-b border-[#eef2f7] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
+      >
+        <div class="flex items-start gap-3">
+          <span
+            class="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-institutional-blue-soft text-institutional-blue"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              class="h-5 w-5"
+            >
+              <path d="M14 7.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z M10.5 11v9 M7 15.5h7 M17.5 8.5l2 2 3-3.5" />
+            </svg>
+          </span>
+          <div>
+            <h2 id="assignments-title" class="users-section-title">Asignaciones de {{ user.displayName }}</h2>
+            <p class="users-section-copy">Funciones y ámbitos vigentes de la identidad seleccionada.</p>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <span class="sigeac-badge">{{ user.username }}</span>
+          <span class="sigeac-badge" [class.sigeac-badge--danger]="!user.active">
+            {{ user.active ? 'Activa' : 'Desactivada' }}
+          </span>
+          @if (user.technical) {
+            <span class="sigeac-badge sigeac-badge--muted">Técnica</span>
+          }
+        </div>
+      </div>
+
+      @if (assignmentError()) {
+        <div class="px-5 pt-4 sm:px-6">
+          <p class="sigeac-alert sigeac-alert--error" role="alert">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              class="mt-0.5 h-4 w-4 shrink-0"
+            >
+              <path d="M12 3.5 21 20H3L12 3.5Z M12 9.5v4 M12 17h.01" />
+            </svg>
+            <span>{{ assignmentError() }}</span>
+          </p>
+        </div>
+      }
+      @if (assignmentMessage()) {
+        <div class="px-5 pt-4 sm:px-6">
+          <p class="sigeac-alert sigeac-alert--success" role="status">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              class="mt-0.5 h-4 w-4 shrink-0"
+            >
+              <path d="M12 3.5 20 7v5c0 4.5-3.2 8.2-8 9.5-4.8-1.3-8-5-8-9.5V7l8-3.5Z M9 12l2 2 4-4.5" />
+            </svg>
+            <span>{{ assignmentMessage() }}</span>
+          </p>
+        </div>
+      }
+
+      @if (assignments().length === 0) {
+        <div class="sigeac-empty">
+          <span class="grid h-12 w-12 place-items-center rounded-2xl bg-institutional-blue-soft text-institutional-blue">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              class="h-5 w-5"
+            >
+              <path d="M9 4.5h6 M8 6H5.5v14.5h13V6H16 M8.5 12l2.5 2.5 4.5-5" />
+            </svg>
+          </span>
+          <span class="block font-semibold text-slate-700">Sin asignaciones registradas.</span>
+          <span class="sigeac-help">
+            {{ user.active && !user.technical ? 'Use el formulario inferior para registrar la primera asignación.' : 'La identidad no admite nuevas asignaciones funcionales.' }}
+          </span>
+        </div>
+      } @else {
+        <div class="overflow-x-auto">
+          <table class="sigeac-table min-w-[58rem]">
+            <caption class="sr-only">Asignaciones del usuario seleccionado</caption>
+            <thead>
+              <tr>
+                <th scope="col">Función</th>
+                <th scope="col">Carrera</th>
+                <th scope="col">Proceso</th>
+                <th scope="col">Indicador</th>
+                <th scope="col">Vigencia</th>
+                <th scope="col">Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (assignment of assignments(); track assignment.id) {
+                <tr>
+                  <td>
+                    <span class="block text-sm font-semibold text-slate-800">{{ assignment.roleName }}</span>
+                    <span class="sigeac-badge mt-1.5">{{ assignment.roleCode }}</span>
+                  </td>
+                  <td>
+                    <span class="users-id">{{ assignment.careerId }}</span>
+                  </td>
+                  <td>
+                    @if (assignment.processId) {
+                      <span class="users-id">{{ assignment.processId }}</span>
+                    } @else {
+                      <span class="sigeac-badge sigeac-badge--muted">Todos</span>
+                    }
+                  </td>
+                  <td>
+                    @if (assignment.indicatorId) {
+                      <span class="users-id">{{ assignment.indicatorId }}</span>
+                    } @else {
+                      <span class="sigeac-badge sigeac-badge--muted">Todos</span>
+                    }
+                  </td>
+                  <td>
+                    <time class="users-date block" [attr.datetime]="assignment.validFrom">
+                      {{ formatDate(assignment.validFrom) }}
+                    </time>
+                    <span class="mt-0.5 block text-[0.7rem] text-slate-400">
+                      hasta {{ formatDate(assignment.validTo) }}
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      class="sigeac-btn sigeac-btn--danger-soft sigeac-btn--sm"
+                      [attr.data-assignment-id]="assignment.id"
+                      [disabled]="revoking() || revocationReason.invalid"
+                      (click)="revoke(assignment)"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                        class="h-3.5 w-3.5"
+                      >
+                        <path d="M5 7h14 M9 7V5.5h6V7 M7 7l.8 12.5h8.4L17 7 M10 11v5 M14 11v5" />
+                      </svg>
+                      {{ revoking() ? 'Revocando…' : 'Revocar' }}
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <div class="border-t border-[#eef2f7] px-5 py-4 sm:px-6">
+          <div class="sigeac-field max-w-2xl">
+            <label class="sigeac-label" for="revocation-reason">
+              Motivo de revocación <span class="sigeac-required" aria-hidden="true">*</span>
+            </label>
+            <textarea
+              id="revocation-reason"
+              class="sigeac-input"
+              [formControl]="revocationReason"
+              required
+              minlength="10"
+              maxlength="1000"
+              placeholder="Describa el motivo de la revocación"
+            ></textarea>
+            <p class="sigeac-help">Mínimo 10 caracteres. El motivo se conserva en el historial.</p>
+            @if (revocationReason.touched && revocationReason.invalid) {
+              <p class="sigeac-field-error">Ingrese un motivo de al menos 10 caracteres.</p>
+            }
+          </div>
+        </div>
+      }
+
+      @if (user.active && !user.technical) {
+        <div class="border-t border-[#eef2f7] bg-[#f8fbfe] px-5 py-5 sm:px-6">
+          <sec-assignment-form [userId]="user.id" (saved)="reloadAssignments()" />
+        </div>
+      } @else {
+        <div class="border-t border-[#eef2f7] px-5 py-5 sm:px-6">
+          <p class="sigeac-alert sigeac-alert--info">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              class="mt-0.5 h-4 w-4 shrink-0"
+            >
+              <path d="M12 3.5 21 20H3L12 3.5Z M12 9.5v4 M12 17h.01" />
+            </svg>
+            <span>Las cuentas técnicas o desactivadas no admiten nuevas asignaciones funcionales.</span>
+          </p>
+        </div>
+      }
+    </section>
+  }
+</section>

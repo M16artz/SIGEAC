@@ -1,0 +1,91 @@
+sec-access-home {
+  display: block;
+}
+
+/* Acceso > Inicio reutiliza las clases tipograficas aprobadas en
+   Usuarios y asignaciones. La composicion y los componentes provienen de
+   esa misma vista (sigeac-card, sigeac-table, sigeac-badge): aqui solo se
+   replican sus reglas de texto acotadas a .access-home. */
+#main-content .access-home {
+  margin-bottom: 0;
+
+  section {
+    margin-bottom: 0;
+  }
+
+  .users-hero-title {
+    margin: 1.25rem 0 0;
+    color: #084878;
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+  }
+
+  .users-hero-copy {
+    margin: 0.75rem 0 0;
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  .users-stat-value {
+    margin-top: 0.125rem;
+    color: #084878;
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .users-section-title {
+    margin: 0;
+    color: #084878;
+    font-family: var(--font-accent);
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+
+  .users-section-copy {
+    margin: 0.25rem 0 0;
+    color: #64748b;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+
+  .users-id {
+    display: block;
+    overflow-wrap: anywhere;
+    color: #64748b;
+    font-size: 0.72rem;
+    line-height: 1.5;
+  }
+
+  .users-date {
+    white-space: nowrap;
+    color: #475569;
+    font-size: 0.8125rem;
+  }
+
+  .access-link-card:focus-visible {
+    outline-style: solid;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .access-link-card {
+      transition: none;
+    }
+
+    .access-link-card:hover {
+      transform: none;
+    }
+
+    .access-link-card svg {
+      transition: none;
+    }
+  }
+}

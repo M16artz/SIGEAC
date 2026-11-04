@@ -1,0 +1,67 @@
+sec-conflict-exceptions {
+  display: block;
+}
+
+/* Conflictos y excepciones reutiliza las clases tipograficas aprobadas en
+   Usuarios y asignaciones. La composicion usa los primitivos globales
+   sigeac-card, sigeac-table, sigeac-badge, sigeac-field y sigeac-btn. */
+#main-content .conflicts-page {
+  margin-bottom: 0;
+
+  section {
+    margin-bottom: 0;
+  }
+
+  .users-hero-title {
+    margin: 1.25rem 0 0;
+    color: #084878;
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+  }
+
+  .users-hero-copy {
+    margin: 0.75rem 0 0;
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  .users-stat-value {
+    margin-top: 0.125rem;
+    color: #084878;
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .users-section-title {
+    margin: 0;
+    color: #084878;
+    font-family: var(--font-accent);
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+
+  .users-section-copy {
+    margin: 0.25rem 0 0;
+    color: #64748b;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+
+  .users-form-title {
+    margin: 0;
+    color: #084878;
+    font-family: var(--font-accent);
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+}

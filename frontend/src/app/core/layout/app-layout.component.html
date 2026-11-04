@@ -1,0 +1,327 @@
+
+<a
+  class="skip-link"
+  href="#main-content"
+  (click)="$event.preventDefault(); mainContent.focus()"
+>
+  Saltar al contenido principal
+</a>
+
+
+<div class="h-dvh overflow-hidden bg-institutional-bg p-3 sm:p-5">
+  <div class="relative mx-auto h-full w-full max-w-[1800px]">
+
+  >
+    <!-- PANEL PRINCIPAL BLANCO -->
+    
+      <main
+        #mainContent
+        id="main-content"
+        tabindex="-1"
+        class="main-panel absolute inset-0 z-0 flex h-full min-h-0 w-full flex-col overflow-hidden rounded-[26px] bg-white"
+        [class.main-panel--with-sidebar]="!isLogin()"
+      >
+
+      @if (!isLogin()) {
+        <div class="flex items-center gap-3 px-5 pt-5 sm:px-8 lg:px-10">
+          <button
+            type="button"
+            class="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-slate-200 text-institutional-blue transition hover:bg-slate-50 lg:hidden"
+            (click)="mobileOpen.set(true)"
+            aria-label="Abrir navegación de módulos"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              aria-hidden="true"
+              class="h-5 w-5"
+            >
+              <path d="M4 7h16M4 12h16M4 17h16" />
+            </svg>
+          </button>
+
+          @if (activeModule(); as module) {
+            <p
+              class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-slate-400"
+            >
+              SIGEAC
+              <span class="mx-2 text-slate-300">/</span>
+              <span class="text-institutional-blue">
+                {{ module.label }}
+              </span>
+            </p>
+          }
+        </div>
+      }
+
+      <!-- CONTENIDO DE LAS VISTAS -->
+      
+      <div
+        class="main-scroll min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-5 pb-8 pt-4 sm:px-8 lg:px-10"
+      >
+        <router-outlet />
+      </div>
+
+
+      
+    </main>
+
+    <!-- NAVEGACION LATERAL -->
+    @if (!isLogin()) {
+
+      <!-- FONDO OSCURO EN MOVIL -->
+      @if (mobileOpen()) {
+        <button
+          type="button"
+          class="fixed inset-0 z-40 bg-institutional-blue/40 backdrop-blur-[2px] lg:hidden"
+          (click)="mobileOpen.set(false)"
+          aria-label="Cerrar navegación"
+        ></button>
+      }
+
+      <aside
+        
+        class="app-sidebar fixed inset-y-0 left-0 z-50 flex w-[min(92vw,365px)] bg-institutional-blue lg:absolute lg:inset-y-0 lg:left-0 lg:z-20 lg:w-[365px]"
+        [class.app-sidebar--open]="mobileOpen()"
+        aria-label="Navegación principal"
+      >
+
+        <!-- PRIMERA COLUMNA: MODULOS -->
+        <nav
+          
+          class="module-rail relative z-10 flex w-[72px] shrink-0 flex-col items-center justify-start gap-7 bg-[#063a61] py-8"
+          aria-label="Módulos"
+        >
+
+          @for (module of modules(); track module.id) {
+            <button
+              type="button"
+              
+              class="module-item relative grid h-[56px] w-full shrink-0 place-items-center transition-colors"
+
+              [class.module-item--active]="activeModule()?.id === module.id"
+              [attr.aria-pressed]="activeModule()?.id === module.id"
+              [attr.aria-label]="module.label"
+              [title]="module.label"
+              (click)="openModule(module)"
+            >
+
+              <!-- PESTANA BLANCA DEL MODULO ACTIVO -->
+              @if (activeModule()?.id === module.id) {
+
+              
+                <svg
+                  class="module-tab"
+                  viewBox="0 0 76 100"
+                  preserveAspectRatio="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="
+                      M 0 0
+                      C 0 12, 8 18, 18 18
+                      H 49
+                      C 64 18, 76 30, 76 45
+                      V 55
+                      C 76 70, 64 82, 49 82
+                      H 18
+                      C 8 82, 0 88, 0 100
+                      Z
+                    "
+                    fill="#ffffff"
+                  />
+                </svg>
+
+
+              }
+
+              <!-- ICONO DEL MODULO -->
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                class="relative z-10 h-[22px] w-[22px]"
+              >
+                <path [attr.d]="module.icon" />
+              </svg>
+
+            </button>
+          }
+
+        </nav>
+
+        <!-- SEGUNDA COLUMNA: SUBMENU -->
+        <div class="flex min-h-0 min-w-0 flex-1 flex-col">
+
+          <!-- LOGO -->
+          <div
+            class="relative flex shrink-0 flex-col items-center px-4 pb-4 pt-7"
+          >
+            <button
+              type="button"
+              class="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-lg text-white/70 transition hover:bg-white/10 hover:text-white lg:hidden"
+              (click)="mobileOpen.set(false)"
+              aria-label="Cerrar navegación"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                aria-hidden="true"
+                class="h-4 w-4"
+              >
+                <path d="M6 6l12 12M18 6 6 18" />
+              </svg>
+            </button>
+
+            <p
+              class="text-center text-[2.15rem] font-semibold leading-none tracking-tight text-white"
+            >
+              evaluar<span class="text-institutional-red">.</span>
+            </p>
+
+            <p
+              class="mt-2 text-center text-[0.75rem] font-semibold uppercase tracking-[0.38em] text-white/60"
+            >
+              SIGEAC
+            </p>
+
+            <div class="mt-5 h-px w-full bg-white/15"></div>
+          </div>
+
+          <!-- OPCIONES DEL MODULO ACTIVO -->
+          <nav
+            class="min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-3 pb-4"
+            aria-label="Submenú del módulo"
+          >
+            @if (activeModule(); as module) {
+
+              <p
+                class="px-3 pb-2 text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-white/45"
+              >
+                {{ module.label }}
+              </p>
+
+              @for (item of module.items; track item.path) {
+                <a
+                  
+                  class="submenu-link group relative mb-1 flex min-h-[45px] items-center gap-2.5 rounded-xl px-3 py-2 text-[0.95rem] font-medium text-white/80 transition-colors hover:bg-white/10 hover:text-white"
+                  [routerLink]="item.path"
+                  routerLinkActive="submenu-link--active"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  ariaCurrentWhenActive="page"
+                  [title]="item.label"
+                  (click)="mobileOpen.set(false)"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    class="h-[18px] w-[18px] shrink-0 text-white/70 group-hover:text-white"
+                  >
+                    <path [attr.d]="item.icon" />
+                  </svg>
+
+                  <span class="min-w-0 flex-1 whitespace-normal break-words leading-snug">
+                    {{ item.label }}
+                  </span>
+
+                </a>
+              }
+
+            }
+          </nav>
+
+          <!-- PERFIL DEL USUARIO -->
+          <div
+            class="sidebar-profile relative shrink-0 border-t border-white/10 p-3"
+          >
+            <button
+              type="button"
+              class="flex w-full items-center gap-3 rounded-2xl px-2 py-2 text-left transition hover:bg-white/10"
+              (click)="profileOpen.set(!profileOpen())"
+              [attr.aria-expanded]="profileOpen()"
+              aria-haspopup="menu"
+            >
+              <!-- AVATAR -->
+              <span
+                class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/15 text-sm font-semibold uppercase text-white ring-1 ring-white/25"
+              >
+                {{ initials() }}
+              </span>
+
+              <!-- INFORMACION -->
+              <span class="min-w-0 flex-1">
+                <span
+                  class="block truncate text-[0.9rem] font-semibold text-white"
+                >
+                  {{ session.identity()?.displayName ?? 'Sesión no iniciada' }}
+                </span>
+
+                <span
+                  class="block truncate text-[0.72rem] text-white/60"
+                >
+                  {{ roleLabel() || 'Sin rol asignado' }}
+                </span>
+              </span>
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                class="h-4 w-4 shrink-0 text-white/60"
+              >
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </button>
+
+            <!-- MENU DE PERFIL -->
+            @if (profileOpen()) {
+              <div
+                class="absolute bottom-full left-3 right-3 z-30 mb-2 overflow-hidden rounded-2xl bg-white p-1 shadow-xl ring-1 ring-slate-900/5"
+                role="menu"
+              >
+                <a
+                  routerLink="/access"
+                  class="block rounded-xl px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+                  role="menuitem"
+                  (click)="profileOpen.set(false); mobileOpen.set(false)"
+                >
+                  Mi acceso
+                </a>
+
+                <button
+                  type="button"
+                  class="block w-full rounded-xl px-3 py-2 text-left text-sm font-medium text-institutional-red transition hover:bg-red-50"
+                  role="menuitem"
+                  (click)="logout()"
+                >
+                  Cerrar sesión
+                </button>
+              </div>
+            }
+
+          </div>
+        </div>
+      </aside>
+
+    }
+  </div>
+</div>
