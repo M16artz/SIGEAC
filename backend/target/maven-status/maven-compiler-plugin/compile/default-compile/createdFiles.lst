@@ -260,6 +260,7 @@ ec\edu\unl\sec\documentreview\application\ReviewSubmissionPort.class
 ec\edu\unl\sec\documentreview\api\DocumentReviewProblemHandler$1.class
 ec\edu\unl\sec\improvement\application\ImprovementRepository.class
 ec\edu\unl\sec\governance\application\FindingService$FindingPage.class
+ec\edu\unl\sec\identityaccess\api\IdentityAdministrationController$AssignmentRevocationCommand.class
 ec\edu\unl\sec\documentreview\application\DocumentReviewRepository.class
 ec\edu\unl\sec\evidence\application\EvidenceProgressPort.class
 ec\edu\unl\sec\governance\domain\ObservationReply.class

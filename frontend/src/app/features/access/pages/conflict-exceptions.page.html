@@ -1,0 +1,398 @@
+<section class="conflicts-page" aria-labelledby="conflicts-title">
+  <header
+    class="relative overflow-hidden rounded-[1.75rem] border border-[#e3edf7] bg-white px-6 py-8 shadow-[0_30px_70px_-50px_rgba(8,72,120,0.55)] sm:px-8 sm:py-9"
+  >
+    <div class="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full border-[30px] border-institutional-blue/[0.05]"></div>
+    <div class="pointer-events-none absolute -bottom-28 right-1/3 h-56 w-56 rounded-full bg-institutional-blue/[0.04] blur-2xl"></div>
+
+    <div class="relative z-10 flex flex-col gap-6 xl:flex-row xl:items-center xl:justify-between">
+      <div class="max-w-2xl">
+        <span
+          class="inline-flex items-center gap-2 rounded-full bg-institutional-blue-soft px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-institutional-blue"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="h-3.5 w-3.5"
+          >
+            <path d="M12 3.5 19 6.3v5.2c0 4.2-2.9 7.7-7 9-4.1-1.3-7-4.8-7-9V6.3L12 3.5Z M9.2 12l2 2 3.8-4" />
+          </svg>
+          Acceso
+        </span>
+
+        <h1 id="conflicts-title" class="users-hero-title">Conflictos y excepciones</h1>
+        <p class="users-hero-copy max-w-xl">
+          Registre excepciones temporales con vigencia, ámbito y justificación explícitos.
+        </p>
+      </div>
+
+      <div
+        class="flex w-full max-w-xs items-center gap-4 rounded-2xl border border-[#e3edf7] bg-institutional-bg px-4 py-3 md:w-auto"
+      >
+        <span
+          class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-white text-institutional-blue shadow-sm"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="h-6 w-6"
+          >
+            <path d="M12 8v4.5l3 1.8 M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
+        </span>
+        <span class="min-w-0">
+          <span class="block text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-slate-400">
+            Tipo de acceso
+          </span>
+          <span class="users-stat-value block">Temporal</span>
+          <span class="mt-0.5 block text-[0.7rem] text-slate-500">Con vigencia y ámbito explícitos</span>
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <section class="sigeac-card mt-6 overflow-hidden" aria-labelledby="conflict-scope-title">
+    <div
+      class="flex flex-col gap-3 border-b border-[#eef2f7] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
+    >
+      <div class="flex items-start gap-3">
+        <span
+          class="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-[#fdf2f2] text-institutional-red"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="h-5 w-5"
+          >
+            <path d="M12 3.5 21 20H3L12 3.5Z M12 9.5v4 M12 17h.01" />
+          </svg>
+        </span>
+        <div>
+          <h2 id="conflict-scope-title" class="users-section-title">Alcance de la excepción</h2>
+          <p class="users-section-copy">
+            Una excepción solo habilita la combinación declarada durante su vigencia y ámbito.
+          </p>
+        </div>
+      </div>
+      <span class="sigeac-badge sigeac-badge--danger self-start sm:self-auto">Temporal</span>
+    </div>
+
+    <div class="grid gap-4 p-5 sm:p-6 md:grid-cols-3">
+      <div class="rounded-2xl border border-[#e3edf7] bg-institutional-bg p-4">
+        <span
+          class="mb-2.5 grid h-9 w-9 place-items-center rounded-xl bg-white text-institutional-blue shadow-sm"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="h-4 w-4"
+          >
+            <path d="M5 12.5l4 4L19 7" />
+          </svg>
+        </span>
+        <p class="users-form-title">Combinación declarada</p>
+        <p class="users-section-copy">Habilita únicamente la carrera, proceso e indicador indicados.</p>
+      </div>
+
+      <div class="rounded-2xl border border-[#e3edf7] bg-institutional-bg p-4">
+        <span
+          class="mb-2.5 grid h-9 w-9 place-items-center rounded-xl bg-white text-institutional-blue shadow-sm"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="h-4 w-4"
+          >
+            <path d="M7 3.5v3 M17 3.5v3 M4 8.5h16 M5 5.5h14v15H5Z M8.5 12.5h2 M13.5 12.5h2 M8.5 16.5h2" />
+          </svg>
+        </span>
+        <p class="users-form-title">Vigencia y ámbito</p>
+        <p class="users-section-copy">Se aplica solo durante el periodo definido y dentro del ámbito autorizado.</p>
+      </div>
+
+      <div class="rounded-2xl border border-[#e3edf7] bg-institutional-bg p-4">
+        <span
+          class="mb-2.5 grid h-9 w-9 place-items-center rounded-xl bg-white text-institutional-blue shadow-sm"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="h-4 w-4"
+          >
+            <path d="M12 3.5 20 7v5c0 4.5-3.2 8.2-8 9.5-4.8-1.3-8-5-8-9.5V7l8-3.5Z M12 8.5v4 M12 15.5h.01" />
+          </svg>
+        </span>
+        <p class="users-form-title">Política base</p>
+        <p class="users-section-copy">No modifica la política base y exige una justificación de al menos 10 caracteres.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sigeac-card mt-6 overflow-hidden" aria-labelledby="conflict-form-title">
+    <div
+      class="flex flex-col gap-3 border-b border-[#eef2f7] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
+    >
+      <div class="flex items-start gap-3">
+        <span
+          class="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-institutional-blue-soft text-institutional-blue"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="h-5 w-5"
+          >
+            <path d="M12 3.5 20 7v5c0 4.5-3.2 8.2-8 9.5-4.8-1.3-8-5-8-9.5V7l8-3.5Z M9 12l2 2 4-4.5" />
+          </svg>
+        </span>
+        <div>
+          <h2 id="conflict-form-title" class="users-section-title">Registrar excepción</h2>
+          <p class="users-section-copy">Declare el destino, el ámbito y la vigencia de la excepción.</p>
+        </div>
+      </div>
+      <span class="sigeac-badge self-start sm:self-auto">Campos * obligatorios</span>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="p-5 sm:p-6">
+      <div class="grid gap-5">
+        <div class="grid gap-4 md:grid-cols-2">
+          <p class="users-form-title md:col-span-2">Destino y política</p>
+
+          <div class="sigeac-field">
+            <label class="sigeac-label" for="policyId">
+              Política de conflicto <span class="sigeac-required" aria-hidden="true">*</span>
+            </label>
+            <input
+              id="policyId"
+              class="sigeac-input"
+              type="text"
+              formControlName="policyId"
+              autocomplete="off"
+              required
+              [attr.aria-invalid]="form.controls.policyId.touched && form.controls.policyId.invalid ? 'true' : null"
+            >
+            <p class="sigeac-help">UUID sintético de la política base.</p>
+            @if (form.controls.policyId.touched && form.controls.policyId.invalid) {
+              <p class="sigeac-field-error">Ingrese la política de conflicto.</p>
+            }
+          </div>
+
+          <div class="sigeac-field">
+            <label class="sigeac-label" for="targetUserId">
+              Usuario destino <span class="sigeac-required" aria-hidden="true">*</span>
+            </label>
+            <input
+              id="targetUserId"
+              class="sigeac-input"
+              type="text"
+              formControlName="targetUserId"
+              autocomplete="off"
+              required
+              [attr.aria-invalid]="form.controls.targetUserId.touched && form.controls.targetUserId.invalid ? 'true' : null"
+            >
+            <p class="sigeac-help">Identidad que recibe la excepción.</p>
+            @if (form.controls.targetUserId.touched && form.controls.targetUserId.invalid) {
+              <p class="sigeac-field-error">Ingrese el usuario destino.</p>
+            }
+          </div>
+        </div>
+
+        <div class="grid gap-4 border-t border-[#eef2f7] pt-5 md:grid-cols-2 xl:grid-cols-3">
+          <p class="users-form-title md:col-span-2 xl:col-span-3">Ámbito de la excepción</p>
+
+          <div class="sigeac-field">
+            <label class="sigeac-label" for="careerId">
+              Carrera <span class="sigeac-required" aria-hidden="true">*</span>
+            </label>
+            <input
+              id="careerId"
+              class="sigeac-input"
+              type="text"
+              formControlName="careerId"
+              autocomplete="off"
+              required
+              [attr.aria-invalid]="form.controls.careerId.touched && form.controls.careerId.invalid ? 'true' : null"
+            >
+            @if (form.controls.careerId.touched && form.controls.careerId.invalid) {
+              <p class="sigeac-field-error">Ingrese la carrera.</p>
+            }
+          </div>
+
+          <div class="sigeac-field">
+            <label class="sigeac-label" for="processId">Proceso (opcional)</label>
+            <input
+              id="processId"
+              class="sigeac-input"
+              type="text"
+              formControlName="processId"
+              autocomplete="off"
+            >
+          </div>
+
+          <div class="sigeac-field">
+            <label class="sigeac-label" for="indicatorId">Indicador (opcional)</label>
+            <input
+              id="indicatorId"
+              class="sigeac-input"
+              type="text"
+              formControlName="indicatorId"
+              autocomplete="off"
+            >
+            <p class="sigeac-help">Requiere informar un proceso.</p>
+          </div>
+        </div>
+
+        <div class="grid gap-4 border-t border-[#eef2f7] pt-5 md:grid-cols-2">
+          <p class="users-form-title md:col-span-2">Vigencia</p>
+
+          <div class="sigeac-field">
+            <label class="sigeac-label" for="validFrom">
+              Vigente desde <span class="sigeac-required" aria-hidden="true">*</span>
+            </label>
+            <input
+              id="validFrom"
+              class="sigeac-input"
+              type="datetime-local"
+              formControlName="validFrom"
+              required
+              [attr.aria-invalid]="form.controls.validFrom.touched && form.controls.validFrom.invalid ? 'true' : null"
+            >
+            @if (form.controls.validFrom.touched && form.controls.validFrom.invalid) {
+              <p class="sigeac-field-error">Ingrese la fecha y hora de inicio.</p>
+            }
+          </div>
+
+          <div class="sigeac-field">
+            <label class="sigeac-label" for="validTo">
+              Vigente hasta <span class="sigeac-required" aria-hidden="true">*</span>
+            </label>
+            <input
+              id="validTo"
+              class="sigeac-input"
+              type="datetime-local"
+              formControlName="validTo"
+              required
+              [attr.aria-invalid]="form.controls.validTo.touched && form.controls.validTo.invalid ? 'true' : null"
+            >
+            @if (form.controls.validTo.touched && form.controls.validTo.invalid) {
+              <p class="sigeac-field-error">Ingrese la fecha y hora de fin.</p>
+            }
+          </div>
+        </div>
+
+        <div class="border-t border-[#eef2f7] pt-5">
+          <div class="sigeac-field">
+            <label class="sigeac-label" for="justification">
+              Justificación <span class="sigeac-required" aria-hidden="true">*</span>
+            </label>
+            <textarea
+              id="justification"
+              class="sigeac-input"
+              formControlName="justification"
+              minlength="10"
+              maxlength="1000"
+              required
+              placeholder="Describa el motivo de la excepción"
+              [attr.aria-invalid]="form.controls.justification.touched && form.controls.justification.invalid ? 'true' : null"
+            ></textarea>
+            <p class="sigeac-help">Mínimo 10 caracteres. El motivo se conserva en el historial.</p>
+            @if (form.controls.justification.touched && form.controls.justification.invalid) {
+              <p class="sigeac-field-error">Ingrese una justificación de al menos 10 caracteres.</p>
+            }
+          </div>
+        </div>
+      </div>
+
+      @if (error()) {
+        <p class="sigeac-alert sigeac-alert--error mt-5" role="alert">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="mt-0.5 h-4 w-4 shrink-0"
+          >
+            <path d="M12 3.5 21 20H3L12 3.5Z M12 9.5v4 M12 17h.01" />
+          </svg>
+          <span>{{ error() }}</span>
+        </p>
+      }
+
+      @if (createdId()) {
+        <p class="sigeac-alert sigeac-alert--success mt-5" role="status">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="mt-0.5 h-4 w-4 shrink-0"
+          >
+            <path d="M12 3.5 20 7v5c0 4.5-3.2 8.2-8 9.5-4.8-1.3-8-5-8-9.5V7l8-3.5Z M9 12l2 2 4-4.5" />
+          </svg>
+          <span>
+            Excepción registrada con identificador
+            <span class="font-semibold break-all">{{ createdId() }}</span>.
+          </span>
+        </p>
+      }
+
+      <div class="mt-5 flex justify-end border-t border-[#eef2f7] pt-5">
+        <button type="submit" class="sigeac-btn w-full sm:w-auto" [disabled]="submitting()">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="h-4 w-4"
+          >
+            <path d="M12 3.5 20 7v5c0 4.5-3.2 8.2-8 9.5-4.8-1.3-8-5-8-9.5V7l8-3.5Z M9 12l2 2 4-4.5" />
+          </svg>
+          {{ submitting() ? 'Registrando…' : 'Registrar excepción' }}
+        </button>
+      </div>
+    </form>
+  </section>
+</section>

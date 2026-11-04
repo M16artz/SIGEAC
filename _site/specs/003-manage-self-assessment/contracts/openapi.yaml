@@ -1,0 +1,28 @@
+openapi: 3.1.0
+info: {title: SEC-UNL I2 Self-assessment API, version: 1.0.0}
+servers: [{url: /api/v1}]
+security: [{sessionCookie: []}]
+paths:
+  /processes:
+    get: {operationId: listProcesses, responses: {'200': {description: Scope-filtered processes}}}
+    post: {operationId: createProcess, requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/ProcessCommand'}}}}, responses: {'201': {description: Draft created}, '400': {description: Invalid period/model}, '404': {description: Hidden reference}}}
+  /processes/{processId}:
+    get: {operationId: getProcess, parameters: [{$ref: '#/components/parameters/ProcessId'}], responses: {'200': {description: Process with fixed model}, '404': {description: Hidden}}}
+  /processes/{processId}/activate:
+    post: {operationId: activateProcess, parameters: [{$ref: '#/components/parameters/ProcessId'}, {$ref: '#/components/parameters/IfMatch'}], responses: {'200': {description: Activated}, '412': {description: Stale revision}}}
+  /processes/{processId}/transitions:
+    post: {operationId: transitionProcess, parameters: [{$ref: '#/components/parameters/ProcessId'}, {$ref: '#/components/parameters/IfMatch'}], requestBody: {required: true, content: {application/json: {schema: {type: object, required: [target], properties: {target: {enum: [ACTIVE, CLOSING, CLOSED]}, reason: {type: string}}}}}}, responses: {'200': {description: Transitioned}, '409': {description: Invalid transition}}}
+  /processes/{processId}/reopen:
+    post: {operationId: reopenProcess, parameters: [{$ref: '#/components/parameters/ProcessId'}, {$ref: '#/components/parameters/IfMatch'}], requestBody: {required: true, content: {application/json: {schema: {type: object, required: [reason], properties: {reason: {type: string, minLength: 1}}}}}}, responses: {'200': {description: Reopened}, '409': {description: Invalid state}}}
+  /processes/{processId}/assignments:
+    get: {operationId: listProcessAssignments, parameters: [{$ref: '#/components/parameters/ProcessId'}], responses: {'200': {description: Historical assignments}}}
+    post: {operationId: createProcessAssignment, parameters: [{$ref: '#/components/parameters/ProcessId'}, {$ref: '#/components/parameters/IfMatch'}], requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/AssignmentCommand'}}}}, responses: {'201': {description: Assigned}, '409': {description: Invalid scope/conflict}}}
+components:
+  securitySchemes:
+    sessionCookie: {type: apiKey, in: cookie, name: SEC_SESSION}
+  parameters:
+    ProcessId: {name: processId, in: path, required: true, schema: {type: string, format: uuid}}
+    IfMatch: {name: If-Match, in: header, required: true, schema: {type: string}}
+  schemas:
+    ProcessCommand: {type: object, required: [careerId, code, name, periodStart, periodEnd, modelVersionId], properties: {careerId: {type: string, format: uuid}, code: {type: string, maxLength: 100}, name: {type: string, maxLength: 300}, periodStart: {type: string, format: date}, periodEnd: {type: string, format: date}, modelVersionId: {type: string, format: uuid}}}
+    AssignmentCommand: {type: object, required: [indicatorId, identityId, function, validFrom, validTo], properties: {indicatorId: {type: string, format: uuid}, identityId: {type: string, format: uuid}, function: {enum: [RESPONSIBLE, REVIEWER, EVALUATOR]}, validFrom: {type: string, format: date-time}, validTo: {type: string, format: date-time}, reason: {type: string}}}

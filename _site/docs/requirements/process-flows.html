@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>process-flows – SEC-UNL — Documentación</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d0cfe7a3482e0d49a74229a8f3b76718.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/requirements/spec.html">Requisitos</a></li><li class="breadcrumb-item"><a href="../../docs/requirements/process-flows.html">Catálogo canónico de procesos P01–P16</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">SEC-UNL — Documentación</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">index.html</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Requisitos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/requirements/spec.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Especificación de funcionalidad: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/requirements/process-flows.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Catálogo canónico de procesos P01–P16</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/requirements/domain-rules.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Actores, decisiones y reglas verificables</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Planificación</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/planning/plan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Plan de implementación: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/planning/next-steps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Siguientes pasos de implementación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/planning/tasks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tareas: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../specs/005-complete-evaluation-workflows/plan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Implementation Plan: Flujos completos de evaluación de carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../specs/005-complete-evaluation-workflows/tasks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tasks: Flujos completos de evaluación de carreras</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Arquitectura</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/architecture/research.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Investigación y decisiones técnicas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/architecture/data-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelo de datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Decisiones de arquitectura</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0001-modular-monolith.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0001: Monolito modular por capacidades</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0002-file-storage-port.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0002: Puerto para almacenamiento externo de archivos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0015-configurable-evaluation-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0015: Gestión configurable de múltiples modelos de evaluación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0016-evaluation-strategies-import-adapters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0016: Estrategias de valoración y adaptadores de importación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0017-source-coverage-and-process-governance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0017: Cobertura documental, gobierno del proceso y cierres</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0018-catalog-contract-migration-compatibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0018 — Compatibilidad del catálogo y secuencia de migraciones</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Diagramas C4</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/architecture/complete-workflows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Arquitectura de P01–P16</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Documentación técnica</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/technical/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Documentación técnica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/technical/quickstart.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guía de validación rápida</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/technical/migration-p01-p16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Transición de contratos y datos P01–P16</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Pruebas y calidad</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/traceability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matriz de trazabilidad P01–P16</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/process-acceptance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matriz de aceptación por proceso</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/checklists/requirements.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista de calidad de la especificación: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/checklists/governance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista de calidad de gobierno y seguridad: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Manual de usuario</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Manual de usuario</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d1-careers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Carreras y unidades académicas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d2-d3-models-planning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D2–D3 — Modelos y planificación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d4-d5-evidence-review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D4–D5 — Evidencias, revisión y subsanación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d6-documentary-progress.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Seguimiento documental</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-manual-evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Valoración académica manual</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-quantitative-evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Variables y cálculo cuantitativo</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-academic-reconciliation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Discrepancias y conciliación académica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-d8-reports-archive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D7–D8 — Informes, mejora y archivo</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#catálogo-canónico-de-procesos-p01p16" id="toc-catálogo-canónico-de-procesos-p01p16" class="nav-link active" data-scroll-target="#catálogo-canónico-de-procesos-p01p16">Catálogo canónico de procesos P01–P16</a>
+  <ul class="collapse">
+  <li><a href="#reglas-transversales" id="toc-reglas-transversales" class="nav-link" data-scroll-target="#reglas-transversales">Reglas transversales</a></li>
+  <li><a href="#p01.-autenticación-y-usuarios" id="toc-p01.-autenticación-y-usuarios" class="nav-link" data-scroll-target="#p01.-autenticación-y-usuarios">P01. Autenticación y usuarios</a></li>
+  <li><a href="#p02.-gestión-de-carreras-y-permisos" id="toc-p02.-gestión-de-carreras-y-permisos" class="nav-link" data-scroll-target="#p02.-gestión-de-carreras-y-permisos">P02. Gestión de carreras y permisos</a></li>
+  <li><a href="#p03.-registro-y-versionado-de-modelos" id="toc-p03.-registro-y-versionado-de-modelos" class="nav-link" data-scroll-target="#p03.-registro-y-versionado-de-modelos">P03. Registro y versionado de modelos</a></li>
+  <li><a href="#p04.-configuración-de-estructura-indicadores-y-fuentes" id="toc-p04.-configuración-de-estructura-indicadores-y-fuentes" class="nav-link" data-scroll-target="#p04.-configuración-de-estructura-indicadores-y-fuentes">P04. Configuración de estructura, indicadores y fuentes</a></li>
+  <li><a href="#p05.-creación-y-autorización-del-proceso" id="toc-p05.-creación-y-autorización-del-proceso" class="nav-link" data-scroll-target="#p05.-creación-y-autorización-del-proceso">P05. Creación y autorización del proceso</a></li>
+  <li><a href="#p06.-asignación-y-planificación" id="toc-p06.-asignación-y-planificación" class="nav-link" data-scroll-target="#p06.-asignación-y-planificación">P06. Asignación y planificación</a></li>
+  <li><a href="#p07.-registro-de-evidencias" id="toc-p07.-registro-de-evidencias" class="nav-link" data-scroll-target="#p07.-registro-de-evidencias">P07. Registro de evidencias</a></li>
+  <li><a href="#p08.-envío-a-revisión" id="toc-p08.-envío-a-revisión" class="nav-link" data-scroll-target="#p08.-envío-a-revisión">P08. Envío a revisión</a></li>
+  <li><a href="#p09.-revisión-documental" id="toc-p09.-revisión-documental" class="nav-link" data-scroll-target="#p09.-revisión-documental">P09. Revisión documental</a></li>
+  <li><a href="#p10.-subsanación-y-nueva-versión" id="toc-p10.-subsanación-y-nueva-versión" class="nav-link" data-scroll-target="#p10.-subsanación-y-nueva-versión">P10. Subsanación y nueva versión</a></li>
+  <li><a href="#p11.-seguimiento-documental" id="toc-p11.-seguimiento-documental" class="nav-link" data-scroll-target="#p11.-seguimiento-documental">P11. Seguimiento documental</a></li>
+  <li><a href="#p12.-valoración-académica" id="toc-p12.-valoración-académica" class="nav-link" data-scroll-target="#p12.-valoración-académica">P12. Valoración académica</a></li>
+  <li><a href="#p13.-consolidación-de-resultados-y-hallazgos" id="toc-p13.-consolidación-de-resultados-y-hallazgos" class="nav-link" data-scroll-target="#p13.-consolidación-de-resultados-y-hallazgos">P13. Consolidación de resultados y hallazgos</a></li>
+  <li><a href="#p14.-informes-preliminares-observaciones-y-aprobación" id="toc-p14.-informes-preliminares-observaciones-y-aprobación" class="nav-link" data-scroll-target="#p14.-informes-preliminares-observaciones-y-aprobación">P14. Informes preliminares, observaciones y aprobación</a></li>
+  <li><a href="#p15.-planes-de-mejora" id="toc-p15.-planes-de-mejora" class="nav-link" data-scroll-target="#p15.-planes-de-mejora">P15. Planes de mejora</a></li>
+  <li><a href="#p16.-cierre-archivo-y-consulta-histórica" id="toc-p16.-cierre-archivo-y-consulta-histórica" class="nav-link" data-scroll-target="#p16.-cierre-archivo-y-consulta-histórica">P16. Cierre, archivo y consulta histórica</a></li>
+  <li><a href="#matriz-procesoentrega" id="toc-matriz-procesoentrega" class="nav-link" data-scroll-target="#matriz-procesoentrega">Matriz proceso–entrega</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/requirements/spec.html">Requisitos</a></li><li class="breadcrumb-item"><a href="../../docs/requirements/process-flows.html">Catálogo canónico de procesos P01–P16</a></li></ol></nav></header>
+
+
+
+
+<section id="catálogo-canónico-de-procesos-p01p16" class="level1">
+<h1>Catálogo canónico de procesos P01–P16</h1>
+<p><strong>Estado</strong>: Documentado para revisión e implementación; competencias pendientes de validación institucional<br>
+<strong>Especificación de detalle</strong>: <a href="../../specs/005-complete-evaluation-workflows/spec.html">Flujos completos</a></p>
+<p>Este catálogo define actores, precondiciones, flujo principal, alternativas y resultado de los dieciséis procesos. Las competencias indicadas son configurables y deben validarse con la normativa y designaciones institucionales. Registrar una decisión no equivale a otorgar la competencia para tomarla.</p>
+<p>La <a href="../../docs/requirements/domain-rules.html">matriz de responsabilidades y reglas</a> especifica permisos, estados, decisiones abiertas y fórmulas. La <a href="../../docs/testing/process-acceptance.html">matriz de aceptación</a> asigna escenarios verificables a cada proceso.</p>
+<pre class="mermaid"><code>flowchart TD
+  A[Usuarios, carreras y modelos P01–P04] --&gt; B[Preparar proceso P05]
+  B --&gt; C{Autorización registrada}
+  C -- Pendiente --&gt; B
+  C -- Verificada --&gt; D[Planificar P06]
+  D --&gt; E[Recopilar y remitir P07–P08]
+  E --&gt; F[Revisar P09]
+  F -- Observada o rechazada --&gt; G[Subsanar P10]
+  G --&gt; E
+  F --&gt; H[Seguimiento por fuente P11]
+  H --&gt; I[Corte o cierre documental: MVP]
+  I --&gt; J[Valorar P12]
+  J --&gt; K[Hallazgos P13]
+  K --&gt; L[Informes y aprobación P14]
+  L --&gt; M[Mejora P15]
+  M --&gt; N[Cierre integral y archivo P16]</code></pre>
+<section id="reglas-transversales" class="level2">
+<h2 class="anchored" data-anchor-id="reglas-transversales">Reglas transversales</h2>
+<ol type="1">
+<li>Toda operación protegida se autentica y autoriza en backend por función y ámbito.</li>
+<li>Recopilación, revisión documental y valoración académica conservan estados y registros independientes.</li>
+<li>Una versión publicada o final no se sobrescribe; la corrección crea una sucesora.</li>
+<li>Los cinco modelos son configuraciones de un catálogo común y no implementaciones separadas.</li>
+<li>Toda excepción, no aplicabilidad, autorización o aprobación registra autoridad, fundamento, actor y fecha.</li>
+<li>Ningún resultado se presenta como acreditación.</li>
+</ol>
+</section>
+<section id="p01.-autenticación-y-usuarios" class="level2">
+<h2 class="anchored" data-anchor-id="p01.-autenticación-y-usuarios">P01. Autenticación y usuarios</h2>
+<p><strong>Actor principal</strong>: usuario registrado o administrador funcional.<br>
+<strong>Precondiciones</strong>: servicio disponible; identidad habilitada para operaciones protegidas.<br>
+<strong>Resultado</strong>: sesión autorizada o cambio administrativo auditado.</p>
+<p><strong>Flujo principal</strong>:</p>
+<ol type="1">
+<li>La persona presenta credenciales.</li>
+<li>El sistema valida identidad, estado, limitación y secreto.</li>
+<li>Se crea una sesión revocable y se obtienen funciones y ámbitos vigentes.</li>
+<li>Cada operación vuelve a comprobar función, carrera, proceso e indicador.</li>
+<li>Un administrador autorizado puede habilitar, desactivar o asignar funciones.</li>
+<li>Los cambios y accesos relevantes quedan auditados.</li>
+</ol>
+<p><strong>Alternativas</strong>: credenciales inválidas sin enumerar cuentas; cuenta deshabilitada; sesión vencida; acceso fuera de ámbito; conflicto de funciones; auditoría obligatoria no disponible.</p>
+</section>
+<section id="p02.-gestión-de-carreras-y-permisos" class="level2">
+<h2 class="anchored" data-anchor-id="p02.-gestión-de-carreras-y-permisos">P02. Gestión de carreras y permisos</h2>
+<p><strong>Actor principal</strong>: administrador funcional.<br>
+<strong>Precondiciones</strong>: sesión y ámbito administrativo vigentes.<br>
+<strong>Resultado</strong>: carrera activa o desactivada con unidad e historial.</p>
+<p><strong>Flujo principal</strong>:</p>
+<ol type="1">
+<li>Registrar unidad académica, código, denominación y vigencia.</li>
+<li>Validar código normalizado único y campos obligatorios.</li>
+<li>Configurar ámbitos administrativos y responsables vigentes.</li>
+<li>Guardar la carrera y habilitarla para modelos y procesos compatibles.</li>
+<li>Registrar cambios posteriores sin alterar relaciones históricas.</li>
+</ol>
+<p><strong>Alternativas</strong>: código duplicado; unidad inexistente; datos incompletos; intento de eliminación con historial; cambio concurrente; administrador fuera de ámbito.</p>
+</section>
+<section id="p03.-registro-y-versionado-de-modelos" class="level2">
+<h2 class="anchored" data-anchor-id="p03.-registro-y-versionado-de-modelos">P03. Registro y versionado de modelos</h2>
+<p><strong>Actor principal</strong>: administrador de modelos; revisor metodológico.<br>
+<strong>Precondiciones</strong>: documento fuente identificable.<br>
+<strong>Resultado</strong>: versión publicada o borrador pendiente de validación.</p>
+<p><strong>Flujo principal</strong>:</p>
+<ol type="1">
+<li>Registrar denominación, emisor, edición, fecha, alcance y documento fuente.</li>
+<li>Identificar el modelo como General, Medicina, Enfermería, Odontología o Derecho.</li>
+<li>Crear versión en borrador con predecesora opcional.</li>
+<li>Validar estructura, procedencia, revisión independiente y vigencia conocida.</li>
+<li>Publicar una instantánea inmutable.</li>
+</ol>
+<p><strong>Alternativas</strong>: versión duplicada; fuente incompleta; vigencia no confirmada; aprobador igual al autor; versión utilizada; documento reemplazado.</p>
+</section>
+<section id="p04.-configuración-de-estructura-indicadores-y-fuentes" class="level2">
+<h2 class="anchored" data-anchor-id="p04.-configuración-de-estructura-indicadores-y-fuentes">P04. Configuración de estructura, indicadores y fuentes</h2>
+<p><strong>Actor principal</strong>: administrador de modelos.<br>
+<strong>Precondiciones</strong>: versión editable.<br>
+<strong>Resultado</strong>: estructura validable para cualquiera de los cinco modelos.</p>
+<p><strong>Flujo principal</strong>:</p>
+<ol type="1">
+<li>Crear nodos tipados con padre opcional y orden.</li>
+<li>Registrar indicadores en cualquier profundidad permitida.</li>
+<li>Definir estándar, naturaleza, período y fuentes requeridas.</li>
+<li>Para cualitativos, definir escala y método humano.</li>
+<li>Para cuantitativos, definir variables, unidades, fórmula, umbrales y casos límite.</li>
+<li>Validar códigos, pertenencia, ciclos, fuentes y reglas antes de publicar.</li>
+</ol>
+<p><strong>Alternativas</strong>: indicador directo al criterio; código repetido; ciclo; fuente sin período; fórmula no soportada; estrategia no validada; no aplicabilidad sin regla.</p>
+</section>
+<section id="p05.-creación-y-autorización-del-proceso" class="level2">
+<h2 class="anchored" data-anchor-id="p05.-creación-y-autorización-del-proceso">P05. Creación y autorización del proceso</h2>
+<p><strong>Actor principal</strong>: coordinador; autoridad institucional competente.<br>
+<strong>Precondiciones</strong>: carrera activa y versión publicada/aplicable.<br>
+<strong>Resultado</strong>: proceso en preparación, activo o suspendido.</p>
+<p><strong>Flujo principal</strong>:</p>
+<ol type="1">
+<li>Seleccionar carrera, versión y período.</li>
+<li>Registrar objetivo, fechas, antecedentes y observaciones.</li>
+<li>Guardar en <code>PREPARATION</code>.</li>
+<li>Registrar documento, fundamento y decisión de autorización.</li>
+<li>Verificar autoridad mediante política vigente.</li>
+<li>Activar y fijar la versión del modelo.</li>
+</ol>
+<p><strong>Alternativas</strong>: sin autorización; versión borrador/no vigente; incompatibilidad de período; duplicado; suspensión motivada; cambio de modelo posterior, que exige un proceso distinto o procedimiento controlado.</p>
+</section>
+<section id="p06.-asignación-y-planificación" class="level2">
+<h2 class="anchored" data-anchor-id="p06.-asignación-y-planificación">P06. Asignación y planificación</h2>
+<p><strong>Actor principal</strong>: coordinador o comisión autorizada.<br>
+<strong>Precondiciones</strong>: proceso activo y participantes habilitados.<br>
+<strong>Resultado</strong>: indicadores, fuentes y actividades asignados con fechas.</p>
+<p><strong>Flujo principal</strong>:</p>
+<ol type="1">
+<li>Consultar estructura y fuentes aplicables.</li>
+<li>Crear equipos y membresías vigentes.</li>
+<li>Asignar responsables, revisores y evaluadores por indicador o fuente.</li>
+<li>Crear actividades, fechas límite y dependencias.</li>
+<li>Validar ámbitos, vigencias y conflictos.</li>
+<li>Publicar tareas y mostrar vencimientos.</li>
+</ol>
+<p><strong>Alternativas</strong>: usuario no autorizado o inactivo; conflicto autor/revisor; reasignación; actividad vencida; indicador no aplicable; edición concurrente.</p>
+</section>
+<section id="p07.-registro-de-evidencias" class="level2">
+<h2 class="anchored" data-anchor-id="p07.-registro-de-evidencias">P07. Registro de evidencias</h2>
+<p><strong>Actor principal</strong>: responsable documental.<br>
+<strong>Precondiciones</strong>: proceso activo, asignación vigente y fuente requerida aplicable.<br>
+<strong>Resultado</strong>: borrador relacionado con fuente e indicador exactos.</p>
+<p><strong>Flujo principal</strong>:</p>
+<ol type="1">
+<li>Seleccionar tarea, indicador y fuente requerida.</li>
+<li>Registrar título, descripción, procedencia y período.</li>
+<li>Adjuntar archivo, enlace, dato estructurado o referencia permitida.</li>
+<li>Validar tipo, tamaño, integridad, período y permisos.</li>
+<li>Registrar una o más coberturas explícitas.</li>
+<li>Guardar borrador y auditoría.</li>
+</ol>
+<p><strong>Alternativas</strong>: formato/tamaño inválido; período incorrecto; fuente ajena; fallo de almacenamiento; URL inválida; duplicado; reutilización autorizada para varias fuentes.</p>
+</section>
+<section id="p08.-envío-a-revisión" class="level2">
+<h2 class="anchored" data-anchor-id="p08.-envío-a-revisión">P08. Envío a revisión</h2>
+<p><strong>Actor principal</strong>: responsable documental.<br>
+<strong>Precondiciones</strong>: borrador completo y vigente.<br>
+<strong>Resultado</strong>: versión inmutable <code>SUBMITTED/EN_REVISION</code>.</p>
+<p><strong>Flujo principal</strong>:</p>
+<ol type="1">
+<li>Revisar metadatos, coberturas y archivos.</li>
+<li>Revalidar campos, permisos, integridad y requisitos de cada fuente.</li>
+<li>Crear instantánea numerada.</li>
+<li>Registrar autor y fecha.</li>
+<li>Publicarla en la bandeja de revisores.</li>
+</ol>
+<p><strong>Alternativas</strong>: datos incompletos; archivo inaccesible; envío duplicado; ventana cerrada; responsable no vigente; conflicto concurrente.</p>
+</section>
+<section id="p09.-revisión-documental" class="level2">
+<h2 class="anchored" data-anchor-id="p09.-revisión-documental">P09. Revisión documental</h2>
+<p><strong>Actor principal</strong>: revisor documental.<br>
+<strong>Precondiciones</strong>: versión remitida y competencia vigente.<br>
+<strong>Resultado</strong>: decisión <code>ACCEPTED</code>, <code>OBSERVED</code> o <code>REJECTED</code>.</p>
+<p><strong>Flujo principal</strong>:</p>
+<ol type="1">
+<li>Abrir la bandeja y seleccionar una versión.</li>
+<li>Consultar fuente, metadatos, archivo y período.</li>
+<li>Verificar integridad, correspondencia, completitud y pertinencia.</li>
+<li>Registrar decisión y justificación.</li>
+<li>Guardar actor, fecha, versión y coberturas afectadas.</li>
+<li>Recalcular la proyección documental.</li>
+</ol>
+<p><strong>Alternativas</strong>: evidencia incompleta; archivo incorrecto/corrupto; indicador equivocado; autorrevisión; decisión concurrente; criterio documental sin definir.</p>
+</section>
+<section id="p10.-subsanación-y-nueva-versión" class="level2">
+<h2 class="anchored" data-anchor-id="p10.-subsanación-y-nueva-versión">P10. Subsanación y nueva versión</h2>
+<p><strong>Actor principal</strong>: responsable documental.<br>
+<strong>Precondiciones</strong>: observación o rechazo vigente, o corrección autorizada.<br>
+<strong>Resultado</strong>: versión sucesora remitida y predecesora intacta.</p>
+<p><strong>Flujo principal</strong>:</p>
+<ol type="1">
+<li>Consultar observaciones.</li>
+<li>Crear borrador sucesor desde la versión decidida.</li>
+<li>Corregir metadatos, coberturas o contenido.</li>
+<li>Revalidar requisitos.</li>
+<li>Remitir la nueva versión.</li>
+<li>Mantener relación inequívoca con la predecesora y volver a P09.</li>
+</ol>
+<p><strong>Alternativas</strong>: corrección insuficiente; mismo archivo; plazo vencido; evidencia archivada; edición concurrente; más de un sucesor directo.</p>
+</section>
+<section id="p11.-seguimiento-documental" class="level2">
+<h2 class="anchored" data-anchor-id="p11.-seguimiento-documental">P11. Seguimiento documental</h2>
+<p><strong>Actor principal</strong>: coordinador, supervisor o consultor autorizado.<br>
+<strong>Precondiciones</strong>: proceso existente y acceso vigente.<br>
+<strong>Resultado</strong>: tablero reproducible y pendientes navegables.</p>
+<p><strong>Flujo principal</strong>:</p>
+<ol type="1">
+<li>Obtener fuentes requeridas aplicables.</li>
+<li>Contar fuentes cubiertas por al menos una versión remitida vigente.</li>
+<li>Contar fuentes cubiertas por al menos una versión aceptada vigente.</li>
+<li>Calcular por separado recopilación y revisión documental.</li>
+<li>Mostrar valoración académica como independiente o pendiente.</li>
+<li>Desglosar por criterio, indicador, fuente, responsable y vencimiento.</li>
+</ol>
+<p><strong>Alternativas</strong>: cero evidencias; cero fuentes configuradas; no aplicabilidad autorizada; datos fuera de ámbito; inconsistencia de cálculo; información desactualizada.</p>
+</section>
+<section id="p12.-valoración-académica" class="level2">
+<h2 class="anchored" data-anchor-id="p12.-valoración-académica">P12. Valoración académica</h2>
+<p><strong>Actor principal</strong>: comité o evaluador autorizado.<br>
+<strong>Precondiciones</strong>: indicador configurado y proceso habilitado para evaluación.<br>
+<strong>Resultado</strong>: valoración fundamentada, nunca acreditación.</p>
+<p><strong>Flujo principal</strong>:</p>
+<ol type="1">
+<li>Consultar estándar, método, período y sustentos aceptados.</li>
+<li>Para cualitativo, seleccionar escala y justificar.</li>
+<li>Para cuantitativo, capturar/verificar variables y ejecutar una estrategia validada.</li>
+<li>Conservar entradas, regla, resultado, umbral, responsables y fecha.</li>
+<li>Finalizar o dejar pendiente con limitación explícita.</li>
+</ol>
+<p><strong>Alternativas</strong>: fuentes insuficientes; variables faltantes; fórmula no implementada; valor fuera de rango; no aplicabilidad; escala incompatible; discrepancia; evidencia invalidada después.</p>
+</section>
+<section id="p13.-consolidación-de-resultados-y-hallazgos" class="level2">
+<h2 class="anchored" data-anchor-id="p13.-consolidación-de-resultados-y-hallazgos">P13. Consolidación de resultados y hallazgos</h2>
+<p><strong>Actor principal</strong>: comisión de evaluación.<br>
+<strong>Precondiciones</strong>: valoraciones o limitaciones registradas.<br>
+<strong>Resultado</strong>: resultados consolidados y hallazgos trazables.</p>
+<p><strong>Flujo principal</strong>:</p>
+<ol type="1">
+<li>Agrupar resultados por jerarquía del modelo.</li>
+<li>Mostrar completos, pendientes, discrepancias y períodos.</li>
+<li>Registrar fortalezas, debilidades y observaciones.</li>
+<li>Vincular cada hallazgo a sustentos.</li>
+<li>Aplicar agregación solo si la metodología la autoriza.</li>
+<li>Preparar el conjunto para informe preliminar.</li>
+</ol>
+<p><strong>Alternativas</strong>: indicadores sin valorar; contradicciones; rectificación; períodos distintos; metodología sin agregación.</p>
+</section>
+<section id="p14.-informes-preliminares-observaciones-y-aprobación" class="level2">
+<h2 class="anchored" data-anchor-id="p14.-informes-preliminares-observaciones-y-aprobación">P14. Informes preliminares, observaciones y aprobación</h2>
+<p><strong>Actor principal</strong>: comisión y autoridades competentes.<br>
+<strong>Precondiciones</strong>: consolidación disponible.<br>
+<strong>Resultado</strong>: versiones de informe y decisiones institucionales trazables.</p>
+<p><strong>Flujo principal</strong>:</p>
+<ol type="1">
+<li>Generar borrador y versión preliminar.</li>
+<li>Registrar revisión y socialización.</li>
+<li>Recibir observaciones y respuestas.</li>
+<li>Crear versión final corregida.</li>
+<li>Remitir a la autoridad configurada.</li>
+<li>Registrar aprobación, devolución o rechazo.</li>
+<li>Publicar solo dentro de ámbitos autorizados y con texto de no acreditación.</li>
+</ol>
+<p><strong>Alternativas</strong>: información incompleta; nuevas observaciones; devolución; aprobación pendiente; cambio posterior; formato oficial no validado.</p>
+</section>
+<section id="p15.-planes-de-mejora" class="level2">
+<h2 class="anchored" data-anchor-id="p15.-planes-de-mejora">P15. Planes de mejora</h2>
+<p><strong>Actor principal</strong>: responsable de mejora o comisión autorizada.<br>
+<strong>Precondiciones</strong>: hallazgo que requiere acción.<br>
+<strong>Resultado</strong>: acciones aprobadas y seguimiento verificable.</p>
+<p><strong>Flujo principal</strong>:</p>
+<ol type="1">
+<li>Seleccionar hallazgo.</li>
+<li>Proponer acción con responsable, plazo, meta y medio de verificación.</li>
+<li>Tramitar aprobación.</li>
+<li>Registrar ejecución y avances.</li>
+<li>Adjuntar verificaciones.</li>
+<li>Evaluar cumplimiento y mantener vínculo con la evaluación origen.</li>
+</ol>
+<p><strong>Alternativas</strong>: acción devuelta; plazo vencido; modificación versionada; verificación insuficiente; incumplimiento; hallazgo compartido por varias acciones.</p>
+</section>
+<section id="p16.-cierre-archivo-y-consulta-histórica" class="level2">
+<h2 class="anchored" data-anchor-id="p16.-cierre-archivo-y-consulta-histórica">P16. Cierre, archivo y consulta histórica</h2>
+<p><strong>Actor principal</strong>: coordinador; archivista autorizado.<br>
+<strong>Precondiciones</strong>: política de cierre versionada.<br>
+<strong>Resultado</strong>: corte documental o cierre integral inmutable y consultable.</p>
+<p><strong>Flujo principal</strong>:</p>
+<ol type="1">
+<li>Seleccionar tipo de cierre: documental o integral.</li>
+<li>Revalidar prerrequisitos de la política aplicable.</li>
+<li>Mostrar pendientes y advertencias.</li>
+<li>Confirmar o registrar excepción autorizada.</li>
+<li>Crear instantánea con hash y versiones exactas.</li>
+<li>Bloquear modificaciones ordinarias y registrar archivo.</li>
+<li>Permitir consulta histórica autorizada.</li>
+</ol>
+<p><strong>Alternativas</strong>: pendientes obligatorios; cierre excepcional; rectificación posterior; error de conservación; consulta no autorizada; nueva autoevaluación separada.</p>
+</section>
+<section id="matriz-procesoentrega" class="level2">
+<h2 class="anchored" data-anchor-id="matriz-procesoentrega">Matriz proceso–entrega</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Entrega</th>
+<th>Procesos</th>
+<th>Criterio de salida</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>D1</td>
+<td>P01–P02</td>
+<td>identidad, carrera y ámbito verificables</td>
+</tr>
+<tr class="even">
+<td>D2</td>
+<td>P03–P04</td>
+<td>cinco configuraciones sin duplicación</td>
+</tr>
+<tr class="odd">
+<td>D3</td>
+<td>P05–P06</td>
+<td>proceso autorizado y planificado</td>
+</tr>
+<tr class="even">
+<td>D4</td>
+<td>P07–P08</td>
+<td>versión remitida vinculada a fuentes</td>
+</tr>
+<tr class="odd">
+<td>D5</td>
+<td>P09–P10</td>
+<td>decisión y subsanación trazables</td>
+</tr>
+<tr class="even">
+<td>D6</td>
+<td>P11 y P16 básico</td>
+<td>MVP documental reproducible</td>
+</tr>
+<tr class="odd">
+<td>D7</td>
+<td>P12–P14</td>
+<td>evaluación, hallazgos e informes</td>
+</tr>
+<tr class="even">
+<td>D8</td>
+<td>P15–P16</td>
+<td>mejora, cierre integral y archivo</td>
+</tr>
+</tbody>
+</table>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

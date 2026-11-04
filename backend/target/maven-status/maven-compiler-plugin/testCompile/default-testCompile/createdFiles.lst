@@ -35,12 +35,14 @@ ec\edu\unl\sec\reporting\application\DocumentarySnapshotSemanticsTest.class
 ec\edu\unl\sec\evidence\application\EvidenceDownloadServiceTest.class
 ec\edu\unl\sec\evidence\infrastructure\EvidenceConcurrencyIntegrationTest.class
 ec\edu\unl\sec\evidence\infrastructure\SubmittedEvidenceImmutabilityTest.class
+ec\edu\unl\sec\support\CompleteWorkflowPerformanceDataTest.class
 ec\edu\unl\sec\filestorage\infrastructure\LocalFileStorageAdapterTest$3.class
 ec\edu\unl\sec\evaluationmodel\support\ConfiguredModelFixtures.class
 ec\edu\unl\sec\documentreview\api\DocumentReviewControllerTest.class
 ec\edu\unl\sec\support\D7ReportWorkflowData.class
 ec\edu\unl\sec\migration\CompleteWorkflowMigrationTest.class
 ec\edu\unl\sec\evidence\infrastructure\EvidenceSourcePersistenceTest.class
+ec\edu\unl\sec\support\CompleteWorkflowPerformanceData.class
 ec\edu\unl\sec\documentreview\infrastructure\DocumentReviewPersistenceTest$Fixture.class
 ec\edu\unl\sec\evidence\domain\EvidenceSourceTest.class
 ec\edu\unl\sec\selfassessment\domain\AuthorizedProcessLifecycleTest.class
@@ -70,6 +72,7 @@ ec\edu\unl\sec\filestorage\infrastructure\FilePersistenceTest.class
 ec\edu\unl\sec\filestorage\infrastructure\ContentInspectionServiceTest$1.class
 ec\edu\unl\sec\filestorage\infrastructure\RecoveryClaimContentionTest.class
 ec\edu\unl\sec\documentreview\infrastructure\DocumentReviewPersistenceTest.class
+ec\edu\unl\sec\support\CompleteWorkflowAcceptanceData.class
 ec\edu\unl\sec\support\D7ManualEvaluationData.class
 ec\edu\unl\sec\support\D9ArchiveData.class
 ec\edu\unl\sec\evidence\application\StructuredEvidenceServiceTest.class
@@ -79,6 +82,7 @@ ec\edu\unl\sec\filestorage\infrastructure\JpaFileValidationPolicyRepositoryTest.
 ec\edu\unl\sec\identityaccess\application\CompleteWorkflowAuthorizationTest.class
 ec\edu\unl\sec\improvement\infrastructure\ImprovementPersistenceTest.class
 ec\edu\unl\sec\improvement\api\ImprovementControllerTest.class
+ec\edu\unl\sec\archive\infrastructure\IntegralClosureBytesTest.class
 ec\edu\unl\sec\evidence\infrastructure\EvidenceSourcePersistenceTest$Fixture.class
 ec\edu\unl\sec\archive\application\ArchiveServiceTest.class
 ec\edu\unl\sec\evidence\application\ApplicabilityDecisionServiceTest.class

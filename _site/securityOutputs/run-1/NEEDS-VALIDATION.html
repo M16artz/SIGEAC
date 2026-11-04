@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>needs-validation – SEC-UNL — Documentación</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d0cfe7a3482e0d49a74229a8f3b76718.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      SEC-UNL — Documentación
+      </li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">SEC-UNL — Documentación</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">index.html</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Requisitos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/requirements/spec.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Especificación de funcionalidad: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/requirements/process-flows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Catálogo canónico de procesos P01–P16</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/requirements/domain-rules.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Actores, decisiones y reglas verificables</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Planificación</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/planning/plan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Plan de implementación: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/planning/next-steps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Siguientes pasos de implementación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/planning/tasks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tareas: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../specs/005-complete-evaluation-workflows/plan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Implementation Plan: Flujos completos de evaluación de carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../specs/005-complete-evaluation-workflows/tasks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tasks: Flujos completos de evaluación de carreras</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Arquitectura</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/architecture/research.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Investigación y decisiones técnicas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/architecture/data-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelo de datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Decisiones de arquitectura</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0001-modular-monolith.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0001: Monolito modular por capacidades</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0002-file-storage-port.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0002: Puerto para almacenamiento externo de archivos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0015-configurable-evaluation-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0015: Gestión configurable de múltiples modelos de evaluación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0016-evaluation-strategies-import-adapters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0016: Estrategias de valoración y adaptadores de importación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0017-source-coverage-and-process-governance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0017: Cobertura documental, gobierno del proceso y cierres</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0018-catalog-contract-migration-compatibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0018 — Compatibilidad del catálogo y secuencia de migraciones</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Diagramas C4</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/architecture/complete-workflows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Arquitectura de P01–P16</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Documentación técnica</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/technical/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Documentación técnica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/technical/quickstart.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guía de validación rápida</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/technical/migration-p01-p16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Transición de contratos y datos P01–P16</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Pruebas y calidad</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/traceability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matriz de trazabilidad P01–P16</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/process-acceptance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matriz de aceptación por proceso</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/checklists/requirements.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista de calidad de la especificación: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/checklists/governance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista de calidad de gobierno y seguridad: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Manual de usuario</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Manual de usuario</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d1-careers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Carreras y unidades académicas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d2-d3-models-planning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D2–D3 — Modelos y planificación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d4-d5-evidence-review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D4–D5 — Evidencias, revisión y subsanación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d6-documentary-progress.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Seguimiento documental</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-manual-evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Valoración académica manual</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-quantitative-evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Variables y cálculo cuantitativo</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-academic-reconciliation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Discrepancias y conciliación académica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-d8-reports-archive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D7–D8 — Informes, mejora y archivo</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#candidatos-pendientes-de-validación" id="toc-candidatos-pendientes-de-validación" class="nav-link active" data-scroll-target="#candidatos-pendientes-de-validación">Candidatos pendientes de validación</a>
+  <ul class="collapse">
+  <li><a href="#nv-01-el-alta-de-asignaciones-no-comprueba-la-autoridad-sobre-el-ámbito-destino" id="toc-nv-01-el-alta-de-asignaciones-no-comprueba-la-autoridad-sobre-el-ámbito-destino" class="nav-link" data-scroll-target="#nv-01-el-alta-de-asignaciones-no-comprueba-la-autoridad-sobre-el-ámbito-destino">NV-01: El alta de asignaciones no comprueba la autoridad sobre el ámbito destino</a></li>
+  <li><a href="#nv-02-la-consulta-individual-de-revisión-documental-omite-la-autorización-del-recurso" id="toc-nv-02-la-consulta-individual-de-revisión-documental-omite-la-autorización-del-recurso" class="nav-link" data-scroll-target="#nv-02-la-consulta-individual-de-revisión-documental-omite-la-autorización-del-recurso">NV-02: La consulta individual de revisión documental omite la autorización del recurso</a></li>
+  <li><a href="#nv-03-la-consulta-de-auditoría-pierde-las-restricciones-de-proceso-del-auditor" id="toc-nv-03-la-consulta-de-auditoría-pierde-las-restricciones-de-proceso-del-auditor" class="nav-link" data-scroll-target="#nv-03-la-consulta-de-auditoría-pierde-las-restricciones-de-proceso-del-auditor">NV-03: La consulta de auditoría pierde las restricciones de proceso del auditor</a></li>
+  <li><a href="#nv-04-el-alta-de-asignaciones-crea-excepciones-sin-exigir-el-permiso-específico" id="toc-nv-04-el-alta-de-asignaciones-crea-excepciones-sin-exigir-el-permiso-específico" class="nav-link" data-scroll-target="#nv-04-el-alta-de-asignaciones-crea-excepciones-sin-exigir-el-permiso-específico">NV-04: El alta de asignaciones crea excepciones sin exigir el permiso específico</a></li>
+  <li><a href="#nv-05-la-autorrevisión-acepta-una-excepción-declarada-por-el-propio-revisor" id="toc-nv-05-la-autorrevisión-acepta-una-excepción-declarada-por-el-propio-revisor" class="nav-link" data-scroll-target="#nv-05-la-autorrevisión-acepta-una-excepción-declarada-por-el-propio-revisor">NV-05: La autorrevisión acepta una excepción declarada por el propio revisor</a></li>
+  <li><a href="#nv-06-las-mutaciones-de-cobertura-y-remisión-omiten-el-control-de-autor-del-borrador" id="toc-nv-06-las-mutaciones-de-cobertura-y-remisión-omiten-el-control-de-autor-del-borrador" class="nav-link" data-scroll-target="#nv-06-las-mutaciones-de-cobertura-y-remisión-omiten-el-control-de-autor-del-borrador">NV-06: Las mutaciones de cobertura y remisión omiten el control de autor del borrador</a></li>
+  <li><a href="#nv-07-el-registro-de-avances-de-mejora-omite-la-suspensión-del-proceso" id="toc-nv-07-el-registro-de-avances-de-mejora-omite-la-suspensión-del-proceso" class="nav-link" data-scroll-target="#nv-07-el-registro-de-avances-de-mejora-omite-la-suspensión-del-proceso">NV-07: El registro de avances de mejora omite la suspensión del proceso</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="candidatos-pendientes-de-validación" class="level1">
+<h1>Candidatos pendientes de validación</h1>
+<p>Siete rutas revisadas por fuente y por revisores independientes. Ninguna fue reproducida; no se asigna gravedad. Los pasos siguientes usan únicamente fixtures ficticios en un sandbox conforme, nunca un despliegue compartido.</p>
+<section id="nv-01-el-alta-de-asignaciones-no-comprueba-la-autoridad-sobre-el-ámbito-destino" class="level2">
+<h2 class="anchored" data-anchor-id="nv-01-el-alta-de-asignaciones-no-comprueba-la-autoridad-sobre-el-ámbito-destino">NV-01: El alta de asignaciones no comprueba la autoridad sobre el ámbito destino</h2>
+<p>Fingerprint: <code>identityaccess:IdentityAdministrationService.assign:destination-scope</code>.</p>
+<p>Un administrador humano limitado a carrera A puede solicitar una asignación en B. La ruta exige capacidad administrativa en algún ámbito, pero no autorización sobre B. El resultado candidato es conceder funciones fuera del ámbito delegado, incluso a sí mismo. createException presenta la misma pérdida del ámbito destino. No se ejecutó una reproducción.</p>
+<p>Causa propuesta: assign y createException usan require/hasOperation como autorización suficiente y persisten un AuthorizationScope de la solicitud sin comprobar isAllowed para ese destino. Estructura, claves foráneas y vigencia no comprueban competencia del otorgante.</p>
+<p>Ruta de código:</p>
+<ul>
+<li><code>backend/src/main/java/ec/edu/unl/sec/identityaccess/api/IdentityAdministrationController.java:86</code> — POST /users/{userId}/assignments: Recibe función y ámbito del solicitante autenticado.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java:157</code> — assign: Exige ACCESS_ASSIGN_SCOPE; construye ámbito en 172 y persiste en 237 sin isAllowed del destino.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java:249</code> — createAssignment: Inserta la asignación para el ámbito recibido sin comprobar competencia del otorgante.</li>
+</ul>
+<p>Evidencia adicional:</p>
+<ul>
+<li><code>specs/001-identity-access-scopes/spec.md:43</code> — Exige rechazar creación, cambio o revocación fuera del ámbito del administrador.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/identityaccess/application/ScopeAuthorizationService.java:53</code> — hasOperation no recibe el ámbito destino; isAllowed sí compara contains en línea 35.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java:258</code> — La revocación sí aplica isAllowed sobre el ámbito de la asignación.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java:288</code> — createException exige capacidad general, construye ámbito en 301 y persiste en 322 sin decisión por destino.</li>
+</ul>
+<p>Bloqueos:</p>
+<ul>
+<li>No se ejecutó una reproducción: no está establecido un sandbox OS con aislamiento de red, entorno vacío con allowlist, fuente/herramientas de solo lectura, escritura exclusiva en scratch y límites explícitos de CPU, memoria, procesos, archivos, disco y tiempo.</li>
+</ul>
+<p>Prueba local propuesta: En sandbox completo sin red, crear carreras ficticias A/B, administrador con ACCESS_ASSIGN_SCOPE solo en A y receptor activo sin B. Comprobar isAllowed del otorgante para B==false; invocar assign en B con función válida sin conflictos; observar como máximo una inserción y una decisión funcional del receptor. Esperado: rechazo sin escritura. En un fixture separado, usar gestor con ACCESS_MANAGE_EXCEPTIONS únicamente en A, política vigente y receptor con función aplicable, e intentar createException para B. Detenerse tras observar si se inserta una única excepción fuera de ámbito.</p>
+</section>
+<section id="nv-02-la-consulta-individual-de-revisión-documental-omite-la-autorización-del-recurso" class="level2">
+<h2 class="anchored" data-anchor-id="nv-02-la-consulta-individual-de-revisión-documental-omite-la-autorización-del-recurso">NV-02: La consulta individual de revisión documental omite la autorización del recurso</h2>
+<p>Fingerprint: <code>documentreview:versionReview:missing-resource-authorization</code>.</p>
+<p>Una sesión válida humana o técnica puede consultar la revisión de una versión ajena mediante su UUID conocido. La ruta no comprueba permiso sobre carrera, proceso o evidencia y proyecta resultados y comentarios. El resultado candidato es divulgación fuera del ámbito; no se afirma enumeración ni explotación demostrada.</p>
+<p>Causa propuesta: versionReview exige únicamente currentActor y devuelve repository.latest(versionId). La consulta por UUID no añade autorización; omite la comprobación humana y canReview que protegen historial y bandeja. No se encontró control fuente alternativo que subsane esta ruta.</p>
+<p>Ruta de código:</p>
+<ul>
+<li><code>backend/src/main/java/ec/edu/unl/sec/documentreview/api/DocumentReviewController.java:53</code> — GET /evidence-versions/{versionId}/document-review: Recibe UUID y entrega reviews.versionReview.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewService.java:117</code> — versionReview: Exige solo actor autenticado y consulta repositorio.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/JdbcDocumentReviewRepository.java:68</code> — latest: Selecciona por version_id sin identidad/carrera/proceso.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/documentreview/api/DocumentReviewController.java:153</code> — VersionReviewView.from: Proyecta decisión, revisión y resultados con comentarios note.</li>
+</ul>
+<p>Evidencia adicional:</p>
+<ul>
+<li><code>backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewService.java:104</code> — scoped sí rechaza cuentas técnicas y exige canReview por carrera/proceso.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/documentreview/api/DocumentReviewController.java:144</code> — OutcomeView copia requiredSourceId, outcome y note.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SecurityConfiguration.java:34</code> — La cadena exige autenticación general, sin decisión por objeto.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/DocumentReviewBoundaryAdapter.java:27</code> — currentActor traduce identidad; canReview es operación separada omitida.</li>
+</ul>
+<p>Bloqueos:</p>
+<ul>
+<li>No se ejecutó una reproducción: no está establecido un sandbox OS con aislamiento de red, entorno vacío con allowlist, fuente/herramientas de solo lectura, escritura exclusiva en scratch y límites explícitos de CPU, memoria, procesos, archivos, disco y tiempo.</li>
+</ul>
+<p>Prueba local propuesta: En sandbox conforme sin red externa, preparar carreras ficticias A/B, decisión de B con note=‘CONFIDENCIAL_B’ y sesión humana autorizada solo en A. Una única petición local GET /api/v1/evidence-versions/{uuid_B}/document-review con UUID conocido comprueba si devuelve ese comentario aunque la evidencia B no sea visible. Esperado: rechazo sin datos. Detenerse tras esa observación mínima.</p>
+</section>
+<section id="nv-03-la-consulta-de-auditoría-pierde-las-restricciones-de-proceso-del-auditor" class="level2">
+<h2 class="anchored" data-anchor-id="nv-03-la-consulta-de-auditoría-pierde-las-restricciones-de-proceso-del-auditor">NV-03: La consulta de auditoría pierde las restricciones de proceso del auditor</h2>
+<p>Fingerprint: <code>identityaccess:AccessAuditController.search:scope-collapse</code>.</p>
+<p>Una identidad humana activa con ACCESS_READ_AUDIT solo en P1 puede alcanzar eventos y conteos de P2 de la misma carrera. La proyección incluye identificadores, fecha, correlación, acción, objeto, resultado, motivo y ámbitos. No devuelve metadata_json ni se afirma exposición de secretos. Ruta verificada por fuente, sin fixture ejecutado.</p>
+<p>Causa propuesta: auditCareerIds usa repository.authorizedCareerIds, cuyo SELECT DISTINCT career_id elimina proceso e indicador. AuditQueryRepository recibe solo carreras y no conserva ámbito efectivo en search/count; hasOperation acredita alguna asignación, sin autorizar cada evento.</p>
+<p>Ruta de código:</p>
+<ul>
+<li><code>backend/src/main/java/ec/edu/unl/sec/identityaccess/api/AccessAuditController.java:26</code> — GET /audit-events: Consulta autenticada obtiene careerIds para selección y conteo.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java:347</code> — auditCareerIds: Exige capacidad general y obtiene carreras sin procesos/indicadores.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java:424</code> — authorizedCareerIds: Devuelve DISTINCT career_id de asignaciones vigentes.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/audit/infrastructure/JpaAuditAdapter.java:99</code> — AuditQueryRepository.filter: Filtra por carrera, sin proceso; controlador solicita includeUnscoped=true.</li>
+</ul>
+<p>Evidencia adicional:</p>
+<ul>
+<li><code>specs/001-identity-access-scopes/spec.md:92</code> — Exige no devolver eventos, conteos o indicios ajenos al ámbito.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/identityaccess/application/ScopeAuthorizationService.java:35</code> — La decisión ordinaria sí exige contains(requested), distingue P1/P2.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/identityaccess/api/AccessAuditController.java:42</code> — search/count reciben solo carreras sin filtrado posterior.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/audit/infrastructure/JpaAuditAdapter.java:72</code> — Proyección sin metadata_json ni columnas de actor.</li>
+</ul>
+<p>Bloqueos:</p>
+<ul>
+<li>No se ejecutó una reproducción: no está establecido un sandbox OS con aislamiento de red, entorno vacío con allowlist, fuente/herramientas de solo lectura, escritura exclusiva en scratch y límites explícitos de CPU, memoria, procesos, archivos, disco y tiempo.</li>
+</ul>
+<p>Prueba local propuesta: En sandbox completo, base descartable y sin red externa, crear carrera con procesos P1/P2, auditor solo P1 y evento sintético por proceso. Comprobar autorización ordinaria deniega P2. Una petición local GET /api/v1/audit-events comprueba si devuelve evento P2 y total=2. Esperado solo P1 y total=1. Detenerse tras la observación mínima.</p>
+</section>
+<section id="nv-04-el-alta-de-asignaciones-crea-excepciones-sin-exigir-el-permiso-específico" class="level2">
+<h2 class="anchored" data-anchor-id="nv-04-el-alta-de-asignaciones-crea-excepciones-sin-exigir-el-permiso-específico">NV-04: El alta de asignaciones crea excepciones sin exigir el permiso específico</h2>
+<p>Fingerprint: <code>identityaccess:IdentityAdministrationService.assign:inline-conflict-capability</code>.</p>
+<p>Un otorgante con ACCESS_ASSIGN_SCOPE pero sin ACCESS_MANAGE_EXCEPTIONS puede alcanzar una rama que crea una excepción aprobada por él al aportar exceptionReason. El endpoint independiente exige la capacidad específica. El escenario requiere una matriz que separe ambas capacidades; no se verificó el despliegue ni se ejecutó un fixture.</p>
+<p>Causa propuesta: La rama de conflicto de assign valida longitud del motivo y llama createConflictException sin exigir ACCESS_MANAGE_EXCEPTIONS. Dominio e INSERT no comprueban competencia del aprobador.</p>
+<p>Ruta de código:</p>
+<ul>
+<li><code>backend/src/main/java/ec/edu/unl/sec/identityaccess/api/IdentityAdministrationController.java:86</code> — POST /users/{userId}/assignments: Acepta función, ámbito, vigencia y exceptionReason.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java:157</code> — assign: Exige ACCESS_ASSIGN_SCOPE; la rama de 195 admite motivo de 10 a 1000 caracteres.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java:204</code> — assign conflict branch: Crea excepción aprobada por el otorgante sin comprobar la capacidad específica.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java:406</code> — createConflictException: Inserta la excepción; assign persiste después la función incompatible.</li>
+</ul>
+<p>Evidencia adicional:</p>
+<ul>
+<li><code>backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java:288</code> — createException sí exige ACCESS_MANAGE_EXCEPTIONS.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java:362</code> — require comprueba exclusivamente la operación recibida.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java:182</code> — La evaluación efectiva acepta excepción vigente sin volver a verificar la competencia de approvedBy.</li>
+<li><code>specs/001-identity-access-scopes/spec.md:134</code> — FR-004 permite únicamente excepciones expresamente autorizadas.</li>
+</ul>
+<p>Bloqueos:</p>
+<ul>
+<li>No se ejecutó una reproducción: no está establecido un sandbox OS con aislamiento de red, entorno vacío con allowlist, fuente/herramientas de solo lectura, escritura exclusiva en scratch y límites explícitos de CPU, memoria, procesos, archivos, disco y tiempo.</li>
+<li>No se observó la matriz efectiva del despliegue; requiere otorgante con capacidad de asignar pero sin gestionar excepciones.</li>
+</ul>
+<p>Prueba local propuesta: En sandbox completo sin red, otorgante ASSIGNER humano con solo ACCESS_ASSIGN_SCOPE y autoridad en el mismo ámbito del receptor RESPONSIBLE; configurar conflicto RESPONSIBLE/REVIEWER. Comprobar ausencia de ACCESS_MANAGE_EXCEPTIONS y comparar assign sin motivo con assign de REVIEWER y motivo válido. Observar como máximo una excepción/asignación y una decisión resultante; comparar createException, que debe denegar. Detenerse. No mezclar con el defecto de ámbito.</p>
+<p>Observación del propietario: El propietario puede inspeccionar una exportación local de function_operation y asignaciones vigentes para determinar si ambas capacidades se separan; sin solicitudes de prueba al despliegue.</p>
+</section>
+<section id="nv-05-la-autorrevisión-acepta-una-excepción-declarada-por-el-propio-revisor" class="level2">
+<h2 class="anchored" data-anchor-id="nv-05-la-autorrevisión-acepta-una-excepción-declarada-por-el-propio-revisor">NV-05: La autorrevisión acepta una excepción declarada por el propio revisor</h2>
+<p>Fingerprint: <code>documentreview:decide:self-authorized-self-review-exception</code>.</p>
+<p>Un remitente histórico con permiso actual de revisión puede declarar selfReviewException=true y un motivo para revisar su propia versión. Los controles exigen competencia, proceso ACTIVE, versión vigente y revisión correcta, pero no una autorización de excepción emitida por otra autoridad. Resultado candidato: aceptación documental de evidencia propia sin excepción autorizada. Sin reproducción ejecutada.</p>
+<p>Causa propuesta: El booleano HTTP evita SELF_REVIEW_FORBIDDEN. Dominio, persistencia y migración solo exigen motivo; no vinculan la excepción a una decisión autorizadora. Los conflictos de funciones vigentes no sustituyen el control sobre autoría histórica.</p>
+<p>Ruta de código:</p>
+<ul>
+<li><code>backend/src/main/java/ec/edu/unl/sec/documentreview/api/DocumentReviewController.java:63</code> — POST /evidence-versions/{versionId}/document-review: Transfiere booleano y motivo del solicitante a ReviewInput.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewService.java:71</code> — decide: Detecta remitente, pero rechaza solo cuando el booleano enviado es false.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/documentreview/domain/DocumentReviewDecision.java:31</code> — DocumentReviewDecision: Exige motivo de longitud válida sin referencia autorizadora.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/JdbcDocumentReviewRepository.java:47</code> — save: Inserta decisión, booleano y motivo sin consultar autorización de excepción.</li>
+</ul>
+<p>Evidencia adicional:</p>
+<ul>
+<li><code>specs/005-complete-evaluation-workflows/spec.md:109</code> — Exige bloquear coincidencia de autor/revisor sin excepción autorizada.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewService.java:57</code> — Controles previos de revisión, proceso abierto, versión y revisión no autorizan excepción separadamente.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java:177</code> — Conflictos consideran asignaciones actualmente vigentes; estudiar antiguo recopilador ahora revisor.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/DocumentReviewBoundaryAdapter.java:32</code> — canReview no verifica excepción de autorrevisión.</li>
+</ul>
+<p>Bloqueos:</p>
+<ul>
+<li>No se ejecutó una reproducción: no está establecido un sandbox OS con aislamiento de red, entorno vacío con allowlist, fuente/herramientas de solo lectura, escritura exclusiva en scratch y límites explícitos de CPU, memoria, procesos, archivos, disco y tiempo.</li>
+</ul>
+<p>Prueba local propuesta: En sandbox conforme sin red, usuario ficticio U remite versión completa ACTIVE. Revocar o dejar vencer recopilación y conceder revisión del mismo proceso sin autorización de excepción. Comprobar canReview y que selfReviewException=false rechaza. En fixture limpio pedir una decisión con revisión vigente, booleano true, motivo/justificación válidos y resultados ACCEPTED. Observar solo si persiste ACCEPTED sin autorización y detenerse. Esperado: rechazo sin nueva decisión.</p>
+</section>
+<section id="nv-06-las-mutaciones-de-cobertura-y-remisión-omiten-el-control-de-autor-del-borrador" class="level2">
+<h2 class="anchored" data-anchor-id="nv-06-las-mutaciones-de-cobertura-y-remisión-omiten-el-control-de-autor-del-borrador">NV-06: Las mutaciones de cobertura y remisión omiten el control de autor del borrador</h2>
+<p>Fingerprint: <code>evidence:draft-mutations:missing-author-check</code>.</p>
+<p>Un responsable B con recopilación y responsabilidad vigente sobre todos los indicadores puede acceder al borrador de A. Algunas rutas permiten cambiar coberturas, registrar estructura o remitirlo con ese permiso de lectura, mientras archivos, referencias y metadatos exigen autoría. La remisión además registra a A como actor aunque la solicite B. Diferencia verificada por fuente, sin reproducción.</p>
+<p>Causa propuesta: declare/remove, register estructurado y submit usan drafts.getVersion, cuyo guard comprueba ámbito y responsabilidad sin autor. Omiten requireEditableVersion que compara autor y actor; persistencia tampoco comprueba al autor solicitante.</p>
+<p>Ruta de código:</p>
+<ul>
+<li><code>backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceSourceCoverageController.java:77</code> — POST /evidence-versions/{versionId}/submit: Recibe UUID/If-Match y llama remisión.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/evidence/application/SubmitEvidenceService.java:48</code> — submit: Valida revisión, borrador, proceso y fuentes, sin comparar solicitante y autor.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceDraftService.java:180</code> — visible: Autoriza responsable vigente con canCollect por indicadores, sin exigir autoría.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/evidence/application/SubmitEvidenceService.java:64</code> — submit: Marca remitida la versión; auditoría usa version.authorId en 71.</li>
+</ul>
+<p>Evidencia adicional:</p>
+<ul>
+<li><code>backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceDraftService.java:170</code> — requireEditableVersion rechaza actor diferente del autor; update también lo hace en 144.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceSourceCoverageService.java:44</code> — declare usa guard de lectura; remove lo repite en 77 antes de eliminar.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/evidence/application/StructuredEvidenceService.java:51</code> — register no compara autoría.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/evidence/infrastructure/JdbcEvidenceGovernanceRepository.java:150</code> — markSubmitted usa UUID/estado/revisión, no autor.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessAssignmentService.java:55</code> — Duplicado incluye identidad, permite estudiar responsables distintos de un indicador.</li>
+<li><code>specs/004-submit-evidence/spec.md:144</code> — FR-020a exige conservar el actor de la operación en auditoría.</li>
+</ul>
+<p>Bloqueos:</p>
+<ul>
+<li>No se ejecutó una reproducción: no está establecido un sandbox OS con aislamiento de red, entorno vacío con allowlist, fuente/herramientas de solo lectura, escritura exclusiva en scratch y límites explícitos de CPU, memoria, procesos, archivos, disco y tiempo.</li>
+<li>Falta observar la combinación de asignaciones admitida y la mutación resultante; no se encontró autorización expresa de edición colaborativa ni compensación de persistencia.</li>
+</ul>
+<p>Prueba local propuesta: En sandbox completo sin red, crear ACTIVE con A/B responsables del mismo indicador y EVIDENCE_COLLECT. A crea borrador con cobertura/referencia. Como B, comprobar que requireEditableVersion deniega y getVersion permite. Eliminar una cobertura con UUID/If-Match y observar persistencia. En fixture limpio remitir como B y comprobar solo SUBMITTED y actor de EVIDENCE_SUBMITTED. Esperado: rechazo de mutación ajena; delegación intencional debe conservar actor real. Detenerse en observaciones mínimas.</p>
+</section>
+<section id="nv-07-el-registro-de-avances-de-mejora-omite-la-suspensión-del-proceso" class="level2">
+<h2 class="anchored" data-anchor-id="nv-07-el-registro-de-avances-de-mejora-omite-la-suspensión-del-proceso">NV-07: El registro de avances de mejora omite la suspensión del proceso</h2>
+<p>Fingerprint: <code>improvement:ActionProgressService:mutations-ignore-process-suspension</code>.</p>
+<p>Una identidad humana con IMPROVEMENT_PROGRESS vigente puede alcanzar el registro de avances de una acción durante SUSPENDED. Resultado candidato: insertar avance e incrementar revisión sin reanudación institucional. Permiso de ámbito y revisión optimista existen, pero no sustituyen la suspensión. Sin reproducción ejecutada.</p>
+<p>Causa propuesta: lockScope devuelve cualquier estado tras comprobar autorización. recordProgress rechaza VERIFIED y especializa CLOSED, pero no SUSPENDED antes de appendProgress/advanceHead. decide comparte omisión; persistencia no añade control.</p>
+<p>Ruta de código:</p>
+<ul>
+<li><code>backend/src/main/java/ec/edu/unl/sec/improvement/api/ImprovementController.java:125</code> — POST /improvement-actions/{actionId}/progress: Recibe acción, If-Match y datos de avance.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/improvement/application/ActionProgressService.java:68</code> — recordProgress: Obtiene proceso, comprueba revisión/acción, solo especializa CLOSED.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/improvement/application/ActionProgressService.java:178</code> — lockScope: Bloquea proceso y autoriza ámbito sin rechazar SUSPENDED.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/improvement/application/ActionProgressService.java:88</code> — recordProgress: Inserta avance y aumenta revisión de acción.</li>
+</ul>
+<p>Evidencia adicional:</p>
+<ul>
+<li><code>specs/005-complete-evaluation-workflows/spec.md:84</code> — Suspensión debe bloquear actuaciones ordinarias hasta reanudación autorizada.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/improvement/application/ImprovementPlanService.java:31</code> — Creación/revisión paralelas sí incluyen SUSPENDED en fases bloqueadas.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/selfassessment/application/DocumentaryProcessService.java:24</code> — lock devuelve estado persistido sin exigir fase de escritura.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/improvement/infrastructure/JdbcImprovementRepository.java:122</code> — appendProgress inserta sin comprobar fase; replaceHead en 102 usa identificador/revisión.</li>
+<li><code>backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/ProcessStateMachine.java:10</code> — ACTIVE puede suspenderse sin eliminar acciones existentes.</li>
+</ul>
+<p>Bloqueos:</p>
+<ul>
+<li>No se ejecutó una reproducción: no está establecido un sandbox OS con aislamiento de red, entorno vacío con allowlist, fuente/herramientas de solo lectura, escritura exclusiva en scratch y límites explícitos de CPU, memoria, procesos, archivos, disco y tiempo.</li>
+</ul>
+<p>Prueba local propuesta: En sandbox completo sin red, crear ACTIVE, acción APPROVED/IN_PROGRESS y actor con IMPROVEMENT_PROGRESS vigente. Suspender mediante transición institucional, conservar acción/asignación. Una petición local POST /api/v1/improvement-actions/{actionId}/progress con sesión/CSRF ficticios, If-Match vigente, descripción válida, valor/fecha/evidencia sintética comprueba si inserta avance y aumenta revisión mientras SUSPENDED. Esperado rechazo sin escritura. Detenerse tras observación mínima.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

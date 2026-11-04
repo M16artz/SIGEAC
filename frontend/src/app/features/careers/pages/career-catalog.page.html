@@ -1,0 +1,1157 @@
+<section class="careers-page" aria-labelledby="careers-title">
+  <header
+    class="relative overflow-hidden rounded-[1.75rem] border border-[#e3edf7] bg-white px-6 py-8 shadow-[0_30px_70px_-50px_rgba(8,72,120,0.55)] sm:px-8 sm:py-9"
+  >
+    <div class="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full border-[30px] border-institutional-blue/[0.05]"></div>
+    <div class="pointer-events-none absolute -bottom-28 right-1/3 h-56 w-56 rounded-full bg-institutional-blue/[0.04] blur-2xl"></div>
+
+    <div class="relative z-10 flex flex-col gap-6 xl:flex-row xl:items-center xl:justify-between">
+      <div class="max-w-2xl">
+        <span
+          class="inline-flex items-center gap-2 rounded-full bg-institutional-blue-soft px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-institutional-blue"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="h-3.5 w-3.5"
+          >
+            <path d="M3 9.5 12 5l9 4.5-9 4.5-9-4.5Z M6.5 11.6V16c0 1.4 2.5 2.6 5.5 2.6s5.5-1.2 5.5-2.6v-4.4 M21 9.5V14" />
+          </svg>
+          Carreras
+        </span>
+
+        <h1 id="careers-title" class="careers-hero-title">Catálogo de carreras</h1>
+        <p class="careers-hero-copy max-w-xl">
+          Administre las carreras y unidades académicas de su ámbito sin eliminar procesos ni historial.
+        </p>
+      </div>
+
+      <div
+        class="flex w-full max-w-xs items-center gap-4 rounded-2xl border border-[#e3edf7] bg-institutional-bg px-4 py-3 md:w-auto"
+      >
+        <span
+          class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-white text-institutional-blue shadow-sm"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="h-6 w-6"
+          >
+            <path d="M4.5 20.5V5.5h9v15 M13.5 10h6v10.5 M7.5 9h3 M7.5 13h3 M7.5 17h3 M16.5 13h1 M16.5 17h1" />
+          </svg>
+        </span>
+        <span class="min-w-0">
+          <span class="block text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-slate-400">
+            Carreras visibles
+          </span>
+          <span class="careers-stat-value block">{{ careers()?.totalElements ?? '—' }}</span>
+          <span class="mt-0.5 block text-[0.7rem] text-slate-500">
+            Página {{ (careers()?.page ?? 0) + 1 }}
+          </span>
+        </span>
+      </div>
+    </div>
+  </header>
+
+  @if (error()) {
+    <p class="sigeac-alert sigeac-alert--error mt-5" role="alert">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+        class="mt-0.5 h-4 w-4 shrink-0"
+      >
+        <path d="M12 3.5 21 20H3L12 3.5Z M12 9.5v4 M12 17h.01" />
+      </svg>
+      <span>{{ error() }}</span>
+    </p>
+  }
+
+  @if (message()) {
+    <p class="sigeac-alert sigeac-alert--success mt-5" role="status">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+        class="mt-0.5 h-4 w-4 shrink-0"
+      >
+        <path d="M12 3.5 20 7v5c0 4.5-3.2 8.2-8 9.5-4.8-1.3-8-5-8-9.5V7l8-3.5Z M9 12l2 2 4-4.5" />
+      </svg>
+      <span>{{ message() }}</span>
+    </p>
+  }
+
+  <section class="sigeac-card mt-6 overflow-hidden" aria-labelledby="career-form-title">
+    <div
+      class="flex flex-col gap-3 border-b border-[#eef2f7] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
+    >
+      <div class="flex items-start gap-3">
+        <span
+          class="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-institutional-blue-soft text-institutional-blue"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="h-5 w-5"
+          >
+            <path d="M3 9.5 12 5l9 4.5-9 4.5-9-4.5Z M6.5 11.6V16c0 1.4 2.5 2.6 5.5 2.6s5.5-1.2 5.5-2.6v-4.4 M21 9.5V14" />
+          </svg>
+        </span>
+        <div>
+          <h2 id="career-form-title" class="careers-section-title">
+            {{ editingCareer() ? 'Editar carrera' : 'Nueva carrera' }}
+          </h2>
+          <p class="careers-section-copy">
+            {{ editingCareer() ? 'Actualice los datos y la vigencia de la carrera seleccionada.' : 'Registre una carrera vinculada a una unidad académica activa.' }}
+          </p>
+        </div>
+      </div>
+      <span class="sigeac-badge self-start sm:self-auto">
+        {{ editingCareer() ? 'Edición en curso' : 'Campos * obligatorios' }}
+      </span>
+    </div>
+
+    @if (canManage()) {
+      <form [formGroup]="careerForm" (ngSubmit)="saveCareer()" novalidate class="p-5 sm:p-6">
+        <div class="grid gap-4 md:grid-cols-2">
+          <div class="sigeac-field">
+            <label class="sigeac-label" for="career-code">
+              Código de carrera <span class="sigeac-required" aria-hidden="true">*</span>
+            </label>
+            <input
+              id="career-code"
+              class="sigeac-input"
+              type="text"
+              formControlName="code"
+              autocomplete="off"
+              required
+              maxlength="100"
+              [attr.aria-invalid]="careerForm.controls.code.touched && careerForm.controls.code.invalid ? 'true' : null"
+            >
+            @if (careerForm.controls.code.touched && careerForm.controls.code.invalid) {
+              <p class="sigeac-field-error">Ingrese un código de hasta 100 caracteres.</p>
+            }
+          </div>
+
+          <div class="sigeac-field">
+            <label class="sigeac-label" for="career-name">
+              Nombre de carrera <span class="sigeac-required" aria-hidden="true">*</span>
+            </label>
+            <input
+              id="career-name"
+              class="sigeac-input"
+              type="text"
+              formControlName="name"
+              autocomplete="off"
+              required
+              maxlength="300"
+              [attr.aria-invalid]="careerForm.controls.name.touched && careerForm.controls.name.invalid ? 'true' : null"
+            >
+            @if (careerForm.controls.name.touched && careerForm.controls.name.invalid) {
+              <p class="sigeac-field-error">Ingrese un nombre de hasta 300 caracteres.</p>
+            }
+          </div>
+
+          <div class="sigeac-field md:col-span-2">
+            <label class="sigeac-label" for="career-unit">
+              Unidad académica <span class="sigeac-required" aria-hidden="true">*</span>
+            </label>
+            <select
+              id="career-unit"
+              class="sigeac-input"
+              formControlName="academicUnitId"
+              required
+              [attr.aria-invalid]="careerForm.controls.academicUnitId.touched && careerForm.controls.academicUnitId.invalid ? 'true' : null"
+            >
+              <option value="">Seleccione una unidad activa</option>
+              @for (unit of units()?.items ?? []; track unit.id) {
+                @if (unit.status === 'ACTIVE') {
+                  <option [value]="unit.id">{{ unit.data.code }} · {{ unit.data.name }}</option>
+                }
+              }
+            </select>
+            <p class="sigeac-help">Solo se muestran unidades activas; puede buscarlas en la sección inferior.</p>
+            @if (careerForm.controls.academicUnitId.touched && careerForm.controls.academicUnitId.invalid) {
+              <p class="sigeac-field-error">Seleccione una unidad académica activa.</p>
+            }
+          </div>
+
+          <div class="sigeac-field">
+            <label class="sigeac-label" for="career-from">
+              Vigente desde <span class="sigeac-required" aria-hidden="true">*</span>
+            </label>
+            <input
+              id="career-from"
+              class="sigeac-input"
+              type="date"
+              formControlName="validFrom"
+              required
+              [attr.aria-invalid]="careerForm.controls.validFrom.touched && careerForm.controls.validFrom.invalid ? 'true' : null"
+            >
+            @if (careerForm.controls.validFrom.touched && careerForm.controls.validFrom.invalid) {
+              <p class="sigeac-field-error">Ingrese la fecha de inicio de vigencia.</p>
+            }
+          </div>
+
+          <div class="sigeac-field">
+            <label class="sigeac-label" for="career-until">Vigente hasta (opcional)</label>
+            <input
+              id="career-until"
+              class="sigeac-input"
+              type="date"
+              formControlName="validUntil"
+            >
+            <p class="sigeac-help">Déjelo vacío si la carrera no tiene fecha de finalización.</p>
+          </div>
+        </div>
+
+        <div class="mt-5 flex flex-col gap-3 border-t border-[#eef2f7] pt-5 sm:flex-row sm:items-center sm:justify-end">
+          @if (editingCareer()) {
+            <button
+              type="button"
+              class="sigeac-btn sigeac-btn--secondary w-full sm:w-auto"
+              [disabled]="busy()"
+              (click)="resetCareer()"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                class="h-4 w-4"
+              >
+                <path d="M6 6l12 12 M18 6 6 18" />
+              </svg>
+              Cancelar edición
+            </button>
+          }
+          <button type="submit" class="sigeac-btn w-full sm:w-auto" [disabled]="busy() || careerForm.invalid">
+            @if (busy()) {
+              <svg class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" opacity="0.25" />
+                <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            } @else {
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                class="h-4 w-4"
+              >
+                <path d="M5 12.5l4 4L19 7" />
+              </svg>
+            }
+            {{ busy() ? 'Guardando…' : (editingCareer() ? 'Guardar cambios' : 'Registrar carrera') }}
+          </button>
+        </div>
+      </form>
+    } @else {
+      <div class="p-5 sm:p-6">
+        <p class="sigeac-alert sigeac-alert--info">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="mt-0.5 h-4 w-4 shrink-0"
+          >
+            <path d="M12 3.5 21 20H3L12 3.5Z M12 9.5v4 M12 17h.01" />
+          </svg>
+          <span>Su rol permite consultar el catálogo. La gestión está reservada a la administración funcional.</span>
+        </p>
+      </div>
+    }
+  </section>
+
+  <section
+    class="sigeac-card mt-6 overflow-hidden"
+    aria-labelledby="careers-list-title"
+    [attr.aria-busy]="loadingCareers()"
+  >
+    <div
+      class="flex flex-col gap-3 border-b border-[#eef2f7] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
+    >
+      <div class="flex items-start gap-3">
+        <span
+          class="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-institutional-blue-soft text-institutional-blue"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="h-5 w-5"
+          >
+            <path d="M4 6.5h16 M4 12h16 M4 17.5h16" />
+          </svg>
+        </span>
+        <div>
+          <h2 id="careers-list-title" class="careers-section-title">Carreras registradas</h2>
+          <p class="careers-section-copy">Carreras visibles para su ámbito, con su unidad y vigencia.</p>
+        </div>
+      </div>
+      <span class="sigeac-badge self-start sm:self-auto">
+        @if (careers(); as result) {
+          {{ result.totalElements }} {{ result.totalElements === 1 ? 'carrera' : 'carreras' }}
+        } @else {
+          Cargando…
+        }
+      </span>
+    </div>
+
+    <div class="border-b border-[#eef2f7] px-5 py-4 sm:px-6">
+      <div class="flex flex-col gap-3 md:flex-row md:items-end">
+        <div class="sigeac-field md:flex-1">
+          <label class="sigeac-label" for="career-search">Buscar carrera</label>
+          <input
+            id="career-search"
+            class="sigeac-input"
+            type="text"
+            name="career-search"
+            [(ngModel)]="careerQuery"
+            maxlength="300"
+            autocomplete="off"
+            placeholder="Código o nombre"
+          >
+        </div>
+        <button
+          type="button"
+          class="sigeac-btn sigeac-btn--secondary w-full shrink-0 md:w-auto"
+          [disabled]="loadingCareers()"
+          (click)="loadCareers(0)"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="h-4 w-4"
+          >
+            <path d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14Z M20 20l-4-4" />
+          </svg>
+          Buscar carreras
+        </button>
+      </div>
+    </div>
+
+    @if (loadingCareers()) {
+      <div class="sigeac-empty" aria-live="polite">
+        <svg class="h-6 w-6 animate-spin text-institutional-blue" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" opacity="0.25" />
+          <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        <span>Cargando carreras…</span>
+      </div>
+    } @else if (careers(); as result) {
+      @if (result.items.length === 0) {
+        <div class="sigeac-empty">
+          <span class="grid h-12 w-12 place-items-center rounded-2xl bg-institutional-blue-soft text-institutional-blue">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              class="h-5 w-5"
+            >
+              <path d="M3 9.5 12 5l9 4.5-9 4.5-9-4.5Z M6.5 11.6V16c0 1.4 2.5 2.6 5.5 2.6s5.5-1.2 5.5-2.6v-4.4 M21 9.5V14" />
+            </svg>
+          </span>
+          <span class="block font-semibold text-slate-700">No hay carreras visibles.</span>
+          <span class="sigeac-help">
+            {{ canManage() ? 'Registre la primera carrera con el formulario superior o ajuste la búsqueda.' : 'Ajuste la búsqueda para consultar otras carreras.' }}
+          </span>
+        </div>
+      } @else {
+        <div class="overflow-x-auto">
+          <table class="sigeac-table min-w-[58rem]">
+            <caption class="sr-only">Carreras visibles para su ámbito</caption>
+            <thead>
+              <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Unidad académica</th>
+                <th scope="col">Vigencia</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (career of result.items; track career.id) {
+                <tr [attr.data-career-id]="career.id">
+                  <td>
+                    <span class="block text-sm font-semibold text-slate-800">{{ career.data.code }}</span>
+                    @if (career.classificationPending) {
+                      <span class="sigeac-badge sigeac-badge--muted mt-1.5">Pendiente de clasificación</span>
+                    }
+                  </td>
+                  <td>
+                    <span class="block text-sm text-slate-700">{{ career.data.name }}</span>
+                  </td>
+                  <td>
+                    <span class="careers-id">{{ unitLabel(career.data.academicUnitId) }}</span>
+                  </td>
+                  <td>
+                    <time class="careers-date block" [attr.datetime]="career.data.validFrom">
+                      {{ formatDate(career.data.validFrom) }}
+                    </time>
+                    <span class="mt-0.5 block text-[0.7rem] text-slate-400">
+                      hasta {{ career.data.validUntil ? formatDate(career.data.validUntil) : 'sin límite' }}
+                    </span>
+                  </td>
+                  <td>
+                    <span class="sigeac-badge" [class.sigeac-badge--danger]="career.status !== 'ACTIVE'">
+                      {{ career.status === 'ACTIVE' ? 'Activa' : 'Desactivada' }}
+                    </span>
+                  </td>
+                  <td>
+                    <div class="careers-actions">
+                      @if (canManage()) {
+                        <button
+                          type="button"
+                          class="sigeac-btn sigeac-btn--secondary sigeac-btn--sm"
+                          [disabled]="busy()"
+                          [attr.aria-label]="'Editar carrera ' + career.data.code"
+                          (click)="editCareer(career)"
+                        >
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                            class="h-3.5 w-3.5"
+                          >
+                            <path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17v3Z M13.5 6.5l3 3" />
+                          </svg>
+                          Editar
+                        </button>
+                        <button
+                          type="button"
+                          class="sigeac-btn sigeac-btn--sm"
+                          [class.sigeac-btn--danger-soft]="career.status === 'ACTIVE'"
+                          [class.sigeac-btn--secondary]="career.status !== 'ACTIVE'"
+                          [disabled]="busy() || reason.trim().length < 10"
+                          [attr.aria-label]="(career.status === 'ACTIVE' ? 'Desactivar carrera ' : 'Reactivar carrera ') + career.data.code"
+                          (click)="changeCareerState(career)"
+                        >
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                            class="h-3.5 w-3.5"
+                          >
+                            @if (career.status === 'ACTIVE') {
+                              <path d="M12 3.5v8 M6.3 6.5a8 8 0 1 0 11.4 0" />
+                            } @else {
+                              <path d="M12 20.5v-8 M6.3 17.5a8 8 0 1 1 11.4 0" />
+                            }
+                          </svg>
+                          {{ career.status === 'ACTIVE' ? 'Desactivar' : 'Reactivar' }}
+                        </button>
+                      }
+                      <button
+                        type="button"
+                        class="sigeac-btn sigeac-btn--secondary sigeac-btn--sm"
+                        [attr.aria-label]="'Consultar historial de ' + career.data.code"
+                        (click)="showHistory(career)"
+                      >
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          aria-hidden="true"
+                          class="h-3.5 w-3.5"
+                        >
+                          <path d="M4 12a8 8 0 1 0 2.5-5.8 M4 4.5V9h4.5 M12 8v4.5l3 1.8" />
+                        </svg>
+                        Historial
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        @if (canManage()) {
+          <div class="border-t border-[#eef2f7] px-5 py-4 sm:px-6">
+            <div class="sigeac-field max-w-2xl">
+              <label class="sigeac-label" for="state-reason">
+                Motivo de desactivación o reactivación <span class="sigeac-required" aria-hidden="true">*</span>
+              </label>
+              <textarea
+                id="state-reason"
+                class="sigeac-input"
+                name="state-reason"
+                [(ngModel)]="reason"
+                minlength="10"
+                maxlength="4000"
+                placeholder="Describa el motivo del cambio de estado"
+              ></textarea>
+              <p class="sigeac-help">Mínimo 10 caracteres. El motivo se conserva en el historial.</p>
+              @if (reason.length > 0 && reason.trim().length < 10) {
+                <p class="sigeac-field-error">Ingrese un motivo de al menos 10 caracteres.</p>
+              }
+            </div>
+          </div>
+        }
+
+        <div
+          class="flex flex-col gap-3 border-t border-[#eef2f7] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
+        >
+          <p class="sigeac-help">
+            Página {{ result.page + 1 }} · {{ result.totalElements }}
+            {{ result.totalElements === 1 ? 'carrera' : 'carreras' }}
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <button
+              type="button"
+              class="sigeac-btn sigeac-btn--secondary sigeac-btn--sm"
+              [disabled]="busy() || result.page === 0"
+              (click)="loadCareers(result.page - 1)"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                class="h-3.5 w-3.5"
+              >
+                <path d="M15 6l-6 6 6 6" />
+              </svg>
+              Anterior
+            </button>
+            <button
+              type="button"
+              class="sigeac-btn sigeac-btn--secondary sigeac-btn--sm"
+              [disabled]="busy() || (result.page + 1) * result.size >= result.totalElements"
+              (click)="loadCareers(result.page + 1)"
+            >
+              Siguiente
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                class="h-3.5 w-3.5"
+              >
+                <path d="M9 6l6 6-6 6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      }
+    }
+  </section>
+
+  @if (history(); as rows) {
+    <section class="sigeac-card mt-6 overflow-hidden" aria-labelledby="career-history-title">
+      <div
+        class="flex flex-col gap-3 border-b border-[#eef2f7] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
+      >
+        <div class="flex items-start gap-3">
+          <span
+            class="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-institutional-blue-soft text-institutional-blue"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              class="h-5 w-5"
+            >
+              <path d="M4 12a8 8 0 1 0 2.5-5.8 M4 4.5V9h4.5 M12 8v4.5l3 1.8" />
+            </svg>
+          </span>
+          <div>
+            <h2 id="career-history-title" class="careers-section-title">Historial conservado</h2>
+            <p class="careers-section-copy">Revisiones registradas de la carrera seleccionada.</p>
+          </div>
+        </div>
+        <span class="sigeac-badge self-start sm:self-auto">
+          {{ rows.totalElements }} {{ rows.totalElements === 1 ? 'revisión' : 'revisiones' }}
+        </span>
+      </div>
+
+      @if (loadingHistory()) {
+        <div class="sigeac-empty" aria-live="polite">
+          <svg class="h-6 w-6 animate-spin text-institutional-blue" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" opacity="0.25" />
+            <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          <span>Cargando historial…</span>
+        </div>
+      } @else if (rows.items.length === 0) {
+        <div class="sigeac-empty">
+          <span class="grid h-12 w-12 place-items-center rounded-2xl bg-institutional-blue-soft text-institutional-blue">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              class="h-5 w-5"
+            >
+              <path d="M4 12a8 8 0 1 0 2.5-5.8 M4 4.5V9h4.5 M12 8v4.5l3 1.8" />
+            </svg>
+          </span>
+          <span class="block font-semibold text-slate-700">Sin revisiones registradas.</span>
+          <span class="sigeac-help">El historial aparecerá cuando la carrera tenga cambios.</span>
+        </div>
+      } @else {
+        <div class="overflow-x-auto">
+          <table class="sigeac-table min-w-[58rem]">
+            <caption class="sr-only">Revisiones de la carrera seleccionada</caption>
+            <thead>
+              <tr>
+                <th scope="col">Revisión</th>
+                <th scope="col">Código</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Unidad académica</th>
+                <th scope="col">Vigencia</th>
+                <th scope="col">Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of rows.items; track row.revision) {
+                <tr>
+                  <td>
+                    <span class="sigeac-badge">Revisión {{ row.revision }}</span>
+                  </td>
+                  <td>
+                    <span class="block text-sm font-semibold text-slate-800">{{ row.data.code }}</span>
+                  </td>
+                  <td>
+                    <span class="block text-sm text-slate-700">{{ row.data.name }}</span>
+                  </td>
+                  <td>
+                    <span class="careers-id">{{ unitLabel(row.data.academicUnitId) }}</span>
+                  </td>
+                  <td>
+                    <time class="careers-date block" [attr.datetime]="row.data.validFrom">
+                      {{ formatDate(row.data.validFrom) }}
+                    </time>
+                    <span class="mt-0.5 block text-[0.7rem] text-slate-400">
+                      hasta {{ row.data.validUntil ? formatDate(row.data.validUntil) : 'sin límite' }}
+                    </span>
+                  </td>
+                  <td>
+                    <span class="sigeac-badge" [class.sigeac-badge--danger]="row.status !== 'ACTIVE'">
+                      {{ row.status === 'ACTIVE' ? 'Activa' : 'Desactivada' }}
+                    </span>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <div
+          class="flex flex-col gap-3 border-t border-[#eef2f7] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
+        >
+          <p class="sigeac-help">
+            Página {{ rows.page + 1 }} · {{ rows.totalElements }}
+            {{ rows.totalElements === 1 ? 'revisión' : 'revisiones' }}
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <button
+              type="button"
+              class="sigeac-btn sigeac-btn--secondary sigeac-btn--sm"
+              [disabled]="rows.page === 0"
+              (click)="loadHistory(rows.page - 1)"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                class="h-3.5 w-3.5"
+              >
+                <path d="M15 6l-6 6 6 6" />
+              </svg>
+              Anterior
+            </button>
+            <button
+              type="button"
+              class="sigeac-btn sigeac-btn--secondary sigeac-btn--sm"
+              [disabled]="(rows.page + 1) * rows.size >= rows.totalElements"
+              (click)="loadHistory(rows.page + 1)"
+            >
+              Siguiente
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                class="h-3.5 w-3.5"
+              >
+                <path d="M9 6l6 6-6 6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      }
+    </section>
+  }
+
+  <section class="sigeac-card mt-6 overflow-hidden" aria-labelledby="unit-form-title">
+    <div
+      class="flex flex-col gap-3 border-b border-[#eef2f7] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
+    >
+      <div class="flex items-start gap-3">
+        <span
+          class="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-institutional-blue-soft text-institutional-blue"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="h-5 w-5"
+          >
+            <path d="M4.5 20.5V5.5h9v15 M13.5 10h6v10.5 M7.5 9h3 M7.5 13h3 M7.5 17h3 M16.5 13h1 M16.5 17h1" />
+          </svg>
+        </span>
+        <div>
+          <h2 id="unit-form-title" class="careers-section-title">
+            {{ editingUnit() ? 'Editar unidad académica' : 'Nueva unidad académica' }}
+          </h2>
+          <p class="careers-section-copy">
+            {{ editingUnit() ? 'Actualice los datos de la unidad seleccionada.' : 'Las carreras se vinculan únicamente a unidades activas.' }}
+          </p>
+        </div>
+      </div>
+      <span class="sigeac-badge self-start sm:self-auto">
+        {{ editingUnit() ? 'Edición en curso' : 'Campos * obligatorios' }}
+      </span>
+    </div>
+
+    @if (canManage()) {
+      <form [formGroup]="unitForm" (ngSubmit)="saveUnit()" novalidate class="p-5 sm:p-6">
+        <div class="grid gap-4 md:grid-cols-2">
+          <div class="sigeac-field">
+            <label class="sigeac-label" for="unit-code">
+              Código de unidad <span class="sigeac-required" aria-hidden="true">*</span>
+            </label>
+            <input
+              id="unit-code"
+              class="sigeac-input"
+              type="text"
+              formControlName="code"
+              autocomplete="off"
+              required
+              maxlength="100"
+              [attr.aria-invalid]="unitForm.controls.code.touched && unitForm.controls.code.invalid ? 'true' : null"
+            >
+            @if (unitForm.controls.code.touched && unitForm.controls.code.invalid) {
+              <p class="sigeac-field-error">Ingrese un código de hasta 100 caracteres.</p>
+            }
+          </div>
+
+          <div class="sigeac-field">
+            <label class="sigeac-label" for="unit-name">
+              Nombre de unidad <span class="sigeac-required" aria-hidden="true">*</span>
+            </label>
+            <input
+              id="unit-name"
+              class="sigeac-input"
+              type="text"
+              formControlName="name"
+              autocomplete="off"
+              required
+              maxlength="300"
+              [attr.aria-invalid]="unitForm.controls.name.touched && unitForm.controls.name.invalid ? 'true' : null"
+            >
+            @if (unitForm.controls.name.touched && unitForm.controls.name.invalid) {
+              <p class="sigeac-field-error">Ingrese un nombre de hasta 300 caracteres.</p>
+            }
+          </div>
+        </div>
+
+        <div class="mt-5 flex flex-col gap-3 border-t border-[#eef2f7] pt-5 sm:flex-row sm:items-center sm:justify-end">
+          @if (editingUnit()) {
+            <button
+              type="button"
+              class="sigeac-btn sigeac-btn--secondary w-full sm:w-auto"
+              [disabled]="busy()"
+              (click)="resetUnit()"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                class="h-4 w-4"
+              >
+                <path d="M6 6l12 12 M18 6 6 18" />
+              </svg>
+              Cancelar edición
+            </button>
+          }
+          <button type="submit" class="sigeac-btn w-full sm:w-auto" [disabled]="busy() || unitForm.invalid">
+            @if (busy()) {
+              <svg class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" opacity="0.25" />
+                <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            } @else {
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                class="h-4 w-4"
+              >
+                <path d="M5 12.5l4 4L19 7" />
+              </svg>
+            }
+            {{ busy() ? 'Guardando…' : (editingUnit() ? 'Guardar cambios' : 'Registrar unidad') }}
+          </button>
+        </div>
+      </form>
+    } @else {
+      <div class="p-5 sm:p-6">
+        <p class="sigeac-alert sigeac-alert--info">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="mt-0.5 h-4 w-4 shrink-0"
+          >
+            <path d="M12 3.5 21 20H3L12 3.5Z M12 9.5v4 M12 17h.01" />
+          </svg>
+          <span>Su rol permite consultar las unidades académicas sin modificarlas.</span>
+        </p>
+      </div>
+    }
+  </section>
+
+  <section
+    class="sigeac-card mt-6 overflow-hidden"
+    aria-labelledby="units-list-title"
+    [attr.aria-busy]="loadingUnits()"
+  >
+    <div
+      class="flex flex-col gap-3 border-b border-[#eef2f7] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
+    >
+      <div class="flex items-start gap-3">
+        <span
+          class="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-institutional-blue-soft text-institutional-blue"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="h-5 w-5"
+          >
+            <path d="M4 6.5h16 M4 12h16 M4 17.5h16" />
+          </svg>
+        </span>
+        <div>
+          <h2 id="units-list-title" class="careers-section-title">Unidades académicas registradas</h2>
+          <p class="careers-section-copy">Unidades disponibles para vincular carreras.</p>
+        </div>
+      </div>
+      <span class="sigeac-badge self-start sm:self-auto">
+        @if (units(); as result) {
+          {{ result.totalElements }} {{ result.totalElements === 1 ? 'unidad' : 'unidades' }}
+        } @else {
+          Cargando…
+        }
+      </span>
+    </div>
+
+    <div class="border-b border-[#eef2f7] px-5 py-4 sm:px-6">
+      <div class="flex flex-col gap-3 md:flex-row md:items-end">
+        <div class="sigeac-field md:flex-1">
+          <label class="sigeac-label" for="unit-search">Buscar unidad</label>
+          <input
+            id="unit-search"
+            class="sigeac-input"
+            type="text"
+            name="unit-search"
+            [(ngModel)]="unitQuery"
+            maxlength="300"
+            autocomplete="off"
+            placeholder="Código o nombre"
+          >
+        </div>
+        <button
+          type="button"
+          class="sigeac-btn sigeac-btn--secondary w-full shrink-0 md:w-auto"
+          [disabled]="loadingUnits()"
+          (click)="loadUnits(0)"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="h-4 w-4"
+          >
+            <path d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14Z M20 20l-4-4" />
+          </svg>
+          Buscar unidades
+        </button>
+      </div>
+    </div>
+
+    @if (loadingUnits()) {
+      <div class="sigeac-empty" aria-live="polite">
+        <svg class="h-6 w-6 animate-spin text-institutional-blue" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" opacity="0.25" />
+          <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        <span>Cargando unidades…</span>
+      </div>
+    } @else if (units(); as result) {
+      @if (result.items.length === 0) {
+        <div class="sigeac-empty">
+          <span class="grid h-12 w-12 place-items-center rounded-2xl bg-institutional-blue-soft text-institutional-blue">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              class="h-5 w-5"
+            >
+              <path d="M4.5 20.5V5.5h9v15 M13.5 10h6v10.5 M7.5 9h3 M7.5 13h3 M7.5 17h3 M16.5 13h1 M16.5 17h1" />
+            </svg>
+          </span>
+          <span class="block font-semibold text-slate-700">No hay unidades visibles.</span>
+          <span class="sigeac-help">
+            {{ canManage() ? 'Registre la primera unidad con el formulario superior o ajuste la búsqueda.' : 'Ajuste la búsqueda para consultar otras unidades.' }}
+          </span>
+        </div>
+      } @else {
+        <div class="overflow-x-auto">
+          <table class="sigeac-table min-w-[46rem]">
+            <caption class="sr-only">Unidades académicas disponibles</caption>
+            <thead>
+              <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (unit of result.items; track unit.id) {
+                <tr [attr.data-unit-id]="unit.id">
+                  <td>
+                    <span class="block text-sm font-semibold text-slate-800">{{ unit.data.code }}</span>
+                  </td>
+                  <td>
+                    <span class="block text-sm text-slate-700">{{ unit.data.name }}</span>
+                  </td>
+                  <td>
+                    <span class="sigeac-badge" [class.sigeac-badge--danger]="unit.status !== 'ACTIVE'">
+                      {{ unit.status === 'ACTIVE' ? 'Activa' : 'Desactivada' }}
+                    </span>
+                  </td>
+                  <td>
+                    <div class="careers-actions">
+                      @if (canManage()) {
+                        <button
+                          type="button"
+                          class="sigeac-btn sigeac-btn--secondary sigeac-btn--sm"
+                          [disabled]="busy()"
+                          [attr.aria-label]="'Editar unidad ' + unit.data.code"
+                          (click)="editUnit(unit)"
+                        >
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                            class="h-3.5 w-3.5"
+                          >
+                            <path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17v3Z M13.5 6.5l3 3" />
+                          </svg>
+                          Editar
+                        </button>
+                        <button
+                          type="button"
+                          class="sigeac-btn sigeac-btn--sm"
+                          [class.sigeac-btn--danger-soft]="unit.status === 'ACTIVE'"
+                          [class.sigeac-btn--secondary]="unit.status !== 'ACTIVE'"
+                          [disabled]="busy() || reason.trim().length < 10"
+                          [attr.aria-label]="(unit.status === 'ACTIVE' ? 'Desactivar unidad ' : 'Reactivar unidad ') + unit.data.code"
+                          (click)="changeUnitState(unit)"
+                        >
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                            class="h-3.5 w-3.5"
+                          >
+                            @if (unit.status === 'ACTIVE') {
+                              <path d="M12 3.5v8 M6.3 6.5a8 8 0 1 0 11.4 0" />
+                            } @else {
+                              <path d="M12 20.5v-8 M6.3 17.5a8 8 0 1 1 11.4 0" />
+                            }
+                          </svg>
+                          {{ unit.status === 'ACTIVE' ? 'Desactivar' : 'Reactivar' }}
+                        </button>
+                      }
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <div
+          class="flex flex-col gap-3 border-t border-[#eef2f7] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
+        >
+          <p class="sigeac-help">
+            Página {{ result.page + 1 }} · {{ result.totalElements }}
+            {{ result.totalElements === 1 ? 'unidad' : 'unidades' }}
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <button
+              type="button"
+              class="sigeac-btn sigeac-btn--secondary sigeac-btn--sm"
+              [disabled]="busy() || result.page === 0"
+              (click)="loadUnits(result.page - 1)"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                class="h-3.5 w-3.5"
+              >
+                <path d="M15 6l-6 6 6 6" />
+              </svg>
+              Anterior
+            </button>
+            <button
+              type="button"
+              class="sigeac-btn sigeac-btn--secondary sigeac-btn--sm"
+              [disabled]="busy() || (result.page + 1) * result.size >= result.totalElements"
+              (click)="loadUnits(result.page + 1)"
+            >
+              Siguiente
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                class="h-3.5 w-3.5"
+              >
+                <path d="M9 6l6 6-6 6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      }
+    }
+  </section>
+</section>

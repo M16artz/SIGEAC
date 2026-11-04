@@ -23,7 +23,6 @@ website:
         contents:
           - docs/architecture/research.md
           - docs/architecture/data-model.md
-          - docs/architecture/complete-workflows.md
           - section: "Decisiones de arquitectura"
             contents:
               - docs/adr/0001-modular-monolith.md
@@ -32,6 +31,9 @@ website:
               - docs/adr/0016-evaluation-strategies-import-adapters.md
               - docs/adr/0017-source-coverage-and-process-governance.md
               - docs/adr/0018-catalog-contract-migration-compatibility.md
+      - section: "Diagramas C4"
+        contents:
+          - docs/architecture/complete-workflows.md
       - section: "Documentación técnica"
         contents:
           - docs/technical/index.qmd

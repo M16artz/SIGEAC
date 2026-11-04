@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>process-acceptance – SEC-UNL — Documentación</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d0cfe7a3482e0d49a74229a8f3b76718.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/testing/traceability.html">Pruebas y calidad</a></li><li class="breadcrumb-item"><a href="../../docs/testing/process-acceptance.html">Matriz de aceptación por proceso</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">SEC-UNL — Documentación</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">index.html</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Requisitos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/requirements/spec.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Especificación de funcionalidad: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/requirements/process-flows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Catálogo canónico de procesos P01–P16</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/requirements/domain-rules.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Actores, decisiones y reglas verificables</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Planificación</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/planning/plan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Plan de implementación: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/planning/next-steps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Siguientes pasos de implementación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/planning/tasks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tareas: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../specs/005-complete-evaluation-workflows/plan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Implementation Plan: Flujos completos de evaluación de carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../specs/005-complete-evaluation-workflows/tasks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tasks: Flujos completos de evaluación de carreras</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Arquitectura</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/architecture/research.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Investigación y decisiones técnicas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/architecture/data-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelo de datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Decisiones de arquitectura</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0001-modular-monolith.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0001: Monolito modular por capacidades</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0002-file-storage-port.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0002: Puerto para almacenamiento externo de archivos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0015-configurable-evaluation-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0015: Gestión configurable de múltiples modelos de evaluación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0016-evaluation-strategies-import-adapters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0016: Estrategias de valoración y adaptadores de importación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0017-source-coverage-and-process-governance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0017: Cobertura documental, gobierno del proceso y cierres</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0018-catalog-contract-migration-compatibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0018 — Compatibilidad del catálogo y secuencia de migraciones</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Diagramas C4</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/architecture/complete-workflows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Arquitectura de P01–P16</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Documentación técnica</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/technical/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Documentación técnica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/technical/quickstart.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guía de validación rápida</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/technical/migration-p01-p16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Transición de contratos y datos P01–P16</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Pruebas y calidad</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/traceability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matriz de trazabilidad P01–P16</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/process-acceptance.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Matriz de aceptación por proceso</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/checklists/requirements.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista de calidad de la especificación: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/checklists/governance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista de calidad de gobierno y seguridad: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Manual de usuario</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Manual de usuario</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d1-careers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Carreras y unidades académicas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d2-d3-models-planning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D2–D3 — Modelos y planificación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d4-d5-evidence-review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D4–D5 — Evidencias, revisión y subsanación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d6-documentary-progress.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Seguimiento documental</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-manual-evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Valoración académica manual</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-quantitative-evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Variables y cálculo cuantitativo</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-academic-reconciliation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Discrepancias y conciliación académica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-d8-reports-archive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D7–D8 — Informes, mejora y archivo</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#matriz-de-aceptación-por-proceso" id="toc-matriz-de-aceptación-por-proceso" class="nav-link active" data-scroll-target="#matriz-de-aceptación-por-proceso">Matriz de aceptación por proceso</a>
+  <ul class="collapse">
+  <li><a href="#p01.-autenticación-y-usuarios" id="toc-p01.-autenticación-y-usuarios" class="nav-link" data-scroll-target="#p01.-autenticación-y-usuarios">P01. Autenticación y usuarios</a></li>
+  <li><a href="#p02.-carreras-y-permisos" id="toc-p02.-carreras-y-permisos" class="nav-link" data-scroll-target="#p02.-carreras-y-permisos">P02. Carreras y permisos</a></li>
+  <li><a href="#p03.-modelos-y-versiones" id="toc-p03.-modelos-y-versiones" class="nav-link" data-scroll-target="#p03.-modelos-y-versiones">P03. Modelos y versiones</a></li>
+  <li><a href="#p04.-indicadores-estándares-y-fuentes" id="toc-p04.-indicadores-estándares-y-fuentes" class="nav-link" data-scroll-target="#p04.-indicadores-estándares-y-fuentes">P04. Indicadores, estándares y fuentes</a></li>
+  <li><a href="#p05.-crear-y-autorizar-proceso" id="toc-p05.-crear-y-autorizar-proceso" class="nav-link" data-scroll-target="#p05.-crear-y-autorizar-proceso">P05. Crear y autorizar proceso</a></li>
+  <li><a href="#p06.-responsables-y-planificación" id="toc-p06.-responsables-y-planificación" class="nav-link" data-scroll-target="#p06.-responsables-y-planificación">P06. Responsables y planificación</a></li>
+  <li><a href="#p07.-registro-de-evidencias" id="toc-p07.-registro-de-evidencias" class="nav-link" data-scroll-target="#p07.-registro-de-evidencias">P07. Registro de evidencias</a></li>
+  <li><a href="#p08.-remisión" id="toc-p08.-remisión" class="nav-link" data-scroll-target="#p08.-remisión">P08. Remisión</a></li>
+  <li><a href="#p09.-revisión-documental" id="toc-p09.-revisión-documental" class="nav-link" data-scroll-target="#p09.-revisión-documental">P09. Revisión documental</a></li>
+  <li><a href="#p10.-subsanación" id="toc-p10.-subsanación" class="nav-link" data-scroll-target="#p10.-subsanación">P10. Subsanación</a></li>
+  <li><a href="#p11.-seguimiento" id="toc-p11.-seguimiento" class="nav-link" data-scroll-target="#p11.-seguimiento">P11. Seguimiento</a></li>
+  <li><a href="#p12.-valoración-académica" id="toc-p12.-valoración-académica" class="nav-link" data-scroll-target="#p12.-valoración-académica">P12. Valoración académica</a></li>
+  <li><a href="#p13.-consolidación-y-hallazgos" id="toc-p13.-consolidación-y-hallazgos" class="nav-link" data-scroll-target="#p13.-consolidación-y-hallazgos">P13. Consolidación y hallazgos</a></li>
+  <li><a href="#p14.-informes-y-aprobación" id="toc-p14.-informes-y-aprobación" class="nav-link" data-scroll-target="#p14.-informes-y-aprobación">P14. Informes y aprobación</a></li>
+  <li><a href="#p15.-planes-de-mejora" id="toc-p15.-planes-de-mejora" class="nav-link" data-scroll-target="#p15.-planes-de-mejora">P15. Planes de mejora</a></li>
+  <li><a href="#p16.-cierre-y-archivo" id="toc-p16.-cierre-y-archivo" class="nav-link" data-scroll-target="#p16.-cierre-y-archivo">P16. Cierre y archivo</a></li>
+  <li><a href="#registro-de-resultados" id="toc-registro-de-resultados" class="nav-link" data-scroll-target="#registro-de-resultados">Registro de resultados</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/testing/traceability.html">Pruebas y calidad</a></li><li class="breadcrumb-item"><a href="../../docs/testing/process-acceptance.html">Matriz de aceptación por proceso</a></li></ol></nav></header>
+
+
+
+
+<section id="matriz-de-aceptación-por-proceso" class="level1">
+<h1>Matriz de aceptación por proceso</h1>
+<p><strong>Estado</strong>: catálogo de escenarios; ejecución técnica consolidada completa en <a href="../../tests/acceptance/results/process-acceptance.html">resultados P01–P16</a>. <strong>Fecha</strong>: 2026-10-21.<br>
+<strong>Referencia</strong>: <a href="../../docs/requirements/domain-rules.html">reglas de dominio</a>, <a href="../../specs/005-complete-evaluation-workflows/plan.html">plan</a>.</p>
+<p>Los IDs AC-Pxx-01/02/03 corresponden respectivamente al recorrido principal, rechazo y recuperación/alternativa. La suite <code>complete-workflows.spec.ts</code> conserva los 64 IDs: 64 PASS, 0 FAIL y 0 SKIPPED en la ejecución de 2026-10-25. Cada PASS ejecuta su recorrido con datos sintéticos sobre la API real; la revisión humana T111 sigue pendiente. Los criterios AC-X01–AC-X16 complementan estos recorridos. Este catálogo define el alcance; el informe enlazado acredita lo ejecutado y no constituye aprobación institucional.</p>
+<section id="p01.-autenticación-y-usuarios" class="level2">
+<h2 class="anchored" data-anchor-id="p01.-autenticación-y-usuarios">P01. Autenticación y usuarios</h2>
+<p><strong>Historias</strong>: specs/001-identity-access-scopes/spec.md US1–US5. Los números 005 y 004 se refieren a los directorios bajo <code>specs/</code>.</p>
+<ul>
+<li><strong>AC-P01-01</strong>. <strong>Dado</strong> identidad activa con credenciales válidas, <strong>cuando</strong> inicia sesión y consulta su ámbito, <strong>entonces</strong> sesión revocable y solo funciones vigentes.</li>
+<li><strong>AC-P01-02</strong>. <strong>Dado</strong> credenciales erróneas, cuenta deshabilitada o usuario desconocido, <strong>cuando</strong> intenta autenticarse, <strong>entonces</strong> rechazo equivalente sin enumerar cuentas ni permitir acceso.</li>
+<li><strong>AC-P01-03</strong>. <strong>Dado</strong> asignación revocada con sesión abierta, <strong>cuando</strong> reintenta una operación protegida, <strong>entonces</strong> backend reautoriza, rechaza y conserva historial/auditoría.</li>
+</ul>
+</section>
+<section id="p02.-carreras-y-permisos" class="level2">
+<h2 class="anchored" data-anchor-id="p02.-carreras-y-permisos">P02. Carreras y permisos</h2>
+<p><strong>Historias</strong>: 005 US1. Los números 005 y 004 se refieren a los directorios bajo <code>specs/</code>.</p>
+<ul>
+<li><strong>AC-P02-01</strong>. <strong>Dado</strong> administrador autorizado y unidad activa, <strong>cuando</strong> registra carrera con código único, <strong>entonces</strong> carrera disponible con unidad y ámbitos explícitos.</li>
+<li><strong>AC-P02-02</strong>. <strong>Dado</strong> código repetido o unidad ajena, <strong>cuando</strong> intenta guardar carrera, <strong>entonces</strong> rechazo sin duplicados ni exposición de ámbitos ajenos.</li>
+<li><strong>AC-P02-03</strong>. <strong>Dado</strong> carrera utilizada en un proceso, <strong>cuando</strong> solicita eliminación o cambio de responsable, <strong>entonces</strong> impedir eliminación física; desactivación/reasignación conserva referencias históricas.</li>
+</ul>
+</section>
+<section id="p03.-modelos-y-versiones" class="level2">
+<h2 class="anchored" data-anchor-id="p03.-modelos-y-versiones">P03. Modelos y versiones</h2>
+<p><strong>Historias</strong>: 005 US2. Los números 005 y 004 se refieren a los directorios bajo <code>specs/</code>.</p>
+<ul>
+<li><strong>AC-P03-01</strong>. <strong>Dado</strong> fuente normativa identificada y borrador completo, <strong>cuando</strong> revisor distinto publica la versión, <strong>entonces</strong> snapshot con procedencia; la aplicabilidad no se presume.</li>
+<li><strong>AC-P03-02</strong>. <strong>Dado</strong> documento incompleto o versión sin metodología verificable, <strong>cuando</strong> solicita publicación, <strong>entonces</strong> rechazo de publicación; borrador conservado con problemas específicos.</li>
+<li><strong>AC-P03-03</strong>. <strong>Dado</strong> modelo utilizado y documento reemplazado, <strong>cuando</strong> crea versión sucesora, <strong>entonces</strong> histórico y procesos previos conservan versión exacta.</li>
+</ul>
+</section>
+<section id="p04.-indicadores-estándares-y-fuentes" class="level2">
+<h2 class="anchored" data-anchor-id="p04.-indicadores-estándares-y-fuentes">P04. Indicadores, estándares y fuentes</h2>
+<p><strong>Historias</strong>: 005 US2. Los números 005 y 004 se refieren a los directorios bajo <code>specs/</code>.</p>
+<ul>
+<li><strong>AC-P04-01</strong>. <strong>Dado</strong> dos modelos con distinta profundidad, <strong>cuando</strong> configura indicador directo al criterio y otro anidado, <strong>entonces</strong> ambos válidos con fuentes, estándar y período propios.</li>
+<li><strong>AC-P04-02</strong>. <strong>Dado</strong> ciclo, código duplicado o regla sin validación, <strong>cuando</strong> solicita publicar o calcular, <strong>entonces</strong> rechazar estructura inválida; regla no soportada conserva definición y no calcula.</li>
+<li><strong>AC-P04-03</strong>. <strong>Dado</strong> fuente o período ambiguo, <strong>cuando</strong> registra aclaración metodológica, <strong>entonces</strong> mantener pendiente hasta resolver con procedencia y revisión.</li>
+</ul>
+</section>
+<section id="p05.-crear-y-autorizar-proceso" class="level2">
+<h2 class="anchored" data-anchor-id="p05.-crear-y-autorizar-proceso">P05. Crear y autorizar proceso</h2>
+<p><strong>Historias</strong>: 005 US3. Los números 005 y 004 se refieren a los directorios bajo <code>specs/</code>.</p>
+<ul>
+<li><strong>AC-P05-01</strong>. <strong>Dado</strong> carrera y versión aplicables, autorización verificada, <strong>cuando</strong> activa el proceso, <strong>entonces</strong> fijar modelo y registrar autoridad/fecha.</li>
+<li><strong>AC-P05-02</strong>. <strong>Dado</strong> sin autorización, versión borrador o modelo institucional no aplicable, <strong>cuando</strong> intenta activar, <strong>entonces</strong> proceso permanece en preparación, sin cambio parcial.</li>
+<li><strong>AC-P05-03</strong>. <strong>Dado</strong> proceso activo suspendido con motivo, <strong>cuando</strong> autoridad registra reanudación, <strong>entonces</strong> reanudar según política conservando decisiones y plazos; no sustituir modelo.</li>
+</ul>
+</section>
+<section id="p06.-responsables-y-planificación" class="level2">
+<h2 class="anchored" data-anchor-id="p06.-responsables-y-planificación">P06. Responsables y planificación</h2>
+<p><strong>Historias</strong>: 005 US3. Los números 005 y 004 se refieren a los directorios bajo <code>specs/</code>.</p>
+<ul>
+<li><strong>AC-P06-01</strong>. <strong>Dado</strong> participantes y equipos vigentes, <strong>cuando</strong> asigna indicadores, fuentes y actividades con fecha, <strong>entonces</strong> tareas visibles solo para asignados y membresías verificadas.</li>
+<li><strong>AC-P06-02</strong>. <strong>Dado</strong> autor y revisor coincidentes sin excepción o dependencia circular de tareas, <strong>cuando</strong> confirma asignación, <strong>entonces</strong> rechazar conflicto y mantener planificación anterior.</li>
+<li><strong>AC-P06-03</strong>. <strong>Dado</strong> responsable no disponible o actividad vencida, <strong>cuando</strong> reasigna o modifica fecha, <strong>entonces</strong> nueva revisión, vencimiento/historial preservados; permisos efectivos reevaluados.</li>
+</ul>
+</section>
+<section id="p07.-registro-de-evidencias" class="level2">
+<h2 class="anchored" data-anchor-id="p07.-registro-de-evidencias">P07. Registro de evidencias</h2>
+<p><strong>Historias</strong>: 005 US4 y 004 US1–US2. Los números 005 y 004 se refieren a los directorios bajo <code>specs/</code>.</p>
+<ul>
+<li><strong>AC-P07-01</strong>. <strong>Dado</strong> proceso activo y fuente requerida asignada, <strong>cuando</strong> registra archivo, enlace, dato o referencia, <strong>entonces</strong> borrador con cobertura explícita y metadatos/período.</li>
+<li><strong>AC-P07-02</strong>. <strong>Dado</strong> archivo excedido, url inválida o fuente ajena, <strong>cuando</strong> intenta guardar, <strong>entonces</strong> rechazo seguro sin fuente falsa disponible.</li>
+<li><strong>AC-P07-03</strong>. <strong>Dado</strong> falla almacenamiento o encuentra archivo repetido, <strong>cuando</strong> reintenta o declara reutilización autorizada, <strong>entonces</strong> recuperación consistente; evidencia reutilizada no duplica el denominador.</li>
+</ul>
+</section>
+<section id="p08.-remisión" class="level2">
+<h2 class="anchored" data-anchor-id="p08.-remisión">P08. Remisión</h2>
+<p><strong>Historias</strong>: 004 US3 y 005 US4. Los números 005 y 004 se refieren a los directorios bajo <code>specs/</code>.</p>
+<ul>
+<li><strong>AC-P08-01</strong>. <strong>Dado</strong> borrador completo con fuente y contenido validables, <strong>cuando</strong> remite versión, <strong>entonces</strong> snapshot inmutable, autor/fecha y bandeja de revisión.</li>
+<li><strong>AC-P08-02</strong>. <strong>Dado</strong> campos faltantes, recepción cerrada o responsable vencido, <strong>cuando</strong> intenta remitir, <strong>entonces</strong> bloquear envío, conservar borrador y problemas corregibles.</li>
+<li><strong>AC-P08-03</strong>. <strong>Dado</strong> dos remisiones concurrentes del mismo borrador, <strong>cuando</strong> confirman con misma revisión, <strong>entonces</strong> una sola remisión; otra recibe conflicto y no duplica versión.</li>
+</ul>
+</section>
+<section id="p09.-revisión-documental" class="level2">
+<h2 class="anchored" data-anchor-id="p09.-revisión-documental">P09. Revisión documental</h2>
+<p><strong>Historias</strong>: 005 US5. Los números 005 y 004 se refieren a los directorios bajo <code>specs/</code>.</p>
+<ul>
+<li><strong>AC-P09-01</strong>. <strong>Dado</strong> revisor autorizado y versión con dos coberturas, <strong>cuando</strong> acepta una y observa la otra, <strong>entonces</strong> decisiones por cobertura, global observado; solo cobertura aceptada suma documentalmente.</li>
+<li><strong>AC-P09-02</strong>. <strong>Dado</strong> revisor es autor sin excepción o criterio documental indefinido, <strong>cuando</strong> intenta aceptar, <strong>entonces</strong> bloquear autorrevisión o dejar pendiente aclaración; nunca inferir aceptación.</li>
+<li><strong>AC-P09-03</strong>. <strong>Dado</strong> decisión vigente requiere rectificación autorizada, <strong>cuando</strong> registra sucesora con motivo, <strong>entonces</strong> conservar decisión anterior, actualizar proyección y señalar valoraciones afectadas.</li>
+</ul>
+</section>
+<section id="p10.-subsanación" class="level2">
+<h2 class="anchored" data-anchor-id="p10.-subsanación">P10. Subsanación</h2>
+<p><strong>Historias</strong>: 004 US4 y 005 US5. Los números 005 y 004 se refieren a los directorios bajo <code>specs/</code>.</p>
+<ul>
+<li><strong>AC-P10-01</strong>. <strong>Dado</strong> versión observada o rechazada, <strong>cuando</strong> responsable corrige y remite sucesora, <strong>entonces</strong> predecesora intacta, vínculo a decisión y nueva revisión requerida.</li>
+<li><strong>AC-P10-02</strong>. <strong>Dado</strong> plazo vencido, evidencia archivada o cambio basado en revisión obsoleta, <strong>cuando</strong> intenta corregir, <strong>entonces</strong> denegar o requerir excepción/reapertura; no modificar histórico.</li>
+<li><strong>AC-P10-03</strong>. <strong>Dado</strong> borrador v2 nace de v1 aceptada y luego se remite, <strong>cuando</strong> consulta métricas antes y después, <strong>entonces</strong> v1 suma hasta remitir v2; después no heredar aceptación a v2.</li>
+</ul>
+</section>
+<section id="p11.-seguimiento" class="level2">
+<h2 class="anchored" data-anchor-id="p11.-seguimiento">P11. Seguimiento</h2>
+<p><strong>Historias</strong>: 005 US6. Los números 005 y 004 se refieren a los directorios bajo <code>specs/</code>.</p>
+<ul>
+<li><strong>AC-P11-01</strong>. <strong>Dado</strong> cuatro fuentes aplicables, tres remitidas y dos aceptadas, <strong>cuando</strong> consulta tablero, <strong>entonces</strong> 75 % recopilación, 50 % documental, académico separado y detalle navegable.</li>
+<li><strong>AC-P11-02</strong>. <strong>Dado</strong> sin fuentes configuradas o todas excluidas válidamente, <strong>cuando</strong> calcula porcentajes, <strong>entonces</strong> null con NOT_CONFIGURED o NOT_APPLICABLE; ninguna división por cero.</li>
+<li><strong>AC-P11-03</strong>. <strong>Dado</strong> duplicados, cardinalidad &gt; 1 o aceptación rectificada, <strong>cuando</strong> recalcula al mismo corte, <strong>entonces</strong> fuentes distintas y cardinalidad correcta; snapshots anteriores invariables.</li>
+</ul>
+</section>
+<section id="p12.-valoración-académica" class="level2">
+<h2 class="anchored" data-anchor-id="p12.-valoración-académica">P12. Valoración académica</h2>
+<p><strong>Historias</strong>: 005 US7. Los números 005 y 004 se refieren a los directorios bajo <code>specs/</code>.</p>
+<ul>
+<li><strong>AC-P12-01</strong>. <strong>Dado</strong> indicador cualitativo o cuantitativo con metodología válida, <strong>cuando</strong> registra juicio o calcula con variables verificadas, <strong>entonces</strong> conservar escala/fórmula, entradas, sustentos, autor y resultado.</li>
+<li><strong>AC-P12-02</strong>. <strong>Dado</strong> variable faltante, unidad incompatible, escala ajena o regla no validada, <strong>cuando</strong> solicita finalizar, <strong>entonces</strong> rechazar resultado automático; guardar pendiente/limitación según método.</li>
+<li><strong>AC-P12-03</strong>. <strong>Dado</strong> evaluadores discrepan o evidencia pierde aceptación, <strong>cuando</strong> solicita consolidación, <strong>entonces</strong> conservar discrepancia y marcar revisión; resolución posterior no borra valoraciones previas.</li>
+</ul>
+</section>
+<section id="p13.-consolidación-y-hallazgos" class="level2">
+<h2 class="anchored" data-anchor-id="p13.-consolidación-y-hallazgos">P13. Consolidación y hallazgos</h2>
+<p><strong>Historias</strong>: 005 US8. Los números 005 y 004 se refieren a los directorios bajo <code>specs/</code>.</p>
+<ul>
+<li><strong>AC-P13-01</strong>. <strong>Dado</strong> valoraciones y pendientes identificados, <strong>cuando</strong> comisión consolida y registra fortalezas/debilidades, <strong>entonces</strong> hallazgos vinculados a indicadores, resultados y evidencias exactas.</li>
+<li><strong>AC-P13-02</strong>. <strong>Dado</strong> metodología sin regla de agregación, <strong>cuando</strong> solicita porcentaje global, <strong>entonces</strong> no producir promedio arbitrario; mostrar resultados por indicador.</li>
+<li><strong>AC-P13-03</strong>. <strong>Dado</strong> valoración rectificada o períodos distintos, <strong>cuando</strong> crea nueva consolidación, <strong>entonces</strong> conservar versión previa, separar referencias temporales y pendientes.</li>
+</ul>
+</section>
+<section id="p14.-informes-y-aprobación" class="level2">
+<h2 class="anchored" data-anchor-id="p14.-informes-y-aprobación">P14. Informes y aprobación</h2>
+<p><strong>Historias</strong>: 005 US8. Los números 005 y 004 se refieren a los directorios bajo <code>specs/</code>.</p>
+<ul>
+<li><strong>AC-P14-01</strong>. <strong>Dado</strong> consolidación disponible, <strong>cuando</strong> emite preliminar, socializa, corrige y tramita final, <strong>entonces</strong> historial completo con aprobación de versión exacta por autoridad competente.</li>
+<li><strong>AC-P14-02</strong>. <strong>Dado</strong> aprobación pendiente, devolución o plantilla institucional no validada, <strong>cuando</strong> consulta informe, <strong>entonces</strong> no presentar aprobación ni validez oficial inexistentes.</li>
+<li><strong>AC-P14-03</strong>. <strong>Dado</strong> observación posterior o cambio tras aprobación, <strong>cuando</strong> emite corrección, <strong>entonces</strong> crear versión sucesora con nueva tramitación; contenido aprobado anterior intacto.</li>
+</ul>
+</section>
+<section id="p15.-planes-de-mejora" class="level2">
+<h2 class="anchored" data-anchor-id="p15.-planes-de-mejora">P15. Planes de mejora</h2>
+<p><strong>Historias</strong>: 005 US9. Los números 005 y 004 se refieren a los directorios bajo <code>specs/</code>.</p>
+<ul>
+<li><strong>AC-P15-01</strong>. <strong>Dado</strong> hallazgo y responsable autorizados, <strong>cuando</strong> propone, aprueba y ejecuta acción con meta/plazo/medio, <strong>entonces</strong> avances y verificación trazables a la evaluación.</li>
+<li><strong>AC-P15-02</strong>. <strong>Dado</strong> acción no aprobada o verificación insuficiente, <strong>cuando</strong> intenta darla por cumplida, <strong>entonces</strong> mantener propuesta o solicitar corrección; no marcar verificada.</li>
+<li><strong>AC-P15-03</strong>. <strong>Dado</strong> cambio de responsable/plazo o vencimiento, <strong>cuando</strong> consulta historial y avance, <strong>entonces</strong> nueva revisión auditada y marca vencida derivada; no borrar incumplimiento anterior.</li>
+</ul>
+</section>
+<section id="p16.-cierre-y-archivo" class="level2">
+<h2 class="anchored" data-anchor-id="p16.-cierre-y-archivo">P16. Cierre y archivo</h2>
+<p><strong>Historias</strong>: 005 US10 y US6 documental. Los números 005 y 004 se refieren a los directorios bajo <code>specs/</code>.</p>
+<ul>
+<li><strong>AC-P16-01</strong>. <strong>Dado</strong> política, autorizaciones y consistencia verificadas, <strong>cuando</strong> confirma cierre/archivo, <strong>entonces</strong> snapshot íntegro y consulta histórica por ámbito.</li>
+<li><strong>AC-P16-02</strong>. <strong>Dado</strong> pendiente obligatorio o archivo perdido/corrupto, <strong>cuando</strong> intenta cerrar, <strong>entonces</strong> bloquear cierre y mostrar causa; excepción solo si política autoriza.</li>
+<li><strong>AC-P16-03</strong>. <strong>Dado</strong> proceso cerrado requiere corrección o nueva evaluación, <strong>cuando</strong> autoriza rectificación o crea proceso distinto, <strong>entonces</strong> preservar snapshot, modelo y aprobaciones; registrar nueva cadena histórica.</li>
+</ul>
+</section>
+<section id="registro-de-resultados" class="level2">
+<h2 class="anchored" data-anchor-id="registro-de-resultados">Registro de resultados</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Campo</th>
+<th>Contenido requerido</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Escenario</td>
+<td>ID AC-Pxx o AC-Xxx y FR/RNF/SC relacionados</td>
+</tr>
+<tr class="even">
+<td>Preparación</td>
+<td>Estado inicial, fuente/modelo/período y asignaciones sintéticas</td>
+</tr>
+<tr class="odd">
+<td>Ejecución</td>
+<td>Comando o pasos, fecha, revisión y entorno</td>
+</tr>
+<tr class="even">
+<td>Resultado</td>
+<td>Esperado, obtenido y PASS/FAIL/SKIPPED con motivo</td>
+</tr>
+<tr class="odd">
+<td>Evidencia</td>
+<td>Referencias a logs sanitizados, eventos, conteos o hashes</td>
+</tr>
+<tr class="even">
+<td>Competencias</td>
+<td>Política aplicada; asuntos institucionales pendientes se indican expresamente</td>
+</tr>
+</tbody>
+</table>
+<p>La aceptación de D1–D6 exige ejecutar P01–P11 y el recorrido documental P16 con P12–P15 deshabilitados. D7–D8 añade los demás recorridos; la aprobación institucional requiere además resolver las decisiones de competencia aplicables.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

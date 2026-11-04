@@ -1,0 +1,109 @@
+openapi: 3.1.0
+info: {title: SEC-UNL I1 Evaluation Model API, version: 1.0.0}
+servers: [{url: /api/v1}]
+paths:
+  /models:
+    get:
+      operationId: listModels
+      responses: {'200': {description: Scope-filtered models}, '403': {$ref: '#/components/responses/Forbidden'}}
+    post:
+      operationId: createModel
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/CreateModel'}}}}
+      responses: {'201': {description: Created}, '403': {$ref: '#/components/responses/Forbidden'}}
+  /models/{modelId}/versions:
+    get:
+      operationId: listModelVersions
+      parameters: [{$ref: '#/components/parameters/ModelId'}]
+      responses: {'200': {description: Versions without mixed content}, '404': {$ref: '#/components/responses/NotFound'}}
+    post:
+      operationId: createModelVersion
+      parameters: [{$ref: '#/components/parameters/ModelId'}]
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/VersionDraft'}}}}
+      responses: {'201': {description: Draft created}, '404': {$ref: '#/components/responses/NotFound'}}
+  /model-versions/{versionId}:
+    get:
+      operationId: getModelVersion
+      parameters: [{$ref: '#/components/parameters/VersionId'}]
+      responses:
+        '200': {description: Complete version, headers: {ETag: {schema: {type: string}}}, content: {application/json: {schema: {$ref: '#/components/schemas/VersionView'}}}}
+        '404': {$ref: '#/components/responses/NotFound'}
+    put:
+      operationId: replaceDraft
+      parameters: [{$ref: '#/components/parameters/VersionId'}, {$ref: '#/components/parameters/IfMatch'}]
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/VersionDraft'}}}}
+      responses: {'200': {description: Draft replaced}, '404': {$ref: '#/components/responses/NotFound'}, '409': {description: Published version is immutable}, '412': {$ref: '#/components/responses/PreconditionFailed'}}
+  /model-versions/{versionId}/publish:
+    post:
+      operationId: publishModelVersion
+      parameters: [{$ref: '#/components/parameters/VersionId'}, {$ref: '#/components/parameters/IfMatch'}]
+      requestBody: {required: true, content: {application/json: {schema: {type: object, additionalProperties: false, required: [approverId], properties: {approverId: {type: string, format: uuid}}}}}}
+      responses: {'200': {description: Immutable published snapshot}, '400': {description: All safe validation failures}, '404': {$ref: '#/components/responses/NotFound'}, '412': {$ref: '#/components/responses/PreconditionFailed'}}
+  /model-versions/{versionId}/successors:
+    post:
+      operationId: createSuccessor
+      parameters: [{$ref: '#/components/parameters/VersionId'}]
+      responses: {'201': {description: Successor draft copied with provenance}, '409': {description: Invalid predecessor state}}
+  /model-versions/compare:
+    get:
+      operationId: compareModelVersions
+      parameters:
+        - {name: from, in: query, required: true, schema: {type: string, format: uuid}}
+        - {name: to, in: query, required: true, schema: {type: string, format: uuid}}
+      responses: {'200': {description: 'Added, removed, modified and unchanged items'}, '404': {$ref: '#/components/responses/NotFound'}, '409': {description: Versions belong to different models}}
+  /model-audit-events:
+    get:
+      operationId: searchModelAuditEvents
+      parameters:
+        - {name: modelId, in: query, required: false, schema: {type: string, format: uuid}}
+        - {name: versionId, in: query, required: false, schema: {type: string, format: uuid}}
+      responses: {'200': {description: Scope-filtered immutable model events}, '403': {$ref: '#/components/responses/Forbidden'}}
+components:
+  securitySchemes: {sessionCookie: {type: apiKey, in: cookie, name: SEC_SESSION}}
+  parameters:
+    ModelId: {name: modelId, in: path, required: true, schema: {type: string, format: uuid}}
+    VersionId: {name: versionId, in: path, required: true, schema: {type: string, format: uuid}}
+    IfMatch: {name: If-Match, in: header, required: true, schema: {type: string}}
+  schemas:
+    CreateModel:
+      type: object
+      additionalProperties: false
+      required: [name]
+      properties: {name: {type: string, minLength: 1, maxLength: 200}, description: {type: string, maxLength: 2000}}
+    VersionDraft:
+      type: object
+      additionalProperties: false
+      required: [source, authorId, criteria, scale, formula]
+      properties:
+        source: {type: string, minLength: 1, maxLength: 2000}
+        authorId: {type: string, format: uuid}
+        criteria: {type: array, items: {$ref: '#/components/schemas/Node'}}
+        scale: {type: object, additionalProperties: true}
+        formula: {type: object, additionalProperties: true}
+    Node:
+      type: object
+      required: [code, name, position]
+      properties:
+        code: {type: string, minLength: 1, maxLength: 100}
+        name: {type: string, minLength: 1, maxLength: 300}
+        position: {type: integer, minimum: 1}
+        children: {type: array, items: {$ref: '#/components/schemas/Node'}}
+    VersionView:
+      allOf:
+        - {$ref: '#/components/schemas/VersionDraft'}
+        - type: object
+          required: [id, modelId, versionNumber, status, revision]
+          properties:
+            id: {type: string, format: uuid}
+            modelId: {type: string, format: uuid}
+            versionNumber: {type: integer, minimum: 1}
+            status: {enum: [DRAFT, PUBLISHED, SUPERSEDED]}
+            revision: {type: integer, minimum: 0}
+    Problem:
+      type: object
+      required: [type, title, status, detail, instance, code, correlationId, details]
+      properties: {type: {type: string}, title: {type: string}, status: {type: integer}, detail: {type: string}, instance: {type: string}, code: {type: string}, correlationId: {type: string}, details: {type: object}}
+  responses:
+    Forbidden: {description: Capability denied, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    NotFound: {description: Unknown or hidden, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    PreconditionFailed: {description: Stale revision, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+security: [{sessionCookie: []}]

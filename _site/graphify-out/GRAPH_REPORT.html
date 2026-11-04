@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>graph_report – SEC-UNL — Documentación</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-d0cfe7a3482e0d49a74229a8f3b76718.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      SEC-UNL — Documentación
+      </li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">SEC-UNL — Documentación</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">index.html</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Requisitos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/requirements/spec.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Especificación de funcionalidad: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/requirements/process-flows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Catálogo canónico de procesos P01–P16</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/requirements/domain-rules.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Actores, decisiones y reglas verificables</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Planificación</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/planning/plan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Plan de implementación: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/planning/next-steps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Siguientes pasos de implementación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/planning/tasks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tareas: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../specs/005-complete-evaluation-workflows/plan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Implementation Plan: Flujos completos de evaluación de carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../specs/005-complete-evaluation-workflows/tasks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tasks: Flujos completos de evaluación de carreras</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Arquitectura</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/architecture/research.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Investigación y decisiones técnicas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/architecture/data-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelo de datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Decisiones de arquitectura</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/adr/0001-modular-monolith.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0001: Monolito modular por capacidades</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/adr/0002-file-storage-port.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0002: Puerto para almacenamiento externo de archivos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/adr/0015-configurable-evaluation-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0015: Gestión configurable de múltiples modelos de evaluación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/adr/0016-evaluation-strategies-import-adapters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0016: Estrategias de valoración y adaptadores de importación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/adr/0017-source-coverage-and-process-governance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0017: Cobertura documental, gobierno del proceso y cierres</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/adr/0018-catalog-contract-migration-compatibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0018 — Compatibilidad del catálogo y secuencia de migraciones</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Diagramas C4</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/architecture/complete-workflows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Arquitectura de P01–P16</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Documentación técnica</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/technical/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Documentación técnica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/technical/quickstart.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guía de validación rápida</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/technical/migration-p01-p16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Transición de contratos y datos P01–P16</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Pruebas y calidad</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/testing/traceability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matriz de trazabilidad P01–P16</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/testing/process-acceptance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matriz de aceptación por proceso</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/testing/checklists/requirements.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista de calidad de la especificación: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/testing/checklists/governance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista de calidad de gobierno y seguridad: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Manual de usuario</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/user/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Manual de usuario</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/user/d1-careers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Carreras y unidades académicas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/user/d2-d3-models-planning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D2–D3 — Modelos y planificación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/user/d4-d5-evidence-review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D4–D5 — Evidencias, revisión y subsanación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/user/d6-documentary-progress.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Seguimiento documental</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/user/d7-manual-evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Valoración académica manual</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/user/d7-quantitative-evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Variables y cálculo cuantitativo</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/user/d7-academic-reconciliation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Discrepancias y conciliación académica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/user/d7-d8-reports-archive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D7–D8 — Informes, mejora y archivo</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#graph-report---sec-unl-2026-10-17" id="toc-graph-report---sec-unl-2026-10-17" class="nav-link active" data-scroll-target="#graph-report---sec-unl-2026-10-17">Graph Report - sec-unl (2026-10-17)</a>
+  <ul class="collapse">
+  <li><a href="#corpus-check" id="toc-corpus-check" class="nav-link" data-scroll-target="#corpus-check">Corpus Check</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#community-hubs-navigation" id="toc-community-hubs-navigation" class="nav-link" data-scroll-target="#community-hubs-navigation">Community Hubs (Navigation)</a></li>
+  <li><a href="#god-nodes-most-connected---your-core-abstractions" id="toc-god-nodes-most-connected---your-core-abstractions" class="nav-link" data-scroll-target="#god-nodes-most-connected---your-core-abstractions">God Nodes (most connected - your core abstractions)</a></li>
+  <li><a href="#surprising-connections-you-probably-didnt-know-these" id="toc-surprising-connections-you-probably-didnt-know-these" class="nav-link" data-scroll-target="#surprising-connections-you-probably-didnt-know-these">Surprising Connections (you probably didn’t know these)</a></li>
+  <li><a href="#import-cycles" id="toc-import-cycles" class="nav-link" data-scroll-target="#import-cycles">Import Cycles</a></li>
+  <li><a href="#hyperedges-group-relationships" id="toc-hyperedges-group-relationships" class="nav-link" data-scroll-target="#hyperedges-group-relationships">Hyperedges (group relationships)</a></li>
+  <li><a href="#communities-7-total-1-thin-omitted" id="toc-communities-7-total-1-thin-omitted" class="nav-link" data-scroll-target="#communities-7-total-1-thin-omitted">Communities (7 total, 1 thin omitted)</a>
+  <ul class="collapse">
+  <li><a href="#community-0---project-skills-spec-kit-core" id="toc-community-0---project-skills-spec-kit-core" class="nav-link" data-scroll-target="#community-0---project-skills-spec-kit-core">Community 0 - “Project Skills &amp; Spec Kit Core”</a></li>
+  <li><a href="#community-1---spec-kit-commands-templates" id="toc-community-1---spec-kit-commands-templates" class="nav-link" data-scroll-target="#community-1---spec-kit-commands-templates">Community 1 - “Spec Kit Commands &amp; Templates”</a></li>
+  <li><a href="#community-2---powershell-spec-kit-scripts" id="toc-community-2---powershell-spec-kit-scripts" class="nav-link" data-scroll-target="#community-2---powershell-spec-kit-scripts">Community 2 - “PowerShell Spec Kit Scripts”</a></li>
+  <li><a href="#community-3---harness-skill-definitions" id="toc-community-3---harness-skill-definitions" class="nav-link" data-scroll-target="#community-3---harness-skill-definitions">Community 3 - “Harness Skill Definitions”</a></li>
+  <li><a href="#community-4---branch-name-generation-ps" id="toc-community-4---branch-name-generation-ps" class="nav-link" data-scroll-target="#community-4---branch-name-generation-ps">Community 4 - “Branch Name Generation (PS)”</a></li>
+  <li><a href="#community-5---sec-unl-documentation-site" id="toc-community-5---sec-unl-documentation-site" class="nav-link" data-scroll-target="#community-5---sec-unl-documentation-site">Community 5 - “SEC-UNL Documentation Site”</a></li>
+  </ul></li>
+  <li><a href="#ambiguous-edges---review-these" id="toc-ambiguous-edges---review-these" class="nav-link" data-scroll-target="#ambiguous-edges---review-these">Ambiguous Edges - Review These</a></li>
+  <li><a href="#knowledge-gaps" id="toc-knowledge-gaps" class="nav-link" data-scroll-target="#knowledge-gaps">Knowledge Gaps</a></li>
+  <li><a href="#suggested-questions" id="toc-suggested-questions" class="nav-link" data-scroll-target="#suggested-questions">Suggested Questions</a>
+  <ul class="collapse">
+  <li><a href="#low-confidence-hints" id="toc-low-confidence-hints" class="nav-link" data-scroll-target="#low-confidence-hints">Low-confidence Hints</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="graph-report---sec-unl-2026-10-17" class="level1">
+<h1>Graph Report - sec-unl (2026-10-17)</h1>
+<section id="corpus-check" class="level2">
+<h2 class="anchored" data-anchor-id="corpus-check">Corpus Check</h2>
+<ul>
+<li>68 files · ~68,262 words</li>
+<li>Verdict: corpus is large enough that graph structure adds value.</li>
+<li>Unclassified: 11 file(s) not represented in the graph (top: .toml 10, (none) 1)</li>
+</ul>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<ul>
+<li>97 nodes · 238 edges · 7 communities (6 shown, 1 thin omitted)</li>
+<li>Extraction: 76% EXTRACTED · 24% INFERRED · 0% AMBIGUOUS · INFERRED: 57 edges (avg confidence: 0.86)</li>
+<li>Token cost: 0 input · 0 output</li>
+</ul>
+</section>
+<section id="community-hubs-navigation" class="level2">
+<h2 class="anchored" data-anchor-id="community-hubs-navigation">Community Hubs (Navigation)</h2>
+<ul>
+<li>Project Skills &amp; Spec Kit Core</li>
+<li>Spec Kit Commands &amp; Templates</li>
+<li>PowerShell Spec Kit Scripts</li>
+<li>Harness Skill Definitions</li>
+<li>Branch Name Generation (PS)</li>
+<li>SEC-UNL Documentation Site</li>
+</ul>
+</section>
+<section id="god-nodes-most-connected---your-core-abstractions" class="level2">
+<h2 class="anchored" data-anchor-id="god-nodes-most-connected---your-core-abstractions">God Nodes (most connected - your core abstractions)</h2>
+<ol type="1">
+<li><code>Project Constitution (.specify/memory/constitution.md)</code> - 18 edges</li>
+<li><code>Project Constitution (.specify/memory/constitution.md)</code> - 18 edges</li>
+<li><code>Spec Kit Core Artifacts (spec.md, plan.md, tasks.md)</code> - 17 edges</li>
+<li><code>speckit.tasks command (dependency-ordered task generation)</code> - 12 edges</li>
+<li><code>speckit-specify Skill (.claude harness)</code> - 11 edges</li>
+<li><code>speckit.implement command (task execution)</code> - 10 edges</li>
+<li><code>speckit.plan command (implementation planning)</code> - 10 edges</li>
+<li><code>speckit.specify command (feature specification creation)</code> - 10 edges</li>
+<li><code>Resolve-TemplateContent()</code> - 9 edges</li>
+<li><code>speckit-analyze Command</code> - 9 edges</li>
+</ol>
+</section>
+<section id="surprising-connections-you-probably-didnt-know-these" class="level2">
+<h2 class="anchored" data-anchor-id="surprising-connections-you-probably-didnt-know-these">Surprising Connections (you probably didn’t know these)</h2>
+<ul>
+<li><code>speckit-analyze Skill (.claude harness)</code> –semantically_similar_to–&gt; <code>speckit.analyze Command (.opencode harness)</code> [INFERRED] [semantically similar] .claude/skills/speckit-analyze/SKILL.md → .opencode/commands/speckit.analyze.md</li>
+<li><code>speckit-checklist Skill (.claude harness)</code> –semantically_similar_to–&gt; <code>speckit.checklist Command (.opencode harness)</code> [INFERRED] [semantically similar] .claude/skills/speckit-checklist/SKILL.md → .opencode/commands/speckit.checklist.md</li>
+<li><code>speckit-clarify Skill (.claude harness)</code> –semantically_similar_to–&gt; <code>speckit.clarify Command (.opencode harness)</code> [INFERRED] [semantically similar] .claude/skills/speckit-clarify/SKILL.md → .opencode/commands/speckit.clarify.md</li>
+<li><code>speckit-specify Skill (.agents harness)</code> –semantically_similar_to–&gt; <code>speckit-specify Skill (.claude harness)</code> [INFERRED] [semantically similar] .agents/skills/speckit-specify/SKILL.md → .claude/skills/speckit-specify/SKILL.md</li>
+<li><code>speckit-tasks Skill (.agents harness)</code> –semantically_similar_to–&gt; <code>speckit-tasks Skill (.claude harness)</code> [INFERRED] [semantically similar] .agents/skills/speckit-tasks/SKILL.md → .claude/skills/speckit-tasks/SKILL.md</li>
+</ul>
+</section>
+<section id="import-cycles" class="level2">
+<h2 class="anchored" data-anchor-id="import-cycles">Import Cycles</h2>
+<ul>
+<li>None detected.</li>
+</ul>
+</section>
+<section id="hyperedges-group-relationships" class="level2">
+<h2 class="anchored" data-anchor-id="hyperedges-group-relationships">Hyperedges (group relationships)</h2>
+<ul>
+<li><strong>SEC-UNL Specialized Skill Template Family</strong> — _agents_skills_angular_frontend_skill_angular_frontend, _agents_skills_c4_diagrams_skill_c4_diagrams, _agents_skills_graphify_mapping_skill_graphify_mapping, _agents_skills_kotlin_android_skill_kotlin_android, _agents_skills_multiagent_coordination_skill_multiagent_coordination, _agents_skills_openapi_contracts_skill_openapi_contracts, _agents_skills_postgresql_database_skill_postgresql_database, _agents_skills_quarto_documentation_skill_quarto_documentation, _agents_skills_sdd_requirements_skill_sdd_requirements, _agents_skills_security_rbac_skill_security_rbac, _agents_skills_software_testing_skill_software_testing [INFERRED 0.95]</li>
+<li><strong>Spec Kit Development Workflow Command Suite</strong> — _agents_skills_speckit_constitution_skill_speckit_constitution, _agents_skills_speckit_clarify_skill_speckit_clarify, _agents_skills_speckit_plan_skill_speckit_plan, _agents_skills_speckit_analyze_skill_speckit_analyze, _agents_skills_speckit_checklist_skill_speckit_checklist, _agents_skills_speckit_implement_skill_speckit_implement, _agents_skills_speckit_converge_skill_speckit_converge, _agents_skills_speckit_constitution_skill_project_constitution, _agents_skills_speckit_analyze_skill_core_artifacts [INFERRED 0.85]</li>
+<li><strong>Speckit Pre/Post Extension Hooks Protocol</strong> — _agents_skills_speckit_analyze_skill_speckit_analyze, _agents_skills_speckit_checklist_skill_speckit_checklist, _agents_skills_speckit_clarify_skill_speckit_clarify, _agents_skills_speckit_constitution_skill_speckit_constitution, _agents_skills_speckit_converge_skill_speckit_converge, _agents_skills_speckit_implement_skill_speckit_implement, _agents_skills_speckit_plan_skill_speckit_plan, _agents_skills_speckit_analyze_skill_extension_hooks_protocol [EXTRACTED 1.00]</li>
+<li><strong>Spec Kit feature-development pipeline (.claude harness): specify → clarify → plan → tasks → implement → analyze → converge</strong> — _claude_skills_speckit_specify_skill_speckit_specify, _claude_skills_speckit_clarify_skill_speckit_clarify, _claude_skills_speckit_plan_skill_speckit_plan, _claude_skills_speckit_tasks_skill_speckit_tasks, _claude_skills_speckit_implement_skill_speckit_implement, _claude_skills_speckit_analyze_skill_speckit_analyze, _claude_skills_speckit_converge_skill_speckit_converge [INFERRED 0.85]</li>
+<li><strong>Pre/Post Extension Hook Protocol participants (.specify/extensions.yml)</strong> — _claude_skills_speckit_specify_skill_extension_hooks, _agents_skills_speckit_specify_skill_speckit_specify, _agents_skills_speckit_tasks_skill_speckit_tasks, _agents_skills_speckit_taskstoissues_skill_speckit_taskstoissues, _claude_skills_speckit_analyze_skill_speckit_analyze, _claude_skills_speckit_checklist_skill_speckit_checklist, _claude_skills_speckit_clarify_skill_speckit_clarify, _claude_skills_speckit_constitution_skill_speckit_constitution, _claude_skills_speckit_converge_skill_speckit_converge, _claude_skills_speckit_implement_skill_speckit_implement, _claude_skills_speckit_plan_skill_speckit_plan, _claude_skills_speckit_specify_skill_speckit_specify, _claude_skills_speckit_tasks_skill_speckit_tasks, _claude_skills_speckit_taskstoissues_skill_speckit_taskstoissues, _opencode_commands_speckit_analyze_speckit_analyze, _opencode_commands_speckit_checklist_speckit_checklist, _opencode_commands_speckit_clarify_speckit_clarify, _opencode_commands_speckit_constitution_speckit_constitution [EXTRACTED 1.00]</li>
+<li><strong>Commands governed by the project constitution (.specify/memory/constitution.md)</strong> — _claude_skills_speckit_constitution_skill_speckit_constitution, _claude_skills_speckit_specify_skill_speckit_specify, _claude_skills_speckit_clarify_skill_speckit_clarify, _claude_skills_speckit_plan_skill_speckit_plan, _claude_skills_speckit_tasks_skill_speckit_tasks, _claude_skills_speckit_analyze_skill_speckit_analyze, _claude_skills_speckit_converge_skill_speckit_converge, _claude_skills_speckit_implement_skill_speckit_implement, _claude_skills_speckit_checklist_skill_speckit_checklist, _claude_skills_speckit_taskstoissues_skill_speckit_taskstoissues, _agents_skills_speckit_specify_skill_speckit_specify, _agents_skills_speckit_tasks_skill_speckit_tasks, _agents_skills_speckit_taskstoissues_skill_speckit_taskstoissues, _agents_skills_spring_boot_layered_skill_spring_boot_layered, _opencode_commands_speckit_analyze_speckit_analyze, _opencode_commands_speckit_checklist_speckit_checklist, _opencode_commands_speckit_clarify_speckit_clarify, _opencode_commands_speckit_constitution_speckit_constitution [INFERRED 0.95]</li>
+<li><strong>Full SDD Cycle: specify -&gt; review gate -&gt; plan -&gt; review gate -&gt; tasks -&gt; implement</strong> — _specify_workflows_speckit_workflow_speckit_workflow, _specify_workflows_speckit_workflow_review_gates, _opencode_commands_speckit_specify_speckit_specify, _opencode_commands_speckit_plan_speckit_plan, _opencode_commands_speckit_tasks_speckit_tasks, _opencode_commands_speckit_implement_speckit_implement [EXTRACTED 1.00]</li>
+<li><strong>All speckit commands load the project constitution as non-negotiable governance constraints</strong> — _specify_memory_constitution_constitution, _opencode_commands_speckit_specify_speckit_specify, _opencode_commands_speckit_plan_speckit_plan, _opencode_commands_speckit_tasks_speckit_tasks, _opencode_commands_speckit_implement_speckit_implement, _opencode_commands_speckit_converge_speckit_converge, _opencode_commands_speckit_taskstoissues_speckit_taskstoissues [EXTRACTED 1.00]</li>
+<li><strong>Quarto SEC-UNL documentation site (home + technical docs + user manual)</strong> — _quarto_quarto, index_index, docs_technical_index_index, docs_user_index_index [EXTRACTED 1.00]</li>
+</ul>
+</section>
+<section id="communities-7-total-1-thin-omitted" class="level2">
+<h2 class="anchored" data-anchor-id="communities-7-total-1-thin-omitted">Communities (7 total, 1 thin omitted)</h2>
+<section id="community-0---project-skills-spec-kit-core" class="level3">
+<h3 class="anchored" data-anchor-id="community-0---project-skills-spec-kit-core">Community 0 - “Project Skills &amp; Spec Kit Core”</h3>
+<p>Cohesion: 0.21 Nodes (22): angular-frontend Skill, c4-diagrams Skill, graphify-mapping Skill, kotlin-android Skill, multiagent-coordination Skill, openapi-contracts Skill, postgresql-database Skill, quarto-documentation Skill (+14 more)</p>
+</section>
+<section id="community-1---spec-kit-commands-templates" class="level3">
+<h3 class="anchored" data-anchor-id="community-1---spec-kit-commands-templates">Community 1 - “Spec Kit Commands &amp; Templates”</h3>
+<p>Cohesion: 0.25 Nodes (16): speckit.analyze Command (.opencode harness), speckit.checklist Command (.opencode harness), speckit.clarify Command (.opencode harness), speckit.converge command (spec-to-code gap closure), speckit.implement command (task execution), speckit.plan command (implementation planning), speckit.specify command (feature specification creation), speckit.tasks command (dependency-ordered task generation) (+8 more)</p>
+</section>
+<section id="community-2---powershell-spec-kit-scripts" class="level3">
+<h3 class="anchored" data-anchor-id="community-2---powershell-spec-kit-scripts">Community 2 - “PowerShell Spec Kit Scripts”</h3>
+<p>Cohesion: 0.23 Nodes (15): Find-SpecifyRoot(), Format-SpecKitCommand(), Get-CurrentBranch(), Get-FeaturePathsEnv(), Get-InvokeSeparator(), Get-NormalizedPriority(), Get-Python3Command(), Get-RepoRoot() (+7 more)</p>
+</section>
+<section id="community-3---harness-skill-definitions" class="level3">
+<h3 class="anchored" data-anchor-id="community-3---harness-skill-definitions">Community 3 - “Harness Skill Definitions”</h3>
+<p>Cohesion: 0.35 Nodes (16): speckit-specify Skill (.agents harness), speckit-tasks Skill (.agents harness), speckit-taskstoissues Skill (.agents harness, deprecated), spring-boot-layered Skill (SEC-UNL), speckit-analyze Skill (.claude harness), speckit-checklist Skill (.claude harness), speckit-clarify Skill (.claude harness), Project Constitution (.specify/memory/constitution.md) (+8 more)</p>
+</section>
+<section id="community-4---branch-name-generation-ps" class="level3">
+<h3 class="anchored" data-anchor-id="community-4---branch-name-generation-ps">Community 4 - “Branch Name Generation (PS)”</h3>
+<p>Cohesion: 0.39 Nodes (4): ConvertTo-AsciiLower(), ConvertTo-CleanBranchName(), ConvertTo-UnicodeWords(), Get-BranchName()</p>
+</section>
+<section id="community-5---sec-unl-documentation-site" class="level3">
+<h3 class="anchored" data-anchor-id="community-5---sec-unl-documentation-site">Community 5 - “SEC-UNL Documentation Site”</h3>
+<p>Cohesion: 0.40 Nodes (5): Quarto documentation website configuration, Technical documentation section index, User manual section index, SEC-UNL documentation home page (index.qmd), SEC-UNL - Sistema de Evaluacion de Carreras (project)</p>
+</section>
+</section>
+<section id="ambiguous-edges---review-these" class="level2">
+<h2 class="anchored" data-anchor-id="ambiguous-edges---review-these">Ambiguous Edges - Review These</h2>
+<ul>
+<li><code>speckit-checklist Command</code> → <code>speckit-clarify Command</code> [AMBIGUOUS] .agents/skills/speckit-clarify/SKILL.md · relation: shares_data_with</li>
+</ul>
+</section>
+<section id="knowledge-gaps" class="level2">
+<h2 class="anchored" data-anchor-id="knowledge-gaps">Knowledge Gaps</h2>
+<ul>
+<li><strong>4 isolated node(s):</strong> <code>Gap Type Classification (missing/partial/contradicts/unrequested)</code>, <code>Constitution template</code>, <code>User manual section index</code>, <code>SEC-UNL - Sistema de Evaluacion de Carreras (project)</code> These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 11 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)</li>
+<li><strong>1 thin communities (&lt;3 nodes) omitted from report</strong> — run <code>graphify query</code> to explore isolated nodes.</li>
+</ul>
+</section>
+<section id="suggested-questions" class="level2">
+<h2 class="anchored" data-anchor-id="suggested-questions">Suggested Questions</h2>
+<p><em>Questions this graph is uniquely positioned to answer:</em></p>
+<ul>
+<li><strong>Why does <code>Project Constitution (.specify/memory/constitution.md)</code> connect <code>Harness Skill Definitions</code> to <code>Spec Kit Commands &amp; Templates</code>?</strong> <em>High betweenness centrality (0.237) - this node is a cross-community bridge.</em></li>
+<li><strong>Are the 11 inferred relationships involving <code>Spec Kit Core Artifacts (spec.md, plan.md, tasks.md)</code> (e.g.&nbsp;with <code>angular-frontend Skill</code> and <code>c4-diagrams Skill</code>) actually correct?</strong> <em><code>Spec Kit Core Artifacts (spec.md, plan.md, tasks.md)</code> has 11 INFERRED edges - model-reasoned connections that need verification.</em></li>
+<li><strong>What connects <code>Gap Type Classification (missing/partial/contradicts/unrequested)</code>, <code>Constitution template</code>, <code>User manual section index</code> to the rest of the system?</strong> <em>4 weakly-connected nodes found - possible documentation gaps or missing edges.</em></li>
+<li><strong>Why does <code>speckit-specify Skill (.agents harness)</code> connect <code>Harness Skill Definitions</code> to <code>Project Skills &amp; Spec Kit Core</code>?</strong> <em>High betweenness centrality (0.114) - this node is a cross-community bridge.</em></li>
+<li><strong>Are the 3 inferred relationships involving <code>speckit-specify Skill (.claude harness)</code> (e.g.&nbsp;with <code>speckit-specify Skill (.agents harness)</code> and <code>Unit Tests for English (Requirements-Quality Checklists)</code>) actually correct?</strong> <em><code>speckit-specify Skill (.claude harness)</code> has 3 INFERRED edges - model-reasoned connections that need verification.</em></li>
+<li><strong>Why does <code>speckit.analyze Command (.opencode harness)</code> connect <code>Spec Kit Commands &amp; Templates</code> to <code>Harness Skill Definitions</code>?</strong> <em>High betweenness centrality (0.101) - this node is a cross-community bridge.</em></li>
+</ul>
+<section id="low-confidence-hints" class="level3">
+<h3 class="anchored" data-anchor-id="low-confidence-hints">Low-confidence Hints</h3>
+<p><em>AMBIGUOUS edges — the extractor was unsure. Verify before acting on these.</em></p>
+<ul>
+<li><strong>What is the exact relationship between <code>speckit-checklist Command</code> and <code>speckit-clarify Command</code>?</strong> <em>Edge tagged AMBIGUOUS (relation: shares_data_with) - confidence is low.</em></li>
+</ul>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
