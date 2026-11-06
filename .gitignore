@@ -1,3 +1,9 @@
 
 /.quarto/
 **/*.quarto_ipynb
+
+# Dependencias y archivos generados
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.angular/
+/backend/target/
