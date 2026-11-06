@@ -13,8 +13,13 @@ import {DocumentaryProgressView, ReportingApi} from '../data-access/reporting-ap
   imports: [FormsModule, DatePipe, DecimalPipe, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section aria-labelledby="documentary-title" [attr.aria-busy]="loading()">
+    <div class="sigeac-page sigeac-page--balanced">
+    <header class="sigeac-page-header">
+      <span class="sigeac-badge">Seguimiento documental</span>
       <h2 id="documentary-title">Seguimiento documental</h2>
+      <p>Consulte la recopilación y revisión de las fuentes de su ámbito autorizado.</p>
+    </header>
+    <section class="sigeac-page-body" aria-labelledby="documentary-title" [attr.aria-busy]="loading()">
       <p><a routerLink="/reporting/history">Guardar y consultar cortes documentales</a></p>
       <p><a routerLink="/reporting/closure">Cerrar fase documental y consultar cierres</a></p>
       <label for="progress-process">Proceso</label>
@@ -47,6 +52,7 @@ import {DocumentaryProgressView, ReportingApi} from '../data-access/reporting-ap
         <p>Recopilación = fuentes remitidas / fuentes obligatorias aplicables × 100.
           Revisión = fuentes con cardinalidad aceptada / fuentes obligatorias aplicables × 100.</p>
         @if (sourceId) { <button type="button" (click)="focusSource('')">Ver todas las fuentes</button> }
+        <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Fuentes del ámbito autorizado">
         <table>
           <caption>Fuentes del ámbito autorizado</caption>
           <thead><tr><th scope="col">Fuente</th><th scope="col">Aplicabilidad</th>
@@ -67,6 +73,7 @@ import {DocumentaryProgressView, ReportingApi} from '../data-access/reporting-ap
             }
           </tbody>
         </table>
+        </div>
         <nav aria-label="Páginas de fuentes">
           <button type="button" [disabled]="loading() || current.page === 0" (click)="load(current.page - 1)">Anterior</button>
           <span>Página {{current.page + 1}} · {{current.totalSources}} fuentes</span>
@@ -75,6 +82,7 @@ import {DocumentaryProgressView, ReportingApi} from '../data-access/reporting-ap
         </nav>
       }
     </section>
+    </div>
   `
 })
 export class DocumentaryDashboardPage implements OnInit, OnDestroy {

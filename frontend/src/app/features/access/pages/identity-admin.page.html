@@ -51,11 +51,11 @@
           </svg>
         </span>
         <span class="min-w-0">
-          <span class="block text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-slate-400">
+          <span class="block text-[0.8125rem] font-semibold uppercase tracking-[0.08em] text-slate-400">
             Usuarios registrados
           </span>
           <span class="users-stat-value block">{{ loading() ? '—' : total() }}</span>
-          <span class="mt-0.5 block text-[0.7rem] text-slate-500">Página {{ page() + 1 }}</span>
+          <span class="mt-0.5 block text-[0.8125rem] text-slate-500">Página {{ page() + 1 }}</span>
         </span>
       </div>
     </div>
@@ -152,7 +152,7 @@
           <input class="sigeac-checkbox" type="checkbox" formControlName="technical">
           <span>
             <span class="block font-semibold text-slate-700">Cuenta técnica</span>
-            <span class="mt-0.5 block text-xs font-normal text-slate-500">
+            <span class="mt-0.5 block text-[0.8125rem] font-normal text-slate-500">
               Identidad sin acceso interactivo, destinada a integraciones.
             </span>
           </span>
@@ -290,7 +290,7 @@
       </div>
     } @else {
       <div class="overflow-x-auto">
-        <table class="sigeac-table min-w-[46rem]">
+        <table class="sigeac-table users-table">
           <caption class="sr-only">Usuarios visibles para la administración funcional</caption>
           <thead>
             <tr>
@@ -521,7 +521,7 @@
         </div>
       } @else {
         <div class="overflow-x-auto">
-          <table class="sigeac-table min-w-[58rem]">
+          <table class="sigeac-table users-assignments-table">
             <caption class="sr-only">Asignaciones del usuario seleccionado</caption>
             <thead>
               <tr>
@@ -561,7 +561,7 @@
                     <time class="users-date block" [attr.datetime]="assignment.validFrom">
                       {{ formatDate(assignment.validFrom) }}
                     </time>
-                    <span class="mt-0.5 block text-[0.7rem] text-slate-400">
+                    <span class="mt-0.5 block text-[0.8125rem] text-slate-400">
                       hasta {{ formatDate(assignment.validTo) }}
                     </span>
                   </td>

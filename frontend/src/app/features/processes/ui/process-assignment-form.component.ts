@@ -4,13 +4,15 @@ import {finalize} from 'rxjs';
 import {ProcessApi, ProcessView} from '../data-access/process-api.service';
 @Component({selector: 'sec-process-assignment-form', standalone: true, imports: [FormsModule], changeDetection: ChangeDetectionStrategy.OnPush, template: `
   @if(process().state==='ACTIVE'){
-    <form (ngSubmit)="save()"><h3>Asignar participante</h3>@if(error()){<p role="alert">{{error()}}</p>}
-      <label for="indicator">Indicador</label><select id="indicator" [(ngModel)]="indicatorId" name="indicator" required><option value="">Seleccione un indicador</option>@for(i of process().indicators; track i.id){<option [value]="i.id">{{i.code}} · {{i.name}}</option>}</select>
-      <label for="identity">Identidad (UUID)</label><input id="identity" [(ngModel)]="identityId" name="identity" required>
-      <label for="function">Función</label><select id="function" [(ngModel)]="function" name="function"><option>RESPONSIBLE</option><option>REVIEWER</option><option>EVALUATOR</option></select>
-      <label for="validFrom">Desde</label><input id="validFrom" type="datetime-local" [(ngModel)]="validFrom" name="validFrom" required>
-      <label for="validTo">Hasta</label><input id="validTo" type="datetime-local" [(ngModel)]="validTo" name="validTo" required>
-      <label for="reason-assignment">Motivo</label><textarea id="reason-assignment" [(ngModel)]="reason" name="reason" required maxlength="2000"></textarea><button [disabled]="busy()">Asignar</button>
+    <form (ngSubmit)="save()" class="sigeac-form-layout"><div class="sigeac-form-grid"><h3>Asignar participante</h3>@if(error()){<p role="alert">{{error()}}</p>}
+      <div class="sigeac-form-field"><label for="indicator">Indicador</label><select id="indicator" [(ngModel)]="indicatorId" name="indicator" required><option value="">Seleccione un indicador</option>@for(i of process().indicators; track i.id){<option [value]="i.id">{{i.code}} · {{i.name}}</option>}</select></div>
+      <div class="sigeac-form-field"><label for="identity">Identidad (UUID)</label><input id="identity" [(ngModel)]="identityId" name="identity" required></div>
+      <div class="sigeac-form-field sigeac-form-wide"><label for="function">Función</label><select id="function" [(ngModel)]="function" name="function"><option>RESPONSIBLE</option><option>REVIEWER</option><option>EVALUATOR</option></select></div>
+      <div class="sigeac-form-field"><label for="validFrom">Desde</label><input id="validFrom" type="datetime-local" [(ngModel)]="validFrom" name="validFrom" required></div>
+      <div class="sigeac-form-field"><label for="validTo">Hasta</label><input id="validTo" type="datetime-local" [(ngModel)]="validTo" name="validTo" required></div>
+      <div class="sigeac-form-field sigeac-form-wide"><label for="reason-assignment">Motivo</label><textarea id="reason-assignment" [(ngModel)]="reason" name="reason" required maxlength="2000"></textarea></div>
+      <div class="sigeac-form-actions"><button [disabled]="busy()">Asignar</button></div>
+      </div>
     </form>
   } @else {<p>Las asignaciones requieren un proceso activo.</p>}`})
 export class ProcessAssignmentForm {

@@ -60,7 +60,8 @@ public class SessionService {
 
         if (repository.countFailures(subject, now.minus(properties.getFailedAttemptWindow()))
                 >= properties.getFailedAttemptLimit()) {
-            audit.rejection(
+            // AuthenticationRejected commits this transaction, including its rejection audit.
+            audit.record(
                     IdentityAccessAuditService.SYSTEM_ACTOR,
                     correlationId,
                     "SESSION_LOGIN_LIMITED",
@@ -68,6 +69,7 @@ public class SessionService {
                     null,
                     null,
                     null,
+                    "REJECTED",
                     "AUTHENTICATION_LIMITED",
                     Map.of("subjectKey", subject));
             throw new AuthenticationRejected("AUTHENTICATION_LIMITED");
@@ -83,7 +85,7 @@ public class SessionService {
         if (!valid) {
             UUID actor = found.map(IdentityAccessRepository.LoginRecord::identityId)
                     .orElse(IdentityAccessAuditService.SYSTEM_ACTOR);
-            audit.rejection(
+            audit.record(
                     actor,
                     correlationId,
                     "SESSION_LOGIN_FAILED",
@@ -91,11 +93,12 @@ public class SessionService {
                     found.map(IdentityAccessRepository.LoginRecord::identityId).orElse(null),
                     null,
                     null,
+                    "REJECTED",
                     "AUTHENTICATION_FAILED",
                     Map.of("subjectKey", subject));
             if (repository.countFailures(subject, now.minus(properties.getFailedAttemptWindow()))
                     >= properties.getFailedAttemptLimit()) {
-                audit.rejection(
+                audit.record(
                         IdentityAccessAuditService.SYSTEM_ACTOR,
                         correlationId,
                         "SESSION_LOGIN_LIMITED",
@@ -103,6 +106,7 @@ public class SessionService {
                         found.map(IdentityAccessRepository.LoginRecord::identityId).orElse(null),
                         null,
                         null,
+                        "REJECTED",
                         "AUTHENTICATION_LIMITED",
                         Map.of("subjectKey", subject));
                 throw new AuthenticationRejected("AUTHENTICATION_LIMITED");

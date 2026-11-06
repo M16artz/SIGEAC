@@ -1,9 +1,11 @@
+@use './app/shared/styles/internal-pages';
+
 :root {
   color-scheme: light;
   font-family: var(--font-sans, "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif);
   line-height: 1.5;
   color: #172033;
-  background: #f3f7fc;
+  background: #eaeaf1;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -14,7 +16,7 @@ body {
 
 body {
   margin: 0;
-  background: #f3f7fc;
+  background: #eaeaf1;
 }
 
 .skip-link {
@@ -267,7 +269,7 @@ body {
 }
 
 #main-content .sigeac-btn--secondary:hover {
-  background: #f3f7fc;
+  background: #eaeaf1;
 }
 
 #main-content .sigeac-label {

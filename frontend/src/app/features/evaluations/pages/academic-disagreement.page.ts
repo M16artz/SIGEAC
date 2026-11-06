@@ -15,19 +15,25 @@ import {ReconciliationApi, ReconciliationView} from '../data-access/reconciliati
     article {border-top:1px solid #ccc;padding:.8rem 0;overflow-wrap:anywhere} fieldset label {display:block;margin:.5rem 0}
     nav {background:transparent;color:inherit;padding:1rem 0} nav span {margin:0 .5rem}`],
   template: `
-    <section aria-labelledby="reconciliation-title">
+    <div class="sigeac-page sigeac-page--balanced">
+    <header class="sigeac-page-header">
+      <span class="sigeac-badge">Valoración académica</span>
       <h2 id="reconciliation-title">Discrepancias y conciliación académica</h2>
       <p>Los juicios previos permanecen consultables. Una resolución requiere procedimiento y asignación competente; no constituye acreditación.</p>
-      <label for="reconciliation-process">Proceso</label>
+    </header>
+    <section class="sigeac-page-body" aria-labelledby="reconciliation-title">
+      <div class="sigeac-form-layout"><div class="sigeac-form-grid">
+      <div class="sigeac-form-field"><label for="reconciliation-process">Proceso</label>
       <select id="reconciliation-process" [ngModel]="processId" (ngModelChange)="selectProcess($event)" [disabled]="busy()">
         <option value="">Seleccione un proceso</option>
         @for (p of processes(); track p.id) {<option [value]="p.id">{{p.code}} · {{p.name}}</option>}
-      </select>
-      <label for="reconciliation-indicator">Indicador</label>
+      </select></div>
+      <div class="sigeac-form-field"><label for="reconciliation-indicator">Indicador</label>
       <select id="reconciliation-indicator" [ngModel]="indicatorId" (ngModelChange)="selectIndicator($event)" [disabled]="busy()">
         <option value="">Seleccione un indicador</option>
         @for (i of indicators(); track i.id) {<option [value]="i.id">{{i.code}} · {{i.name}}</option>}
-      </select>
+      </select></div>
+      </div></div>
       @if (error()) {<p role="alert">{{error()}}</p>}
       @if (message()) {<p role="status">{{message()}}</p>}
       @if (processId && indicatorId) {<button type="button" (click)="load()" [disabled]="busy()">Recargar conciliación</button>}
@@ -48,10 +54,11 @@ import {ReconciliationApi, ReconciliationView} from '../data-access/reconciliati
           </article>
         } @empty {<p>No hay valoraciones registradas.</p>}
         @if (editable(v) && v.current.length >= 2 && !(caseFresh(v) && !v.resolution) && v.status !== 'RESOLVED') {
-          <form (ngSubmit)="open()">
-            <label for="disagreement-reason">Fundamento de la discrepancia</label>
-            <textarea id="disagreement-reason" name="disagreementReason" [(ngModel)]="disagreementReason" required minlength="10" maxlength="4000" [disabled]="busy()"></textarea>
-            <button type="submit" [disabled]="busy() || disagreementReason.trim().length < 10">Registrar discrepancia conservando ambos juicios</button>
+          <form (ngSubmit)="open()" class="sigeac-form-layout"><div class="sigeac-form-grid">
+            <div class="sigeac-form-field sigeac-form-wide"><label for="disagreement-reason">Fundamento de la discrepancia</label>
+            <textarea id="disagreement-reason" name="disagreementReason" [(ngModel)]="disagreementReason" required minlength="10" maxlength="4000" [disabled]="busy()"></textarea></div>
+            <div class="sigeac-form-actions"><button type="submit" [disabled]="busy() || disagreementReason.trim().length < 10">Registrar discrepancia conservando ambos juicios</button></div>
+            </div>
           </form>
         }
         @if (v.canReconcile && editable(v)) {
@@ -63,34 +70,36 @@ import {ReconciliationApi, ReconciliationView} from '../data-access/reconciliati
           <details>
             <summary>Registrar o versionar procedimiento de conciliación</summary>
             <p>Método soportado: selección fundamentada de un juicio existente. No se promedian resultados.</p>
-            <form (ngSubmit)="configure()">
-              <label for="reconciliation-procedure">Referencia y versión del procedimiento</label>
-              <input id="reconciliation-procedure" name="procedure" [(ngModel)]="procedure" required minlength="3" maxlength="300" [disabled]="busy()" />
-              <label for="reconciliation-legal-basis">Fundamento de competencia</label>
-              <textarea id="reconciliation-legal-basis" name="legalBasis" [(ngModel)]="legalBasis" required minlength="10" maxlength="4000" [disabled]="busy()"></textarea>
-              <label for="reconciliation-document">Constancia documental</label>
-              <input id="reconciliation-document" name="documentReference" [(ngModel)]="documentReference" required minlength="3" maxlength="1000" [disabled]="busy()" />
-              <button type="submit" [disabled]="busy() || !assignmentId || procedure.trim().length < 3 || legalBasis.trim().length < 10 || documentReference.trim().length < 3">Conservar procedimiento autorizado</button>
+            <form (ngSubmit)="configure()" class="sigeac-form-layout"><div class="sigeac-form-grid">
+              <div class="sigeac-form-field"><label for="reconciliation-procedure">Referencia y versión del procedimiento</label>
+              <input id="reconciliation-procedure" name="procedure" [(ngModel)]="procedure" required minlength="3" maxlength="300" [disabled]="busy()" /></div>
+              <div class="sigeac-form-field"><label for="reconciliation-document">Constancia documental</label>
+              <input id="reconciliation-document" name="documentReference" [(ngModel)]="documentReference" required minlength="3" maxlength="1000" [disabled]="busy()" /></div>
+              <div class="sigeac-form-field sigeac-form-wide"><label for="reconciliation-legal-basis">Fundamento de competencia</label>
+              <textarea id="reconciliation-legal-basis" name="legalBasis" [(ngModel)]="legalBasis" required minlength="10" maxlength="4000" [disabled]="busy()"></textarea></div>
+              <div class="sigeac-form-actions"><button type="submit" [disabled]="busy() || !assignmentId || procedure.trim().length < 3 || legalBasis.trim().length < 10 || documentReference.trim().length < 3">Conservar procedimiento autorizado</button></div>
+              </div>
             </form>
           </details>
         }
         @if (v.policy; as policy) {<p>Procedimiento vigente: {{policy.procedureReference}} · revisión {{policy.revision}} · {{policy.legalBasis}} · {{policy.documentReference}}</p>}
         @else {<p>Sin procedimiento autorizado registrado; la resolución está bloqueada.</p>}
         @if (canResolve(v)) {
-          <form (ngSubmit)="resolve()">
-            <label for="reconciliation-selected">Juicio existente seleccionado</label>
+          <form (ngSubmit)="resolve()" class="sigeac-form-layout"><div class="sigeac-form-grid">
+            <div class="sigeac-form-field sigeac-form-wide"><label for="reconciliation-selected">Juicio existente seleccionado</label>
             <select id="reconciliation-selected" name="selected" [(ngModel)]="selectedJudgement" required [disabled]="busy()">
               <option value="">Seleccione un juicio vigente</option>
               @for (j of v.current; track j.id) {<option [value]="j.id">{{j.ratingLabel}} · {{j.authorId}} · {{j.id}}</option>}
-            </select>
+            </select></div>
             <fieldset [disabled]="busy()"><legend>Participantes cuya intervención se registra</legend>
               @for (participant of requiredParticipants(v); track participant) {
                 <label><input type="checkbox" [checked]="participants.includes(participant)" (change)="toggle(participant)" /> {{participant}}</label>
               }
             </fieldset>
-            <label for="reconciliation-resolution-reason">Fundamento de la resolución</label>
-            <textarea id="reconciliation-resolution-reason" name="resolutionReason" [(ngModel)]="resolutionReason" required minlength="10" maxlength="4000" [disabled]="busy()"></textarea>
-            <button type="submit" [disabled]="busy() || !assignmentId || !selectedJudgement || resolutionReason.trim().length < 10 || participants.length !== requiredParticipants(v).length">Conservar resolución autorizada</button>
+            <div class="sigeac-form-field sigeac-form-wide"><label for="reconciliation-resolution-reason">Fundamento de la resolución</label>
+            <textarea id="reconciliation-resolution-reason" name="resolutionReason" [(ngModel)]="resolutionReason" required minlength="10" maxlength="4000" [disabled]="busy()"></textarea></div>
+            <div class="sigeac-form-actions"><button type="submit" [disabled]="busy() || !assignmentId || !selectedJudgement || resolutionReason.trim().length < 10 || participants.length !== requiredParticipants(v).length">Conservar resolución autorizada</button></div>
+            </div>
           </form>
         }
         <h3>Historial de juicios y sustentos</h3>
@@ -130,6 +139,7 @@ import {ReconciliationApi, ReconciliationView} from '../data-access/reconciliati
         </nav>
       }
     </section>
+    </div>
   `
 })
 export class AcademicDisagreementPage implements OnInit, OnDestroy {

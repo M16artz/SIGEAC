@@ -38,10 +38,14 @@ const TRANSITIONS: readonly {value: Transition; label: string}[] = [
     .muted { color:#555; } .overdue { color:#a40000; font-weight:600; }
   `],
   template: `
-    <section aria-labelledby="improvement-title">
+    <div class="sigeac-page sigeac-page--balanced">
+    <header class="sigeac-page-header">
+      <span class="sigeac-badge">Mejora</span>
       <h2 id="improvement-title">Planes de mejora y seguimiento</h2>
       <p class="muted">Cada acción conserva hallazgos de origen, responsable, plazo, meta y medio de verificación.
         Las modificaciones generan una nueva revisión y los avances son inmutables; el vencimiento se deriva del plazo.</p>
+    </header>
+    <section class="sigeac-page-body" aria-labelledby="improvement-title">
       <label for="improvement-process">Proceso</label>
       <select id="improvement-process" [ngModel]="processId" (ngModelChange)="selectProcess($event)" [disabled]="saving()">
         <option value="">Seleccione un proceso</option>
@@ -56,31 +60,32 @@ const TRANSITIONS: readonly {value: Transition; label: string}[] = [
         @if (plans().length > 0) {
           <p class="muted">Planes creados en esta sesión: {{plans().length}}.</p>
         }
-        <form (ngSubmit)="createPlan()">
+        <form (ngSubmit)="createPlan()" class="sigeac-form-layout"><div class="sigeac-form-grid sigeac-form-grid--three">
           <h4>Crear plan desde un informe emitido</h4>
           <p class="muted">El plan requiere una versión de informe final o aprobada. Indique la revisión de la
             cadena de planes (0 si es el primero).</p>
-          <label for="plan-title">Título del plan</label>
-          <input id="plan-title" type="text" name="planTitle" [(ngModel)]="planTitle" required maxlength="300" [disabled]="saving()" />
-          <label for="plan-report">Versión de informe emitida</label>
+          <div class="sigeac-form-field"><label for="plan-title">Título del plan</label>
+          <input id="plan-title" type="text" name="planTitle" [(ngModel)]="planTitle" required maxlength="300" [disabled]="saving()" /></div>
+          <div class="sigeac-form-field"><label for="plan-report">Versión de informe emitida</label>
           <select id="plan-report" name="planReport" [(ngModel)]="planReportVersionId" required [disabled]="saving()">
             <option value="">Seleccione la versión</option>
             @for (version of versions(); track version.id) {
               <option [value]="version.id">{{version.data.kind}} · ETag {{version.revision}} · {{version.state ?? ''}}</option>
             }
-          </select>
-          <label for="plan-revision">Revisión previa de la cadena de planes</label>
-          <input id="plan-revision" type="text" name="planRevision" [(ngModel)]="planRevision" required inputmode="numeric" [disabled]="saving()" />
-          <button type="submit" [disabled]="saving() || !planValid()">Crear plan</button>
+          </select></div>
+          <div class="sigeac-form-field"><label for="plan-revision">Revisión previa de la cadena de planes</label>
+          <input id="plan-revision" type="text" name="planRevision" [(ngModel)]="planRevision" required inputmode="numeric" [disabled]="saving()" /></div>
+          <div class="sigeac-form-actions"><button type="submit" [disabled]="saving() || !planValid()">Crear plan</button></div>
+          </div>
         </form>
 
-        <form (ngSubmit)="createAction()">
+        <form (ngSubmit)="createAction()" class="sigeac-form-layout"><div class="sigeac-form-grid">
           <h4>Proponer acción de mejora</h4>
-          <label for="action-plan">Plan</label>
+          <div class="sigeac-form-field"><label for="action-plan">Plan</label>
           <select id="action-plan" name="actionPlan" [(ngModel)]="actionPlanId" required [disabled]="saving()">
             <option value="">Seleccione el plan</option>
             @for (plan of plans(); track plan.id) { <option [value]="plan.id">{{plan.data.title}}</option> }
-          </select>
+          </select></div>
           <fieldset [disabled]="saving()">
             <legend>Hallazgos de origen</legend>
             @for (finding of findings(); track finding.id) {
@@ -88,19 +93,20 @@ const TRANSITIONS: readonly {value: Transition; label: string}[] = [
                 (change)="toggleFinding(finding.id)" /> {{finding.data.title}}</label>
             } @empty { <p class="muted">No hay hallazgos visibles para este proceso.</p> }
           </fieldset>
-          <label for="action-title">Título</label>
-          <input id="action-title" type="text" name="actionTitle" [(ngModel)]="actionTitle" required maxlength="300" [disabled]="saving()" />
-          <label for="action-description">Descripción</label>
-          <textarea id="action-description" name="actionDescription" [(ngModel)]="actionDescription" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea>
-          <label for="action-responsible">Asignación del responsable</label>
-          <input id="action-responsible" type="text" name="actionResponsible" [(ngModel)]="actionResponsible" required [disabled]="saving()" />
-          <label for="action-due">Plazo</label>
-          <input id="action-due" type="datetime-local" name="actionDue" [(ngModel)]="actionDue" required [disabled]="saving()" />
-          <label for="action-target">Meta medible</label>
-          <textarea id="action-target" name="actionTarget" [(ngModel)]="actionTarget" required maxlength="4000" [disabled]="saving()"></textarea>
-          <label for="action-method">Medio de verificación</label>
-          <textarea id="action-method" name="actionMethod" [(ngModel)]="actionMethod" required maxlength="4000" [disabled]="saving()"></textarea>
-          <button type="submit" [disabled]="saving() || !actionValid()">Proponer acción</button>
+          <div class="sigeac-form-field sigeac-form-wide"><label for="action-title">Título</label>
+          <input id="action-title" type="text" name="actionTitle" [(ngModel)]="actionTitle" required maxlength="300" [disabled]="saving()" /></div>
+          <div class="sigeac-form-field sigeac-form-wide"><label for="action-description">Descripción</label>
+          <textarea id="action-description" name="actionDescription" [(ngModel)]="actionDescription" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea></div>
+          <div class="sigeac-form-field"><label for="action-responsible">Asignación del responsable</label>
+          <input id="action-responsible" type="text" name="actionResponsible" [(ngModel)]="actionResponsible" required [disabled]="saving()" /></div>
+          <div class="sigeac-form-field"><label for="action-due">Plazo</label>
+          <input id="action-due" type="datetime-local" name="actionDue" [(ngModel)]="actionDue" required [disabled]="saving()" /></div>
+          <div class="sigeac-form-field"><label for="action-target">Meta medible</label>
+          <textarea id="action-target" name="actionTarget" [(ngModel)]="actionTarget" required maxlength="4000" [disabled]="saving()"></textarea></div>
+          <div class="sigeac-form-field"><label for="action-method">Medio de verificación</label>
+          <textarea id="action-method" name="actionMethod" [(ngModel)]="actionMethod" required maxlength="4000" [disabled]="saving()"></textarea></div>
+          <div class="sigeac-form-actions"><button type="submit" [disabled]="saving() || !actionValid()">Proponer acción</button></div>
+          </div>
         </form>
 
         <h3>Acciones registradas</h3>
@@ -130,57 +136,61 @@ const TRANSITIONS: readonly {value: Transition; label: string}[] = [
                 {{decision.provenance.documentReference}}</p>
             }
             @if (d.state !== 'VERIFIED') {
-              <form (ngSubmit)="recordProgress()">
+              <form (ngSubmit)="recordProgress()" class="sigeac-form-layout"><div class="sigeac-form-grid">
                 <h5>Registrar avance</h5>
-                <label for="progress-description">Descripción</label>
-                <textarea id="progress-description" name="progressDescription" [(ngModel)]="progressDescription" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea>
-                <label for="progress-value">Valor alcanzado</label>
-                <input id="progress-value" type="text" name="progressValue" [(ngModel)]="progressValue" required maxlength="2000" [disabled]="saving()" />
-                <label for="progress-evidence">Versiones de evidencia (separadas por coma)</label>
-                <input id="progress-evidence" type="text" name="progressEvidence" [(ngModel)]="progressEvidence" required [disabled]="saving()" />
-                <label for="progress-date">Fecha del avance</label>
-                <input id="progress-date" type="datetime-local" name="progressDate" [(ngModel)]="progressDate" required [disabled]="saving()" />
-                <button type="submit" [disabled]="saving() || !progressValid()">Registrar avance</button>
+                <div class="sigeac-form-field sigeac-form-wide"><label for="progress-description">Descripción</label>
+                <textarea id="progress-description" name="progressDescription" [(ngModel)]="progressDescription" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea></div>
+                <div class="sigeac-form-field"><label for="progress-value">Valor alcanzado</label>
+                <input id="progress-value" type="text" name="progressValue" [(ngModel)]="progressValue" required maxlength="2000" [disabled]="saving()" /></div>
+                <div class="sigeac-form-field"><label for="progress-date">Fecha del avance</label>
+                <input id="progress-date" type="datetime-local" name="progressDate" [(ngModel)]="progressDate" required [disabled]="saving()" /></div>
+                <div class="sigeac-form-field sigeac-form-wide"><label for="progress-evidence">Versiones de evidencia (separadas por coma)</label>
+                <input id="progress-evidence" type="text" name="progressEvidence" [(ngModel)]="progressEvidence" required [disabled]="saving()" /></div>
+                <div class="sigeac-form-actions"><button type="submit" [disabled]="saving() || !progressValid()">Registrar avance</button></div>
+                </div>
               </form>
             }
-            <form (ngSubmit)="decide()">
+            <form (ngSubmit)="decide()" class="sigeac-form-layout"><div class="sigeac-form-grid">
               <h5>Decisión de la acción</h5>
               <p class="muted">Aprobar, devolver y verificar exigen capacidades distintas; toda decisión queda auditada.</p>
-              <label for="decision-action">Transición</label>
+              <div class="sigeac-form-field"><label for="decision-action">Transición</label>
               <select id="decision-action" name="decisionAction" [(ngModel)]="decisionTransition" required [disabled]="saving()">
                 <option value="">Seleccione la transición</option>
                 @for (option of transitions; track option.value) {
                   <option [value]="option.value">{{option.label}}</option>
                 }
-              </select>
-              <label for="decision-assignment">Asignación con competencia</label>
-              <input id="decision-assignment" type="text" name="decisionAssignment" [(ngModel)]="decisionAssignment" required [disabled]="saving()" />
-              <label for="decision-legal">Fundamento normativo</label>
-              <input id="decision-legal" type="text" name="decisionLegal" [(ngModel)]="decisionLegal" required maxlength="4000" [disabled]="saving()" />
-              <label for="decision-document">Documento de respaldo</label>
-              <input id="decision-document" type="text" name="decisionDocument" [(ngModel)]="decisionDocument" required maxlength="2000" [disabled]="saving()" />
-              <label for="decision-reason">Motivo</label>
-              <textarea id="decision-reason" name="decisionReason" [(ngModel)]="decisionReason" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea>
-              <button type="submit" [disabled]="saving() || !decisionValid()">Registrar decisión</button>
+              </select></div>
+              <div class="sigeac-form-field"><label for="decision-assignment">Asignación con competencia</label>
+              <input id="decision-assignment" type="text" name="decisionAssignment" [(ngModel)]="decisionAssignment" required [disabled]="saving()" /></div>
+              <div class="sigeac-form-field"><label for="decision-legal">Fundamento normativo</label>
+              <input id="decision-legal" type="text" name="decisionLegal" [(ngModel)]="decisionLegal" required maxlength="4000" [disabled]="saving()" /></div>
+              <div class="sigeac-form-field"><label for="decision-document">Documento de respaldo</label>
+              <input id="decision-document" type="text" name="decisionDocument" [(ngModel)]="decisionDocument" required maxlength="2000" [disabled]="saving()" /></div>
+              <div class="sigeac-form-field sigeac-form-wide"><label for="decision-reason">Motivo</label>
+              <textarea id="decision-reason" name="decisionReason" [(ngModel)]="decisionReason" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea></div>
+              <div class="sigeac-form-actions"><button type="submit" [disabled]="saving() || !decisionValid()">Registrar decisión</button></div>
+              </div>
             </form>
             @if (d.state !== 'VERIFIED') {
-              <form (ngSubmit)="revise()">
+              <form (ngSubmit)="revise()" class="sigeac-form-layout"><div class="sigeac-form-grid">
                 <h5>Nueva revisión de la acción</h5>
                 <p class="muted">Repita los datos vigentes con los cambios de responsable, plazo o meta; la revisión
                   anterior se conserva y la acción vuelve a propuesta.</p>
-                <label for="revision-assignment">Asignación del responsable</label>
-                <input id="revision-assignment" type="text" name="revisionAssignment" [(ngModel)]="revisionResponsible" required [disabled]="saving()" />
-                <label for="revision-due">Plazo</label>
-                <input id="revision-due" type="datetime-local" name="revisionDue" [(ngModel)]="revisionDue" required [disabled]="saving()" />
-                <label for="revision-target">Meta medible</label>
-                <textarea id="revision-target" name="revisionTarget" [(ngModel)]="revisionTarget" required maxlength="4000" [disabled]="saving()"></textarea>
-                <button type="submit" [disabled]="saving() || revisionTarget.trim().length === 0">Guardar revisión</button>
+                <div class="sigeac-form-field"><label for="revision-assignment">Asignación del responsable</label>
+                <input id="revision-assignment" type="text" name="revisionAssignment" [(ngModel)]="revisionResponsible" required [disabled]="saving()" /></div>
+                <div class="sigeac-form-field"><label for="revision-due">Plazo</label>
+                <input id="revision-due" type="datetime-local" name="revisionDue" [(ngModel)]="revisionDue" required [disabled]="saving()" /></div>
+                <div class="sigeac-form-field sigeac-form-wide"><label for="revision-target">Meta medible</label>
+                <textarea id="revision-target" name="revisionTarget" [(ngModel)]="revisionTarget" required maxlength="4000" [disabled]="saving()"></textarea></div>
+                <div class="sigeac-form-actions"><button type="submit" [disabled]="saving() || revisionTarget.trim().length === 0">Guardar revisión</button></div>
+                </div>
               </form>
             }
           </article>
         }
       }
     </section>
+    </div>
   `
 })
 export class ImprovementPlanPage implements OnInit, OnDestroy {
@@ -429,4 +439,3 @@ export class ImprovementPlanPage implements OnInit, OnDestroy {
       : 'No se pudo completar la operación de mejora. Recargue antes de continuar.');
   }
 }
-

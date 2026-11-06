@@ -13,20 +13,26 @@ import {CaptureVariables, QuantitativeApi, QuantitativeView} from '../data-acces
     article {border-top:1px solid #ccc; padding:1rem 0; overflow-wrap:anywhere} fieldset {margin:1rem 0} fieldset label {display:block;margin:.5rem 0}
     nav {background:transparent;color:inherit;padding:1rem 0} nav span {margin:0 .5rem}`],
   template: `
-    <section aria-labelledby="quantitative-title">
+    <div class="sigeac-page sigeac-page--balanced">
+    <header class="sigeac-page-header">
+      <span class="sigeac-badge">Valoración académica</span>
       <h2 id="quantitative-title">Variables y cálculo cuantitativo</h2>
-      <p><a routerLink="/evaluations">Consultar valoración cualitativa</a></p>
       <p>Capture cifras con sus sustentos, verifíquelas y ejecute la regla publicada. El resultado no constituye acreditación.</p>
-      <label for="quant-process">Proceso</label>
+    </header>
+    <section class="sigeac-page-body" aria-labelledby="quantitative-title">
+      <p><a routerLink="/evaluations">Consultar valoración cualitativa</a></p>
+      <div class="sigeac-form-layout"><div class="sigeac-form-grid">
+      <div class="sigeac-form-field"><label for="quant-process">Proceso</label>
       <select id="quant-process" [ngModel]="processId" (ngModelChange)="selectProcess($event)" [disabled]="busy()">
         <option value="">Seleccione un proceso</option>
         @for (p of processes(); track p.id) {<option [value]="p.id">{{p.code}} · {{p.name}}</option>}
-      </select>
-      <label for="quant-indicator">Indicador</label>
+      </select></div>
+      <div class="sigeac-form-field"><label for="quant-indicator">Indicador</label>
       <select id="quant-indicator" [ngModel]="indicatorId" (ngModelChange)="selectIndicator($event)" [disabled]="busy()">
         <option value="">Seleccione un indicador</option>
         @for (i of indicators(); track i.id) {<option [value]="i.id">{{i.code}} · {{i.name}}</option>}
-      </select>
+      </select></div>
+      </div></div>
       @if (error()) {<p role="alert">{{error()}}</p>}
       @if (message()) {<p role="status">{{message()}}</p>}
       @if (processId && indicatorId) {<button type="button" (click)="load()" [disabled]="busy()">Recargar variables</button>}
@@ -34,16 +40,16 @@ import {CaptureVariables, QuantitativeApi, QuantitativeView} from '../data-acces
         <p>Método: {{v.rule.methodDefinition}}</p>
         <p>Fórmula publicada: {{v.rule.formulaDefinition}} · Estrategia: {{v.rule.strategyKey}} / {{v.rule.strategyVersion}}</p>
         @if (editable(v)) {
-          <form (ngSubmit)="capture()">
-            <label for="quant-period-start">Inicio del período de variables</label>
-            <input id="quant-period-start" name="start" type="date" [(ngModel)]="periodStart" [min]="v.periodStart" [max]="v.periodEnd" required [disabled]="busy()" />
-            <label for="quant-period-end">Fin del período de variables</label>
-            <input id="quant-period-end" name="end" type="date" [(ngModel)]="periodEnd" [min]="v.periodStart" [max]="v.periodEnd" required [disabled]="busy()" />
+          <form (ngSubmit)="capture()" class="sigeac-form-layout"><div class="sigeac-form-grid">
+            <div class="sigeac-form-field"><label for="quant-period-start">Inicio del período de variables</label>
+            <input id="quant-period-start" name="start" type="date" [(ngModel)]="periodStart" [min]="v.periodStart" [max]="v.periodEnd" required [disabled]="busy()" /></div>
+            <div class="sigeac-form-field"><label for="quant-period-end">Fin del período de variables</label>
+            <input id="quant-period-end" name="end" type="date" [(ngModel)]="periodEnd" [min]="v.periodStart" [max]="v.periodEnd" required [disabled]="busy()" /></div>
             @for (variable of v.rule.variables; track variable.code) {
               <fieldset [disabled]="busy()">
                 <legend>{{variable.code}} · {{variable.name}} · {{variable.unit}}</legend>
-                <label [for]="'quant-value-' + variable.code">Valor {{variable.code}}</label>
-                <input [id]="'quant-value-' + variable.code" [name]="variable.code" [(ngModel)]="values[variable.code]" inputmode="decimal" maxlength="19" required />
+                <div class="sigeac-form-field"><label [for]="'quant-value-' + variable.code">Valor {{variable.code}}</label>
+                <input [id]="'quant-value-' + variable.code" [name]="variable.code" [(ngModel)]="values[variable.code]" inputmode="decimal" maxlength="19" required /></div>
                 <p>Tipo: {{variable.dataType}} · Restricción publicada: {{variable.validationDefinition}}</p>
                 <p>Sustentos aceptados de esta variable:</p>
                 @for (version of versions(); track version.id) {
@@ -51,7 +57,8 @@ import {CaptureVariables, QuantitativeApi, QuantitativeView} from '../data-acces
                 } @empty {<p>Sin sustentos documentales aceptados.</p>}
               </fieldset>
             }
-            <button type="submit" [disabled]="busy() || !canCapture(v)">Conservar nueva revisión de variables</button>
+            <div class="sigeac-form-actions"><button type="submit" [disabled]="busy() || !canCapture(v)">Conservar nueva revisión de variables</button></div>
+            </div>
           </form>
         } @else {<p>El estado del proceso permite únicamente consultar el historial.</p>}
         @if (v.ownInputs; as inputs) {
@@ -61,19 +68,21 @@ import {CaptureVariables, QuantitativeApi, QuantitativeView} from '../data-acces
             @for (variable of inputs.variables; track variable.code) {<p>{{variable.code}} = {{variable.value}} {{variable.unit}}</p>}
             @if (v.verification; as verification) {<p>Verificadas por {{verification.verifiedBy}} · {{verification.reason}}</p>}
             @else if (editable(v)) {
-              <form (ngSubmit)="verify()">
-                <label for="quant-verification-reason">Fundamento de la verificación</label>
-                <textarea id="quant-verification-reason" name="verification" [(ngModel)]="reason" required minlength="10" maxlength="4000" [disabled]="busy()"></textarea>
-                <button type="submit" [disabled]="busy() || reason.trim().length < 10">Verificar cifras, fuentes y período</button>
+              <form (ngSubmit)="verify()" class="sigeac-form-layout"><div class="sigeac-form-grid">
+                <div class="sigeac-form-field sigeac-form-wide"><label for="quant-verification-reason">Fundamento de la verificación</label>
+                <textarea id="quant-verification-reason" name="verification" [(ngModel)]="reason" required minlength="10" maxlength="4000" [disabled]="busy()"></textarea></div>
+                <div class="sigeac-form-actions"><button type="submit" [disabled]="busy() || reason.trim().length < 10">Verificar cifras, fuentes y período</button></div>
+                </div>
               </form>
             }
             @if (editable(v) && v.verification && !alreadyCalculated(v)) {
-              <form (ngSubmit)="calculate()">
-                <label for="quant-justification">Justificación del resultado</label>
-                <textarea id="quant-justification" name="justification" [(ngModel)]="justification" required minlength="10" maxlength="4000" [disabled]="busy()"></textarea>
-                <label for="quant-limitations">Limitaciones del cálculo</label>
-                <textarea id="quant-limitations" name="limitations" [(ngModel)]="limitations" required minlength="10" maxlength="4000" [disabled]="busy()"></textarea>
-                <button type="submit" [disabled]="busy() || justification.trim().length < 10 || limitations.trim().length < 10">Calcular y conservar resultado</button>
+              <form (ngSubmit)="calculate()" class="sigeac-form-layout"><div class="sigeac-form-grid">
+                <div class="sigeac-form-field"><label for="quant-justification">Justificación del resultado</label>
+                <textarea id="quant-justification" name="justification" [(ngModel)]="justification" required minlength="10" maxlength="4000" [disabled]="busy()"></textarea></div>
+                <div class="sigeac-form-field"><label for="quant-limitations">Limitaciones del cálculo</label>
+                <textarea id="quant-limitations" name="limitations" [(ngModel)]="limitations" required minlength="10" maxlength="4000" [disabled]="busy()"></textarea></div>
+                <div class="sigeac-form-actions"><button type="submit" [disabled]="busy() || justification.trim().length < 10 || limitations.trim().length < 10">Calcular y conservar resultado</button></div>
+                </div>
               </form>
             }
           </article>
@@ -101,7 +110,8 @@ import {CaptureVariables, QuantitativeApi, QuantitativeView} from '../data-acces
           <span>Página {{v.page + 1}}</span><button type="button" (click)="load(v.page + 1)" [disabled]="busy() || !v.hasNext">Siguiente</button>
         </nav>
       }
-    </section>`})
+    </section>
+    </div>`})
 export class QuantitativeEvaluationPage implements OnInit, OnDestroy {
   private readonly api = inject(QuantitativeApi); private readonly processApi = inject(ProcessApi);
   private request?: Subscription; private listing?: Subscription;

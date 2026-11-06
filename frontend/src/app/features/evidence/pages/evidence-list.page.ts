@@ -11,8 +11,13 @@ import {EvidenceView} from '../data-access/evidence.models';
   imports: [FormsModule, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section>
+    <div class="sigeac-page sigeac-page--balanced">
+    <header class="sigeac-page-header">
+      <span class="sigeac-badge">Evidencias</span>
       <h2>Evidencias</h2>
+      <p>Consulte las versiones y coberturas documentales de su ámbito vigente.</p>
+    </header>
+    <section class="sigeac-page-body">
       <label for="evidence-process">Proceso</label>
       <select id="evidence-process" [ngModel]="processId" (ngModelChange)="selectProcess($event)">
         <option value="">Seleccione un proceso</option>
@@ -29,6 +34,7 @@ import {EvidenceView} from '../data-access/evidence.models';
       } @else if (!loading() && items().length === 0) {
         <p role="status">No hay evidencias en el proceso seleccionado.</p>
       } @else if (items().length > 0) {
+        <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Evidencias del proceso">
         <table>
           <caption>Evidencias visibles en su ámbito vigente</caption>
           <thead><tr><th scope="col">Título</th><th scope="col">Versión</th><th scope="col">Estado</th><th scope="col">Acciones</th></tr></thead>
@@ -44,8 +50,10 @@ import {EvidenceView} from '../data-access/evidence.models';
             }
           </tbody>
         </table>
+        </div>
       }
     </section>
+    </div>
   `
 })
 export class EvidenceListPage implements OnInit, OnChanges {

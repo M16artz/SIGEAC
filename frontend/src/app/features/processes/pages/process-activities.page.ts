@@ -10,8 +10,14 @@ import {ProcessActivity, ProcessApi, ProcessView} from '../data-access/process-a
   imports: [DatePipe, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
+    <div class="sigeac-page">
+    <header class="sigeac-page-header">
+      <span class="sigeac-badge">Procesos</span>
+      <h2>Actividades del proceso</h2>
+      <p>Consulte las actividades y los plazos de sus ámbitos autorizados.</p>
+    </header>
+    <section class="sigeac-page-body">
     <p><a routerLink="/processes">Volver a procesos</a></p>
-    <h2>Actividades del proceso</h2>
     @if (loading()) { <p role="status">Consultando actividades…</p> }
     @if (error()) { <p role="alert">{{error()}}</p> }
     @if (process(); as current) {
@@ -21,6 +27,7 @@ import {ProcessActivity, ProcessApi, ProcessView} from '../data-access/process-a
         <p role="status">El proceso está suspendido. Las actuaciones ordinarias están bloqueadas.</p>
       }
       @if (activities().length) {
+        <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Actividades del proceso">
         <table>
           <caption>Actividades visibles en su ámbito</caption>
           <thead><tr><th>Actividad</th><th>Indicador</th><th>Vencimiento (hora local)</th><th>Estado</th></tr></thead>
@@ -31,8 +38,11 @@ import {ProcessActivity, ProcessApi, ProcessView} from '../data-access/process-a
             }
           </tbody>
         </table>
+        </div>
       } @else { <p>No hay actividades para sus asignaciones vigentes.</p> }
     }
+    </section>
+    </div>
   `
 })
 export class ProcessActivitiesPage implements OnInit {

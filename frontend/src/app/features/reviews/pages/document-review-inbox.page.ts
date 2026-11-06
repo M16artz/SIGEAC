@@ -23,8 +23,13 @@ interface CoverageOutcomeDraft {
   imports: [FormsModule, DatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section>
+    <div class="sigeac-page sigeac-page--balanced">
+    <header class="sigeac-page-header">
+      <span class="sigeac-badge">Revisión documental</span>
       <h2>Revisión documental</h2>
+      <p>Revise las evidencias remitidas y consulte las decisiones por cobertura.</p>
+    </header>
+    <section class="sigeac-page-body">
       <label for="review-process">Proceso</label>
       <select id="review-process" [ngModel]="processId" (ngModelChange)="selectProcess($event)">
         <option value="">Seleccione un proceso</option>
@@ -39,6 +44,7 @@ interface CoverageOutcomeDraft {
       } @else if (!loading() && entries().length === 0) {
         <p role="status">No hay versiones pendientes de revisión documental.</p>
       } @else if (entries().length > 0) {
+        <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Bandeja de revisión">
         <table>
           <caption>Bandeja del revisor: versiones más recientes remitidas por cada evidencia</caption>
           <thead>
@@ -57,18 +63,19 @@ interface CoverageOutcomeDraft {
             }
           </tbody>
         </table>
+        </div>
       }
 
       @if (selected(); as entry) {
         <section aria-labelledby="review-decision-form">
           <h3 id="review-decision-form">Decisión documental de "{{entry.title}}"</h3>
           @if (decisionError()) { <p role="alert">{{decisionError()}}</p> }
-          <form (ngSubmit)="record()">
+          <form (ngSubmit)="record()" class="sigeac-form-layout"><div class="sigeac-form-grid">
             <fieldset>
               <legend>Resultado por cobertura</legend>
               @for (draft of drafts(); track draft.requiredSourceId) {
-                <div>
-                  <label [for]="'outcome-' + draft.requiredSourceId">Cobertura {{draft.requiredSourceId}}</label>
+                <div class="sigeac-form-grid">
+                  <div class="sigeac-form-field"><label [for]="'outcome-' + draft.requiredSourceId">Cobertura {{draft.requiredSourceId}}</label>
                   <select [id]="'outcome-' + draft.requiredSourceId"
                           [ngModel]="draft.outcome"
                           [ngModelOptions]="{standalone: true}"
@@ -76,36 +83,39 @@ interface CoverageOutcomeDraft {
                     @for (option of outcomeOptions; track option) {
                       <option [value]="option">{{option}}</option>
                     }
-                  </select>
+                  </select></div>
                   @if (draft.outcome !== 'ACCEPTED') {
-                    <label [for]="'note-' + draft.requiredSourceId">Fundamento de la observación</label>
+                    <div class="sigeac-form-field"><label [for]="'note-' + draft.requiredSourceId">Fundamento de la observación</label>
                     <textarea [id]="'note-' + draft.requiredSourceId"
                               [ngModel]="draft.note"
                               [ngModelOptions]="{standalone: true}"
                               (ngModelChange)="setNote(draft, $event)"
-                              maxlength="4000"></textarea>
+                              maxlength="4000"></textarea></div>
                   }
                 </div>
               }
             </fieldset>
-            <label for="review-justification">Justificación global</label>
+            <div class="sigeac-form-field sigeac-form-wide"><label for="review-justification">Justificación global</label>
             <textarea id="review-justification" [ngModel]="justification()"
                       [ngModelOptions]="{standalone: true}"
                       (ngModelChange)="justification.set($event)"
-                      maxlength="4000" required></textarea>
+                      maxlength="4000" required></textarea></div>
+            <div class="sigeac-form-check sigeac-form-wide">
             <label for="self-review-exception">Excepción de autorrevisión autorizada</label>
             <input id="self-review-exception" type="checkbox" [ngModel]="exception()"
                    [ngModelOptions]="{standalone: true}"
                    (ngModelChange)="exception.set($event)">
+            </div>
             @if (exception()) {
-              <label for="self-review-reason">Motivo auditado de la excepción</label>
+              <div class="sigeac-form-field sigeac-form-wide"><label for="self-review-reason">Motivo auditado de la excepción</label>
               <textarea id="self-review-reason" [ngModel]="exceptionReason()"
                         [ngModelOptions]="{standalone: true}"
                         (ngModelChange)="exceptionReason.set($event)"
-                        maxlength="4000"></textarea>
+                        maxlength="4000"></textarea></div>
             }
-            <button type="submit">Registrar decisión</button>
+            <div class="sigeac-form-actions"><button type="submit">Registrar decisión</button>
             <button type="button" (click)="cancel()">Cancelar</button>
+            </div></div>
           </form>
         </section>
       }
@@ -113,6 +123,7 @@ interface CoverageOutcomeDraft {
       @if (decisions().length > 0) {
         <section aria-labelledby="review-decision-history">
           <h3 id="review-decision-history">Historial de decisiones del proceso</h3>
+          <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Historial de decisiones">
           <table>
             <caption>Decisiones documentales con resultados por cobertura y rectificaciones (FR-021/FR-024)</caption>
             <thead>
@@ -137,9 +148,11 @@ interface CoverageOutcomeDraft {
               }
             </tbody>
           </table>
+          </div>
         </section>
       }
     </section>
+    </div>
   `
 })
 export class DocumentReviewInboxPage implements OnInit, OnChanges {

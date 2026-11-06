@@ -11,8 +11,14 @@ import {ProcessAssignmentForm} from '../ui/process-assignment-form.component';
   imports: [FormsModule, RouterLink, ProcessStateControls, ProcessAssignmentForm],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
+    <div class="sigeac-page">
+    <header class="sigeac-page-header">
+      <span class="sigeac-badge">Procesos</span>
+      <h2>Detalle del proceso</h2>
+      <p>Consulte el modelo, los indicadores y las asignaciones del proceso.</p>
+    </header>
+    <section class="sigeac-page-body">
     <p><a routerLink="/processes">Volver a procesos</a></p>
-    <h2>Detalle del proceso</h2>
     @if (error()) { <p role="alert">{{error()}}</p> }
     @if (process(); as current) {
       <p><strong>{{current.code}} Â· {{current.name}}</strong></p>
@@ -25,6 +31,8 @@ import {ProcessAssignmentForm} from '../ui/process-assignment-form.component';
       <sec-process-state-controls [process]="current" (changed)="process.set($event)" />
       <sec-process-assignment-form [process]="current" (changed)="process.set($event)" />
     }
+    </section>
+    </div>
   `
 })
 export class ProcessDetailPage implements OnInit {

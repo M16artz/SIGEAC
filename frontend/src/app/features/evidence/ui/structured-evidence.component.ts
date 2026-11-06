@@ -22,6 +22,7 @@ import {
         <p role="status">No hay fuentes de datos estructurados ni referencias institucionales con cobertura declarada.</p>
       }
       @if (snapshots().length > 0) {
+        <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Datos estructurados conservados">
         <table>
           <caption>Snapshots registrados en la versión</caption>
           <thead>
@@ -41,57 +42,59 @@ import {
             }
           </tbody>
         </table>
+        </div>
       }
       @if (candidates().length > 0 && !disabled()) {
-        <form (ngSubmit)="registerSnapshot()" novalidate>
-          <label for="structured-source">Fuente</label>
+        <form (ngSubmit)="registerSnapshot()" novalidate class="sigeac-form-layout"><div class="sigeac-form-grid">
+          <div class="sigeac-form-field"><label for="structured-source">Fuente</label>
           <select id="structured-source" name="selectedSourceId" [ngModel]="selectedSourceId()"
             (ngModelChange)="selectedSourceId.set($event)">
             <option value="">Seleccione una fuente</option>
             @for (source of candidates(); track source.id) {
               <option [value]="source.id">{{source.code}} · {{source.name}} ({{source.sourceType}})</option>
             }
-          </select>
-          <label for="value-type">Tipo de valor</label>
+          </select></div>
+          <div class="sigeac-form-field"><label for="value-type">Tipo de valor</label>
           <select id="value-type" name="valueType" [ngModel]="valueType()"
             (ngModelChange)="valueType.set($event)">
             <option value="NUMBER">Número</option>
             <option value="STRING">Texto</option>
             <option value="BOOLEAN">Booleano</option>
-          </select>
+          </select></div>
           @switch (valueType()) {
             @case ('NUMBER') {
-              <label for="structured-number">Valor</label>
+              <div class="sigeac-form-field"><label for="structured-number">Valor</label>
               <input id="structured-number" name="numberValue" type="number" [ngModel]="numberValue()"
-                (ngModelChange)="numberValue.set($event)" />
+                (ngModelChange)="numberValue.set($event)" /></div>
             }
             @case ('BOOLEAN') {
-              <label for="structured-boolean">Valor</label>
+              <div class="sigeac-form-field"><label for="structured-boolean">Valor</label>
               <select id="structured-boolean" name="booleanValue" [ngModel]="booleanValue()"
                 (ngModelChange)="booleanValue.set($event)">
                 <option [ngValue]="true">Verdadero</option>
                 <option [ngValue]="false">Falso</option>
-              </select>
+              </select></div>
             }
             @default {
-              <label for="structured-text">Valor</label>
+              <div class="sigeac-form-field"><label for="structured-text">Valor</label>
               <textarea id="structured-text" name="textValue" maxlength="4000" [ngModel]="textValue()"
-                (ngModelChange)="textValue.set($event)"></textarea>
+                (ngModelChange)="textValue.set($event)"></textarea></div>
             }
           }
-          <label for="structured-unit">Unidad (opcional)</label>
-          <input id="structured-unit" name="unit" maxlength="100" [ngModel]="unit()" (ngModelChange)="unit.set($event)" />
-          <label for="structured-period-start">Inicio del período</label>
+          <div class="sigeac-form-field"><label for="structured-unit">Unidad (opcional)</label>
+          <input id="structured-unit" name="unit" maxlength="100" [ngModel]="unit()" (ngModelChange)="unit.set($event)" /></div>
+          <div class="sigeac-form-field"><label for="structured-period-start">Inicio del período</label>
           <input id="structured-period-start" name="periodStart" type="date"
-            [ngModel]="periodStart()" (ngModelChange)="periodStart.set($event)" />
-          <label for="structured-period-end">Fin del período</label>
+            [ngModel]="periodStart()" (ngModelChange)="periodStart.set($event)" /></div>
+          <div class="sigeac-form-field"><label for="structured-period-end">Fin del período</label>
           <input id="structured-period-end" name="periodEnd" type="date"
-            [ngModel]="periodEnd()" (ngModelChange)="periodEnd.set($event)" />
-          <label for="structured-reference">Referencia (opcional)</label>
+            [ngModel]="periodEnd()" (ngModelChange)="periodEnd.set($event)" /></div>
+          <div class="sigeac-form-field sigeac-form-wide"><label for="structured-reference">Referencia (opcional)</label>
           <input id="structured-reference" name="reference" maxlength="2000"
-            [ngModel]="reference()" (ngModelChange)="reference.set($event)" />
-          <button type="submit" data-register-snapshot>Registrar snapshot</button>
+            [ngModel]="reference()" (ngModelChange)="reference.set($event)" /></div>
+          <div class="sigeac-form-actions"><button type="submit" data-register-snapshot>Registrar snapshot</button></div>
           @if (formError()) { <p role="alert">{{formError()}}</p> }
+          </div>
         </form>
       }
     </section>

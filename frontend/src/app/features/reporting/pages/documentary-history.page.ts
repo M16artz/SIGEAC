@@ -13,10 +13,14 @@ import {DocumentarySnapshotPage, DocumentarySnapshotView, ReportingApi} from '..
   imports: [DatePipe, DecimalPipe, FormsModule, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section aria-labelledby="documentary-history-title">
+    <div class="sigeac-page sigeac-page--balanced">
+    <header class="sigeac-page-header">
+      <span class="sigeac-badge">Seguimiento documental</span>
       <h2 id="documentary-history-title">Cortes documentales e historial</h2>
-      <p><a routerLink="/reporting">Volver al avance actual</a></p>
       <p>Guardar un corte conserva las fuentes y decisiones actuales, incluidos los pendientes. El proceso continúa activo.</p>
+    </header>
+    <section class="sigeac-page-body" aria-labelledby="documentary-history-title">
+      <p><a routerLink="/reporting">Volver al avance actual</a></p>
       <label for="snapshot-process">Proceso</label>
       <select id="snapshot-process" [ngModel]="processId" (ngModelChange)="selectProcess($event)" [disabled]="creating()">
         <option value="">Seleccione un proceso</option>
@@ -27,13 +31,15 @@ import {DocumentarySnapshotPage, DocumentarySnapshotView, ReportingApi} from '..
       @if (error()) { <p role="alert">{{error()}}</p> }
       @if (message()) { <p role="status">{{message()}}</p> }
       @if (processId) {
-        <form (ngSubmit)="create()">
-          <label for="snapshot-reason">Motivo del corte</label>
-          <textarea id="snapshot-reason" name="reason" [(ngModel)]="reason" minlength="10" maxlength="4000" required [disabled]="creating()"></textarea>
-          <button type="submit" [disabled]="creating() || reason.trim().length < 10">Guardar corte actual</button>
+        <form (ngSubmit)="create()" class="sigeac-form-layout"><div class="sigeac-form-grid">
+          <div class="sigeac-form-field sigeac-form-wide"><label for="snapshot-reason">Motivo del corte</label>
+          <textarea id="snapshot-reason" name="reason" [(ngModel)]="reason" minlength="10" maxlength="4000" required [disabled]="creating()"></textarea></div>
+          <div class="sigeac-form-actions"><button type="submit" [disabled]="creating() || reason.trim().length < 10">Guardar corte actual</button></div>
+          </div>
         </form>
       }
       @if (history(); as page) {
+        <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Cortes documentales guardados">
         <table>
           <caption>Cortes guardados del proceso autorizado</caption>
           <thead><tr><th scope="col">Fecha</th><th scope="col">Motivo</th><th scope="col">Acción</th></tr></thead>
@@ -44,6 +50,7 @@ import {DocumentarySnapshotPage, DocumentarySnapshotView, ReportingApi} from '..
             }
           </tbody>
         </table>
+        </div>
         @if (page.items.length === 0) { <p>No hay cortes documentales en esta página.</p> }
         <nav aria-label="Páginas de cortes documentales">
           <button type="button" [disabled]="page.page === 0 || creating()" (click)="load(page.page - 1)">Anterior</button>
@@ -80,6 +87,7 @@ import {DocumentarySnapshotPage, DocumentarySnapshotView, ReportingApi} from '..
         </section>
       }
     </section>
+    </div>
   `
 })
 export class DocumentaryHistoryPage implements OnInit, OnDestroy {
