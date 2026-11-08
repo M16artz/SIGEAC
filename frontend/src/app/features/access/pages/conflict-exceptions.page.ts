@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { AccessApi } from '../data-access/access-api.service';
@@ -10,56 +10,9 @@ import { ConflictExceptionCommand, PILOT_CAREER_ID, PILOT_CONFLICT_POLICY_ID } f
   standalone: true,
   imports: [ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <section aria-labelledby="conflicts-title">
-      <h2 id="conflicts-title">Conflictos y excepciones temporales</h2>
-      <p>
-        Una excepción solo habilita la combinación declarada durante su vigencia y ámbito. No modifica la política base
-        y requiere una justificación de al menos 10 caracteres.
-      </p>
-      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
-        <div>
-          <label for="policyId">Política de conflicto (UUID sintético)</label>
-          <input id="policyId" type="text" formControlName="policyId" required>
-        </div>
-        <div>
-          <label for="targetUserId">Usuario destino</label>
-          <input id="targetUserId" type="text" formControlName="targetUserId" required>
-        </div>
-        <div>
-          <label for="careerId">Carrera (UUID sintético)</label>
-          <input id="careerId" type="text" formControlName="careerId" required>
-        </div>
-        <div>
-          <label for="processId">Proceso (opcional)</label>
-          <input id="processId" type="text" formControlName="processId">
-        </div>
-        <div>
-          <label for="indicatorId">Indicador (opcional, requiere proceso)</label>
-          <input id="indicatorId" type="text" formControlName="indicatorId">
-        </div>
-        <div>
-          <label for="justification">Justificación</label>
-          <textarea id="justification" formControlName="justification" minlength="10" maxlength="1000" required></textarea>
-        </div>
-        <div>
-          <label for="validFrom">Vigente desde</label>
-          <input id="validFrom" type="datetime-local" formControlName="validFrom" required>
-        </div>
-        <div>
-          <label for="validTo">Vigente hasta</label>
-          <input id="validTo" type="datetime-local" formControlName="validTo" required>
-        </div>
-        @if (error()) {
-          <p role="alert">{{ error() }}</p>
-        }
-        @if (createdId()) {
-          <p role="status">Excepción registrada con identificador {{ createdId() }}.</p>
-        }
-        <button type="submit" [disabled]="submitting()">{{ submitting() ? 'Registrando…' : 'Registrar excepción' }}</button>
-      </form>
-    </section>
-  `
+  encapsulation: ViewEncapsulation.None,
+  templateUrl: './conflict-exceptions.page.html',
+  styleUrl: './conflict-exceptions.page.scss'
 })
 export class ConflictExceptionsPageComponent {
   private readonly fb = inject(FormBuilder);

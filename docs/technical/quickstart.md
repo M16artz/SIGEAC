@@ -37,7 +37,7 @@ sesión y permisos. En producción, OpenAPI permanece desactivado.
 1. Crear base y usuario local con privilegios limitados.
 2. Ejecutar migraciones y pruebas backend: `./mvnw verify` desde `backend/` (`mvnw.cmd verify` en Windows).
 3. Instalar dependencias bloqueadas y probar frontend: `npm ci` y `npm test -- --run` desde `frontend/`.
-4. Ejecutar pruebas E2E con la base local: `npm run e2e` desde la raíz o el script que defina `tasks.md`.
+4. Ejecutar aceptación desde `frontend/` con `npm run test:acceptance`, tras preparar backend y datos sintéticos. Los scripts por entrega están en `frontend/package.json`.
 5. Renderizar documentación: `quarto render` desde la raíz.
 
 Testcontainers puede acelerar pruebas si hay un runtime compatible, pero nunca es el único camino.

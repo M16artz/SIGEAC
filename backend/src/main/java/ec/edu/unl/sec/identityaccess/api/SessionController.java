@@ -52,6 +52,9 @@ public class SessionController {
 
     @DeleteMapping("/sessions")
     public ResponseEntity<Void> revokeCurrentSession(Authentication authentication, HttpServletRequest request) {
+        if (request.getHeader("Authorization") != null) {
+            throw new IllegalArgumentException("Bearer tokens must be revoked at their issuer");
+        }
         UUID identityId = AccessRequestContext.identityId(authentication);
         SessionCookie.read(request)
                 .ifPresent(token -> sessions.logout(

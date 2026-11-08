@@ -20,9 +20,11 @@ public class OpenApiConfiguration {
     }
 
     @Bean
-    OpenApiCustomizer organizeOperations() {
-        return openApi -> openApi.getPaths().forEach((path, item) -> item.readOperations().forEach(operation ->
-                operation.setTags(List.of(tagFor(path)))));
+    OpenApiCustomizer organizeOperations(@org.springframework.beans.factory.annotation.Value("${sec.oidc.enabled:false}") boolean oidc) {
+        return openApi -> {
+            openApi.getPaths().forEach((path, item) -> item.readOperations().forEach(operation -> operation.setTags(List.of(tagFor(path)))));
+            ApiEnvelopeDocumentation.apply(openApi, oidc);
+        };
     }
 
     private String tagFor(String path) {

@@ -16,7 +16,7 @@ class SelfAssessmentControllerTest {
         service=mock(SelfAssessmentService.class);
         transitions=mock(ProcessTransitionService.class);
         mvc=MockMvcBuilders.standaloneSetup(new SelfAssessmentController(service,transitions))
-                .setControllerAdvice(new ProcessExceptionHandler(),new ApiProblemHandler()).build();
+                .setControllerAdvice(new ec.edu.unl.sec.shared.api.ApiResponseAdvice(new com.fasterxml.jackson.databind.ObjectMapper().findAndRegisterModules()), new ProcessExceptionHandler(),new ApiProblemHandler()).build();
     }
     @Test void returnsRevisionEtag() throws Exception {
         var process=new SelfAssessmentProcess(null,UUID.randomUUID(),"P","Proceso",LocalDate.now(),LocalDate.now(),UUID.randomUUID(),1,ProcessState.PREPARATION,0,UUID.randomUUID(),Instant.now(),List.of());
@@ -25,14 +25,14 @@ class SelfAssessmentControllerTest {
     }
     @Test void missingEtagIs428AndUnquotedEtagIs400WithoutMutation() throws Exception {
         String path="/processes/"+UUID.randomUUID()+"/activate";
-        mvc.perform(post(path)).andExpect(status().isPreconditionRequired()).andExpect(jsonPath("$.code").value("PRECONDITION_REQUIRED"));
-        mvc.perform(post(path).header("If-Match","0")).andExpect(status().isBadRequest()).andExpect(jsonPath("$.code").value("INVALID_ETAG"));
+        mvc.perform(post(path)).andExpect(status().isPreconditionRequired()).andExpect(jsonPath("$.errors.code").value("PRECONDITION_REQUIRED"));
+        mvc.perform(post(path).header("If-Match","0")).andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors.code").value("INVALID_ETAG"));
         verifyNoInteractions(service);
     }
     @Test void malformedIdentifiersAndJsonAre400Not500() throws Exception {
-        mvc.perform(get("/processes/not-a-uuid")).andExpect(status().isBadRequest()).andExpect(jsonPath("$.code").value("INVALID_REQUEST"));
+        mvc.perform(get("/processes/not-a-uuid")).andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors.code").value("INVALID_REQUEST"));
         mvc.perform(post("/processes").contentType("application/json").content("{broken"))
-                .andExpect(status().isBadRequest()).andExpect(jsonPath("$.code").value("INVALID_REQUEST"));
+                .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors.code").value("INVALID_REQUEST"));
         verifyNoInteractions(service);
     }
     @Test void forwardsAuthorityProvenanceAndRevisionForEveryGovernedTransition() throws Exception {
@@ -60,7 +60,7 @@ class SelfAssessmentControllerTest {
                         {"target":"SUSPENDED","reason":"Decision justificada","legalBasis":"Designacion"}
                         """))
                     .andExpect(status().isBadRequest())
-                    .andExpect(jsonPath("$.code").value("AUTHORITY_PROVENANCE_INCOMPLETE"));
+                    .andExpect(jsonPath("$.errors.code").value("AUTHORITY_PROVENANCE_INCOMPLETE"));
         }
         verifyNoInteractions(service,transitions);
     }

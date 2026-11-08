@@ -1,10 +1,11 @@
+import {unwrapApiResponse} from '../../scripts/api-response.mjs';
 import {expect, test, APIResponse} from '@playwright/test';
 const processId = 'd7000000-0000-0000-0000-000000000003';
 const indicatorId = '50000000-0000-0000-0000-000000000001';
 const committeeAssignment = 'd7000000-0000-0000-0000-000000000911';
 const findingsPath = `/api/v1/processes/${processId}/findings`;
 const versionsPath = `/api/v1/processes/${processId}/report-versions`;
-async function body(response: APIResponse, status = 200) {expect(response.status(), await response.text()).toBe(status);return response.json();}
+async function body(response: APIResponse, status = 200) {expect(response.status(), await response.text()).toBe(status);return response.json().then(unwrapApiResponse);}
 const finding = {type: 'WEAKNESS', title: 'Matrícula tardía frente a la meta sintética',
   description: 'La matrícula efectiva se rezagó dos puntos frente a la meta declarada del período sintético.',
   indicatorIds: [indicatorId], evaluationIds: [], evidenceVersionIds: []};

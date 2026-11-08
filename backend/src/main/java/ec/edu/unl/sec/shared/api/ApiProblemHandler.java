@@ -62,6 +62,22 @@ public class ApiProblemHandler {
         return problem(HttpStatus.METHOD_NOT_ALLOWED,"METHOD_NOT_ALLOWED","La operación no está disponible para este recurso.",request,Map.of());
     }
 
+    @ExceptionHandler({org.springframework.web.servlet.resource.NoResourceFoundException.class,
+            org.springframework.web.servlet.NoHandlerFoundException.class})
+    ProblemDetail handleMissingResource(Exception exception, HttpServletRequest request) {
+        return problem(HttpStatus.NOT_FOUND, "RESOURCE_NOT_FOUND", "El recurso no está disponible.", request, Map.of());
+    }
+
+    @ExceptionHandler(org.springframework.web.HttpMediaTypeNotSupportedException.class)
+    ProblemDetail handleUnsupportedMedia(Exception exception, HttpServletRequest request) {
+        return problem(HttpStatus.UNSUPPORTED_MEDIA_TYPE, "UNSUPPORTED_MEDIA_TYPE", "El tipo de contenido no está permitido.", request, Map.of());
+    }
+
+    @ExceptionHandler(org.springframework.web.multipart.support.MissingServletRequestPartException.class)
+    ProblemDetail handleMissingPart(Exception exception, HttpServletRequest request) {
+        return problem(HttpStatus.BAD_REQUEST, "INVALID_REQUEST", "La solicitud no contiene los datos requeridos.", request, Map.of());
+    }
+
     private ProblemDetail problem(HttpStatus status, String code, String detail, HttpServletRequest request, Map<String, String> details) {
         ProblemDetail problem = ProblemDetail.forStatusAndDetail(status, detail);
         problem.setType(URI.create("urn:sec-unl:problem:" + code.toLowerCase().replace('_', '-')));

@@ -94,7 +94,11 @@ class SessionServiceTest {
                 .satisfies(error -> assertThat(((SessionService.AuthenticationRejected) error).code())
                         .isEqualTo("AUTHENTICATION_LIMITED"));
 
-        assertThat(audit.rejected).extracting(ec.edu.unl.sec.audit.application.AuditEventCommand::reasonCode).contains("AUTHENTICATION_LIMITED");
+        assertThat(audit.accepted)
+                .filteredOn(event -> event.outcome().equals("REJECTED"))
+                .extracting(ec.edu.unl.sec.audit.application.AuditEventCommand::reasonCode)
+                .contains("AUTHENTICATION_FAILED", "AUTHENTICATION_LIMITED");
+        assertThat(audit.rejected).isEmpty();
     }
 
     @Test
@@ -108,6 +112,10 @@ class SessionServiceTest {
                 .isInstanceOf(SessionService.AuthenticationRejected.class)
                 .satisfies(error -> assertThat(((SessionService.AuthenticationRejected) error).code())
                         .isEqualTo("AUTHENTICATION_FAILED"));
+
+        assertThat(audit.accepted)
+                .extracting(ec.edu.unl.sec.audit.application.AuditEventCommand::outcome)
+                .containsExactly("REJECTED", "REJECTED");
+        assertThat(audit.rejected).isEmpty();
     }
 }
-

@@ -1,0 +1,159 @@
+---
+title: "Contrato de respuesta y protección de la API"
+lang: es
+---
+
+Actualización: 2026-11-08. Sustituye, para el estado actual, la conclusión anterior
+de que la API no disponía del sobre solicitado. Los informes del 6 de noviembre
+se conservan como fotografías históricas. Decisión: [ADR-0020](../adr/0020-universal-api-response.md).
+
+## Revisión del contrato de respuesta
+
+Todos los cuerpos JSON de negocio usan cinco campos, incluidos los nulos:
+
+```json
+{"success":true,"message":"Operación realizada correctamente.","data":{},"errors":null,"meta":{}}
+```
+
+| Caso | Comportamiento actualizado | Verificación |
+|---|---|---|
+| Éxito individual | DTO completo dentro de `data`; si el dominio tiene su propio `data`, se conserva como `data.data`. | Alta y consulta real de carrera, 201/200; Location y ETag permanecen. |
+| Validación | `success=false`, `data=null`, mensaje seguro y detalles estructurados en `errors`. | Solicitud incompleta: 400 y errores de campos, sin incluir valores rechazados. |
+| Autenticación/autorización | El mismo sobre también se aplica desde los filtros: 401/403; recurso ajeno se oculta con 404 donde corresponde. | Sin sesión, sin CSRF, sin capacidad y recurso de otra carrera. |
+| Colecciones | Colección dentro de `data`; las listas simples admiten `page/size`, tamaño predeterminado 100, máximo 100. | Prueba de límites y de selección de la página. |
+| Paginación existente | Campos `page`, `size`, `total`, `totalElements`, `totalPages` o `hasNext` en `meta`, según la página del recurso. | Carreras conserva `data.items` y mueve su paginación a `meta`. |
+| Logout | 204 con cero bytes; no se añade JSON. | Cadena HTTP real y prueba unitaria. |
+| 304, HEAD, descargas | Sin JSON añadido; los archivos conservan bytes y cabeceras. | Pruebas de transporte. |
+| Swagger/OpenAPI y health | Mantienen el formato de su protocolo o herramienta. | OpenAPI se lee sin sobre; el esquema describe el contrato de negocio. |
+
+La metadata anidada `meta.page` de evidencias conserva la forma de su paginación
+previa. No se inventan totales en los recursos que solo proporcionan `hasNext`.
+
+Ejemplo conceptual de página de carreras, no captura de una instancia:
+
+```json
+{"success":true,"message":"Operación realizada correctamente.","data":{"items":[]},"errors":null,"meta":{"page":0,"size":20,"totalElements":0}}
+```
+
+Los códigos HTTP siguen decidiendo el resultado: el sobre no convierte un error
+en 200. Los códigos de dominio y correlación permanecen dentro de `errors`.
+Los éxitos tienen `errors=null`; los errores tienen `data=null`.
+
+## Implementación y consumidores
+
+- [ApiResponseAdvice](../../backend/src/main/java/ec/edu/unl/sec/shared/api/ApiResponseAdvice.java)
+  aplica el transporte sin modificar las reglas de negocio.
+- [AccessProblemWriter](../../backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/AccessProblemWriter.java)
+  cubre errores anteriores a los controladores.
+- [Interceptor Angular](../../frontend/src/app/core/http/response-envelope.interceptor.ts)
+  adapta el sobre a los modelos existentes y conserva los errores y ETag.
+- [Adaptador de aceptación](../../scripts/api-response.mjs) actualiza los consumidores
+  Playwright/restauración. Los escenarios Postman y k6 usan las rutas JSON nuevas.
+- [OpenAPI común](../technical/contracts/openapi.yaml) define el sobre base;
+  los contratos de incremento lo referencian. Swagger se adapta en
+  [ApiEnvelopeDocumentation](../../backend/src/main/java/ec/edu/unl/sec/ApiEnvelopeDocumentation.java).
+
+**Compatibilidad:** es un cambio de transporte incompatible de la API v1
+pre-release. Los clientes de este repositorio se migran juntos. No desplegarlo
+sobre consumidores externos sin migrarlos o publicar una versión nueva.
+
+## Seguridad en tránsito y acceso
+
+El backend local se liga a `127.0.0.1`; HTTP se permite para los perfiles de
+desarrollo/pruebas. `prod` exige HTTPS, cookie segura, ausencia de datos demo y
+un keystore PKCS12. Definir en el entorno del proceso, sin versionar secretos:
+
+```text
+SPRING_PROFILES_ACTIVE=prod
+SEC_DB_URL=<base-postgresql-dedicada>
+SEC_DB_USER=<usuario-con-privilegios-limitados>
+SEC_DB_PASSWORD=<secreto-del-operador>
+SEC_AUTH_HMAC_SECRET=<secreto-estable-del-operador>
+SEC_TLS_KEY_STORE=file:<ruta-a-pkcs12>
+SEC_TLS_KEY_STORE_PASSWORD=<secreto-del-operador>
+SEC_HTTPS_PORT=8443
+SEC_FILE_ROOT=<directorio-persistente-privado>
+```
+
+Las peticiones que no son seguras se rechazan con 426 y sobre de error cuando
+se exige HTTPS. El cliente debe usar HTTPS desde la primera petición; un rechazo
+posterior no protege credenciales que ya haya enviado por HTTP.
+
+El [gateway Nginx](../../infrastructure/gateway/nginx.conf) requiere certificados
+en `/etc/nginx/tls/api.crt` y `api.key`, más `backend-ca.pem`. El certificado del
+backend debe corresponder a `sec-backend.local`, o se debe ajustar ese nombre
+conforme al certificado real. Verifica TLS hacia el backend; no utiliza
+`proxy_ssl_verify off`. El archivo es una configuración preparada, **no una
+evidencia de despliegue ejecutado**. El backend debe quedar accesible solo para
+el gateway en la topología de producción.
+
+### Autenticación local y OIDC
+
+Las sesiones opacas revocables continúan disponibles. Las operaciones de escritura
+con cookie exigen `X-CSRF-TOKEN`; no se reemplazan por JWT fabricados dentro del backend.
+El interceptor limita ese token a escrituras de la API local, sin enviarlo a URLs externas.
+Para un proveedor externo habilitar:
+
+```text
+SEC_OIDC_ENABLED=true
+SEC_OIDC_ISSUER_URI=https://<emisor-verificado>
+SEC_OIDC_JWK_SET_URI=https://<claves-publicas-del-emisor>
+SEC_OIDC_AUDIENCE=<audiencia-de-esta-api>
+```
+
+Spring Security verifica firma, emisor, audiencia, expiración y validez temporal.
+El `sub` debe ser un UUID local habilitado; roles/scope externos no conceden
+funciones o ámbitos. Deshabilitar la identidad o sus asignaciones invalida el
+acceso local aunque el token no haya expirado. Se rechazan tokens por URI; usar
+`Authorization: Bearer …`. Si se envía Authorization, no se utiliza una cookie
+como alternativa para rescatar una autenticación fallida.
+
+El cierre/revocación del JWT se realiza en su emisor; `DELETE /sessions` solo
+cierra sesiones locales. No se ha conectado un proveedor institucional real.
+
+### CORS, validación y limitación de frecuencia
+
+`SEC_CORS_ALLOWED_ORIGINS` contiene orígenes exactos separados por comas; vacío
+no habilita acceso cross-origin. Se rechaza `*` con credenciales. Los preflight
+permitidos y rechazados se prueban, con error JSON uniforme para rechazo.
+El proxy Angular permite desarrollo con el mismo origen.
+
+`SEC_REQUESTS_PER_MINUTE` vale 600 y `SEC_MAX_RATE_LIMIT_CLIENTS` vale 10.000 por
+defecto. El registro está acotado y caduca; el rechazo devuelve 429 y Retry-After.
+El backend usa la dirección remota, sin confiar en un X-Forwarded-For arbitrario.
+Tras un gateway ese límite es además agregado; Nginx aplica su propio límite por
+IP. Ajustar capacidad según una medición real; no se afirma resistencia a DoS
+distribuido por disponer de estos límites.
+
+Se conservan Bean Validation, revisión de campos extra y parámetros SQL enlazados.
+Los secretos en query y la paginación fuera de rango se rechazan sin reflejar
+valores. No se reemplaza la validación de dominio por un borrado genérico de texto:
+Angular debe seguir escapando lo que presenta y la persistencia debe seguir usando
+parámetros. Los cuerpos de salida son DTO/vistas y no incluyen hashes de contraseña
+ni material privado de sesión. Las respuestas de negocio no se almacenan en caché.
+
+## Rendimiento y semántica
+
+| Operación | Justificación y datos |
+|---|---|
+| `POST /api/v1/careers` | Crea un recurso: 201, Location y ETag. Valida capacidad, unidad activa y código único normalizado. |
+| `GET /api/v1/careers?page=0&size=20&q=...` | Consulta paginada en repositorio, filtrada por ámbito y búsqueda, con orden estable `code,id`. No ordena una página parcial como si fuera todo el catálogo. |
+| `PATCH /api/v1/careers/{id}` | Actualiza el recurso; requiere revisión fuerte en If-Match. 428 si falta y 412 si es obsoleta. |
+
+El versionado `/api/v1` continúa explícito. Los DTO contienen los datos necesarios
+para la operación; no se introducen llamadas adicionales para reconstruir el
+envoltorio en el navegador. Las listas simples se acotan en la respuesta, aunque
+algunos catálogos aún se materializan antes de ese corte. Eso no sustituye una
+paginación SQL cuando su volumen crezca ni una prueba de rendimiento.
+
+## Verificación y límites
+
+Consultar [resultados ejecutados](../../tests/acceptance/results/api-response-hardening.md).
+Las pruebas de integración arrancan un servidor real con SQLite aislado. No
+certifican migraciones PostgreSQL, certificados de producción, conectividad de
+un proveedor OIDC ni un gateway desplegado.
+
+Fundamento técnico: semántica de [HTTP, RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html),
+contratos [OpenAPI 3.1](https://spec.openapis.org/oas/v3.1.0.html),
+[Resource Server JWT de Spring Security](https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/jwt.html)
+y [limitación de solicitudes Nginx](https://nginx.org/en/docs/http/ngx_http_limit_req_module.html).

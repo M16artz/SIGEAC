@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>quickstart – SEC-UNL — Documentación</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d0cfe7a3482e0d49a74229a8f3b76718.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      SEC-UNL — Documentación
+      </li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">SEC-UNL — Documentación</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SIGEAC · Documentación técnica SEC-UNL</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Guía técnica y auditoría</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Auditoría y guía de lectura</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/context.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Contexto, actores y alcance real</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/processes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Procesos y flujo documental de extremo a extremo</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/architecture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Arquitectura C4 y código</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/backend.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Backend: auditoría estática de la implementación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/api.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">API vigente y diferencias del contrato</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/api/response-contract.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Contrato de respuesta y protección de la API</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/activities/acd5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ACD5 — Demostración técnica y estándares web</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pruebas: inventario estático, comandos y límites</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/operation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instalación, ejecución y operación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/evolution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Evolución, SDD y decisiones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/inventory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Inventario documental y decisiones de conservación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/traceability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Auditoría de trazabilidad</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/compliance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matriz de cumplimiento y evaluación preliminar</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/validation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Registro de validación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Informe final de consolidación documental</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Requisitos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../feature-map.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mapa de funcionalidades — SIGEAC</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/requirements/spec.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Especificación de funcionalidad: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/requirements/process-flows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Catálogo canónico de procesos P01–P16</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/requirements/domain-rules.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Actores, decisiones y reglas verificables</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Planificación</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/planning/plan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Plan de implementación: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/planning/next-steps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Siguientes pasos de implementación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/planning/tasks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tareas: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../specs/005-complete-evaluation-workflows/plan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Implementation Plan: Flujos completos de evaluación de carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../specs/005-complete-evaluation-workflows/tasks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tasks: Flujos completos de evaluación de carreras</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Arquitectura</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/architecture/research.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Investigación y decisiones técnicas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/architecture/data-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelo de datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Decisiones de arquitectura</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0001-modular-monolith.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0001: Monolito modular por capacidades</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0002-file-storage-port.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0002: Puerto para almacenamiento externo de archivos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0015-configurable-evaluation-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0015: Gestión configurable de múltiples modelos de evaluación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0016-evaluation-strategies-import-adapters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0016: Estrategias de valoración y adaptadores de importación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0017-source-coverage-and-process-governance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0017: Cobertura documental, gobierno del proceso y cierres</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0018-catalog-contract-migration-compatibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0018 — Compatibilidad del catálogo y secuencia de migraciones</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Diagramas C4</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/architecture/complete-workflows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Arquitectura de P01–P16</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Documentación técnica</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/technical/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Documentación técnica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/technical/quickstart.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guía de validación rápida</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/technical/migration-p01-p16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Transición de contratos y datos P01–P16</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Pruebas y calidad</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/traceability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matriz de trazabilidad P01–P16</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/process-acceptance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matriz de aceptación por proceso</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/checklists/requirements.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista de calidad de la especificación: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/checklists/governance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista de calidad de gobierno y seguridad: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Manual de usuario</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Manual de usuario</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d1-careers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Carreras y unidades académicas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d2-d3-models-planning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D2–D3 — Modelos y planificación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d4-d5-evidence-review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D4–D5 — Evidencias, revisión y subsanación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d6-documentary-progress.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Seguimiento documental</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-manual-evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Valoración académica manual</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-quantitative-evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Variables y cálculo cuantitativo</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-academic-reconciliation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Discrepancias y conciliación académica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-d8-reports-archive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D7–D8 — Informes, mejora y archivo</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#quickstart-i3-recopilación-y-remisión-de-evidencias" id="toc-quickstart-i3-recopilación-y-remisión-de-evidencias" class="nav-link active" data-scroll-target="#quickstart-i3-recopilación-y-remisión-de-evidencias">Quickstart: I3 — Recopilación y remisión de evidencias</a>
+  <ul class="collapse">
+  <li><a href="#purpose" id="toc-purpose" class="nav-link" data-scroll-target="#purpose">Purpose</a></li>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a></li>
+  <li><a href="#validate-the-contract" id="toc-validate-the-contract" class="nav-link" data-scroll-target="#validate-the-contract">1. Validate the contract</a></li>
+  <li><a href="#run-clean-migration-and-automated-suites" id="toc-run-clean-migration-and-automated-suites" class="nav-link" data-scroll-target="#run-clean-migration-and-automated-suites">2. Run clean migration and automated suites</a></li>
+  <li><a href="#start-the-reference-environment-without-docker" id="toc-start-the-reference-environment-without-docker" class="nav-link" data-scroll-target="#start-the-reference-environment-without-docker">3. Start the reference environment without Docker</a></li>
+  <li><a href="#prepare-synthetic-acceptance-data" id="toc-prepare-synthetic-acceptance-data" class="nav-link" data-scroll-target="#prepare-synthetic-acceptance-data">4. Prepare synthetic acceptance data</a></li>
+  <li><a href="#primary-v1-journey" id="toc-primary-v1-journey" class="nav-link" data-scroll-target="#primary-v1-journey">5. Primary v1 journey</a></li>
+  <li><a href="#immutability-and-authorized-download" id="toc-immutability-and-authorized-download" class="nav-link" data-scroll-target="#immutability-and-authorized-download">6. Immutability and authorized download</a></li>
+  <li><a href="#successor-v2-and-complete-history" id="toc-successor-v2-and-complete-history" class="nav-link" data-scroll-target="#successor-v2-and-complete-history">7. Successor v2 and complete history</a></li>
+  <li><a href="#boundary-and-concurrency-matrix" id="toc-boundary-and-concurrency-matrix" class="nav-link" data-scroll-target="#boundary-and-concurrency-matrix">8. Boundary and concurrency matrix</a></li>
+  <li><a href="#recovery-matrix" id="toc-recovery-matrix" class="nav-link" data-scroll-target="#recovery-matrix">9. Recovery matrix</a></li>
+  <li><a href="#backuprestore-and-final-evidence" id="toc-backuprestore-and-final-evidence" class="nav-link" data-scroll-target="#backuprestore-and-final-evidence">10. Backup/restore and final evidence</a></li>
+  <li><a href="#usability-outcome-sc-007" id="toc-usability-outcome-sc-007" class="nav-link" data-scroll-target="#usability-outcome-sc-007">11. Usability outcome SC-007</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="quickstart-i3-recopilación-y-remisión-de-evidencias" class="level1">
+<h1>Quickstart: I3 — Recopilación y remisión de evidencias</h1>
+<section id="purpose" class="level2">
+<h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
+<p>Validate the complete synthetic journey required by SC-001: submit v1 with a file, prove that v1 cannot change, create and submit v2, and recover the complete history. The same run also checks file validation, authorization, concurrency, recovery and audit without invoking document review, academic evaluation, progress or process closing.</p>
+</section>
+<section id="prerequisites" class="level2">
+<h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Java 25, Maven 3.9, Node supported by <code>frontend/package.json</code>, PostgreSQL 18, PowerShell, the pinned Playwright browser dependencies and the documented k6 version.</li>
+<li>I0 acceptance data: synthetic responsible user with a current assignment and a second out-of-scope user.</li>
+<li>I1/I2 acceptance data: one published synthetic model, one active synthetic process and at least two indicator snapshots assigned to the responsible user.</li>
+<li>Writable local file root outside PostgreSQL, configured with <code>SEC_FILE_ROOT</code>.</li>
+<li>Synthetic fixtures under <code>tests/fixtures/pilot/evidence/</code>; no institutional files, identities, URIs or secrets.</li>
+<li>Once implemented, the migration order through <code>V011__evidence_immutability.sql</code> is available from a clean database. V007 contains process preparation/suspension and V008 the career catalog; V009/V010 are reserved for models/process governance. Confirm V011 availability before creating the evidence migration; never introduce an unapplied lower version after the installed version.</li>
+</ul>
+<p>The integrated scenario must stop if I0–I2 are not operational. Domain and storage test suites may run earlier using explicit doubles, but I3 must not invent replacement identity/process rules.</p>
+<p>The <code>sqlite-test</code> profile provides a compatible schema and synthetic users, process and indicator assignments for the fast I3 suite. Follow <a href="../../docs/testing/sqlite.html">the SQLite testing guide</a> to run it. SQLite is not an acceptance database: storage, migration, trigger-based immutability and concurrency evidence in this quickstart must still be produced with disposable PostgreSQL.</p>
+</section>
+<section id="validate-the-contract" class="level2">
+<h2 class="anchored" data-anchor-id="validate-the-contract">1. Validate the contract</h2>
+<p>From the repository root:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>frontend\node_modules\<span class="op">.</span><span class="fu">bin</span>\redocly<span class="op">.</span><span class="fu">cmd</span> lint specs\<span class="dv">004</span><span class="op">-</span>submit-evidence\contracts\openapi<span class="op">.</span><span class="fu">yaml</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>postman<span class="op">.</span><span class="fu">cmd</span> spec lint specs\<span class="dv">004</span><span class="op">-</span>submit-evidence\contracts\openapi<span class="op">.</span><span class="fu">yaml</span> <span class="op">--</span>issueType syntax <span class="op">--</span>no-report-events</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Expected: both commands report a valid OpenAPI 3.1 document with no syntax issues. Use <code>postman.cmd</code> on Windows because the PowerShell wrapper can be blocked by execution policy. Postman may warn that its user-level log directory is unavailable in a restricted sandbox; this does not invalidate a successful lint result.</p>
+<p>Before merging implementation, reconcile the approved operations and schemas into <code>docs/technical/contracts/openapi.yaml</code> and run:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>frontend\node_modules\<span class="op">.</span><span class="fu">bin</span>\redocly<span class="op">.</span><span class="fu">cmd</span> lint docs\technical\contracts\openapi<span class="op">.</span><span class="fu">yaml</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>node scripts\validate-contracts<span class="op">.</span><span class="fu">mjs</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="run-clean-migration-and-automated-suites" class="level2">
+<h2 class="anchored" data-anchor-id="run-clean-migration-and-automated-suites">2. Run clean migration and automated suites</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Set-Location</span> backend</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="op">.</span>\mvnw<span class="op">.</span><span class="fu">cmd</span> verify</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Set-Location</span> <span class="op">..</span>\frontend</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>npm test</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>npm run lint</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>npm run build</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>npx playwright test <span class="op">..</span>\tests\acceptance</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">Set-Location</span> <span class="op">..</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>k6 run tests\performance\evidence-upload<span class="op">.</span><span class="fu">js</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Expected:</p>
+<ul>
+<li>Flyway migrates a clean PostgreSQL database and Hibernate validation succeeds.</li>
+<li>Domain tests prove draft/submitted invariants, succession and concurrency.</li>
+<li>Storage tests cover 0 bytes according to policy, exactly 26 214 400 bytes, 26 214 401 bytes, MIME mismatch, SHA-256 and every interruption window.</li>
+<li>Contract/security tests cover ETag, <code>If-Match</code>, RFC 9457, hidden out-of-scope IDs and safe audit fields.</li>
+<li>Angular tests cover editor state, upload progress, stale ETag, immutable detail, successor action, keyboard focus and error correlation.</li>
+<li>Playwright executes the synthetic browser journeys and k6 produces the documented p95 measurements.</li>
+<li>Existing I0–I2 regression tests remain green.</li>
+</ul>
+</section>
+<section id="start-the-reference-environment-without-docker" class="level2">
+<h2 class="anchored" data-anchor-id="start-the-reference-environment-without-docker">3. Start the reference environment without Docker</h2>
+<p>Use a local PostgreSQL instance and two terminals:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">$env</span><span class="op">:</span><span class="va">SEC_DB_URL</span><span class="op">=</span><span class="st">'jdbc:postgresql://localhost:5432/sec_unl'</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="va">$env</span><span class="op">:</span><span class="va">SEC_DB_USER</span><span class="op">=</span><span class="st">'sec_app'</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="va">$env</span><span class="op">:</span><span class="va">SEC_DB_PASSWORD</span><span class="op">=</span><span class="st">'&lt;local-development-secret&gt;'</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="va">$env</span><span class="op">:</span><span class="va">SEC_FILE_ROOT</span><span class="op">=(</span><span class="fu">Resolve-Path</span> <span class="st">'.\var\files'</span><span class="op">).</span><span class="fu">Path</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="va">$env</span><span class="op">:</span><span class="va">SEC_DEMO_DATA</span><span class="op">=</span><span class="st">'true'</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">Set-Location</span> backend</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="op">.</span>\mvnw<span class="op">.</span><span class="fu">cmd</span> spring-boot<span class="op">:</span>run</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Set-Location</span> frontend</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>npm <span class="fu">start</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Do not commit the local password, generated files or runtime directories. Docker may be used optionally but is not the only validation path.</p>
+</section>
+<section id="prepare-synthetic-acceptance-data" class="level2">
+<h2 class="anchored" data-anchor-id="prepare-synthetic-acceptance-data">4. Prepare synthetic acceptance data</h2>
+<p>Load only the repository fixture manifest. It must identify:</p>
+<ul>
+<li><code>responsible-in-scope</code> with an active responsibility over <code>indicator-a</code> and <code>indicator-b</code>;</li>
+<li><code>responsible-out-of-scope</code> for negative download/direct-ID tests;</li>
+<li>active <code>process-i3</code> fixed to the published model version containing those indicators;</li>
+<li>a small permitted synthetic file with known SHA-256;</li>
+<li>an exact 25 MiB synthetic file and a 25 MiB + 1 byte synthetic file;</li>
+<li>a misleading-extension/type-mismatch file;</li>
+<li>a safe example-domain external URI.</li>
+</ul>
+<p>Run the repository data-protection check before using the fixtures:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">.</span>\scripts\verify-synthetic-data<span class="op">.</span><span class="fu">ps1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Expected: no real institutional data or secrets are detected.</p>
+</section>
+<section id="primary-v1-journey" class="level2">
+<h2 class="anchored" data-anchor-id="primary-v1-journey">5. Primary v1 journey</h2>
+<p>Use the Angular UI or the equivalent operations in <a href="./contracts/openapi.yaml">contracts/openapi.yaml</a>:</p>
+<ol type="1">
+<li>Sign in as <code>responsible-in-scope</code>.</li>
+<li>Create an evidence for <code>process-i3</code> with title, description, synthetic provenance, inclusive covered dates and both assigned indicators.</li>
+<li>Capture the returned v1 draft ID and strong ETag.</li>
+<li>Upload the permitted synthetic file using that ETag.</li>
+<li>Verify the response records distinct declared/detected types, exact byte size, lowercase SHA-256 and <code>AVAILABLE</code>, without exposing a storage key.</li>
+<li>Add a described external reference and confirm files/references are displayed separately.</li>
+<li>Submit v1 using the latest ETag.</li>
+</ol>
+<p>Expected:</p>
+<ul>
+<li>v1 returns <code>SUBMITTED</code>, revision 1, null predecessor, author and submission time.</li>
+<li>no ETag for further editing is offered.</li>
+<li>the audit query contains one correlated successful submission event without file bytes, storage keys or full sensitive URI data.</li>
+<li>no document-review or academic outcome is created.</li>
+</ul>
+<p>External references are validated structurally only. The server must not contact, resolve or probe their destinations during this scenario.</p>
+</section>
+<section id="immutability-and-authorized-download" class="level2">
+<h2 class="anchored" data-anchor-id="immutability-and-authorized-download">6. Immutability and authorized download</h2>
+<ol type="1">
+<li>Attempt <code>PATCH</code>, file upload, file removal and external-reference mutation against submitted v1.</li>
+<li>Download the v1 file as the in-scope responsible user and calculate SHA-256 locally.</li>
+<li>Repeat the direct download using the out-of-scope identity and a known v1/file ID.</li>
+</ol>
+<p>Expected:</p>
+<ul>
+<li>every mutation of v1 fails with a stable Problem Detail and v1 remains byte-for-byte/field-for-field unchanged;</li>
+<li>the authorized download hash equals the stored snapshot;</li>
+<li>the out-of-scope request returns the same not-found shape as an unknown ID, with no bytes or protected metadata;</li>
+<li>the denied download is safely audited.</li>
+</ul>
+</section>
+<section id="successor-v2-and-complete-history" class="level2">
+<h2 class="anchored" data-anchor-id="successor-v2-and-complete-history">7. Successor v2 and complete history</h2>
+<ol type="1">
+<li>Invoke “Create successor” on submitted v1.</li>
+<li>Verify v2 is a <code>DRAFT</code>, revision 2, <code>predecessorId = v1.id</code>, and initially copies the exact v1 content/sources.</li>
+<li>Edit a descriptive field and replace or add a synthetic source using the returned ETag.</li>
+<li>Submit v2.</li>
+<li>Open the evidence history.</li>
+</ol>
+<p>Expected:</p>
+<ul>
+<li>v2 becomes immutable and points directly to v1;</li>
+<li>v1 remains identical to the snapshot captured in step 5;</li>
+<li>history contains exactly v1 and v2 in unambiguous order with their own authors, dates, metadata, indicators, files/references and hashes;</li>
+<li>creating a second direct successor from v1 returns <code>409 SUCCESSOR_ALREADY_EXISTS</code>.</li>
+</ul>
+</section>
+<section id="boundary-and-concurrency-matrix" class="level2">
+<h2 class="anchored" data-anchor-id="boundary-and-concurrency-matrix">8. Boundary and concurrency matrix</h2>
+<p>Execute the automated/API cases below:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Case</th>
+<th>Expected result</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Exactly 26 214 400 bytes, permitted detected type</td>
+<td>Accepted within 15 s p95 in reference environment</td>
+</tr>
+<tr class="even">
+<td>26 214 401 bytes</td>
+<td><code>413 FILE_TOO_LARGE</code>; no usable association</td>
+</tr>
+<tr class="odd">
+<td>Detected type forbidden</td>
+<td><code>422 FILE_TYPE_NOT_ALLOWED</code></td>
+</tr>
+<tr class="even">
+<td>Declared/detected mismatch forbidden by policy</td>
+<td><code>422 FILE_TYPE_MISMATCH</code></td>
+</tr>
+<tr class="odd">
+<td>Zero-byte file</td>
+<td>Result follows the active synthetic policy, not a hard-coded invariant</td>
+</tr>
+<tr class="even">
+<td>Duplicate SHA-256</td>
+<td>Separate identities/associations; no cross-scope authorization</td>
+</tr>
+<tr class="odd">
+<td>Two <code>PATCH</code> requests with the same ETag</td>
+<td>One succeeds; one returns <code>412 STALE_DRAFT</code></td>
+</tr>
+<tr class="even">
+<td>Mutation without <code>If-Match</code></td>
+<td><code>428 PRECONDITION_REQUIRED</code></td>
+</tr>
+<tr class="odd">
+<td>Two submissions of the same draft</td>
+<td>At most one submitted revision</td>
+</tr>
+<tr class="even">
+<td>Two successor requests for the same predecessor</td>
+<td>At most one successor</td>
+</tr>
+<tr class="odd">
+<td>Indicator outside model/process/scope</td>
+<td>Safe rejection; no association and no information leak</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="recovery-matrix" class="level2">
+<h2 class="anchored" data-anchor-id="recovery-matrix">9. Recovery matrix</h2>
+<p>Run fault-injection tests at each boundary and then the reconciler:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Injected interruption</th>
+<th>Required observable result</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>During staging</td>
+<td>No usable file; expired partial remains safely identifiable</td>
+</tr>
+<tr class="even">
+<td>After staging before DB record</td>
+<td>Orphan staging object discovered after grace period</td>
+</tr>
+<tr class="odd">
+<td>After DB <code>STAGED</code> before promotion</td>
+<td>Promotion retried idempotently</td>
+</tr>
+<tr class="even">
+<td>After promotion before DB <code>AVAILABLE</code></td>
+<td>Final object verified and reconciled; never prematurely visible</td>
+</tr>
+<tr class="odd">
+<td>DB says <code>AVAILABLE</code>, object absent</td>
+<td>State becomes <code>MISSING</code>; submission/download blocked</td>
+</tr>
+<tr class="even">
+<td>Final bytes do not match SHA-256</td>
+<td>State becomes <code>QUARANTINED</code>; no bytes delivered</td>
+</tr>
+<tr class="odd">
+<td>Submission audit write fails</td>
+<td>No <code>SUBMITTED</code> version is committed</td>
+</tr>
+</tbody>
+</table>
+<p>Expected: SC-003 holds in 100% of simulated interruptions. Every failure has a safe correlation and audit event, and no recovery path deletes a submitted historical object.</p>
+</section>
+<section id="backuprestore-and-final-evidence" class="level2">
+<h2 class="anchored" data-anchor-id="backuprestore-and-final-evidence">10. Backup/restore and final evidence</h2>
+<p>Restore a clean database backup together with the matching file-root backup, then run reconciliation and repeat one authorized download from v1 and v2. Record:</p>
+<ul>
+<li>automated test reports;</li>
+<li>contract lint output (including Postman CLI);</li>
+<li>migration-from-clean result;</li>
+<li>recovery matrix result;</li>
+<li>p95 upload measurement;</li>
+<li>synthetic-data scan;</li>
+<li>screenshots or logs for v1 immutability and v2 history;</li>
+<li>updated traceability links for FR-016–FR-020, RNF-004/005/010/011/019 and SC-001–SC-008.</li>
+</ul>
+<p>The feature is not accepted while a critical requirement, constitutional gate, real-data finding or unreconciled false file reference remains.</p>
+</section>
+<section id="usability-outcome-sc-007" class="level2">
+<h2 class="anchored" data-anchor-id="usability-outcome-sc-007">11. Usability outcome SC-007</h2>
+<p>Run the same synthetic create → attach → submit journey with 20 representative responsible-user participants who have not rehearsed the task. Record participant code, start/end time, first-attempt completion, help requested and result without collecting real institutional evidence.</p>
+<p>Expected: at least 19 of 20 participants finish successfully on the first attempt in under five minutes using only the interface and user guidance. Store the anonymized protocol and aggregate result in <code>tests/acceptance/results/evidence-usability.md</code>.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

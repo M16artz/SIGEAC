@@ -8,7 +8,6 @@ ec\edu\unl\sec\academicevaluation\api\AcademicEvaluationControllerTest.class
 ec\edu\unl\sec\improvement\application\PostClosureImprovementTest.class
 ec\edu\unl\sec\evidence\api\EvidenceSourceCoverageControllerTest.class
 ec\edu\unl\sec\documentreview\application\DocumentReviewServiceTest.class
-ec\edu\unl\sec\support\D6DocumentaryMvpData.class
 ec\edu\unl\sec\filestorage\infrastructure\ContentInspectionServiceTest$RepeatedStream.class
 ec\edu\unl\sec\academicevaluation\domain\IndicatorValuationRuleTest.class
 ec\edu\unl\sec\identityaccess\application\TeamMembershipPolicyTest.class
@@ -38,7 +37,6 @@ ec\edu\unl\sec\evidence\infrastructure\SubmittedEvidenceImmutabilityTest.class
 ec\edu\unl\sec\filestorage\infrastructure\LocalFileStorageAdapterTest$3.class
 ec\edu\unl\sec\evaluationmodel\support\ConfiguredModelFixtures.class
 ec\edu\unl\sec\documentreview\api\DocumentReviewControllerTest.class
-ec\edu\unl\sec\support\D7ReportWorkflowData.class
 ec\edu\unl\sec\migration\CompleteWorkflowMigrationTest.class
 ec\edu\unl\sec\evidence\infrastructure\EvidenceSourcePersistenceTest.class
 ec\edu\unl\sec\documentreview\infrastructure\DocumentReviewPersistenceTest$Fixture.class
@@ -70,8 +68,6 @@ ec\edu\unl\sec\filestorage\infrastructure\FilePersistenceTest.class
 ec\edu\unl\sec\filestorage\infrastructure\ContentInspectionServiceTest$1.class
 ec\edu\unl\sec\filestorage\infrastructure\RecoveryClaimContentionTest.class
 ec\edu\unl\sec\documentreview\infrastructure\DocumentReviewPersistenceTest.class
-ec\edu\unl\sec\support\D7ManualEvaluationData.class
-ec\edu\unl\sec\support\D9ArchiveData.class
 ec\edu\unl\sec\evidence\application\StructuredEvidenceServiceTest.class
 ec\edu\unl\sec\governance\api\ReportControllerTest.class
 ec\edu\unl\sec\reporting\domain\DocumentaryProgressCalculatorTest.class
@@ -79,6 +75,7 @@ ec\edu\unl\sec\filestorage\infrastructure\JpaFileValidationPolicyRepositoryTest.
 ec\edu\unl\sec\identityaccess\application\CompleteWorkflowAuthorizationTest.class
 ec\edu\unl\sec\improvement\infrastructure\ImprovementPersistenceTest.class
 ec\edu\unl\sec\improvement\api\ImprovementControllerTest.class
+ec\edu\unl\sec\archive\infrastructure\IntegralClosureBytesTest.class
 ec\edu\unl\sec\evidence\infrastructure\EvidenceSourcePersistenceTest$Fixture.class
 ec\edu\unl\sec\archive\application\ArchiveServiceTest.class
 ec\edu\unl\sec\evidence\application\ApplicabilityDecisionServiceTest.class
@@ -91,10 +88,8 @@ ec\edu\unl\sec\documentreview\application\CoverageReviewProjectionTest.class
 ec\edu\unl\sec\academicevaluation\application\AcademicCalculationServiceTest.class
 ec\edu\unl\sec\archive\domain\IntegralClosurePolicyTest.class
 ec\edu\unl\sec\reporting\application\DocumentarySnapshotServiceTest.class
-ec\edu\unl\sec\support\D8ImprovementData.class
 ec\edu\unl\sec\reporting\api\DocumentarySnapshotControllerTest.class
 ec\edu\unl\sec\selfassessment\application\TeamPlanningIntegrityTest.class
-ec\edu\unl\sec\support\D7ReconciliationData.class
 ec\edu\unl\sec\selfassessment\api\ProcessGovernanceControllerTest.class
 ec\edu\unl\sec\academicevaluation\application\AcademicEvaluationServiceTest.class
 ec\edu\unl\sec\evidence\application\SubmitEvidenceServiceTest.class

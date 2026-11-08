@@ -64,7 +64,7 @@ class EvidenceSubmissionControllerTest {
                         new EvidenceSourceCoverageController(mock(EvidenceSourceCoverageService.class),
                                 mock(ApplicabilityDecisionService.class), submission, sources),
                         new EvidenceDownloadController(downloads))
-                .setControllerAdvice(new ApiProblemHandler(), new EvidenceProblemHandler())
+                .setControllerAdvice(new ec.edu.unl.sec.shared.api.ApiResponseAdvice(new com.fasterxml.jackson.databind.ObjectMapper().findAndRegisterModules()), new ApiProblemHandler(), new EvidenceProblemHandler())
                 .addFilters(new CorrelationFilter(), new SessionAuthenticationFilter(sessions,
                         new AccessProblemWriter(new ObjectMapper().findAndRegisterModules()))).build();
     }
@@ -78,8 +78,8 @@ class EvidenceSubmissionControllerTest {
                         .header("X-CSRF-TOKEN", CSRF).header("If-Match", "\"0\""))
                 .andExpect(status().isOk())
                 .andExpect(header().doesNotExist("ETag"))
-                .andExpect(jsonPath("$.status").value("SUBMITTED"))
-                .andExpect(jsonPath("$.createdBy").value(version(EvidenceVersionStatus.SUBMITTED, 1).authorId().toString()));
+                .andExpect(jsonPath("$.data.status").value("SUBMITTED"))
+                .andExpect(jsonPath("$.data.createdBy").value(version(EvidenceVersionStatus.SUBMITTED, 1).authorId().toString()));
     }
 
     @Test
@@ -93,7 +93,7 @@ class EvidenceSubmissionControllerTest {
         mvc.perform(post("/evidence-versions/" + VERSION + "/submit").cookie(session())
                         .header("X-CSRF-TOKEN", CSRF))
                 .andExpect(status().is(428))
-                .andExpect(jsonPath("$.code").value("PRECONDITION_REQUIRED"));
+                .andExpect(jsonPath("$.errors.code").value("PRECONDITION_REQUIRED"));
     }
 
     @Test
@@ -122,7 +122,7 @@ class EvidenceSubmissionControllerTest {
 
         mvc.perform(get("/evidence-versions/" + VERSION + "/files/" + FILE + "/content").cookie(session()))
                 .andExpect(status().isConflict())
-                .andExpect(jsonPath("$.code").value("FILE_INTEGRITY_FAILED"))
+                .andExpect(jsonPath("$.errors.code").value("FILE_INTEGRITY_FAILED"))
                 .andExpect(content().string(org.hamcrest.Matchers.not(
                         org.hamcrest.Matchers.containsString("synthetic evidence"))));
     }

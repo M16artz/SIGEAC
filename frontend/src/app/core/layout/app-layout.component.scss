@@ -1,0 +1,127 @@
+/* ========================================
+   BOTONES DE LOS MODULOS
+======================================== */
+
+.module-item {
+  position: relative;
+  width: 72px;
+  height: 56px;
+  flex-shrink: 0;
+  isolation: isolate;
+
+  /* Iconos no seleccionados: blancos */
+  color: rgba(255, 255, 255, 0.9);
+
+  transition: color 0.25s ease;
+}
+
+/* Modulo seleccionado: azul oscuro */
+.module-item.module-item--active {
+  color: #084878;
+}
+
+/* Efecto al pasar el mouse por otro modulo */
+.module-item:not(.module-item--active):hover {
+  color: #ffffff;
+}
+
+/* ========================================
+   PESTAÑA BLANCA
+   NO MODIFICAR: DISEÑO APROBADO
+======================================== */
+
+.module-tab {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: -1;
+
+  width: 76px;
+  height: 100px;
+
+  transform: translateY(-50%);
+  pointer-events: none;
+
+  filter: drop-shadow(
+    2px 5px 8px rgba(8, 72, 120, 0.13)
+  );
+}
+
+/* ========================================
+   ICONOS DE LOS MODULOS
+======================================== */
+
+/* Todos los iconos */
+.module-item > svg:not(.module-tab) {
+  position: relative;
+  z-index: 2;
+
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease,
+    stroke-width 0.25s ease;
+}
+
+/* Icono seleccionado */
+.module-item--active > svg:not(.module-tab) {
+  color: #084878;
+  stroke-width: 2.5;
+  transform: scale(1.12);
+}
+
+/* Iconos no seleccionados */
+.module-item:not(.module-item--active) > svg:not(.module-tab) {
+  color: rgba(255, 255, 255, 0.9);
+  stroke-width: 1.7;
+  transform: scale(1);
+}
+
+/* ========================================
+   SUBMENU ACTIVO
+======================================== */
+
+.submenu-link--active {
+  background: rgba(8, 72, 120, 0.095);
+  box-shadow: inset 3px 0 0 #b7353e;
+  color: #084878;
+  font-weight: 650;
+}
+
+.submenu-link--active svg {
+  color: #084878;
+}
+
+/* ========================================
+   PERFIL INFERIOR
+======================================== */
+
+.sidebar-profile {
+  background: #ffffff;
+  box-shadow: inset 0 1px 0 rgba(8, 72, 120, 0.05);
+}
+
+/* ========================================
+   PANTALLAS DE POCA ALTURA
+======================================== */
+
+/* ========================================
+   SEPARACION DEL CONTENIDO Y SIDEBAR
+======================================== */
+
+@media (min-width: 1024px) {
+  .main-panel--with-sidebar {
+    padding-left: 365px !important;
+    box-sizing: border-box;
+  }
+
+  .main-panel {
+    width: 100% !important;
+    min-width: 0;
+  }
+}
+/* Esquinas externas rectas, tambien en escritorio. */
+.app-sidebar,
+.module-rail,
+.main-panel {
+  border-radius: 0;
+}

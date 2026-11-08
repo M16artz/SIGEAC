@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+/* ============================================================
+   SIGEAC · Tokens de marca (Tailwind CSS v4)
+   Generan utilidades (bg-institutional-blue, text-institutional-red, ...)
+   y variables CSS (var(--color-institutional-blue), ...).
+   ============================================================ */
+@theme static {
+  --color-institutional-blue: #084878;
+  --color-institutional-red: #b7353e;
+  --color-institutional-white: #ffffff;
+  --color-institutional-bg: #eaeaf1;
+  --color-institutional-teal: #087e78;
+  --color-status-danger: #ef392e;
+  --color-status-info: #377cf5;
+  --color-status-success: #2ca653;
+  --color-status-warning: #f4b12d;
+  --color-institutional-blue-soft: #eaf2fa;
+
+  /* Akzidenz-Grotesk es una fuente comercial. Se declara primero para usar
+     una copia autorizada si está instalada; si no, cae en Inter ExtraBold. */
+  --font-display: "Akzidenz-Grotesk", "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-accent: "Comfortaa", "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}

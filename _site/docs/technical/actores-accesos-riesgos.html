@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>actores-accesos-riesgos – SEC-UNL — Documentación</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d0cfe7a3482e0d49a74229a8f3b76718.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      SEC-UNL — Documentación
+      </li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">SEC-UNL — Documentación</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SIGEAC · Documentación técnica SEC-UNL</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Guía técnica y auditoría</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Auditoría y guía de lectura</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/context.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Contexto, actores y alcance real</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/processes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Procesos y flujo documental de extremo a extremo</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/architecture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Arquitectura C4 y código</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/backend.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Backend: auditoría estática de la implementación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/api.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">API vigente y diferencias del contrato</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/api/response-contract.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Contrato de respuesta y protección de la API</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/activities/acd5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ACD5 — Demostración técnica y estándares web</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pruebas: inventario estático, comandos y límites</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/operation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instalación, ejecución y operación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/evolution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Evolución, SDD y decisiones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/inventory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Inventario documental y decisiones de conservación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/traceability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Auditoría de trazabilidad</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/compliance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matriz de cumplimiento y evaluación preliminar</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/validation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Registro de validación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Informe final de consolidación documental</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Requisitos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../feature-map.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mapa de funcionalidades — SIGEAC</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/requirements/spec.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Especificación de funcionalidad: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/requirements/process-flows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Catálogo canónico de procesos P01–P16</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/requirements/domain-rules.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Actores, decisiones y reglas verificables</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Planificación</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/planning/plan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Plan de implementación: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/planning/next-steps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Siguientes pasos de implementación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/planning/tasks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tareas: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../specs/005-complete-evaluation-workflows/plan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Implementation Plan: Flujos completos de evaluación de carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../specs/005-complete-evaluation-workflows/tasks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tasks: Flujos completos de evaluación de carreras</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Arquitectura</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/architecture/research.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Investigación y decisiones técnicas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/architecture/data-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelo de datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Decisiones de arquitectura</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0001-modular-monolith.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0001: Monolito modular por capacidades</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0002-file-storage-port.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0002: Puerto para almacenamiento externo de archivos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0015-configurable-evaluation-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0015: Gestión configurable de múltiples modelos de evaluación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0016-evaluation-strategies-import-adapters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0016: Estrategias de valoración y adaptadores de importación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0017-source-coverage-and-process-governance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0017: Cobertura documental, gobierno del proceso y cierres</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0018-catalog-contract-migration-compatibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0018 — Compatibilidad del catálogo y secuencia de migraciones</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Diagramas C4</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/architecture/complete-workflows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Arquitectura de P01–P16</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Documentación técnica</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/technical/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Documentación técnica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/technical/quickstart.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guía de validación rápida</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/technical/migration-p01-p16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Transición de contratos y datos P01–P16</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Pruebas y calidad</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/traceability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matriz de trazabilidad P01–P16</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/process-acceptance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matriz de aceptación por proceso</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/checklists/requirements.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista de calidad de la especificación: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/checklists/governance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista de calidad de gobierno y seguridad: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Manual de usuario</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Manual de usuario</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d1-careers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Carreras y unidades académicas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d2-d3-models-planning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D2–D3 — Modelos y planificación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d4-d5-evidence-review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D4–D5 — Evidencias, revisión y subsanación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d6-documentary-progress.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Seguimiento documental</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-manual-evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Valoración académica manual</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-quantitative-evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Variables y cálculo cuantitativo</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-academic-reconciliation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Discrepancias y conciliación académica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-d8-reports-archive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D7–D8 — Informes, mejora y archivo</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#sigeac-actores-accesos-restricciones-y-posibles-fallos" id="toc-sigeac-actores-accesos-restricciones-y-posibles-fallos" class="nav-link active" data-scroll-target="#sigeac-actores-accesos-restricciones-y-posibles-fallos">SIGEAC: actores, accesos, restricciones y posibles fallos</a>
+  <ul class="collapse">
+  <li><a href="#alcance-y-lectura-del-documento" id="toc-alcance-y-lectura-del-documento" class="nav-link" data-scroll-target="#alcance-y-lectura-del-documento">Alcance y lectura del documento</a></li>
+  <li><a href="#reglas-de-acceso-comunes" id="toc-reglas-de-acceso-comunes" class="nav-link" data-scroll-target="#reglas-de-acceso-comunes">1. Reglas de acceso comunes</a></li>
+  <li><a href="#tabla-de-actores" id="toc-tabla-de-actores" class="nav-link" data-scroll-target="#tabla-de-actores">2. Tabla de actores</a></li>
+  <li><a href="#hallazgos-observados-en-el-código" id="toc-hallazgos-observados-en-el-código" class="nav-link" data-scroll-target="#hallazgos-observados-en-el-código">3. Hallazgos observados en el código</a></li>
+  <li><a href="#posibles-flujos-vulnerables-y-pruebas-sugeridas" id="toc-posibles-flujos-vulnerables-y-pruebas-sugeridas" class="nav-link" data-scroll-target="#posibles-flujos-vulnerables-y-pruebas-sugeridas">4. Posibles flujos vulnerables y pruebas sugeridas</a></li>
+  <li><a href="#controles-existentes-y-límites" id="toc-controles-existentes-y-límites" class="nav-link" data-scroll-target="#controles-existentes-y-límites">5. Controles existentes y límites</a></li>
+  <li><a href="#orden-recomendado-de-corrección-y-validación" id="toc-orden-recomendado-de-corrección-y-validación" class="nav-link" data-scroll-target="#orden-recomendado-de-corrección-y-validación">6. Orden recomendado de corrección y validación</a></li>
+  <li><a href="#qué-falta-para-considerar-validado-el-análisis" id="toc-qué-falta-para-considerar-validado-el-análisis" class="nav-link" data-scroll-target="#qué-falta-para-considerar-validado-el-análisis">7. Qué falta para considerar validado el análisis</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="sigeac-actores-accesos-restricciones-y-posibles-fallos" class="level1">
+<h1>SIGEAC: actores, accesos, restricciones y posibles fallos</h1>
+<p>Fecha de revisión: 28 de octubre de 2026.</p>
+<section id="alcance-y-lectura-del-documento" class="level2">
+<h2 class="anchored" data-anchor-id="alcance-y-lectura-del-documento">Alcance y lectura del documento</h2>
+<p>Análisis estático del código del backend, configuración, migraciones y documentación del repositorio. Describe el diseño encontrado y propone controles donde hay brechas. No se consultó la base de datos desplegada, no se ejecutaron ataques ni se verificó la configuración del servidor en producción.</p>
+<ul>
+<li><strong>Observado:</strong> comportamiento o ausencia de control identificable en el código; no equivale a explotación demostrada.</li>
+<li><strong>Condicional:</strong> depende de permisos cargados, configuración o combinación de funciones.</li>
+<li><strong>Por validar:</strong> escenario que requiere una prueba; no debe presentarse como vulnerabilidad confirmada.</li>
+</ul>
+<p>Los permisos efectivos dependen de <code>process_function</code>, <code>function_operation</code>, <code>functional_assignment</code>, políticas de conflicto y excepciones vigentes. El catálogo sintético y las migraciones no son completamente consistentes. Las tablas siguientes indican esa diferencia cuando afecta el acceso.</p>
+</section>
+<section id="reglas-de-acceso-comunes" class="level2">
+<h2 class="anchored" data-anchor-id="reglas-de-acceso-comunes">1. Reglas de acceso comunes</h2>
+<p>Una identidad humana activa necesita una asignación vigente cuya función conceda la operación y cuyo ámbito contenga el recurso solicitado. Además, no debe existir un conflicto sin excepción aplicable. Una sesión válida por sí sola no concede permisos funcionales.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Dimensión</th>
+<th>Regla encontrada</th>
+<th>Restricción que debe mantenerse</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Carrera</td>
+<td>Es obligatoria en <code>AuthorizationScope</code>.</td>
+<td>No consultar ni modificar recursos de otra carrera sin asignación explícita.</td>
+</tr>
+<tr class="even">
+<td>Proceso</td>
+<td>Es opcional; una asignación sin proceso cubre los procesos de la carrera.</td>
+<td>Otorgar permisos por proceso cuando el trabajo no exige toda la carrera.</td>
+</tr>
+<tr class="odd">
+<td>Indicador</td>
+<td>Es opcional y requiere proceso.</td>
+<td>Una asignación a un indicador no debe permitir operar sobre los demás. Cada módulo debe soportar esa granularidad.</td>
+</tr>
+<tr class="even">
+<td>Tiempo</td>
+<td>Se comprueban inicio, vencimiento y revocación.</td>
+<td>Evitar vigencias indefinidas por defecto para delegaciones y excepciones.</td>
+</tr>
+<tr class="odd">
+<td>Conflictos</td>
+<td>Se evalúan incompatibilidades entre funciones.</td>
+<td>Resolverlas según ámbitos realmente superpuestos y exigir aprobación independiente de excepciones.</td>
+</tr>
+<tr class="even">
+<td>Tipo de identidad</td>
+<td>La autorización funcional rechaza cuentas técnicas.</td>
+<td>No usar cuentas técnicas para decisiones académicas o institucionales.</td>
+</tr>
+<tr class="odd">
+<td>Estado del proceso</td>
+<td>Los servicios de escritura verifican estados permitidos.</td>
+<td>No editar evidencias o decisiones congeladas; permitir únicamente las continuaciones posteriores al cierre previstas por el flujo.</td>
+</tr>
+<tr class="even">
+<td>Cliente</td>
+<td>La decisión debe tomarse en el backend.</td>
+<td>Ocultar botones o proteger rutas de Angular no sustituye la autorización del recurso.</td>
+</tr>
+</tbody>
+</table>
+<p>Base: <a href="../../backend/src/main/java/ec/edu/unl/sec/identityaccess/application/ScopeAuthorizationService.java">ScopeAuthorizationService</a>, <a href="../../backend/src/main/java/ec/edu/unl/sec/identityaccess/domain/AuthorizationScope.java">AuthorizationScope</a>, <a href="../../backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/ProcessStateMachine.java">ProcessStateMachine</a>.</p>
+</section>
+<section id="tabla-de-actores" class="level2">
+<h2 class="anchored" data-anchor-id="tabla-de-actores">2. Tabla de actores</h2>
+<p>Una persona puede acumular funciones. Por eso deben revisarse tanto los permisos individuales como la combinación de funciones y las decisiones sobre recursos propios.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Actor / código</th>
+<th>Accesos definidos en el repositorio</th>
+<th>Restricciones que debe tener</th>
+<th>Fallos o abusos posibles</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Visitante sin sesión</td>
+<td>Inicio de sesión; salud e información del servicio; Swagger/OpenAPI cuando están habilitados.</td>
+<td>No acceder a datos académicos, archivos, listados o auditoría. Limitar intentos de autenticación y metadatos públicos.</td>
+<td>Fuerza bruta distribuida, bloqueo intencional de cuentas, exposición de documentación si se despliega con un perfil inadecuado.</td>
+</tr>
+<tr class="even">
+<td>Usuario humano sin asignación vigente</td>
+<td>Autenticación y consulta de identidad actual; las operaciones funcionales necesitan permisos adicionales.</td>
+<td>Denegar acceso funcional si no tiene asignación, si venció o si fue revocada; no inferir permisos por estar autenticado.</td>
+<td>Un endpoint que solo compruebe sesión podría exponer recursos. <strong>Por validar por endpoint.</strong></td>
+</tr>
+<tr class="odd">
+<td>Administrador funcional — <code>FUNCTIONAL_ADMIN</code></td>
+<td>Administrar usuarios, asignaciones y excepciones; consultar auditoría; administrar/leer carreras y modelos; autorizar aplicabilidad del modelo; gestionar procesos y leer archivo e informes. Las migraciones también conceden lectura de hallazgos y mejora.</td>
+<td>Limitar concesiones al ámbito delegado; impedir autoasignarse autoridad o aprobar su propia excepción; separar administración de decisiones académicas. No asumir acceso total por el nombre del rol.</td>
+<td>Ampliación de permisos a otra carrera; concesión de funciones privilegiadas; excepciones aprobadas por el mismo otorgante. Véanse H-01 y H-02.</td>
+</tr>
+<tr class="even">
+<td>Coordinador — <code>COORDINATOR</code></td>
+<td>Gestionar y coordinar procesos; leer/publicar modelos; consultar auditoría y progreso; generar cortes y cierre documental; escribir hallazgos, consolidar resultados, emitir/socializar informes; gestionar y decidir acciones de mejora; cerrar integralmente y escribir archivo. El catálogo sintético también concede <code>REPORT_APPROVE</code>.</td>
+<td>No aprobar informes propios; no modificar evaluaciones ajenas; no alterar versiones emitidas; cierres con bloqueos, revisión vigente y trazabilidad.</td>
+<td>Concentración de elaboración, aprobación y cierre; autoaprobación si conserva <code>REPORT_APPROVE</code>; cierre con datos obsoletos si falla el control de concurrencia.</td>
+</tr>
+<tr class="odd">
+<td>Responsable de evidencia — <code>RESPONSIBLE</code></td>
+<td>Recopilar evidencia mediante <code>EVIDENCE_COLLECT</code>; lectura de carreras, informes y mejora; registrar avances, iniciar acciones y remitirlas a verificación.</td>
+<td>Restringir evidencia al ámbito asignado; versiones remitidas inmutables; sucesoras para corregir. En mejora, limitar la ejecución a las acciones a su cargo. No revisar su propia evidencia sin excepción aprobada por un tercero.</td>
+<td>Modificar avances de otra persona en el mismo proceso; autorrevisión si también consigue capacidad de revisor y usa la excepción del formulario.</td>
+</tr>
+<tr class="even">
+<td>Revisor documental — <code>REVIEWER</code></td>
+<td>Revisar evidencia, decidir por cobertura y solicitar correcciones; revisar/observar informes; verificar acciones de mejora. Las migraciones V024 también conceden escritura de hallazgos e informes.</td>
+<td>No equiparar aceptación documental con valoración académica; no revisar evidencia propia sin autorización independiente; no verificar acciones ejecutadas por sí mismo.</td>
+<td>Autorrevisión mediante un indicador enviado por el cliente; acceso denegado a revisores limitados a indicador; permisos distintos según el historial de carga del catálogo.</td>
+</tr>
+<tr class="odd">
+<td>Evaluador académico — <code>EVALUATOR</code></td>
+<td>Evaluar indicadores; registrar valoraciones, variables, verificación y cálculos; conciliación académica según reglas del servicio; leer informes y mejora. V024 también concede lectura de hallazgos.</td>
+<td>Indicadores y sustentos del proceso autorizado; no cambiar reglas o datos ajenos; justificar valoraciones y preservar revisiones. Si se requiere doble control, quien captura variables no debe ser su único verificador.</td>
+<td>Autoverificación de variables, datos incorrectos con cálculo matemáticamente válido, conciliaciones sobre sustentos desactualizados. <strong>La independencia de verificación debe definirse como requisito institucional.</strong></td>
+</tr>
+<tr class="even">
+<td>Autoridad del proceso — <code>PROCESS_AUTHORITY</code></td>
+<td>Autorizar inicio y aplicabilidad; leer procesos y archivo; cierre integral y escritura de archivo. V024 concede lectura de hallazgos e informes y <code>REPORT_APPROVE</code>.</td>
+<td>Asignación vigente, de la misma identidad y ámbito; fundamento, referencia documental y motivo de la decisión. Independencia respecto de quien prepara lo aprobado.</td>
+<td>Usar una asignación genérica como prueba de competencia institucional; acumular elaboración y aprobación; quedar sin permisos si el catálogo se inicializa después de las migraciones.</td>
+</tr>
+<tr class="odd">
+<td>Cuenta técnica — identidad <code>TECHNICAL</code></td>
+<td>Puede autenticarse si posee credencial activa; la autorización funcional común la rechaza y administración impide asignarle funciones de proceso. Existe una tabla de privilegios técnicos, que no constituye por sí misma una API operativa autorizada.</td>
+<td>Solo capacidades técnicas explícitas, mínimas y auditadas cuando exista un flujo implementado. No aprobar, evaluar, revisar ni actuar como persona.</td>
+<td>Un servicio que solo valide autenticación podría admitirla; credenciales compartidas eliminarían atribución individual. <strong>Por validar.</strong></td>
+</tr>
+<tr class="even">
+<td>Operador de infraestructura / base de datos — externo al catálogo funcional</td>
+<td>Acceso operativo que depende del despliegue: base, archivos, copias, configuración y registros. No se identificó como rol funcional de la aplicación.</td>
+<td>Credenciales separadas, mínimos privilegios, copias restaurables y trazabilidad de intervención. No usar acceso directo para tomar decisiones del proceso.</td>
+<td>Alteración directa de permisos o evidencias, pérdida de archivos, modificación de auditoría o restauración inconsistente. <strong>Depende del despliegue.</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Fuentes de permisos: <a href="../../backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SyntheticAccessData.java">SyntheticAccessData</a>, <a href="../../backend/src/main/resources/db/migration/V008__career_catalog.sql">V008</a>, <a href="../../backend/src/main/resources/db/migration/V009__complete_evaluation_models.sql">V009</a>, <a href="../../backend/src/main/resources/db/migration/V024__findings_reports.sql">V024</a>, <a href="../../backend/src/main/resources/db/migration/V025__improvement_workflow.sql">V025</a>, <a href="../../backend/src/main/resources/db/migration/V026__integral_closure_archive.sql">V026</a>.</p>
+</section>
+<section id="hallazgos-observados-en-el-código" class="level2">
+<h2 class="anchored" data-anchor-id="hallazgos-observados-en-el-código">3. Hallazgos observados en el código</h2>
+<p>Prioridades orientativas: <strong>alta</strong> afecta autorización o independencia de decisiones; <strong>media</strong> afecta disponibilidad, coherencia o controles dependientes de configuración. La gravedad final exige comprobar permisos y exposición reales.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>ID</th>
+<th>Prioridad / estado</th>
+<th>Evidencia y condición</th>
+<th>Fallo o impacto</th>
+<th>Control recomendado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>H-01</td>
+<td>Alta — observado</td>
+<td><code>IdentityAdministrationService.assign()</code> exige <code>ACCESS_ASSIGN_SCOPE</code> mediante <code>hasOperation()</code>, pero no comprueba <code>isAllowed()</code> sobre el nuevo ámbito. <code>revokeAssignment()</code> sí comprueba el ámbito.</td>
+<td>Un administrador con esa capacidad en una carrera puede intentar conceder funciones en otra. Tampoco se observa una lista de funciones que pueda delegar ni una prohibición de autoasignación.</td>
+<td>Validar carrera/proceso/indicador del destino y competencia del otorgante; limitar funciones delegables y autoasignaciones. Definir explícitamente cualquier administración global.</td>
+</tr>
+<tr class="even">
+<td>H-02</td>
+<td>Alta — observado</td>
+<td>En <code>assign()</code>, una justificación válida permite crear automáticamente una excepción al conflicto sin exigir <code>ACCESS_MANAGE_EXCEPTIONS</code>. <code>createException()</code> usa capacidad global y no comprueba autorización sobre el ámbito destino.</td>
+<td>Se pueden eludir la separación entre asignar y autorizar excepciones, o los límites de carrera de quien autoriza. No se impide aprobar una excepción propia.</td>
+<td>Exigir capacidad específica y autorización del ámbito; aprobación por otra persona; fecha fin explícita y referencia de autorización.</td>
+</tr>
+<tr class="odd">
+<td>H-03</td>
+<td>Alta — observado, requiere capacidad previa de revisión</td>
+<td><code>DocumentReviewService.decide()</code> bloquea autorrevisión solo si <code>selfReviewException</code> es falso. Ese valor y su motivo provienen del cliente; el dominio exige texto, pero el flujo no consulta una aprobación independiente para esta excepción.</td>
+<td>Una persona que ya puede revisar y remitió la evidencia puede autorizar su propia excepción enviando el indicador y un motivo. La política de funciones puede impedir obtener esa combinación, pero no sustituye este control por recurso.</td>
+<td>Resolver la excepción desde un registro vigente aprobado por un tercero y vinculado a la evidencia o al ámbito; no aceptar el booleano como autorización.</td>
+</tr>
+<tr class="even">
+<td>H-04</td>
+<td>Alta — condicional</td>
+<td>El catálogo sintético da <code>REPORT_WRITE</code>, <code>REPORT_SOCIALIZE</code> y <code>REPORT_APPROVE</code> al coordinador. <code>InstitutionalAuthorityAdapter</code> valida que la asignación permita la operación, sin exigir que su función sea <code>PROCESS_AUTHORITY</code>. <code>ReportWorkflowService.decide()</code> no compara al decisor con el autor.</td>
+<td>Un coordinador con esos permisos puede cumplir las comprobaciones de aprobación con su propia asignación. Si la política exige una autoridad independiente, la comprobación actual no la garantiza.</td>
+<td>Unificar el catálogo; separar elaboración/aprobación por recurso; representar la competencia institucional requerida expresamente.</td>
+</tr>
+<tr class="odd">
+<td>H-05</td>
+<td>Media — observado</td>
+<td><code>JpaIdentityAccessRepository.hasUnexcusedConflict()</code> filtra la asignación incompatible por carrera y vigencia, pero no por solapamiento de proceso e indicador.</td>
+<td>Funciones en procesos o indicadores distintos de una misma carrera pueden bloquearse como si fueran incompatibles. Es una denegación incorrecta, no una ampliación de acceso demostrada.</td>
+<td>Aplicar el solapamiento jerárquico al ámbito de ambas asignaciones y probar ámbitos disjuntos.</td>
+</tr>
+<tr class="even">
+<td>H-06</td>
+<td>Media — observado</td>
+<td><code>DocumentReviewBoundaryAdapter.canReview()</code> evalúa <code>(carrera, proceso, null)</code>; <code>AuthorizationScope.contains()</code> no permite que una asignación limitada a indicador contenga ese ámbito.</td>
+<td>Un revisor con permiso válido únicamente para un indicador no puede revisar mediante este flujo. Ampliarle la asignación a todo el proceso resolvería el síntoma concediendo más acceso.</td>
+<td>Autorizar por indicadores/coberturas de la versión o declarar y validar que la revisión exige una asignación al proceso completo.</td>
+</tr>
+<tr class="odd">
+<td>H-07</td>
+<td>Media/alta según permiso — observado</td>
+<td>El inicializador sintético añade operaciones después de Flyway y solo cuando <code>sec.demo-data=true</code>. V024 añade permisos a funciones ya existentes. Hay diferencias como aprobación de informes del coordinador y escritura de informes del revisor.</td>
+<td>Una base que recibe las funciones después de V024 no recibe automáticamente todos sus permisos. Otras bases pueden conservar permisos adicionales porque se insertan sin retirar los anteriores. No hay una matriz única reproducible.</td>
+<td>Definir un catálogo canónico de funciones/operaciones y una migración de reconciliación explícita; verificar bases nuevas y actualizadas con demo desactivada.</td>
+</tr>
+<tr class="even">
+<td>H-08</td>
+<td>Media — observado en la capa de aplicación revisada</td>
+<td><code>ActionProgressService.recordProgress()</code> autoriza por proceso. No compara la identidad con <code>head.data().responsibleAssignmentId()</code>. Las transiciones comprueban una asignación con la operación, pero no que sea la designada como responsable de la acción.</td>
+<td>Un responsable con permisos en el proceso podría registrar avances o ejecutar transiciones de una acción asignada a otro. La explotación requiere confirmar que ninguna restricción adicional de persistencia lo impide.</td>
+<td>Comparar identidad y asignación responsable vigentes; permitir sustitución solo mediante delegación explícita y auditada.</td>
+</tr>
+<tr class="odd">
+<td>H-09</td>
+<td>Media — observado</td>
+<td>El límite de login cuenta fallos por usuario normalizado; el origen se registra, pero no participa en esa decisión.</td>
+<td>Se puede bloquear temporalmente a una víctima con intentos fallidos. Probar muchas identidades distribuye los intentos y evita un límite agregado por origen en esta capa.</td>
+<td>Combinar límites por identidad, origen y volumen global, considerando el proxy real y sin revelar si existe la cuenta.</td>
+</tr>
+</tbody>
+</table>
+<p>Fuentes de H-01/H-02: <a href="../../backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java">IdentityAdministrationService</a>. H-03: <a href="../../backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewService.java">DocumentReviewService</a>, <a href="../../backend/src/main/java/ec/edu/unl/sec/documentreview/domain/DocumentReviewDecision.java">DocumentReviewDecision</a>, <a href="../../backend/src/main/java/ec/edu/unl/sec/documentreview/api/DocumentReviewController.java">DocumentReviewController</a>. H-04: <a href="../../backend/src/main/java/ec/edu/unl/sec/governance/application/ReportWorkflowService.java">ReportWorkflowService</a>, <a href="../../backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/InstitutionalAuthorityAdapter.java">InstitutionalAuthorityAdapter</a>. H-05: <a href="../../backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java">JpaIdentityAccessRepository</a>. H-06: <a href="../../backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/DocumentReviewBoundaryAdapter.java">DocumentReviewBoundaryAdapter</a>. H-07: catálogo y migraciones enlazados en la sección 2. H-08: <a href="../../backend/src/main/java/ec/edu/unl/sec/improvement/application/ActionProgressService.java">ActionProgressService</a>. H-09: <a href="../../backend/src/main/java/ec/edu/unl/sec/identityaccess/application/SessionService.java">SessionService</a>.</p>
+</section>
+<section id="posibles-flujos-vulnerables-y-pruebas-sugeridas" class="level2">
+<h2 class="anchored" data-anchor-id="posibles-flujos-vulnerables-y-pruebas-sugeridas">4. Posibles flujos vulnerables y pruebas sugeridas</h2>
+<p>Estas pruebas deben ejecutarse en una base descartable con datos sintéticos. No se ejecutaron como parte de este documento.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flujo</th>
+<th>Actor y escenario</th>
+<th>Fallo que se busca</th>
+<th>Resultado seguro esperado</th>
+<th>Estado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Asignación entre carreras</td>
+<td>Administrador de carrera A solicita asignar una función en carrera B.</td>
+<td>Escalada fuera del ámbito delegado.</td>
+<td>Rechazo sin crear asignación ni excepción; auditoría del intento.</td>
+<td>H-01.</td>
+</tr>
+<tr class="even">
+<td>Excepción incorporada a asignación</td>
+<td>Otorgante con capacidad de asignar, pero sin gestionar excepciones, añade una función incompatible con un motivo.</td>
+<td>Salto del permiso específico de excepción.</td>
+<td>Rechazo o exigencia de una aprobación previa válida.</td>
+<td>H-02.</td>
+</tr>
+<tr class="odd">
+<td>Evidencia propia → revisión</td>
+<td>Persona con capacidades de recopilar y revisar remite evidencia y solicita autorrevisión indicando excepción.</td>
+<td>Aprobación de la propia excepción desde el cliente.</td>
+<td>Rechazo si no existe autorización independiente vigente.</td>
+<td>H-03.</td>
+</tr>
+<tr class="even">
+<td>Informe → aprobación</td>
+<td>Coordinador que preparó un informe final intenta aprobarlo con su asignación de coordinador.</td>
+<td>Concentración de preparación y aprobación.</td>
+<td>Si se exige independencia, rechazar por actor/competencia aunque posea una operación genérica.</td>
+<td>H-04; depende del catálogo efectivo.</td>
+</tr>
+<tr class="odd">
+<td>Acción de mejora de otro responsable</td>
+<td>Responsable A registra avance o inicia la acción designada a B en el mismo proceso.</td>
+<td>Falta de autorización sobre la responsabilidad concreta.</td>
+<td>Rechazo salvo delegación expresa.</td>
+<td>H-08.</td>
+</tr>
+<tr class="even">
+<td>Acceso directo por ID</td>
+<td>Usuario cambia identificadores de proceso, versión, archivo, informe o acción por uno de otro ámbito.</td>
+<td>Acceso indebido a objetos, conocido como IDOR/BOLA.</td>
+<td>Sin datos ni cambios; no revelar existencia ni metadatos sensibles.</td>
+<td>Por validar en todos los endpoints.</td>
+</tr>
+<tr class="odd">
+<td>Colecciones, búsquedas y auditoría</td>
+<td>Usuario de una carrera consulta listados, conteos y filtros relacionados con otra.</td>
+<td>Fuga por resultados agregados o paginación.</td>
+<td>Filtrado antes de contar/paginar; ningún dato ajeno.</td>
+<td>Por validar; hay diseño de filtrado, no prueba integral en esta revisión.</td>
+</tr>
+<tr class="even">
+<td>Revocación con sesión abierta</td>
+<td>Se revoca una asignación o desactiva una cuenta mientras conserva sesión.</td>
+<td>Caché o autorización desactualizada.</td>
+<td>Siguiente operación protegida rechazada; ninguna dependencia exclusiva del frontend.</td>
+<td>Por validar en integración; el servicio común reevalúa asignaciones.</td>
+</tr>
+<tr class="odd">
+<td>Envío/corrección de evidencia</td>
+<td>Se intenta editar una versión remitida o crear dos sucesoras simultáneas.</td>
+<td>Pérdida de inmutabilidad o bifurcación del historial.</td>
+<td>Versión remitida intacta; una única sucesora aceptada.</td>
+<td>Por validar bajo concurrencia.</td>
+</tr>
+<tr class="even">
+<td>Variables → verificación → cálculo</td>
+<td>Mismo evaluador captura y verifica variables; luego calcula.</td>
+<td>Falta de doble control si la institución lo exige; datos falsos con fórmula correcta.</td>
+<td>Aplicar la política definida; mantener sustentos y revisiones exactas de cada cálculo.</td>
+<td>Por validar como requisito; el código permite verificación explícita sin demostrar independencia.</td>
+</tr>
+<tr class="odd">
+<td>Cierre documental/integral</td>
+<td>Cambia una evidencia, una evaluación o un bloqueo entre previsualización y cierre.</td>
+<td>Cierre basado en un estado obsoleto.</td>
+<td>Revalidación dentro de la transacción y rechazo ante cambios incompatibles.</td>
+<td>Por validar con solicitudes concurrentes.</td>
+</tr>
+<tr class="even">
+<td>Mejora después del cierre</td>
+<td>Se intenta crear una acción nueva o continuar una aprobada tras cerrar el proceso.</td>
+<td>Bloqueo excesivo o modificación indebida del archivo cerrado.</td>
+<td>Mantener la continuidad permitida de acciones aprobadas y rechazar operaciones no previstas; conservar el corte archivado.</td>
+<td>Por validar; existe política explícita posterior al cierre en el servicio.</td>
+</tr>
+<tr class="odd">
+<td>Archivo adjunto → descarga</td>
+<td>Se carga archivo manipulado, tipo falso, tamaño excesivo o contenido peligroso permitido por MIME.</td>
+<td>Evasión de validación, agotamiento de recursos o distribución de malware.</td>
+<td>Validar tamaño, contenido y ámbito; descarga íntegra y segura; inspección adicional si se exige.</td>
+<td>Hay controles de tipo, tamaño, hash y rutas; no se identificó antivirus en el inspector revisado.</td>
+</tr>
+<tr class="even">
+<td>Referencia externa</td>
+<td>Se registra una URL cuyo contenido cambia o cuyo destino es interno.</td>
+<td>Pérdida de reproducibilidad; acceso de servidor a red interna si alguna integración descarga URLs.</td>
+<td>Registrar procedencia y versión; si hay descarga remota, restringir destinos y redirecciones.</td>
+<td>Por validar. Guardar una URL por sí solo no demuestra SSRF.</td>
+</tr>
+<tr class="odd">
+<td>Texto libre → visualización</td>
+<td>Se guardan justificaciones, nombres u observaciones con marcado.</td>
+<td>Ejecución de scripts persistentes si se renderiza contenido sin escape.</td>
+<td>Mostrar texto escapado o sanitizado en vistas y exportaciones.</td>
+<td>Por validar en frontend y exportadores; no se confirmó XSS.</td>
+</tr>
+<tr class="even">
+<td>Cuenta técnica → endpoint humano</td>
+<td>Cuenta técnica autenticada invoca cada operación de decisión.</td>
+<td>Endpoint que valida sesión pero omite el tipo de identidad.</td>
+<td>Denegación en backend.</td>
+<td>Por validar; autorización común y varios servicios ya la rechazan.</td>
+</tr>
+<tr class="odd">
+<td>Login → sesión activa</td>
+<td>Muchos intentos sobre una víctima o actividad automatizada constante.</td>
+<td>Bloqueo de cuenta; mantenimiento prolongado de una sesión robada.</td>
+<td>Límites combinados y política explícita de duración máxima y revocación.</td>
+<td>H-09; la sesión se renueva por inactividad y no se observó máximo absoluto en <code>SessionService</code>.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="controles-existentes-y-límites" class="level2">
+<h2 class="anchored" data-anchor-id="controles-existentes-y-límites">5. Controles existentes y límites</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Control observado</th>
+<th>Qué cubre</th>
+<th>Límite que debe verificarse</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>BCrypt, tokens opacos aleatorios y hashes de sesión en base</td>
+<td>Protección de credenciales y reducción del impacto de leer los tokens almacenados.</td>
+<td>No impide robo de sesión desde cliente, servidor o registros; revisar exposición real.</td>
+</tr>
+<tr class="even">
+<td>Cookie <code>HttpOnly</code>, <code>SameSite=Lax</code> y <code>Secure</code> en perfil <code>prod</code></td>
+<td>Reduce exposición del token a scripts y transporte inseguro bajo configuración correcta.</td>
+<td>La configuración base permite <code>Secure=false</code>; comprobar perfil y TLS reales.</td>
+</tr>
+<tr class="odd">
+<td>CSRF propio mediante <code>SessionAuthenticationFilter</code></td>
+<td>Exige <code>X-CSRF-TOKEN</code> en solicitudes mutantes autenticadas; login es excepción.</td>
+<td><code>csrf().disable()</code> en Spring no significa ausencia de CSRF: hay un filtro propio. Probar todos los métodos y rutas mutantes.</td>
+</tr>
+<tr class="even">
+<td>Autorización común por función, ámbito y vigencia</td>
+<td>Deniega cuentas técnicas y asignaciones inválidas en las decisiones que la usan correctamente.</td>
+<td><code>hasOperation()</code> comprueba que hay capacidad en algún ámbito; no autoriza un recurso concreto.</td>
+</tr>
+<tr class="odd">
+<td>Revisiones, estados y decisiones inmutables</td>
+<td>Previene ediciones incompatibles con el flujo y conserva historia donde se aplica.</td>
+<td>Verificar atomicidad de todas las escrituras y conflictos concurrentes.</td>
+</tr>
+<tr class="even">
+<td>Inspección Tika, límite de tamaño, SHA-256 y claves de almacenamiento restringidas</td>
+<td>Rechaza tipos no admitidos, archivos excesivos y rutas arbitrarias; permite verificar integridad.</td>
+<td>MIME y hash no certifican que el contenido sea benigno.</td>
+</tr>
+<tr class="odd">
+<td>API docs desactivadas y demo desactivada en perfil <code>prod</code></td>
+<td>Reduce exposición de interfaz técnica y evita cargar usuarios sintéticos en ese perfil.</td>
+<td>Verificar el perfil realmente activo y permisos heredados de bases anteriores; no publicar credenciales sintéticas.</td>
+</tr>
+</tbody>
+</table>
+<p>Fuentes: <a href="../../backend/src/main/java/ec/edu/unl/sec/identityaccess/application/SessionService.java">SessionService</a>, <a href="../../backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SessionCookie.java">SessionCookie</a>, <a href="../../backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SessionAuthenticationFilter.java">SessionAuthenticationFilter</a>, <a href="../../backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SecurityConfiguration.java">SecurityConfiguration</a>, <a href="../../backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/ContentInspectionService.java">ContentInspectionService</a>, <a href="../../backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/LocalFileStorageAdapter.java">LocalFileStorageAdapter</a>, <a href="../../backend/src/main/resources/application.yml">application.yml</a>, <a href="../../backend/src/main/resources/application-prod.yml">application-prod.yml</a>.</p>
+</section>
+<section id="orden-recomendado-de-corrección-y-validación" class="level2">
+<h2 class="anchored" data-anchor-id="orden-recomendado-de-corrección-y-validación">6. Orden recomendado de corrección y validación</h2>
+<ol type="1">
+<li><strong>Cerrar concesiones fuera de ámbito y excepciones sin competencia:</strong> H-01 y H-02. Probar administrador limitado, autoasignación y excepción propia.</li>
+<li><strong>Exigir aprobación independiente de autorrevisión:</strong> H-03. Probar una persona que reúne las capacidades necesarias y remite su propia evidencia.</li>
+<li><strong>Unificar catálogo y separar aprobación de elaboración:</strong> H-04 y H-07. Comparar instalación nueva, actualización y modo demo; consultar los permisos efectivos antes de concluir quién puede aprobar.</li>
+<li><strong>Aplicar responsabilidad por acción:</strong> H-08. Probar dos responsables del mismo proceso y una delegación autorizada.</li>
+<li><strong>Corregir granularidad y conflictos:</strong> H-05 y H-06. Probar procesos disjuntos, indicadores disjuntos y una versión que cubre varios indicadores.</li>
+<li><strong>Validar límites operativos:</strong> H-09, acceso directo por ID, sesiones revocadas, concurrencia de cierres, carga/descarga y restauración conjunta de base y archivos.</li>
+</ol>
+</section>
+<section id="qué-falta-para-considerar-validado-el-análisis" class="level2">
+<h2 class="anchored" data-anchor-id="qué-falta-para-considerar-validado-el-análisis">7. Qué falta para considerar validado el análisis</h2>
+<ul>
+<li>Contrastar esta matriz con las filas reales de funciones, operaciones, asignaciones y excepciones del entorno objetivo.</li>
+<li>Ejecutar pruebas de autorización de la API con al menos dos carreras, dos procesos y dos indicadores; incluir actores sin permisos y cuentas técnicas.</li>
+<li>Revisar todos los endpoints y vistas, las exportaciones, configuración del proxy, permisos del usuario de base, almacenamiento y copias de seguridad.</li>
+<li>Acordar las reglas institucionales de independencia: quién autoriza excepciones, quién aprueba informes y quién verifica variables y acciones propias.</li>
+</ul>
+<p>Este documento entrega un inventario y una revisión estática con hallazgos trazables. No certifica ausencia de otros fallos ni sustituye pruebas de integración o de seguridad del entorno desplegado.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

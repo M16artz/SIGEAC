@@ -44,7 +44,7 @@ class DocumentarySnapshotControllerTest {
                 UUID.randomUUID(),content.createdBy(),"Coordinador sintético",false,SessionService.sha256Hex(CSRF))));
         var json=new ObjectMapper().findAndRegisterModules();
         mvc=MockMvcBuilders.standaloneSetup(new DocumentarySnapshotController(snapshots))
-                .setControllerAdvice(new ApiProblemHandler(),new ReportingProblemHandler())
+                .setControllerAdvice(new ec.edu.unl.sec.shared.api.ApiResponseAdvice(new com.fasterxml.jackson.databind.ObjectMapper().findAndRegisterModules()), new ApiProblemHandler(),new ReportingProblemHandler())
                 .addFilters(new CorrelationFilter(),new SessionAuthenticationFilter(sessions,new AccessProblemWriter(json))).build();
     }
 
@@ -56,9 +56,9 @@ class DocumentarySnapshotControllerTest {
                 .andExpect(status().isCreated()).andExpect(header().string("Location","/api/v1/documentary-snapshots/"+id))
                 .andExpect(header().string("ETag","\""+snapshot.sha256()+"\""))
                 .andExpect(header().string("Cache-Control","no-store"))
-                .andExpect(jsonPath("$.header.processRevision").value(8))
-                .andExpect(jsonPath("$.data.reason").value(snapshot.content().reason()))
-                .andExpect(jsonPath("$.payloadJson").doesNotExist());
+                .andExpect(jsonPath("$.data.header.processRevision").value(8))
+                .andExpect(jsonPath("$.data.data.reason").value(snapshot.content().reason()))
+                .andExpect(jsonPath("$.data.payloadJson").doesNotExist());
     }
 
     @Test
@@ -87,10 +87,10 @@ class DocumentarySnapshotControllerTest {
         when(snapshots.history(process,1,5)).thenReturn(new DocumentarySnapshotService.Page(List.of(snapshot.header()),1,5,false));
         mvc.perform(get("/documentary-snapshots/"+id).cookie(cookie())).andExpect(status().isOk())
                 .andExpect(header().string("ETag","\""+snapshot.sha256()+"\""))
-                .andExpect(jsonPath("$.data.progress.requiredSourceTotal").value(0));
+                .andExpect(jsonPath("$.data.data.progress.requiredSourceTotal").value(0));
         mvc.perform(get(path()).cookie(cookie()).param("page","1").param("size","5"))
-                .andExpect(status().isOk()).andExpect(jsonPath("$.hasNext").value(false))
-                .andExpect(jsonPath("$.items[0].id").value(id.toString()));
+                .andExpect(status().isOk()).andExpect(jsonPath("$.meta.hasNext").value(false))
+                .andExpect(jsonPath("$.data.items[0].id").value(id.toString()));
     }
 
     @Test
@@ -98,7 +98,7 @@ class DocumentarySnapshotControllerTest {
         when(snapshots.create(any(),anyLong(),anyString(),any())).thenThrow(new org.springframework.dao.CannotSerializeTransactionException("conflict"));
         mvc.perform(post(path()).cookie(cookie()).header("X-CSRF-Token",CSRF).header("If-Match","\"7\"")
                         .contentType(MediaType.APPLICATION_JSON).content(BODY))
-                .andExpect(status().isPreconditionFailed()).andExpect(jsonPath("$.code").value("STALE_PROCESS"));
+                .andExpect(status().isPreconditionFailed()).andExpect(jsonPath("$.errors.code").value("STALE_PROCESS"));
     }
 
     private String path() { return "/processes/"+process+"/documentary-snapshots"; }

@@ -52,7 +52,7 @@ class StructuredEvidenceControllerTest {
         mapper = new ObjectMapper().findAndRegisterModules();
         var sessionFilter = new SessionAuthenticationFilter(sessions, new AccessProblemWriter(mapper));
         mvc = MockMvcBuilders.standaloneSetup(new StructuredEvidenceController(snapshots))
-                .setControllerAdvice(new ApiProblemHandler(), new EvidenceProblemHandler())
+                .setControllerAdvice(new ec.edu.unl.sec.shared.api.ApiResponseAdvice(new com.fasterxml.jackson.databind.ObjectMapper().findAndRegisterModules()), new ApiProblemHandler(), new EvidenceProblemHandler())
                 .addFilters(new CorrelationFilter(), sessionFilter)
                 .build();
     }
@@ -78,12 +78,12 @@ class StructuredEvidenceControllerTest {
                                 "periodEnd", "2026-06-30"))))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("ETag", "\"0\""))
-                .andExpect(jsonPath("$.id").value(snapshot.id().toString()))
-                .andExpect(jsonPath("$.kind").value("STRUCTURED_DATA"))
-                .andExpect(jsonPath("$.value").value(42.5))
-                .andExpect(jsonPath("$.valueType").value("NUMBER"))
-                .andExpect(jsonPath("$.unit").value("m2"))
-                .andExpect(jsonPath("$.periodStart").value("2026-01-01"));
+                .andExpect(jsonPath("$.data.id").value(snapshot.id().toString()))
+                .andExpect(jsonPath("$.data.kind").value("STRUCTURED_DATA"))
+                .andExpect(jsonPath("$.data.value").value(42.5))
+                .andExpect(jsonPath("$.data.valueType").value("NUMBER"))
+                .andExpect(jsonPath("$.data.unit").value("m2"))
+                .andExpect(jsonPath("$.data.periodStart").value("2026-01-01"));
     }
 
     @Test
@@ -103,7 +103,7 @@ class StructuredEvidenceControllerTest {
                                 "periodStart", "2026-01-01",
                                 "periodEnd", "2026-06-30"))))
                 .andExpect(status().isPreconditionRequired())
-                .andExpect(jsonPath("$.code").value("PRECONDITION_REQUIRED"));
+                .andExpect(jsonPath("$.errors.code").value("PRECONDITION_REQUIRED"));
     }
 
     @Test
@@ -121,7 +121,7 @@ class StructuredEvidenceControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody()))
                 .andExpect(status().isConflict())
-                .andExpect(jsonPath("$.code").value("STRUCTURED_SNAPSHOT_DUPLICATE"));
+                .andExpect(jsonPath("$.errors.code").value("STRUCTURED_SNAPSHOT_DUPLICATE"));
 
         mvc.perform(post("/evidence-versions/" + VERSION + "/structured-sources")
                         .cookie(new Cookie("sec_session", TOKEN))
@@ -130,7 +130,7 @@ class StructuredEvidenceControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody()))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(jsonPath("$.code").value("SOURCE_NOT_COMPATIBLE"));
+                .andExpect(jsonPath("$.errors.code").value("SOURCE_NOT_COMPATIBLE"));
     }
 
     @Test
@@ -141,8 +141,8 @@ class StructuredEvidenceControllerTest {
                         .cookie(new Cookie("sec_session", TOKEN))
                         .header("X-CSRF-Token", CSRF))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].requiredSourceId").value(SOURCE.toString()))
-                .andExpect(jsonPath("$[0].value").value(42.5));
+                .andExpect(jsonPath("$.data[0].requiredSourceId").value(SOURCE.toString()))
+                .andExpect(jsonPath("$.data[0].value").value(42.5));
     }
 
     private String requestBody() throws Exception {

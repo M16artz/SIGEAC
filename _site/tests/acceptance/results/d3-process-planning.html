@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>d3-process-planning – SEC-UNL — Documentación</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-d0cfe7a3482e0d49a74229a8f3b76718.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      SEC-UNL — Documentación
+      </li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../../">SEC-UNL — Documentación</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SIGEAC · Documentación técnica SEC-UNL</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Guía técnica y auditoría</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/audit/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Auditoría y guía de lectura</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/audit/context.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Contexto, actores y alcance real</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/audit/processes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Procesos y flujo documental de extremo a extremo</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/audit/architecture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Arquitectura C4 y código</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/audit/backend.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Backend: auditoría estática de la implementación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/audit/api.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">API vigente y diferencias del contrato</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/api/response-contract.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Contrato de respuesta y protección de la API</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/activities/acd5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ACD5 — Demostración técnica y estándares web</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/audit/testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pruebas: inventario estático, comandos y límites</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/audit/operation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instalación, ejecución y operación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/audit/evolution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Evolución, SDD y decisiones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/audit/inventory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Inventario documental y decisiones de conservación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/audit/traceability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Auditoría de trazabilidad</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/audit/compliance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matriz de cumplimiento y evaluación preliminar</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/audit/validation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Registro de validación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/audit/report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Informe final de consolidación documental</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Requisitos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../feature-map.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mapa de funcionalidades — SIGEAC</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/requirements/spec.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Especificación de funcionalidad: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/requirements/process-flows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Catálogo canónico de procesos P01–P16</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/requirements/domain-rules.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Actores, decisiones y reglas verificables</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Planificación</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/planning/plan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Plan de implementación: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/planning/next-steps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Siguientes pasos de implementación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/planning/tasks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tareas: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../specs/005-complete-evaluation-workflows/plan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Implementation Plan: Flujos completos de evaluación de carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../specs/005-complete-evaluation-workflows/tasks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tasks: Flujos completos de evaluación de carreras</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Arquitectura</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/architecture/research.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Investigación y decisiones técnicas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/architecture/data-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelo de datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Decisiones de arquitectura</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/adr/0001-modular-monolith.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0001: Monolito modular por capacidades</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/adr/0002-file-storage-port.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0002: Puerto para almacenamiento externo de archivos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/adr/0015-configurable-evaluation-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0015: Gestión configurable de múltiples modelos de evaluación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/adr/0016-evaluation-strategies-import-adapters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0016: Estrategias de valoración y adaptadores de importación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/adr/0017-source-coverage-and-process-governance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0017: Cobertura documental, gobierno del proceso y cierres</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/adr/0018-catalog-contract-migration-compatibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0018 — Compatibilidad del catálogo y secuencia de migraciones</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Diagramas C4</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/architecture/complete-workflows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Arquitectura de P01–P16</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Documentación técnica</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/technical/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Documentación técnica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/technical/quickstart.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guía de validación rápida</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/technical/migration-p01-p16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Transición de contratos y datos P01–P16</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Pruebas y calidad</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/testing/traceability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matriz de trazabilidad P01–P16</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/testing/process-acceptance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matriz de aceptación por proceso</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/testing/checklists/requirements.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista de calidad de la especificación: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/testing/checklists/governance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista de calidad de gobierno y seguridad: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Manual de usuario</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/user/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Manual de usuario</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/user/d1-careers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Carreras y unidades académicas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/user/d2-d3-models-planning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D2–D3 — Modelos y planificación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/user/d4-d5-evidence-review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D4–D5 — Evidencias, revisión y subsanación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/user/d6-documentary-progress.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Seguimiento documental</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/user/d7-manual-evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Valoración académica manual</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/user/d7-quantitative-evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Variables y cálculo cuantitativo</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/user/d7-academic-reconciliation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Discrepancias y conciliación académica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/user/d7-d8-reports-archive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D7–D8 — Informes, mejora y archivo</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#d3---autorizacion-y-planificacion-de-procesos-evidencia" id="toc-d3---autorizacion-y-planificacion-de-procesos-evidencia" class="nav-link active" data-scroll-target="#d3---autorizacion-y-planificacion-de-procesos-evidencia">D3 - Autorizacion y planificacion de procesos (evidencia)</a>
+  <ul class="collapse">
+  <li><a href="#alcance" id="toc-alcance" class="nav-link" data-scroll-target="#alcance">Alcance</a></li>
+  <li><a href="#backend-implementado" id="toc-backend-implementado" class="nav-link" data-scroll-target="#backend-implementado">Backend implementado</a></li>
+  <li><a href="#pruebas" id="toc-pruebas" class="nav-link" data-scroll-target="#pruebas">Pruebas</a></li>
+  <li><a href="#frontend" id="toc-frontend" class="nav-link" data-scroll-target="#frontend">Frontend</a></li>
+  <li><a href="#notas" id="toc-notas" class="nav-link" data-scroll-target="#notas">Notas</a></li>
+  <li><a href="#continuacion-verificada-2026-10-22" id="toc-continuacion-verificada-2026-10-22" class="nav-link" data-scroll-target="#continuacion-verificada-2026-10-22">Continuacion verificada (2026-10-22)</a></li>
+  <li><a href="#integridad-de-equipos-y-actividades-2026-10-22" id="toc-integridad-de-equipos-y-actividades-2026-10-22" class="nav-link" data-scroll-target="#integridad-de-equipos-y-actividades-2026-10-22">Integridad de equipos y actividades (2026-10-22)</a></li>
+  <li><a href="#consulta-de-actividades-y-contrato-http-2026-10-22" id="toc-consulta-de-actividades-y-contrato-http-2026-10-22" class="nav-link" data-scroll-target="#consulta-de-actividades-y-contrato-http-2026-10-22">Consulta de actividades y contrato HTTP (2026-10-22)</a></li>
+  <li><a href="#persistencia-transaccional-y-postgresql-real-2026-10-22" id="toc-persistencia-transaccional-y-postgresql-real-2026-10-22" class="nav-link" data-scroll-target="#persistencia-transaccional-y-postgresql-real-2026-10-22">Persistencia transaccional y PostgreSQL real (2026-10-22)</a></li>
+  <li><a href="#t039---aceptacion-tecnica-en-navegador-completada-2026-10-22" id="toc-t039---aceptacion-tecnica-en-navegador-completada-2026-10-22" class="nav-link" data-scroll-target="#t039---aceptacion-tecnica-en-navegador-completada-2026-10-22">T039 - Aceptacion tecnica en navegador completada (2026-10-22)</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="d3---autorizacion-y-planificacion-de-procesos-evidencia" class="level1">
+<h1>D3 - Autorizacion y planificacion de procesos (evidencia)</h1>
+<section id="alcance" class="level2">
+<h2 class="anchored" data-anchor-id="alcance">Alcance</h2>
+<ul>
+<li>Fase 5 US3/D3: autorizacion, suspension/reanudacion/reapertura con procedencia, equipos/actividades/plazos con excepciones autorizadas y revisiones.</li>
+<li>Sin declaracion de aceptacion institucional; solo datos sinteticos. Persistencia y migracion D3 verificadas en SQLite y PostgreSQL 18.4 descartable; recorrido integral Edge con backend PostgreSQL aprobado.</li>
+<li>Se mantiene compatibilidad aditiva con rutas/contratos v1 (T113).</li>
+</ul>
+</section>
+<section id="backend-implementado" class="level2">
+<h2 class="anchored" data-anchor-id="backend-implementado">Backend implementado</h2>
+<ul>
+<li>Dominio: <code>ProcessTeam</code>, <code>TeamMembership</code>, <code>ProcessActivity</code> (PLANNED), <code>ProcessAssignment</code> extendido con <code>teamId</code>/<code>identityId</code> y regla exactamente uno.</li>
+<li>Repositorio: <code>SelfAssessmentRepository</code> ampliado (teams/members/activities/authorizations/transiciones). <code>JdbcSelfAssessmentRepository</code> persistente; <code>InMemorySelfAssessmentRepository</code> actualizado. Historial <code>process_activity_revision</code>.</li>
+<li>Aplicacion: <code>ProcessPlanningService</code> (equipos, integrantes, asignaciones a persona/equipo, actividades, dependencias aciclicas, plazo dentro de periodo o excepcion autorizada). <code>ProcessTransitionService</code> exige procedencia para suspension/reanudacion/reapertura, persiste decision. <code>SelfAssessmentService</code> guarda autorizacion inicial.</li>
+<li>API: <code>ProcessGovernanceController</code> (/processes/{id}/teams, /teams/{id}/memberships, /processes/{id}/activities, /activities/{id}) con ETag por revision de proceso. <code>ProcessAssignmentController</code> acepta <code>identityId</code>/<code>userId</code>/<code>teamId</code>. <code>SelfAssessmentController</code> valida procedencia completa.</li>
+<li>Migracion: <code>V010__process_governance.sql</code> (process_team, team_membership, process_authorization, process_activity, dependencias, process_transition.decision_*, process_assignment.team_id/identity_id, CHECK). <code>schema.sql</code> SQLite actualizado.</li>
+</ul>
+</section>
+<section id="pruebas" class="level2">
+<h2 class="anchored" data-anchor-id="pruebas">Pruebas</h2>
+<ul>
+<li><code>AuthorizedProcessLifecycleTest</code>: autorizacion + activacion; suspension/resume con politica.</li>
+<li><code>ProcessTransitionServiceTest</code>: procedencia obligatoria y sobrecarga retrocompatible.</li>
+<li><code>ProcessPlanningServiceTest</code>: equipos/actividades/plazos/excepciones.</li>
+<li><code>TeamPlanningIntegrityTest</code>: integrante individual, exactamente persona o equipo, ciclo de dependencias, excepcion de plazo.</li>
+<li>Backend: suite completa ejecutada con JDK 24 (mvnw) tras correccion de constructor <code>ProcessTransitionService</code>; contexto Spring OK tras ajuste. Estado final: ver resultado de <code>mvn test</code> en <code>backend/target/surefire-reports</code>.</li>
+</ul>
+</section>
+<section id="frontend" class="level2">
+<h2 class="anchored" data-anchor-id="frontend">Frontend</h2>
+<ul>
+<li>Ruta <code>/processes/:processId/planning</code> con <code>ProcessPlanningPage</code> (autorizacion, equipos/integrantes, asignaciones persona/equipo, actividades con dependencias y excepcion de plazo). Enlace desde detalle de proceso. <code>ProcessApi</code> extendido. Build/lint/test OK.</li>
+</ul>
+</section>
+<section id="notas" class="level2">
+<h2 class="anchored" data-anchor-id="notas">Notas</h2>
+<ul>
+<li>No se añaden operaciones <code>PROCESS_PLAN</code>/<code>PROCESS_READ</code> a OpenAPI para mantener compatibilidad (T113).</li>
+<li>Evidencia sintética, sin declaracion institucional.</li>
+</ul>
+</section>
+<section id="continuacion-verificada-2026-10-22" class="level2">
+<h2 class="anchored" data-anchor-id="continuacion-verificada-2026-10-22">Continuacion verificada (2026-10-22)</h2>
+<p>Se corrigio una brecha de T038: los controles enviaban solo el motivo al suspender, reanudar o reabrir, aunque el backend exige una decision autorizada. Ahora solicitan asignacion propia, fundamento y referencia documental y envian esos campos junto con el motivo y el <code>If-Match</code> de la revision actual. Los controles bloquean decisiones incompletas y envios simultaneos; un rechazo conserva los datos para corregirlos.</p>
+<ul>
+<li><code>process-state-controls.component.spec.ts</code>: siete casos para campos obligatorios, suspension, reanudacion desde suspension/reapertura, reapertura, rechazo y doble envio.</li>
+<li><code>process-api.service.spec.ts</code>: verifica procedencia y ETag en los cuerpos HTTP.</li>
+<li><code>SelfAssessmentControllerTest</code>: verifica el traslado de la procedencia al servicio y el rechazo de decisiones parciales sin mutacion.</li>
+<li>Frontend: <code>npm.cmd test</code>, 24 pruebas aprobadas; <code>npm.cmd run lint</code> y <code>npm.cmd run build</code>, sin errores.</li>
+<li>Backend: <code>mvnw.cmd test</code> con JDK 25, 211 casos registrados, 203 aprobados y ocho omitidos, sin fallos ni errores. Los omitidos requieren PostgreSQL/Testcontainers.</li>
+</ul>
+<p>Esta continuacion no cierra D3: siguen pendientes la reconciliacion completa del contrato, la aceptacion integral y la validacion con PostgreSQL real.</p>
+</section>
+<section id="integridad-de-equipos-y-actividades-2026-10-22" class="level2">
+<h2 class="anchored" data-anchor-id="integridad-de-equipos-y-actividades-2026-10-22">Integridad de equipos y actividades (2026-10-22)</h2>
+<ul>
+<li>Una membresia exige una identidad individual activa, no tecnica, y una asignacion de rol propia que cubra el ambito y toda su vigencia. Roles ajenos, revocados, futuros, vencidos o en conflicto se rechazan antes de cambiar la revision.</li>
+<li>Las asignaciones a equipos reconocen a sus integrantes vigentes. Cada consulta reevalua su rol; la pertenencia al equipo no concede permisos de operacion. El listado de responsabilidades usa la misma comprobacion que el catalogo consumido por evidencias y conserva el filtro independiente de autorizacion.</li>
+<li>Se verifica la politica individual al asignar una funcion al equipo y al agregar un integrante a un equipo ya asignado, evitando eludir conflictos por esa via.</li>
+<li>Crear o actualizar una actividad exige una asignacion del mismo indicador y, si se indica fuente, que pertenezca a ese indicador en la version fijada del modelo. Los rechazos conservan actividad y revision anteriores.</li>
+<li>La pantalla solicita el rol del integrante, filtra asignaciones por indicador, permite indicar una fuente, la conserva al editar y valida las fechas antes de convertirlas. El proceso suspendido no muestra controles de edicion de actividades.</li>
+</ul>
+<p>Verificacion ejecutada con JDK 25: <code>mvnw.cmd test</code>, 224 casos registrados, 216 aprobados y ocho omitidos por requerir PostgreSQL; sin fallos ni errores. <code>npm.cmd test</code>: 30 pruebas aprobadas. <code>npm.cmd run lint</code> y <code>npm.cmd run build</code>: sin errores. Se agregaron <code>TeamMembershipPolicyTest</code>, <code>TeamAssignmentAccessTest</code> y <code>process-planning.page.spec.ts</code>, y se extendio <code>TeamPlanningIntegrityTest</code>.</p>
+<p>Esto completa las pruebas de integridad T117 y de planificacion T032 en el alcance de software sintetico. Siguen pendientes el recorrido integral en navegador, PostgreSQL real y la aceptacion completa D3.</p>
+</section>
+<section id="consulta-de-actividades-y-contrato-http-2026-10-22" class="level2">
+<h2 class="anchored" data-anchor-id="consulta-de-actividades-y-contrato-http-2026-10-22">Consulta de actividades y contrato HTTP (2026-10-22)</h2>
+<ul>
+<li><code>/processes/{id}/activities</code> y <code>/activities/{id}</code> permiten lectura a participantes con asignacion vigente y permiso de la funcion correspondiente. Los miembros de equipo pasan por la misma comprobacion de rol que el catalogo de responsabilidades. Coordinacion y administracion conservan la consulta completa. Sin ambito, recurso ajeno e inexistente devuelven <code>404/PROCESS_NOT_FOUND</code>; cuentas tecnicas no acceden.</li>
+<li>La ruta web <code>/processes/:processId/activities</code>, enlazada desde el detalle, muestra actividades e indicadores permitidos, vencimientos en hora local, estado vacio, carga, errores y aviso de suspension. No presenta controles de modificacion.</li>
+<li><code>ProcessGovernanceControllerTest</code> ejecuta controladores y servicios reales con repositorios en memoria: equipos/membresias, creacion y actualizacion de actividades, ETags de proceso, rechazos obsoletos, permisos de persona/equipo y aislamiento. Las decisiones rechazadas no modifican actividad ni revision. No sustituye pruebas de persistencia ni de CSRF/autenticacion en servidor HTTP completo.</li>
+<li>La validacion de entrada rechaza dependencias nulas y alias <code>identityId</code>/<code>userId</code> contradictorios con 400 antes de mutar.</li>
+<li><code>docs/technical/contracts/openapi.yaml</code> incorpora equipos, membresias, actividades, sus esquemas y respuestas, y la procedencia ya exigida por transiciones/reapertura. <code>ProcessAssignmentCommand</code> queda separado de <code>AssignmentCommand</code> de acceso. La decision v1 aditiva se registra en <code>docs/technical/migration-p01-p16.qmd</code>.</li>
+</ul>
+<p>Validacion ejecutada: backend con JDK 25, 230 casos registrados, 222 aprobados y ocho omitidos por PostgreSQL; cero fallos/errores. Frontend: 35 pruebas aprobadas, lint y compilacion sin errores. Los tres contratos OpenAPI y AsyncAPI validan; las 12 operaciones compartidas no presentan incompatibilidades. Se conserva una advertencia de componente sin uso para <code>ReasonCommand</code>, retenido y deprecado por compatibilidad.</p>
+<p>T031/T034 cuentan con las pruebas existentes de autorizacion, legado y matriz de estados aprobadas. T037/T038 completan su alcance de endpoints/contrato e interfaz para software sintetico. D3 no se declara cerrado: faltan PostgreSQL real, comprobar la persistencia completa de gobierno y el recorrido integral en navegador.</p>
+</section>
+<section id="persistencia-transaccional-y-postgresql-real-2026-10-22" class="level2">
+<h2 class="anchored" data-anchor-id="persistencia-transaccional-y-postgresql-real-2026-10-22">Persistencia transaccional y PostgreSQL real (2026-10-22)</h2>
+<p>Se reprodujeron dos fallas antes de corregirlas: una dependencia invalida dejaba actividad, historial y dependencias parcialmente modificados al guardar directamente en el repositorio; las decisiones se insertaban con un UUID distinto al del dominio.</p>
+<p><code>JdbcSelfAssessmentRepository.saveActivity</code> y <code>recordTransition</code> ahora son transaccionales y conservan el identificador de la decision. Las escrituras con revision obsoleta lanzan <code>ProcessProblemException/PRECONDITION</code>, que la API traduce a 412, conservando datos e historial en vez de producir un error interno.</p>
+<p><code>ProcessGovernancePersistenceTest</code> verifica seis casos en ambos motores:</p>
+<ul>
+<li>Equipos, integrantes, asignaciones y actividades leidos desde otra conexion.</li>
+<li>Revision anterior y dependencias preservadas al actualizar una actividad.</li>
+<li>Rollback completo ante una dependencia que viola integridad referencial.</li>
+<li>Autorizacion inicial, activacion, suspension y reanudacion persistidas, sin fabricar autorizaciones de procesos legados. La politica se simula en estos casos para aislar la persistencia; sus permisos se verifican en las pruebas de aplicacion/API existentes.</li>
+<li>Identificador estable de decision y rollback ante su insercion duplicada.</li>
+<li>Revisiones obsoletas y fallo de auditoria sin escrituras parciales.</li>
+</ul>
+<p><code>ProcessGovernanceMigrationTest</code> aplica V001-V009 en un esquema aislado, carga procesos/asignaciones/transiciones legados y aplica solamente V010. Comprueba snapshots intactos, sujetos individuales conservados, ausencia de autorizaciones retroactivas, asignaciones a equipos y rechazo SQL de sujetos vacios o dobles. Las pruebas de persistencia tambien migran desde cero hasta V013. No se modifico ningun SQL historico, checksum, registro Flyway ni se uso <code>repair</code>/<code>out-of-order</code>.</p>
+<p>Entorno ejecutado: JDK 25 y PostgreSQL 18.4 en un cluster nuevo y descartable, <code>127.0.0.1:55443/postgres</code>, usuario sintetico <code>sec_d3</code>, directorio <code>backend/target/pg-d3-persistence</code>. Cada prueba usa y elimina un esquema UUID propio; no limpia esquemas compartidos ni toca bases institucionales.</p>
+<p>Suite completa con la bandera D3 habilitada: <strong>243 casos registrados, 235 aprobados, 0 fallos, 0 errores y 8 omitidos</strong> de las pruebas historicas de otros bloques. Los 13 casos nuevos (12 de persistencia y uno de migracion) se ejecutaron sin omisiones. No se modifico ni se reejecuto el frontend en esta continuacion.</p>
+<p>Reproduccion desde <code>backend/</code>, con PostgreSQL descartable disponible:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">$env</span><span class="op">:</span><span class="va">SEC_RUN_GOVERNANCE_DATABASE_TESTS</span><span class="op">=</span><span class="st">'true'</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">$env</span><span class="op">:</span><span class="va">SEC_TEST_DB_URL</span><span class="op">=</span><span class="st">'jdbc:postgresql://127.0.0.1:55443/postgres'</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="va">$env</span><span class="op">:</span><span class="va">SEC_TEST_DB_USER</span><span class="op">=</span><span class="st">'sec_d3'</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="op">.</span>\mvnw<span class="op">.</span><span class="fu">cmd</span> test <span class="st">"-Dtest=ProcessGovernancePersistenceTest,ProcessGovernanceMigrationTest"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>T033/T035/T036 quedan cerradas para software sintetico. T039 y la aceptacion integral D3 siguen pendientes del recorrido de navegador con backend real.</p>
+</section>
+<section id="t039---aceptacion-tecnica-en-navegador-completada-2026-10-22" class="level2">
+<h2 class="anchored" data-anchor-id="t039---aceptacion-tecnica-en-navegador-completada-2026-10-22">T039 - Aceptacion tecnica en navegador completada (2026-10-22)</h2>
+<p><code>npm.cmd run test:d3</code> ejecuta <code>tests/acceptance/process-planning.spec.ts</code> en Edge headless contra Angular en 14203, backend real en 18083 y PostgreSQL 18.4 en 55443. Resultado final: <strong>1 recorrido completo aprobado</strong>, sin mocks HTTP ni cambios SQL para preparar los datos del recorrido. Referencias, modelo publicado, aplicabilidad, roles y usuarios se preparan mediante las APIs publicas con datos sinteticos.</p>
+<p>El recorrido verifica:</p>
+<ul>
+<li>Crear proceso en preparacion y rechazar activacion sin autorizacion.</li>
+<li>Registrar autoridad, fundamento, constancia y motivo; activar con modelo aplicable.</li>
+<li>Crear equipo, agregar integrante con rol propio y asignar responsabilidad al equipo.</li>
+<li>Crear y corregir actividad, conservando su fuente, revision y datos tras recargar.</li>
+<li>Rechazar CSRF ausente, If-Match ausente/obsoleto y ciclos de actividades.</li>
+<li>Suspender con decision y rechazar nuevas actividades durante la suspension.</li>
+<li>Consultar como responsable las actividades de su equipo y ocultar las de otro responsable, manteniendo 404 indistinguible y prohibicion de planificar.</li>
+<li>Reanudar con constancia, conservar modelo/autorizacion y recuperar el plan.</li>
+</ul>
+<p>La integracion detecto un prerrequisito que las pruebas en memoria no cubrian: el vinculo normativo apuntaba a <code>model_node</code>, mientras los modelos se guardan en snapshots. V014 valida el indicador contra la configuracion de la version exacta. Conserva los vinculos historicos y sus otras FK, soporta IDs estables en sucesores y rechaza indicadores ajenos. El mismo guard se prueba en SQLite nuevo. El perfil SQLite auxiliar no migra archivos antiguos; esta aceptacion usa PostgreSQL.</p>
+<p>Regresion final con JDK 25 y bandera PostgreSQL D3 habilitada: <strong>245 casos backend, 237 aprobados, cero fallos/errores, ocho omitidos de otros bloques</strong>. Las 14 pruebas de persistencia (siete por motor) y la migracion D3 se ejecutaron sin omisiones. Frontend: <strong>35 pruebas aprobadas</strong> y lint sin errores. La compilacion de desarrollo se ejecuto al servir la interfaz para el recorrido. La primera ejecucion de navegador se interrumpio por una recarga del servidor de desarrollo; la repeticion final paso.</p>
+<p>Reproduccion con un backend descartable migrado a V014, <code>sec.demo-data=true</code>, puerto 18083 y costo bcrypt permitido (10 o superior):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Terminal frontend; backend ya iniciado en 18083</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>npm<span class="op">.</span><span class="fu">cmd</span> <span class="fu">start</span> <span class="op">--</span> <span class="op">--</span>host <span class="dv">127.0</span><span class="op">.</span><span class="dv">0.1</span> <span class="op">--</span>port <span class="dv">14203</span> <span class="op">--</span>proxy-config proxy<span class="op">.</span><span class="fu">d3</span><span class="op">.</span><span class="fu">conf</span><span class="op">.</span><span class="fu">json</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Otra terminal frontend, con el servidor listo</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>npm<span class="op">.</span><span class="fu">cmd</span> run test<span class="op">:</span>d3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Base del recorrido ejecutado: <code>sec_d3_browser_1792712458781</code>, nueva y descartable. T039 y D3 quedan cerrados para software sintetico. La aceptacion institucional y los bloques restantes conservan sus propios criterios y pendientes.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

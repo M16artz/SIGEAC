@@ -5,21 +5,27 @@ import {ApplicabilityInput,ModelCareerApplicability,ModelConfiguration,ModelNode
 import {PublicationPanel} from '../ui/publication-panel.component';
 @Component({
  selector:'sec-model-editor',standalone:true,imports:[FormsModule,PublicationPanel],changeDetection:ChangeDetectionStrategy.OnPush,
- template:`<section>
+ template:`<div class="sigeac-page">
+ <header class="sigeac-page-header">
+ <span class="sigeac-badge">Modelos</span>
  <h2>Modelo de evaluación versionado</h2>
  <p>Use únicamente datos sintéticos; jerarquías, fuentes, reglas y referencias no constituyen decisiones institucionales.</p>
- <form (ngSubmit)="createModel()">
-  <label for="model-name">Nombre</label><input id="model-name" [(ngModel)]="name" name="name" required maxlength="200">
-  <label for="model-description">Descripción</label><textarea id="model-description" [(ngModel)]="description" name="description"></textarea>
-  <button>Crear modelo</button>
+ </header>
+ <section class="sigeac-page-body">
+ <form (ngSubmit)="createModel()" class="sigeac-form-layout"><div class="sigeac-form-grid">
+  <div class="sigeac-form-field"><label for="model-name">Nombre</label><input id="model-name" [(ngModel)]="name" name="name" required maxlength="200"></div>
+  <div class="sigeac-form-field sigeac-form-wide"><label for="model-description">Descripción</label><textarea id="model-description" [(ngModel)]="description" name="description"></textarea></div>
+  <div class="sigeac-form-actions"><button>Crear modelo</button></div>
+ </div>
  </form>
  @if(modelId()){
- <form (ngSubmit)="createConfigured()">
+ <form (ngSubmit)="createConfigured()" class="sigeac-form-layout"><div class="sigeac-form-grid">
   <h3>Versión en borrador completa</h3>
-  <label for="source">Fuente</label><textarea id="source" [(ngModel)]="source" name="source" required></textarea>
-  <label for="nodes-json">Jerarquía de nodos y tipos (JSON)</label><textarea id="nodes-json" rows="10" [(ngModel)]="nodesJson" name="nodesJson" required></textarea>
-  <label for="configuration-json">Indicadores, fuentes y reglas de valoración (JSON)</label><textarea id="configuration-json" rows="16" [(ngModel)]="configurationJson" name="configurationJson" required></textarea>
-  <button>Crear borrador configurable</button>
+  <div class="sigeac-form-field sigeac-form-wide"><label for="source">Fuente</label><textarea id="source" [(ngModel)]="source" name="source" required></textarea></div>
+  <div class="sigeac-form-field sigeac-form-wide"><label for="nodes-json">Jerarquía de nodos y tipos (JSON)</label><textarea id="nodes-json" rows="10" [(ngModel)]="nodesJson" name="nodesJson" required></textarea></div>
+  <div class="sigeac-form-field sigeac-form-wide"><label for="configuration-json">Indicadores, fuentes y reglas de valoración (JSON)</label><textarea id="configuration-json" rows="16" [(ngModel)]="configurationJson" name="configurationJson" required></textarea></div>
+  <div class="sigeac-form-actions"><button>Crear borrador configurable</button></div>
+ </div>
  </form>}
  @if(version();as value){
  <section aria-labelledby="version-title">
@@ -32,21 +38,23 @@ import {PublicationPanel} from '../ui/publication-panel.component';
  <section aria-labelledby="applicability-title">
   <h3 id="applicability-title">Aplicabilidad institucional por carrera</h3>
   <p>La publicación no infiere vigencia. Registre una decisión explícita con procedencia.</p>
-  <form (ngSubmit)="decide(value)">
-   <label for="career-id">Carrera (UUID)</label><input id="career-id" [(ngModel)]="careerId" name="careerId" required>
-   <label for="decision">Decisión</label><select id="decision" [(ngModel)]="decision" name="decision"><option value="APPLICABLE">Aplicable</option><option value="NOT_APPLICABLE">No aplicable</option><option value="EXPIRED">Vencida</option></select>
-   <label for="valid-from">Vigente desde</label><input id="valid-from" type="date" [(ngModel)]="validFrom" name="validFrom" required>
-   <label for="valid-until">Vigente hasta (opcional)</label><input id="valid-until" type="date" [(ngModel)]="validUntil" name="validUntil">
-   <label for="authority">Autoridad competente</label><input id="authority" [(ngModel)]="authorityFunction" name="authorityFunction" required>
-   <label for="legal-basis">Base legal o decisión</label><input id="legal-basis" [(ngModel)]="legalBasis" name="legalBasis" required>
-   <label for="decision-document">Documento de respaldo</label><input id="decision-document" [(ngModel)]="decisionDocument" name="decisionDocument" required>
-   <label for="decision-reason">Motivo</label><textarea id="decision-reason" [(ngModel)]="decisionReason" name="decisionReason" required></textarea>
-   <button [disabled]="applicabilityBusy()">Registrar decisión</button>
+  <form (ngSubmit)="decide(value)" class="sigeac-form-layout"><div class="sigeac-form-grid">
+   <div class="sigeac-form-field"><label for="career-id">Carrera (UUID)</label><input id="career-id" [(ngModel)]="careerId" name="careerId" required></div>
+   <div class="sigeac-form-field"><label for="decision">Decisión</label><select id="decision" [(ngModel)]="decision" name="decision"><option value="APPLICABLE">Aplicable</option><option value="NOT_APPLICABLE">No aplicable</option><option value="EXPIRED">Vencida</option></select></div>
+   <div class="sigeac-form-field"><label for="valid-from">Vigente desde</label><input id="valid-from" type="date" [(ngModel)]="validFrom" name="validFrom" required></div>
+   <div class="sigeac-form-field"><label for="valid-until">Vigente hasta (opcional)</label><input id="valid-until" type="date" [(ngModel)]="validUntil" name="validUntil"></div>
+   <div class="sigeac-form-field"><label for="authority">Autoridad competente</label><input id="authority" [(ngModel)]="authorityFunction" name="authorityFunction" required></div>
+   <div class="sigeac-form-field"><label for="legal-basis">Base legal o decisión</label><input id="legal-basis" [(ngModel)]="legalBasis" name="legalBasis" required></div>
+   <div class="sigeac-form-field sigeac-form-wide"><label for="decision-document">Documento de respaldo</label><input id="decision-document" [(ngModel)]="decisionDocument" name="decisionDocument" required></div>
+   <div class="sigeac-form-field sigeac-form-wide"><label for="decision-reason">Motivo</label><textarea id="decision-reason" [(ngModel)]="decisionReason" name="decisionReason" required></textarea></div>
+   <div class="sigeac-form-actions"><button [disabled]="applicabilityBusy()">Registrar decisión</button></div>
+  </div>
   </form>
   @if(latestApplicability();as latest){<p role="status">Última decisión: {{latest.status}} · revisión {{latest.revision}} · desde {{latest.validFrom}}</p>}
  </section>}}
  @if(message()){<p role="alert">{{message()}}</p>}
- </section>`})
+ </section>
+ </div>`})
 export class ModelEditorPage{
  name='Modelo Piloto Sintético';
  description='Configuración demostrativa sin valor institucional';

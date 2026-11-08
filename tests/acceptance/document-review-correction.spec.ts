@@ -1,3 +1,4 @@
+import {unwrapApiResponse} from '../../scripts/api-response.mjs';
 import {expect, test, APIRequestContext, APIResponse, Response} from '@playwright/test';
 
 const processId = '40000000-0000-0000-0000-000000000001';
@@ -6,7 +7,7 @@ const requiredSourceAId = '80000000-0000-0000-0000-000000000001';
 
 async function json(response: APIResponse | Response, status = 200) {
   expect(response.status(), await response.text()).toBe(status);
-  return response.json();
+  return response.json().then(unwrapApiResponse);
 }
 
 async function login(api: APIRequestContext, username: string) {
@@ -36,14 +37,14 @@ test('D5: v1 documental REJECTED exige fundamento, la subsanacion crea un suceso
       data: {requiredSourceId: requiredSourceAId, coverageNote: 'Cobertura sintetica declarada para D5'}
     });
     expect(coverage.status()).toBe(201);
-    expect((await coverage.json()).versionId).toBe(version1);
+    expect((await coverage.json().then(unwrapApiResponse)).versionId).toBe(version1);
     const coverageEtag = coverage.headers()['etag'];
     const reference = await collect.post(`/api/v1/evidence-versions/${version1}/external-references`, {
       headers: {...collectHeaders, 'If-Match': coverageEtag},
       data: {uri: 'https://sintetico.unl.edu.ec/d5/evidencia-v1', description: 'Referencia externa sintetica para la revision D5'}
     });
     expect(reference.status()).toBe(201);
-    expect((await reference.json()).uri).toBe('https://sintetico.unl.edu.ec/d5/evidencia-v1');
+    expect((await reference.json().then(unwrapApiResponse)).uri).toBe('https://sintetico.unl.edu.ec/d5/evidencia-v1');
     const submitted = await collect.post(`/api/v1/evidence-versions/${version1}/submit`, {
       headers: {...collectHeaders, 'If-Match': reference.headers()['etag']}, data: {}
     });
@@ -63,7 +64,7 @@ test('D5: v1 documental REJECTED exige fundamento, la subsanacion crea un suceso
       }]}
     });
     expect(staleDecision.status()).toBe(412);
-    expect((await staleDecision.json()).code).toBe('STALE_REVIEW');
+    expect((await staleDecision.json().then(unwrapApiResponse)).code).toBe('STALE_REVIEW');
 
     const inbox = await json(await review.get(`/api/v1/processes/${processId}/document-review/inbox`));
     expect(inbox).toContainEqual(expect.objectContaining({versionId: version1, revisionNumber: 1}));
@@ -78,7 +79,7 @@ test('D5: v1 documental REJECTED exige fundamento, la subsanacion crea un suceso
       }]}
     });
     expect(rejected.status()).toBe(201);
-    const decisionBody = await rejected.json();
+    const decisionBody = await rejected.json().then(unwrapApiResponse);
     const decisionId = decisionBody.id;
     expect(decisionBody.versionId).toBe(version1);
     expect(decisionBody.decision).toBe('REJECTED');
@@ -93,13 +94,13 @@ test('D5: v1 documental REJECTED exige fundamento, la subsanacion crea un suceso
       headers: {...collectHeaders, 'If-Match': '"5"'}
     });
     expect(staleCorrection.status()).toBe(412);
-    expect((await staleCorrection.json()).code).toBe('STALE_REVIEW');
+    expect((await staleCorrection.json().then(unwrapApiResponse)).code).toBe('STALE_REVIEW');
 
     const correction = await collect.post(`/api/v1/document-review-decisions/${decisionId}/correction`, {
       headers: {...collectHeaders, 'If-Match': '"0"'}
     });
     expect(correction.status()).toBe(201);
-    const corrected = await correction.json();
+    const corrected = await correction.json().then(unwrapApiResponse);
     expect(corrected.correctedVersionId).toBe(version1);
     const version2 = corrected.successorVersionId;
     expect(version2).not.toBe(version1);
@@ -109,7 +110,7 @@ test('D5: v1 documental REJECTED exige fundamento, la subsanacion crea un suceso
       headers: {...collectHeaders, 'If-Match': '"0"'}
     });
     expect(repeated.status()).toBe(409);
-    expect((await repeated.json()).code).toBe('SUCCESSOR_EXISTS');
+    expect((await repeated.json().then(unwrapApiResponse)).code).toBe('SUCCESSOR_EXISTS');
 
     const inheritedCoverage = await json(await collect.get(`/api/v1/evidence-versions/${version2}/source-coverages`));
     expect(inheritedCoverage).toContainEqual(expect.objectContaining({requiredSourceId: requiredSourceAId}));
@@ -128,7 +129,7 @@ test('D5: v1 documental REJECTED exige fundamento, la subsanacion crea un suceso
       }]}
     });
     expect(accepted.status()).toBe(201);
-    expect((await accepted.json()).decision).toBe('ACCEPTED');
+    expect((await accepted.json().then(unwrapApiResponse)).decision).toBe('ACCEPTED');
     expect(accepted.headers()['etag']).toBe('"0"');
 
     const correctedReview = await json(await review.get(`/api/v1/evidence-versions/${version2}/document-review`));

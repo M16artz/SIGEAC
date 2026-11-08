@@ -1,3 +1,4 @@
+import {unwrapApiResponse} from '../../scripts/api-response.mjs';
 import http from 'k6/http';
 import {check, fail, sleep} from 'k6';
 
@@ -34,14 +35,14 @@ export function setup() {
   }
   const first = read(`${processPath}/documentary-progress?page=0&size=20`, sessions[0], 'progress page');
   if (first.status !== 200) fail(`Dataset validation failed: ${first.status}`);
-  const a = first.json();
+  const a = unwrapApiResponse(first.json());
   if (!check(a, {
     'dataset has 500 applicable sources': x => x.totalSources === dataset.requiredSources && x.requiredSourceTotal === dataset.requiredSources,
     'registered sources are distinct despite 10000 versions': x => x.registeredSourceTotal === dataset.requiredSources && x.collectionPercent === 100,
     'documentary acceptance is not invented': x => x.acceptedSourceTotal === 0 && x.documentReviewPercent === 0,
     'page size is bounded': x => x.sources.length === 20 && x.page === 0 && x.size === 20
   })) fail('Unexpected synthetic dataset or pagination');
-  const b = read(`${processPath}/documentary-progress?page=1&size=20`, sessions[0], 'progress page').json();
+  const b = unwrapApiResponse(read(`${processPath}/documentary-progress?page=1&size=20`, sessions[0], 'progress page').json());
   if (!check(b, {'successive pages do not overlap': x => x.sources.length === 20 && x.sources.every(s => !a.sources.some(p => p.id === s.id))})) {
     fail('Pagination duplicates source IDs');
   }
@@ -55,11 +56,11 @@ export default function ({sessions}) {
   const response = read(`${processPath}/documentary-progress?page=${page}&size=20`, session, 'progress page');
   check(response, {
     'progress is authorized': r => r.status === 200,
-    'progress remains bounded and scoped': r => r.status === 200 && r.json('sources').length === 20
-      && r.json('processId') === dataset.processId && r.json('totalSources') === dataset.requiredSources
+    'progress remains bounded and scoped': r => r.status === 200 && r.json('data.sources').length === 20
+      && r.json('data.processId') === dataset.processId && r.json('data.totalSources') === dataset.requiredSources
   });
   const history = read(`${processPath}/closures?page=0&size=20`, session, 'closure history');
   check(history, {'history is paginated and empty before closure': r => r.status === 200
-    && r.json('items').length === 0 && r.json('totalElements') === 0});
+    && r.json('data.items').length === 0 && r.json('meta.totalElements') === 0});
   sleep(1);
 }

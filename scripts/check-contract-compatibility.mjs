@@ -8,8 +8,8 @@ const require=createRequire(path.join(root,'frontend','package.json'));
 const {parse}=require('yaml');
 const methods=['get','post','put','patch','delete'];
 const cache=new Map();
-function document(file){if(!cache.has(file))cache.set(file,parse(readFileSync(file,'utf8')));return cache.get(file);}
-function resolve(node,file){
+export function document(file){if(!cache.has(file))cache.set(file,parse(readFileSync(file,'utf8')));return cache.get(file);}
+export function resolve(node,file){
   if(!node?.$ref)return {node,file};
   const [relative,pointer]=node.$ref.split('#');const destination=path.resolve(path.dirname(file),relative||path.basename(file));
   const value=(pointer||'').split('/').slice(1).reduce((value,key)=>value[key.replaceAll('~1','/').replaceAll('~0','~')],document(destination));

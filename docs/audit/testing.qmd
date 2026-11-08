@@ -1,0 +1,118 @@
+---
+title: "Pruebas: inventario estático, comandos y límites"
+date: 2026-11-06
+---
+
+**Actualización posterior — 2026-11-08:** el sobre JSON y los controles HTTP se han corregido. Consulte el [contrato vigente](../api/response-contract.qmd) y la [evidencia actual](../../tests/acceptance/results/api-response-hardening.md). El texto del 6 de noviembre se conserva como diagnóstico histórico.
+
+## Estado de la evidencia
+
+**Compilación, pruebas del backend, migraciones y comprobaciones HTTP actuales: NO EJECUTADAS (NOT RUN).** Esta revisión leyó únicamente el código fuente y el texto de informes existentes. Los comandos siguientes son instrucciones para una validación futura, no resultados. No se instalaron dependencias, no se ejecutó código del backend ni se contactó una base de datos de pruebas. Los resultados del renderizado documental se centralizan en [validation.qmd](validation.qmd). La [revisión del backend](backend.qmd) describe los flujos y hallazgos de implementación.
+
+El árbol inspeccionado contiene **129 archivos fuente `*Test.java`** en `backend/src/test/java`. Es un recuento de archivos, no de casos de prueba ni un porcentaje de cobertura. No se estableció una medición actual de cobertura de líneas o ramas.
+
+## Capas reales de pruebas
+
+| Capa | Fuentes representativas | Qué comprueba el código y sus límites |
+|---|---|---|
+| Dominio | [ProcessStateMachineTest](../../backend/src/test/java/ec/edu/unl/sec/selfassessment/domain/ProcessStateMachineTest.java), [PublicationValidatorTest](../../backend/src/test/java/ec/edu/unl/sec/evaluationmodel/domain/PublicationValidatorTest.java), [FileValidationPolicyTest](../../backend/src/test/java/ec/edu/unl/sec/filestorage/domain/FileValidationPolicyTest.java) | Transiciones del dominio, requisitos de publicación y política de archivos; no ejercita HTTP, configuración de producción ni comportamiento de base de datos. |
+| Políticas de aplicación | [SessionServiceTest](../../backend/src/test/java/ec/edu/unl/sec/identityaccess/application/SessionServiceTest.java), [ScopeAuthorizationServiceTest](../../backend/src/test/java/ec/edu/unl/sec/identityaccess/application/ScopeAuthorizationServiceTest.java), [CompleteWorkflowAuthorizationTest](../../backend/src/test/java/ec/edu/unl/sec/identityaccess/application/CompleteWorkflowAuthorizationTest.java), [SubmitEvidenceServiceTest](../../backend/src/test/java/ec/edu/unl/sec/evidence/application/SubmitEvidenceServiceTest.java) | Políticas de sesión y autorización por ámbito, remisión y decisiones de flujo; los datos y objetos de prueba del servicio no demuestran la aplicación real de filtros HTTP. |
+| Controladores y HTTP | [SessionControllerTest](../../backend/src/test/java/ec/edu/unl/sec/identityaccess/api/SessionControllerTest.java), [EvidenceDraftControllerTest](../../backend/src/test/java/ec/edu/unl/sec/evidence/api/EvidenceDraftControllerTest.java), [DocumentReviewControllerTest](../../backend/src/test/java/ec/edu/unl/sec/documentreview/api/DocumentReviewControllerTest.java), [ReportControllerTest](../../backend/src/test/java/ec/edu/unl/sec/governance/api/ReportControllerTest.java) | DTO, estados, cabeceras y errores mediante MockMvc independiente. Varias suites instalan filtros de correlación y sesión explícitamente; la del controlador de sesión no. En conjunto no demuestran la configuración efectiva de SecurityFilterChain. |
+| Contrato HTTP compartido | [ApiProblemHandlerTest](../../backend/src/test/java/ec/edu/unl/sec/shared/api/ApiProblemHandlerTest.java), [EntityTagValidationTest](../../backend/src/test/java/ec/edu/unl/sec/shared/api/EntityTagValidationTest.java), [EntityTagSupportTest](../../backend/src/test/java/ec/edu/unl/sec/shared/api/EntityTagSupportTest.java) | Conversión a respuestas de error y comportamiento de ETags fuertes; los analizadores y rutas de llamada particulares requieren comprobaciones adicionales. |
+| Texto del contrato | [OpenApiContractTest](../../backend/src/test/java/ec/edu/unl/sec/contract/OpenApiContractTest.java) | Busca cadenas en el YAML escrito para comprobar rutas, versión, campos de error y requisitos de evidencia. No analiza toda la semántica OpenAPI ni compara respuestas reales o generadas contra esquemas. |
+| Arquitectura | [ModuleArchitectureTest](../../backend/src/test/java/ec/edu/unl/sec/architecture/ModuleArchitectureTest.java) | Restricciones de capas y módulos con ArchUnit; no demuestra autorización en ejecución ni corrección transaccional. |
+| Contexto de aplicación SQLite | [SqliteApplicationContextTest](../../backend/src/test/java/ec/edu/unl/sec/support/SqliteApplicationContextTest.java), [ImprovementPersistenceTest](../../backend/src/test/java/ec/edu/unl/sec/improvement/infrastructure/ImprovementPersistenceTest.java) | Componentes reales de Spring con SQLite en memoria, directorios temporales y datos sintéticos. SQLite desactiva Flyway, usa su propio esquema y una sola conexión; la aceptación de PostgreSQL necesita ejecuciones propias. |
+| Sistema de archivos | [LocalFileStorageAdapterTest](../../backend/src/test/java/ec/edu/unl/sec/filestorage/infrastructure/LocalFileStorageAdapterTest.java), [ContentInspectionServiceTest](../../backend/src/test/java/ec/edu/unl/sec/filestorage/infrastructure/ContentInspectionServiceTest.java), [FileReconciliationServiceTest](../../backend/src/test/java/ec/edu/unl/sec/filestorage/application/FileReconciliationServiceTest.java), [RecoveryClaimContentionTest](../../backend/src/test/java/ec/edu/unl/sec/filestorage/infrastructure/RecoveryClaimContentionTest.java) | Almacenamiento, integridad, políticas y recuperación; el movimiento atómico real y las particularidades de plataforma dependen de la ejecución. |
+| Migraciones, integridad y concurrencia PostgreSQL | [CompleteWorkflowMigrationTest](../../backend/src/test/java/ec/edu/unl/sec/migration/CompleteWorkflowMigrationTest.java), [EvidenceConcurrencyIntegrationTest](../../backend/src/test/java/ec/edu/unl/sec/evidence/infrastructure/EvidenceConcurrencyIntegrationTest.java), [DocumentaryClosureConcurrencyTest](../../backend/src/test/java/ec/edu/unl/sec/reporting/infrastructure/DocumentaryClosureConcurrencyTest.java), [IntegralClosureBytesTest](../../backend/src/test/java/ec/edu/unl/sec/archive/infrastructure/IntegralClosureBytesTest.java) | Migraciones, actualizaciones protegidas, bytes inmutables y condiciones de carrera, sujetos a variables explícitas de activación. Una ejecución ordinaria sin esas variables no los valida. |
+| Datos de prueba a escala | [CompleteWorkflowPerformanceDataTest](../../backend/src/test/java/ec/edu/unl/sec/support/CompleteWorkflowPerformanceDataTest.java) | Valida un modelo sintético de 500 indicadores y el recuento de fuentes. No mide solicitudes, carga concurrente, latencia ni rendimiento por unidad de tiempo: comprueba los datos de prueba, no la aceptación de rendimiento. |
+
+## Selección de base de datos y condiciones de activación
+
+[PostgresTestSupport](../../backend/src/test/java/ec/edu/unl/sec/support/PostgresTestSupport.java), líneas 8–32, selecciona un contenedor `postgres:18-alpine` iniciado bajo demanda cuando `SEC_USE_TESTCONTAINERS=true`. En otro caso usa `SEC_TEST_DB_URL`, `SEC_TEST_DB_USER` y `SEC_TEST_DB_PASSWORD`, con una base local de pruebas como alternativa. Activar Testcontainers no activa automáticamente las pruebas condicionadas.
+
+| Condición | Ejemplos en el código |
+|---|---|
+| `SEC_RUN_DATABASE_TESTS=true` | [CleanDatabaseMigrationTest](../../backend/src/test/java/ec/edu/unl/sec/migration/CleanDatabaseMigrationTest.java), además de pruebas de migraciones de identidad, modelos de evaluación y evidencia. |
+| `SEC_RUN_FILE_DATABASE_TESTS=true` | [CompleteWorkflowMigrationTest](../../backend/src/test/java/ec/edu/unl/sec/migration/CompleteWorkflowMigrationTest.java), concurrencia e inmutabilidad de evidencia, concurrencia del cierre documental, bytes del cierre integral y un caso condicionado de persistencia de instantáneas documentales. |
+| `SEC_RUN_GOVERNANCE_DATABASE_TESTS=true` | [ProcessGovernanceMigrationTest](../../backend/src/test/java/ec/edu/unl/sec/migration/ProcessGovernanceMigrationTest.java). |
+
+Algunas pruebas de migración llaman a `Flyway.clean()` con la limpieza habilitada expresamente. **Usar únicamente una base de datos de pruebas aislada y desechable.** Es un comportamiento concreto de eliminación de datos. No dirigir estos comandos a datos de desarrollo, compartidos o de producción. Revisar las condiciones en el código de las pruebas seleccionadas; una sola variable no controla todas las suites de base de datos.
+
+## Comandos reales de validación del backend: NO EJECUTADOS
+
+Partir de la raíz del repositorio en PowerShell. El [POM](../../backend/pom.xml) exige Java 21–25 y Maven 3.9.x; el lanzador incluido proporciona Maven. No se comprobó la disponibilidad de dependencias, Docker ni imágenes de contenedor. Estos comandos ejecutan código del proyecto y quedan para un entorno de validación autorizado. Tras el primer `Set-Location backend`, los bloques posteriores de Maven se ejecutan desde ese directorio.
+
+Comprobaciones focalizadas sin las suites PostgreSQL:
+
+```powershell
+Set-Location backend
+.\mvnw.cmd --batch-mode '-Dtest=ModuleArchitectureTest,OpenApiContractTest,ApiProblemHandlerTest,EntityTagSupportTest,EntityTagValidationTest,SessionServiceTest,ScopeAuthorizationServiceTest' test
+```
+
+Comportamiento de controladores, incluidos los filtros instalados expresamente por las suites seleccionadas:
+
+```powershell
+.\mvnw.cmd --batch-mode '-Dtest=SessionControllerTest,EvidenceDraftControllerTest,DocumentReviewControllerTest,ReportControllerTest' test
+```
+
+Contexto Spring con SQLite y comprobaciones del sistema de archivos:
+
+```powershell
+.\mvnw.cmd --batch-mode '-Dtest=SqliteApplicationContextTest,ImprovementPersistenceTest,LocalFileStorageAdapterTest,ContentInspectionServiceTest,FileReconciliationServiceTest' test
+```
+
+Verificación completa con todas las condiciones PostgreSQL identificadas activadas, mediante contenedores desechables de Testcontainers sin proporcionar credenciales de conexión:
+
+```powershell
+$env:SEC_USE_TESTCONTAINERS = 'true'
+$env:SEC_RUN_DATABASE_TESTS = 'true'
+$env:SEC_RUN_FILE_DATABASE_TESTS = 'true'
+$env:SEC_RUN_GOVERNANCE_DATABASE_TESTS = 'true'
+.\mvnw.cmd --batch-mode verify
+```
+
+Se espera que el comando completo encuentre la aserción de migraciones desactualizada descrita más abajo, salvo que se corrija por separado; no se afirma un resultado satisfactorio. Usar una consola dedicada para evitar que estas variables afecten a comandos posteriores ajenos. La salida de Surefire se encuentra en `backend/target/surefire-reports`; revisar los casos omitidos además de fallos y errores.
+
+El comando exacto de integración continua del backend en Linux es:
+
+```sh
+cd backend
+./mvnw --batch-mode verify
+```
+
+## Comprobaciones documentales y validación central
+
+El [flujo de documentación](../../.github/workflows/documentation-ci.yml) define las siguientes comprobaciones del repositorio, desde su raíz:
+
+```sh
+cd frontend
+npm ci
+npm run contracts
+cd ..
+sh scripts/verify-synthetic-data.sh
+quarto render
+```
+
+`npm run contracts` valida los contratos configurados; no demuestra conformidad de las respuestas del backend en ejecución. Este bloque documenta los comandos del flujo, no sus resultados. **[validation.qmd](validation.qmd) es la fuente central de los resultados del renderizado documental**, independiente del estado **NO EJECUTADAS** de las pruebas del backend registradas aquí.
+
+## Hallazgos y brechas de los flujos de validación
+
+1. **Integración continua solo manual.** [backend-ci.yml](../../.github/workflows/backend-ci.yml), líneas 3–4, declara únicamente `workflow_dispatch`. El flujo revisado no valida automáticamente envíos ni solicitudes de incorporación. Proporciona PostgreSQL 18 y Java 25 y ejecuta Maven verify, líneas 9–36. No se inspeccionaron las reglas de protección de ramas ni automatizaciones externas.
+2. **Faltan condiciones de base de datos en integración continua.** Ese flujo establece `SEC_RUN_DATABASE_TESTS=true`, pero no `SEC_RUN_FILE_DATABASE_TESTS` ni `SEC_RUN_GOVERNANCE_DATABASE_TESTS`. Las pruebas controladas por estas últimas variables permanecen desactivadas con esa configuración. No debe describirse su verificación como aceptación completa de concurrencia y cierres PostgreSQL.
+3. **Expectativa de migraciones desactualizada.** [CleanDatabaseMigrationTest](../../backend/src/test/java/ec/edu/unl/sec/migration/CleanDatabaseMigrationTest.java), líneas 15–21, aplica todas las migraciones disponibles y exige exactamente 15 ejecutadas. El directorio inspeccionado contiene 27 archivos, incluidos V016_1 y V026. Es una discrepancia estática y se espera un fallo si se alcanza esa aserción; resultado real: **NO EJECUTADO**. [CompleteWorkflowMigrationTest](../../backend/src/test/java/ec/edu/unl/sec/migration/CompleteWorkflowMigrationTest.java) apunta por separado a V026 y depende de la condición de archivos y base de datos.
+4. **La configuración HTTP de seguridad carece de una ejecución de aceptación demostrada.** Las pruebas independientes de controladores suelen inyectar sesiones o identidades autenticadas simuladas. SessionControllerTest no instala filtros de seguridad; las suites seleccionadas de evidencia, revisión e informes instalan el filtro propio de sesión, pero no la cadena HttpSecurity real. Las pruebas de contexto SQLite cargan Spring, pero no constituyen una prueba HTTP completa de la cadena de filtros. El comportamiento de extremo a extremo de rutas no autorizadas, cookies, excepción de inicio de sesión y CSRF al cerrar sesión sigue sin verificarse aquí.
+5. **Las pruebas de contrato permiten divergencias.** La coincidencia de cadenas puede pasar aunque diverjan los esquemas de solicitud y respuesta o los contratos generados de los controladores. OpenApiContractTest tiene seis métodos `@Test`, pero su presencia y un informe histórico satisfactorio no demuestran aceptación del código actual.
+6. **No hay evidencia actual de aceptación bajo carga ni operativa.** Los datos de 500 indicadores no constituyen una medición de rendimiento. No se realizaron aquí simulacros de recuperación, restauración coordinada de base de datos y archivos, ejecución HTTP con perfil de producción ni mediciones de rendimiento concurrente.
+
+## Artefactos históricos: no son resultados actuales
+
+Se inspeccionó texto local de Surefire en modo de solo lectura. No se estableció la procedencia que vincule esos artefactos con la revisión actual del código o el entorno. Son informes históricos seleccionados, no un total de toda la suite:
+
+| Ruta del informe local existente | Resultado histórico declarado | Revisión actual |
+|---|---|---|
+| `backend/target/surefire-reports/ec.edu.unl.sec.architecture.ModuleArchitectureTest.txt`, línea 4 | 10 pruebas, 0 fallos, 0 errores, 0 omitidas | **NO EJECUTADAS** |
+| `backend/target/surefire-reports/ec.edu.unl.sec.contract.OpenApiContractTest.txt`, línea 4 | 6 pruebas, 0 fallos, 0 errores, 0 omitidas | **NO EJECUTADAS** |
+
+`target/` contiene salida local generada que puede faltar en una copia limpia del repositorio o en la documentación publicada. Estas rutas solo identifican los artefactos inspeccionados; no constituyen evidencia duradera de una entrega. Ningún resultado histórico se utiliza para afirmar que el código actual pasa las pruebas.
+
+Esta tarea modifica únicamente documentación. La inspección estática de rutas y enlaces no sustituye a las pruebas del backend, que permanecen **NO EJECUTADAS**. Los resultados del renderizado se consultan exclusivamente en la página central [validation.qmd](validation.qmd).

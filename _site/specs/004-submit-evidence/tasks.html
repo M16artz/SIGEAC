@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>tasks – SEC-UNL — Documentación</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d0cfe7a3482e0d49a74229a8f3b76718.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      SEC-UNL — Documentación
+      </li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">SEC-UNL — Documentación</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SIGEAC · Documentación técnica SEC-UNL</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Guía técnica y auditoría</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Auditoría y guía de lectura</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/context.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Contexto, actores y alcance real</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/processes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Procesos y flujo documental de extremo a extremo</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/architecture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Arquitectura C4 y código</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/backend.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Backend: auditoría estática de la implementación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/api.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">API vigente y diferencias del contrato</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/api/response-contract.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Contrato de respuesta y protección de la API</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/activities/acd5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ACD5 — Demostración técnica y estándares web</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pruebas: inventario estático, comandos y límites</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/operation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instalación, ejecución y operación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/evolution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Evolución, SDD y decisiones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/inventory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Inventario documental y decisiones de conservación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/traceability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Auditoría de trazabilidad</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/compliance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matriz de cumplimiento y evaluación preliminar</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/validation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Registro de validación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Informe final de consolidación documental</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Requisitos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../feature-map.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mapa de funcionalidades — SIGEAC</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/requirements/spec.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Especificación de funcionalidad: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/requirements/process-flows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Catálogo canónico de procesos P01–P16</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/requirements/domain-rules.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Actores, decisiones y reglas verificables</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Planificación</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/planning/plan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Plan de implementación: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/planning/next-steps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Siguientes pasos de implementación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/planning/tasks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tareas: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../specs/005-complete-evaluation-workflows/plan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Implementation Plan: Flujos completos de evaluación de carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../specs/005-complete-evaluation-workflows/tasks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tasks: Flujos completos de evaluación de carreras</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Arquitectura</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/architecture/research.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Investigación y decisiones técnicas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/architecture/data-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelo de datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Decisiones de arquitectura</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0001-modular-monolith.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0001: Monolito modular por capacidades</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0002-file-storage-port.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0002: Puerto para almacenamiento externo de archivos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0015-configurable-evaluation-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0015: Gestión configurable de múltiples modelos de evaluación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0016-evaluation-strategies-import-adapters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0016: Estrategias de valoración y adaptadores de importación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0017-source-coverage-and-process-governance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0017: Cobertura documental, gobierno del proceso y cierres</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0018-catalog-contract-migration-compatibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0018 — Compatibilidad del catálogo y secuencia de migraciones</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Diagramas C4</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/architecture/complete-workflows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Arquitectura de P01–P16</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Documentación técnica</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/technical/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Documentación técnica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/technical/quickstart.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guía de validación rápida</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/technical/migration-p01-p16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Transición de contratos y datos P01–P16</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Pruebas y calidad</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/traceability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matriz de trazabilidad P01–P16</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/process-acceptance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matriz de aceptación por proceso</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/checklists/requirements.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista de calidad de la especificación: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/checklists/governance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista de calidad de gobierno y seguridad: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Manual de usuario</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Manual de usuario</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d1-careers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Carreras y unidades académicas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d2-d3-models-planning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D2–D3 — Modelos y planificación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d4-d5-evidence-review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D4–D5 — Evidencias, revisión y subsanación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d6-documentary-progress.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Seguimiento documental</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-manual-evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Valoración académica manual</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-quantitative-evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Variables y cálculo cuantitativo</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-academic-reconciliation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Discrepancias y conciliación académica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-d8-reports-archive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D7–D8 — Informes, mejora y archivo</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#description-dependency-ordered-implementation-tasks-for-i3-evidence-collection-and-submission" id="toc-description-dependency-ordered-implementation-tasks-for-i3-evidence-collection-and-submission" class="nav-link active" data-scroll-target="#description-dependency-ordered-implementation-tasks-for-i3-evidence-collection-and-submission">description: “Dependency-ordered implementation tasks for I3 evidence collection and submission”</a></li>
+  <li><a href="#tasks-i3-â-recopilaciã³n-y-remisiã³n-de-evidencias" id="toc-tasks-i3-â-recopilaciã³n-y-remisiã³n-de-evidencias" class="nav-link" data-scroll-target="#tasks-i3-â-recopilaciã³n-y-remisiã³n-de-evidencias">Tasks: I3 â€” RecopilaciÃ³n y remisiÃ³n de evidencias</a>
+  <ul class="collapse">
+  <li><a href="#format-id-p-story-description" id="toc-format-id-p-story-description" class="nav-link" data-scroll-target="#format-id-p-story-description">Format: <code>[ID] [P?] [Story] Description</code></a></li>
+  <li><a href="#phase-1-setup-shared-infrastructure" id="toc-phase-1-setup-shared-infrastructure" class="nav-link" data-scroll-target="#phase-1-setup-shared-infrastructure">Phase 1: Setup (Shared Infrastructure)</a></li>
+  <li><a href="#phase-2-foundational-blocking-prerequisites" id="toc-phase-2-foundational-blocking-prerequisites" class="nav-link" data-scroll-target="#phase-2-foundational-blocking-prerequisites">Phase 2: Foundational (Blocking Prerequisites)</a>
+  <ul class="collapse">
+  <li><a href="#tests-first" id="toc-tests-first" class="nav-link" data-scroll-target="#tests-first">Tests first</a></li>
+  <li><a href="#shared-implementation" id="toc-shared-implementation" class="nav-link" data-scroll-target="#shared-implementation">Shared implementation</a></li>
+  </ul></li>
+  <li><a href="#phase-3-user-story-1-â-preparar-un-borrador-de-evidencia-priority-p1-ðÿž-mvp" id="toc-phase-3-user-story-1-â-preparar-un-borrador-de-evidencia-priority-p1-ðÿž-mvp" class="nav-link" data-scroll-target="#phase-3-user-story-1-â-preparar-un-borrador-de-evidencia-priority-p1-ðÿž-mvp">Phase 3: User Story 1 â€” Preparar un borrador de evidencia (Priority: P1) ðŸŽ¯ MVP</a>
+  <ul class="collapse">
+  <li><a href="#tests-for-user-story-1-â-write-and-fail-first" id="toc-tests-for-user-story-1-â-write-and-fail-first" class="nav-link" data-scroll-target="#tests-for-user-story-1-â-write-and-fail-first">Tests for User Story 1 â€” write and fail first</a></li>
+  <li><a href="#implementation-for-user-story-1" id="toc-implementation-for-user-story-1" class="nav-link" data-scroll-target="#implementation-for-user-story-1">Implementation for User Story 1</a></li>
+  </ul></li>
+  <li><a href="#phase-4-user-story-2-â-adjuntar-archivos-o-referencias-seguras-priority-p1" id="toc-phase-4-user-story-2-â-adjuntar-archivos-o-referencias-seguras-priority-p1" class="nav-link" data-scroll-target="#phase-4-user-story-2-â-adjuntar-archivos-o-referencias-seguras-priority-p1">Phase 4: User Story 2 â€” Adjuntar archivos o referencias seguras (Priority: P1)</a>
+  <ul class="collapse">
+  <li><a href="#tests-for-user-story-2-â-write-and-fail-first" id="toc-tests-for-user-story-2-â-write-and-fail-first" class="nav-link" data-scroll-target="#tests-for-user-story-2-â-write-and-fail-first">Tests for User Story 2 â€” write and fail first</a></li>
+  <li><a href="#implementation-for-user-story-2" id="toc-implementation-for-user-story-2" class="nav-link" data-scroll-target="#implementation-for-user-story-2">Implementation for User Story 2</a></li>
+  </ul></li>
+  <li><a href="#phase-5-user-story-3-â-remitir-una-versiã³n-inmutable-y-descargarla-priority-p1" id="toc-phase-5-user-story-3-â-remitir-una-versiã³n-inmutable-y-descargarla-priority-p1" class="nav-link" data-scroll-target="#phase-5-user-story-3-â-remitir-una-versiã³n-inmutable-y-descargarla-priority-p1">Phase 5: User Story 3 â€” Remitir una versiÃ³n inmutable y descargarla (Priority: P1)</a>
+  <ul class="collapse">
+  <li><a href="#tests-for-user-story-3-â-write-and-fail-first" id="toc-tests-for-user-story-3-â-write-and-fail-first" class="nav-link" data-scroll-target="#tests-for-user-story-3-â-write-and-fail-first">Tests for User Story 3 â€” write and fail first</a></li>
+  <li><a href="#implementation-for-user-story-3" id="toc-implementation-for-user-story-3" class="nav-link" data-scroll-target="#implementation-for-user-story-3">Implementation for User Story 3</a></li>
+  </ul></li>
+  <li><a href="#phase-6-user-story-4-â-corregir-mediante-una-versiã³n-sucesora-priority-p1" id="toc-phase-6-user-story-4-â-corregir-mediante-una-versiã³n-sucesora-priority-p1" class="nav-link" data-scroll-target="#phase-6-user-story-4-â-corregir-mediante-una-versiã³n-sucesora-priority-p1">Phase 6: User Story 4 â€” Corregir mediante una versiÃ³n sucesora (Priority: P1)</a>
+  <ul class="collapse">
+  <li><a href="#tests-for-user-story-4-â-write-and-fail-first" id="toc-tests-for-user-story-4-â-write-and-fail-first" class="nav-link" data-scroll-target="#tests-for-user-story-4-â-write-and-fail-first">Tests for User Story 4 â€” write and fail first</a></li>
+  <li><a href="#implementation-for-user-story-4" id="toc-implementation-for-user-story-4" class="nav-link" data-scroll-target="#implementation-for-user-story-4">Implementation for User Story 4</a></li>
+  </ul></li>
+  <li><a href="#phase-7-user-story-5-â-auditar-remisiones-y-fallos-priority-p2" id="toc-phase-7-user-story-5-â-auditar-remisiones-y-fallos-priority-p2" class="nav-link" data-scroll-target="#phase-7-user-story-5-â-auditar-remisiones-y-fallos-priority-p2">Phase 7: User Story 5 â€” Auditar remisiones y fallos (Priority: P2)</a>
+  <ul class="collapse">
+  <li><a href="#tests-for-user-story-5-â-write-and-fail-first" id="toc-tests-for-user-story-5-â-write-and-fail-first" class="nav-link" data-scroll-target="#tests-for-user-story-5-â-write-and-fail-first">Tests for User Story 5 â€” write and fail first</a></li>
+  <li><a href="#implementation-for-user-story-5" id="toc-implementation-for-user-story-5" class="nav-link" data-scroll-target="#implementation-for-user-story-5">Implementation for User Story 5</a></li>
+  </ul></li>
+  <li><a href="#phase-8-polish-cross-cutting-verification" id="toc-phase-8-polish-cross-cutting-verification" class="nav-link" data-scroll-target="#phase-8-polish-cross-cutting-verification">Phase 8: Polish &amp; Cross-Cutting Verification</a></li>
+  <li><a href="#dependencies-execution-order" id="toc-dependencies-execution-order" class="nav-link" data-scroll-target="#dependencies-execution-order">Dependencies &amp; Execution Order</a>
+  <ul class="collapse">
+  <li><a href="#phase-dependencies" id="toc-phase-dependencies" class="nav-link" data-scroll-target="#phase-dependencies">Phase dependencies</a></li>
+  <li><a href="#user-story-dependency-graph" id="toc-user-story-dependency-graph" class="nav-link" data-scroll-target="#user-story-dependency-graph">User-story dependency graph</a></li>
+  <li><a href="#within-each-story" id="toc-within-each-story" class="nav-link" data-scroll-target="#within-each-story">Within each story</a></li>
+  </ul></li>
+  <li><a href="#parallel-opportunities" id="toc-parallel-opportunities" class="nav-link" data-scroll-target="#parallel-opportunities">Parallel Opportunities</a></li>
+  <li><a href="#parallel-examples" id="toc-parallel-examples" class="nav-link" data-scroll-target="#parallel-examples">Parallel Examples</a>
+  <ul class="collapse">
+  <li><a href="#user-story-1" id="toc-user-story-1" class="nav-link" data-scroll-target="#user-story-1">User Story 1</a></li>
+  <li><a href="#user-story-2" id="toc-user-story-2" class="nav-link" data-scroll-target="#user-story-2">User Story 2</a></li>
+  <li><a href="#user-story-3" id="toc-user-story-3" class="nav-link" data-scroll-target="#user-story-3">User Story 3</a></li>
+  </ul></li>
+  <li><a href="#implementation-strategy" id="toc-implementation-strategy" class="nav-link" data-scroll-target="#implementation-strategy">Implementation Strategy</a>
+  <ul class="collapse">
+  <li><a href="#mvp-first" id="toc-mvp-first" class="nav-link" data-scroll-target="#mvp-first">MVP first</a></li>
+  <li><a href="#incremental-delivery" id="toc-incremental-delivery" class="nav-link" data-scroll-target="#incremental-delivery">Incremental delivery</a></li>
+  <li><a href="#before-implementation" id="toc-before-implementation" class="nav-link" data-scroll-target="#before-implementation">Before implementation</a></li>
+  </ul></li>
+  <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes">Notes</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<hr>
+<section id="description-dependency-ordered-implementation-tasks-for-i3-evidence-collection-and-submission" class="level2">
+<h2 class="anchored" data-anchor-id="description-dependency-ordered-implementation-tasks-for-i3-evidence-collection-and-submission">description: “Dependency-ordered implementation tasks for I3 evidence collection and submission”</h2>
+</section>
+<section id="tasks-i3-â-recopilaciã³n-y-remisiã³n-de-evidencias" class="level1">
+<h1>Tasks: I3 â€” RecopilaciÃ³n y remisiÃ³n de evidencias</h1>
+<p><strong>Input</strong>: Design documents from <code>/specs/004-submit-evidence/</code></p>
+<p><strong>Prerequisites</strong>: <code>plan.md</code>, <code>spec.md</code>, <code>research.md</code>, <code>data-model.md</code>, <code>contracts/openapi.yaml</code>, <code>quickstart.md</code></p>
+<p><strong>Tests</strong>: Required. The specification, constitution and plan require automated verification of authorization, file integrity/recovery, concurrency, immutability, succession and contracts. Write each test task first and verify that it fails for the intended reason before implementing the corresponding behavior.</p>
+<p><strong>Organization</strong>: Tasks are grouped by user story. US1â€“US4 are P1 and are ordered by the domain journey; US5 is P2. Each story remains independently testable with fixtures/doubles even when the integrated journey builds on earlier stories.</p>
+<section id="format-id-p-story-description" class="level2">
+<h2 class="anchored" data-anchor-id="format-id-p-story-description">Format: <code>[ID] [P?] [Story] Description</code></h2>
+<ul>
+<li><strong>[P]</strong>: Can run in parallel because it changes different files and has no dependency on an incomplete task.</li>
+<li><strong>[Story]</strong>: User story mapped from <code>spec.md</code>.</li>
+<li>Every task names concrete repository paths.</li>
+</ul>
+</section>
+<section id="phase-1-setup-shared-infrastructure" class="level2">
+<h2 class="anchored" data-anchor-id="phase-1-setup-shared-infrastructure">Phase 1: Setup (Shared Infrastructure)</h2>
+<p><strong>Purpose</strong>: Confirm upstream boundaries, add approved dependencies/configuration and prepare deterministic synthetic inputs.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">T001 Verify that I0 exposes authenticated identity plus function/process/indicator scope and I2 exposes active process, fixed model version, indicators and current assignments; record available interfaces and any blocking gaps without recreating I0/I2 rules in <code>specs/004-submit-evidence/implementation-prerequisites.md</code></label></li>
+<li><label><input type="checkbox" checked="">T002 Pin Apache Tika 3.x for backend detection and Playwright for <code>tests/acceptance/*.spec.ts</code>, document the required k6 version/installation and add executable test scripts in <code>backend/pom.xml</code>, <code>frontend/package.json</code>, <code>frontend/playwright.config.ts</code>, <code>tests/performance/README.md</code> and <code>specs/004-submit-evidence/research.md</code></label></li>
+<li><label><input type="checkbox" checked="">T003 [P] Bind typed file settings for <code>root</code>, exact <code>maxBytes=26214400</code>, active validation-policy identifier and configurable reconciliation grace/lease values in <code>backend/src/main/resources/application.yml</code> and <code>backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/FileStorageProperties.java</code></label></li>
+<li><label><input type="checkbox" checked="">T004 [P] Create deterministic generators/manifests for permitted small, exact 26 214 400-byte, 26 214 401-byte and declared/detected-mismatch files using no real institutional data in <code>scripts/generate-evidence-fixtures.ps1</code>, <code>scripts/generate-evidence-fixtures.sh</code>, <code>tests/fixtures/pilot/evidence/manifest.json</code> and <code>tests/fixtures/pilot/evidence/README.md</code></label></li>
+<li><label><input type="checkbox" checked="">T005 Create and approve the versioning/security/public-contract decision in <code>docs/adr/0003-evidence-versioning-contract.md</code>, then reconcile the approved I3 paths/schemas from <code>specs/004-submit-evidence/contracts/openapi.yaml</code> into <code>docs/technical/contracts/openapi.yaml</code> and validate both with <code>scripts/validate-contracts.mjs</code>, Redocly and <code>postman.cmd spec lint --issueType syntax --no-report-events</code></label></li>
+</ul>
+<hr>
+</section>
+<section id="phase-2-foundational-blocking-prerequisites" class="level2">
+<h2 class="anchored" data-anchor-id="phase-2-foundational-blocking-prerequisites">Phase 2: Foundational (Blocking Prerequisites)</h2>
+<p><strong>Purpose</strong>: Establish shared contract, persistence, authorization and storage boundaries used by every story.</p>
+<p><strong>âš&nbsp;ï¸ CRITICAL</strong>: T001 is a hard gate for T014 and every JPA, controller or integrated API/UI task. If I0/I2 contracts or migrations are missing, stop those tasks; only isolated domain/storage tests and implementations that use explicit doubles may continue. Do not create substitute I0/I2 tables or policies inside I3.</p>
+<section id="tests-first" class="level3">
+<h3 class="anchored" data-anchor-id="tests-first">Tests first</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">T006 [P] Extend contract tests to require every I3 path, strong draft <code>ETag</code>, mandatory <code>If-Match</code>, <code>412</code>, <code>428</code>, distinct declared/detected media types, full version snapshots and RFC 9457 <code>type</code>, <code>title</code>, <code>status</code>, <code>detail</code>, <code>instance</code>, <code>code</code>, <code>correlationId</code>, object-shaped <code>details</code> in <code>backend/src/test/java/ec/edu/unl/sec/contract/OpenApiContractTest.java</code></label></li>
+<li><label><input type="checkbox" checked="">T007 [P] Extend architecture tests so <code>evidence.domain</code> and <code>filestorage.domain</code> cannot depend on API/infrastructure, I3 cannot depend on I4â€“I8, and cross-module I0/I2/audit access occurs through application ports in <code>backend/src/test/java/ec/edu/unl/sec/architecture/ModuleArchitectureTest.java</code></label></li>
+<li><label><input type="checkbox" checked="">T008 [P] Add clean-database tests for V006 requiring the complete evidence schema, no binary columns/large objects, <code>RESTRICT</code> historical foreign keys and recovery indexes in <code>backend/src/test/java/ec/edu/unl/sec/migration/EvidenceMigrationTest.java</code>; leave submitted-row mutation guards to T046 after the successor migration reserved as V011 in T051</label></li>
+</ul>
+</section>
+<section id="shared-implementation" class="level3">
+<h3 class="anchored" data-anchor-id="shared-implementation">Shared implementation</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">T009 Unify backend/frontend/OpenAPI Problem Details on RFC 9457 standard members plus <code>code</code>, safe 8â€“64-character <code>correlationId</code> and <code>details: Record&lt;string,string&gt;</code> in <code>backend/src/main/java/ec/edu/unl/sec/shared/api/ApiProblemHandler.java</code>, <code>backend/src/main/java/ec/edu/unl/sec/shared/api/DomainProblemException.java</code>, <code>frontend/src/app/core/http/problem.ts</code> and <code>frontend/src/app/core/http/problem.spec.ts</code></label></li>
+<li><label><input type="checkbox" checked="">T010 [P] Define I3-owned read/authorization boundaries for current actor, process, fixed model version, indicator membership and assignment vigency in <code>backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceAuthorizationPort.java</code> and <code>backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceContextPort.java</code></label></li>
+<li><label><input type="checkbox" checked="">T011 [P] Implement reusable strong ETag parsing/rendering and map missing/stale preconditions to <code>428 PRECONDITION_REQUIRED</code> and <code>412 STALE_DRAFT</code> in <code>backend/src/main/java/ec/edu/unl/sec/shared/api/EntityTagSupport.java</code> and <code>backend/src/test/java/ec/edu/unl/sec/shared/api/EntityTagSupportTest.java</code></label></li>
+<li><label><input type="checkbox" checked="">T012 [P] Add a controlled failure-audit boundary that can persist safe rejection events after rollback while successful submission continues to use mandatory transaction participation in <code>backend/src/main/java/ec/edu/unl/sec/audit/application/FailureAuditPort.java</code> and <code>backend/src/main/java/ec/edu/unl/sec/audit/infrastructure/TransactionalFailureAuditAdapter.java</code></label></li>
+<li><label><input type="checkbox" checked="">T013 Redesign <code>FileStoragePort</code> around idempotent prepare/promote/open/verify and opaque keys; make <code>StoredFile</code> keep declared and detected type separately, lowercase SHA-256 matching <code>^[0-9a-f]{64}$</code>, and <code>sizeBytes</code> in <code>0..26214400</code> so policyâ€”not a constructorâ€”decides empty-file acceptance in <code>backend/src/main/java/ec/edu/unl/sec/filestorage/application/FileStoragePort.java</code> and <code>backend/src/main/java/ec/edu/unl/sec/filestorage/domain/StoredFile.java</code></label></li>
+<li><label><input type="checkbox" checked="">T014 After T001 passes, create immutable-once-submitted-ready schema <code>backend/src/main/resources/db/migration/V006__evidence.sql</code> with <code>Evidence</code>, <code>EvidenceVersion</code>, <code>VersionIndicator</code>, <code>FileAsset</code>, <code>VersionFile</code>, <code>ExternalReference</code>, <code>FileValidationPolicy</code> and <code>FileRecoveryOperation</code>: require UUID identities; positive unique <code>(evidence_id,revision_number)</code>; unique non-null predecessor from the same evidence; one active draft per evidence; title <code>1..300</code>, description <code>1..8000</code>, provenance <code>1..4000</code>; <code>covered_from &lt;= covered_to</code>; file size <code>0..26214400</code>; lowercase 64-hex SHA-256; non-unique hash; opaque unique storage/upload keys; absolute URI up to 2048 and description <code>1..1000</code>; leased recovery indexes; and no cascade delete of history; reserve trigger enforcement for the successor V011 without later editing V006</label></li>
+</ul>
+<p><strong>Checkpoint</strong>: Contract, schema and boundaries exist; foundational tests pass and story work can begin.</p>
+<hr>
+</section>
+</section>
+<section id="phase-3-user-story-1-â-preparar-un-borrador-de-evidencia-priority-p1-ðÿž-mvp" class="level2">
+<h2 class="anchored" data-anchor-id="phase-3-user-story-1-â-preparar-un-borrador-de-evidencia-priority-p1-ðÿž-mvp">Phase 3: User Story 1 â€” Preparar un borrador de evidencia (Priority: P1) ðŸŽ¯ MVP</h2>
+<p><strong>Goal</strong>: Create, list, read and edit v1 drafts with complete metadata and one or more authorized indicators.</p>
+<p><strong>Independent Test</strong>: With synthetic process/assignment doubles, create a draft for two in-scope indicators, edit it with the current ETag, and reject an out-of-process, out-of-scope or expired assignment without disclosing foreign data.</p>
+<section id="tests-for-user-story-1-â-write-and-fail-first" class="level3">
+<h3 class="anchored" data-anchor-id="tests-for-user-story-1-â-write-and-fail-first">Tests for User Story 1 â€” write and fail first</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">T015 [P] [US1] Add domain tests for stable <code>Evidence</code> identity and <code>EvidenceVersion</code> draft fieldsâ€”title <code>1..300</code>, description <code>1..8000</code>, provenance <code>1..4000</code>, inclusive dates with <code>coveredFrom &lt;= coveredTo</code>, positive revision, null predecessor only for v1, at least one unique indicator and non-negative lock revisionâ€”in <code>backend/src/test/java/ec/edu/unl/sec/evidence/domain/EvidenceDraftTest.java</code></label></li>
+<li><label><input type="checkbox" checked="">T016 [P] [US1] Add application tests for creation/update authorization, current assignment, process-model indicator membership, scope-filtered listing, hidden direct IDs and stale/missing ETags in <code>backend/src/test/java/ec/edu/unl/sec/evidence/application/EvidenceDraftServiceTest.java</code></label></li>
+<li><label><input type="checkbox" checked="">T017 [P] [US1] Add MockMvc contract/security tests for <code>GET/POST /evidences</code>, <code>GET /evidences/{evidenceId}</code>, and <code>GET/PATCH /evidence-versions/{versionId}</code> including <code>Location</code>, <code>ETag</code>, CSRF, <code>404</code> non-disclosure, <code>412</code> and <code>428</code> in <code>backend/src/test/java/ec/edu/unl/sec/evidence/api/EvidenceDraftControllerTest.java</code></label></li>
+<li><label><input type="checkbox" checked="">T018 [P] [US1] Add Angular tests for list/new/edit routes, reactive validation, indicator selection, ETag propagation, keyboard focus and safe stale-draft recovery in <code>frontend/src/app/features/evidence/pages/evidence-editor.page.spec.ts</code> and <code>frontend/src/app/features/evidence/pages/evidence-list.page.spec.ts</code></label></li>
+</ul>
+</section>
+<section id="implementation-for-user-story-1" class="level3">
+<h3 class="anchored" data-anchor-id="implementation-for-user-story-1">Implementation for User Story 1</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">T019 [P] [US1] Implement <code>Evidence</code> as stable lineage (<code>id</code>, required process/owner/createdAt/correlation, latest revision starting at 0) in <code>backend/src/main/java/ec/edu/unl/sec/evidence/domain/Evidence.java</code></label></li>
+<li><label><input type="checkbox" checked="">T020 [P] [US1] Implement mutable-only-while-<code>DRAFT</code> <code>EvidenceVersion</code> with the exact field/range/date/revision/predecessor/lock constraints tested in T015 in <code>backend/src/main/java/ec/edu/unl/sec/evidence/domain/EvidenceVersion.java</code> and <code>backend/src/main/java/ec/edu/unl/sec/evidence/domain/EvidenceVersionStatus.java</code></label></li>
+<li><label><input type="checkbox" checked="">T021 [P] [US1] Implement <code>VersionIndicator</code> with composite identity, required indicator ID and immutable code/title display snapshots in <code>backend/src/main/java/ec/edu/unl/sec/evidence/domain/VersionIndicator.java</code></label></li>
+<li><label><input type="checkbox" checked="">T022 [US1] Map roots, versions and indicator snapshots with pessimistic root lookup and scope-filtered projections in <code>backend/src/main/java/ec/edu/unl/sec/evidence/infrastructure/JpaEvidenceRepository.java</code>, <code>backend/src/main/java/ec/edu/unl/sec/evidence/infrastructure/EvidenceJpaEntity.java</code> and <code>backend/src/main/java/ec/edu/unl/sec/evidence/infrastructure/EvidenceVersionJpaEntity.java</code></label></li>
+<li><label><input type="checkbox" checked="">T023 [US1] Implement create/list/get/update cases that reauthorize every operation through I0/I2 ports, reject indicators outside the fixed process model or current assignment, and apply ETag concurrency in <code>backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceDraftService.java</code></label></li>
+<li><label><input type="checkbox" checked="">T024 [US1] Implement request/response DTOs and controllers for draft operations without exposing repository/storage details in <code>backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceDraftController.java</code>, <code>backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceDraftRequest.java</code> and <code>backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceView.java</code></label></li>
+<li><label><input type="checkbox" checked="">T025 [US1] Extend the Angular HTTP client for typed headers/ETag and implement evidence models/service in <code>frontend/src/app/core/http/api-client.ts</code>, <code>frontend/src/app/features/evidence/data-access/evidence.models.ts</code> and <code>frontend/src/app/features/evidence/data-access/evidence-api.service.ts</code></label></li>
+<li><label><input type="checkbox" checked="">T026 [US1] Replace the placeholder page with accessible list/new/edit pages and routes in <code>frontend/src/app/features/evidence/pages/evidence-list.page.ts</code>, <code>frontend/src/app/features/evidence/pages/evidence-editor.page.ts</code>, <code>frontend/src/app/features/evidence/ui/evidence-metadata-form.component.ts</code> and <code>frontend/src/app/features/evidence/evidence.routes.ts</code></label></li>
+</ul>
+<p><strong>Checkpoint</strong>: US1 passes independently with process/auth doubles and delivers a usable authorized draft without files or submission.</p>
+<hr>
+</section>
+</section>
+<section id="phase-4-user-story-2-â-adjuntar-archivos-o-referencias-seguras-priority-p1" class="level2">
+<h2 class="anchored" data-anchor-id="phase-4-user-story-2-â-adjuntar-archivos-o-referencias-seguras-priority-p1">Phase 4: User Story 2 â€” Adjuntar archivos o referencias seguras (Priority: P1)</h2>
+<p><strong>Goal</strong>: Attach validated/promoted files or described external references to an editable draft and recover every interrupted upload without false availability.</p>
+<p><strong>Independent Test</strong>: Attach a permitted synthetic file at or below 25 MiB and a described URI; verify declared/detected type, size and SHA-256, then reject oversize/type mismatch and simulate every staging/promotion/confirmation interruption while leaving the draft retryable.</p>
+<section id="tests-for-user-story-2-â-write-and-fail-first" class="level3">
+<h3 class="anchored" data-anchor-id="tests-for-user-story-2-â-write-and-fail-first">Tests for User Story 2 â€” write and fail first</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">T027 [P] [US2] Add bounded-stream tests for 0 bytes governed by policy, 26 214 400 accepted bytes, 26 214 401 rejected bytes, lowercase SHA-256, allowed/forbidden detected types and declared/detected compatibility in <code>backend/src/test/java/ec/edu/unl/sec/filestorage/domain/FileValidationPolicyTest.java</code></label></li>
+<li><label><input type="checkbox" checked="">T028 [P] [US2] Add local-adapter tests for same-FileStore staging, unavailable <code>ATOMIC_MOVE</code>, opaque/contained paths, symlink defense, idempotent promotion, immutable final object, open/verify and exact bytes/hash in <code>backend/src/test/java/ec/edu/unl/sec/filestorage/infrastructure/LocalFileStorageAdapterTest.java</code></label></li>
+<li><label><input type="checkbox" checked="">T029 [P] [US2] Add reconciliation tests for all six matrix statesâ€”staged object, already-promoted object, missing both, missing available, corrupt available and orphan objectâ€”with leases/idempotent retry and no deletion of submitted assets in <code>backend/src/test/java/ec/edu/unl/sec/filestorage/application/FileReconciliationServiceTest.java</code></label></li>
+<li><label><input type="checkbox" checked="">T030 [P] [US2] Add application/API tests for multipart upload, draft file removal and external-reference add/update/remove with ETag/CSRF, safe <code>413/422/503</code>, no <code>storageKey</code>, absolute URI <code>&lt;=2048</code> and description <code>1..1000</code> in <code>backend/src/test/java/ec/edu/unl/sec/evidence/api/EvidenceSourceControllerTest.java</code></label></li>
+<li><label><input type="checkbox" checked="">T031 [P] [US2] Add Angular tests for separate file/reference collections, upload progress, type/size errors, source removal, structural-only URI wording, no outbound reachability claim and ETag refresh in <code>frontend/src/app/features/evidence/ui/evidence-sources.component.spec.ts</code></label></li>
+</ul>
+</section>
+<section id="implementation-for-user-story-2" class="level3">
+<h3 class="anchored" data-anchor-id="implementation-for-user-story-2">Implementation for User Story 2</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">T032 [P] [US2] Implement versioned/configurable validation policy with maximum <code>26214400</code>, configurable <code>allowEmpty</code>, allowed detected types and declared/detected compatibility in <code>backend/src/main/java/ec/edu/unl/sec/filestorage/domain/FileValidationPolicy.java</code> and <code>backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/JpaFileValidationPolicyRepository.java</code></label></li>
+<li><label><input type="checkbox" checked="">T033 [P] [US2] Implement bounded single-pass byte count, SHA-256 and Apache Tika content detection without trusting extension/header/OS probing in <code>backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/ContentInspectionService.java</code></label></li>
+<li><label><input type="checkbox" checked="">T034 [US2] Implement local staging and promotion beneath configured <code>staging/</code> and <code>objects/</code> roots using opaque server keys, path containment and required same-FileStore <code>ATOMIC_MOVE</code> in <code>backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/LocalFileStorageAdapter.java</code></label></li>
+<li><label><input type="checkbox" checked="">T035 [P] [US2] Implement <code>FileAsset</code> with unique opaque storage/upload identity, distinct types, <code>sizeBytes 0..26214400</code>, lowercase 64-hex non-unique hash, policy ID and states <code>STAGED|AVAILABLE|QUARANTINED|MISSING</code> in <code>backend/src/main/java/ec/edu/unl/sec/filestorage/domain/FileAsset.java</code></label></li>
+<li><label><input type="checkbox" checked="">T036 [P] [US2] Implement <code>VersionFile</code> snapshot fields and stable position, plus <code>ExternalReference</code> absolute structurally validated URI <code>&lt;=2048</code> and required description <code>1..1000</code>; do not persist availability or perform outbound dereference in <code>backend/src/main/java/ec/edu/unl/sec/evidence/domain/VersionFile.java</code> and <code>backend/src/main/java/ec/edu/unl/sec/evidence/domain/ExternalReference.java</code></label></li>
+<li><label><input type="checkbox" checked="">T037 [P] [US2] Implement durable <code>FileRecoveryOperation</code> with <code>PROMOTE|VERIFY|QUARANTINE|CLEANUP</code>, statuses, non-negative attempts, <code>notBefore</code>, nullable lease, safe reason and correlation in <code>backend/src/main/java/ec/edu/unl/sec/filestorage/domain/FileRecoveryOperation.java</code></label></li>
+<li><label><input type="checkbox" checked="">T038 [US2] Implement JPA mappings/repositories for file assets, version associations, references, policies and recovery leases in <code>backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/JpaFileAssetRepository.java</code>, <code>backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/JpaFileRecoveryRepository.java</code> and <code>backend/src/main/java/ec/edu/unl/sec/evidence/infrastructure/JpaEvidenceSourceRepository.java</code></label></li>
+<li><label><input type="checkbox" checked="">T039 [US2] Orchestrate prepare â†’ validate â†’ persist <code>STAGED</code> â†’ idempotent promote â†’ verify â†’ mark <code>AVAILABLE</code>/attach, recording safe failure reconciliation without a distributed transaction in <code>backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceFileService.java</code></label></li>
+<li><label><input type="checkbox" checked="">T040 [US2] Implement leased idempotent recovery for every matrix state and audit outcomes without fixed retention decisions in <code>backend/src/main/java/ec/edu/unl/sec/filestorage/application/FileReconciliationService.java</code> and <code>backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/FileReconciliationScheduler.java</code></label></li>
+<li><label><input type="checkbox" checked="">T041 [US2] Implement reference add/update/remove and draft file-association removal with current authorization and ETag, never mutating submitted versions in <code>backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceSourceService.java</code></label></li>
+<li><label><input type="checkbox" checked="">T042 [US2] Implement multipart file and external-reference endpoints/responses per OpenAPI in <code>backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceSourceController.java</code>, <code>backend/src/main/java/ec/edu/unl/sec/evidence/api/ExternalReferenceRequest.java</code> and <code>backend/src/main/java/ec/edu/unl/sec/evidence/api/FileMetadataView.java</code></label></li>
+<li><label><input type="checkbox" checked="">T043 [US2] Implement accessible upload progress, safe errors and separate file/reference editing with current ETag in <code>frontend/src/app/features/evidence/ui/evidence-sources.component.ts</code> and <code>frontend/src/app/features/evidence/data-access/evidence-api.service.ts</code></label></li>
+</ul>
+<p><strong>Checkpoint</strong>: US2 passes independently against a fixture draft and proves validation, promotion, retry and reference semantics without submission.</p>
+<hr>
+</section>
+</section>
+<section id="phase-5-user-story-3-â-remitir-una-versiã³n-inmutable-y-descargarla-priority-p1" class="level2">
+<h2 class="anchored" data-anchor-id="phase-5-user-story-3-â-remitir-una-versiã³n-inmutable-y-descargarla-priority-p1">Phase 5: User Story 3 â€” Remitir una versiÃ³n inmutable y descargarla (Priority: P1)</h2>
+<p><strong>Goal</strong>: Submit a complete atomic v1 snapshot, prevent all later mutations and deliver only authorized, integrity-verified bytes.</p>
+<p><strong>Independent Test</strong>: Submit a complete v1 with one synthetic file; prove all version/child mutations fail, authorized download matches stored SHA-256, out-of-scope IDs reveal nothing and audit failure prevents submission.</p>
+<section id="tests-for-user-story-3-â-write-and-fail-first" class="level3">
+<h3 class="anchored" data-anchor-id="tests-for-user-story-3-â-write-and-fail-first">Tests for User Story 3 â€” write and fail first</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">T044 [P] [US3] Add domain tests requiring complete text/dates, at least one authorized indicator, at least one file/reference, every file <code>AVAILABLE</code> and verifiable, single <code>DRAFTâ†’SUBMITTED</code> transition, author/time and immutable children in <code>backend/src/test/java/ec/edu/unl/sec/evidence/domain/EvidenceSubmissionTest.java</code></label></li>
+<li><label><input type="checkbox" checked="">T045 [P] [US3] Add transactional/concurrency tests proving two submissions create at most one submitted revision, stale ETag fails, successful audit shares the submission transaction and audit failure rolls everything back in <code>backend/src/test/java/ec/edu/unl/sec/evidence/application/SubmitEvidenceServiceTest.java</code></label></li>
+<li><label><input type="checkbox" checked="">T046 [P] [US3] Add PostgreSQL integration tests that direct <code>UPDATE/DELETE</code> against a submitted version, indicators, files or references fails while draft mutation remains allowed in <code>backend/src/test/java/ec/edu/unl/sec/evidence/infrastructure/SubmittedEvidenceImmutabilityTest.java</code></label></li>
+<li><label><input type="checkbox" checked="">T047 [P] [US3] Add download tests proving authorization precedes metadata disclosure, full pre-response SHA/size verification, safe filename, no <code>storageKey</code>, exact bytes for authorized users and indistinguishable <code>404</code> for foreign/unknown IDs in <code>backend/src/test/java/ec/edu/unl/sec/evidence/application/EvidenceDownloadServiceTest.java</code></label></li>
+<li><label><input type="checkbox" checked="">T048 [P] [US3] Add MockMvc/OpenAPI tests for <code>POST /evidence-versions/{versionId}/submit</code> and <code>GET .../files/{fileId}/content</code>, including CSRF/ETag, <code>409/412/422/428</code>, content headers and no bytes on integrity failure in <code>backend/src/test/java/ec/edu/unl/sec/evidence/api/EvidenceSubmissionControllerTest.java</code></label></li>
+<li><label><input type="checkbox" checked="">T049 [P] [US3] Add Angular tests for completeness feedback, confirmation result, editor-to-read-only transition, safe Blob download and focus/status announcements in <code>frontend/src/app/features/evidence/pages/evidence-version.page.spec.ts</code></label></li>
+</ul>
+</section>
+<section id="implementation-for-user-story-3" class="level3">
+<h3 class="anchored" data-anchor-id="implementation-for-user-story-3">Implementation for User Story 3</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">T050 [US3] Implement domain submission validation and the irreversible <code>DRAFTâ†’SUBMITTED</code> transition while preserving all metadata/indicator/file/reference snapshots in <code>backend/src/main/java/ec/edu/unl/sec/evidence/domain/EvidenceVersion.java</code></label></li>
+<li><label><input type="checkbox" checked="">T051 [US3] Add a new reproducible Flyway migration with defensive PostgreSQL trigger/functions that allow only the submission transition and reject later update/delete of submitted rows/children in <code>backend/src/main/resources/db/migration/V011__evidence_immutability.sql</code>; V007 already implements process preparation/suspension, so confirm V011 availability before creating it and never edit applied V006/V007 migrations</label></li>
+<li><label><input type="checkbox" checked="">T052 [US3] Implement root-locked, reauthorized, ETag-checked submission with complete revalidation and mandatory same-transaction <code>AuditPort.record</code>, then safe independent failure audit after rollback in <code>backend/src/main/java/ec/edu/unl/sec/evidence/application/SubmitEvidenceService.java</code></label></li>
+<li><label><input type="checkbox" checked="">T053 [US3] Implement verified-download spooling/handle lifecycle so size/SHA-256 is confirmed before HTTP response begins and temporary verified copies are cleaned in <code>backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceDownloadService.java</code></label></li>
+<li><label><input type="checkbox" checked="">T054 [US3] Implement submission and download controllers with safe <code>Content-Disposition</code>, detected media type, <code>Content-Length</code>, digest, hidden foreign IDs and RFC 9457 mappings in <code>backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceSubmissionController.java</code> and <code>backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceDownloadController.java</code></label></li>
+<li><label><input type="checkbox" checked="">T055 [US3] Implement immutable version detail and submit/download actions in <code>frontend/src/app/features/evidence/pages/evidence-version.page.ts</code>, <code>frontend/src/app/features/evidence/ui/evidence-version-detail.component.ts</code> and <code>frontend/src/app/features/evidence/data-access/evidence-api.service.ts</code></label></li>
+<li><label><input type="checkbox" checked="">T056 [US3] Add the synthetic v1 submit â†’ rejected mutation â†’ authorized/denied download acceptance scenario and evidence capture in <code>tests/acceptance/evidence-v1.spec.ts</code> and <code>tests/acceptance/results/evidence-v1.md</code></label></li>
+</ul>
+<p><strong>Checkpoint</strong>: US3 demonstrates the central measurable result for v1 without any I4 review or academic state.</p>
+<hr>
+</section>
+</section>
+<section id="phase-6-user-story-4-â-corregir-mediante-una-versiã³n-sucesora-priority-p1" class="level2">
+<h2 class="anchored" data-anchor-id="phase-6-user-story-4-â-corregir-mediante-una-versiã³n-sucesora-priority-p1">Phase 6: User Story 4 â€” Corregir mediante una versiÃ³n sucesora (Priority: P1)</h2>
+<p><strong>Goal</strong>: Create exactly one editable v2 from immutable v1 and preserve the full ordered lineage after v2 submission.</p>
+<p><strong>Independent Test</strong>: Create v2 from submitted v1, change and submit it, then compare both snapshots and reject a concurrent/duplicate successor.</p>
+<section id="tests-for-user-story-4-â-write-and-fail-first" class="level3">
+<h3 class="anchored" data-anchor-id="tests-for-user-story-4-â-write-and-fail-first">Tests for User Story 4 â€” write and fail first</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">T057 [P] [US4] Add domain tests for v1 null predecessor, vN same-evidence predecessor, sequential positive revision, exact source/content copy into a mutable successor and unchanged predecessor in <code>backend/src/test/java/ec/edu/unl/sec/evidence/domain/EvidenceSuccessorTest.java</code></label></li>
+<li><label><input type="checkbox" checked="">T058 [P] [US4] Add application/concurrency tests proving a short root lock plus unique predecessor permits at most one direct successor and returns <code>SUCCESSOR_ALREADY_EXISTS</code> without branching in <code>backend/src/test/java/ec/edu/unl/sec/evidence/application/CreateEvidenceSuccessorServiceTest.java</code></label></li>
+<li><label><input type="checkbox" checked="">T059 [P] [US4] Add API tests for <code>POST /evidence-versions/{versionId}/successor</code>, version history ordering/pagination, <code>Location</code>, new draft ETag, hidden IDs and full immutable snapshots in <code>backend/src/test/java/ec/edu/unl/sec/evidence/api/EvidenceHistoryControllerTest.java</code></label></li>
+<li><label><input type="checkbox" checked="">T060 [P] [US4] Add Angular tests for successor action, copied v2 editor, immutable v1 detail and ordered v1/v2 timeline in <code>frontend/src/app/features/evidence/pages/evidence-history.page.spec.ts</code></label></li>
+</ul>
+</section>
+<section id="implementation-for-user-story-4" class="level3">
+<h3 class="anchored" data-anchor-id="implementation-for-user-story-4">Implementation for User Story 4</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">T061 [US4] Implement successor-copy domain behavior that allocates revision <code>latest+1</code>, sets the direct submitted predecessor and copies metadata/indicators/file snapshots/references without sharing mutable children in <code>backend/src/main/java/ec/edu/unl/sec/evidence/domain/Evidence.java</code> and <code>backend/src/main/java/ec/edu/unl/sec/evidence/domain/EvidenceVersion.java</code></label></li>
+<li><label><input type="checkbox" checked="">T062 [US4] Implement root-locked, reauthorized successor creation and ordered scope-filtered history queries in <code>backend/src/main/java/ec/edu/unl/sec/evidence/application/CreateEvidenceSuccessorService.java</code> and <code>backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceHistoryService.java</code></label></li>
+<li><label><input type="checkbox" checked="">T063 [US4] Implement successor and history REST operations with <code>409 SUCCESSOR_ALREADY_EXISTS</code>, <code>Location</code>, ETag and complete version summaries in <code>backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceHistoryController.java</code></label></li>
+<li><label><input type="checkbox" checked="">T064 [US4] Implement history timeline, immutable version navigation and â€œCreate successorâ€ flow in <code>frontend/src/app/features/evidence/pages/evidence-history.page.ts</code>, <code>frontend/src/app/features/evidence/ui/evidence-history-timeline.component.ts</code> and <code>frontend/src/app/features/evidence/evidence.routes.ts</code></label></li>
+<li><label><input type="checkbox" checked="">T065 [US4] Extend the acceptance journey to submit v2 and assert v1/v2 field, author, timestamp, predecessor, file/reference and SHA history in <code>tests/acceptance/evidence-v1-v2.spec.ts</code> and <code>tests/acceptance/results/evidence-v1-v2.md</code></label></li>
+<li><label><input type="checkbox" checked="">T066 [US4] Add simultaneous edit, submission and successor race coverage against PostgreSQL constraints/locks in <code>backend/src/test/java/ec/edu/unl/sec/evidence/infrastructure/EvidenceConcurrencyIntegrationTest.java</code></label></li>
+</ul>
+<p><strong>Checkpoint</strong>: US4 proves the full required v1 â†’ immutable â†’ v2 lineage with no overwrite.</p>
+<hr>
+</section>
+</section>
+<section id="phase-7-user-story-5-â-auditar-remisiones-y-fallos-priority-p2" class="level2">
+<h2 class="anchored" data-anchor-id="phase-7-user-story-5-â-auditar-remisiones-y-fallos-priority-p2">Phase 7: User Story 5 â€” Auditar remisiones y fallos (Priority: P2)</h2>
+<p><strong>Goal</strong>: Reconstruct submissions and relevant failures through immutable, scope-filtered and privacy-safe audit events.</p>
+<p><strong>Independent Test</strong>: Produce accepted/rejected submission, validation, promotion, concurrency and denied-download events; query them by evidence/process/correlation and verify safe ordered content and ordinary-user immutability.</p>
+<section id="tests-for-user-story-5-â-write-and-fail-first" class="level3">
+<h3 class="anchored" data-anchor-id="tests-for-user-story-5-â-write-and-fail-first">Tests for User Story 5 â€” write and fail first</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">T067 [P] [US5] Add audit-policy tests requiring actor, UTC time, action, object, outcome, safe reason and correlation while forbidding bytes, storage/staging keys, full external URIs, secrets, stack traces and out-of-scope metadata in <code>backend/src/test/java/ec/edu/unl/sec/evidence/application/EvidenceAuditPolicyTest.java</code></label></li>
+<li><label><input type="checkbox" checked="">T068 [P] [US5] Add repository/API tests for scope-filtered queries by process/evidence/version/action/outcome/correlation/date with stable ordering/pagination and <code>403</code> only for visible collection capability failures in <code>backend/src/test/java/ec/edu/unl/sec/audit/api/AuditEventControllerTest.java</code></label></li>
+<li><label><input type="checkbox" checked="">T069 [P] [US5] Add failure-path integration tests for rejected submission, invalid file, promotion failure, stale ETag and denied/integrity-failed download, proving each commits one safe audit event after business rollback in <code>backend/src/test/java/ec/edu/unl/sec/evidence/application/EvidenceFailureAuditIntegrationTest.java</code></label></li>
+<li><label><input type="checkbox" checked="">T070 [P] [US5] Add Angular tests for authorized audit filtering, chronological reconstruction, correlation display and absence of sensitive metadata in <code>frontend/src/app/features/evidence/pages/evidence-audit.page.spec.ts</code></label></li>
+</ul>
+</section>
+<section id="implementation-for-user-story-5" class="level3">
+<h3 class="anchored" data-anchor-id="implementation-for-user-story-5">Implementation for User Story 5</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">T071 [P] [US5] Define centralized I3 audit actions/outcomes/reason codes and metadata allowlist/redaction in <code>backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceAuditPolicy.java</code></label></li>
+<li><label><input type="checkbox" checked="">T072 [US5] Apply the audit policy consistently to draft, file, reference, submission, successor, reconciliation and download failure paths in <code>backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceAuditService.java</code></label></li>
+<li><label><input type="checkbox" checked="">T073 [US5] Implement scope-aware indexed audit search projections for process/evidence/version/action/outcome/correlation/date filters in <code>backend/src/main/java/ec/edu/unl/sec/audit/infrastructure/JpaAuditAdapter.java</code></label></li>
+<li><label><input type="checkbox" checked="">T074 [US5] Implement authorized audit REST query and DTO sanitization in <code>backend/src/main/java/ec/edu/unl/sec/audit/api/AuditEventController.java</code> and <code>backend/src/main/java/ec/edu/unl/sec/audit/api/AuditEventView.java</code></label></li>
+<li><label><input type="checkbox" checked="">T075 [US5] Implement the evidence audit page with accessible filters, empty/error states and correlation-safe details in <code>frontend/src/app/features/evidence/pages/evidence-audit.page.ts</code> and <code>frontend/src/app/features/evidence/evidence.routes.ts</code></label></li>
+<li><label><input type="checkbox" checked="">T076 [US5] Add acceptance evidence for the complete remittance/failure sequence and attempted ordinary-user mutation of audit history in <code>tests/acceptance/evidence-audit.spec.ts</code> and <code>tests/acceptance/results/evidence-audit.md</code></label></li>
+</ul>
+<p><strong>Checkpoint</strong>: US5 reconstructs required events without exposing content or introducing review/academic decisions.</p>
+<hr>
+</section>
+</section>
+<section id="phase-8-polish-cross-cutting-verification" class="level2">
+<h2 class="anchored" data-anchor-id="phase-8-polish-cross-cutting-verification">Phase 8: Polish &amp; Cross-Cutting Verification</h2>
+<p><strong>Purpose</strong>: Reconcile public documentation, prove operational qualities and close all constitutional gates.</p>
+<ul class="task-list">
+<li><label><input type="checkbox">T077 [P] Update ADR-0002 with final port operations, atomic-move startup requirement, durable reconciliation ledger, S3-equivalent semantics and explicitly non-distributed transaction boundary in <code>docs/adr/0002-file-storage-port.md</code></label></li>
+<li><label><input type="checkbox">T078 [P] Document the I3 user journey, immutable versions, safe errors, external-reference meaning and absence of document/academic decisions in <code>docs/user/index.qmd</code></label></li>
+<li><label><input type="checkbox">T079 [P] Document module/package flow, configuration, reconciliation matrix, backup/restore pairing and Postman CLI contract checks in <code>docs/technical/index.qmd</code> and <code>docs/technical/quickstart.md</code></label></li>
+<li><label><input type="checkbox">T080 Reconcile the implemented controller schemas/errors with both contracts and rerun Redocly, <code>scripts/validate-contracts.mjs</code> and Postman CLI in <code>specs/004-submit-evidence/contracts/openapi.yaml</code> and <code>docs/technical/contracts/openapi.yaml</code></label></li>
+<li><label><input type="checkbox">T081 [P] Add reproducible k6 upload/load checks and documented <code>k6 run tests/performance/evidence-upload.js</code> command for p95 â‰¤15 s up to 25 MiB and no regression of p95 â‰¤2 s interactive operations at pilot concurrency in <code>tests/performance/evidence-upload.js</code> and <code>tests/performance/README.md</code></label></li>
+<li><label><input type="checkbox">T082 [P] Add file-root plus PostgreSQL backup/restore and post-restore reconciliation validation in <code>scripts/backup-evidence.ps1</code>, <code>scripts/restore-evidence.ps1</code> and <code>tests/acceptance/results/evidence-restore.md</code></label></li>
+<li><label><input type="checkbox">T083 [P] Extend synthetic-data/secret detection for generated evidence fixtures, audit outputs and file roots in <code>scripts/verify-synthetic-data.ps1</code> and <code>scripts/verify-synthetic-data.sh</code></label></li>
+<li><label><input type="checkbox">T084 Map US1â€“US5, FR-016â€“FR-020, RNF-004/005/010/011/019 and SC-001â€“SC-008 to contract, task, automated test and acceptance evidence in <code>docs/testing/traceability.md</code></label></li>
+<li><label><input type="checkbox">T085 Run clean migration, backend <code>verify</code>, frontend test/lint/build, contract checks, architecture tests and I0â€“I2 regression; record exact commands/results and unresolved failures in <code>tests/acceptance/results/evidence-regression.md</code></label></li>
+<li><label><input type="checkbox">T086 Execute every scenario in <code>specs/004-submit-evidence/quickstart.md</code>, including interruption matrix and v1/v2 history, and record reproducible evidence in <code>tests/acceptance/results/evidence-quickstart.md</code></label></li>
+<li><label><input type="checkbox">T087 Validate SC-007 with 20 representative synthetic responsible-user participants, recording anonymous participant code, first-attempt completion, start/end time, help requested and result; require at least 19 of 20 to finish create â†’ attach â†’ submit in under five minutes using only UI/help in <code>tests/acceptance/results/evidence-usability.md</code></label></li>
+<li><label><input type="checkbox">T088 Perform the required final human review of requirements, authorization matrix, RFC 9457 errors, CL-001â€“CL-010 configurability, accessibility, data protection and constitutional compliance, including the SC-007 evidence, in <code>tests/acceptance/results/evidence-review-gate.md</code></label></li>
+</ul>
+<hr>
+</section>
+<section id="dependencies-execution-order" class="level2">
+<h2 class="anchored" data-anchor-id="dependencies-execution-order">Dependencies &amp; Execution Order</h2>
+<section id="phase-dependencies" class="level3">
+<h3 class="anchored" data-anchor-id="phase-dependencies">Phase dependencies</h3>
+<ul>
+<li><strong>Phase 1 â€” Setup</strong>: starts immediately. T001 is a hard gate for migration/persistence/API integration; T003 and T004 can run in parallel after repository inspection.</li>
+<li><strong>Phase 2 â€” Foundational</strong>: depends on Setup; blocks all user-story implementation. Tests T006â€“T008 run before T009â€“T014.</li>
+<li><strong>Phase 3 â€” US1</strong>: depends on Foundational and establishes the draft used by later integrated journeys.</li>
+<li><strong>Phase 4 â€” US2</strong>: depends on Foundational; independently testable with a fixture draft, but integrated delivery follows US1.</li>
+<li><strong>Phase 5 â€” US3</strong>: depends on US1 and at least one US2 source for the required file-based acceptance path.</li>
+<li><strong>Phase 6 â€” US4</strong>: depends on US3 because a successor requires a submitted predecessor.</li>
+<li><strong>Phase 7 â€” US5</strong>: depends on Foundational; its isolated query tests use fixture events, while full acceptance consumes US1â€“US4 events.</li>
+<li><strong>Phase 8 â€” Polish</strong>: depends on every story selected for release.</li>
+</ul>
+</section>
+<section id="user-story-dependency-graph" class="level3">
+<h3 class="anchored" data-anchor-id="user-story-dependency-graph">User-story dependency graph</h3>
+<pre class="text"><code>Setup â†’ Foundation â†’ US1 Draft â”€â”€â†’ US2 Sources â”€â”€â†’ US3 Submit/Download â”€â”€â†’ US4 Successor/History
+                         â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â†’ US5 Audit
+Foundation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â†’ US5 Audit (fixture test)</code></pre>
+</section>
+<section id="within-each-story" class="level3">
+<h3 class="anchored" data-anchor-id="within-each-story">Within each story</h3>
+<ol type="1">
+<li>Write the story tests and confirm intended failures.</li>
+<li>Implement constrained domain types/entities.</li>
+<li>Implement persistence and application orchestration.</li>
+<li>Implement REST endpoints.</li>
+<li>Implement Angular interaction.</li>
+<li>Run the independent checkpoint before advancing.</li>
+</ol>
+</section>
+</section>
+<section id="parallel-opportunities" class="level2">
+<h2 class="anchored" data-anchor-id="parallel-opportunities">Parallel Opportunities</h2>
+<ul>
+<li>T003 and T004 can run in parallel; T006â€“T008 can run in parallel.</li>
+<li>US1 tests T015â€“T018 and domain types T019â€“T021 are parallel groups.</li>
+<li>US2 tests T027â€“T031 are parallel; T032, T033, T035â€“T037 use separate files and can proceed in parallel after T013/T014.</li>
+<li>US3 tests T044â€“T049 are parallel before implementation.</li>
+<li>US4 tests T057â€“T060 are parallel; US5 tests T067â€“T070 are parallel.</li>
+<li>US5 query implementation can begin against synthetic audit fixtures after Foundation while US1â€“US4 proceed, but T076 waits for their real events.</li>
+<li>Documentation/performance/backup/data-scan tasks T077â€“T083 can run in parallel after their corresponding implementation surfaces stabilize.</li>
+</ul>
+</section>
+<section id="parallel-examples" class="level2">
+<h2 class="anchored" data-anchor-id="parallel-examples">Parallel Examples</h2>
+<section id="user-story-1" class="level3">
+<h3 class="anchored" data-anchor-id="user-story-1">User Story 1</h3>
+<pre class="text"><code>T015: Domain constraints and state tests
+T016: Authorization/concurrency service tests
+T017: REST contract/security tests
+T018: Angular editor/list tests</code></pre>
+</section>
+<section id="user-story-2" class="level3">
+<h3 class="anchored" data-anchor-id="user-story-2">User Story 2</h3>
+<pre class="text"><code>T027: Validation-policy boundaries
+T028: Local atomic storage behavior
+T029: Reconciliation matrix
+T030: Source API contract/security
+T031: Angular source interaction</code></pre>
+</section>
+<section id="user-story-3" class="level3">
+<h3 class="anchored" data-anchor-id="user-story-3">User Story 3</h3>
+<pre class="text"><code>T044: Submission invariants
+T045: Transaction/concurrency behavior
+T046: Database immutability guards
+T047: Authorized verified download
+T048: REST behavior
+T049: Angular immutable view</code></pre>
+</section>
+</section>
+<section id="implementation-strategy" class="level2">
+<h2 class="anchored" data-anchor-id="implementation-strategy">Implementation Strategy</h2>
+<section id="mvp-first" class="level3">
+<h3 class="anchored" data-anchor-id="mvp-first">MVP first</h3>
+<p>The smallest demonstrable delivery is <strong>Setup + Foundation + US1</strong>: an authorized evidence draft with metadata, indicators and optimistic concurrency. This is useful and independently testable but does not yet satisfy the feature-level measurable outcome.</p>
+<p>The <strong>minimum feature-complete I3 slice</strong> is Setup + Foundation + US1 + US2 + US3 + US4. It proves v1 with a synthetic file, immutable submission and v2 succession. US5 completes the explicitly requested audit visibility and is required before accepting the whole specification.</p>
+</section>
+<section id="incremental-delivery" class="level3">
+<h3 class="anchored" data-anchor-id="incremental-delivery">Incremental delivery</h3>
+<ol type="1">
+<li>Setup/Foundation â†’ contracts, schema and boundaries stable.</li>
+<li>US1 â†’ draft creation/editing demo.</li>
+<li>US2 â†’ validated sources and recovery demo.</li>
+<li>US3 â†’ immutable v1 and authorized download demo.</li>
+<li>US4 â†’ v2 and full history demo.</li>
+<li>US5 â†’ audit reconstruction demo.</li>
+<li>Polish â†’ performance, restore, documentation, traceability and human gate.</li>
+</ol>
+</section>
+<section id="before-implementation" class="level3">
+<h3 class="anchored" data-anchor-id="before-implementation">Before implementation</h3>
+<p>Run <code>$speckit-analyze</code> and resolve every critical inconsistency across <code>spec.md</code>, <code>plan.md</code> and this task list. Then run <code>$speckit-implement</code>; it must process tasks in phase order and mark a task <code>[X]</code> only after its files and verification are complete.</p>
+</section>
+</section>
+<section id="notes" class="level2">
+<h2 class="anchored" data-anchor-id="notes">Notes</h2>
+<ul>
+<li><code>[P]</code> never authorizes concurrent edits to the same file.</li>
+<li>I3 consumes I0/I2 public contracts; it must not recreate their tables or institutional rules.</li>
+<li>No task may add document-review states, academic ratings, progress calculations or process closing.</li>
+<li>File hashes are integrity evidence, not identities, deduplication keys or authorization grants.</li>
+<li>Keep CL-001â€“CL-010 configurable and synthetic; do not turn pilot values into fixed policy.</li>
+<li>Postman CLI is available as instructed by <code>AGENTS.md</code>; use <code>postman.cmd</code> on Windows when execution policy blocks the <code>.ps1</code> wrapper.</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

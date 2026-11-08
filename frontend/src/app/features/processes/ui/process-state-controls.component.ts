@@ -9,35 +9,41 @@ import {AccessSessionService} from '../../access/data-access/access-session.serv
     @if(process().state==='PREPARATION' || process().state==='DRAFT') {
       @if(!process().authorization) {
         <p>El inicio requiere una autorización institucional registrada por una asignación competente. No equivale a acreditación.</p>
-        <form (ngSubmit)="authorize()">
-          <label for="authority-assignment">Asignación autorizadora propia</label>
+        <form (ngSubmit)="authorize()" class="sigeac-form-layout">
+          <div class="sigeac-form-grid">
+          <div class="sigeac-form-field"><label for="authority-assignment">Asignación autorizadora propia</label>
           <select id="authority-assignment" name="authorityAssignment" [(ngModel)]="authorityAssignmentId" required>
             <option value="">Seleccione una asignación</option>
             @for(a of session.identity()?.assignments ?? []; track a.id){<option [value]="a.id">{{a.roleName}} · {{a.careerId}}</option>}
-          </select>
-          <label for="legal-basis">Fundamento normativo de la competencia</label><textarea id="legal-basis" name="legalBasis" [(ngModel)]="legalBasis" required maxlength="4000"></textarea>
-          <label for="authorization-document">Referencia al documento de autorización</label><input id="authorization-document" name="documentReference" [(ngModel)]="documentReference" required maxlength="2000">
-          <label for="authorization-reason">Justificación</label><textarea id="authorization-reason" name="authorizationReason" [(ngModel)]="reason" required minlength="10" maxlength="2000"></textarea>
-          <button [disabled]="busy() || !authorityAssignmentId || !legalBasis.trim() || !documentReference.trim() || reason.trim().length < 10">Registrar autorización</button>
+          </select></div>
+          <div class="sigeac-form-field"><label for="authorization-document">Referencia al documento de autorización</label><input id="authorization-document" name="documentReference" [(ngModel)]="documentReference" required maxlength="2000"></div>
+          <div class="sigeac-form-field"><label for="legal-basis">Fundamento normativo de la competencia</label><textarea id="legal-basis" name="legalBasis" [(ngModel)]="legalBasis" required maxlength="4000"></textarea></div>
+          <div class="sigeac-form-field"><label for="authorization-reason">Justificación</label><textarea id="authorization-reason" name="authorizationReason" [(ngModel)]="reason" required minlength="10" maxlength="2000"></textarea></div>
+          <div class="sigeac-form-actions"><button [disabled]="busy() || !authorityAssignmentId || !legalBasis.trim() || !documentReference.trim() || reason.trim().length < 10">Registrar autorización</button></div>
+          </div>
         </form>
       } @else {
         <p>Autorización registrada: {{process().authorization?.documentReference}}</p><button [disabled]="busy()" (click)="activate()">Activar proceso autorizado</button>
       }
     } @else {
-      <label for="transition-authority">Asignación autorizadora propia</label>
+      <div class="sigeac-form-layout"><div class="sigeac-form-grid">
+      <div class="sigeac-form-field"><label for="transition-authority">Asignación autorizadora propia</label>
       <select id="transition-authority" [(ngModel)]="authorityAssignmentId" required>
         <option value="">Seleccione una asignación</option>
         @for(a of session.identity()?.assignments ?? []; track a.id){<option [value]="a.id">{{a.roleName}} · {{a.careerId}}</option>}
-      </select>
-      <label for="transition-basis">Fundamento normativo de la competencia</label>
-      <textarea id="transition-basis" [(ngModel)]="legalBasis" required maxlength="4000"></textarea>
-      <label for="transition-document">Referencia a la constancia de la decisión</label>
-      <input id="transition-document" [(ngModel)]="documentReference" required maxlength="2000">
-      <label for="transition-reason">Motivo de la transición</label><textarea id="transition-reason" [(ngModel)]="reason" minlength="10" maxlength="2000"></textarea>
+      </select></div>
+      <div class="sigeac-form-field"><label for="transition-document">Referencia a la constancia de la decisión</label>
+      <input id="transition-document" [(ngModel)]="documentReference" required maxlength="2000"></div>
+      <div class="sigeac-form-field"><label for="transition-basis">Fundamento normativo de la competencia</label>
+      <textarea id="transition-basis" [(ngModel)]="legalBasis" required maxlength="4000"></textarea></div>
+      <div class="sigeac-form-field"><label for="transition-reason">Motivo de la transición</label><textarea id="transition-reason" [(ngModel)]="reason" minlength="10" maxlength="2000"></textarea></div>
+      <div class="sigeac-form-actions">
       @if(process().state==='ACTIVE'){<button [disabled]="busy() || !decisionComplete()" (click)="move('SUSPENDED')">Suspender</button>}
       @if(process().state==='SUSPENDED' || process().state==='REOPENED'){<button [disabled]="busy() || !decisionComplete()" (click)="move('ACTIVE')">Retomar</button>}
       @if(process().state==='CLOSED'){<button [disabled]="busy() || !decisionComplete()" (click)="reopen()">Solicitar reapertura autorizada</button>}
+      </div>
       <p>El cierre documental e institucional requiere su flujo de validación; no está disponible como cambio genérico de estado.</p>
+      </div></div>
     }
   </section>`})
 export class ProcessStateControls {

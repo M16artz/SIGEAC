@@ -12,8 +12,14 @@ import {AccessSessionService} from '../../access/data-access/access-session.serv
   imports: [FormsModule, RouterLink, ProcessStateControls],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
+    <div class="sigeac-page sigeac-page--balanced">
+    <header class="sigeac-page-header">
+      <span class="sigeac-badge">Procesos</span>
+      <h2>Autorizacion y planificacion del proceso</h2>
+      <p>Organice equipos, responsabilidades, actividades y plazos del proceso.</p>
+    </header>
+    <section class="sigeac-page-body">
     <p><a routerLink="/processes">Volver a procesos</a></p>
-    <h2>Autorizacion y planificacion del proceso</h2>
     @if (error()) { <p role="alert">{{error()}}</p> }
     @if (process(); as current) {
       <p><strong>{{current.code}} - {{current.name}}</strong> ({{current.state}})</p>
@@ -23,12 +29,14 @@ import {AccessSessionService} from '../../access/data-access/access-session.serv
       <section>
         <h3>Equipos de trabajo</h3>
         @if (current.state === 'PREPARATION' || current.state === 'ACTIVE') {
-          <form (ngSubmit)="createTeam()">
-            <label for="team-name">Nombre del equipo</label><input id="team-name" name="teamName" [(ngModel)]="teamName" required maxlength="300">
-            <label for="team-role">Rol en el proceso</label><input id="team-role" name="teamRole" [(ngModel)]="teamRole" required maxlength="100">
-            <label for="team-from">Desde</label><input id="team-from" type="datetime-local" name="teamFrom" [(ngModel)]="teamFrom" required>
-            <label for="team-until">Hasta</label><input id="team-until" type="datetime-local" name="teamUntil" [(ngModel)]="teamUntil" required>
-            <button [disabled]="busy()">Crear equipo</button>
+          <form (ngSubmit)="createTeam()" class="sigeac-form-layout">
+            <div class="sigeac-form-grid">
+            <div class="sigeac-form-field"><label for="team-name">Nombre del equipo</label><input id="team-name" name="teamName" [(ngModel)]="teamName" required maxlength="300"></div>
+            <div class="sigeac-form-field"><label for="team-role">Rol en el proceso</label><input id="team-role" name="teamRole" [(ngModel)]="teamRole" required maxlength="100"></div>
+            <div class="sigeac-form-field"><label for="team-from">Desde</label><input id="team-from" type="datetime-local" name="teamFrom" [(ngModel)]="teamFrom" required></div>
+            <div class="sigeac-form-field"><label for="team-until">Hasta</label><input id="team-until" type="datetime-local" name="teamUntil" [(ngModel)]="teamUntil" required></div>
+            <div class="sigeac-form-actions"><button [disabled]="busy()">Crear equipo</button></div>
+            </div>
           </form>
         }
         <ul>@for (team of teams(); track team.id) {
@@ -39,17 +47,19 @@ import {AccessSessionService} from '../../access/data-access/access-session.serv
           </li>
         }</ul>
         @if (current.state === 'PREPARATION' || current.state === 'ACTIVE') {
-          <form (ngSubmit)="addMember()">
+          <form (ngSubmit)="addMember()" class="sigeac-form-layout">
+            <div class="sigeac-form-grid">
             <h4>Agregar integrante individual</h4>
-            <label for="member-team">Equipo</label><select id="member-team" name="memberTeam" [(ngModel)]="memberTeam" required>
+            <div class="sigeac-form-field"><label for="member-team">Equipo</label><select id="member-team" name="memberTeam" [(ngModel)]="memberTeam" required>
               <option value="">Seleccione un equipo</option>@for (team of teams(); track team.id) {<option [value]="team.id">{{team.name}}</option>}
-            </select>
-            <label for="member-user">Usuario (UUID)</label><input id="member-user" name="memberUser" [(ngModel)]="memberUser" required>
-            <label for="member-role">Asignacion de rol del integrante (UUID)</label>
-            <input id="member-role" name="memberRole" [(ngModel)]="memberRole" required>
-            <label for="member-from">Desde</label><input id="member-from" type="datetime-local" name="memberFrom" [(ngModel)]="memberFrom" required>
-            <label for="member-until">Hasta</label><input id="member-until" type="datetime-local" name="memberUntil" [(ngModel)]="memberUntil" required>
-            <button [disabled]="busy() || !memberTeam">Agregar integrante</button>
+            </select></div>
+            <div class="sigeac-form-field"><label for="member-user">Usuario (UUID)</label><input id="member-user" name="memberUser" [(ngModel)]="memberUser" required></div>
+            <div class="sigeac-form-field sigeac-form-wide"><label for="member-role">Asignacion de rol del integrante (UUID)</label>
+            <input id="member-role" name="memberRole" [(ngModel)]="memberRole" required></div>
+            <div class="sigeac-form-field"><label for="member-from">Desde</label><input id="member-from" type="datetime-local" name="memberFrom" [(ngModel)]="memberFrom" required></div>
+            <div class="sigeac-form-field"><label for="member-until">Hasta</label><input id="member-until" type="datetime-local" name="memberUntil" [(ngModel)]="memberUntil" required></div>
+            <div class="sigeac-form-actions"><button [disabled]="busy() || !memberTeam">Agregar integrante</button></div>
+            </div>
           </form>
         }
       </section>
@@ -57,20 +67,22 @@ import {AccessSessionService} from '../../access/data-access/access-session.serv
       <section>
         <h3>Asignaciones de responsabilidad</h3>
         @if (current.state === 'ACTIVE') {
-          <form (ngSubmit)="assign()">
-            <label for="assign-indicator">Indicador</label><select id="assign-indicator" name="assignIndicator" [(ngModel)]="assignIndicator" required>
+          <form (ngSubmit)="assign()" class="sigeac-form-layout">
+            <div class="sigeac-form-grid">
+            <div class="sigeac-form-field"><label for="assign-indicator">Indicador</label><select id="assign-indicator" name="assignIndicator" [(ngModel)]="assignIndicator" required>
               <option value="">Seleccione un indicador</option>@for (i of current.indicators; track i.id) {<option [value]="i.id">{{i.code}} - {{i.name}}</option>}
-            </select>
-            <label for="assign-subject">Asignar a</label><select id="assign-subject" name="assignSubject" [(ngModel)]="assignSubject">
+            </select></div>
+            <div class="sigeac-form-field"><label for="assign-subject">Asignar a</label><select id="assign-subject" name="assignSubject" [(ngModel)]="assignSubject">
               <option value="PERSON">Persona</option><option value="TEAM">Equipo</option>
-            </select>
-            @if (assignSubject === 'PERSON') {<label for="assign-identity">Identidad (UUID)</label><input id="assign-identity" name="assignIdentity" [(ngModel)]="assignIdentity" required>}
-            @else {<label for="assign-team">Equipo</label><select id="assign-team" name="assignTeam" [(ngModel)]="assignTeam" required><option value="">Seleccione un equipo</option>@for (team of teams(); track team.id) {<option [value]="team.id">{{team.name}}</option>}</select>}
-            <label for="assign-function">Funcion</label><select id="assign-function" name="assignFunction" [(ngModel)]="assignFunction"><option>RESPONSIBLE</option><option>REVIEWER</option><option>EVALUATOR</option></select>
-            <label for="assign-from">Desde</label><input id="assign-from" type="datetime-local" name="assignFrom" [(ngModel)]="assignFrom" required>
-            <label for="assign-until">Hasta</label><input id="assign-until" type="datetime-local" name="assignUntil" [(ngModel)]="assignUntil" required>
-            <label for="assign-reason">Motivo</label><textarea id="assign-reason" name="assignReason" [(ngModel)]="assignReason" required maxlength="2000"></textarea>
-            <button [disabled]="busy()">Asignar</button>
+            </select></div>
+            @if (assignSubject === 'PERSON') {<div class="sigeac-form-field"><label for="assign-identity">Identidad (UUID)</label><input id="assign-identity" name="assignIdentity" [(ngModel)]="assignIdentity" required></div>}
+            @else {<div class="sigeac-form-field"><label for="assign-team">Equipo</label><select id="assign-team" name="assignTeam" [(ngModel)]="assignTeam" required><option value="">Seleccione un equipo</option>@for (team of teams(); track team.id) {<option [value]="team.id">{{team.name}}</option>}</select></div>}
+            <div class="sigeac-form-field"><label for="assign-function">Funcion</label><select id="assign-function" name="assignFunction" [(ngModel)]="assignFunction"><option>RESPONSIBLE</option><option>REVIEWER</option><option>EVALUATOR</option></select></div>
+            <div class="sigeac-form-field"><label for="assign-from">Desde</label><input id="assign-from" type="datetime-local" name="assignFrom" [(ngModel)]="assignFrom" required></div>
+            <div class="sigeac-form-field"><label for="assign-until">Hasta</label><input id="assign-until" type="datetime-local" name="assignUntil" [(ngModel)]="assignUntil" required></div>
+            <div class="sigeac-form-field sigeac-form-wide"><label for="assign-reason">Motivo</label><textarea id="assign-reason" name="assignReason" [(ngModel)]="assignReason" required maxlength="2000"></textarea></div>
+            <div class="sigeac-form-actions"><button [disabled]="busy()">Asignar</button></div>
+            </div>
           </form>
         } @else {<p>Las asignaciones requieren un proceso activo.</p>}
         <ul>@for (a of assignments(); track a.id) {
@@ -81,23 +93,27 @@ import {AccessSessionService} from '../../access/data-access/access-session.serv
       <section>
         <h3>Actividades y plazos</h3>
         @if (current.state === 'PREPARATION' || current.state === 'ACTIVE') {
-          <form (ngSubmit)="saveActivity()">
-            <label for="activity-title">Titulo</label><input id="activity-title" name="activityTitle" [(ngModel)]="activityTitle" required maxlength="300">
-            <label for="activity-indicator">Indicador</label><select id="activity-indicator" name="activityIndicator" [(ngModel)]="activityIndicator" (ngModelChange)="activityAssignment = ''; activitySource = ''" required>
+          <form (ngSubmit)="saveActivity()" class="sigeac-form-layout">
+            <div class="sigeac-form-grid">
+            <div class="sigeac-form-field sigeac-form-wide"><label for="activity-title">Titulo</label><input id="activity-title" name="activityTitle" [(ngModel)]="activityTitle" required maxlength="300"></div>
+            <div class="sigeac-form-field"><label for="activity-indicator">Indicador</label><select id="activity-indicator" name="activityIndicator" [(ngModel)]="activityIndicator" (ngModelChange)="activityAssignment = ''; activitySource = ''" required>
               <option value="">Seleccione un indicador</option>@for (i of current.indicators; track i.id) {<option [value]="i.id">{{i.code}} - {{i.name}}</option>}
-            </select>
-            <label for="activity-assignment">Asignacion responsable</label><select id="activity-assignment" name="activityAssignment" [(ngModel)]="activityAssignment" required>
+            </select></div>
+            <div class="sigeac-form-field"><label for="activity-assignment">Asignacion responsable</label><select id="activity-assignment" name="activityAssignment" [(ngModel)]="activityAssignment" required>
               <option value="">Seleccione una asignacion</option>@for (a of activityAssignments(); track a.id) {<option [value]="a.id">{{a.function}} - {{a.indicatorId}}</option>}
-            </select>
-            <label for="activity-source">Fuente requerida (opcional, UUID)</label>
-            <input id="activity-source" name="activitySource" [(ngModel)]="activitySource">
-            <label for="activity-due">Vencimiento</label><input id="activity-due" type="datetime-local" name="activityDue" [(ngModel)]="activityDue" required>
-            <label for="activity-dependencies">Dependencias (UUID separados por coma)</label><input id="activity-dependencies" name="activityDependencies" [(ngModel)]="activityDependencies">
-            <label for="activity-exception">Motivo de excepcion de plazo (si vence fuera del periodo)</label><textarea id="activity-exception" name="activityException" [(ngModel)]="activityException" maxlength="4000"></textarea>
-            <label for="activity-authority">Asignacion autorizadora de la excepcion</label><input id="activity-authority" name="activityAuthority" [(ngModel)]="activityAuthority">
-            <label for="activity-basis">Fundamento de la excepcion</label><textarea id="activity-basis" name="activityBasis" [(ngModel)]="activityBasis" maxlength="4000"></textarea>
+            </select></div>
+            <div class="sigeac-form-field"><label for="activity-source">Fuente requerida (opcional, UUID)</label>
+            <input id="activity-source" name="activitySource" [(ngModel)]="activitySource"></div>
+            <div class="sigeac-form-field"><label for="activity-due">Vencimiento</label><input id="activity-due" type="datetime-local" name="activityDue" [(ngModel)]="activityDue" required></div>
+            <div class="sigeac-form-field"><label for="activity-dependencies">Dependencias (UUID separados por coma)</label><input id="activity-dependencies" name="activityDependencies" [(ngModel)]="activityDependencies"></div>
+            <div class="sigeac-form-field"><label for="activity-authority">Asignacion autorizadora de la excepcion</label><input id="activity-authority" name="activityAuthority" [(ngModel)]="activityAuthority"></div>
+            <div class="sigeac-form-field sigeac-form-wide"><label for="activity-exception">Motivo de excepcion de plazo (si vence fuera del periodo)</label><textarea id="activity-exception" name="activityException" [(ngModel)]="activityException" maxlength="4000"></textarea></div>
+            <div class="sigeac-form-field sigeac-form-wide"><label for="activity-basis">Fundamento de la excepcion</label><textarea id="activity-basis" name="activityBasis" [(ngModel)]="activityBasis" maxlength="4000"></textarea></div>
+            <div class="sigeac-form-actions">
             <button [disabled]="busy()">{{editingActivity ? 'Actualizar actividad' : 'Crear actividad'}}</button>
             @if (editingActivity) {<button type="button" (click)="cancelEdit()">Cancelar edicion</button>}
+            </div>
+            </div>
           </form>
         }
         <ul>@for (activity of activities(); track activity.id) {
@@ -111,6 +127,8 @@ import {AccessSessionService} from '../../access/data-access/access-session.serv
         }</ul>
       </section>
     }
+    </section>
+    </div>
   `
 })
 export class ProcessPlanningPage implements OnInit {

@@ -22,18 +22,25 @@ import {
     code { overflow-wrap:anywhere; }
   `],
   template: `
-    <section aria-labelledby="archive-title">
+    <div class="sigeac-page sigeac-page--balanced">
+    <header class="sigeac-page-header">
+      <span class="sigeac-badge">Archivo</span>
       <h2 id="archive-title">Archivo y cierre integral</h2>
+      <p>Consulte los cierres conservados y gestione su archivo e integridad.</p>
+    </header>
+    <section class="sigeac-page-body" aria-labelledby="archive-title">
       <p class="muted">La previsualizaci��n informa los bloqueadores vigentes. El cierre integral conserva una
         instant��nea inmutable y el archivo verifica su integridad antes de registrarlo.</p>
-      <label for="archive-process">Proceso</label>
+      <div class="sigeac-form-search">
+      <div class="sigeac-form-field"><label for="archive-process">Proceso</label>
       <select id="archive-process" [ngModel]="processId" (ngModelChange)="selectProcess($event)" [disabled]="saving()">
         <option value="">Seleccione un proceso</option>
         @for (process of processes(); track process.id) {
           <option [value]="process.id">{{process.code}} �� {{process.name}}</option>
         }
-      </select>
+      </select></div>
       <button type="button" (click)="refresh()" [disabled]="!processId || loading() || saving()">Actualizar</button>
+      </div>
       @if (loading()) { <p role="status">Consultando cierres y bloqueadores...</p> }
       @if (error()) { <p role="alert">{{error()}}</p> }
       @if (message()) { <p role="status">{{message()}}</p> }
@@ -47,21 +54,22 @@ import {
           @for (warning of p.warnings; track warning) { <p class="muted">{{warning}}</p> }
           @if (p.blockers.length === 0) { <p class="muted">No hay bloqueadores vigentes.</p> }
 
-          <form (ngSubmit)="closeIntegral()">
+          <form (ngSubmit)="closeIntegral()" class="sigeac-form-layout"><div class="sigeac-form-grid">
             <h4>Cerrar integralmente</h4>
-            <label for="closure-policy">Pol��tica de cierre</label>
-            <input id="closure-policy" name="closurePolicy" [(ngModel)]="policyVersion" required maxlength="100" [disabled]="saving()" />
-            <label for="closure-assignment">Asignaci��n con competencia</label>
-            <input id="closure-assignment" name="closureAssignment" [(ngModel)]="authorityAssignmentId" required [disabled]="saving()" />
-            <label for="closure-legal">Fundamento normativo</label>
-            <input id="closure-legal" name="closureLegal" [(ngModel)]="legalBasis" required maxlength="4000" [disabled]="saving()" />
-            <label for="closure-document">Documento de respaldo</label>
-            <input id="closure-document" name="closureDocument" [(ngModel)]="documentReference" required maxlength="2000" [disabled]="saving()" />
-            <label for="closure-reason">Motivo</label>
-            <textarea id="closure-reason" name="closureReason" [(ngModel)]="reason" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea>
-            <label for="closure-exceptions">Decisiones de excepci��n (separadas por coma)</label>
-            <input id="closure-exceptions" name="closureExceptions" [(ngModel)]="exceptionText" [disabled]="saving()" />
-            <button type="submit" [disabled]="saving() || !closureValid()">Cerrar integralmente</button>
+            <div class="sigeac-form-field"><label for="closure-policy">Pol��tica de cierre</label>
+            <input id="closure-policy" name="closurePolicy" [(ngModel)]="policyVersion" required maxlength="100" [disabled]="saving()" /></div>
+            <div class="sigeac-form-field"><label for="closure-assignment">Asignaci��n con competencia</label>
+            <input id="closure-assignment" name="closureAssignment" [(ngModel)]="authorityAssignmentId" required [disabled]="saving()" /></div>
+            <div class="sigeac-form-field"><label for="closure-legal">Fundamento normativo</label>
+            <input id="closure-legal" name="closureLegal" [(ngModel)]="legalBasis" required maxlength="4000" [disabled]="saving()" /></div>
+            <div class="sigeac-form-field"><label for="closure-document">Documento de respaldo</label>
+            <input id="closure-document" name="closureDocument" [(ngModel)]="documentReference" required maxlength="2000" [disabled]="saving()" /></div>
+            <div class="sigeac-form-field sigeac-form-wide"><label for="closure-reason">Motivo</label>
+            <textarea id="closure-reason" name="closureReason" [(ngModel)]="reason" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea></div>
+            <div class="sigeac-form-field sigeac-form-wide"><label for="closure-exceptions">Decisiones de excepci��n (separadas por coma)</label>
+            <input id="closure-exceptions" name="closureExceptions" [(ngModel)]="exceptionText" [disabled]="saving()" /></div>
+            <div class="sigeac-form-actions"><button type="submit" [disabled]="saving() || !closureValid()">Cerrar integralmente</button></div>
+            </div>
           </form>
         </article>
       }
@@ -83,15 +91,17 @@ import {
       }
 
       @if (selectedClosure(); as closure) {
-        <form (ngSubmit)="archiveClosure()">
+        <form (ngSubmit)="archiveClosure()" class="sigeac-form-layout"><div class="sigeac-form-grid">
           <h4>Archivar cierre seleccionado</h4>
           <p class="muted"><code>{{closure.id}}</code></p>
-          <label for="archive-retention">Pol��tica de retenci��n</label>
-          <input id="archive-retention" name="archiveRetention" [(ngModel)]="retentionPolicyVersion" required maxlength="100" [disabled]="saving()" />
-          <button type="submit" [disabled]="saving() || retentionPolicyVersion.trim().length === 0">Archivar cierre</button>
+          <div class="sigeac-form-field"><label for="archive-retention">Pol��tica de retenci��n</label>
+          <input id="archive-retention" name="archiveRetention" [(ngModel)]="retentionPolicyVersion" required maxlength="100" [disabled]="saving()" /></div>
+          <div class="sigeac-form-actions"><button type="submit" [disabled]="saving() || retentionPolicyVersion.trim().length === 0">Archivar cierre</button></div>
+          </div>
         </form>
       }
     </section>
+    </div>
   `
 })
 export class ProcessArchivePage implements OnInit, OnDestroy {

@@ -33,7 +33,7 @@ class QuantitativeEvaluationControllerTest {
                 UUID.randomUUID(),actor,"Evaluador sintético",false,SessionService.sha256Hex(csrf))));
         mvc=MockMvcBuilders.standaloneSetup(new QuantitativeEvaluationController(calculations,variables,failures,
                 ()->Optional.of(new CurrentActorPort.Actor(actor,false))))
-                .setControllerAdvice(new ApiProblemHandler(),new AcademicProblemHandler())
+                .setControllerAdvice(new ec.edu.unl.sec.shared.api.ApiResponseAdvice(new com.fasterxml.jackson.databind.ObjectMapper().findAndRegisterModules()), new ApiProblemHandler(),new AcademicProblemHandler())
                 .addFilters(new CorrelationFilter(),new SessionAuthenticationFilter(sessions,new AccessProblemWriter(new ObjectMapper().findAndRegisterModules()))).build();
     }
     @AfterEach void clear(){org.springframework.security.core.context.SecurityContextHolder.clearContext();}
@@ -47,7 +47,7 @@ class QuantitativeEvaluationControllerTest {
     @Test void unverifiedCalculationProduces422AndSafeRejectionAudit() throws Exception {
         when(calculations.calculate(any(),any(),any(),anyLong(),any(),any(),any())).thenThrow(new AcademicProblemException(AcademicProblemException.Kind.INVALID,"VARIABLES_UNVERIFIED","Debe verificar las variables."));
         mvc.perform(post(path()+"/quantitative-calculations").cookie(cookie()).header("X-CSRF-TOKEN",csrf).header("If-Match","\"1\"").contentType(MediaType.APPLICATION_JSON).content(calculation()))
-                .andExpect(status().isUnprocessableContent()).andExpect(jsonPath("$.code").value("VARIABLES_UNVERIFIED"));
+                .andExpect(status().isUnprocessableContent()).andExpect(jsonPath("$.errors.code").value("VARIABLES_UNVERIFIED"));
         verify(failures).recordAfterRollback(argThat(event->event.reasonCode().equals("VARIABLES_UNVERIFIED") && event.outcome().equals("REJECTED") && event.metadata().isEmpty()));
     }
     @Test void doesNotAcceptClientVerifierIdentityOrUnknownCalculationFields() throws Exception {

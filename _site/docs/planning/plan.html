@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>plan – SEC-UNL — Documentación</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d0cfe7a3482e0d49a74229a8f3b76718.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/planning/plan.html">Planificación</a></li><li class="breadcrumb-item"><a href="../../docs/planning/plan.html">Plan de implementación: Sistema de Evaluación de Carreras</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">SEC-UNL — Documentación</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SIGEAC · Documentación técnica SEC-UNL</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Guía técnica y auditoría</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Auditoría y guía de lectura</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/context.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Contexto, actores y alcance real</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/processes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Procesos y flujo documental de extremo a extremo</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/architecture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Arquitectura C4 y código</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/backend.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Backend: auditoría estática de la implementación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/api.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">API vigente y diferencias del contrato</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/api/response-contract.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Contrato de respuesta y protección de la API</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/activities/acd5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ACD5 — Demostración técnica y estándares web</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pruebas: inventario estático, comandos y límites</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/operation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instalación, ejecución y operación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/evolution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Evolución, SDD y decisiones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/inventory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Inventario documental y decisiones de conservación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/traceability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Auditoría de trazabilidad</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/compliance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matriz de cumplimiento y evaluación preliminar</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/validation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Registro de validación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/audit/report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Informe final de consolidación documental</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Requisitos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../feature-map.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mapa de funcionalidades — SIGEAC</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/requirements/spec.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Especificación de funcionalidad: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/requirements/process-flows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Catálogo canónico de procesos P01–P16</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/requirements/domain-rules.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Actores, decisiones y reglas verificables</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Planificación</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/planning/plan.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Plan de implementación: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/planning/next-steps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Siguientes pasos de implementación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/planning/tasks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tareas: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../specs/005-complete-evaluation-workflows/plan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Implementation Plan: Flujos completos de evaluación de carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../specs/005-complete-evaluation-workflows/tasks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tasks: Flujos completos de evaluación de carreras</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Arquitectura</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/architecture/research.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Investigación y decisiones técnicas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/architecture/data-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelo de datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Decisiones de arquitectura</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0001-modular-monolith.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0001: Monolito modular por capacidades</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0002-file-storage-port.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0002: Puerto para almacenamiento externo de archivos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0015-configurable-evaluation-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0015: Gestión configurable de múltiples modelos de evaluación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0016-evaluation-strategies-import-adapters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0016: Estrategias de valoración y adaptadores de importación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0017-source-coverage-and-process-governance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0017: Cobertura documental, gobierno del proceso y cierres</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/adr/0018-catalog-contract-migration-compatibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ADR-0018 — Compatibilidad del catálogo y secuencia de migraciones</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Diagramas C4</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/architecture/complete-workflows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Arquitectura de P01–P16</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Documentación técnica</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/technical/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Documentación técnica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/technical/quickstart.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guía de validación rápida</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/technical/migration-p01-p16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Transición de contratos y datos P01–P16</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Pruebas y calidad</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/traceability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matriz de trazabilidad P01–P16</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/process-acceptance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matriz de aceptación por proceso</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/checklists/requirements.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista de calidad de la especificación: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/testing/checklists/governance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista de calidad de gobierno y seguridad: Sistema de Evaluación de Carreras</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Manual de usuario</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Manual de usuario</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d1-careers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Carreras y unidades académicas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d2-d3-models-planning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D2–D3 — Modelos y planificación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d4-d5-evidence-review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D4–D5 — Evidencias, revisión y subsanación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d6-documentary-progress.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Seguimiento documental</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-manual-evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Valoración académica manual</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-quantitative-evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Variables y cálculo cuantitativo</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-academic-reconciliation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Discrepancias y conciliación académica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/user/d7-d8-reports-archive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">D7–D8 — Informes, mejora y archivo</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#plan-de-implementación-sistema-de-evaluación-de-carreras" id="toc-plan-de-implementación-sistema-de-evaluación-de-carreras" class="nav-link active" data-scroll-target="#plan-de-implementación-sistema-de-evaluación-de-carreras">Plan de implementación: Sistema de Evaluación de Carreras</a>
+  <ul class="collapse">
+  <li><a href="#resumen" id="toc-resumen" class="nav-link" data-scroll-target="#resumen">Resumen</a></li>
+  <li><a href="#contexto-técnico" id="toc-contexto-técnico" class="nav-link" data-scroll-target="#contexto-técnico">Contexto técnico</a></li>
+  <li><a href="#comprobación-constitucional" id="toc-comprobación-constitucional" class="nav-link" data-scroll-target="#comprobación-constitucional">Comprobación constitucional</a>
+  <ul class="collapse">
+  <li><a href="#puerta-previa-a-investigación" id="toc-puerta-previa-a-investigación" class="nav-link" data-scroll-target="#puerta-previa-a-investigación">Puerta previa a investigación</a></li>
+  <li><a href="#puerta-posterior-al-diseño" id="toc-puerta-posterior-al-diseño" class="nav-link" data-scroll-target="#puerta-posterior-al-diseño">Puerta posterior al diseño</a></li>
+  </ul></li>
+  <li><a href="#arquitectura" id="toc-arquitectura" class="nav-link" data-scroll-target="#arquitectura">Arquitectura</a>
+  <ul class="collapse">
+  <li><a href="#contexto" id="toc-contexto" class="nav-link" data-scroll-target="#contexto">Contexto</a></li>
+  <li><a href="#módulos-del-backend" id="toc-módulos-del-backend" class="nav-link" data-scroll-target="#módulos-del-backend">Módulos del backend</a></li>
+  <li><a href="#estrategia-de-seguridad" id="toc-estrategia-de-seguridad" class="nav-link" data-scroll-target="#estrategia-de-seguridad">Estrategia de seguridad</a></li>
+  <li><a href="#consistencia-e-inmutabilidad" id="toc-consistencia-e-inmutabilidad" class="nav-link" data-scroll-target="#consistencia-e-inmutabilidad">Consistencia e inmutabilidad</a></li>
+  </ul></li>
+  <li><a href="#estructura-del-proyecto" id="toc-estructura-del-proyecto" class="nav-link" data-scroll-target="#estructura-del-proyecto">Estructura del proyecto</a>
+  <ul class="collapse">
+  <li><a href="#documentación-de-la-funcionalidad" id="toc-documentación-de-la-funcionalidad" class="nav-link" data-scroll-target="#documentación-de-la-funcionalidad">Documentación de la funcionalidad</a></li>
+  <li><a href="#código-fuente" id="toc-código-fuente" class="nav-link" data-scroll-target="#código-fuente">Código fuente</a></li>
+  </ul></li>
+  <li><a href="#fases-de-entrega" id="toc-fases-de-entrega" class="nav-link" data-scroll-target="#fases-de-entrega">Fases de entrega</a></li>
+  <li><a href="#estrategia-de-pruebas" id="toc-estrategia-de-pruebas" class="nav-link" data-scroll-target="#estrategia-de-pruebas">Estrategia de pruebas</a></li>
+  <li><a href="#puertas-de-calidad" id="toc-puertas-de-calidad" class="nav-link" data-scroll-target="#puertas-de-calidad">Puertas de calidad</a></li>
+  <li><a href="#riesgos-y-mitigaciones" id="toc-riesgos-y-mitigaciones" class="nav-link" data-scroll-target="#riesgos-y-mitigaciones">Riesgos y mitigaciones</a></li>
+  <li><a href="#seguimiento-de-complejidad" id="toc-seguimiento-de-complejidad" class="nav-link" data-scroll-target="#seguimiento-de-complejidad">Seguimiento de complejidad</a></li>
+  <li><a href="#decisiones-de-diseño-para-modelos-y-valoración" id="toc-decisiones-de-diseño-para-modelos-y-valoración" class="nav-link" data-scroll-target="#decisiones-de-diseño-para-modelos-y-valoración">Decisiones de diseño para modelos y valoración</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/planning/plan.html">Planificación</a></li><li class="breadcrumb-item"><a href="../../docs/planning/plan.html">Plan de implementación: Sistema de Evaluación de Carreras</a></li></ol></nav></header>
+
+
+
+
+<section id="plan-de-implementación-sistema-de-evaluación-de-carreras" class="level1">
+<h1>Plan de implementación: Sistema de Evaluación de Carreras</h1>
+<p><strong>Feature</strong>: <code>001-career-evaluation-platform</code> | <strong>Fecha</strong>: 2026-10-18 | <strong>Especificación</strong>: <a href="../../docs/requirements/spec.html">spec.md</a></p>
+<section id="resumen" class="level2">
+<h2 class="anchored" data-anchor-id="resumen">Resumen</h2>
+<p>La secuencia operativa actual, basada en la revisión de código del 2026-10-21, está en <a href="../../docs/planning/next-steps.html">Siguientes pasos de implementación</a>, con módulos, funcionalidades y criterios de cierre vinculados al backlog canónico de 005.</p>
+<p>Construir una aplicación web cliente-servidor para ejecutar P01–P16 con un único catálogo configurable. D1–D6 entregan el MVP documental: acceso, carreras, modelos, procesos autorizados, planificación, evidencias por fuente requerida, revisión y seguimiento. D7 añade valoración, hallazgos e informes; D8 añade mejora y cierre integral. P12–P15 no son dependencias del MVP documental.</p>
+<p>La solución será un backend monolítico modular con API REST y un cliente web. La persistencia relacional mantendrá metadatos, estados, decisiones y auditoría; los binarios se gestionarán detrás de un puerto de almacenamiento, con adaptador local para desarrollo y compatibilidad futura con S3. La seguridad se aplicará en backend con sesión revocable, autorización por política y ámbito, protección CSRF y auditoría.</p>
+</section>
+<section id="contexto-técnico" class="level2">
+<h2 class="anchored" data-anchor-id="contexto-técnico">Contexto técnico</h2>
+<p><strong>Lenguajes/versiones</strong>: Java 25 LTS; TypeScript 6.0 mediante Angular 22; SQL PostgreSQL 18</p>
+<p><strong>Dependencias principales</strong>: Spring Boot 4.1.x, Spring Security 7.1.x, Spring Data JPA/Hibernate, Flyway, springdoc/OpenAPI 3.1, Angular Material/CDK, RxJS 7.4+, Bean Validation</p>
+<p><strong>Almacenamiento</strong>: PostgreSQL 18 para datos estructurados; sistema de archivos local fuera de PostgreSQL para el MVP mediante un puerto reemplazable por almacenamiento compatible con S3</p>
+<p><strong>Pruebas</strong>: JUnit 5, AssertJ, ArchUnit, Testcontainers PostgreSQL, REST Assured/Spring MockMvc, Vitest, Angular Testing Library y Playwright; pruebas de rendimiento reproducibles con k6</p>
+<p><strong>Plataforma objetivo</strong>: servidor Linux o Windows con Java y PostgreSQL; navegadores incluidos por Angular Baseline, acotados por RNF-015; desarrollo y pruebas disponibles sin Docker</p>
+<p><strong>Tipo de proyecto</strong>: aplicación web cliente-servidor con backend monolítico modular y documentación Quarto</p>
+<p><strong>Objetivos de rendimiento</strong>: p95 ≤ 2 s en operaciones interactivas; p95 ≤ 15 s para archivos de hasta 25 MiB; 30 sesiones concurrentes y escala piloto de RNF-008</p>
+<p><strong>Restricciones</strong>: una carrera y un proceso piloto; cinco configuraciones representativas; archivos fuera de PostgreSQL; P12–P15 no bloquean D1–D6; GitHub Actions solo manual; sin despliegue productivo; sin dependencia obligatoria de Docker</p>
+<p><strong>Escala/alcance</strong>: 100 usuarios, 500 indicadores, 10 000 versiones de evidencia y 100 GiB de archivos en el entorno piloto</p>
+</section>
+<section id="comprobación-constitucional" class="level2">
+<h2 class="anchored" data-anchor-id="comprobación-constitucional">Comprobación constitucional</h2>
+<section id="puerta-previa-a-investigación" class="level3">
+<h3 class="anchored" data-anchor-id="puerta-previa-a-investigación">Puerta previa a investigación</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Principio</th>
+<th>Resultado</th>
+<th>Evidencia del plan</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>I. Separación estricta del dominio</td>
+<td>CUMPLE</td>
+<td>Módulos y entidades distintos para evidencia, decisión documental y valoración académica; no hay transición implícita de aceptación a cumplimiento.</td>
+</tr>
+<tr class="even">
+<td>II. SDD y trazabilidad</td>
+<td>CUMPLE</td>
+<td>IDs FR/RNF/SC, OpenAPI, matriz de trazabilidad y tareas/pruebas vinculadas.</td>
+</tr>
+<tr class="odd">
+<td>III. Incrementos verticales</td>
+<td>CUMPLE</td>
+<td>D1–D6 forman un MVP documental demostrable; D7–D8 son posteriores y no bloqueantes.</td>
+</tr>
+<tr class="even">
+<td>IV. Seguridad por función y ámbito</td>
+<td>CUMPLE</td>
+<td>Autorización en aplicación/dominio por función, carrera, proceso e indicador; frontend no decide permisos.</td>
+</tr>
+<tr class="odd">
+<td>V. Inmutabilidad, versionado y auditoría</td>
+<td>CUMPLE</td>
+<td>Modelos publicados, evidencias remitidas y decisiones finales usan revisión append-only y auditoría.</td>
+</tr>
+<tr class="even">
+<td>VI. Arquitectura modular</td>
+<td>CUMPLE</td>
+<td>Monolito modular con capas por capacidad y pruebas ArchUnit de dependencias.</td>
+</tr>
+<tr class="odd">
+<td>VII. Calidad y documentación viva</td>
+<td>CUMPLE</td>
+<td>Pruebas contractuales, integración, dominio, rendimiento, accesibilidad, documentación Quarto y quickstart.</td>
+</tr>
+</tbody>
+</table>
+<p>No se solicitan excepciones. Ninguna decisión CL-001–CL-010 se codifica como regla institucional fija; las políticas del piloto son configurables y sintéticas.</p>
+</section>
+<section id="puerta-posterior-al-diseño" class="level3">
+<h3 class="anchored" data-anchor-id="puerta-posterior-al-diseño">Puerta posterior al diseño</h3>
+<p><strong>Resultado</strong>: CUMPLE. El modelo de datos mantiene conceptos separados, OpenAPI aplica seguridad uniforme, el contrato de errores evita filtración, la estrategia de archivos preserva atomicidad y el diseño reserva extensiones I7–I8 sin dependencias inversas hacia el MVP. Los ADR documentan el monolito modular, el puerto de archivos, el catálogo configurable de modelos y la separación entre estrategias de valoración y adaptadores de importación.</p>
+</section>
+</section>
+<section id="arquitectura" class="level2">
+<h2 class="anchored" data-anchor-id="arquitectura">Arquitectura</h2>
+<section id="contexto" class="level3">
+<h3 class="anchored" data-anchor-id="contexto">Contexto</h3>
+<p>El cliente Angular consume exclusivamente la API REST. El backend aplica autenticación, autorización, reglas de estado y auditoría, y accede a PostgreSQL y al almacenamiento de archivos mediante adaptadores. Quarto publica documentación reproducible. Servicios institucionales y canales de notificación quedan fuera del límite operativo del MVP.</p>
+</section>
+<section id="módulos-del-backend" class="level3">
+<h3 class="anchored" data-anchor-id="módulos-del-backend">Módulos del backend</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Módulo</th>
+<th>Responsabilidad</th>
+<th>Puede depender de</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>identityaccess</code></td>
+<td>usuarios, credenciales, sesiones, funciones, ámbitos y conflictos</td>
+<td><code>shared</code>, <code>audit</code></td>
+</tr>
+<tr class="even">
+<td><code>evaluationmodel</code></td>
+<td>catálogo de modelos generales/específicos, versiones publicadas, jerarquías flexibles, indicadores, fuentes y escalas</td>
+<td><code>shared</code>, <code>audit</code></td>
+</tr>
+<tr class="odd">
+<td><code>selfassessment</code></td>
+<td>carrera, proceso, estados, asignaciones y cierre</td>
+<td><code>identityaccess</code> (puertos), <code>evaluationmodel</code> (puertos), <code>audit</code></td>
+</tr>
+<tr class="even">
+<td><code>evidence</code></td>
+<td>borradores, versiones remitidas, metadatos e integridad de archivos</td>
+<td><code>selfassessment</code> (puertos), <code>filestorage</code>, <code>audit</code></td>
+</tr>
+<tr class="odd">
+<td><code>documentreview</code></td>
+<td>decisiones documentales append-only</td>
+<td><code>evidence</code> (puertos), <code>identityaccess</code> (políticas), <code>audit</code></td>
+</tr>
+<tr class="even">
+<td><code>academicevaluation</code></td>
+<td>valoraciones y revisiones académicas; registro/fábrica de estrategias opcional en I7</td>
+<td><code>documentreview</code> y <code>evaluationmodel</code> (puertos), <code>identityaccess</code>, <code>audit</code></td>
+</tr>
+<tr class="odd">
+<td><code>reporting</code></td>
+<td>avance por fuente, trazabilidad, corte documental, resumen de cierre y exportaciones</td>
+<td>vistas/puertos de los módulos, nunca repositorios internos</td>
+</tr>
+<tr class="even">
+<td><code>governance</code></td>
+<td>hallazgos, versiones de informe, observaciones y decisiones de aprobación</td>
+<td>puertos de evaluación, reporting, identidad y auditoría</td>
+</tr>
+<tr class="odd">
+<td><code>improvement</code></td>
+<td>planes, acciones, avances y verificaciones</td>
+<td>puertos de governance, identidad, evidencia y auditoría</td>
+</tr>
+<tr class="even">
+<td><code>archive</code></td>
+<td>políticas de cierre, instantáneas y consulta histórica</td>
+<td>puertos públicos de todos los módulos de proceso</td>
+</tr>
+<tr class="odd">
+<td><code>integration</code></td>
+<td>adaptadores de importación e integraciones externas I8 y publicación de eventos complementarios</td>
+<td>puertos públicos; ningún módulo MVP depende de él</td>
+</tr>
+<tr class="even">
+<td><code>audit</code></td>
+<td>eventos inmutables y consulta autorizada</td>
+<td><code>shared</code></td>
+</tr>
+<tr class="odd">
+<td><code>shared</code></td>
+<td>identificadores, reloj, errores, correlación y tipos transversales mínimos</td>
+<td>ninguno</td>
+</tr>
+</tbody>
+</table>
+<p>Cada módulo se divide en <code>api</code>, <code>application</code>, <code>domain</code> e <code>infrastructure</code>. Los controladores llaman casos de uso; las reglas residen en dominio/aplicación; repositorios y almacenamiento implementan puertos. ArchUnit impedirá accesos a paquetes <code>infrastructure</code> o <code>domain</code> internos de otros módulos.</p>
+</section>
+<section id="estrategia-de-seguridad" class="level3">
+<h3 class="anchored" data-anchor-id="estrategia-de-seguridad">Estrategia de seguridad</h3>
+<ul>
+<li>Sesiones revocables almacenadas del lado del servidor, cookie <code>HttpOnly</code>, <code>Secure</code> en entornos TLS y <code>SameSite=Lax</code>; tokens CSRF para operaciones mutables.</li>
+<li>Contraseñas con Argon2id y parámetros configurables; limitación de intentos según RNF-003.</li>
+<li>Autorización en dos pasos: capacidad por función y filtro/validación de ámbito sobre el objeto solicitado.</li>
+<li>Separación de cuentas técnicas; no reciben casos de uso de revisión o valoración.</li>
+<li>Descargas mediante endpoint autorizado, sin rutas directas al almacenamiento.</li>
+<li>Respuesta <code>ProblemDetail</code> estable con código de dominio y correlación; mensajes 401/403 no confirman existencia de objetos fuera de ámbito.</li>
+</ul>
+</section>
+<section id="consistencia-e-inmutabilidad" class="level3">
+<h3 class="anchored" data-anchor-id="consistencia-e-inmutabilidad">Consistencia e inmutabilidad</h3>
+<ul>
+<li>Bloqueo optimista con campo <code>version</code> en agregados editables.</li>
+<li>Publicación/remisión/finalización crea registros inmutables; rectificaciones añaden revisiones y no actualizan el registro histórico.</li>
+<li>Cada proceso conserva la referencia inmutable a la versión de modelo seleccionada al iniciarse; publicar otra versión nunca migra procesos existentes de manera implícita.</li>
+<li>La carga usa archivo temporal, cálculo SHA-256, validación y promoción; una transacción fallida deja el temporal elegible para limpieza, nunca una evidencia remitida falsa.</li>
+<li>El corte documental y el cierre integral usan políticas diferentes. Ambos toman un bloqueo breve, revalidan sus prerrequisitos y guardan una instantánea inmutable; el primero nunca exige valoración académica.</li>
+<li>Los eventos de auditoría se insertan con cada cambio crítico; no existe operación ordinaria de actualización o eliminación.</li>
+</ul>
+</section>
+</section>
+<section id="estructura-del-proyecto" class="level2">
+<h2 class="anchored" data-anchor-id="estructura-del-proyecto">Estructura del proyecto</h2>
+<section id="documentación-de-la-funcionalidad" class="level3">
+<h3 class="anchored" data-anchor-id="documentación-de-la-funcionalidad">Documentación de la funcionalidad</h3>
+<pre class="text"><code>docs/
+├── requirements/spec.md
+├── planning/
+│   ├── plan.md
+│   └── tasks.md
+├── architecture/
+│   ├── research.md
+│   └── data-model.md
+├── adr/
+│   ├── 0001-modular-monolith.md
+│   ├── 0002-file-storage-port.md
+│   ├── 0015-configurable-evaluation-models.md
+│   └── 0016-evaluation-strategies-import-adapters.md
+├── technical/
+│   ├── quickstart.md
+│   └── contracts/
+│       ├── openapi.yaml
+│       └── events-asyncapi.yaml
+└── testing/
+    ├── traceability.md
+    └── checklists/
+        ├── governance.md
+        └── requirements.md</code></pre>
+</section>
+<section id="código-fuente" class="level3">
+<h3 class="anchored" data-anchor-id="código-fuente">Código fuente</h3>
+<pre class="text"><code>backend/
+├── pom.xml
+└── src/
+    ├── main/java/ec/edu/unl/sec/
+    │   ├── shared/
+    │   ├── audit/
+    │   ├── identityaccess/
+    │   ├── evaluationmodel/
+    │   ├── selfassessment/
+    │   ├── evidence/
+    │   ├── documentreview/
+    │   ├── academicevaluation/
+    │   ├── reporting/
+    │   ├── integration/
+    │   └── filestorage/
+    ├── main/resources/db/migration/
+    └── test/java/ec/edu/unl/sec/
+
+frontend/
+├── package.json
+└── src/app/
+    ├── core/
+    ├── shared/
+    └── features/
+        ├── access/
+        ├── models/
+        ├── processes/
+        ├── evidence/
+        ├── reviews/
+        ├── evaluations/
+        └── reporting/
+
+tests/
+├── e2e/
+├── performance/
+├── fixtures/
+└── acceptance/
+
+docs/
+├── technical/
+└── user/</code></pre>
+<p><strong>Decisión de estructura</strong>: se conservan <code>backend/</code>, <code>frontend/</code>, <code>tests/</code> y <code>docs/</code> ya preparados. La aplicación móvil existente permanece fuera del MVP y no será dependencia del cliente web ni de la API.</p>
+</section>
+</section>
+<section id="fases-de-entrega" class="level2">
+<h2 class="anchored" data-anchor-id="fases-de-entrega">Fases de entrega</h2>
+<ol type="1">
+<li><strong>Fase 0 — Reconciliación</strong>: aprobar FR-041–FR-070, P01–P16, ADR, contratos y estrategia de migración.</li>
+<li><strong>D1 — Identidad y carreras (P01–P02)</strong>: completar catálogo de unidades/carreras y ámbitos.</li>
+<li><strong>D2 — Modelos (P03–P04)</strong>: jerarquía flexible, cinco configuraciones, fuentes y reglas por indicador.</li>
+<li><strong>D3 — Procesos (P05–P06)</strong>: autorización institucional, suspensión, equipos, actividades y fechas.</li>
+<li><strong>D4 — Evidencias (P07–P08)</strong>: cobertura explícita de fuentes y remisión inmutable.</li>
+<li><strong>D5 — Revisión (P09–P10)</strong>: decisión documental y subsanación enlazada.</li>
+<li><strong>D6 — Seguimiento (P11 y P16 básico)</strong>: métricas exactas y corte documental; aceptación del MVP.</li>
+<li><strong>D7 — Evaluación e informes (P12–P14)</strong>: valoración manual/cuantitativa, hallazgos e informes versionados.</li>
+<li><strong>D8 — Mejora y archivo (P15–P16)</strong>: acciones, cierre integral, restauración y consulta histórica.</li>
+</ol>
+<p>Los identificadores I0–I8 existentes se conservan como historia de implementación. La correspondencia canónica y las tareas nuevas están en <a href="../../specs/005-complete-evaluation-workflows/plan.html"><code>specs/005-complete-evaluation-workflows</code></a>.</p>
+<p>Cada incremento actualiza migración, OpenAPI, pruebas, trazabilidad, guía Quarto y quickstart. Las migraciones se validan desde base limpia y con un recorrido documentado de respaldo/restauración cuando corresponda.</p>
+</section>
+<section id="estrategia-de-pruebas" class="level2">
+<h2 class="anchored" data-anchor-id="estrategia-de-pruebas">Estrategia de pruebas</h2>
+<ul>
+<li><strong>Dominio</strong>: transiciones, separación de funciones, versionado, inmutabilidad y fórmula.</li>
+<li><strong>Configurabilidad de modelos</strong>: fixtures de General 2024, Medicina 2018, Enfermería 2016, Odontología 2018 y Derecho matricial; se valida estructura, procedencia, fuentes y mecanismos sin presumir vigencia institucional.</li>
+<li><strong>Métricas documentales</strong>: comparación contra cálculo manual por fuentes aplicables; cero fuentes nunca produce 100 % por defecto.</li>
+<li><strong>Independencia del MVP</strong>: D1–D6 se ejecuta con valoración, informes y mejora deshabilitados.</li>
+<li><strong>Extensiones</strong>: pruebas de estrategias validadas y adaptadores externos, siempre con D1–D6 ejecutable sin P12–P15 ni integraciones.</li>
+<li><strong>Arquitectura</strong>: dependencias entre módulos/capas con ArchUnit.</li>
+<li><strong>Persistencia/migración</strong>: PostgreSQL real mediante Testcontainers cuando esté disponible y PostgreSQL local como camino sin Docker; nunca H2 para aceptación de SQL.</li>
+<li><strong>Contrato</strong>: OpenAPI lint y pruebas de endpoint/errores/autorización.</li>
+<li><strong>Integración</strong>: recorridos de cada incremento con archivos temporales y datos sintéticos.</li>
+<li><strong>Cliente</strong>: componentes, accesibilidad automatizada y recorridos Playwright.</li>
+<li><strong>Rendimiento</strong>: k6 contra dataset RNF-008 con p95 de RNF-006/RNF-007.</li>
+<li><strong>Seguridad</strong>: matriz función×ámbito×operación, CSRF, enumeración, sesiones, cargas y datos sensibles en logs.</li>
+<li><strong>Usabilidad</strong>: protocolo moderado con al menos 20 participantes sintéticos de los cinco perfiles, una tarea representativa por función y medición de primer intento conforme SC-007.</li>
+</ul>
+</section>
+<section id="puertas-de-calidad" class="level2">
+<h2 class="anchored" data-anchor-id="puertas-de-calidad">Puertas de calidad</h2>
+<ul>
+<li>Compilación, formato, análisis estático y pruebas por módulo.</li>
+<li>OpenAPI válido y sin ruptura no documentada.</li>
+<li>Migraciones aplicables desde cero y sobre la versión anterior aceptada.</li>
+<li>100 % de reglas críticas cubiertas por pruebas vinculadas a FR/RNF.</li>
+<li>Sin secretos ni datos institucionales reales en repositorio o artefactos.</li>
+<li>Documentación técnica/usuario y trazabilidad actualizadas.</li>
+<li>Workflows de GitHub conservan exclusivamente <code>workflow_dispatch</code>; no hay despliegue automático.</li>
+<li>Ningún hallazgo CRITICAL de <code>$speckit-analyze</code> antes de <code>$speckit-implement</code>.</li>
+</ul>
+</section>
+<section id="riesgos-y-mitigaciones" class="level2">
+<h2 class="anchored" data-anchor-id="riesgos-y-mitigaciones">Riesgos y mitigaciones</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Riesgo</th>
+<th>Mitigación</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>CL-001–CL-010 cambian tras validación</td>
+<td>Políticas versionadas/configurables y procedencia explícita; no codificar equivalencias oficiales.</td>
+</tr>
+<tr class="even">
+<td>Confusión entre aceptación y cumplimiento</td>
+<td>Agregados, endpoints, permisos, textos y pruebas independientes.</td>
+</tr>
+<tr class="odd">
+<td>Inconsistencia entre archivo y metadatos</td>
+<td>Flujo temporal/promoción, integridad SHA-256 y reconciliación segura.</td>
+</tr>
+<tr class="even">
+<td>Autorización filtrada solo en UI</td>
+<td>Pruebas negativas de backend y políticas sobre cada caso de uso.</td>
+</tr>
+<tr class="odd">
+<td>Crecimiento de dependencias internas</td>
+<td>Puertos públicos, ArchUnit y ADR obligatorio para excepciones.</td>
+</tr>
+<tr class="even">
+<td>I7–I8 contaminan el MVP</td>
+<td>Módulo de integración periférico y pruebas del MVP sin sus componentes.</td>
+</tr>
+<tr class="odd">
+<td>Un modelo por carrera deriva en cinco implementaciones</td>
+<td>Catálogo versionado, jerarquía de nodos y servicios compartidos; las diferencias se expresan como configuración.</td>
+</tr>
+<tr class="even">
+<td>Uso indiscriminado de patrones</td>
+<td>Strategy solo para algoritmos de valoración validados; Adapter solo en límites de importación o integración externa.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="seguimiento-de-complejidad" class="level2">
+<h2 class="anchored" data-anchor-id="seguimiento-de-complejidad">Seguimiento de complejidad</h2>
+<p>No existen violaciones constitucionales que requieran justificación. El patrón de puertos se limita a límites externos y dependencias entre módulos; no se introduce una capa genérica adicional para cada entidad. El catálogo resuelve la selección de modelos del MVP sin Adapter. Strategy aparece en I7 solo si hay algoritmos distintos y verificados; Adapter aparece en I8 solo ante formatos o servicios externos heterogéneos.</p>
+</section>
+<section id="decisiones-de-diseño-para-modelos-y-valoración" class="level2">
+<h2 class="anchored" data-anchor-id="decisiones-de-diseño-para-modelos-y-valoración">Decisiones de diseño para modelos y valoración</h2>
+<ul>
+<li>El catálogo de modelos es versionado y configurable; cada modelo declara organismo emisor, denominación, versión, fecha y documento fuente.</li>
+<li>La estructura se representa como una jerarquía flexible de nodos tipados, sin tablas o servicios independientes por carrera.</li>
+<li>Las definiciones de indicadores pertenecen a una versión del modelo; las ejecuciones, evidencias y valoraciones pertenecen a un proceso que referencia esa versión.</li>
+<li>La asociación proceso–versión queda inmutable desde el inicio del proceso y se conserva históricamente.</li>
+<li>I7 usa <code>EvaluationStrategy</code> con Factory/Registry para seleccionar únicamente implementaciones registradas y validadas.</li>
+<li>I8 usa Adapter en cada límite de importación o integración heterogénea; el dominio recibe un contrato interno común.</li>
+<li>ADR-015 y ADR-016 contienen la justificación, beneficios, costes y alternativas de estas decisiones.</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -19,7 +19,13 @@ import {StructuredEvidenceComponent} from '../ui/structured-evidence.component';
   imports: [EvidenceSourceCoverageComponent, StructuredEvidenceComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section>
+    <div class="sigeac-page sigeac-page--balanced">
+    <header class="sigeac-page-header">
+      <span class="sigeac-badge">Evidencias</span>
+      <h2>Cobertura y versión de evidencia</h2>
+      <p>Revise archivos, procedencia y fuentes cubiertas antes de la remisión.</p>
+    </header>
+    <section class="sigeac-page-body">
       @if (version(); as current) {
         <h2>Versión {{current.revisionNumber}} · {{current.title}}</h2>
         <p><strong>Estado:</strong> {{current.status}} · <strong>Vigencia:</strong> {{current.coveredFrom}} → {{current.coveredTo}}</p>
@@ -67,6 +73,7 @@ import {StructuredEvidenceComponent} from '../ui/structured-evidence.component';
         @if (error()) { <p role="alert">{{error()}}</p> }
       }
     </section>
+    </div>
   `
 })
 export class EvidenceVersionPage implements OnInit {

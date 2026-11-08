@@ -10,8 +10,15 @@ import {Career, CareerApi} from '../../careers/data-access/career-api.service';
   imports: [FormsModule, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <h2>Procesos de autoevaluación</h2>
+    <div class="sigeac-page sigeac-page--balanced">
+    <header class="sigeac-page-header">
+      <span class="sigeac-badge">Procesos</span>
+      <h2>Procesos de autoevaluación</h2>
+      <p>Consulte los procesos de su ámbito y prepare nuevos ciclos de autoevaluación.</p>
+    </header>
+    <section class="sigeac-page-body">
     @if (processes().length > 0) {
+      <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Procesos visibles">
       <table>
         <caption>Procesos visibles en su ámbito</caption>
         <thead><tr><th scope="col">Código</th><th scope="col">Nombre</th><th scope="col">Estado</th><th scope="col">Acción</th></tr></thead>
@@ -22,27 +29,35 @@ import {Career, CareerApi} from '../../careers/data-access/career-api.service';
           }
         </tbody>
       </table>
+      </div>
     } @else {
       <p>No hay procesos visibles.</p>
     }
 
     <h3>Crear proceso</h3>
     <p>La versión publicada se fijará al activar.</p>
-    <form (ngSubmit)="create()">
-      <label for="career-query">Buscar carrera activa</label><input id="career-query" [(ngModel)]="careerQuery" name="careerQuery" maxlength="300"><button type="button" (click)="loadCareers()">Buscar carreras activas</button>
-      <label for="career">Carrera</label><select id="career" [(ngModel)]="careerId" name="career" required><option value="">Seleccione una carrera</option>@for(career of careers();track career.id){<option [value]="career.id">{{career.data.code}} · {{career.data.name}}</option>}</select>
-      <label for="code">Código</label><input id="code" [(ngModel)]="code" name="code" required>
-      <label for="name">Denominación</label><input id="name" [(ngModel)]="name" name="name" required>
-      <label for="start">Inicio</label><input id="start" type="date" [(ngModel)]="start" name="start" required>
-      <label for="end">Fin</label><input id="end" type="date" [(ngModel)]="end" name="end" required>
-      <label for="model">Versión publicada</label><input id="model" [(ngModel)]="modelVersionId" name="model" required>
-      <button [disabled]="!careerId">Crear proceso en preparación</button>
+    <form (ngSubmit)="create()" class="sigeac-form-layout">
+      <div class="sigeac-form-grid">
+        <div class="sigeac-form-search sigeac-form-wide">
+          <div class="sigeac-form-field"><label for="career-query">Buscar carrera activa</label><input id="career-query" [(ngModel)]="careerQuery" name="careerQuery" maxlength="300"></div>
+          <button type="button" (click)="loadCareers()">Buscar carreras activas</button>
+        </div>
+        <div class="sigeac-form-field"><label for="career">Carrera</label><select id="career" [(ngModel)]="careerId" name="career" required><option value="">Seleccione una carrera</option>@for(career of careers();track career.id){<option [value]="career.id">{{career.data.code}} · {{career.data.name}}</option>}</select></div>
+        <div class="sigeac-form-field"><label for="code">Código</label><input id="code" [(ngModel)]="code" name="code" required></div>
+        <div class="sigeac-form-field sigeac-form-wide"><label for="name">Denominación</label><input id="name" [(ngModel)]="name" name="name" required></div>
+        <div class="sigeac-form-field"><label for="start">Inicio</label><input id="start" type="date" [(ngModel)]="start" name="start" required></div>
+        <div class="sigeac-form-field"><label for="end">Fin</label><input id="end" type="date" [(ngModel)]="end" name="end" required></div>
+        <div class="sigeac-form-field"><label for="model">Versión publicada</label><input id="model" [(ngModel)]="modelVersionId" name="model" required></div>
+        <div class="sigeac-form-actions"><button [disabled]="!careerId">Crear proceso en preparación</button></div>
+      </div>
     </form>
     @if (created(); as process) {
       <p role="status">{{process.code}} · {{process.state}} · modelo v{{process.modelVersionNumber}}</p>
       <a [routerLink]="[process.id]">Administrar proceso</a>
     }
     @if (error()) { <p role="alert">{{error()}}</p> }
+    </section>
+    </div>
   `
 })
 export class ProcessCreatePage implements OnInit {

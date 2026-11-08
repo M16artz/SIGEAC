@@ -38,7 +38,7 @@ class DocumentaryProgressControllerTest {
                         "Consultor sintético", false, SessionService.sha256Hex("synthetic-csrf"))));
         var mapper = new ObjectMapper().findAndRegisterModules();
         mvc = MockMvcBuilders.standaloneSetup(new DocumentaryProgressController(query))
-                .setControllerAdvice(new ApiProblemHandler(), new ReportingProblemHandler())
+                .setControllerAdvice(new ec.edu.unl.sec.shared.api.ApiResponseAdvice(new com.fasterxml.jackson.databind.ObjectMapper().findAndRegisterModules()), new ApiProblemHandler(), new ReportingProblemHandler())
                 .addFilters(new CorrelationFilter(), new SessionAuthenticationFilter(sessions, new AccessProblemWriter(mapper)))
                 .build();
     }
@@ -50,13 +50,13 @@ class DocumentaryProgressControllerTest {
                         4, 3, 2, DocumentaryProgressCalculator.FORMULA_VERSION)));
         mvc.perform(get(path()).cookie(session())).andExpect(status().isOk())
                 .andExpect(header().string("Cache-Control", "no-store"))
-                .andExpect(jsonPath("$.requiredSourceTotal").value(4))
-                .andExpect(jsonPath("$.registeredSourceTotal").value(3))
-                .andExpect(jsonPath("$.acceptedSourceTotal").value(2))
-                .andExpect(jsonPath("$.collectionPercent").value(75))
-                .andExpect(jsonPath("$.documentReviewPercent").value(50))
-                .andExpect(jsonPath("$.scopeDescription").value("Ámbito autorizado"))
-                .andExpect(jsonPath("$.academicStatus").doesNotExist());
+                .andExpect(jsonPath("$.data.requiredSourceTotal").value(4))
+                .andExpect(jsonPath("$.data.registeredSourceTotal").value(3))
+                .andExpect(jsonPath("$.data.acceptedSourceTotal").value(2))
+                .andExpect(jsonPath("$.data.collectionPercent").value(75))
+                .andExpect(jsonPath("$.data.documentReviewPercent").value(50))
+                .andExpect(jsonPath("$.data.scopeDescription").value("Ámbito autorizado"))
+                .andExpect(jsonPath("$.data.academicStatus").doesNotExist());
     }
 
     @Test
@@ -65,9 +65,9 @@ class DocumentaryProgressControllerTest {
                 new DocumentaryProgressCalculator.Progress(DocumentaryProgressCalculator.Status.NOT_CONFIGURED,
                         0, 0, 0, DocumentaryProgressCalculator.FORMULA_VERSION)));
         mvc.perform(get(path()).cookie(session())).andExpect(status().isOk())
-                .andExpect(jsonPath("$.state").value("NOT_CONFIGURED"))
-                .andExpect(jsonPath("$.collectionPercent").value(org.hamcrest.Matchers.nullValue()))
-                .andExpect(jsonPath("$.documentReviewPercent").value(org.hamcrest.Matchers.nullValue()));
+                .andExpect(jsonPath("$.data.state").value("NOT_CONFIGURED"))
+                .andExpect(jsonPath("$.data.collectionPercent").value(org.hamcrest.Matchers.nullValue()))
+                .andExpect(jsonPath("$.data.documentReviewPercent").value(org.hamcrest.Matchers.nullValue()));
     }
 
     @Test
@@ -90,7 +90,7 @@ class DocumentaryProgressControllerTest {
         clearInvocations(query);
         mvc.perform(get(path()).cookie(session()).param("cutoffAt", "2026-01-01T00:00:00Z"))
                 .andExpect(status().isUnprocessableContent())
-                .andExpect(jsonPath("$.code").value("UNSUPPORTED_FILTER"));
+                .andExpect(jsonPath("$.errors.code").value("UNSUPPORTED_FILTER"));
         verifyNoInteractions(query);
     }
 
@@ -99,9 +99,9 @@ class DocumentaryProgressControllerTest {
         when(query.query(any(), any(), any(), anyInt(), anyInt())).thenThrow(new ReportingProblemException(
                 ReportingProblemException.Kind.NOT_FOUND, "RESOURCE_NOT_FOUND", "Recurso no encontrado en el ámbito."));
         mvc.perform(get(path()).cookie(session())).andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.code").value("RESOURCE_NOT_FOUND"))
-                .andExpect(jsonPath("$.correlationId").isNotEmpty())
-                .andExpect(jsonPath("$.details").isMap());
+                .andExpect(jsonPath("$.errors.code").value("RESOURCE_NOT_FOUND"))
+                .andExpect(jsonPath("$.errors.correlationId").isNotEmpty())
+                .andExpect(jsonPath("$.errors.details").isMap());
     }
 
     private DocumentaryProgressQueryService.View view(DocumentaryProgressCalculator.Progress progress) {

@@ -1,10 +1,11 @@
+import {unwrapApiResponse} from '../../scripts/api-response.mjs';
 import {expect, test, APIResponse} from '@playwright/test';
 const processId = 'd7000000-0000-0000-0000-000000000003';
 const indicatorId = '50000000-0000-0000-0000-000000000001';
 const sourceId = 'd7000000-0000-0000-0000-000000000101';
 const assignment = 'd7000000-0000-0000-0000-000000000901';
 const path = `/api/v1/processes/${processId}/indicators/${indicatorId}`;
-async function body(response: APIResponse, status = 200) {expect(response.status(), await response.text()).toBe(status);return response.json();}
+async function body(response: APIResponse, status = 200) {expect(response.status(), await response.text()).toBe(status);return response.json().then(unwrapApiResponse);}
 
 test('AC-X11: preserves two foundations, competent resolution and invalidated support without overwriting history', async ({page, playwright, baseURL}) => {
   const collect = await playwright.request.newContext({baseURL});const review = await playwright.request.newContext({baseURL});

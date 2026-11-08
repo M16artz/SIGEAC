@@ -373,6 +373,32 @@ class SqliteApplicationContextTest {
     }
 
     @Test
+    @org.junit.jupiter.api.Timeout(10)
+    void rejectedLoginsCommitAttemptsAndAuditWithOneConnection() {
+        String username = "missing-" + UUID.randomUUID();
+        assertThat(application.getBean(com.zaxxer.hikari.HikariDataSource.class).getMaximumPoolSize())
+                .isEqualTo(1);
+
+        for (int attempt = 1; attempt <= 6; attempt++) {
+            UUID correlation = UUID.randomUUID();
+            String expectedCode = attempt < 5 ? "AUTHENTICATION_FAILED" : "AUTHENTICATION_LIMITED";
+            org.assertj.core.api.Assertions.assertThatThrownBy(() -> sessions.login(
+                            username, "wrong-password", "127.0.0.1", correlation))
+                    .isInstanceOf(SessionService.AuthenticationRejected.class)
+                    .extracting("code").isEqualTo(expectedCode);
+
+            assertThat(jdbc.queryForObject(
+                            "select count(*) from authentication_attempt where correlation_id=? and not success",
+                            Integer.class, correlation))
+                    .isEqualTo(attempt <= 5 ? 1 : 0);
+            assertThat(jdbc.queryForObject(
+                            "select count(*) from audit_event where correlation_id=? and outcome='REJECTED' and reason_code=?",
+                            Integer.class, correlation, expectedCode))
+                    .isEqualTo(1);
+        }
+    }
+
+    @Test
     void responsibleCanCollectWithoutAFalseFunctionConflict() {
         UUID responsible = UUID.nameUUIDFromBytes("sec-unl:responsable".getBytes(StandardCharsets.UTF_8));
         assertThat(authorization.isAllowed(

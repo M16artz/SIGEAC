@@ -1,73 +1,108 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  computed,
+  inject
+} from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { AccessSessionService } from '../data-access/access-session.service';
+import { AssignmentView } from '../data-access/access.models';
+
+interface QuickLink {
+  readonly path: string;
+  readonly title: string;
+  readonly description: string;
+  readonly icon: string;
+}
+
+const QUICK_LINKS: readonly QuickLink[] = [
+  {
+    path: '/access/users',
+    title: 'Usuarios y asignaciones',
+    description: 'Habilite identidades y asigne funciones con ámbito y vigencia.',
+    icon: 'M15 19.5a6 6 0 0 0-12 0 M9 11.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z M17 11.5a2.8 2.8 0 1 0 0-5.6 M19 19.5a5 5 0 0 0-3.2-4.6'
+  },
+  {
+    path: '/access/conflicts',
+    title: 'Conflictos y excepciones',
+    description: 'Revise incompatibilidades y excepciones temporales del acceso.',
+    icon: 'M12 4.5 21 20H3L12 4.5Z M12 10v4 M12 17h.01'
+  },
+  {
+    path: '/access/audit',
+    title: 'Auditoría de acceso',
+    description: 'Consulte la trazabilidad de cambios y decisiones registradas.',
+    icon: 'M12 3.5 20 7v5c0 4.5-3.2 8.2-8 9.5-4.8-1.3-8-5-8-9.5V7l8-3.5Z M9 12l2 2 4-4.5'
+  }
+];
 
 @Component({
   selector: 'sec-access-home',
   standalone: true,
   imports: [RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <section aria-labelledby="access-title">
-      <h2 id="access-title">Acceso y ámbitos autorizados</h2>
-      @if (session.identity(); as identity) {
-        <p><strong>{{ identity.displayName }}</strong>{{ identity.technical ? ' · cuenta técnica' : '' }}</p>
-        <h3>Asignaciones vigentes</h3>
-        @if (identity.assignments.length === 0) {
-          <p>No tiene asignaciones funcionales vigentes.</p>
-        } @else {
-          <table>
-            <caption>Funciones y ámbitos vigentes de la sesión actual</caption>
-            <thead>
-              <tr><th scope="col">Función</th><th scope="col">Carrera</th><th scope="col">Proceso</th><th scope="col">Indicador</th><th scope="col">Desde</th><th scope="col">Hasta</th></tr>
-            </thead>
-            <tbody>
-              @for (assignment of identity.assignments; track assignment.id) {
-                <tr>
-                  <td>{{ assignment.roleName }} ({{ assignment.roleCode }})</td>
-                  <td>{{ assignment.careerId }}</td>
-                  <td>{{ assignment.processId ?? 'Todos' }}</td>
-                  <td>{{ assignment.indicatorId ?? 'Todos' }}</td>
-                  <td>{{ assignment.validFrom }}</td>
-                  <td>{{ assignment.validTo }}</td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        }
-        @if (hasRole(identity, 'FUNCTIONAL_ADMIN')) {
-          <nav aria-label="Administración de acceso">
-            <ul>
-              <li><a routerLink="/access/users">Usuarios y asignaciones</a></li>
-              <li><a routerLink="/access/conflicts">Conflictos y excepciones</a></li>
-              <li><a routerLink="/access/audit">Auditoría de acceso</a></li>
-            </ul>
-          </nav>
-        } @else if (hasRole(identity, 'COORDINATOR')) {
-          <p><a routerLink="/access/audit">Auditoría de acceso</a></p>
-        }
-        <button type="button" (click)="logout()">Cerrar sesión</button>
-      } @else {
-        <p>Cargando identidad…</p>
-      }
-    </section>
-  `
+  encapsulation: ViewEncapsulation.None,
+  templateUrl: './access-home.page.html',
+  styleUrl: './access-home.page.scss'
 })
 export class AccessHomePageComponent {
   readonly session = inject(AccessSessionService);
-  private readonly router = inject(Router);
 
-  hasRole(identity: {assignments: readonly {roleCode: string}[]}, role: string): boolean {
-    return identity.assignments.some(assignment => assignment.roleCode === role);
-  }
+  readonly identity = this.session.identity;
+  readonly assignments = computed<readonly AssignmentView[]>(
+    () => this.identity()?.assignments ?? []
+  );
 
-  logout(): void {
-    this.session.logout().subscribe({
-      next: () => void this.router.navigate(['/access/login']),
-      error: () => {
-        this.session.clear();
-        void this.router.navigate(['/access/login']);
-      }
-    });
+  readonly roleCount = computed(
+    () => new Set(this.assignments().map((assignment) => assignment.roleCode)).size
+  );
+
+  readonly scopeCount = computed(
+    () =>
+      new Set(
+        this.assignments().map(
+          (assignment) =>
+            `${assignment.careerId}|${assignment.processId ?? ''}|${assignment.indicatorId ?? ''}`
+        )
+      ).size
+  );
+
+  readonly careerCount = computed(
+    () => new Set(this.assignments().map((assignment) => assignment.careerId)).size
+  );
+
+  readonly roleSummary = computed(() => {
+    const roles = [...new Set(this.assignments().map((assignment) => assignment.roleName))];
+    return roles.length > 0 ? roles.join(' · ') : 'Sin funciones vigentes';
+  });
+
+  readonly initials = computed(() => {
+    const name = this.identity()?.displayName?.trim() ?? '';
+    if (!name) {
+      return '—';
+    }
+    const parts = name.split(/\s+/);
+    const chosen = parts.length > 1 ? [parts[0], parts[parts.length - 1]] : parts;
+    return chosen
+      .map((part) => part.charAt(0))
+      .join('')
+      .toUpperCase();
+  });
+
+  readonly quickLinks = computed<readonly QuickLink[]>(() => {
+    const roles = new Set(this.assignments().map((assignment) => assignment.roleCode));
+    if (roles.has('FUNCTIONAL_ADMIN')) {
+      return QUICK_LINKS;
+    }
+    if (roles.has('COORDINATOR')) {
+      return QUICK_LINKS.filter((link) => link.path === '/access/audit');
+    }
+    return [];
+  });
+
+  formatDate(value: string): string {
+    const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(value);
+    return match ? `${match[3]}/${match[2]}/${match[1]}` : value;
   }
 }

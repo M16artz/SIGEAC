@@ -18,6 +18,7 @@ export interface CoverageDraft {
       @if (sources().length === 0) {
         <p role="status">La versión no tiene indicadores con fuentes requeridas.</p>
       } @else {
+        <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Fuentes y cobertura declarada">
         <table>
           <caption>Fuentes del modelo fijo del proceso vigente</caption>
           <thead>
@@ -43,15 +44,18 @@ export interface CoverageDraft {
             }
           </tbody>
         </table>
+        </div>
       }
       @if (selected() && !disabled()) {
-        <form (ngSubmit)="addCoverage()" novalidate>
-          <label for="coverage-note">Nota de cobertura</label>
+        <form (ngSubmit)="addCoverage()" novalidate class="sigeac-form-layout"><div class="sigeac-form-grid">
+          <div class="sigeac-form-field sigeac-form-wide"><label for="coverage-note">Nota de cobertura</label>
           <textarea id="coverage-note" name="coverageNote" required maxlength="4000"
-            [ngModel]="note()" (ngModelChange)="note.set($event)"></textarea>
-          <button type="submit" data-save-coverage>Guardar cobertura</button>
+            [ngModel]="note()" (ngModelChange)="note.set($event)"></textarea></div>
+          <div class="sigeac-form-actions"><button type="submit" data-save-coverage>Guardar cobertura</button>
           <button type="button" (click)="cancel()">Cancelar</button>
+          </div>
           @if (invalid()) { <p role="alert">La nota de cobertura es obligatoria.</p> }
+          </div>
         </form>
       }
     </section>

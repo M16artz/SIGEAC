@@ -1,0 +1,200 @@
+openapi: 3.1.0
+info:
+  {
+    title: SEC-UNL I2 Self-assessment API,
+    version: 1.0.0,
+    x-response-envelope: true,
+    description: " Migración coordinada pre-release 2026-11-08: las respuestas JSON usan success/message/data/errors/meta;
+      la paginación viaja en meta. 204/304, HEAD, binarios y documentos de protocolo no se envuelven. Bearer OIDC es
+      opcional; las sesiones conservan CSRF."
+  }
+servers: [ { url: /api/v1 } ]
+security: [ { sessionCookie: [] } ]
+paths:
+  /processes:
+    get:
+      {
+        operationId: listProcesses,
+        responses:
+          {
+            '200': { description: Scope-filtered processes },
+            "400": { $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiBadRequest },
+            "426": { $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiHttpsRequired },
+            "429": { $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiRateLimit }
+          }
+      }
+    post:
+      {
+        operationId: createProcess,
+        requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/ProcessCommand' } } } },
+        responses:
+          {
+            '201': { description: Draft created },
+            '400': { description: Invalid period/model },
+            '404': { description: Hidden reference },
+            "426": { $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiHttpsRequired },
+            "429": { $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiRateLimit }
+          }
+      }
+  /processes/{processId}:
+    get:
+      {
+        operationId: getProcess,
+        parameters: [ { $ref: '#/components/parameters/ProcessId' } ],
+        responses:
+          {
+            '200': { description: Process with fixed model },
+            '404': { description: Hidden },
+            "400": { $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiBadRequest },
+            "426": { $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiHttpsRequired },
+            "429": { $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiRateLimit }
+          }
+      }
+  /processes/{processId}/activate:
+    post:
+      {
+        operationId: activateProcess,
+        parameters: [ { $ref: '#/components/parameters/ProcessId' }, { $ref: '#/components/parameters/IfMatch' } ],
+        responses:
+          {
+            '200': { description: Activated },
+            '412': { description: Stale revision },
+            "400": { $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiBadRequest },
+            "426": { $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiHttpsRequired },
+            "429": { $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiRateLimit }
+          }
+      }
+  /processes/{processId}/transitions:
+    post:
+      {
+        operationId: transitionProcess,
+        parameters: [ { $ref: '#/components/parameters/ProcessId' }, { $ref: '#/components/parameters/IfMatch' } ],
+        requestBody:
+          {
+            required: true,
+            content:
+              {
+                application/json:
+                  {
+                    schema:
+                      {
+                        type: object,
+                        required: [ target ],
+                        properties: { target: { enum: [ ACTIVE, CLOSING, CLOSED ] }, reason: { type: string } }
+                      }
+                  }
+              }
+          },
+        responses:
+          {
+            '200': { description: Transitioned },
+            '409': { description: Invalid transition },
+            "400": { $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiBadRequest },
+            "426": { $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiHttpsRequired },
+            "429": { $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiRateLimit }
+          }
+      }
+  /processes/{processId}/reopen:
+    post:
+      {
+        operationId: reopenProcess,
+        parameters: [ { $ref: '#/components/parameters/ProcessId' }, { $ref: '#/components/parameters/IfMatch' } ],
+        requestBody:
+          {
+            required: true,
+            content:
+              {
+                application/json: { schema: { type: object, required: [ reason ], properties: { reason: { type: string, minLength: 1 } } } }
+              }
+          },
+        responses:
+          {
+            '200': { description: Reopened },
+            '409': { description: Invalid state },
+            "400": { $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiBadRequest },
+            "426": { $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiHttpsRequired },
+            "429": { $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiRateLimit }
+          }
+      }
+  /processes/{processId}/assignments:
+    get:
+      {
+        operationId: listProcessAssignments,
+        parameters: [ { $ref: '#/components/parameters/ProcessId' } ],
+        responses:
+          {
+            '200': { description: Historical assignments },
+            "400": { $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiBadRequest },
+            "426": { $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiHttpsRequired },
+            "429": { $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiRateLimit }
+          }
+      }
+    post:
+      {
+        operationId: createProcessAssignment,
+        parameters: [ { $ref: '#/components/parameters/ProcessId' }, { $ref: '#/components/parameters/IfMatch' } ],
+        requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/AssignmentCommand' } } } },
+        responses:
+          {
+            '201': { description: Assigned },
+            '409': { description: Invalid scope/conflict },
+            "400": { $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiBadRequest },
+            "426": { $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiHttpsRequired },
+            "429": { $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiRateLimit }
+          }
+      }
+components:
+  securitySchemes:
+    sessionCookie: { type: apiKey, in: cookie, name: SEC_SESSION }
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Opcional: solo cuando SEC_OIDC_ENABLED=true; emisor, audiencia e identidad local activa obligatorios."
+  parameters:
+    ProcessId: { name: processId, in: path, required: true, schema: { type: string, format: uuid } }
+    IfMatch: { name: If-Match, in: header, required: true, schema: { type: string } }
+  schemas:
+    ProcessCommand:
+      {
+        type: object,
+        required: [ careerId, code, name, periodStart, periodEnd, modelVersionId ],
+        properties:
+          {
+            careerId: { type: string, format: uuid },
+            code: { type: string, maxLength: 100 },
+            name: { type: string, maxLength: 300 },
+            periodStart: { type: string, format: date },
+            periodEnd: { type: string, format: date },
+            modelVersionId: { type: string, format: uuid }
+          }
+      }
+    AssignmentCommand:
+      {
+        type: object,
+        required: [ indicatorId, identityId, function, validFrom, validTo ],
+        properties:
+          {
+            indicatorId: { type: string, format: uuid },
+            identityId: { type: string, format: uuid },
+            function: { enum: [ RESPONSIBLE, REVIEWER, EVALUATOR ] },
+            validFrom: { type: string, format: date-time },
+            validTo: { type: string, format: date-time },
+            reason: { type: string }
+          }
+      }
+    ApiEnvelope:
+      $ref: ../../../docs/technical/contracts/openapi.yaml#/components/schemas/ApiEnvelope
+    ApiErrorResponse:
+      allOf:
+        - $ref: "#/components/schemas/ApiEnvelope"
+        - type: object
+          properties:
+            success:
+              const: false
+            data:
+              type: "null"
+            errors:
+              type: object
+            meta:
+              type: object

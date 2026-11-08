@@ -1,0 +1,49 @@
+---
+title: "Registro de validación"
+---
+
+**Actualización posterior — 2026-11-08:** el sobre JSON y los controles HTTP se han corregido. Consulte el [contrato vigente](../api/response-contract.qmd) y la [evidencia actual](../../tests/acceptance/results/api-response-hardening.md). El texto del 6 de noviembre se conserva como diagnóstico histórico.
+
+Fecha: 2026-11-06. Los comandos y resultados siguientes distinguen documentación de ejecución
+del sistema. Ningún informe histórico se declara ejecutado nuevamente.
+
+| Comando o inspección | Resultado actual |
+|---|---|
+| `git status --short`, `git log`, `git shortlog` | Ejecutados; HEAD a61f37b7 y cambios previos en compilados/logs. Historial preservado. |
+| `rg --files` y `git ls-files` con exclusión de dependencias/generados | Ejecutados; inventario de fuentes y búsqueda de evaluación. PDF/DOCX original no localizado. |
+| `quarto --version` | Ejecutado: 1.10.19. |
+| Python estándar: rutas Markdown, XML y referencias BPMN | 826 enlaces iniciales sin destino faltante; XML bien formado y 8 flujos BPMN con referencias existentes. No equivale a validación XSD. |
+| `quarto render` | ÉXITO, código 0: 141 páginas y salida `_site/index.html`. |
+| Python `html.parser` / `urllib.parse`: sitio generado | 141 HTML, 11.377 enlaces locales; 0 archivos faltantes y 0 anclas faltantes. [Registro JSON](site-check.json). |
+| Structurizr, PlantUML y XSD BPMN | No se localizaron comandos Structurizr/PlantUML; no se dispone de XSD BPMN local identificado. No se certifica conformidad ni render de esas fuentes. |
+| Backend, frontend, contratos y API viva | NO EJECUTADOS en esta auditoría. Se contrastaron archivos y comandos, sin atribuir PASS. |
+
+## Límite de ejecución
+
+La [habilidad security-audit](../../.agents/skills/security-audit/SKILL.md),
+sección «Universal execution safety», exige para ejecutar código del proyecto:
+“Run target-controlled builds, tests, processes … only inside an OS-enforced
+sandbox” con aislamiento de red, entorno vacío, escrituras confinadas y límites
+de recursos. Las herramientas disponibles no demuestran todos esos controles
+para ejecutar el backend o sus validadores. Por ello la revisión de seguridad
+es estática y no se ejecutan pruebas del proyecto ni se descargan dependencias.
+El render Quarto tiene `execute.enabled: false`: procesa documentación sin
+ejecutar los casos de uso del sistema.
+
+Para cerrar el límite, el equipo puede ejecutar los comandos de
+[pruebas](testing.qmd) en un entorno sintético aislado, conservar versiones,
+hash de fuente, flags, omitidas y resultados sanitizados. PostgreSQL es necesario
+para migraciones, triggers y concurrencia; SQLite no demuestra esas propiedades.
+
+## Alcance de la revisión de presentación
+
+Se comprobó el HTML generado, navegación, recursos y destinos de anclas. No se
+realizó una inspección visual en navegador ni de imágenes compiladas desde
+Structurizr/PlantUML. Los diagramas Mermaid quedan integrados en las páginas;
+la legibilidad visual y los modelos BPMN/C4 deben revisarse con sus herramientas.
+El render no ejecutó código de negocio (`execute.enabled: false`).
+
+Los informes JSON [de fuentes](link-check.json) y [del sitio](site-check.json)
+conservan los conteos y las listas de fallos. Se revisaron también páginas no
+vacías y nombres de clases en las fuentes de diagramas. La navegación contiene
+las catorce páginas nuevas y mantiene los manuales existentes.

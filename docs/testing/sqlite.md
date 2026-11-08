@@ -79,6 +79,26 @@ proceso sintético, de modo que puede usarse en las pruebas de evidencia.
 Los cargadores son idempotentes: reiniciar el backend conserva el archivo y no
 duplica los fixtures.
 
+### Ingresos rechazados y auditoría
+
+El perfil SQLite usa una sola conexión. `SessionService.login` conserva los
+intentos fallidos mediante `noRollbackFor = AuthenticationRejected.class`; sus
+eventos `REJECTED` se registran en esa misma transacción para no solicitar otra
+conexión mientras la primera sigue ocupada. Los demás rechazos mantienen su
+auditoría independiente. No se omite la auditoría ni se altera el límite de
+intentos.
+
+Tras actualizar el código, reinicie el backend para cargar la corrección,
+conservando el archivo SQLite. No es necesario borrar datos ni restablecer
+contraseñas. Las claves de la tabla anterior son las de la carga inicial y no
+sobrescriben credenciales modificadas posteriormente.
+
+Regresión específica (desde `backend/`):
+
+```bash
+./mvnw -Dtest=SessionServiceTest,SqliteApplicationContextTest test
+```
+
 El catálogo incluye además `PROCESS_AUTHORITY`, sin asignación automática. Para
 probar la creación de nuevos procesos, el administrador debe asignar esa función
 en el ámbito piloto a una identidad humana. Esa identidad registra el inicio con

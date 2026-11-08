@@ -39,7 +39,7 @@ class SessionControllerTest {
         administration = mock(IdentityAdministrationService.class);
         mvc = MockMvcBuilders.standaloneSetup(
                         new SessionController(sessions, administration, TestSupport.properties()))
-                .setControllerAdvice(new IdentityAccessExceptionHandler())
+                .setControllerAdvice(new ec.edu.unl.sec.shared.api.ApiResponseAdvice(new com.fasterxml.jackson.databind.ObjectMapper().findAndRegisterModules()), new IdentityAccessExceptionHandler())
                 .build();
     }
 
@@ -55,8 +55,8 @@ class SessionControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Set-Cookie", containsString("SEC_SESSION=opaque-token")))
                 .andExpect(header().string("Set-Cookie", containsString("HttpOnly")))
-                .andExpect(jsonPath("$.userId").value(TestSupport.ADMIN.toString()))
-                .andExpect(jsonPath("$.csrfToken").value("csrf-token"));
+                .andExpect(jsonPath("$.data.userId").value(TestSupport.ADMIN.toString()))
+                .andExpect(jsonPath("$.data.csrfToken").value("csrf-token"));
     }
 
     @Test
@@ -68,8 +68,8 @@ class SessionControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"username\":\"admin\",\"password\":\"Synthetic-Wrong-2026\"}"))
                 .andExpect(status().isUnauthorized())
-                .andExpect(jsonPath("$.code").value("AUTHENTICATION_FAILED"))
-                .andExpect(jsonPath("$.correlationId").exists())
+                .andExpect(jsonPath("$.errors.code").value("AUTHENTICATION_FAILED"))
+                .andExpect(jsonPath("$.errors.correlationId").exists())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
@@ -77,7 +77,7 @@ class SessionControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"username\":\"inexistente\",\"password\":\"Synthetic-Wrong-2026\"}"))
                 .andExpect(status().isUnauthorized())
-                .andExpect(jsonPath("$.code").value("AUTHENTICATION_FAILED"))
+                .andExpect(jsonPath("$.errors.code").value("AUTHENTICATION_FAILED"))
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
@@ -96,9 +96,9 @@ class SessionControllerTest {
 
         mvc.perform(get("/me").with(principal(TestSupport.USER)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(TestSupport.USER.toString()))
-                .andExpect(jsonPath("$.displayName").value("Responsable Sintetico"))
-                .andExpect(jsonPath("$.assignments").isArray());
+                .andExpect(jsonPath("$.data.id").value(TestSupport.USER.toString()))
+                .andExpect(jsonPath("$.data.displayName").value("Responsable Sintetico"))
+                .andExpect(jsonPath("$.data.assignments").isArray());
     }
 
     @Test
@@ -119,9 +119,9 @@ class SessionControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"username\":\"ab\",\"password\":\"short\"}"))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value("VALIDATION_FAILED"))
-                .andExpect(jsonPath("$.details.username").exists())
-                .andExpect(jsonPath("$.details.password").exists());
+                .andExpect(jsonPath("$.errors.code").value("VALIDATION_FAILED"))
+                .andExpect(jsonPath("$.errors.details.username").exists())
+                .andExpect(jsonPath("$.errors.details.password").exists());
     }
 
     private static RequestPostProcessor principal(UUID identityId) {

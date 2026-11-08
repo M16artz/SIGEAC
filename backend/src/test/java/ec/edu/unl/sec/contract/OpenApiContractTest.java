@@ -14,13 +14,17 @@ class OpenApiContractTest {
 
     @Test
     void declaresOpenApi31AndStableProblemDetails() throws IOException {
-        String yaml = Files.readString(contract);
+        var document = read(contract);
+        var envelope = map(map(map(document.get("components")).get("schemas")).get("ApiEnvelope"));
+        var problem = map(map(map(document.get("components")).get("schemas")).get("Problem"));
+        var correlation = map(map(problem.get("properties")).get("correlationId"));
         assertAll(
-                () -> assertTrue(yaml.startsWith("openapi: 3.1.0")),
-                () -> assertTrue(yaml.contains("application/problem+json")),
-                () -> assertTrue(yaml.contains("required: [type, title, status, detail, instance, code, correlationId, details]")),
-                () -> assertTrue(yaml.contains("correlationId: {type: string, minLength: 8, maxLength: 64}")),
-                () -> assertTrue(yaml.contains("sessionCookie:")));
+                () -> org.junit.jupiter.api.Assertions.assertEquals("3.1.0", document.get("openapi")),
+                () -> assertTrue(((java.util.List<?>) envelope.get("required")).containsAll(java.util.List.of("success", "message", "data", "errors", "meta"))),
+                () -> assertTrue(((java.util.List<?>) problem.get("required")).containsAll(java.util.List.of("type", "title", "status", "detail", "instance", "code", "correlationId", "details"))),
+                () -> org.junit.jupiter.api.Assertions.assertEquals(8, correlation.get("minLength")),
+                () -> org.junit.jupiter.api.Assertions.assertEquals(64, correlation.get("maxLength")),
+                () -> assertTrue(map(map(document.get("components")).get("securitySchemes")).containsKey("sessionCookie")));
     }
 
     @Test
@@ -87,6 +91,21 @@ class OpenApiContractTest {
                 () -> assertTrue(yaml.contains("'428'")),
                 () -> assertTrue(yaml.contains("declaredMediaType")),
                 () -> assertTrue(yaml.contains("detectedMediaType")),
-                () -> assertTrue(yaml.contains("required: [type, title, status, detail, instance, code, correlationId, details]")));
+                () -> assertTrue(((java.util.List<?>) problem(evidenceContract).get("required"))
+                        .containsAll(java.util.List.of("type", "title", "status", "detail", "instance", "code", "correlationId", "details"))));
+    }
+
+    private java.util.Map<?, ?> read(Path path) throws IOException {
+        return new org.yaml.snakeyaml.Yaml(new org.yaml.snakeyaml.constructor.SafeConstructor(new org.yaml.snakeyaml.LoaderOptions()))
+                .load(Files.readString(path));
+    }
+    private java.util.Map<?, ?> map(Object value) { return (java.util.Map<?, ?>) value; }
+    private java.util.Map<?, ?> problem(Path file) throws IOException {
+        var schema = map(map(map(read(file).get("components")).get("schemas")).get("Problem"));
+        if (schema.containsKey("$ref")) {
+            String relative = schema.get("$ref").toString().split("#")[0];
+            return problem(file.getParent().resolve(relative).normalize());
+        }
+        return schema;
     }
 }

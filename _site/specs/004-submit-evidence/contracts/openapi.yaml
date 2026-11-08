@@ -1,0 +1,878 @@
+openapi: 3.1.0
+info:
+  title: SEC-UNL I3 Evidence API
+  version: 0.1.0
+  description: "Contract for evidence drafting, file/reference collection, immutable submission, authorized download and
+    successor history. Migración coordinada pre-release 2026-11-08: las respuestas JSON usan
+    success/message/data/errors/meta; la paginación viaja en meta. 204/304, HEAD, binarios y documentos de protocolo no
+    se envuelven. Bearer OIDC es opcional; las sesiones conservan CSRF."
+  x-response-envelope: true
+servers:
+  - url: /api/v1
+tags:
+  - name: Evidence
+  - name: EvidenceFiles
+  - name: Audit
+security:
+  - sessionCookie: []
+paths:
+  /evidences:
+    get:
+      tags: [ Evidence ]
+      operationId: listEvidences
+      parameters:
+        - $ref: '#/components/parameters/ProcessIdQuery'
+        - $ref: '#/components/parameters/IndicatorIdQuery'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/Size'
+      responses:
+        '200':
+          description: Scope-filtered evidence lineages.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvidenceViewPageResponse"
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        "400":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiBadRequest
+        "426":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiHttpsRequired
+        "429":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiRateLimit
+    post:
+      tags: [ Evidence ]
+      operationId: createEvidence
+      parameters:
+        - $ref: '#/components/parameters/CsrfToken'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEvidenceRequest'
+      responses:
+        '201':
+          description: Evidence lineage and v1 draft created.
+          headers:
+            Location: { $ref: '#/components/headers/Location' }
+            ETag: { $ref: '#/components/headers/ETag' }
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvidenceVersionViewResponse"
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+        "426":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiHttpsRequired
+        "429":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiRateLimit
+
+  /evidences/{evidenceId}:
+    get:
+      tags: [ Evidence ]
+      operationId: getEvidence
+      parameters:
+        - $ref: '#/components/parameters/EvidenceId'
+      responses:
+        '200':
+          description: Stable evidence lineage summary.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvidenceViewResponse"
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        "400":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiBadRequest
+        "426":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiHttpsRequired
+        "429":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiRateLimit
+
+  /evidences/{evidenceId}/versions:
+    get:
+      tags: [ Evidence ]
+      operationId: listEvidenceVersions
+      parameters:
+        - $ref: '#/components/parameters/EvidenceId'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/Size'
+      responses:
+        '200':
+          description: Complete authorized history ordered by revision descending.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvidenceVersionSummaryPageResponse"
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        "400":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiBadRequest
+        "426":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiHttpsRequired
+        "429":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiRateLimit
+
+  /evidence-versions/{versionId}:
+    get:
+      tags: [ Evidence ]
+      operationId: getEvidenceVersion
+      parameters:
+        - $ref: '#/components/parameters/VersionId'
+      responses:
+        '200':
+          description: Exact draft or submitted snapshot. Draft responses include ETag.
+          headers:
+            ETag: { $ref: '#/components/headers/ETag' }
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvidenceVersionViewResponse"
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        "400":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiBadRequest
+        "426":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiHttpsRequired
+        "429":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiRateLimit
+    patch:
+      tags: [ Evidence ]
+      operationId: updateEvidenceDraft
+      parameters:
+        - $ref: '#/components/parameters/VersionId'
+        - $ref: '#/components/parameters/CsrfToken'
+        - $ref: '#/components/parameters/IfMatch'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEvidenceDraftRequest'
+      responses:
+        '200':
+          description: Updated draft.
+          headers:
+            ETag: { $ref: '#/components/headers/ETag' }
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvidenceVersionViewResponse"
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '412': { $ref: '#/components/responses/PreconditionFailed' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+        '428': { $ref: '#/components/responses/PreconditionRequired' }
+        "426":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiHttpsRequired
+        "429":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiRateLimit
+
+  /evidence-versions/{versionId}/files:
+    post:
+      tags: [ EvidenceFiles ]
+      operationId: uploadEvidenceFile
+      parameters:
+        - $ref: '#/components/parameters/VersionId'
+        - $ref: '#/components/parameters/CsrfToken'
+        - $ref: '#/components/parameters/IfMatch'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [ file ]
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: File validated, atomically promoted, confirmed and attached.
+          headers:
+            Location: { $ref: '#/components/headers/Location' }
+            ETag: { $ref: '#/components/headers/ETag' }
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FileMetadataViewResponse"
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '412': { $ref: '#/components/responses/PreconditionFailed' }
+        '413': { $ref: '#/components/responses/PayloadTooLarge' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+        '428': { $ref: '#/components/responses/PreconditionRequired' }
+        '503': { $ref: '#/components/responses/StorageUnavailable' }
+        "400":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiBadRequest
+        "426":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiHttpsRequired
+        "429":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiRateLimit
+
+  /evidence-versions/{versionId}/files/{fileId}:
+    delete:
+      tags: [ EvidenceFiles ]
+      operationId: removeEvidenceDraftFile
+      parameters:
+        - $ref: '#/components/parameters/VersionId'
+        - $ref: '#/components/parameters/FileId'
+        - $ref: '#/components/parameters/CsrfToken'
+        - $ref: '#/components/parameters/IfMatch'
+      responses:
+        '204':
+          description: Association removed from draft; submitted snapshots cannot use this operation.
+          headers:
+            ETag: { $ref: '#/components/headers/ETag' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '412': { $ref: '#/components/responses/PreconditionFailed' }
+        '428': { $ref: '#/components/responses/PreconditionRequired' }
+        "400":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiBadRequest
+        "426":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiHttpsRequired
+        "429":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiRateLimit
+
+  /evidence-versions/{versionId}/files/{fileId}/content:
+    get:
+      tags: [ EvidenceFiles ]
+      operationId: downloadEvidenceFile
+      parameters:
+        - $ref: '#/components/parameters/VersionId'
+        - $ref: '#/components/parameters/FileId'
+      responses:
+        '200':
+          description: Authorized content returned only after integrity verification.
+          headers:
+            Content-Disposition:
+              description: Safe attachment filename.
+              schema: { type: string }
+            Content-Length:
+              schema: { type: integer, format: int64, minimum: 0, maximum: 26214400 }
+            Digest:
+              description: SHA-256 digest of the delivered bytes.
+              schema: { type: string }
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/IntegrityConflict' }
+        "400":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiBadRequest
+        "426":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiHttpsRequired
+        "429":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiRateLimit
+
+  /evidence-versions/{versionId}/external-references:
+    post:
+      tags: [ Evidence ]
+      operationId: addEvidenceExternalReference
+      parameters:
+        - $ref: '#/components/parameters/VersionId'
+        - $ref: '#/components/parameters/CsrfToken'
+        - $ref: '#/components/parameters/IfMatch'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ExternalReferenceRequest' }
+      responses:
+        '201':
+          description: External reference added to draft.
+          headers:
+            Location: { $ref: '#/components/headers/Location' }
+            ETag: { $ref: '#/components/headers/ETag' }
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExternalReferenceViewResponse"
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '412': { $ref: '#/components/responses/PreconditionFailed' }
+        '428': { $ref: '#/components/responses/PreconditionRequired' }
+        "426":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiHttpsRequired
+        "429":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiRateLimit
+
+  /evidence-versions/{versionId}/external-references/{referenceId}:
+    patch:
+      tags: [ Evidence ]
+      operationId: updateEvidenceExternalReference
+      parameters:
+        - $ref: '#/components/parameters/VersionId'
+        - $ref: '#/components/parameters/ReferenceId'
+        - $ref: '#/components/parameters/CsrfToken'
+        - $ref: '#/components/parameters/IfMatch'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ExternalReferenceRequest' }
+      responses:
+        '200':
+          description: Reference updated in draft.
+          headers:
+            ETag: { $ref: '#/components/headers/ETag' }
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExternalReferenceViewResponse"
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '412': { $ref: '#/components/responses/PreconditionFailed' }
+        '428': { $ref: '#/components/responses/PreconditionRequired' }
+        "426":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiHttpsRequired
+        "429":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiRateLimit
+    delete:
+      tags: [ Evidence ]
+      operationId: removeEvidenceExternalReference
+      parameters:
+        - $ref: '#/components/parameters/VersionId'
+        - $ref: '#/components/parameters/ReferenceId'
+        - $ref: '#/components/parameters/CsrfToken'
+        - $ref: '#/components/parameters/IfMatch'
+      responses:
+        '204':
+          description: Reference removed from draft.
+          headers:
+            ETag: { $ref: '#/components/headers/ETag' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '412': { $ref: '#/components/responses/PreconditionFailed' }
+        '428': { $ref: '#/components/responses/PreconditionRequired' }
+        "400":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiBadRequest
+        "426":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiHttpsRequired
+        "429":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiRateLimit
+
+  /evidence-versions/{versionId}/submit:
+    post:
+      tags: [ Evidence ]
+      operationId: submitEvidenceVersion
+      parameters:
+        - $ref: '#/components/parameters/VersionId'
+        - $ref: '#/components/parameters/CsrfToken'
+        - $ref: '#/components/parameters/IfMatch'
+      responses:
+        '200':
+          description: Complete immutable submitted snapshot; no ETag is returned.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvidenceVersionViewResponse"
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '412': { $ref: '#/components/responses/PreconditionFailed' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+        '428': { $ref: '#/components/responses/PreconditionRequired' }
+        "400":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiBadRequest
+        "426":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiHttpsRequired
+        "429":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiRateLimit
+
+  /evidence-versions/{versionId}/successor:
+    post:
+      tags: [ Evidence ]
+      operationId: createEvidenceSuccessor
+      parameters:
+        - $ref: '#/components/parameters/VersionId'
+        - $ref: '#/components/parameters/CsrfToken'
+      responses:
+        '201':
+          description: Draft successor copied from this submitted version.
+          headers:
+            Location: { $ref: '#/components/headers/Location' }
+            ETag: { $ref: '#/components/headers/ETag' }
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvidenceVersionViewResponse"
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        "400":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiBadRequest
+        "426":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiHttpsRequired
+        "429":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiRateLimit
+
+  /audit-events:
+    get:
+      tags: [ Audit ]
+      operationId: searchEvidenceAuditEvents
+      parameters:
+        - $ref: '#/components/parameters/ProcessIdQueryOptional'
+        - { name: evidenceId, in: query, schema: { type: string, format: uuid } }
+        - { name: versionId, in: query, schema: { type: string, format: uuid } }
+        - { name: action, in: query, schema: { type: string } }
+        - { name: outcome, in: query, schema: { type: string } }
+        - { name: correlationId, in: query, schema: { type: string, minLength: 8, maxLength: 64 } }
+        - { name: from, in: query, schema: { type: string, format: date-time } }
+        - { name: to, in: query, schema: { type: string, format: date-time } }
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/Size'
+      responses:
+        '200':
+          description: Scope-filtered immutable audit events.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuditEventViewPageResponse"
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        "400":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiBadRequest
+        "426":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiHttpsRequired
+        "429":
+          $ref: ../../../docs/technical/contracts/openapi.yaml#/components/responses/ApiRateLimit
+
+components:
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: SEC_SESSION
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Opcional: solo cuando SEC_OIDC_ENABLED=true; emisor, audiencia e identidad local activa obligatorios."
+  parameters:
+    EvidenceId: { name: evidenceId, in: path, required: true, schema: { type: string, format: uuid } }
+    VersionId: { name: versionId, in: path, required: true, schema: { type: string, format: uuid } }
+    FileId: { name: fileId, in: path, required: true, schema: { type: string, format: uuid } }
+    ReferenceId: { name: referenceId, in: path, required: true, schema: { type: string, format: uuid } }
+    ProcessIdQuery: { name: processId, in: query, required: true, schema: { type: string, format: uuid } }
+    ProcessIdQueryOptional: { name: processId, in: query, schema: { type: string, format: uuid } }
+    IndicatorIdQuery: { name: indicatorId, in: query, schema: { type: string, format: uuid } }
+    CsrfToken: { name: X-CSRF-TOKEN, in: header, required: true, schema: { type: string, minLength: 32 } }
+    IfMatch:
+      name: If-Match
+      in: header
+      required: true
+      description: Strong ETag received from the latest draft representation.
+      schema: { type: string, pattern: '^"[0-9]+"$' }
+    Page: { name: page, in: query, schema: { type: integer, minimum: 0, default: 0 } }
+    Size: { name: size, in: query, schema: { type: integer, minimum: 1, maximum: 100, default: 20 } }
+  headers:
+    ETag:
+      description: Strong draft revision tag.
+      schema: { type: string, pattern: '^"[0-9]+"$' }
+    Location:
+      description: URI of the created resource.
+      schema: { type: string, format: uri-reference }
+  responses:
+    BadRequest:
+      description: Malformed request.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiErrorResponse"
+    Unauthorized:
+      description: Authentication required.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiErrorResponse"
+    Forbidden:
+      description: Authenticated identity lacks a visible collection-level capability.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiErrorResponse"
+    NotFound:
+      description: Resource absent or hidden because it is outside the caller scope.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiErrorResponse"
+    Conflict:
+      description: Domain state conflict, including immutable version or existing successor.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiErrorResponse"
+    IntegrityConflict:
+      description: File is missing, quarantined or fails integrity verification; no content is delivered.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiErrorResponse"
+    PreconditionFailed:
+      description: Draft ETag is stale.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiErrorResponse"
+    PayloadTooLarge:
+      description: File exceeds 26 214 400 bytes.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiErrorResponse"
+    Unprocessable:
+      description: Well-formed request violates a validation or completeness rule.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiErrorResponse"
+    PreconditionRequired:
+      description: If-Match is required for draft mutation.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiErrorResponse"
+    StorageUnavailable:
+      description: Storage outcome is safely recoverable but cannot be confirmed now.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiErrorResponse"
+  schemas:
+    CreateEvidenceRequest:
+      type: object
+      additionalProperties: false
+      required: [ processId, title, description, provenance, coveredFrom, coveredTo, indicatorIds ]
+      properties:
+        processId: { type: string, format: uuid }
+        title: { type: string, minLength: 1, maxLength: 300 }
+        description: { type: string, minLength: 1, maxLength: 8000 }
+        provenance: { type: string, minLength: 1, maxLength: 4000 }
+        coveredFrom: { type: string, format: date }
+        coveredTo: { type: string, format: date }
+        indicatorIds:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items: { type: string, format: uuid }
+    UpdateEvidenceDraftRequest:
+      $ref: '#/components/schemas/EvidenceDraftContent'
+    EvidenceDraftContent:
+      type: object
+      additionalProperties: false
+      required: [ title, description, provenance, coveredFrom, coveredTo, indicatorIds ]
+      properties:
+        title: { type: string, minLength: 1, maxLength: 300 }
+        description: { type: string, minLength: 1, maxLength: 8000 }
+        provenance: { type: string, minLength: 1, maxLength: 4000 }
+        coveredFrom: { type: string, format: date }
+        coveredTo: { type: string, format: date }
+        indicatorIds:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items: { type: string, format: uuid }
+    EvidenceView:
+      type: object
+      additionalProperties: false
+      required: [ id, processId, ownerId, createdAt, latestRevisionNumber, latestVersion ]
+      properties:
+        id: { type: string, format: uuid }
+        processId: { type: string, format: uuid }
+        ownerId: { type: string, format: uuid }
+        createdAt: { type: string, format: date-time }
+        latestRevisionNumber: { type: integer, minimum: 1 }
+        latestVersion: { $ref: '#/components/schemas/EvidenceVersionSummary' }
+    EvidenceVersionSummary:
+      type: object
+      additionalProperties: false
+      required: [ id, revisionNumber, status, title, createdAt, sourceCount ]
+      properties:
+        id: { type: string, format: uuid }
+        revisionNumber: { type: integer, minimum: 1 }
+        predecessorId: { type: [ string, 'null' ], format: uuid }
+        status: { type: string, enum: [ DRAFT, SUBMITTED ] }
+        title: { type: string }
+        createdAt: { type: string, format: date-time }
+        submittedAt: { type: [ string, 'null' ], format: date-time }
+        sourceCount: { type: integer, minimum: 0 }
+    EvidenceVersionView:
+      type: object
+      additionalProperties: false
+      required:
+        [
+          id,
+          evidenceId,
+          revisionNumber,
+          status,
+          title,
+          description,
+          provenance,
+          coveredFrom,
+          coveredTo,
+          indicatorIds,
+          createdBy,
+          createdAt,
+          revision,
+          files,
+          externalReferences
+        ]
+      properties:
+        id: { type: string, format: uuid }
+        evidenceId: { type: string, format: uuid }
+        revisionNumber: { type: integer, minimum: 1 }
+        predecessorId: { type: [ string, 'null' ], format: uuid }
+        status: { type: string, enum: [ DRAFT, SUBMITTED ] }
+        title: { type: string }
+        description: { type: string }
+        provenance: { type: string }
+        coveredFrom: { type: string, format: date }
+        coveredTo: { type: string, format: date }
+        indicatorIds: { type: array, minItems: 1, uniqueItems: true, items: { type: string, format: uuid } }
+        createdBy: { type: string, format: uuid }
+        createdAt: { type: string, format: date-time }
+        submittedBy: { type: [ string, 'null' ], format: uuid }
+        submittedAt: { type: [ string, 'null' ], format: date-time }
+        revision: { type: integer, minimum: 0, description: Value encoded in the draft ETag. }
+        files: { type: array, items: { $ref: '#/components/schemas/FileMetadataView' } }
+        externalReferences: { type: array, items: { $ref: '#/components/schemas/ExternalReferenceView' } }
+    FileMetadataView:
+      type: object
+      additionalProperties: false
+      required: [ id, originalName, declaredMediaType, detectedMediaType, sizeBytes, sha256, status ]
+      properties:
+        id: { type: string, format: uuid }
+        originalName: { type: string }
+        declaredMediaType: { type: string }
+        detectedMediaType: { type: string }
+        sizeBytes: { type: integer, format: int64, minimum: 0, maximum: 26214400 }
+        sha256: { type: string, pattern: '^[0-9a-f]{64}$' }
+        status: { type: string, enum: [ STAGED, AVAILABLE, QUARANTINED, MISSING ] }
+    ExternalReferenceRequest:
+      type: object
+      additionalProperties: false
+      required: [ uri, description ]
+      properties:
+        uri: { type: string, format: uri, maxLength: 2048 }
+        description: { type: string, minLength: 1, maxLength: 1000 }
+    ExternalReferenceView:
+      type: object
+      additionalProperties: false
+      required: [ id, uri, description ]
+      properties:
+        id: { type: string, format: uuid }
+        uri: { type: string, format: uri, maxLength: 2048 }
+        description: { type: string, minLength: 1, maxLength: 1000 }
+    AuditEventView:
+      type: object
+      additionalProperties: false
+      required: [ id, occurredAt, correlationId, action, objectType, objectId, outcome, reasonCode ]
+      properties:
+        id: { type: string, format: uuid }
+        occurredAt: { type: string, format: date-time }
+        actorId: { type: [ string, 'null' ], format: uuid }
+        correlationId: { type: string, minLength: 8, maxLength: 64 }
+        action: { type: string }
+        objectType: { type: string }
+        objectId: { type: string, format: uuid }
+        scopeProcessId: { type: [ string, 'null' ], format: uuid }
+        outcome: { type: string }
+        reasonCode: { type: string }
+        metadata: { type: object, additionalProperties: true }
+    PageMetadata:
+      type: object
+      additionalProperties: false
+      required: [ page, size, totalElements, totalPages ]
+      properties:
+        page: { type: integer, minimum: 0 }
+        size: { type: integer, minimum: 1 }
+        totalElements: { type: integer, format: int64, minimum: 0 }
+        totalPages: { type: integer, minimum: 0 }
+    EvidencePage:
+      type: object
+      additionalProperties: false
+      required: [ items, page ]
+      properties:
+        items: { type: array, items: { $ref: '#/components/schemas/EvidenceView' } }
+        page: { $ref: '#/components/schemas/PageMetadata' }
+    EvidenceVersionPage:
+      type: object
+      additionalProperties: false
+      required: [ items, page ]
+      properties:
+        items: { type: array, items: { $ref: '#/components/schemas/EvidenceVersionSummary' } }
+        page: { $ref: '#/components/schemas/PageMetadata' }
+    AuditEventPage:
+      type: object
+      additionalProperties: false
+      required: [ items, page ]
+      properties:
+        items: { type: array, items: { $ref: '#/components/schemas/AuditEventView' } }
+        page: { $ref: '#/components/schemas/PageMetadata' }
+    Problem:
+      $ref: ../../../docs/technical/contracts/openapi.yaml#/components/schemas/Problem
+    ApiEnvelope:
+      $ref: ../../../docs/technical/contracts/openapi.yaml#/components/schemas/ApiEnvelope
+    ApiErrorResponse:
+      allOf:
+        - $ref: "#/components/schemas/ApiEnvelope"
+        - type: object
+          properties:
+            success:
+              const: false
+            data:
+              type: "null"
+            errors:
+              $ref: "#/components/schemas/Problem"
+            meta:
+              type: object
+    EvidenceViewPageResponse:
+      allOf:
+        - $ref: "#/components/schemas/ApiEnvelope"
+        - type: object
+          properties:
+            success:
+              const: true
+            data:
+              type: object
+              additionalProperties: false
+              required:
+                - items
+              properties:
+                items:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/EvidenceView"
+            errors:
+              type: "null"
+            meta:
+              type: object
+              properties:
+                page:
+                  $ref: "#/components/schemas/PageMetadata"
+              required:
+                - page
+    EvidenceVersionViewResponse:
+      allOf:
+        - $ref: "#/components/schemas/ApiEnvelope"
+        - type: object
+          properties:
+            success:
+              const: true
+            data:
+              $ref: "#/components/schemas/EvidenceVersionView"
+            errors:
+              type: "null"
+            meta:
+              type: object
+    EvidenceViewResponse:
+      allOf:
+        - $ref: "#/components/schemas/ApiEnvelope"
+        - type: object
+          properties:
+            success:
+              const: true
+            data:
+              $ref: "#/components/schemas/EvidenceView"
+            errors:
+              type: "null"
+            meta:
+              type: object
+    EvidenceVersionSummaryPageResponse:
+      allOf:
+        - $ref: "#/components/schemas/ApiEnvelope"
+        - type: object
+          properties:
+            success:
+              const: true
+            data:
+              type: object
+              additionalProperties: false
+              required:
+                - items
+              properties:
+                items:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/EvidenceVersionSummary"
+            errors:
+              type: "null"
+            meta:
+              type: object
+              properties:
+                page:
+                  $ref: "#/components/schemas/PageMetadata"
+              required:
+                - page
+    FileMetadataViewResponse:
+      allOf:
+        - $ref: "#/components/schemas/ApiEnvelope"
+        - type: object
+          properties:
+            success:
+              const: true
+            data:
+              $ref: "#/components/schemas/FileMetadataView"
+            errors:
+              type: "null"
+            meta:
+              type: object
+    ExternalReferenceViewResponse:
+      allOf:
+        - $ref: "#/components/schemas/ApiEnvelope"
+        - type: object
+          properties:
+            success:
+              const: true
+            data:
+              $ref: "#/components/schemas/ExternalReferenceView"
+            errors:
+              type: "null"
+            meta:
+              type: object
+    AuditEventViewPageResponse:
+      allOf:
+        - $ref: "#/components/schemas/ApiEnvelope"
+        - type: object
+          properties:
+            success:
+              const: true
+            data:
+              type: object
+              additionalProperties: false
+              required:
+                - items
+              properties:
+                items:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/AuditEventView"
+            errors:
+              type: "null"
+            meta:
+              type: object
+              properties:
+                page:
+                  $ref: "#/components/schemas/PageMetadata"
+              required:
+                - page

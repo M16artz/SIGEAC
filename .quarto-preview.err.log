@@ -1,0 +1,23 @@
+Preparing to preview
+
+Watching files for changes
+Browse at http://localhost:4201/
+Listening on http://127.0.0.1:4201/
+GET: /
+GET: /docs/architecture/complete-workflows.html
+GET: /docs/user/index.html
+GET: /
+GET: /
+GET: /docs/architecture/complete-workflows.html
+GET: /docs/requirements/spec.html
+GET: /docs/requirements/domain-rules.html
+GET: /docs/planning/plan.html
+GET: /docs/planning/next-steps.html
+GET: /docs/architecture/research.html
+GET: /docs/architecture/data-model.html
+GET: /docs/architecture/complete-workflows.html
+GET: /docs/requirements/spec.html
+GET: /docs/architecture/research.html
+GET: /docs/architecture/complete-workflows.html
+GET: /docs/adr/0017-source-coverage-and-process-governance.html
+GET: /docs/user/d1-careers.html

@@ -51,7 +51,7 @@ class EvidenceHistoryControllerTest {
                 new SessionService.AuthenticatedSession(UUID.randomUUID(), UUID.randomUUID(), "Responsable", false,
                         SessionService.sha256Hex(CSRF))));
         mvc = MockMvcBuilders.standaloneSetup(new EvidenceHistoryController(successors, drafts, sources))
-                .setControllerAdvice(new ApiProblemHandler(), new EvidenceProblemHandler())
+                .setControllerAdvice(new ec.edu.unl.sec.shared.api.ApiResponseAdvice(new com.fasterxml.jackson.databind.ObjectMapper().findAndRegisterModules()), new ApiProblemHandler(), new EvidenceProblemHandler())
                 .addFilters(new CorrelationFilter(), new SessionAuthenticationFilter(sessions,
                         new AccessProblemWriter(new ObjectMapper().findAndRegisterModules()))).build();
     }
@@ -68,8 +68,8 @@ class EvidenceHistoryControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(header().exists("Location"))
                 .andExpect(header().exists("ETag"))
-                .andExpect(jsonPath("$.status").value("DRAFT"))
-                .andExpect(jsonPath("$.revisionNumber").value(2));
+                .andExpect(jsonPath("$.data.status").value("DRAFT"))
+                .andExpect(jsonPath("$.data.revisionNumber").value(2));
     }
 
     private static EvidenceVersion version() {

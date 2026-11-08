@@ -1,4 +1,6 @@
 sec:
+  http:
+    require-https: true
   demo-data: false
   identity-access:
     cookie-secure: true
@@ -6,3 +8,10 @@ sec:
 springdoc:
   api-docs.enabled: false
   swagger-ui.enabled: false
+server:
+  port: ${SEC_HTTPS_PORT:8443}
+  ssl:
+    enabled: true
+    key-store: ${SEC_TLS_KEY_STORE}
+    key-store-password: ${SEC_TLS_KEY_STORE_PASSWORD}
+    key-store-type: PKCS12
