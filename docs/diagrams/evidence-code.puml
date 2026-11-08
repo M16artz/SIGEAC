@@ -1,0 +1,22 @@
+@startuml
+title P08 - Estructura de remisión implementada
+class EvidenceSourceCoverageController
+class SubmitEvidenceService {
+  +submit(UUID, String): EvidenceVersion
+}
+class EvidenceDraftService
+interface EvidenceGovernanceRepository
+interface EvidenceContextPort
+interface RequiredSourceCatalogPort
+interface AuditPort
+class EvidenceSourceService
+class EvidenceVersion
+EvidenceSourceCoverageController --> SubmitEvidenceService
+SubmitEvidenceService --> EvidenceDraftService
+SubmitEvidenceService --> EvidenceGovernanceRepository
+SubmitEvidenceService --> EvidenceContextPort
+SubmitEvidenceService --> RequiredSourceCatalogPort
+SubmitEvidenceService --> EvidenceSourceService
+SubmitEvidenceService --> AuditPort
+SubmitEvidenceService ..> EvidenceVersion : devuelve
+@enduml

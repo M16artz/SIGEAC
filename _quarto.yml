@@ -1,14 +1,54 @@
-﻿project:
+project:
   type: website
   output-dir: _site
+  render:
+    - index.qmd
+    - feature-map.md
+    - docs/**/*.qmd
+    - docs/**/*.md
+    - specs/**/*.md
+    - tests/acceptance/results/*.md
+    - tests/performance/README.md
+    - tests/fixtures/**/*.md
+    - .specify/memory/constitution.md
+  resources:
+    - feature-map.md
+    - graphify-out/GRAPH_REPORT.md
+    - securityOutputs/run-1/*.md
+    - securityOutputs/run-1/*.json
+    - docs/audit/*-check.json
+    - docs/diagrams/*.dsl
+    - docs/diagrams/*.puml
+    - docs/diagrams/*.bpmn
+    - docs/technical/contracts/*.yaml
+    - specs/**/contracts/*.yaml
 
 website:
   title: "SEC-UNL — Documentación"
   sidebar:
     contents:
       - index.qmd
+      - section: "Guía técnica y auditoría"
+        contents:
+          - docs/audit/index.qmd
+          - docs/audit/context.qmd
+          - docs/audit/processes.qmd
+          - docs/audit/architecture.qmd
+          - docs/audit/backend.qmd
+          - docs/audit/api.qmd
+          - docs/api/response-contract.qmd
+          - docs/activities/acd5.qmd
+          - docs/audit/testing.qmd
+          - docs/audit/operation.qmd
+          - docs/audit/evolution.qmd
+          - docs/audit/inventory.qmd
+          - docs/audit/traceability.qmd
+          - docs/audit/compliance.qmd
+          - docs/audit/validation.qmd
+          - docs/audit/report.qmd
       - section: "Requisitos"
         contents:
+          - feature-map.md
           - docs/requirements/spec.md
           - docs/requirements/process-flows.md
           - docs/requirements/domain-rules.md
@@ -21,6 +61,7 @@ website:
           - specs/005-complete-evaluation-workflows/tasks.md
       - section: "Arquitectura"
         contents:
+          - docs/decisions/README.md
           - docs/architecture/research.md
           - docs/architecture/data-model.md
           - section: "Decisiones de arquitectura"

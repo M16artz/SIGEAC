@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_P08" targetNamespace="urn:sec-unl:docs:p08">
+<bpmn:process id="P08" name="Remitir versión de evidencia" isExecutable="false">
+<bpmn:documentation>Modelo descriptivo derivado de SubmitEvidenceService. La compuerta sintetiza rechazo esperado; errores inesperados y rechazo temprano de autenticación se explican en la página de procesos. No es un motor ejecutable ni validación normativa BPMN completa.</bpmn:documentation>
+<bpmn:laneSet id="Lanes"><bpmn:lane id="Responsible" name="Responsable documental"><bpmn:flowNodeRef>request</bpmn:flowNodeRef></bpmn:lane><bpmn:lane id="System" name="Backend SEC-UNL">
+<bpmn:flowNodeRef>start</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>auth</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>validate</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>gate</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>persist</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>done</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>reject</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>failed</bpmn:flowNodeRef>
+</bpmn:lane></bpmn:laneSet>
+<bpmn:startEvent id="start" name="Iniciar remisión"><bpmn:outgoing>f0</bpmn:outgoing></bpmn:startEvent>
+<bpmn:userTask id="request" name="Solicitar remisión"><bpmn:incoming>f0</bpmn:incoming><bpmn:outgoing>f1</bpmn:outgoing></bpmn:userTask>
+<bpmn:serviceTask id="auth" name="Autenticar y autorizar solicitud"><bpmn:incoming>f1</bpmn:incoming><bpmn:outgoing>f2</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:serviceTask id="validate" name="Validar revisión, estado, fuentes y cobertura"><bpmn:incoming>f2</bpmn:incoming><bpmn:outgoing>f3</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:exclusiveGateway id="gate" name="¿Validación satisfactoria?"><bpmn:incoming>f3</bpmn:incoming><bpmn:outgoing>f4</bpmn:outgoing><bpmn:outgoing>f6</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:serviceTask id="persist" name="Persistir remisión y registrar auditoría"><bpmn:incoming>f4</bpmn:incoming><bpmn:outgoing>f5</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:endEvent id="done" name="Completar remisión"><bpmn:incoming>f5</bpmn:incoming></bpmn:endEvent>
+<bpmn:serviceTask id="reject" name="Comunicar error sin remitir"><bpmn:incoming>f6</bpmn:incoming><bpmn:outgoing>f7</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:endEvent id="failed" name="Finalizar con rechazo"><bpmn:incoming>f7</bpmn:incoming></bpmn:endEvent>
+<bpmn:sequenceFlow id="f0" sourceRef="start" targetRef="request" name=""/>
+<bpmn:sequenceFlow id="f1" sourceRef="request" targetRef="auth" name=""/>
+<bpmn:sequenceFlow id="f2" sourceRef="auth" targetRef="validate" name=""/>
+<bpmn:sequenceFlow id="f3" sourceRef="validate" targetRef="gate" name=""/>
+<bpmn:sequenceFlow id="f4" sourceRef="gate" targetRef="persist" name="Sí"/>
+<bpmn:sequenceFlow id="f5" sourceRef="persist" targetRef="done" name=""/>
+<bpmn:sequenceFlow id="f6" sourceRef="gate" targetRef="reject" name="No"/>
+<bpmn:sequenceFlow id="f7" sourceRef="reject" targetRef="failed" name=""/>
+</bpmn:process>
+<bpmndi:BPMNDiagram id="Diagram"><bpmndi:BPMNPlane id="Plane" bpmnElement="P08">
+<bpmndi:BPMNShape id="shape_start" bpmnElement="start"><dc:Bounds x="80" y="240" width="36" height="36"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="shape_request" bpmnElement="request"><dc:Bounds x="245" y="80" width="120" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="shape_auth" bpmnElement="auth"><dc:Bounds x="410" y="240" width="120" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="shape_validate" bpmnElement="validate"><dc:Bounds x="575" y="240" width="120" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="shape_gate" bpmnElement="gate"><dc:Bounds x="740" y="240" width="50" height="50"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="shape_persist" bpmnElement="persist"><dc:Bounds x="905" y="240" width="120" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="shape_done" bpmnElement="done"><dc:Bounds x="1070" y="240" width="36" height="36"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="shape_reject" bpmnElement="reject"><dc:Bounds x="740" y="380" width="120" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="shape_failed" bpmnElement="failed"><dc:Bounds x="905" y="397" width="36" height="36"/></bpmndi:BPMNShape>
+<bpmndi:BPMNEdge id="edge_0" bpmnElement="f0"><di:waypoint x="116" y="258.0"/><di:waypoint x="245" y="115.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="edge_1" bpmnElement="f1"><di:waypoint x="365" y="115.0"/><di:waypoint x="410" y="275.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="edge_2" bpmnElement="f2"><di:waypoint x="530" y="275.0"/><di:waypoint x="575" y="275.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="edge_3" bpmnElement="f3"><di:waypoint x="695" y="275.0"/><di:waypoint x="740" y="265.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="edge_4" bpmnElement="f4"><di:waypoint x="790" y="265.0"/><di:waypoint x="905" y="275.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="edge_5" bpmnElement="f5"><di:waypoint x="1025" y="275.0"/><di:waypoint x="1070" y="258.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="edge_6" bpmnElement="f6"><di:waypoint x="790" y="265.0"/><di:waypoint x="740" y="415.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="edge_7" bpmnElement="f7"><di:waypoint x="860" y="415.0"/><di:waypoint x="905" y="415.0"/></bpmndi:BPMNEdge>
+</bpmndi:BPMNPlane></bpmndi:BPMNDiagram>
+</bpmn:definitions>

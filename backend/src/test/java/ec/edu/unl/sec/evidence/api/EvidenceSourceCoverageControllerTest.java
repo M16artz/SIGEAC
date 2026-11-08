@@ -62,7 +62,7 @@ class EvidenceSourceCoverageControllerTest {
         var sources = org.mockito.Mockito.mock(ec.edu.unl.sec.evidence.application.EvidenceSourceService.class);
         when(sources.snapshot(any())).thenReturn(ec.edu.unl.sec.evidence.application.EvidenceSourceService.Sources.empty());
         mvc = MockMvcBuilders.standaloneSetup(new EvidenceSourceCoverageController(coverage, applicability, submission, sources))
-                .setControllerAdvice(new ApiProblemHandler(), new EvidenceProblemHandler())
+                .setControllerAdvice(new ec.edu.unl.sec.shared.api.ApiResponseAdvice(new com.fasterxml.jackson.databind.ObjectMapper().findAndRegisterModules()), new ApiProblemHandler(), new EvidenceProblemHandler())
                 .addFilters(new CorrelationFilter(), sessionFilter)
                 .build();
     }
@@ -84,8 +84,8 @@ class EvidenceSourceCoverageControllerTest {
                                 "coverageNote", "Nota sint\u00e9tica"))))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("ETag", "\"0\""))
-                .andExpect(jsonPath("$.id").value(COVERAGE.toString()))
-                .andExpect(jsonPath("$.requiredSourceId").value(SOURCE.toString()));
+                .andExpect(jsonPath("$.data.id").value(COVERAGE.toString()))
+                .andExpect(jsonPath("$.data.requiredSourceId").value(SOURCE.toString()));
     }
 
     @Test
@@ -103,7 +103,7 @@ class EvidenceSourceCoverageControllerTest {
                                 "requiredSourceId", SOURCE.toString(),
                                 "coverageNote", "Nota sint\u00e9tica"))))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(jsonPath("$.code").value("SOURCE_NOT_COMPATIBLE"));
+                .andExpect(jsonPath("$.errors.code").value("SOURCE_NOT_COMPATIBLE"));
     }
 
     @Test
@@ -121,7 +121,7 @@ class EvidenceSourceCoverageControllerTest {
                                 "requiredSourceId", SOURCE.toString(),
                                 "coverageNote", "Nota"))))
                 .andExpect(status().isPreconditionFailed())
-                .andExpect(jsonPath("$.code").value("STALE_DRAFT"));
+                .andExpect(jsonPath("$.errors.code").value("STALE_DRAFT"));
     }
 
     @Test
@@ -152,7 +152,7 @@ class EvidenceSourceCoverageControllerTest {
                                         "documentReference", "fixture://decision",
                                         "reason", "Justificaci\u00f3n completa sint\u00e9tica.")))))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(jsonPath("$.code").value("AUTHORITY_PROVENANCE_INCOMPLETE"));
+                .andExpect(jsonPath("$.errors.code").value("AUTHORITY_PROVENANCE_INCOMPLETE"));
         org.mockito.Mockito.verifyNoInteractions(applicability);
     }
 
@@ -182,7 +182,7 @@ class EvidenceSourceCoverageControllerTest {
                                         "reason", "Justificaci\u00f3n completa sint\u00e9tica.")))))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("ETag", "\"0\""))
-                .andExpect(jsonPath("$.decision").value("NOT_APPLICABLE"));
+                .andExpect(jsonPath("$.data.decision").value("NOT_APPLICABLE"));
         org.mockito.Mockito.verify(applicability).decide(eq(PROCESS), any(ApplicabilityDecisionService.ApplicabilityInput.class));
     }
 
@@ -204,7 +204,7 @@ class EvidenceSourceCoverageControllerTest {
                         .header("If-Match", "\"0\""))
                 .andExpect(status().isOk())
                 .andExpect(header().doesNotExist("ETag"))
-                .andExpect(jsonPath("$.status").value("SUBMITTED"));
+                .andExpect(jsonPath("$.data.status").value("SUBMITTED"));
         assertThat(submitted.submittedAt()).isNotNull();
     }
 }

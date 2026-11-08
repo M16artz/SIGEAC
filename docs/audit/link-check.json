@@ -1,0 +1,5 @@
+{
+  "checked_links": 842,
+  "missing_targets": [],
+  "bpmn_xml": "well-formed; 8 sequence flows reference existing nodes; no XSD validation"
+}

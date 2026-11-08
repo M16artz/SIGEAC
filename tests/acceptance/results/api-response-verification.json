@@ -1,0 +1,1382 @@
+{
+  "date": "2026-11-08",
+  "baseCommit": "a61f37b73e80277caf53adc9919ad7c85830afda",
+  "worktree": "modified, not committed",
+  "backend": {
+    "discovered": 580,
+    "passed": 563,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 17,
+    "skippedCases": [
+      {
+        "class": "ec.edu.unl.sec.archive.infrastructure.IntegralClosureBytesTest",
+        "test": "postgresRoundTripPreservesSealedUtf8BytesIncludingWhitespaceAndKeyOrder"
+      },
+      {
+        "class": "ec.edu.unl.sec.evidence.infrastructure.EvidenceConcurrencyIntegrationTest",
+        "test": "preventsDuplicateSuccessorUnderRace"
+      },
+      {
+        "class": "ec.edu.unl.sec.evidence.infrastructure.SubmittedEvidenceImmutabilityTest",
+        "test": "submittedVersionsAndChildrenCannotBeMutated"
+      },
+      {
+        "class": "ec.edu.unl.sec.filestorage.infrastructure.LocalFileStorageAdapterTest",
+        "test": "rejectsSymbolicLinksAtRootAndAtObjectPaths"
+      },
+      {
+        "class": "ec.edu.unl.sec.migration.CareerCatalogMigrationTest",
+        "test": "upgradesV007PreservingUnknownReferencesAndImmutableHistory"
+      },
+      {
+        "class": "ec.edu.unl.sec.migration.CareerCatalogStartupTest",
+        "test": "bootMigratesBeforeJpaValidationAndSeedsTheCatalogOnPostgres"
+      },
+      {
+        "class": "ec.edu.unl.sec.migration.CleanDatabaseMigrationTest",
+        "test": "appliesEveryMigrationToDedicatedCleanPostgresDatabase"
+      },
+      {
+        "class": "ec.edu.unl.sec.migration.CompleteWorkflowMigrationTest",
+        "test": "migratesFromEachPreviousDelivery(String)"
+      },
+      {
+        "class": "ec.edu.unl.sec.migration.CompleteWorkflowMigrationTest",
+        "test": "migratesFromCleanPostgresToV026"
+      },
+      {
+        "class": "ec.edu.unl.sec.migration.EvaluationModelMigrationTest",
+        "test": "createsEvaluationModelSchemaFromCleanDatabase"
+      },
+      {
+        "class": "ec.edu.unl.sec.migration.EvidenceMigrationTest",
+        "test": "migratesV006OnDisposablePostgres"
+      },
+      {
+        "class": "ec.edu.unl.sec.migration.IdentityAccessMigrationTest",
+        "test": "createsIdentitySchemaWithChecksAndAuditAppendOnlyGuard"
+      },
+      {
+        "class": "ec.edu.unl.sec.migration.ProcessGovernanceMigrationTest",
+        "test": "upgradesV009WithoutInventingLegacyDecisionsOrChangingAssignmentSubjects"
+      },
+      {
+        "class": "ec.edu.unl.sec.migration.ProcessPreparationMigrationTest",
+        "test": "upgradesDraftWithoutInventingAuthorityAndPersistsAuthorizedActivation"
+      },
+      {
+        "class": "ec.edu.unl.sec.migration.SelfAssessmentMigrationTest",
+        "test": "migratesCleanDatabaseThroughI2"
+      },
+      {
+        "class": "ec.edu.unl.sec.reporting.infrastructure.DocumentaryClosureConcurrencyTest",
+        "test": "closureLockSerializesAndRejectsLateDocumentaryWrites(String)"
+      },
+      {
+        "class": "ec.edu.unl.sec.reporting.infrastructure.DocumentarySnapshotPersistenceTest",
+        "test": "concurrentReservationsOfTheSameRevisionCommitOnlyOnceOnPostgres"
+      }
+    ],
+    "classes": [
+      {
+        "name": "ec.edu.unl.sec.academicevaluation.api.AcademicEvaluationControllerTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.academicevaluation.api.AcademicReconciliationControllerTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.academicevaluation.api.QuantitativeEvaluationControllerTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.academicevaluation.application.AcademicCalculationServiceTest",
+        "tests": "10",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.academicevaluation.application.AcademicEvaluationServiceTest",
+        "tests": "18",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.academicevaluation.application.AcademicReconciliationServiceTest",
+        "tests": "10",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.academicevaluation.domain.IndicatorValuationRuleTest",
+        "tests": "15",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.academicevaluation.infrastructure.ManualEvaluationPersistenceTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.architecture.ModuleArchitectureTest",
+        "tests": "13",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.archive.application.ArchiveServiceTest",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.archive.application.ClosureReopeningPolicyTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.archive.domain.IntegralClosurePolicyTest",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.archive.infrastructure.IntegralClosureBytesTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "1"
+      },
+      {
+        "name": "ec.edu.unl.sec.contract.ApiTransportIntegrationTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.contract.OidcTransportIntegrationTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.contract.OpenApiContractTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.documentreview.api.DocumentReviewControllerTest",
+        "tests": "8",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.documentreview.application.CoverageReviewProjectionTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.documentreview.application.DocumentReviewServiceTest",
+        "tests": "8",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.documentreview.domain.CompleteDocumentReviewTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.documentreview.infrastructure.DocumentReviewPersistenceTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evaluationmodel.api.EvaluationModelControllerTest",
+        "tests": "12",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evaluationmodel.application.CompleteModelPublicationTest",
+        "tests": "11",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evaluationmodel.application.EvaluationModelAuditTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evaluationmodel.application.FiveModelConfigurationTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evaluationmodel.application.LegacyModelCompatibilityTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evaluationmodel.application.ModelComparisonServiceTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evaluationmodel.application.ModelSuccessionServiceTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evaluationmodel.application.NormativeApplicabilityTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evaluationmodel.application.NormativeVerificationManifestTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evaluationmodel.domain.FlexibleModelHierarchyTest",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evaluationmodel.domain.FormulaValidatorTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evaluationmodel.domain.ModelVersionTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evaluationmodel.domain.PublicationValidatorTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evaluationmodel.domain.RequiredSourceTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evaluationmodel.domain.ValuationRuleTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evaluationmodel.infrastructure.FlexibleModelPersistenceTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evaluationmodel.infrastructure.NormativeReferencePersistenceTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evidence.api.EvidenceDraftControllerTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evidence.api.EvidenceHistoryControllerTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evidence.api.EvidenceSourceControllerTest",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evidence.api.EvidenceSourceCoverageControllerTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evidence.api.EvidenceSubmissionControllerTest",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evidence.api.StructuredEvidenceControllerTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evidence.application.ApplicabilityDecisionServiceTest",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evidence.application.CreateEvidenceSuccessorServiceTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evidence.application.EvidenceDownloadServiceTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evidence.application.EvidenceDraftServiceTest",
+        "tests": "10",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evidence.application.EvidenceIntegrityServiceTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evidence.application.EvidenceSourceServiceTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evidence.application.StructuredEvidenceServiceTest",
+        "tests": "10",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evidence.application.SubmitEvidenceServiceTest",
+        "tests": "9",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evidence.domain.EvidenceDraftTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evidence.domain.EvidenceSourceTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evidence.domain.EvidenceSuccessorTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evidence.domain.SourceCoverageTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evidence.infrastructure.EvidenceConcurrencyIntegrationTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "1"
+      },
+      {
+        "name": "ec.edu.unl.sec.evidence.infrastructure.EvidenceSourcePersistenceTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.evidence.infrastructure.SubmittedEvidenceImmutabilityTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "1"
+      },
+      {
+        "name": "ec.edu.unl.sec.filestorage.application.FileReconciliationServiceTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.filestorage.domain.FileAssetTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.filestorage.domain.FileRecoveryOperationTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.filestorage.domain.FileValidationPolicyTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.filestorage.infrastructure.ContentInspectionServiceTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.filestorage.infrastructure.FilePersistenceTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.filestorage.infrastructure.JpaFileValidationPolicyRepositoryTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.filestorage.infrastructure.LocalFileStorageAdapterTest",
+        "tests": "9",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "1"
+      },
+      {
+        "name": "ec.edu.unl.sec.filestorage.infrastructure.RecoveryClaimContentionTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.governance.api.ReportControllerTest",
+        "tests": "9",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.governance.application.FindingServiceTest",
+        "tests": "8",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.governance.application.IssuedReportImmutabilityTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.governance.application.ReportWorkflowServiceTest",
+        "tests": "12",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.governance.domain.FindingTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.governance.infrastructure.IssuedReportImmutabilityTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.identityaccess.api.SessionControllerTest",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.identityaccess.application.CompleteWorkflowAuthorizationTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.identityaccess.application.IdentityAccessAuditTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.identityaccess.application.IdentityAdministrationServiceTest",
+        "tests": "12",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.identityaccess.application.ScopeAuthorizationServiceTest",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.identityaccess.application.SessionServiceTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.identityaccess.application.TeamMembershipPolicyTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.identityaccess.domain.AccessScopeRulesTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.identityaccess.infrastructure.HttpBoundaryFilterTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.identityaccess.infrastructure.InstitutionalAuthorityAdapterTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.identityaccess.infrastructure.OidcResourceServerConfigurationTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.improvement.api.ImprovementControllerTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.improvement.application.PostClosureImprovementTest",
+        "tests": "8",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.improvement.domain.ImprovementActionTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.improvement.infrastructure.ImprovementPersistenceTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.migration.CareerCatalogMigrationTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "1"
+      },
+      {
+        "name": "ec.edu.unl.sec.migration.CareerCatalogStartupTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "1"
+      },
+      {
+        "name": "ec.edu.unl.sec.migration.CleanDatabaseMigrationTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "1"
+      },
+      {
+        "name": "ec.edu.unl.sec.migration.CompleteWorkflowMigrationTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "2"
+      },
+      {
+        "name": "ec.edu.unl.sec.migration.EvaluationModelMigrationTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "1"
+      },
+      {
+        "name": "ec.edu.unl.sec.migration.EvidenceMigrationTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "1"
+      },
+      {
+        "name": "ec.edu.unl.sec.migration.IdentityAccessMigrationTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "1"
+      },
+      {
+        "name": "ec.edu.unl.sec.migration.ProcessGovernanceMigrationTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "1"
+      },
+      {
+        "name": "ec.edu.unl.sec.migration.ProcessPreparationMigrationTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "1"
+      },
+      {
+        "name": "ec.edu.unl.sec.migration.SelfAssessmentMigrationTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "1"
+      },
+      {
+        "name": "ec.edu.unl.sec.reporting.api.DocumentaryClosureControllerTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.reporting.api.DocumentaryProgressControllerTest",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.reporting.api.DocumentarySnapshotControllerTest",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.reporting.application.DocumentaryClosureServiceTest",
+        "tests": "9",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.reporting.application.DocumentaryProgressQueryTest",
+        "tests": "10",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.reporting.application.DocumentarySnapshotSemanticsTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.reporting.application.DocumentarySnapshotServiceTest",
+        "tests": "8",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.reporting.domain.DocumentaryProgressCalculatorTest",
+        "tests": "12",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.reporting.infrastructure.DocumentaryClosureConcurrencyTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "1"
+      },
+      {
+        "name": "ec.edu.unl.sec.reporting.infrastructure.DocumentaryProgressPersistenceTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.reporting.infrastructure.DocumentarySnapshotPersistenceTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "1"
+      },
+      {
+        "name": "ec.edu.unl.sec.selfassessment.api.CareerControllerTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.selfassessment.api.ProcessGovernanceControllerTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.selfassessment.api.SelfAssessmentControllerTest",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.selfassessment.application.CareerAdministrationServiceTest",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.selfassessment.application.ProcessAssignmentServiceTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.selfassessment.application.ProcessPlanningServiceTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.selfassessment.application.ProcessTransitionServiceTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.selfassessment.application.SelfAssessmentAuditServiceTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.selfassessment.application.SelfAssessmentAuditTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.selfassessment.application.SelfAssessmentServiceTest",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.selfassessment.application.TeamPlanningIntegrityTest",
+        "tests": "8",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.selfassessment.domain.AuthorizedProcessLifecycleTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.selfassessment.domain.CareerTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.selfassessment.domain.FixedModelSnapshotTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.selfassessment.domain.ProcessStateMachineTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.selfassessment.infrastructure.ProcessGovernancePersistenceTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.selfassessment.infrastructure.TeamAssignmentAccessTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.shared.api.ApiProblemHandlerTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.shared.api.ApiResponseAdviceTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.shared.api.EntityTagSupportTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.shared.api.EntityTagValidationTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.support.CompleteWorkflowPerformanceDataTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.support.SqliteApplicationContextTest",
+        "tests": "10",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ec.edu.unl.sec.support.SqliteSyntheticDataTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      }
+    ],
+    "completedAt": "2026-11-08T15:45:16-05:00"
+  },
+  "frontend": {
+    "filesPassed": 31,
+    "testsPassed": 114,
+    "productionBuild": "passed",
+    "execution": "identical source snapshot in temporary path without parentheses",
+    "sourceSnapshotMismatch": []
+  },
+  "httpOpenApi": {
+    "cases": 19,
+    "passed": 19,
+    "evidence": "api-response-smoke.json"
+  },
+  "jsAdapter": {
+    "testsPassed": 4
+  },
+  "sourceSha256": {
+    "backend/src/main/java/ec/edu/unl/sec/ApiEnvelopeDocumentation.java": "b44bfc63fad4a6d59393c945bcb6ba2d26a66922b450cffd3a733e438ada6228",
+    "backend/src/main/java/ec/edu/unl/sec/OpenApiConfiguration.java": "001a97eb7fcea62a75648eb04e2ad2a9402301e79301b435b41da02a1b4e12d1",
+    "backend/src/main/java/ec/edu/unl/sec/SecApplication.java": "d8e34510b32c1443390b739bcc1c529e0f5fe4303e5dbb6c2989fc20d34e2e7d",
+    "backend/src/main/java/ec/edu/unl/sec/academicevaluation/package-info.java": "0ddf17e2e70914055225eb3796c51191a2787b7ba046677ced153d1accf4bc86",
+    "backend/src/main/java/ec/edu/unl/sec/audit/package-info.java": "56855a73fbefc345f1ab56becb95a72b5836c6701cc79bf1e8ae12ed11476426",
+    "backend/src/main/java/ec/edu/unl/sec/documentreview/package-info.java": "82ed73e38ed2c14f2d97c17ceec7b76944784c4c60344e06db84a9d43bde8b65",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/package-info.java": "4c3bfec676906ef65552c365954d4a8695f2750e7a2f92210c003b01cca0ef86",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/package-info.java": "47010150ece1324e70a611bf797a53b07ed9d6ade3f8f2848f88535e8774aab3",
+    "backend/src/main/java/ec/edu/unl/sec/filestorage/package-info.java": "998ae6552bdb56c803d964949c09b00adbf1792cef7940e7ae500eb3d166248f",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/package-info.java": "83eee2170708358005db1abdc8b4c62ac30c90c7b8523cecb12cc211c7954451",
+    "backend/src/main/java/ec/edu/unl/sec/integration/package-info.java": "a4b419d5d026c03be4985f5ca919f01550630d3afcbe5e0a0794d8a4758c3bdd",
+    "backend/src/main/java/ec/edu/unl/sec/reporting/package-info.java": "89acb1a4f8581c5f7786c407729d71733b7c181820588ce0a1c86296016e711d",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/package-info.java": "5c87d4abe2ccd605a6d9ce6ec674f67422f36c6bb80d10e8b2332ad9bb37c0c8",
+    "backend/src/main/java/ec/edu/unl/sec/shared/package-info.java": "b5daee5a17b3eb3b6bb001d19ba8b3f571e27b58c48919219446e06aa00e3e41",
+    "backend/src/main/java/ec/edu/unl/sec/shared/api/ApiProblemHandler.java": "14534ff0c806a4eb8fc77199c4811f3a5fd83e7f46b99b4f6ce35c94052b0193",
+    "backend/src/main/java/ec/edu/unl/sec/shared/api/ApiResponse.java": "ac2bb388b986e3cf29eaaceeb234fb9bcad9e47e97c9f318dd3120b54c0b97fc",
+    "backend/src/main/java/ec/edu/unl/sec/shared/api/ApiResponseAdvice.java": "7c5bb13d1990056b717ac520375fddd88d5dfd43eb3271f7fb9e38a89890719b",
+    "backend/src/main/java/ec/edu/unl/sec/shared/api/DomainProblemException.java": "9a4a1289b7f9ed6ea4b097ebfd73baf2894c0ae1d3919e624a86fa0f3cc96324",
+    "backend/src/main/java/ec/edu/unl/sec/shared/api/EntityTagSupport.java": "849f349acbcd04e30ba6c1673c32b17a0152c67aacb0bb7f4a5218032056ed9c",
+    "backend/src/main/java/ec/edu/unl/sec/shared/domain/DecisionProvenance.java": "af9dac9bdfee6691dc20583e432f965fed1793d49e52afd8fedc13728f05a12d",
+    "backend/src/main/java/ec/edu/unl/sec/shared/domain/DomainClock.java": "634e081f217083d46b26801c3ef8c3be3f5ee4d413cb46ec5082fb28594a2bff",
+    "backend/src/main/java/ec/edu/unl/sec/shared/domain/DomainId.java": "eaa6d00d41011ecae765535dcd26a55bb82fd4b8e34c39f25266a0e82ed28cd4",
+    "backend/src/main/java/ec/edu/unl/sec/shared/domain/OptimisticLockVersion.java": "27e0e83c19d0b530aa3226aa08f2fe3a0d1e5e44d97f9582ed87dcb7f6e0f63e",
+    "backend/src/main/java/ec/edu/unl/sec/shared/infrastructure/CorrelationFilter.java": "da175415a9d898d75195cfe250b3a6951df61014bda50e275bc9832a4cf96395",
+    "backend/src/main/java/ec/edu/unl/sec/shared/infrastructure/JdbcValueSupport.java": "a38f20ab9ddc3c1b36a3f453357ffba43a96a323108242b162d8124548361f20",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/api/CareerCatalogProblemHandler.java": "479bc9beb098e7f2c50699165001a0991d15005675eb58705479545760036912",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/api/CareerController.java": "399ae8abb8642fa949886116993c27410df78fd115dafc221361737cdd87321f",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/api/ProcessAssignmentController.java": "40fb7a435a50579883d98fcc4c3a12454a7fe382db75149c938bc6cf30dadf65",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/api/ProcessAuditController.java": "c03f8defe7965bb50213063b67f14640e5ca5d4f75a19c02b07dccb15b8ecd32",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/api/ProcessExceptionHandler.java": "87e837a618af6c29e90934162981d8dc93cab80104ec901338d83d5a5e592228",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/api/ProcessGovernanceController.java": "7be0241df004cd4d089dadf91083c6f61d6868013ddf384231ae174f6af31812",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/api/SelfAssessmentController.java": "f79f949f82fbc0d6ee3430acd565015be235d85062aba5b24b22df3001e2dab3",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/CareerAdministrationService.java": "d8860d65ee48f9ece691dee532a4fcc821926463a572b5da66ecf32bca0e990f",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/CareerCatalogException.java": "242bdc9ea6b0f0f7ca76c25ef95abc28d2a95525c58f9e8b4d71f52c3604d92e",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/CareerCatalogRepository.java": "b1ac0b9ceb3344f3864fe769a7ef7db257e233fc959795c4562a6ae7c312eab5",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/CatalogPage.java": "12e26269681599ee30cadb9f5d56b4b88c693db8d8bf8e44f94e09109380e5da",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/DocumentaryProcessPort.java": "ecbafacb60b3a146798c4256e689a3dabf61563ac1cb53738e61b95814128a17",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/DocumentaryProcessService.java": "3ad56cf86c05bba19f9117a78f51e9bb3bca3059d2d2f8215e7b433f41b61d4f",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessAssignmentCatalogPort.java": "6b248d20225b33d609d5ab5b15e9a8660612d6ba8ead6ca9cd6ff85c02b0ae88",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessAssignmentService.java": "032eb3e70ab6dff0a28d437775a734c5464c6232cd701ddf16b8a296b013f487",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessCatalogPort.java": "91cc399cf79039679bbaeb74c6fd6562826bf741b276adc731a0d152f12507ca",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessPlanningService.java": "52c6d8577dc3fbb968bdce9cf9e481b30677191523f4d7ab920c21bf141fe0b9",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessProblemException.java": "f5534f2b78092931f49b372c68be2d39d71f72344366bfce0d546ea1efb73310",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/ProcessTransitionService.java": "07062be8b91278da1f98cd86efefa647a657c529bf21aeabc8ee1e78b9bc7216",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/SelfAssessmentAuditService.java": "fc927e0a63b44e6f6a106ef31c63116a27257e44d26d5cd064fb9c7ec812b656",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/SelfAssessmentRepository.java": "c8d2776243df5e1207287b4d2af1931af429906ec5a721c1382319ac0dcea895",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/application/SelfAssessmentService.java": "532e12be6e5e84e9ccc86225fb3fc96d188c11353790f565437393bdaa873365",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/AcademicUnit.java": "e056533fc68cb60ba4f060bf10bf3ede361b1bbd7e97751556fee35cce0d888c",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/Career.java": "d954ced049826fc7a65be83de329144aa43597ee55d9fa4ef28bc293b3814440",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/ProcessActivity.java": "590e492edc07bcdc3e02bcd53a8cc4d748aa2642aa9eaa7b683e068ef8565a4a",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/ProcessAssignment.java": "c90eb24a05d79f8e5078625be276deb4c375cd42ee6177fe47f9cb5d5cb85845",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/ProcessAuthorization.java": "0bbe636dd61bb4ae400e2068f7ad704d7b44193cefb9a0d3fc8bcdce2d2e4176",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/ProcessState.java": "35e0fbab2ff1efce30859ee9004d17ffa6219099bae80c38e601b427b87eea47",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/ProcessStateMachine.java": "ff1fb4e23ca90230a88e6fd64d4ec2fd701d996077258dadf29d5671a90005f2",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/ProcessTeam.java": "8dd2c4d55ceea0c3aedd99586b04650d6a9635ba2ff4919a4d4977660e01ec4b",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/SelfAssessmentProcess.java": "5949daf87fe2de623ebdbeb56fd8c861edc1afc12af30fa0c0037c27a1858053",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/domain/TeamMembership.java": "c1155964cc27dc890b2b3b98b45af7fafb19bb2bb320f63178f25e897e433577",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/infrastructure/JdbcCareerCatalogRepository.java": "84a91bd3d40a0672f06684f9ced8144833ea94bebc19ffafb2ca702cc416e8b9",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/infrastructure/JdbcSelfAssessmentRepository.java": "de06ca4036cc2ca9d95f1ffdaa6747995d1cecdc9e3949c016dd7d0653e13cfe",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/infrastructure/ProcessAssignmentCatalogAdapter.java": "03ea9807257fab63778c6f318bb0c80bd1a3f3a6d6c152e95b5c1ea439791b75",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/infrastructure/ProcessCatalogAdapter.java": "c7313a81cdf55d1d6a9442ddde0f3af4cb3c3791b80376121e29cc11344a2da4",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/infrastructure/SqliteCatalogGuards.java": "f8c4e689a3ce9e1a0ad40eef8ab42b346ebf7e6c13b44bc53f90306b64e15322",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/infrastructure/SyntheticCareerData.java": "bc6e6aea2b3ec1cb57efc4214ae383334c516b0cf7c342e9b50beb4adf19222e",
+    "backend/src/main/java/ec/edu/unl/sec/selfassessment/infrastructure/SyntheticPilotData.java": "b5df2a7c7d70daab90ffc5441eb3829ced1155b2b63e6aaae695c2e8c718567b",
+    "backend/src/main/java/ec/edu/unl/sec/reporting/api/DocumentaryClosureController.java": "cdd8b6f401469dd3a86e989a87f04a8fb114eddb272f9355aab6f85141168316",
+    "backend/src/main/java/ec/edu/unl/sec/reporting/api/DocumentaryProgressController.java": "a98519a36e934a93cbcb381b33816ed490320a7172ab4b69b5da6c25b2a6fb4a",
+    "backend/src/main/java/ec/edu/unl/sec/reporting/api/DocumentarySnapshotController.java": "870dd35560e7262d0c710f0aca8845f4b550d1c334cb9101dc5ff0e700dfe153",
+    "backend/src/main/java/ec/edu/unl/sec/reporting/api/ReportingProblemHandler.java": "815564cdcbd7a4f6d134ca78da25b192e807d2bf5c3af3070979bec558edc11e",
+    "backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentaryClosureRepository.java": "4e4c9ef7934839d9ede3010bb6e9f09dd21a8f64ec1a273c6a3feb4d8b8469f7",
+    "backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentaryClosureService.java": "c4a15fdcf4305a5c1b6c3626d3c664ccef41c4ee6c2d981fd4c2b1672846d06a",
+    "backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentaryProgressQueryService.java": "e833dcee5c1f3731755ab06b2e6de63f62214c5ce4ea2ca1fa65fe3bdc80e6b4",
+    "backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentarySnapshotCodec.java": "e2e1dc2316f10a0ab1df9e63eb5709c54afa10d2358b554c052ecba407766c38",
+    "backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentarySnapshotRepository.java": "6b50055c63bd774ea9c907bac6640b90152bb3972ac463af5f1c22491705abb8",
+    "backend/src/main/java/ec/edu/unl/sec/reporting/application/DocumentarySnapshotService.java": "7061f667d760663ea7b9dfb6d71a99644b1c9fdb707d0cb694f04f821a6b00de",
+    "backend/src/main/java/ec/edu/unl/sec/reporting/application/ReportingProblemException.java": "292e4c5e498e2d6da3e58e0fcb457f4a102feed796c8cee446ae8b0a47fcccac",
+    "backend/src/main/java/ec/edu/unl/sec/reporting/domain/DocumentaryClosure.java": "5a959d1578334858aa52eae38f15b4ccd26d8aca7ad2b6a72e8187fe8f3a88fb",
+    "backend/src/main/java/ec/edu/unl/sec/reporting/domain/DocumentaryProgressCalculator.java": "eb40f0745cdd204afa9a6c72001f2425002ef8cfa4315617d642f7851bc5d035",
+    "backend/src/main/java/ec/edu/unl/sec/reporting/domain/DocumentarySnapshot.java": "03f945a09a7e1d7d6c1a7c6a910e6d007d56f876b3a490105e1bc2e7cbebdf26",
+    "backend/src/main/java/ec/edu/unl/sec/reporting/infrastructure/JacksonDocumentarySnapshotCodec.java": "59a23b2bc159fc86c763b2e40116cd35cd1455c6612abb724e82e1118c0f0c34",
+    "backend/src/main/java/ec/edu/unl/sec/reporting/infrastructure/JdbcDocumentaryClosureRepository.java": "53f81e162ebe3f6708f08a9e8a18bc73063d18120ab0ebeeae2e2fccf3559b88",
+    "backend/src/main/java/ec/edu/unl/sec/reporting/infrastructure/JdbcDocumentarySnapshotRepository.java": "022708a00b5f27c88157efda7f1ac8db8a7db3329c501aa2b2f35407c331ca86",
+    "backend/src/main/java/ec/edu/unl/sec/reporting/infrastructure/SqliteDocumentarySnapshotGuards.java": "0ec71da20142becf4611cd4e864d7d2e7f21229e51c3b079ddac88464c20dbca",
+    "backend/src/main/java/ec/edu/unl/sec/improvement/api/ImprovementController.java": "11e33200b1031e3394599408daeb24810db82e100d259a9a674d9dcef668ac2e",
+    "backend/src/main/java/ec/edu/unl/sec/improvement/api/ImprovementProblemHandler.java": "7ee776fa25d06ffb87a62f5a8a93c88821b7db6bb5bf8f1b42864b91563cff37",
+    "backend/src/main/java/ec/edu/unl/sec/improvement/application/ActionProgressService.java": "7b3b80a04b8e7c4c98e69663a093a7d33fa24470ca9912b496354027db3c277a",
+    "backend/src/main/java/ec/edu/unl/sec/improvement/application/ImprovementPlanService.java": "f00f143423c6460264e525f9fa5fe821c5030840ffa7ab1205cfe3fd5db831d1",
+    "backend/src/main/java/ec/edu/unl/sec/improvement/application/ImprovementProblemException.java": "ee4a380af35615521d419935ec128908588df141294af58cc2d7b52759db17ef",
+    "backend/src/main/java/ec/edu/unl/sec/improvement/application/ImprovementRepository.java": "8954fca693bb7fddc585d4508aff9a746c9475cf387b4be9691cfffce6a82417",
+    "backend/src/main/java/ec/edu/unl/sec/improvement/domain/ActionDecision.java": "0f48191b8e79c42cc40e21bddd584ec2fa59b5b71e0b08469bfe063ad69b9379",
+    "backend/src/main/java/ec/edu/unl/sec/improvement/domain/ActionProgress.java": "38f067cb9825aea5dcb4ac3dfb4aa6617d2b498edfd6713989b830de6be09ce1",
+    "backend/src/main/java/ec/edu/unl/sec/improvement/domain/ImprovementAction.java": "ecbd0d82758c69d7f8c51c104c59952f5b3c3158cdb9cc6c44769b5ced8a042e",
+    "backend/src/main/java/ec/edu/unl/sec/improvement/domain/ImprovementPlan.java": "69cc2245b622f8fa57e1c2c8cb8c8d29d4cf595c45a00d1b9fdd73783fc72f6b",
+    "backend/src/main/java/ec/edu/unl/sec/improvement/infrastructure/JdbcImprovementRepository.java": "eb843abc80bb11c61cd52534d490c77f27eb64adc277404431dddd18b687a89b",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/api/AccessAuditController.java": "881361b46080095a3b9b2784dc27e5571871c58d967a4ea81aa27f8f8a9f6968",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/api/AccessRequestContext.java": "f532d9797899befb89bed51916456ae31984740d5cd196a825928f641a0f95d1",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/api/IdentityAccessExceptionHandler.java": "6b52612c7da4c40d67a810562bac36c1cea305cb6768f32c59bad07aad441668",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/api/IdentityAdministrationController.java": "6c1a3543e29c6e12a0452b020c2bf2475fb025aee422a7da5dcd5e25d9ad0b0b",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/api/SessionController.java": "6444440ba619b68225d3adb7ffef59dfb8f612e8f0bfb6cf38b7cb4109a2eed0",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/AuthorizationPort.java": "392bb83734a5ac510548ce28f433aa301d0159b2260797f9b6055e343d1270f3",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/CurrentActorPort.java": "dbc3767c3d02efcd7aacd8a4c9e1790699baa9d0234aea40de6cb951f67ae4f3",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/FunctionalAssignmentPolicyPort.java": "36ad57e4e5a9910c0b6b21e8c89cdf241a10d77cedf8c7f84dff8da50948b303",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/FunctionalAssignmentPolicyService.java": "4217f75738e76adbed815f1e69d295d0f6ff2a949621c5d3831b02b84e4cc095",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAccessAuditService.java": "6b4966c98e15994a06092671cb61940252f09a3ae030671b917e8a797cf7640e",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAccessProperties.java": "3560247b8c8dd45256d771fc33aba0900bc56c4ab8c5b2453fc3040c611444d2",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAccessRepository.java": "7f1589d55e3207704bd6f597b26c4ae6a6851730ae40403167fc272e0b71f41e",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java": "682c3aa914986264b78d4272d540caebbd51c347ca2df484d55f81f2a2f029e2",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/InstitutionalAuthorityPort.java": "e459e0008e5dc671d9caefd34bc0313f17249c7dcf2bc0cf136aa1575790851e",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/ScopeAuthorizationService.java": "3de2abda678aaa18860cfcbf4a13c2dddfe14d7c69612a37f05c825ab8452b76",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/application/SessionService.java": "e77607ca4d6d45a646df42aebf687631346ae5dd2c3e3166e6e1a700c222e3d1",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/domain/AccessIdentity.java": "ecefc5f981799e7f9f338845bd1da06b958d341794fffab79ccb98c6440fc274",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/domain/AccessSession.java": "95133e88d749353b65743b2348d9f399bede93b6093190c25cd30b562a8216bd",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/domain/AuthorizationDecision.java": "020157ee6801ea142e979a61a2d7ab0714033f7c92a0eb5cc252f10f09c967c9",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/domain/AuthorizationScope.java": "26e1bdf7ff8ed4c7ca7365391d799bdb0cf6e6b5b20e05d95651aabd637a49da",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/domain/ConflictException.java": "7cb0bfe4767afdcf43afe82e6739f4f980dea964e59c666ec642a753a399a3e9",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/domain/ConflictPolicy.java": "e1efeaaba51b7574492c296426839592f24db9eb68385b21c0b1a3f1d82512bb",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/domain/Credential.java": "8370f9e874a4006fff0ad3a6242dae07f5074ebba5e48869b2b73933535df3bb",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/domain/FunctionalAssignment.java": "304473b214971d6d87ef194aebb0ed99440f5c2d6ccf758523ac0b7926c7799a",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/domain/IdentityAccessDeniedException.java": "a183fd15bc60bfd7549c992b41a0f4e13ce938b9a973d7ee513c3db6bd9d7e4e",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/domain/IdentityConflictException.java": "cc4d0de8530f18d4e752ed4f92820a43c6e2682957846f9164d040a1b98ab927",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/domain/IdentityNotFoundException.java": "272025d75f9853aded5032b2310397f3333ef68525423ee764cc9d7e865b76a5",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/domain/InstitutionalAuthority.java": "f5e218f5abdc536a7b5bcf1d86f7299419fea72653adcbf45b88d52240b4e556",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/domain/OperationCode.java": "3c6ee583d5d20edc071a9723c0697f56f0f79e8be808f275f285c686f0f77c48",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/domain/ProcessFunction.java": "ecebe1ec629ef1a9888f508041d9fd2a2577ac4a119d0810b403d32a06b5fa65",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/domain/StaleIdentityRevisionException.java": "8ef387870b5e3e8b31fea8182cb40bac7066750e684dd4d21b205bddb289be11",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/AccessProblemWriter.java": "9c799bcba0477161bb8c25e9a6c7af1a526607b766f4cfd7f05aa1d8f1020041",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/HttpBoundaryFilter.java": "21dfcdbc43d753212cf5918f361117f82b9defc1a4f916096c29aa78c6747af7",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/IdentityAccessPortAdapter.java": "77b37888a96216f25e0c2ecbfe5b99d44986b3281c68f4b6c9fac91f2817e876",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/InstitutionalAuthorityAdapter.java": "bfc2df521a84264bbfed8d800baa507ce4cdcd7abceac1d3cd10aaca6eb7c623",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/JpaIdentityAccessRepository.java": "6fb182c7d93209619bcfc87c70f76a01874f5dd4737eeadb3ce29f1b70dec045",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/OidcResourceServerConfiguration.java": "197832b5e793c9733e6ce15b481a51f8bf0ebfdc8e472084dd8c1f7e78ae92ea",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SecurityConfiguration.java": "85aaa29f47256a3fe0b14bc53ca60873dc09f93e3acb39acaf93f36edf2de1df",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SessionAuthenticationFilter.java": "38b0ede978d867e4b7ea4f649272b01920fe6954a7215da9439cf559bb254d47",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SessionCookie.java": "1df94aba5847311a2ba0b4e6605ea64ea11934ea289e6216fb519e9c268a0e31",
+    "backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SyntheticAccessData.java": "dbe43f65f0f6370fbcc451b290b5536b5019d7e3bf85ffb2b5c38622c00d7660",
+    "backend/src/main/java/ec/edu/unl/sec/governance/api/GovernanceProblemHandler.java": "d05d54d1323eb1e336ef2fdc947152d61c339b757bdffb0327a36256b90cf02b",
+    "backend/src/main/java/ec/edu/unl/sec/governance/api/ReportController.java": "140122ff2ca855d9d6080e0986516032b637105193e37a1841fe11e7673abf3e",
+    "backend/src/main/java/ec/edu/unl/sec/governance/application/FindingRepository.java": "0518a3b9e70a804848753446efee8843709c85dce7af20a612a13257c2e4a1da",
+    "backend/src/main/java/ec/edu/unl/sec/governance/application/FindingService.java": "a6a6478fdf670746882c54d5152652767808c97f6a9079d7787c3612460b69c8",
+    "backend/src/main/java/ec/edu/unl/sec/governance/application/GovernanceProblemException.java": "40140a8b430cee20f39629011409d7ac080192873c71a964d2083086d13dc08f",
+    "backend/src/main/java/ec/edu/unl/sec/governance/application/ReportRepository.java": "68365f45a8bc73465ffa0d687d2a48c2380c9a85148ace741a8662d3ec3966c1",
+    "backend/src/main/java/ec/edu/unl/sec/governance/application/ReportWorkflowService.java": "2db666388f65f0858d505613b7ea9df0862cba3d167ae0513fe12527b6a66897",
+    "backend/src/main/java/ec/edu/unl/sec/governance/domain/ApprovalDecision.java": "66f6d944e7b38b8a695315d85edda274673f8b198fed0d244083a39177341303",
+    "backend/src/main/java/ec/edu/unl/sec/governance/domain/Consolidation.java": "998218afd1c71205926454519058b666bd08a4b26819cca3045e7c5977e966ef",
+    "backend/src/main/java/ec/edu/unl/sec/governance/domain/Finding.java": "cd68df8a58170a59db1d81ce2757a79ccb50443118cdb5b0669971ae5c81d4da",
+    "backend/src/main/java/ec/edu/unl/sec/governance/domain/ObservationReply.java": "c40b1de97bead3d24d6daa48cd1f02babaa8118ccf94de99305a95ae8de0cd98",
+    "backend/src/main/java/ec/edu/unl/sec/governance/domain/ReportObservation.java": "66950c54210ec3ea6d9d1dae7ada5a42c189e69d592ad93763a2a51c8eeed998",
+    "backend/src/main/java/ec/edu/unl/sec/governance/domain/ReportSocialization.java": "f18565020cab4f8687fbadbe7d0743d84514f7fbc4e69d5a0f636c9c0cf1d396",
+    "backend/src/main/java/ec/edu/unl/sec/governance/domain/ReportVersion.java": "2fa22bfb59c1ebc1010ca46bae04af81670174907ff22ff14382870a547a6d2e",
+    "backend/src/main/java/ec/edu/unl/sec/governance/infrastructure/JdbcFindingRepository.java": "1b5451e5cb2883b1f70922452bacbe95ec97cb7a703a9fbb0c771106f8e097ec",
+    "backend/src/main/java/ec/edu/unl/sec/governance/infrastructure/JdbcReportRepository.java": "e2e54bba79af0f362a28a0804e2c2fb55b1df6c771a0147ed12ef37f8fd69688",
+    "backend/src/main/java/ec/edu/unl/sec/governance/infrastructure/SqliteGovernanceGuards.java": "56d1e9e62a714d41e94f85983a935ee5c7c944956a2fba4ace3e8b7ae0c560ce",
+    "backend/src/main/java/ec/edu/unl/sec/filestorage/application/FileAssetRepository.java": "eb2a91b4012653462f729f301193d97fa8dda8abbb5230808d777fd0218b99b7",
+    "backend/src/main/java/ec/edu/unl/sec/filestorage/application/FileInspectionPort.java": "be374ead70b652914c3bb8a796838b9922905515c4539e61e5f181f0357ae133",
+    "backend/src/main/java/ec/edu/unl/sec/filestorage/application/FileReconciliationService.java": "61f53fda6515369cc949605b62d5edd9207f8168b4142c0672a51f657b063e07",
+    "backend/src/main/java/ec/edu/unl/sec/filestorage/application/FileRecoveryRepository.java": "f870935a1f6da9e61577edc180335d30d1fd65407ef67213faa34ee2b6d9d5a4",
+    "backend/src/main/java/ec/edu/unl/sec/filestorage/application/FileStoragePort.java": "b8017708376d2d30ae99cd1403440fcdce63294a476afdd17dfd29b1d7b43a0b",
+    "backend/src/main/java/ec/edu/unl/sec/filestorage/application/FileStorageProperties.java": "a773be2aea3de16e8049f61a4d64d01e474e45e96ccde36a98e45b7067bcd6f8",
+    "backend/src/main/java/ec/edu/unl/sec/filestorage/application/FileValidationPolicyRepository.java": "dd506707a22d0269270a185a1fd2bb22b1238a221852facd0d9fd2df906f2e87",
+    "backend/src/main/java/ec/edu/unl/sec/filestorage/domain/FileAsset.java": "ea3809697afb178d7e918c8bd279e723911d6609437c6eed4fab785fee7bdf6c",
+    "backend/src/main/java/ec/edu/unl/sec/filestorage/domain/FileRecoveryOperation.java": "23ae579e85854341488aaeaf2053c22393a2b31249e331b9ce9b2e25ae3a109d",
+    "backend/src/main/java/ec/edu/unl/sec/filestorage/domain/FileValidationException.java": "50c73b3fa2f31df7308affd5c1f69da4d3605d76b7988e2330fb0c2136b2a1d8",
+    "backend/src/main/java/ec/edu/unl/sec/filestorage/domain/FileValidationPolicy.java": "6ac872dde6eada9220dda5bb0fe8ed1d8cb29d9fd7e96841a3a7dd02d8c8b2f4",
+    "backend/src/main/java/ec/edu/unl/sec/filestorage/domain/StoredFile.java": "8e3f76813d39d4b74cb2d402a7fd6318ec80b91ea14074d6cd2b78476a084569",
+    "backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/ContentInspectionService.java": "9ad6a10f1d1b27947a98dbd130b2b621befb7d9072d5477bf8a2300dce5c903b",
+    "backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/FileReconciliationScheduler.java": "419eea9cc7a4e3435b5de6833f379515be37c7a5d6c60b0c5525301987ec7e77",
+    "backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/JpaFileAssetRepository.java": "2cd9fc04d62891b62ff95beb3335ba86dfa004a14457c48e39469ac38066044f",
+    "backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/JpaFileRecoveryRepository.java": "1ac342df993f119c04ec69cbeec623079be7ca19fd66804f968b3deddd5e5f44",
+    "backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/JpaFileValidationPolicyRepository.java": "d0e7f745b1a3a6988250870adef925806d19a168f7046bfd3ef131e851a21a7b",
+    "backend/src/main/java/ec/edu/unl/sec/filestorage/infrastructure/LocalFileStorageAdapter.java": "fa33913be5e733bd563f42c2adc83fead28b32d442858de107762a04aadfb5d5",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceDownloadController.java": "cd3fb0be9700c4fb71393c20cf20989274f2f306d629d17bc5f4e889bbf702e6",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceDraftController.java": "17d280dc7fa3dd47e07bb9fde05629214d3f8822bad09e5863efbc6960175bb7",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceDraftRequest.java": "7d3f6ee7035ba1a45844da90bd63be17f3db14c78fa9cc6962dcf00f05e1d1b2",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceHistoryController.java": "29cf1cfb5aaf3fc0ce759759ee548d3d198c9ffd8b40c24bbec722c872c9c951",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceProblemHandler.java": "99581a0739c88ffb818ae3a46d3bc7196ef76438e007bc4dc43f25a894df1b3a",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceSourceController.java": "5449303c56f42ad0595e78e2ecc88f30c482282acd360c90d24a32999395ae36",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceSourceCoverageController.java": "a66b33a30f226b7fb0ac3c7435fe6b826368be7a8291f3c866a3a56eb64ade70",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceView.java": "182c3359dc2a97454b4d7923d5d0de896df2151cbe16d18d40b4f741b5f9ea7b",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/api/ExternalReferenceRequest.java": "2832e84df1af0914294c8de934f1c6580c2ee36be379e7e40f330236af8669bf",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/api/ExternalReferenceView.java": "a5f66aaa070aa812c132dbad03975a5b3f0978de98c6095a20515e1fdcb15725",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/api/FileMetadataView.java": "860c51ec96604522697b7a26e1c880143d5008e350179cea9710b7ea381806f2",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/api/StructuredEvidenceController.java": "ce72cc482f7df00a9e9cc5f9510c0dd3d040591c8485dc702ce12030c373a0be",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/application/ApplicabilityDecisionService.java": "24cbaca8ee28cc8d22d2d719e48428deeadd511abfef6b89fa50f7bb702689c5",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/application/CreateEvidenceSuccessorService.java": "3307a096e4f8221e420a6144e5552d45e0d98b5379b800d353d1693e502044e6",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceAuditPolicy.java": "ea88c80074e413325eb2d2add5b228e97856bb3950c3c82fb6092f01e33f4f27",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceAuditService.java": "87bcda564bdc200620bc932a9ea2b6c5e91b0cd11643673be6cc52d6650c0b80",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceAuthorizationPort.java": "3cd4916b7bf484b415c331c6fe774af581bd6a70fa41401b8a5657d5b14fe92a",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceContextPort.java": "7ce64485852854abe856e1763d9009b85cc0a4abbbcdf356c598f41daf9bd133",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceDownloadService.java": "a9550b14d79539099d45dc12853b6d6a181d2db2c4ee2bbbd3631f00cf133df4",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceDraftRepository.java": "737cb622540ac47931a5ac033c7cf962f01615891d5271012035b30a8bbc7c3b",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceDraftService.java": "a2911c734c0dda8c00e3bf1f424c7769772e7e50d33fd8305ca6b99caeb0491f",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceFileService.java": "51484ac59d1e18acd73bac5404d7b850c5178cd9f95a355175f01067bc209193",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceGovernanceRepository.java": "ffdfc294a832c706e28b74bcca98981c5592ae878acf1bb00de194b150dcdbef",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceHistoryService.java": "35269f19b4e97712fa069b3201584684464e2bd3ab3c0a912f5df1a4b4ef6072",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceIntegrityPort.java": "a7c0c4f5cd70604d03983ed25f71196177f26b8f9782a806e10e73e591dbace3",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceIntegrityService.java": "26cbeed26e06139bc5c6b17879ec35c6b24e40008d35ba038e65f83995dcfdf3",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceProblemException.java": "519ac6e7c8765d34c89a61ffdd475b00345aa8dff349b08272ec4a7f2710c92d",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceProgressPort.java": "9460ab0b6fd1a7901d5e8fb163ebebb89be2095349299d1a3b0406be891e633e",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceSourceCoverageService.java": "f0211f7142656b7b45bcc7cc4e4936d8ed08aa50bd4c6d4222ccf182ad9b6d0e",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceSourceRepository.java": "a9d95bf130029c64a88946cee57826c6cd861b40208a6e7f600a7fb2c7978270",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/application/EvidenceSourceService.java": "66fcb9d37f6e6491520b728bc3a69136b757bb5b5bc8a4133b52e15b672210a8",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/application/RequiredSourceCatalogPort.java": "a7303cecf081fc134cc66572ac51a368c7c1983e02c1b1c35d7b8b9dfaacada4",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/application/StructuredEvidenceService.java": "697b157198b66e44a1670209e43589353fff62e70deeb3a0752f10a2289e44d5",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/application/SubmitEvidenceService.java": "abb767be27079c8c517a80ee8ce856e4e8c7f91fa53fd9f7a791a6572f04b39d",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/domain/ApplicabilityDecision.java": "8b0cd1ffbbf1ee1ab4c510782667f0592954e3280fc2446674c1a933e43f032d",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/domain/Evidence.java": "9c87586da152754b7f0659ba384f3ea3bafdaa47bea8f8f8be8aff542291ab19",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/domain/EvidenceVersion.java": "419ec6105df7c3494932d6a07b1e12c62f438b433a3af56c0f7f0d1fe7ad1f5b",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/domain/EvidenceVersionStatus.java": "06d97055fa891bb367e00909c1dda8080c03cfadd49c92176815c3bb804b620d",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/domain/ExternalReference.java": "63309324074386aec6aeeedad1c3a8f6d72c2b6e1e79a44ebc8e0ca720289a6f",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/domain/SourceCoverage.java": "548e641cfd72dfdb476169e71b781dd4d7ff7d7808071a8e349cf90720dd7232",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/domain/StructuredEvidence.java": "93766fcb2e0d23bea87952628b33ca7107ba3d8ff878dc13908dd3a9c3889c1e",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/domain/VersionFile.java": "95b751cfe3c39c2fe6e222281b771c1ad05c141488748de23f6c5e6b379f21bb",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/domain/VersionIndicator.java": "bf6f5de9702d8051720fc4267b6b9fe34eb1dc804e235d24b0db2c088e10d856",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/infrastructure/EvidenceBoundaryAdapter.java": "93c605a5ace355a51d6e6b9c8cfae48f185f3d6260869b2d30bdd6470cbc2490",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/infrastructure/EvidenceJpaEntity.java": "985ec375c8e25a0db72a6bc7eff5bf29779d716c765e8dc2f4291cf6d5a18700",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/infrastructure/EvidenceVersionJpaEntity.java": "104b31e645fb04f50ac45a9f8791140ac295f2765dbbb9f8d7697ba560322565",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/infrastructure/JdbcEvidenceGovernanceRepository.java": "29adcac8fee387da99b8a072523111622c3243a346abea7ac0d8ce165b28374b",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/infrastructure/JdbcEvidenceProgressAdapter.java": "0e7150d0d9fd8292f14aa6f3a7eee921ba30be76c279cb630f486424425e2b48",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/infrastructure/JpaEvidenceRepository.java": "1a3eee582fce9d2ce53d540f269c24b2195e4c8eea99427111cf5f165294bf5d",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/infrastructure/JpaEvidenceSourceRepository.java": "8e18cb12ba25a640c2c033d65df2935facc878c04d4fa4df144df3884df23dcb",
+    "backend/src/main/java/ec/edu/unl/sec/evidence/infrastructure/RequiredSourceCatalogAdapter.java": "ba96812ac832992b5c9d655508e9c67ed06251bc2314351bce2983d379efc3de",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/api/EvaluationModelController.java": "876ccb947b1e6d6dd6bbdf335238e90a2fc0d9f9931204c62a79feed968aace2",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/api/EvaluationModelExceptionHandler.java": "f25caedd8df2c040344a64ce70e08951a7670bbb97a1a3925cb0d822678b2337",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/api/LegacyModelNode.java": "c554da1d0e0f8cbe3fd42c4af6b6cac40af81898f5a1142a48efa0a7ca7c5ac9",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/api/LegacyModelVersion.java": "751632cbb9f3862cccb73005888765d3ed3b611d696eb487cdaa50a2cb3b91e2",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/api/ModelAuditController.java": "db225108b34c3fd1d1476bb9d29d23fbafc0f5227743678c1855b2a90c7b0d34",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/EvaluationModelAuditService.java": "6c7d0c6e14b47db0a82fac2a9ed713eee8cd17c6dcdfa6e83df76b20354b5dee",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/EvaluationModelProperties.java": "34bcd500ebca854be044fc165499bf992e473b9050fd0ffacc91e9a7119b0edd",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/EvaluationModelRepository.java": "bffde49ff34b09e92c80ebb72b7cf7f3547b47682f015f24995a80f6c3479906",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/EvaluationModelService.java": "65206225346c639d3cf83c628675fc9a16a3a3aa631e7c97470242441110acb4",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/ModelApplicabilityService.java": "04ab51313baeabc59ac8d443dc3fe43a2e18facd3f2d73689c78574ced855e11",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/ModelCatalogPort.java": "97b774bc73525f4b8dbd47a010660e16462a2258184a9e9fe05e106f3a8778a7",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/ModelComparisonService.java": "479c144c0abc507b2905dbf4dd391300e646bfba0429b9b21915785c366e2ae7",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/ModelProblemException.java": "ba17208f6e02b5db8bf7e1c9d9fbb6d60bbfbdb415367c33447591900fd6a148",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/ModelSuccessionService.java": "0f811532553062f2775c19eb02043b0aec5c4e60f7f44413e7dfd348a20f12a0",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/NormativeReferenceRepository.java": "a35a28c0621d360121a23faf3155ae3185e21a8ecc1d6cdf852d86a58e0cce98",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/application/ValidatedStrategyPort.java": "bf2b5b6a265e35b9829c40877956f30c29af304e6596f414ffcfd34038e1bf3c",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/EvaluationModel.java": "33b24efacaa9331861c13f543fbb677ad4f18d7cc60f54c1650b3a1a57b6cb69",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/FormulaValidator.java": "e5ce724ba9fa84f71a4721f3a9bcbab74e7c5c45cacbc9ff56c9a547f8b6bd2b",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/IndicatorDefinition.java": "a4d438c9812daa2b04b51d4940f0872f8abb09452fbc14227d34db1280b2fb84",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/ModelCareerApplicability.java": "3e99524ccf9b9f676cf782082d4ab5ac7e961ec456b366c2b364140f0cbc0563",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/ModelConfiguration.java": "1ef372d5b9f27ca0ed30523ad59f59cf2956fee65847ebf392d5042a05fdb155",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/ModelHierarchy.java": "84b0ce292b0a65a6d8476e60fe77300260122aac9b01000d712e7aac195aa2b5",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/ModelNode.java": "bde179f0059265deca61db22d688cca5fe50d8fc5a995ce298293d8ea1211f62",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/ModelVersion.java": "b8d4ed48b46c443b7e521c1b75326506570b07de4d637af5da9c7580cc0b9eae",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/ModelVersionStatus.java": "237572e96443aa19cd165100b731ae7a9718eb91f25adff5025cb943ed327992",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/NormativeReference.java": "c667ee75f8b256d130f79068f988da2af6c6a90b1034982803ce156757e80535",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/ProgressFormula.java": "a274006061f7e6bf2ec27ee4b64115591149b868ec009fb6f7c20a53a725e9a9",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/PublicationValidator.java": "9763aff23420137e4fd8fd849775ffac72155f4ba5d8688162493d83e5c61275",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/RatingScale.java": "97c3dcbaf3d869133739dbf1e58871f7738a58fbc2842fc07f8cc741d9e40180",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/RequiredSource.java": "168b33738faa119eb5e50c796e170529eebacef125feccaf6e89c8531bbc6c12",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/ValuationRule.java": "d103a7965f51d1d5cafb51693ecac4634e86646613401e085c224df1f59668ff",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/ValuationThreshold.java": "e070300de056662bfd0df7bf69be7a7cd4d9f7fafd6679558cf7a1f4031e3fc3",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/domain/ValuationVariable.java": "a8b3d1f2966ee5e164fa0fde01cb440b3b6fb1fc1b59c580824a161f80cfdfe3",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/infrastructure/JdbcEvaluationModelRepository.java": "8d5a09b0c0a96ea21859c73e0192bfd621b469b3dc78cb6bdac3e28346d18adb",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/infrastructure/JpaNormativeReferenceRepository.java": "cbaa8c753bb69cca4115c52846d1907dfbac11903efe69a0e692aa1481481caf",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/infrastructure/ModelCatalogAdapter.java": "2a52ac74294c1170731a6b2f3325b286a3c70fee3b242090d9e6c46181b9496f",
+    "backend/src/main/java/ec/edu/unl/sec/evaluationmodel/infrastructure/SqliteModelGuards.java": "4f79a65c4593d496c3f3a283c6df7ceb7c394221d00e5f37d5b743791ba9ad07",
+    "backend/src/main/java/ec/edu/unl/sec/documentreview/api/DocumentReviewController.java": "65d2799344740abbcdd48fdf40f188d15d9bc693db85706ab45d82429c4ec711",
+    "backend/src/main/java/ec/edu/unl/sec/documentreview/api/DocumentReviewProblemHandler.java": "411f6d97f07bfb7c74dca691e7a5d6719d974fddef2293c285663b78336b328c",
+    "backend/src/main/java/ec/edu/unl/sec/documentreview/application/CoverageReviewProjectionService.java": "5518d4ee5ceb65e65de1d33309f355d077e778a655ad2918dda35a66b3b81c5f",
+    "backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewAuthorizationPort.java": "d29f39b4fa436ce131a339cfb8188e14aa650fc4ec77319a51632865f2b344de",
+    "backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewProblemException.java": "3afb75739ee9a14b3772edb81d2bf98dd46bfba3a603cab7779ac36515d36534",
+    "backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewProgressPort.java": "6f6acd50b6cfcecd07732a14096a18946c06ed42cb20d0f96769d270a4257952",
+    "backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewRepository.java": "7c3e1a2a935574c18d20e3e2aa0d7a8721f6682b5d8af87404a6194bb2d79a27",
+    "backend/src/main/java/ec/edu/unl/sec/documentreview/application/DocumentReviewService.java": "50d53d0bed92c1c90a66a37cf1b3a47ad3e99abcf65f8127e9ccbd939016e40a",
+    "backend/src/main/java/ec/edu/unl/sec/documentreview/application/ReviewSubmissionPort.java": "57ea097936698905d71e1ebcacecdc2b9c5ec30f0c037569399a4ab4adbd1e0e",
+    "backend/src/main/java/ec/edu/unl/sec/documentreview/application/SubmissionCorrectionPort.java": "0cb6e62f627f38d52a60b0237ab07e0baaedc3a4572eb754413cd044f7f18735",
+    "backend/src/main/java/ec/edu/unl/sec/documentreview/domain/DocumentReviewDecision.java": "3a95a3fd33ac4ef10887421949a7ecc7183e932372f148b0a3819daa9ddf8e25",
+    "backend/src/main/java/ec/edu/unl/sec/documentreview/domain/ReviewCoverageOutcome.java": "562b4276fa0881800102d36b2defb42743c890b47614d3abfefb1f335acbc089",
+    "backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/DocumentReviewBoundaryAdapter.java": "c59eddebacadae8558ecf91c08541cc32ac321567162ae469ad1bf1fa10c8377",
+    "backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/EvidenceSubmissionCorrectionAdapter.java": "3f0698b8ddc11ddd2aa4bb3698a099d7db5470f3eee2b012fb48f9a613214019",
+    "backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/JdbcDocumentReviewProgressAdapter.java": "167899354446d7f225c4329eebc55540109aa71aaf896212934814766f3b3b7e",
+    "backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/JdbcDocumentReviewRepository.java": "d98e8b17fadfac6e57f20f611528010ceb94c9536c98fc5e55ffd4f06bd98263",
+    "backend/src/main/java/ec/edu/unl/sec/documentreview/infrastructure/JdbcReviewSubmissionAdapter.java": "aba1a47ce493fcad09e4f7e67942be98384434d2373f7cfc34574e052a37402e",
+    "backend/src/main/java/ec/edu/unl/sec/audit/api/AuditEventView.java": "03d5d1e8b73056ee2ccfcfe09f1289356a5d098ecdbe39e0c81e0550e2cefd8f",
+    "backend/src/main/java/ec/edu/unl/sec/audit/application/AuditEventCommand.java": "ff4fb62d8b0737ac71a6103e85e99148eb486acff2300cc3dd82f83c23e2cff7",
+    "backend/src/main/java/ec/edu/unl/sec/audit/application/AuditPort.java": "71e2dc4b538f391b484c1339b1d967688b259c06c53d345abeef6e4727336b2a",
+    "backend/src/main/java/ec/edu/unl/sec/audit/application/AuditQueryPort.java": "e02f2ad2ec261f06eeeae4e2c3d9229640257269b571f71281006f03d9716359",
+    "backend/src/main/java/ec/edu/unl/sec/audit/application/FailureAuditPort.java": "2e39a6df0f29dd27c0bd7d7985b4e9e46c65c94c7f3989c8ec0012dd0cbffcb9",
+    "backend/src/main/java/ec/edu/unl/sec/audit/infrastructure/JpaAuditAdapter.java": "7da8f8ab9f2ea65f07244da4a382b3991a6281a0a63501328c43052d71aadc49",
+    "backend/src/main/java/ec/edu/unl/sec/audit/infrastructure/TransactionalFailureAuditAdapter.java": "3e70404fca9afe96ff38974345c57133b905eecc72e1fd32e12788f53fa3f814",
+    "backend/src/main/java/ec/edu/unl/sec/archive/api/ArchiveController.java": "e62a1bdab32c142c12355da5a6dd7263678b4a7eddd97b3633e66a6893515cee",
+    "backend/src/main/java/ec/edu/unl/sec/archive/api/ArchiveProblemHandler.java": "e6f42820fdf8fb86a367994e2cfabf525cb8cad60b73f4915e229ad6cd7ce435",
+    "backend/src/main/java/ec/edu/unl/sec/archive/application/ArchiveProblemException.java": "d234d38bb88582d4bab80a3f6ff251798d8d4c2a344da0156669362e033e1afd",
+    "backend/src/main/java/ec/edu/unl/sec/archive/application/ArchiveService.java": "714ae0b3f65a86a00b9166c18ab05fc3ad03c48b1bf71801fc34656dac5d4872",
+    "backend/src/main/java/ec/edu/unl/sec/archive/application/ClosureEvidencePort.java": "0ed939bb0645171e4e1bcb23c6fb13d844c073261677653a7e1ce770d58dc2de",
+    "backend/src/main/java/ec/edu/unl/sec/archive/application/IntegralClosureRepository.java": "fb5644abdb9cc6a19e2868404651061c157475b558d10537f81aaa993257ee36",
+    "backend/src/main/java/ec/edu/unl/sec/archive/application/IntegralClosureService.java": "18868f91d2ea33412266a7bc3540d7bfcf29c6ebec033584bf22dc72e98129d9",
+    "backend/src/main/java/ec/edu/unl/sec/archive/domain/ArchiveRecord.java": "49e858ae5e2e379debe2c6dc7d77625ec3e122ca4351d54584a35ed1a6c5e294",
+    "backend/src/main/java/ec/edu/unl/sec/archive/domain/IntegralClosure.java": "ef47df3d455190325982f457888ca0b966e84ec98b8923baef28434722203c4e",
+    "backend/src/main/java/ec/edu/unl/sec/archive/domain/IntegralClosurePolicy.java": "b0031a40259ba8140d93130eedaf6cb568539a9aac07482b43d0783019e674a0",
+    "backend/src/main/java/ec/edu/unl/sec/archive/infrastructure/JdbcClosureEvidenceAdapter.java": "c194724af0e2d560d29021b42954d25aeecb8089058f5368870c2d2b653a8b8d",
+    "backend/src/main/java/ec/edu/unl/sec/archive/infrastructure/JdbcIntegralClosureRepository.java": "36cb33c7a82e20ca2c626f1c4bc4eee46d72c21a016280ede2f92a333cc34db3",
+    "backend/src/main/java/ec/edu/unl/sec/academicevaluation/api/AcademicEvaluationController.java": "fef5391efcff4d424c138e91854d516406b86ef08fa67fbdb50acc391bc83156",
+    "backend/src/main/java/ec/edu/unl/sec/academicevaluation/api/AcademicProblemHandler.java": "593a2eb91f1902bd032e90fe05b4ce34ab3b711a4f149730d0d84cccc8bc57bd",
+    "backend/src/main/java/ec/edu/unl/sec/academicevaluation/api/AcademicReconciliationController.java": "9a1a0a106439a7d697f9f4f8b22227cdad552af2991ce3ed263e7543b662ea8e",
+    "backend/src/main/java/ec/edu/unl/sec/academicevaluation/api/QuantitativeEvaluationController.java": "95109bc289a3fdb70bb212a8eddc98373706224eb7a4e9a1254979c142e0bb6a",
+    "backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicCalculationService.java": "a876a5ca3c852fba926d613591f6009c32202e3698efda7faf4b8fb781e3a785",
+    "backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicConsolidationPort.java": "d1e2c16f1095160bbf9d956f9627ad9eebc528b5de32d649d6324867fb553279",
+    "backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicEvaluationService.java": "d021e1e3982e906aa8d5a6013e46a30800c12a37121d72dd5088a230b071b32e",
+    "backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicProblemException.java": "6be075c940b720eb66f575d34310f8517c7499fe61664ab45c3aea1e3a004df9",
+    "backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/AcademicReconciliationService.java": "6e9a90ee10668fdd0fd60cd16a4ce5745b85d2e87d749a821817496fd8bef1dc",
+    "backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/ManualEvaluationRepository.java": "e9fe7fe2adb4da8a9ce1834e651e479d99834090b646964ccfccf76d02e0606f",
+    "backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/QuantitativeContext.java": "6a13e54cc9188c917835451218d417a93ce2d73215d7c150918429d9941b11a7",
+    "backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/QuantitativeRepository.java": "fe213b8e4625318d32425e5a731623ee90a8b351ed3c9fd10b809efd2bf8048b",
+    "backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/ReconciliationRepository.java": "6c102023c6e7a805afdb116db1cad1f4b9a51f742975c9b3f52b7d432f0d3ec5",
+    "backend/src/main/java/ec/edu/unl/sec/academicevaluation/application/VariableValueService.java": "469a890fc01d2228e76abda3faf0be5e629d6dbe09cf919a0127d50e0b8f9584",
+    "backend/src/main/java/ec/edu/unl/sec/academicevaluation/domain/AcademicReconciliation.java": "bd23aed36c1db3cf94ddbf5a16c61784885a3315fe50c26f845ee1223204c200",
+    "backend/src/main/java/ec/edu/unl/sec/academicevaluation/domain/ManualAcademicEvaluation.java": "8193e93dd119ae7bbf1a9e107bce776626cb15b7778459fe486a51abc107ccec",
+    "backend/src/main/java/ec/edu/unl/sec/academicevaluation/domain/QuantitativeEvaluation.java": "184416558a6748ce8976efa07a1425fd89f2e43ecbd2a648ac5cc3d5ada9fb05",
+    "backend/src/main/java/ec/edu/unl/sec/academicevaluation/domain/RatioPercentStrategy.java": "9bef75b8f99eef3476c38de36c223bd1b5f9de5279b5ae6c432b04058be7d4f4",
+    "backend/src/main/java/ec/edu/unl/sec/academicevaluation/infrastructure/AcademicConsolidationAdapter.java": "52a7669414ec6ad713b1eab1d87cbfcbfd5545318fd864e75ca57cdbf9d5861b",
+    "backend/src/main/java/ec/edu/unl/sec/academicevaluation/infrastructure/JdbcManualEvaluationRepository.java": "2fc1c7072f998661b680331afe99bc19d4de43770ebc803f60f97958ecc2c627",
+    "backend/src/main/java/ec/edu/unl/sec/academicevaluation/infrastructure/JdbcQuantitativeRepository.java": "0655ab941257651dc4df4b2fa897087113a5b7682b8b0887a0dabb8c2c51d777",
+    "backend/src/main/java/ec/edu/unl/sec/academicevaluation/infrastructure/JdbcReconciliationRepository.java": "7c241db54b762f7af318b57b00b2df9ffebe72fce9c9e733e8d757287b01e330",
+    "backend/src/main/java/ec/edu/unl/sec/academicevaluation/infrastructure/SqliteManualEvaluationGuards.java": "b108be08b7980ab6cf1cbb5450753a929638b8087f04aa08879348df58bdcb99",
+    "backend/src/main/resources/application-prod.yml": "c21f4b98c3cfadfaecfd14d90cfbbc3e7a5908026538fc3cb833ddc3f7d7464e",
+    "backend/src/main/resources/application-sqlite-test.yml": "3ac1bb82d663c9a48b55af14029482c632ec638e00831b3ece626dd69c5627e2",
+    "backend/src/main/resources/application.yml": "9e53791f3cecaefc51aa6aecd21bd7d21c0d48eb1e9dfb4e0a5dd0a047382fd1",
+    "frontend/src/app/core/http/api-client.ts": "790f68faba3e4b71dcde1bdf51ab2415667aa620350f6c4e472f05846c809baa",
+    "frontend/src/app/core/http/csrf-token.ts": "0c8de13099c66827a7ecd7b2c7af06cb8dac62bb7cc27c29acf5aaeca61bbeb8",
+    "frontend/src/app/core/http/csrf.interceptor.spec.ts": "e6facbdf729806cece411281a4523f56bdfb2c348c2c418303671fd3b6610373",
+    "frontend/src/app/core/http/csrf.interceptor.ts": "70454b3a0022d6856e9c9e5ccd49076b82f77faee7f19fa496f13e09c0705d38",
+    "frontend/src/app/core/http/problem.spec.ts": "64337d9ef0be130302fbe65ea7862ad5e4556cd3ee483435a41a04a8ef371c47",
+    "frontend/src/app/core/http/problem.ts": "f0a3d82f7ecbee19554284573d8675828362d767dc74f3987bd2b21bd41334c9",
+    "frontend/src/app/core/http/response-envelope.interceptor.spec.ts": "42e7c369e67ebb3af1e452986613f67d802f08e12aded55ffc1a464100d00674",
+    "frontend/src/app/core/http/response-envelope.interceptor.ts": "729bd12b78c1b9c460ea99dc6921a0b860ea6dd1843a810512ed7d4b8147a775",
+    "frontend/src/app/app.config.ts": "292153a0ea7262a6c4cfb08ef9510d126bf7217f09440d497357bb56b6cd543d",
+    "backend/pom.xml": "d47aa18a6bf8fada0e57e2db97943e503a01c93bd17ec8b81fb61138318d9646",
+    "docs/technical/contracts/openapi.yaml": "bb9abb27120e4646b7977d9b6c55506c7a4bd7493888f640a1c4f19a32b2f1ff",
+    "specs/001-identity-access-scopes/contracts/openapi.yaml": "a8a83c56df4bbf1dffa17172c2cd90f8753de6cabb9b6fd3f2c10a4a42fab651",
+    "specs/002-version-evaluation-model/contracts/openapi.yaml": "08eac94a9d706f319a8127cd94cba718a07000c3596eef4727ad935d5a36260b",
+    "specs/003-manage-self-assessment/contracts/openapi.yaml": "c6cca4f0522590b9b7c9c0c80559b0f15d309c3a42a76c212d4d7d8894f58c5d",
+    "specs/004-submit-evidence/contracts/openapi.yaml": "12a25a5f4fbcf87c36ba6ddf6b5953fa4d82ca92d48b8b6b9174374232ebc8a6",
+    "specs/005-complete-evaluation-workflows/contracts/openapi.yaml": "d5b805ab043c2895fb839e2559342fec78c9d40cfe69534f735d3fb70009fb0e",
+    "scripts/api-response.mjs": "6aab9cccc94281419966012cd39461fe415698b353080f1b1ed01ee39ccc5983",
+    "scripts/run-api-response-smoke.mjs": "ed5c0e03fb06964c5fb0b3a8a188073aca95abfa32cb3805f39a6cf0fbce1c2c"
+  },
+  "notVerified": [
+    "PostgreSQL gated suites",
+    "deployed Nginx gateway and production certificates",
+    "real external OIDC issuer integration"
+  ]
+}

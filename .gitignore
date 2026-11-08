@@ -1,9 +1,16 @@
 
 /.quarto/
 **/*.quarto_ipynb
+<<<<<<< Updated upstream
 
 # Dependencias y archivos generados
 /frontend/node_modules/
 /frontend/dist/
 /frontend/.angular/
 /backend/target/
+=======
+backend/target/
+_site/
+.quarto/
+frontend/.angular/
+>>>>>>> Stashed changes

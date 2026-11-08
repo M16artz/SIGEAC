@@ -1,3 +1,4 @@
+import {unwrapApiResponse} from '../../scripts/api-response.mjs';
 import {expect, test, APIRequestContext, APIResponse, Response} from '@playwright/test';
 import {readFileSync} from 'node:fs';
 import {randomUUID} from 'node:crypto';
@@ -8,7 +9,7 @@ const from = '2026-01-02T05:00:00Z', until = '2026-12-30T05:00:00Z';
 
 async function json(response: APIResponse | Response, status = 200) {
   expect(response.status(), await response.text()).toBe(status);
-  return response.json();
+  return response.json().then(unwrapApiResponse);
 }
 
 async function login(api: APIRequestContext, username: string) {
@@ -87,7 +88,7 @@ test('D3: authorize, plan, suspend, read scoped activities and resume with real 
     const revision = async () => (await coordinator.get(processPath)).headers()['etag'];
     const mutationHeaders = async () => ({...coordinatorHeaders,'If-Match':await revision()});
     const blocked = await coordinator.post(`${processPath}/activate`, {headers:await mutationHeaders(),data:{}});
-    expect(blocked.status()).toBe(409); expect((await blocked.json()).code).toBe('AUTHORIZATION_MISSING');
+    expect(blocked.status()).toBe(409); expect((await blocked.json().then(unwrapApiResponse)).code).toBe('AUTHORIZATION_MISSING');
     await page.getByRole('link',{name:'Administrar proceso'}).click();
     await page.getByRole('link',{name:'Autorizacion y planificacion'}).click();
     await page.locator('#authority-assignment').selectOption(authority.id);
@@ -137,7 +138,7 @@ test('D3: authorize, plan, suspend, read scoped activities and resume with real 
     const dependent = await json(await coordinator.post(`${processPath}/activities`,{headers:await mutationHeaders(),data:input}),201);
     const cyclic = await coordinator.patch(`/api/v1/activities/${activity.id}`,{headers:await mutationHeaders(),
       data:{...input,title:'Ciclo rechazado',dependencyIds:[dependent.id]}});
-    expect(cyclic.status()).toBe(409); expect((await cyclic.json()).code).toBe('DEPENDENCY_CYCLE');
+    expect(cyclic.status()).toBe(409); expect((await cyclic.json().then(unwrapApiResponse)).code).toBe('DEPENDENCY_CYCLE');
     const privateAssignment = await json(await coordinator.post(`${processPath}/assignments`,{headers:await mutationHeaders(),
       data:{indicatorId:indicator.nodeId,identityId:reviewer.id,function:'REVIEWER',validFrom:from,validTo:until,reason:'Revision privada sintetica'}}),201);
     const privateActivity = await json(await coordinator.post(`${processPath}/activities`,{headers:await mutationHeaders(),
@@ -151,7 +152,7 @@ test('D3: authorize, plan, suspend, read scoped activities and resume with real 
     await expect(page.getByRole('button',{name:'Retomar',exact:true})).toBeVisible();
     await expect(page.getByRole('button',{name:'Crear actividad',exact:true})).toHaveCount(0);
     const suspended = await coordinator.post(`${processPath}/activities`,{headers:await mutationHeaders(),data:input});
-    expect(suspended.status()).toBe(409); expect((await suspended.json()).code).toBe('PROCESS_NOT_PLANNABLE');
+    expect(suspended.status()).toBe(409); expect((await suspended.json().then(unwrapApiResponse)).code).toBe('PROCESS_NOT_PLANNABLE');
 
     const memberContext = await browser.newContext();
     try {

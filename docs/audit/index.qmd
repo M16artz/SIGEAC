@@ -1,0 +1,38 @@
+---
+title: "Auditoría y guía de lectura"
+---
+
+Auditoría documental del **6 de noviembre de 2026**, sobre `a61f37b7` y un árbol
+de trabajo con cambios previos. SIGEAC es el nombre del repositorio; SEC-UNL es
+el nombre utilizado por la aplicación. Ambos identifican este proyecto.
+
+El sistema apoya la autoevaluación de carreras: configura modelos, fija su
+versión en un proceso, recopila evidencias, registra revisión documental y
+valoración académica, y conserva informes, mejora y archivo. **No concede
+acreditación**. La competencia y vigencia institucional de los datos sintéticos
+no quedan demostradas por la implementación.
+
+## Recorrido recomendado
+
+1. Consultar [problema y alcance](context.qmd).
+2. Leer las [fuentes SDD y evolución](evolution.qmd), sin duplicar sus requisitos.
+3. Examinar [procesos](processes.qmd) y [arquitectura](architecture.qmd).
+4. Seguir [backend y seguridad](backend.qmd), [contrato API](api.qmd) y [pruebas](testing.qmd).
+5. Preparar el entorno con [operación](operation.qmd).
+6. Revisar [trazabilidad](traceability.qmd), [cumplimiento](compliance.qmd) e [informe final](report.qmd).
+
+## Significado del estado
+
+| Estado | Interpretación |
+|---|---|
+| IMPLEMENTADO | Hay código identificable; no implica ejecución satisfactoria en esta auditoría. |
+| IMPLEMENTADO PARCIALMENTE | Existe una parte del comportamiento y se indica su límite. |
+| DOCUMENTADO, PERO NO IMPLEMENTADO | Existe especificación o contrato sin ruta de ejecución identificada. |
+| PENDIENTE | Falta el artefacto, decisión o verificación señalada. |
+| OBSOLETO | Describe un estado anterior; se conserva como antecedente fechado. |
+| NO VERIFICADO | La evidencia disponible no permite concluir. |
+
+La evidencia de `tests/acceptance/results/` es histórica. No se presenta como
+resultado obtenido nuevamente el 6 de noviembre. El documento original de la
+sumativa no se encontró entre los archivos PDF/DOCX inspeccionados y no llegó
+adjunto: la [matriz](compliance.qmd) deriva del prompt, no certifica su rúbrica.

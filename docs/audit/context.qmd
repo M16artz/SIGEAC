@@ -1,0 +1,44 @@
+---
+title: "Contexto, actores y alcance real"
+---
+
+La información de autoevaluación necesita conservar qué modelo se aplicó,
+qué fuentes lo sustentan, quién decidió y qué versión existía al cierre.
+SEC-UNL separa recopilación, revisión y valoración para evitar que cargar un
+archivo equivalga a declarar cumplimiento académico.
+
+La fuente de requisitos es la [especificación general](../requirements/spec.md),
+complementada por [005](../../specs/005-complete-evaluation-workflows/spec.md).
+El [catálogo P01–P16](../requirements/process-flows.md) define participantes y
+alternativas; las [reglas](../requirements/domain-rules.md) definen competencias,
+estados y denominadores. Esta página orienta la lectura, sin reemplazarlos.
+
+| Actor | Responsabilidad y límite |
+|---|---|
+| Administrador funcional | Configurar carreras, modelos y asignaciones autorizadas. |
+| Responsable documental | Preparar y remitir evidencia dentro del ámbito asignado. |
+| Revisor documental | Decidir por cobertura; no emitir valoración académica implícita. |
+| Evaluador | Justificar valoración o validar variables y cálculos autorizados. |
+| Coordinador y autoridad competente | Planificar y registrar autorizaciones, decisiones y cierres según asignación. |
+| Consultor o archivista | Consultar el historial autorizado. |
+| Cuenta técnica | Operar tareas explícitas; no adoptar decisiones humanas. |
+
+## Estado por capacidad
+
+| Capacidad | Estado observado | Evidencia y límite |
+|---|---|---|
+| P01–P06: identidad, catálogo, modelos y procesos | IMPLEMENTADO | Módulos `identityaccess`, `evaluationmodel`, `selfassessment`; aceptación institucional NO VERIFICADA. |
+| P07–P11: evidencia, revisión y seguimiento | IMPLEMENTADO | `evidence`, `filestorage`, `documentreview`, `reporting`; ejecución actual NO VERIFICADA. |
+| P12–P16: valoración, informes, mejora y archivo | IMPLEMENTADO | `academicevaluation`, `governance`, `improvement`, `archive`; no equivale a cierre institucional aceptado. |
+| API objetivo v2 completa | DOCUMENTADO, PERO NO IMPLEMENTADO | El [contrato objetivo](../../specs/005-complete-evaluation-workflows/contracts/README.md) distingue transporte vigente y futuro. |
+| Integraciones institucionales y acreditación externa | PENDIENTE / fuera del alcance inicial | No se atribuyen servicios externos implementados por existir un contrato AsyncAPI. |
+| BPMN completo de P01–P16 | IMPLEMENTADO PARCIALMENTE como documentación | Se incorpora un modelo acotado P08; el catálogo textual no certifica BPMN. |
+
+## Riesgos y restricciones
+
+Las políticas de fixtures no prueban vigencia normativa. SQLite no sustituye
+PostgreSQL para migraciones, triggers o bloqueos. El almacenamiento de archivos
+y la base requieren respaldo coordinado. Las proyecciones JDBC comparten
+esquemas entre módulos. Mantener dos contratos sin declarar su alcance puede
+hacer pasar una propuesta por una API disponible. Las mitigaciones y evidencias
+están en [backend](backend.qmd), [operación](operation.qmd) e [informe](report.qmd).

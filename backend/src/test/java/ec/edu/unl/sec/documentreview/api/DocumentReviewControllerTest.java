@@ -67,7 +67,7 @@ class DocumentReviewControllerTest {
         mapper = new ObjectMapper().findAndRegisterModules();
         var sessionFilter = new SessionAuthenticationFilter(sessions, new AccessProblemWriter(mapper));
         mvc = MockMvcBuilders.standaloneSetup(new DocumentReviewController(reviews))
-                .setControllerAdvice(new ApiProblemHandler(), new DocumentReviewProblemHandler())
+                .setControllerAdvice(new ec.edu.unl.sec.shared.api.ApiResponseAdvice(new com.fasterxml.jackson.databind.ObjectMapper().findAndRegisterModules()), new ApiProblemHandler(), new DocumentReviewProblemHandler())
                 .addFilters(new CorrelationFilter(), sessionFilter)
                 .build();
     }
@@ -86,9 +86,9 @@ class DocumentReviewControllerTest {
                         .header("X-CSRF-Token", CSRF))
                 .andExpect(status().isOk())
                 .andExpect(header().string("ETag", "\"1\""))
-                .andExpect(jsonPath("$[0].versionId").value(VERSION.toString()))
-                .andExpect(jsonPath("$[0].revisionNumber").value(1))
-                .andExpect(jsonPath("$[0].coveredRequiredSourceIds[0]").value(SOURCE.toString()));
+                .andExpect(jsonPath("$.data[0].versionId").value(VERSION.toString()))
+                .andExpect(jsonPath("$.data[0].revisionNumber").value(1))
+                .andExpect(jsonPath("$.data[0].coveredRequiredSourceIds[0]").value(SOURCE.toString()));
     }
 
     @Test
@@ -114,8 +114,8 @@ class DocumentReviewControllerTest {
                                         "note", "Cobertura completa y verificada."))))))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("ETag", "\"0\""))
-                .andExpect(jsonPath("$.decision").value("ACCEPTED"))
-                .andExpect(jsonPath("$.outcomes[0].outcome").value("ACCEPTED"));
+                .andExpect(jsonPath("$.data.decision").value("ACCEPTED"))
+                .andExpect(jsonPath("$.data.outcomes[0].outcome").value("ACCEPTED"));
     }
 
     @Test
@@ -132,7 +132,7 @@ class DocumentReviewControllerTest {
                                         "outcome", "ACCEPTED",
                                         "note", "Cobertura completa y verificada."))))))
                 .andExpect(status().isPreconditionRequired())
-                .andExpect(jsonPath("$.code").value("PRECONDITION_REQUIRED"));
+                .andExpect(jsonPath("$.errors.code").value("PRECONDITION_REQUIRED"));
         verifyNoInteractions(reviews);
     }
 
@@ -151,7 +151,7 @@ class DocumentReviewControllerTest {
                                         "outcome", "GRADED",
                                         "note", "Valoraci\u00f3n acad\u00e9mica prohibida."))))))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(jsonPath("$.code").value("INVALID_OUTCOME"));
+                .andExpect(jsonPath("$.errors.code").value("INVALID_OUTCOME"));
         verifyNoInteractions(reviews);
     }
 
@@ -163,9 +163,9 @@ class DocumentReviewControllerTest {
                         .cookie(new Cookie("sec_session", TOKEN))
                         .header("X-CSRF-Token", CSRF))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.decisionId").doesNotExist())
-                .andExpect(jsonPath("$.decision").value("PENDING_REVIEW"))
-                .andExpect(jsonPath("$.outcomes").isEmpty());
+                .andExpect(jsonPath("$.data.decisionId").doesNotExist())
+                .andExpect(jsonPath("$.data.decision").value("PENDING_REVIEW"))
+                .andExpect(jsonPath("$.data.outcomes").isEmpty());
     }
 
     @Test
@@ -186,9 +186,9 @@ class DocumentReviewControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location",
                         "/api/v1/evidence-versions/" + SUCCESSOR))
-                .andExpect(jsonPath("$.correctedVersionId").value(VERSION.toString()))
-                .andExpect(jsonPath("$.successorVersionId").value(SUCCESSOR.toString()))
-                .andExpect(jsonPath("$.successorRevision").value(2));
+                .andExpect(jsonPath("$.data.correctedVersionId").value(VERSION.toString()))
+                .andExpect(jsonPath("$.data.successorVersionId").value(SUCCESSOR.toString()))
+                .andExpect(jsonPath("$.data.successorRevision").value(2));
     }
 
     @Test
@@ -207,7 +207,7 @@ class DocumentReviewControllerTest {
                         .header("X-CSRF-Token", CSRF)
                         .header("If-Match", "\"5\""))
                 .andExpect(status().isPreconditionFailed())
-                .andExpect(jsonPath("$.code").value("STALE_REVIEW"));
+                .andExpect(jsonPath("$.errors.code").value("STALE_REVIEW"));
     }
 
     @Test
@@ -224,8 +224,8 @@ class DocumentReviewControllerTest {
                         .cookie(new Cookie("sec_session", TOKEN))
                         .header("X-CSRF-Token", CSRF))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].decision").value("OBSERVED"))
-                .andExpect(jsonPath("$[0].revision").value(0));
+                .andExpect(jsonPath("$.data[0].decision").value("OBSERVED"))
+                .andExpect(jsonPath("$.data[0].revision").value(0));
         assertThat(decision.successorVersionId()).isNull();
     }
 

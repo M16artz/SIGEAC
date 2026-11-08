@@ -1,3 +1,4 @@
+import {unwrapApiResponse} from '../../scripts/api-response.mjs';
 import {expect, test, APIRequestContext, APIResponse} from '@playwright/test';
 
 const processId = 'd6000000-0000-0000-0000-000000000003';
@@ -6,7 +7,7 @@ const indicatorId = (index: number) => `50000000-0000-0000-0000-00000000000${ind
 
 async function body(response: APIResponse, expected = 200) {
   expect(response.status(), await response.text()).toBe(expected);
-  return response.json();
+  return response.json().then(unwrapApiResponse);
 }
 async function login(api: APIRequestContext, username: string) {
   return body(await api.post('/api/v1/sessions', {data: {username, password: 'Synthetic-User-2026'}}), 201);
@@ -72,7 +73,7 @@ test('D6: 75/50, corte histórico, bloqueo de pendientes y cierre documental sin
     const savedResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().endsWith('/documentary-snapshots'));
     await page.getByRole('button', {name: 'Guardar corte actual'}).click();
     const saved = await savedResponse; expect(saved.status(), await saved.text()).toBe(201);
-    const snapshot = await saved.json();
+    const snapshot = await saved.json().then(unwrapApiResponse);
     const before = await body(await coordinate.get(`/api/v1/processes/${processId}`));
     const blocked = await coordinate.post(`/api/v1/processes/${processId}/documentary-close`, {
       headers: {...coordinateHeaders, 'If-Match': `"${before.revision}"`},
@@ -88,7 +89,7 @@ test('D6: 75/50, corte histórico, bloqueo de pendientes y cierre documental sin
     const closedResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().endsWith('/documentary-close'));
     await page.getByRole('button', {name: 'Finalizar fase documental'}).click();
     const closed = await closedResponse; expect(closed.status(), await closed.text()).toBe(201);
-    const closure = await closed.json(); expect(closure.data.state).toBe('DOCUMENTARY_CLOSED');
+    const closure = await closed.json().then(unwrapApiResponse); expect(closure.data.state).toBe('DOCUMENTARY_CLOSED');
     await expect(page.getByRole('heading', {name: 'Fase documental cerrada', exact: true})).toBeVisible();
     await page.screenshot({path: '../tests/acceptance/results/playwright-artifacts/d6/documentary-closure.png', fullPage: true});
     expect((await body(await coordinate.get(`/api/v1/documentary-closures/${closure.data.id}`))).sha256).toBe(closure.sha256);

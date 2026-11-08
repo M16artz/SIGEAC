@@ -1,0 +1,71 @@
+---
+title: "API vigente y diferencias del contrato"
+---
+
+**Actualización posterior — 2026-11-08:** el sobre JSON y los controles HTTP se han corregido. Consulte el [contrato vigente](../api/response-contract.qmd) y la [evidencia actual](../../tests/acceptance/results/api-response-hardening.md). El texto del 6 de noviembre se conserva como diagnóstico histórico.
+
+## Fuente de verdad y rutas
+
+El [OpenAPI común v1](../technical/contracts/openapi.yaml) declara el contrato
+compartido; incluye referencias al [contrato 005](../../specs/005-complete-evaluation-workflows/contracts/openapi.yaml).
+Los contratos `001`–`004` conservan el diseño de cada incremento. El
+[registro de compatibilidad](../../specs/005-complete-evaluation-workflows/contracts/README.md)
+explica el objetivo v2. La existencia de una operación en YAML no demuestra su
+implementación: contrastar con el controlador y su prueba.
+
+`server.servlet.context-path` en [application.yml](../../backend/src/main/resources/application.yml)
+añade `/api/v1` a las rutas de los controladores.
+
+| Método y ruta relativa a `/api/v1` | Comportamiento confirmado en código |
+|---|---|
+| `POST /sessions` | Validar credenciales y crear sesión: 201, cookie y DTO con token CSRF. |
+| `GET /me` | Consultar identidad autenticada. |
+| `DELETE /sessions` | Revocar sesión: 204 sin cuerpo. |
+| `POST /evidences` | Crear borrador: 201, Location y ETag. |
+| `GET /evidence-versions/{versionId}` | Leer versión autorizada y ETag. |
+| `PATCH /evidence-versions/{versionId}` | Actualizar borrador con If-Match. |
+| `POST /evidence-versions/{versionId}/files` | Cargar multipart autorizado: 201 y nueva revisión. |
+| `POST /evidence-versions/{versionId}/submit` | Remitir versión tras validar contenido y cobertura: 200. |
+
+Evidencia: [SessionController](../../backend/src/main/java/ec/edu/unl/sec/identityaccess/api/SessionController.java),
+[EvidenceDraftController](../../backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceDraftController.java),
+[EvidenceSourceController](../../backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceSourceController.java)
+y [EvidenceSourceCoverageController](../../backend/src/main/java/ec/edu/unl/sec/evidence/api/EvidenceSourceCoverageController.java).
+Esta tabla es una guía de flujos, no otra copia manual del catálogo OpenAPI.
+
+## Respuestas y errores
+
+**Diferencia de cumplimiento:** el sobre `success/message/data/errors/meta`
+del prompt no está aplicado universalmente. Los éxitos devuelven DTO, listas
+o páginas; los errores utilizan `ProblemDetail`, con `type`, `title`, `status`,
+`detail`, `instance`, `code`, `correlationId` y detalles según el manejador.
+No se modifica este contrato en una consolidación documental. Si la evaluación
+exige el sobre, hace falta una decisión de compatibilidad, cambios de API y
+clientes y pruebas de éxito/error. No debe envolverse un 204 ni un 304.
+
+El [manejador común](../../backend/src/main/java/ec/edu/unl/sec/shared/api/ApiProblemHandler.java)
+convierte errores de formato en 400, permiso en 403, tamaño excesivo en 413 y
+fallos inesperados en 500 sanitizado. Los manejadores de dominio completan
+404/409/412/428 según operación. No todos los errores recorren ese manejador:
+el filtro de seguridad tiene su propio escritor.
+
+## Ejemplos contrastados, no ejecutados
+
+Con el backend local iniciado:
+
+```powershell
+curl.exe -i http://localhost:8080/api/v1/actuator/health
+curl.exe -i http://localhost:8080/api/v1/me
+```
+
+Health es público según configuración; `/me` requiere sesión y sin ella debe
+rechazar la solicitud. No se incluyen respuestas capturadas porque no se
+levantó una instancia en esta auditoría. Para comandos autenticados conservar
+la cookie `SEC_SESSION`, enviar `X-CSRF-TOKEN` obtenido al iniciar sesión y,
+cuando lo exige la operación, `If-Match` con el ETag fuerte exacto leído antes.
+Un 412 obliga a recargar; no reintentar decisiones automáticamente.
+
+Swagger: `http://localhost:8080/api/v1/swagger-ui/index.html`.
+OpenAPI de ejecución: `http://localhost:8080/api/v1/v3/api-docs`.
+El perfil `prod` desactiva ambos. La comparación exhaustiva entre OpenAPI
+estático, documento de ejecución y todas las rutas permanece NO VERIFICADA.

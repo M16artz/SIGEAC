@@ -1,15 +1,18 @@
-﻿# Sistema de Evaluación de Carreras
+---
+title: "SIGEAC · Documentación técnica SEC-UNL"
+---
 
-Documentación del proyecto SEC-UNL para un único sistema configurable que soporta
-los modelos General 2024, Medicina, Enfermería, Odontología y Derecho.
+SEC-UNL apoya la autoevaluación de carreras mediante modelos versionados,
+evidencias y decisiones trazables. Distingue recopilación, revisión documental,
+valoración académica y acreditación externa.
 
-La referencia funcional canónica comprende los procesos P01–P16, sus actores,
-flujos principales y alternativos, requisitos y criterios de aceptación. El MVP
-documental cubre P01–P11 y consulta histórica básica; la valoración académica,
-informes institucionales, mejora y cierre integral evolucionan después sin
-confundirse con acreditación.
+Empiece por la [guía de lectura](docs/audit/index.qmd) y el
+[contexto y alcance](docs/audit/context.qmd). Para ejecutar el sistema consulte
+[operación](docs/audit/operation.qmd); para evaluar la entrega consulte
+[cumplimiento](docs/audit/compliance.qmd) e [informe final](docs/audit/report.qmd).
 
-- [Especificación general](docs/requirements/spec.md)
-- [Catálogo de procesos P01–P16](docs/requirements/process-flows.md)
-- [Plan de implementación](docs/planning/plan.md)
-- [Especificación de reconciliación](specs/005-complete-evaluation-workflows/spec.md)
+Los requisitos, planes y tareas conservan sus fuentes originales. Los
+resultados históricos se presentan con su fecha; no se confunden con las
+[verificaciones actuales](docs/audit/validation.qmd).
+
+Actualización del 8 de noviembre: [contrato de respuesta y controles HTTP](docs/api/response-contract.qmd), [ACD5](docs/activities/acd5.qmd) y [resultados ejecutados](tests/acceptance/results/api-response-hardening.md).

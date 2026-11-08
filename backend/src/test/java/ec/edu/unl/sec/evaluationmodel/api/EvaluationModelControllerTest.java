@@ -31,7 +31,7 @@ class EvaluationModelControllerTest {
         applicability = mock(ModelApplicabilityService.class);
         succession = mock(ModelSuccessionService.class);
         mvc = MockMvcBuilders.standaloneSetup(new EvaluationModelController(service, succession,
-                mock(ModelComparisonService.class), applicability)).setControllerAdvice(new EvaluationModelExceptionHandler())
+                mock(ModelComparisonService.class), applicability)).setControllerAdvice(new ec.edu.unl.sec.shared.api.ApiResponseAdvice(new com.fasterxml.jackson.databind.ObjectMapper().findAndRegisterModules()), new EvaluationModelExceptionHandler())
                 .addFilters(new ec.edu.unl.sec.shared.infrastructure.CorrelationFilter()).build();
     }
 
@@ -41,7 +41,7 @@ class EvaluationModelControllerTest {
                 ModelProblemException.Kind.NOT_FOUND, "MODEL_VERSION_NOT_FOUND", "Recurso no visible"));
         mvc.perform(get("/model-versions/" + id).header("X-Correlation-ID", correlation.toString()))
                 .andExpect(status().isNotFound()).andExpect(header().string("X-Correlation-ID", correlation.toString()))
-                .andExpect(jsonPath("$.correlationId").value(correlation.toString()));
+                .andExpect(jsonPath("$.errors.correlationId").value(correlation.toString()));
         verify(service).get(id, correlation);
     }
 
@@ -53,12 +53,12 @@ class EvaluationModelControllerTest {
         when(service.listVersions(published.modelId())).thenReturn(List.of(published, next));
         when(succession.createConfigured(eq(published.id()), any())).thenReturn(next);
         mvc.perform(get("/models/" + published.modelId() + "/versions/configured"))
-                .andExpect(status().isOk()).andExpect(jsonPath("$[0].configuration.indicators.length()").value(2))
-                .andExpect(jsonPath("$[1].predecessorId").value(published.id().toString()));
+                .andExpect(status().isOk()).andExpect(jsonPath("$.data[0].configuration.indicators.length()").value(2))
+                .andExpect(jsonPath("$.data[1].predecessorId").value(published.id().toString()));
         mvc.perform(post("/model-versions/" + published.id() + "/successors/configured"))
                 .andExpect(status().isCreated()).andExpect(header().string("ETag", "\"0\""))
                 .andExpect(header().string("Location", "/api/v1/model-versions/" + next.id() + "/configured"))
-                .andExpect(jsonPath("$.configuration.indicators.length()").value(2));
+                .andExpect(jsonPath("$.data.configuration.indicators.length()").value(2));
         verify(succession, never()).create(any(), any());
     }
 
@@ -90,7 +90,7 @@ class EvaluationModelControllerTest {
                 """;
         mvc.perform(post("/models/" + draft.modelId() + "/versions/configured")
                         .contentType(MediaType.APPLICATION_JSON).content(body))
-                .andExpect(status().isCreated()).andExpect(jsonPath("$.configuration.indicators").isArray());
+                .andExpect(status().isCreated()).andExpect(jsonPath("$.data.configuration.indicators").isArray());
         verify(service).createDraft(eq(draft.modelId()), eq("Synthetic"), anyList(), any(ModelConfiguration.class), any());
     }
 
@@ -109,7 +109,7 @@ class EvaluationModelControllerTest {
                 """.formatted(careerId);
         mvc.perform(post("/model-versions/" + versionId + "/applicability-decisions").header("If-Match", "\"0\"")
                         .contentType(MediaType.APPLICATION_JSON).content(body))
-                .andExpect(status().isCreated()).andExpect(jsonPath("$.status").value("APPLICABLE"));
+                .andExpect(status().isCreated()).andExpect(jsonPath("$.data.status").value("APPLICABLE"));
     }
 
     @Test void registersPendingNormativeReference() throws Exception {
@@ -121,7 +121,7 @@ class EvaluationModelControllerTest {
                 {"title":"Referencia sintetica","documentReference":"fixture://normative/pending"}
                 """;
         mvc.perform(post("/normative-references").contentType(MediaType.APPLICATION_JSON).content(body))
-                .andExpect(status().isCreated()).andExpect(jsonPath("$.verificationStatus").value("PENDING_VALIDATION"));
+                .andExpect(status().isCreated()).andExpect(jsonPath("$.data.verificationStatus").value("PENDING_VALIDATION"));
         verify(applicability).registerReference(argThat(value -> !value.verified()
                 && value.documentReference().equals("fixture://normative/pending")), any());
     }
@@ -133,15 +133,15 @@ class EvaluationModelControllerTest {
                 NormativeReference.VerificationStatus.PENDING_VALIDATION, null, null);
         when(applicability.references(versionId)).thenReturn(List.of(reference));
         mvc.perform(get("/model-versions/" + versionId + "/normative-references"))
-                .andExpect(status().isOk()).andExpect(jsonPath("$[0].verificationStatus").value("PENDING_VALIDATION"));
+                .andExpect(status().isOk()).andExpect(jsonPath("$.data[0].verificationStatus").value("PENDING_VALIDATION"));
     }
 
     @Test void keepsTheExactV1NodeShape() throws Exception {
         var draft = ModelFixtures.draft();
         when(service.get(eq(draft.id()), any())).thenReturn(draft);
         mvc.perform(get("/model-versions/" + draft.id())).andExpect(status().isOk())
-                .andExpect(jsonPath("$.criteria[0].nodeType").doesNotExist())
-                .andExpect(jsonPath("$.criteria[0].children[0].children[0].code").value("IND-1"));
+                .andExpect(jsonPath("$.data.criteria[0].nodeType").doesNotExist())
+                .andExpect(jsonPath("$.data.criteria[0].children[0].children[0].code").value("IND-1"));
     }
 
     @Test void doesNotSilentlyProjectTypedContentIntoV1() throws Exception {
@@ -150,7 +150,7 @@ class EvaluationModelControllerTest {
         var typed = old.replaceDraft(old.source(), List.of(node), old.scale(), old.formula());
         when(service.get(eq(typed.id()), any())).thenReturn(typed);
         mvc.perform(get("/model-versions/" + typed.id())).andExpect(status().isConflict())
-                .andExpect(jsonPath("$.code").value("MODEL_VERSION_REQUIRES_V2"));
+                .andExpect(jsonPath("$.errors.code").value("MODEL_VERSION_REQUIRES_V2"));
     }
 
     @Test void mapsLegacyDraftNodesWithoutChangingTheirIdentity() throws Exception {

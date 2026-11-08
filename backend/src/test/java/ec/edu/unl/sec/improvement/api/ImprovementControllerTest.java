@@ -52,7 +52,7 @@ class ImprovementControllerTest {
                         SessionService.sha256Hex(csrf))));
         mvc = MockMvcBuilders.standaloneSetup(new ImprovementController(plans, progress, failures,
                         () -> java.util.Optional.of(new CurrentActorPort.Actor(actor, false))))
-                .setControllerAdvice(new ApiProblemHandler(), new ImprovementProblemHandler())
+                .setControllerAdvice(new ec.edu.unl.sec.shared.api.ApiResponseAdvice(new com.fasterxml.jackson.databind.ObjectMapper().findAndRegisterModules()), new ApiProblemHandler(), new ImprovementProblemHandler())
                 .addFilters(new CorrelationFilter(), new SessionAuthenticationFilter(sessions,
                         new AccessProblemWriter(new ObjectMapper().findAndRegisterModules())))
                 .build();
@@ -88,8 +88,8 @@ class ImprovementControllerTest {
                         .contentType(MediaType.APPLICATION_JSON).content(planRequest()))
                 .andExpect(status().isCreated()).andExpect(header().string("ETag", "\"1\""))
                 .andExpect(header().string("Cache-Control", "no-store"))
-                .andExpect(jsonPath("$.id").value(plan.toString()))
-                .andExpect(jsonPath("$.data.reportVersionId").value(version.toString()));
+                .andExpect(jsonPath("$.data.id").value(plan.toString()))
+                .andExpect(jsonPath("$.data.data.reportVersionId").value(version.toString()));
         mvc.perform(post("/processes/" + process + "/improvement-plans").cookie(session())
                         .header("X-CSRF-TOKEN", csrf).contentType(MediaType.APPLICATION_JSON).content(planRequest()))
                 .andExpect(status().isPreconditionRequired());
@@ -105,9 +105,9 @@ class ImprovementControllerTest {
         when(plans.list(process, 0, 20)).thenReturn(new ImprovementPlanService.ActionPage(List.of(detail), 3));
         mvc.perform(get("/processes/" + process + "/improvement-actions").cookie(session()))
                 .andExpect(status().isOk()).andExpect(header().string("ETag", "\"3\""))
-                .andExpect(jsonPath("$.items[0].state").value("APPROVED"))
-                .andExpect(jsonPath("$.items[0].overdue").value(true))
-                .andExpect(jsonPath("$.totalElements").value(3));
+                .andExpect(jsonPath("$.data.items[0].state").value("APPROVED"))
+                .andExpect(jsonPath("$.data.items[0].overdue").value(true))
+                .andExpect(jsonPath("$.meta.totalElements").value(3));
     }
 
     @Test
@@ -122,8 +122,8 @@ class ImprovementControllerTest {
                 head(ImprovementAction.State.IN_PROGRESS, 2L), false, List.of(recorded), List.of(decided)));
         mvc.perform(get("/improvement-actions/" + action).cookie(session()))
                 .andExpect(status().isOk()).andExpect(header().string("ETag", "\"2\""))
-                .andExpect(jsonPath("$.progress[0].data.achievedValue").value("Brecha reducida al 25%"))
-                .andExpect(jsonPath("$.decisions[0].action").value("START"));
+                .andExpect(jsonPath("$.data.progress[0].data.achievedValue").value("Brecha reducida al 25%"))
+                .andExpect(jsonPath("$.data.decisions[0].action").value("START"));
     }
 
     @Test
@@ -139,12 +139,12 @@ class ImprovementControllerTest {
                         .header("X-CSRF-TOKEN", csrf).header("If-Match", "\"1\"")
                         .contentType(MediaType.APPLICATION_JSON).content(body))
                 .andExpect(status().isCreated()).andExpect(header().string("ETag", "\"2\""))
-                .andExpect(jsonPath("$.data.evidenceVersionIds[0]").value(evidence.toString()));
+                .andExpect(jsonPath("$.data.data.evidenceVersionIds[0]").value(evidence.toString()));
         mvc.perform(post("/improvement-actions/" + action + "/progress").cookie(session())
                         .header("X-CSRF-TOKEN", csrf).header("If-Match", "\"1\"")
                         .contentType(MediaType.APPLICATION_JSON).content(body.replace("[\"" + evidence + "\"]", "[]")))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value("VALIDATION_FAILED"));
+                .andExpect(jsonPath("$.errors.code").value("VALIDATION_FAILED"));
     }
 
     @Test
@@ -160,7 +160,7 @@ class ImprovementControllerTest {
                         .header("X-CSRF-TOKEN", csrf).header("If-Match", "\"2\"")
                         .contentType(MediaType.APPLICATION_JSON).content(body))
                 .andExpect(status().isCreated()).andExpect(header().string("ETag", "\"3\""))
-                .andExpect(jsonPath("$.action").value("VERIFY"));
+                .andExpect(jsonPath("$.data.action").value("VERIFY"));
 
         when(progress.decide(eq(action), eq(2L), any(), any())).thenThrow(new ImprovementProblemException(
                 ImprovementProblemException.Kind.CONFLICT, "IMPROVEMENT_TRANSITION_INVALID",
@@ -169,7 +169,7 @@ class ImprovementControllerTest {
                         .header("X-CSRF-TOKEN", csrf).header("If-Match", "\"2\"")
                         .contentType(MediaType.APPLICATION_JSON).content(body))
                 .andExpect(status().isConflict())
-                .andExpect(jsonPath("$.code").value("IMPROVEMENT_TRANSITION_INVALID"));
+                .andExpect(jsonPath("$.errors.code").value("IMPROVEMENT_TRANSITION_INVALID"));
 
         when(progress.decide(eq(action), eq(2L), any(), any()))
                 .thenThrow(new ConcurrencyFailureException("stale improvement action"));
@@ -177,7 +177,7 @@ class ImprovementControllerTest {
                         .header("X-CSRF-TOKEN", csrf).header("If-Match", "\"2\"")
                         .contentType(MediaType.APPLICATION_JSON).content(body))
                 .andExpect(status().isPreconditionFailed())
-                .andExpect(jsonPath("$.code").value("STALE_WORKFLOW"));
+                .andExpect(jsonPath("$.errors.code").value("STALE_WORKFLOW"));
         verify(failures, atLeast(2)).recordAfterRollback(argThat(event ->
                 "IMPROVEMENT_DECISION_REJECTED".equals(event.action())));
     }
@@ -192,6 +192,6 @@ class ImprovementControllerTest {
                         .header("X-CSRF-TOKEN", csrf).header("If-Match", "\"1\"")
                         .contentType(MediaType.APPLICATION_JSON).content(actionRequest()))
                 .andExpect(status().isOk()).andExpect(header().string("ETag", "\"2\""))
-                .andExpect(jsonPath("$.state").value("PROPOSED"));
+                .andExpect(jsonPath("$.data.state").value("PROPOSED"));
     }
 }

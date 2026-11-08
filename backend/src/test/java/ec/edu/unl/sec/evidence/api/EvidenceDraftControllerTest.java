@@ -59,7 +59,7 @@ class EvidenceDraftControllerTest {
         var sources = mock(ec.edu.unl.sec.evidence.application.EvidenceSourceService.class);
         when(sources.snapshot(any())).thenReturn(ec.edu.unl.sec.evidence.application.EvidenceSourceService.Sources.empty());
         mvc = MockMvcBuilders.standaloneSetup(new EvidenceDraftController(service, sources))
-                .setControllerAdvice(new ApiProblemHandler(), new EvidenceProblemHandler())
+                .setControllerAdvice(new ec.edu.unl.sec.shared.api.ApiResponseAdvice(new com.fasterxml.jackson.databind.ObjectMapper().findAndRegisterModules()), new ApiProblemHandler(), new EvidenceProblemHandler())
                 .addFilters(new CorrelationFilter(), sessionFilter)
                 .build();
         details = details();
@@ -73,10 +73,10 @@ class EvidenceDraftControllerTest {
 
         mvc.perform(get("/evidences").param("processId", PROCESS.toString()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.items[0].id").value(details.evidence().id().toString()));
+                .andExpect(jsonPath("$.data.items[0].id").value(details.evidence().id().toString()));
         mvc.perform(get("/evidences/" + details.evidence().id()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.latestVersion.id").value(details.latestVersion().id().toString()));
+                .andExpect(jsonPath("$.data.latestVersion.id").value(details.latestVersion().id().toString()));
         mvc.perform(get("/evidence-versions/" + details.latestVersion().id()))
                 .andExpect(status().isOk())
                 .andExpect(header().string("ETag", "\"0\""));
@@ -104,7 +104,7 @@ class EvidenceDraftControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(createBody()))
                 .andExpect(status().isForbidden())
-                .andExpect(jsonPath("$.code").value("CSRF_TOKEN_INVALID"));
+                .andExpect(jsonPath("$.errors.code").value("CSRF_TOKEN_INVALID"));
     }
 
     @Test
@@ -137,7 +137,7 @@ class EvidenceDraftControllerTest {
 
         mvc.perform(get("/evidences/" + hidden))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.code").value("RESOURCE_NOT_FOUND"));
+                .andExpect(jsonPath("$.errors.code").value("RESOURCE_NOT_FOUND"));
     }
 
     @Test
@@ -154,7 +154,7 @@ class EvidenceDraftControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(updateBody()))
                 .andExpect(status().isPreconditionRequired())
-                .andExpect(jsonPath("$.code").value("PRECONDITION_REQUIRED"));
+                .andExpect(jsonPath("$.errors.code").value("PRECONDITION_REQUIRED"));
         mvc.perform(patch("/evidence-versions/" + versionId)
                         .cookie(new Cookie("SEC_SESSION", TOKEN))
                         .header("X-CSRF-TOKEN", CSRF)
@@ -162,7 +162,7 @@ class EvidenceDraftControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(updateBody()))
                 .andExpect(status().isPreconditionFailed())
-                .andExpect(jsonPath("$.code").value("STALE_DRAFT"));
+                .andExpect(jsonPath("$.errors.code").value("STALE_DRAFT"));
     }
 
     private static EvidenceDraftService.EvidenceDetails details() {

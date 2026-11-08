@@ -1,0 +1,112 @@
+---
+title: "Informe final de consolidación documental"
+---
+
+**Actualización posterior — 2026-11-08:** el sobre JSON y los controles HTTP se han corregido. Consulte el [contrato vigente](../api/response-contract.qmd) y la [evidencia actual](../../tests/acceptance/results/api-response-hardening.md). El texto del 6 de noviembre se conserva como diagnóstico histórico.
+
+## A. Resumen ejecutivo
+
+La documentación tenía fuentes SDD y evidencia técnica extensa, pero una entrada
+poco útil, diez documentos vacíos, navegación incompleta y afirmaciones de fechas
+distintas difíciles de interpretar juntas. Se consolidó el portal Quarto ya
+existente en la raíz, se reescribió el README, se incorporaron páginas de contexto,
+flujos, arquitectura, backend, API, pruebas, operación, matrices y auditoría.
+Se conservaron especificaciones, contratos, ADR y evidencia histórica.
+
+El resultado mejora la consulta y hace visibles los límites técnicos; no completa
+automáticamente la implementación. La evaluación original no estaba adjunta ni
+localizada. El contraste usa el prompt y queda condicionado a recibirla.
+
+## B. Inventario y conservación
+
+El [inventario](inventory.qmd) registra rutas, propósito, estado, problema y
+acción. No se eliminó, archivó ni fusionó contenido histórico valioso. Se
+reutilizaron fuentes mediante enlaces. Los diez documentos vacíos son ahora
+entradas hacia contenido canónico; los once ADR existentes se indexan completos.
+
+## C. Arquitectura documental final
+
+```text
+README.md                        Entrada breve y comandos contrastados
+_quarto.yml / index.qmd           Portal central, navegación y recursos
+docs/audit/                      Contexto, procesos, arquitectura, backend,
+                                 API, pruebas, operación, evolución,
+                                 inventario, matrices, validación e informe
+docs/requirements/               Requisitos generales, procesos y reglas canónicos
+docs/technical/contracts/        OpenAPI común y AsyncAPI existentes
+docs/adr/                        Decisiones originales conservadas
+docs/diagrams/                   Fuentes DSL, PlantUML y BPMN nuevas
+docs/testing/ y docs/user/        Guías detalladas y evidencia enlazada
+specs/ y .specify/memory/         Fuentes Spec Kit preservadas
+tests/acceptance/results/        Informes históricos conservados
+```
+
+No se crea otro `_quarto.yml` en `docs/`: competiría con el proyecto raíz.
+Las fuentes nuevas de diagramas tienen alcance P08 explícito. Los detalles
+existentes permanecen accesibles; no se sustituyen por resúmenes.
+
+## D y E. Cumplimiento y trazabilidad
+
+La [matriz AUD-E01–16](compliance.qmd) distingue criterio, evidencia, estado,
+problema, destino y verificación. La [matriz de trazabilidad](traceability.qmd)
+mantiene FR, historias, AC y procesos originales y enlaza implementación y
+pruebas reales. Las relaciones pendientes no se completan por inferencia.
+
+## F. Inconsistencias detectadas
+
+- El contrato universal del prompt no coincide con DTO/Problem Details actuales.
+- El objetivo OpenAPI v2 no equivale a API completa disponible.
+- Los mapas Mermaid previos no son BPMN ni fuentes Structurizr.
+- Los estados iniciales de especificaciones/ADR/tareas conviven con entregas
+  posteriores; el contexto histórico debe leerse con su fecha.
+- Una expectativa fija de migraciones en `CleanDatabaseMigrationTest` no coincide
+  con el directorio actual; no se ejecutó para afirmar su resultado.
+- CI manual no acredita comprobación de cada PR y omite algunas banderas de
+  integración de base. Tests con mocks no demuestran toda la autorización HTTP.
+- `compose.yaml` vacío no proporciona despliegue Docker.
+- Los resultados históricos no certifican el HEAD actual ni competencia institucional.
+- La auditoría de seguridad previa `securityOutputs/run-1/REPORT.md` se declaró
+  incompleta y conservó siete candidatos pendientes de validación, sin
+  vulnerabilidades confirmadas por reproducción. No constituye un certificado
+  de seguridad ni se da por resuelta en esta consolidación.
+
+El detalle y las referencias de código están en [backend](backend.qmd),
+[pruebas](testing.qmd), [evolución](evolution.qmd) y [trazabilidad](traceability.qmd).
+
+## G. Cambios documentales
+
+| Archivos | Motivo |
+|---|---|
+| `README.md`, `index.qmd`, `_quarto.yml` | Convertir la entrada en una ruta de consulta y ejecución, limitar render a fuentes documentales. |
+| `docs/audit/*.qmd` | Integrar explicación técnica, matrices y resultados sin duplicar SDD. |
+| `docs/project/*.md`, `docs/api/README.md`, `docs/architecture/overview.md`, `docs/decisions/README.md`, `docs/diagrams/README.md`, `docs/evidence/README.md` | Sustituir vacíos por orientación y referencias útiles. |
+| `docs/diagrams/workspace.dsl`, `evidence-code.puml`, `evidence-submit.puml`, `p08-submit.bpmn` | Proporcionar fuentes editables con alcance y validación explícitos. |
+| `docs/testing/traceability.md` | Corregir FR-058 hacia P13–P14 y contextualizar planificación inicial frente a evidencia posterior. |
+| `docs/technical/quickstart.md` | Sustituir el comando inexistente `npm run e2e` desde raíz por el script real de aceptación desde frontend. |
+
+No se cambia lógica de negocio ni historial Git. No se hacen commits ni pushes.
+
+## H y K. Pendientes y siguientes acciones
+
+La prioridad indica impacto sobre demostración y evaluación, no severidad de una
+vulnerabilidad confirmada.
+
+| Prioridad | Pendiente | Acción concreta |
+|---|---|---|
+| CRÍTICO | Documento obligatorio de evaluación ausente | Incorporar original y remapear AUD-E a sus requisitos/descriptores antes de afirmar cumplimiento. |
+| ALTO | Sobre de respuesta no conforme al prompt | Acordar requisito exacto y migración compatible; actualizar API, clientes y pruebas con autorización de alcance. |
+| ALTO | Demostración actual no ejecutada | Verificar hash actual en entorno aislado, corregir expectativa de migración y habilitar suites requeridas. |
+| ALTO | V026 elimina y recrea tablas de archivo/cierre/política | Revisar los datos preexistentes y diseñar una migración que los preserve antes de aplicar una actualización; no se ejecutó SQL aquí. |
+| ALTO | Matriz de autorización completa no demostrada | Probar cadena de filtros real, CSRF, objetos ajenos y funciones institucionales. |
+| ALTO | Despliegue Docker no implementado | Definir imágenes, health, volúmenes y secretos; construir y probar restauración conjunta. |
+| MEDIO | BPMN/C4 parcial y sin compilación específica | Completar procesos exigidos, validar XSD, renderizar DSL/PlantUML y revisar visualmente. |
+| MEDIO | Estados históricos, ADR y tareas heterogéneos | Añadir reconciliación fechada con evidencia del equipo; conservar decisiones originales. |
+| MEDIO | Gates de CI manuales | Proponer eventos PR/push y banderas completas; verificar protección de rama y evidencia remota. |
+| BAJO | Terminología y legibilidad de artefactos heredados | Revisar codificación y mensajes de commits futuros; no reescribir historia. |
+
+## I y J. Validación y evaluación preliminar
+
+Quarto compiló 141 páginas; la comprobación inicial del sitio generado revisó 11.377 enlaces locales sin archivos ni anclas faltantes. No se ejecutaron pruebas funcionales del backend. Los resultados concretos, comandos y limitaciones están en
+[validación](validation.qmd). La estimación provisional es **5/10**, con **1/2
+en cada uno de los cinco criterios**, justificada en [cumplimiento](compliance.qmd).
+No es una nota oficial ni una certificación de seguridad o de funcionamiento.

@@ -30,7 +30,7 @@ class AcademicReconciliationControllerTest {
         var sessions=mock(SessionService.class);when(sessions.authenticateForRequest("session")).thenReturn(Optional.of(new SessionService.AuthenticatedSession(
                 UUID.randomUUID(),actor,"Comité sintético",false,SessionService.sha256Hex(csrf))));
         mvc=MockMvcBuilders.standaloneSetup(new AcademicReconciliationController(service,failures,()->Optional.of(new CurrentActorPort.Actor(actor,false))))
-                .setControllerAdvice(new ApiProblemHandler(),new AcademicProblemHandler()).addFilters(new CorrelationFilter(),
+                .setControllerAdvice(new ec.edu.unl.sec.shared.api.ApiResponseAdvice(new com.fasterxml.jackson.databind.ObjectMapper().findAndRegisterModules()), new ApiProblemHandler(),new AcademicProblemHandler()).addFilters(new CorrelationFilter(),
                         new SessionAuthenticationFilter(sessions,new AccessProblemWriter(new ObjectMapper().findAndRegisterModules()))).build();
     }
     @AfterEach void clear(){org.springframework.security.core.context.SecurityContextHolder.clearContext();}
@@ -47,14 +47,14 @@ class AcademicReconciliationControllerTest {
                 .content(command().replace("}",",\"resolvedBy\":\""+actor+"\"}"))).andExpect(status().isBadRequest());
         when(service.resolve(any(),any(),any(),anyLong(),any(),any())).thenThrow(new AcademicProblemException(AcademicProblemException.Kind.FORBIDDEN,"RECONCILIATION_AUTHORITY_DENIED","Se requiere competencia vigente."));
         mvc.perform(post(url).cookie(cookie()).header("X-CSRF-TOKEN",csrf).header("If-Match","\"1\"").contentType(MediaType.APPLICATION_JSON).content(command()))
-                .andExpect(status().isForbidden()).andExpect(jsonPath("$.code").value("RECONCILIATION_AUTHORITY_DENIED"));
+                .andExpect(status().isForbidden()).andExpect(jsonPath("$.errors.code").value("RECONCILIATION_AUTHORITY_DENIED"));
         verify(failures).recordAfterRollback(argThat(e->e.action().equals("ACADEMIC_RECONCILIATION_REJECTED") && e.outcome().equals("REJECTED") && e.metadata().isEmpty()));
     }
     @Test void staleDisagreementMapsTo412WithoutRetry()throws Exception{
         when(service.open(any(),any(),anyLong(),any(),any())).thenThrow(new AcademicProblemException(AcademicProblemException.Kind.PRECONDITION_FAILED,"STALE_RECONCILIATION","Recargue antes de continuar."));
         mvc.perform(post(path()+"/academic-disagreements").cookie(cookie()).header("X-CSRF-TOKEN",csrf).header("If-Match","\"0\"")
                 .contentType(MediaType.APPLICATION_JSON).content("{\"reason\":\"Fundamento suficiente de discrepancia\"}"))
-                .andExpect(status().isPreconditionFailed()).andExpect(jsonPath("$.correlationId").isNotEmpty());
+                .andExpect(status().isPreconditionFailed()).andExpect(jsonPath("$.errors.correlationId").isNotEmpty());
         verify(service,times(1)).open(eq(process),eq(indicator),eq(0L),any(),any());
     }
 }

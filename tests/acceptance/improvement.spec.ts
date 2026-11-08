@@ -1,4 +1,5 @@
-﻿import {expect, test, APIResponse, Page} from '@playwright/test';
+import {unwrapApiResponse} from '../../scripts/api-response.mjs';
+import {expect, test, APIResponse, Page} from '@playwright/test';
 const processId = 'd7000000-0000-0000-0000-000000000003';
 const findingId = 'd8000000-0000-0000-0000-000000000200';
 const reportVersionId = 'd8000000-0000-0000-0000-000000000100';
@@ -7,7 +8,7 @@ const reviewerAssignment = 'd8000000-0000-0000-0000-000000000902';
 const coordinatorAssignment = 'd8000000-0000-0000-0000-000000000903';
 const actionsPath = `/api/v1/processes/${processId}/improvement-actions`;
 const findingTitle = 'Brecha sintética de seguimiento académico';
-async function body(response: APIResponse, status = 200) {expect(response.status(), await response.text()).toBe(status);return response.json();}
+async function body(response: APIResponse, status = 200) {expect(response.status(), await response.text()).toBe(status);return response.json().then(unwrapApiResponse);}
 async function login(page: Page, username: string) {
   await page.goto('/access/login?returnUrl=/improvement');
   await page.locator('#username').fill(username);

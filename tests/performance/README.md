@@ -10,11 +10,16 @@ y `SEC_FILE_ROOT` para esa instancia; nunca use una base institucional.
 
 ```powershell
 $env:SEC_DEMO_DATA = 'true'
+$env:SEC_REQUESTS_PER_MINUTE = '12000' # Solo esta instancia sintética de carga, no una recomendación productiva.
 $classes = Join-Path (Get-Location) 'target/test-classes'
 .\mvnw.cmd -q test-compile spring-boot:run '-Dspring-boot.run.profiles=complete-workflow-performance-test,complete-workflow-acceptance-test' '-Dspring-boot.run.useTestClasspath' "-Dspring-boot.run.additional-classpath-elements=$classes" '-Dspring-boot.run.jvmArguments=-Dserver.port=18087'
 ```
 
 El fixture vive exclusivamente en el classpath de pruebas y exige PostgreSQL.
+El límite HTTP general es 600 solicitudes/minuto por IP e instancia. Esta carga
+de 30 VUs necesita una cuota explícita mayor para medir las consultas sin convertir
+el benchmark en una prueba de rechazos 429. Los límites reales del gateway y del
+backend deben dimensionarse aparte; esta campaña no los certifica ni los desactiva.
 El segundo perfil registra el rol sintético de conciliación para la campaña
 de 64 criterios; sus usuarios y asignaciones se crean mediante la API.
 En una transacción crea un modelo sintético válido con 500 indicadores/fuentes,

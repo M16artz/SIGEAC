@@ -1,0 +1,28 @@
+@startuml
+title P08 - Remitir una versión (camino satisfactorio)
+actor Responsable
+participant SessionAuthenticationFilter as Filter
+participant EvidenceSourceCoverageController as API
+participant SubmitEvidenceService as Service
+participant EvidenceDraftService as Drafts
+participant EvidenceSourceService as Sources
+participant EvidenceGovernanceRepository as Repository
+participant AuditPort as Audit
+Responsable -> Filter : POST /evidence-versions/{id}/submit
+Filter -> Filter : autenticar sesión y validar CSRF
+Filter -> API : solicitud autenticada
+API -> Service : submit(id, If-Match)
+Service -> Drafts : getVersion(id), getEvidence(evidenceId)
+Drafts --> Service : versión y evidencia autorizadas
+Service -> Service : comprobar ETag, DRAFT y proceso ACTIVE
+Service -> Sources : snapshot(id)
+Sources --> Service : fuentes disponibles
+Service -> Repository : structuredSnapshots(id), coverages(id)
+Repository --> Service : datos y coberturas
+Service -> Service : comprobar contenido y catálogo del modelo
+Service -> Repository : markSubmitted(id, fecha, revisión)
+Service -> Audit : record(EVIDENCE_SUBMITTED)
+Service --> API : EvidenceVersion remitida
+API --> Responsable : 200 + versión
+note over Service,Audit : Transacción: un fallo revierte cambios persistentes.
+@enduml

@@ -35,6 +35,11 @@ public class SessionAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(
             HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
+        // A supplied bearer token must succeed on its own; never fall back to a cookie.
+        if (request.getHeader("Authorization") != null) {
+            chain.doFilter(request, response);
+            return;
+        }
         var token = SessionCookie.read(request);
         boolean authenticated = false;
         if (token.isPresent()) {

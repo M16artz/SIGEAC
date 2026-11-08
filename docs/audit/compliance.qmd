@@ -1,0 +1,44 @@
+---
+title: "Matriz de cumplimiento y evaluación preliminar"
+---
+
+**Actualización posterior — 2026-11-08:** el sobre JSON y los controles HTTP se han corregido. Consulte el [contrato vigente](../api/response-contract.qmd) y la [evidencia actual](../../tests/acceptance/results/api-response-hardening.md). El texto del 6 de noviembre se conserva como diagnóstico histórico.
+
+**Base de evaluación:** criterios del prompt. El documento original «Evaluación
+Sumativa 1 — Incremento funcional del backend» no está disponible. Estos IDs
+AUD-E son identificadores de auditoría, no numeración oficial de la sumativa.
+Ninguna fila equivale a aprobación docente.
+
+| ID / criterio | Requisito y evidencia requerida | Archivo actual | Estado y problema | Acción / destino | Verificación |
+|---|---|---|---|---|---|
+| AUD-E01 / A | Contexto, actores, alcance, restricciones y riesgos | [spec](../requirements/spec.md), [dominio](../requirements/domain-rules.md) | IMPLEMENTADO documentalmente; competencias no aceptadas | Centralizar lectura en [contexto](context.qmd) | Contrastar procesos y designaciones institucionales |
+| AUD-E02 / A | Constitution, specify, clarify, plan y tasks coherentes | [mapa SDD](evolution.qmd) | IMPLEMENTADO PARCIALMENTE: estados/tareas históricos requieren reconciliación | Conservar canónicos y registrar diferencias | Leer CL y estados de tareas contra hash y evidencia |
+| AUD-E03 / A,G | RF/RNF, historias, aceptación y pruebas trazables | [trazabilidad](traceability.qmd), [aceptación](../testing/process-acceptance.md) | IMPLEMENTADO PARCIALMENTE: existen vínculos; no prueba cobertura exhaustiva ni ejecución actual | Completar criterios no enlazados, sin inventarlos | Revisar cada AC y aserción efectiva |
+| AUD-E04 / B | Procesos BPMN 2.0.2 con participantes, decisiones y excepciones | [catálogo](../requirements/process-flows.md), [P08](../diagrams/p08-submit.bpmn) | IMPLEMENTADO PARCIALMENTE: XML nuevo acotado, sin certificación XSD ni todos los procesos | [Procesos](processes.qmd); ampliar según alcance exigido | Abrir en modelador, validar XSD y contrastar código |
+| AUD-E05 / C | C1–C3 y C4 con responsabilidades reales | [DSL](../diagrams/workspace.dsl), [PlantUML](../diagrams/evidence-code.puml) | IMPLEMENTADO PARCIALMENTE: fuentes nuevas; C3/C4 acotados a remisión | [Arquitectura](architecture.qmd) | Compilar fuentes y revisar nombres/dependencias |
+| AUD-E06 / D | ADR: contexto, alternativas, decisión, consecuencias, estado y relaciones | [registro](../decisions/README.md) | IMPLEMENTADO PARCIALMENTE: registros heterogéneos y estados históricos | Completar solo con evidencia del equipo | Revisión documental, sin inventar decisiones |
+| AUD-E07 / E | Recursos, métodos, versión y códigos HTTP | [API](api.qmd), [OpenAPI](../technical/contracts/openapi.yaml) | IMPLEMENTADO; correspondencia exhaustiva NO VERIFICADA | Mantener contrato común y distinguir objetivo v2 | Comparar rutas, esquemas y respuestas reales |
+| AUD-E08 / E | Sobre universal en éxitos y errores, excepto HTTP sin cuerpo | [SessionController](../../backend/src/main/java/ec/edu/unl/sec/identityaccess/api/SessionController.java), [errores](../../backend/src/main/java/ec/edu/unl/sec/shared/api/ApiProblemHandler.java) | PENDIENTE: DTO y Problem Details difieren del sobre solicitado | Proponer decisión y migración compatible; no cambiar negocio aquí | Pruebas de todas las respuestas y clientes |
+| AUD-E09 / F | Autenticación, autorización, validación y secretos | [backend/seguridad](backend.qmd) | IMPLEMENTADO; despliegue y revisión OWASP exhaustiva NO VERIFICADOS | Documentar controles observados y límites | Pruebas integradas de filtros, ámbito, cookies y producción |
+| AUD-E10 / G | Unitarias, integración, API, negocio y seguridad reproducibles | [pruebas](testing.qmd) | IMPLEMENTADO PARCIALMENTE: suites presentes; gates y expectativa de migración requieren revisión | Ejecutar campaña sintética sobre PostgreSQL | Maven, aceptación y contrato con resultados por hash |
+| AUD-E11 / H | Estrategia de ramas, commits, PR y participación verificable | [evolución](evolution.qmd) | IMPLEMENTADO PARCIALMENTE: historial local verificable; GitFlow aplicado y revisiones NO VERIFICADOS | Separar hechos de recomendaciones | Git log/shortlog; revisión de PR autorizada |
+| AUD-E12 / I | Dependencias, variables, arranque, migración y Swagger | [operación](operation.qmd), [SQLite](../testing/sqlite.md) | IMPLEMENTADO documentalmente; arranque actual NO VERIFICADO | Guía contrastada con configuración | Ejecutar instalación desde checkout limpio |
+| AUD-E13 / I | Docker y despliegue reproducibles | [compose](../../infrastructure/compose.yaml) | PENDIENTE: archivo vacío y sin Dockerfile identificado | Propuesta técnica; no inventar comandos Docker | Construir, arrancar, comprobar salud y persistencia |
+| AUD-E14 / I | GitHub Actions y publicación documental | [workflow](../../.github/workflows/documentation-ci.yml) | IMPLEMENTADO PARCIALMENTE: render manual, no evidencia actual de ejecución remota | Explicar activación manual y proponer gates | Ejecutar workflow y conservar enlace/artefacto |
+| AUD-E15 / J | Logs, correlación, errores y health | [backend](backend.qmd) | IMPLEMENTADO; métricas operativas y alertas NO VERIFICADAS | Guía de disponibilidad y respaldo | Health y trazado de operación con ID sintético |
+| AUD-E16 / transversal | Portal navegable, fuentes únicas, inventario y evaluación | [inventario](inventory.qmd), [validación](validation.qmd) | Consolidación documental realizada; límites de publicación indicados | Mantener portal raíz sin duplicar canónicos | Render y comprobación de enlaces |
+
+## Estimación de 0, 1 o 2 por criterio
+
+Esta escala provisional usa 0 = sin evidencia suficiente, 1 = evidencia parcial,
+2 = evidencia completa verificada. No sustituye los descriptores de la rúbrica
+original, que falta. Una puntuación documental no acredita funcionamiento.
+
+| Criterio | Estimación / 2 | Evidencia y limitación | Acción para aspirar a 2 |
+|---|---:|---|---|
+| Especificación, trazabilidad y arquitectura | 1 | SDD, procesos, ADR y fuentes C4; BPMN parcial y diagramas sin compilación específica | Reconciliar estados y completar/validar vistas y cobertura de AC |
+| Funcionamiento y diseño de la API | 1 | Controladores, contrato y tests; sobre universal ausente y ejecución actual no verificada | Resolver contrato requerido y verificar endpoints reales |
+| Seguridad y calidad de implementación | 1 | Sesión revocable, autorización por ámbito, CSRF y validación en código | Verificar cadena HTTP completa, producción y matriz de permisos |
+| Pruebas y verificación | 1 | Suites e informes históricos; migraciones y gates muestran límites | Corregir prueba obsoleta y ejecutar campaña completa por hash |
+| Documentación, despliegue y contribución | 1 | Portal, guías e historial; Docker vacío y evaluación original ausente | Entrega reproducible, despliegue y evidencia de revisión individual |
+| **Total preliminar** | **5 / 10** | **Cumplimiento parcial, no nota oficial** | Contrastar primero el documento original |

@@ -42,7 +42,7 @@ class EvidenceSourceControllerTest {
                 new SessionService.AuthenticatedSession(UUID.randomUUID(), UUID.randomUUID(), "Responsable", false,
                         SessionService.sha256Hex(CSRF))));
         mvc = MockMvcBuilders.standaloneSetup(new EvidenceSourceController(service, files))
-                .setControllerAdvice(new ApiProblemHandler(), new EvidenceProblemHandler())
+                .setControllerAdvice(new ec.edu.unl.sec.shared.api.ApiResponseAdvice(new com.fasterxml.jackson.databind.ObjectMapper().findAndRegisterModules()), new ApiProblemHandler(), new EvidenceProblemHandler())
                 .addFilters(new CorrelationFilter(), new SessionAuthenticationFilter(sessions,
                         new AccessProblemWriter(new ObjectMapper().findAndRegisterModules()))).build();
     }
@@ -58,9 +58,9 @@ class EvidenceSourceControllerTest {
                         .header("If-Match", "\"0\"").contentType(MediaType.APPLICATION_JSON).content(body))
                 .andExpect(status().isCreated()).andExpect(header().string("ETag", "\"1\""))
                 .andExpect(header().string("Location", "/api/v1" + path + "/external-references/" + referenceId))
-                .andExpect(jsonPath("$.id").value(referenceId.toString()))
-                .andExpect(jsonPath("$.uri").value(reference.uri())).andExpect(jsonPath("$.position").doesNotExist())
-                .andExpect(jsonPath("$.versionId").doesNotExist());
+                .andExpect(jsonPath("$.data.id").value(referenceId.toString()))
+                .andExpect(jsonPath("$.data.uri").value(reference.uri())).andExpect(jsonPath("$.data.position").doesNotExist())
+                .andExpect(jsonPath("$.data.versionId").doesNotExist());
         mvc.perform(patch(path + "/external-references/" + referenceId).cookie(session()).header("X-CSRF-TOKEN", CSRF)
                         .header("If-Match", "\"1\"").contentType(MediaType.APPLICATION_JSON).content(body))
                 .andExpect(status().isOk()).andExpect(header().string("ETag", "\"2\""));
@@ -86,9 +86,9 @@ class EvidenceSourceControllerTest {
         when(service.removeReference(version, referenceId, "\"9\"")).thenThrow(new EvidenceProblemException(
                 EvidenceProblemException.Kind.PRECONDITION_FAILED, "STALE_DRAFT", "Recargue el borrador."));
         mvc.perform(delete(path + "/external-references/" + referenceId).cookie(session()).header("X-CSRF-TOKEN", CSRF))
-                .andExpect(status().is(428)).andExpect(jsonPath("$.code").value("PRECONDITION_REQUIRED"));
+                .andExpect(status().is(428)).andExpect(jsonPath("$.errors.code").value("PRECONDITION_REQUIRED"));
         mvc.perform(delete(path + "/external-references/" + referenceId).cookie(session()).header("X-CSRF-TOKEN", CSRF).header("If-Match", "\"9\""))
-                .andExpect(status().isPreconditionFailed()).andExpect(jsonPath("$.code").value("STALE_DRAFT"));
+                .andExpect(status().isPreconditionFailed()).andExpect(jsonPath("$.errors.code").value("STALE_DRAFT"));
     }
 
     @Test void uploadsAValidatedFileWithoutExposingStorageDetails() throws Exception {
@@ -103,10 +103,10 @@ class EvidenceSourceControllerTest {
                         .header("If-Match", "\"0\""))
                 .andExpect(status().isCreated()).andExpect(header().string("ETag", "\"1\""))
                 .andExpect(header().string("Location", "/api/v1" + path + "/files/" + fileId))
-                .andExpect(jsonPath("$.id").value(fileId.toString()))
-                .andExpect(jsonPath("$.status").value("AVAILABLE"))
-                .andExpect(jsonPath("$.storageKey").doesNotExist())
-                .andExpect(jsonPath("$.stagingKey").doesNotExist());
+                .andExpect(jsonPath("$.data.id").value(fileId.toString()))
+                .andExpect(jsonPath("$.data.status").value("AVAILABLE"))
+                .andExpect(jsonPath("$.data.storageKey").doesNotExist())
+                .andExpect(jsonPath("$.data.stagingKey").doesNotExist());
     }
 
     @Test void mapsValidationAndStorageFailuresToSafeProblems() throws Exception {
@@ -117,21 +117,21 @@ class EvidenceSourceControllerTest {
         mvc.perform(multipart(path + "/files").file(body).cookie(session()).header("X-CSRF-TOKEN", CSRF)
                         .header("If-Match", "\"0\""))
                 .andExpect(status().isUnprocessableContent())
-                .andExpect(jsonPath("$.code").value("FILE_TYPE_NOT_ALLOWED"));
+                .andExpect(jsonPath("$.errors.code").value("FILE_TYPE_NOT_ALLOWED"));
         when(files.upload(eq(version), eq("\"0\""), any(), any(), any(), any()))
                 .thenThrow(new EvidenceProblemException(EvidenceProblemException.Kind.PAYLOAD_TOO_LARGE,
                         "FILE_TOO_LARGE", "El archivo supera el tamaño máximo permitido."));
         mvc.perform(multipart(path + "/files").file(body).cookie(session()).header("X-CSRF-TOKEN", CSRF)
                         .header("If-Match", "\"0\""))
                 .andExpect(status().isPayloadTooLarge())
-                .andExpect(jsonPath("$.code").value("FILE_TOO_LARGE"));
+                .andExpect(jsonPath("$.errors.code").value("FILE_TOO_LARGE"));
         when(files.upload(eq(version), eq("\"0\""), any(), any(), any(), any()))
                 .thenThrow(new EvidenceProblemException(EvidenceProblemException.Kind.STORAGE_UNAVAILABLE,
                         "FILE_STORAGE_UNAVAILABLE", "No fue posible almacenar el archivo; reintente la carga."));
         mvc.perform(multipart(path + "/files").file(body).cookie(session()).header("X-CSRF-TOKEN", CSRF)
                         .header("If-Match", "\"0\""))
                 .andExpect(status().isServiceUnavailable())
-                .andExpect(jsonPath("$.code").value("FILE_STORAGE_UNAVAILABLE"));
+                .andExpect(jsonPath("$.errors.code").value("FILE_STORAGE_UNAVAILABLE"));
     }
 
     private static Cookie session() { return new Cookie("SEC_SESSION", "synthetic-session"); }

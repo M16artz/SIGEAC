@@ -36,7 +36,7 @@ class AcademicEvaluationControllerTest {
                         () -> Optional.of(new ec.edu.unl.sec.identityaccess.application.CurrentActorPort.Actor(actor,false))),
                         new AcademicReconciliationController(mock(AcademicReconciliationService.class),failures,
                                 () -> Optional.of(new ec.edu.unl.sec.identityaccess.application.CurrentActorPort.Actor(actor,false))))
-                .setControllerAdvice(new ApiProblemHandler(),new AcademicProblemHandler())
+                .setControllerAdvice(new ec.edu.unl.sec.shared.api.ApiResponseAdvice(new com.fasterxml.jackson.databind.ObjectMapper().findAndRegisterModules()), new ApiProblemHandler(),new AcademicProblemHandler())
                 .addFilters(new CorrelationFilter(),new SessionAuthenticationFilter(sessions,new AccessProblemWriter(new ObjectMapper().findAndRegisterModules()))).build();
     }
     @AfterEach void clear() { org.springframework.security.core.context.SecurityContextHolder.clearContext(); }
@@ -48,7 +48,7 @@ class AcademicEvaluationControllerTest {
         mvc.perform(post(path()).cookie(cookie()).header("X-CSRF-TOKEN",csrf).header("If-Match","\"0\"")
                         .contentType(MediaType.APPLICATION_JSON).content(body()))
                 .andExpect(status().isCreated()).andExpect(header().string("ETag","\"1\""))
-                .andExpect(header().string("Cache-Control","no-store")).andExpect(jsonPath("$.method").value("Método cualitativo"));
+                .andExpect(header().string("Cache-Control","no-store")).andExpect(jsonPath("$.data.method").value("Método cualitativo"));
     }
     @Test void rejectsAbsentWeakPreconditionMissingCsrfAndUnknownFields() throws Exception {
         mvc.perform(post(path()).cookie(cookie()).header("X-CSRF-TOKEN",csrf).contentType(MediaType.APPLICATION_JSON).content(body())).andExpect(status().isPreconditionRequired());
@@ -64,7 +64,7 @@ class AcademicEvaluationControllerTest {
         mvc.perform(get(path()).cookie(cookie())).andExpect(status().isOk()).andExpect(header().string("ETag","\"2\""));
         when(service.evaluate(any(),any(),anyLong(),any(),any())).thenThrow(new AcademicProblemException(AcademicProblemException.Kind.PRECONDITION_FAILED,"STALE_EVALUATION","Recargue antes de continuar."));
         mvc.perform(post(path()).cookie(cookie()).header("X-CSRF-TOKEN",csrf).header("If-Match","\"0\"").contentType(MediaType.APPLICATION_JSON).content(body()))
-                .andExpect(status().isPreconditionFailed()).andExpect(jsonPath("$.code").value("STALE_EVALUATION")).andExpect(jsonPath("$.correlationId").isNotEmpty());
+                .andExpect(status().isPreconditionFailed()).andExpect(jsonPath("$.errors.code").value("STALE_EVALUATION")).andExpect(jsonPath("$.errors.correlationId").isNotEmpty());
         verify(failures).recordAfterRollback(argThat(event -> event.action().equals("ACADEMIC_MANUAL_EVALUATION_REJECTED")
                 && event.outcome().equals("REJECTED") && event.reasonCode().equals("STALE_EVALUATION") && event.metadata().isEmpty()));
     }

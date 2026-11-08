@@ -35,7 +35,7 @@ const cases = [
   {method: 'get', route: '/me', status: 200},
   {method: 'get', route: '/processes/{processId}/documentary-progress', status: 200, query: '?page=0&size=20'},
   {method: 'get', route: '/processes/{processId}/closures', status: 200, query: '?page=0&size=20'},
-  {method: 'get', route: '/processes/{processId}/documentary-progress', status: 422, query: '?page=-1&size=20'},
+  {method: 'get', route: '/processes/{processId}/documentary-progress', status: 400, query: '?page=-1&size=20'},
   {method: 'get', route: '/processes/{processId}/documentary-progress', status: 404,
     process: 'ffffffff-ffff-ffff-ffff-ffffffffffff'},
   {method: 'post', route: '/sessions', status: 201,
@@ -56,9 +56,9 @@ const items = cases.map(({method, route, status, query = '', process: selected =
     ?? dereference(response).content?.['application/problem+json']?.schema;
   const tests = [`pm.test('contract status ${status}', () => pm.response.to.have.status(${status}));`];
   if (schema) tests.push(`pm.test('response matches common OpenAPI schema', () => pm.response.to.have.jsonSchema(${JSON.stringify(schema)}));`);
-  if (method === 'post' && route === '/sessions') tests.push("pm.variables.set('csrf', pm.response.json().csrfToken);");
+  if (method === 'post' && route === '/sessions') tests.push("pm.variables.set('csrf', pm.response.json().data.csrfToken);");
   if (method === 'get' && status === 200 && route.endsWith('documentary-progress')) {
-    tests.push("pm.test('synthetic scope and bounded page', () => { const body = pm.response.json(); pm.expect(body.totalSources).to.eql(500); pm.expect(body.sources.length).to.eql(20); });");
+    tests.push("pm.test('synthetic scope and bounded page', () => { const body = pm.response.json().data; pm.expect(body.totalSources).to.eql(500); pm.expect(body.sources.length).to.eql(20); });");
   }
   return {name: `${method.toUpperCase()} ${route} → ${status}`, request: {
     method: method.toUpperCase(), url: `{{baseUrl}}${route.replace('{processId}', selected)

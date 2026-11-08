@@ -1,0 +1,98 @@
+---
+title: "Evolución, SDD y decisiones"
+lang: es
+execute:
+  enabled: false
+---
+
+Inspección estática: 2026-11-06, HEAD `a61f37b7`. No se ejecutaron aplicación ni pruebas funcionales. Los resultados de software enlazados pertenecen a campañas anteriores; el renderizado central del portal y sus comprobaciones se documentan en [validación](validation.qmd).
+
+## Contribuciones Git
+
+Conteo obtenido con `git shortlog -s -n HEAD`: commits alcanzables desde HEAD, incluidos merges, agrupados según la identidad de autor que presenta Git. No mide líneas, calidad, trabajo fuera de Git ni contribuciones de ramas no integradas. Los nombres distintos no se fusionaron por inferencia. No se publican correos.
+
+| Nombre registrado | Commits |
+|---|---:|
+| M16artz | 16 |
+| Miguel Armas | 3 |
+| TheGreatKamus | 3 |
+| Odalis Rosillo | 2 |
+| Zoe777zz | 2 |
+| Richard Chamba | 1 |
+| **Total** | **27** |
+
+## Hitos observados
+
+Fechas de autor y asuntos obtenidos con `git log --reverse --format='%h %ad %s' --date=short`. Un asunto de commit no prueba aceptación, autoría exclusiva de una capacidad ni que la especificación precediera a cada cambio de código.
+
+| Fecha | Commit | Evidencia histórica |
+|---|---|---|
+| 2026-10-11 | `93c150fc`, `e4a391e2`, `4788730f` | Inicio, estructura y estructura SDD según los asuntos registrados. |
+| 2026-10-15 | `1c3ff104` | Incorporación de constitución según historial de su ruta. |
+| 2026-10-18 | `555f30dd` | Corrección de constitución; el documento actual registra ratificación el 18 y enmienda el 21. |
+| 2026-10-19 | `45161721`, `59a28de1`, `6c6a19e3` | Requisitos y especificaciones. |
+| 2026-10-21 | `b263a568`, `0e8f3c81` | Reconciliación documental y avance D2; `b263a568` afecta constitución y spec 005. |
+| 2026-10-22 | `4557fe17` | Merge del PR #1; el conteo de contribuciones incluye este merge. |
+| 2026-10-25 | `61988add` | Último commit de la ruta `tests/acceptance/complete-workflows.spec.ts` en el historial inspeccionado; asunto `v1.0????`. |
+| 2026-10-28 | `faf868ea` | Asunto `securidad y auditoria`; por sí solo no acredita una auditoría ejecutada. |
+| 2026-11-04 | `a61f37b7` | HEAD, asunto `aaaaaaaaaaaa`; también afecta las rutas de overview y README de diagramas con numstat 0/0. No inferir que aquí se originaron sus vacíos. |
+
+**Acción:** usar asuntos y descripciones que identifiquen entrega, FR/US/AC y evidencia. Los mensajes genéricos actuales dificultan reconstruir por qué cambió una regla. Vincular la aprobación a un hash ejecutado; los resultados fechados el 2026-10-25 no certifican automáticamente HEAD del 2026-11-04.
+
+## Mapa canónico de SDD
+
+| Función | Fuente vigente y relación |
+|---|---|
+| Gobierno | [Constitución 1.1.0](../../.specify/memory/constitution.md): prevalece sobre planes y convenciones contradictorios; exige specify → clarify → plan → tasks → implement → verify. |
+| Requisitos generales | [spec.md](../requirements/spec.md): FR-001–FR-040, RNF-001–RNF-019, SC-001–SC-010, CL-001–CL-010; incorpora FR-041–FR-070 por referencia. |
+| Dominio y procesos | [domain-rules.md](../requirements/domain-rules.md): autoridades, estados, fórmulas, AC-X01–16 y CL-011–17; [process-flows.md](../requirements/process-flows.md): P01–P16. |
+| Acceso I0 | [001-identity-access-scopes](../../specs/001-identity-access-scopes/spec.md), con [plan](../../specs/001-identity-access-scopes/plan.md), [tareas](../../specs/001-identity-access-scopes/tasks.md) y [contrato](../../specs/001-identity-access-scopes/contracts/openapi.yaml). |
+| Modelos I1 | [002-version-evaluation-model](../../specs/002-version-evaluation-model/spec.md), [plan](../../specs/002-version-evaluation-model/plan.md), [tareas](../../specs/002-version-evaluation-model/tasks.md), [contrato](../../specs/002-version-evaluation-model/contracts/openapi.yaml). |
+| Procesos I2 | [003-manage-self-assessment](../../specs/003-manage-self-assessment/spec.md), [plan](../../specs/003-manage-self-assessment/plan.md), [tareas](../../specs/003-manage-self-assessment/tasks.md), [contrato](../../specs/003-manage-self-assessment/contracts/openapi.yaml). |
+| Evidencias I3 | [004-submit-evidence](../../specs/004-submit-evidence/spec.md), [plan](../../specs/004-submit-evidence/plan.md), [tareas](../../specs/004-submit-evidence/tasks.md), [prerrequisitos](../../specs/004-submit-evidence/implementation-prerequisites.md). |
+| Reconciliación D1–D8 | [005/spec](../../specs/005-complete-evaluation-workflows/spec.md), [plan](../../specs/005-complete-evaluation-workflows/plan.md), [research](../../specs/005-complete-evaluation-workflows/research.md), [modelo](../../specs/005-complete-evaluation-workflows/data-model.md), [tareas](../../specs/005-complete-evaluation-workflows/tasks.md), [quickstart](../../specs/005-complete-evaluation-workflows/quickstart.md). Prevalece sobre 001–004 únicamente en las contradicciones temáticas declaradas. |
+| Contratos | [Común](../technical/contracts/openapi.yaml), [objetivo 005](../../specs/005-complete-evaluation-workflows/contracts/openapi.yaml) y [ADR-0018](../adr/0018-catalog-contract-migration-compatibility.md). Mantener explícita la diferencia entre v1 ejecutable y v2 objetivo. |
+| Aceptación | [AC por proceso](../testing/process-acceptance.md), [trazabilidad](../testing/traceability.md), [resultados históricos](../../tests/acceptance/results/process-acceptance.md) y [gate humano pendiente T111](../../tests/acceptance/results/p01-p16-review-gate.md). |
+
+Los directorios alternativos [001-entorno-inicial](../../specs/001-entorno-inicial/README.md), [002-gestion-modelos](../../specs/002-gestion-modelos/README.md), [003-procesos-evaluacion](../../specs/003-procesos-evaluacion/README.md) y [004-gestion-evidencias](../../specs/004-gestion-evidencias/README.md) contienen README de **0 bytes**. No son especificaciones equivalentes. **Acción:** convertirlos en redirecciones documentales con estado histórico, o retirarlos mediante una decisión aparte; no resolver IDs por el prefijo numérico solo.
+
+## Clarificaciones y gobierno pendientes
+
+No se encontró una sección `Clarifications` ni sesiones de aclaración fechadas en los cinco `spec.md` inspeccionados. Sí hay decisiones abiertas: no confundir la falta del registro de sesiones con ausencia total de clarificación.
+
+| Brecha | Evidencia y acción |
+|---|---|
+| CL-001–CL-010 y CL-011–CL-017 sin cierre institucional | [Spec general](../requirements/spec.md) y [registro adicional](../requirements/domain-rules.md) conservan decisiones abiertas, responsables por función y límites sintéticos. Registrar por CL respuesta, fuente, decisor competente, fecha y artefactos afectados; no inventar aprobaciones. |
+| Orden de aprobación ambiguo | [005/spec](../../specs/005-complete-evaluation-workflows/spec.md), alcance, dice que la ejecución requiere aprobar primero revisión humana y decisiones; [005/tasks](../../specs/005-complete-evaluation-workflows/tasks.md) marca implementación técnica realizada y T111 pendiente. Aclarar si la puerta previa aplica al uso institucional o también a implementación sintética, y registrar la desviación si corresponde. No convertir retrospectivamente resultados técnicos en autorización institucional. |
+| Estado de spec desactualizado | [005/spec](../../specs/005-complete-evaluation-workflows/spec.md) sigue `Ready for implementation planning review`; tareas y resultados describen implementación técnica. Fechar y separar estado de planificación, verificación técnica y aceptación institucional. |
+| Evidencia del análisis cruzado | La constitución exige análisis antes de implementar. La existencia de spec/plan/tasks y checklists no prueba una ejecución fechada de ese análisis. Enlazar el resultado y el hash revisado, o registrar expresamente que esa evidencia no está identificada. |
+
+## ADR: cobertura y brechas
+
+[ADR-0001](../adr/0001-modular-monolith.md) decide monolito modular; [0002](../adr/0002-file-storage-port.md) almacenamiento por puerto; [0003](../adr/0003-evidence-versioning-contract.md) versionado de evidencia; [0004](../adr/0004-opaque-sessions-scope-authorization.md) sesiones; [0005](../adr/0005-model-version-snapshots.md) snapshots; [0006](../adr/0006-fixed-model-process-state-machine.md) estados. [0015](../adr/0015-configurable-evaluation-models.md), [0016](../adr/0016-evaluation-strategies-import-adapters.md), [0017](../adr/0017-source-coverage-and-process-governance.md), [0018](../adr/0018-catalog-contract-migration-compatibility.md) y [0019](../adr/0019-flexible-model-foundations.md) cubren configurabilidad, estrategias, fuentes/gobierno y compatibilidad. El salto numérico 0006→0015 no demuestra por sí solo una pérdida de decisiones.
+
+1. **Media — excepciones SQL sin una decisión claramente identificada.** [Arquitectura completa](../architecture/complete-workflows.md) reconoce lecturas de tablas de otros módulos en `archive.infrastructure.JdbcClosureEvidenceAdapter`; [ADR-0001](../adr/0001-modular-monolith.md) exige ADR adicional para excepciones de dependencia. [ModuleArchitectureTest](../../backend/src/test/java/ec/edu/unl/sec/architecture/ModuleArchitectureTest.java) comprueba importaciones, no SQL dentro de cadenas. Identificar el ADR que autoriza cada proyección compartida o registrar uno con tablas, propietario y política de evolución. La documentación de la limitación no equivale a esa decisión.
+
+2. **Media — capacidad catalogada diferente de la usada.** [OperationCode](../../backend/src/main/java/ec/edu/unl/sec/identityaccess/domain/OperationCode.java) declara `IMPROVEMENT_PLAN_CREATE`; [ImprovementPlanService](../../backend/src/main/java/ec/edu/unl/sec/improvement/application/ImprovementPlanService.java), líneas 64–65, exige `IMPROVEMENT_WRITE`. [Arquitectura](../architecture/complete-workflows.md) ya reconoce la diferencia. Decidir cuál es canónica y alinear catálogo, contrato, fixtures y pruebas de permisos; no afirmar que se comprobó una escalada de privilegios por esta diferencia estática.
+
+3. **Media — límites de arquitectura más amplios que la prueba.** ADR-0001 dice que ArchUnit impide dependencias hacia detalles internos. Las reglas actuales enumeran paquetes concretos y no constituyen una lista exhaustiva de interfaces públicas entre todos los módulos. Documentar qué cruces están permitidos y comprobarlos; conservar la excepción SQL por separado.
+
+## Calidad de fuentes BPMN y C4
+
+La inspección excluyó `node_modules`, `target`, `_site` y el caché generado `graphify-out`. La consolidación incorpora cuatro fuentes editables en `docs/diagrams`, que resuelven la ausencia inicial de BPMN, PlantUML y Structurizr. El renderizado central de las páginas Quarto se documenta en [validación](validation.qmd); no equivale a renderizar estas fuentes con sus herramientas ni a validar BPMN contra XSD.
+
+| Fuente | Evaluación estática | Acción |
+|---|---|---|
+| [workspace.dsl](../diagrams/workspace.dsl) | Nueva fuente Structurizr con vistas C1 de contexto, C2 de contenedores y C3 de componentes del backend, acotadas al flujo documental. Declara personas, tecnologías y relaciones. No consta renderizado ni validación con Structurizr. | Validar sintaxis, renderizar las tres vistas y contrastar límites y relaciones con el código. La existencia de la fuente no demuestra validación de arquitectura. |
+| [evidence-code.puml](../diagrams/evidence-code.puml) | Nueva vista PlantUML de clases y dependencias de remisión P08: controlador, servicio y puertos. No consta renderizado PlantUML. | Renderizar y comprobar tipos, firmas y dependencias contra la implementación enlazada en [trazabilidad](traceability.qmd). |
+| [evidence-submit.puml](../diagrams/evidence-submit.puml) | Nueva secuencia PlantUML del camino satisfactorio P08: sesión/CSRF, validación, persistencia y auditoría. No consta renderizado PlantUML; no representa todos los caminos de error. | Renderizar y contrastar orden de llamadas, autorización y rollback; conservar explícito el alcance satisfactorio. |
+| [p08-submit.bpmn](../diagrams/p08-submit.bpmn) | Nueva fuente XML BPMN descriptiva, `isExecutable="false"`, con dos lanes, tareas, compuerta y elementos DI. No consta renderizado BPMN ni validación contra XSD. Algunos rótulos contienen signos `?` en lugar de caracteres acentuados. | Corregir rótulos, validar contra XSD BPMN 2.0, abrir en un modelador y revisar layout, rechazo y correspondencia con AC-P08. XML y DI no demuestran conformidad ni ejecutabilidad. |
+| [process-flows.md](../requirements/process-flows.md) | Conserva el catálogo textual P01–P16 y Mermaid `flowchart TD`. Es un flujograma general; la nueva fuente BPMN cubre P08, no todo el catálogo. | Distinguir flujograma de BPMN y enlazar P08 con su fuente editable; ampliar otros procesos si lo exige la rúbrica. |
+| [complete-workflows.md](../architecture/complete-workflows.md) | Conserva vistas Mermaid de contexto, contenedores y capacidades. Son vistas funcionales generales; la nueva C3 de Structurizr detalla componentes del backend para el flujo documental. | Precisar alcance y relaciones, distinguir suministro funcional de dependencia de código y enlazar las fuentes complementarias sin atribuir cobertura exhaustiva. |
+| [Índice de diagramas](../diagrams/README.md) | Existe un índice junto a las cuatro fuentes nuevas. | Mantener enlaces, alcance y estado de validación por formato; consultar [validación central](validation.qmd) para el renderizado del portal. |
+
+## Evaluación sumativa
+
+No se localizó un archivo con `sumativ` en el nombre ni referencias textuales a “evaluación sumativa” o “evaluacion_sumativa” en el árbol inspeccionado, con las exclusiones anteriores. Tampoco aparecieron rutas con `sumativ`/`Sumativ` en `git log --all --name-only` para esos patrones. Esto no demuestra ausencia en adjuntos externos, archivos binarios con otros nombres o ramas no disponibles localmente. No se consultaron servicios externos. **Acción:** cuando se disponga de la rúbrica, conservar su ruta/versión y relacionar cada criterio con estos artefactos, sin inferir calificaciones.
+
+Las correcciones de FR, cobertura y aceptación están en [trazabilidad](traceability.qmd); las comprobaciones del portal se registran en [validación](validation.qmd). Las decisiones institucionales pendientes conservan su estado.

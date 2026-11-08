@@ -1,3 +1,4 @@
+import {unwrapApiResponse} from '../../scripts/api-response.mjs';
 import {expect, test, APIRequestContext, APIResponse} from '@playwright/test';
 
 const processId = 'd7000000-0000-0000-0000-000000000003';
@@ -6,7 +7,7 @@ const sourceId = 'd7000000-0000-0000-0000-000000000101';
 const optionId = 'd7000000-0000-0000-0000-000000000011';
 const path = `/api/v1/processes/${processId}/indicators/${indicatorId}/manual-academic-evaluations`;
 async function body(response: APIResponse, expected = 200) {
-  expect(response.status(), await response.text()).toBe(expected); return response.json();
+  expect(response.status(), await response.text()).toBe(expected); return response.json().then(unwrapApiResponse);
 }
 async function login(api: APIRequestContext, username: string) {
   return body(await api.post('/api/v1/sessions', {data: {username, password: 'Synthetic-User-2026'}}), 201);

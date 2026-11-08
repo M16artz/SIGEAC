@@ -12,12 +12,12 @@ import org.springframework.test.web.servlet.*;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 class CareerControllerTest {
     CareerAdministrationService service; MockMvc mvc;
-    @BeforeEach void setup() {service=mock(CareerAdministrationService.class);mvc=MockMvcBuilders.standaloneSetup(new CareerController(service)).setControllerAdvice(new CareerCatalogProblemHandler(),new ApiProblemHandler()).build();}
+    @BeforeEach void setup() {service=mock(CareerAdministrationService.class);mvc=MockMvcBuilders.standaloneSetup(new CareerController(service)).setControllerAdvice(new ec.edu.unl.sec.shared.api.ApiResponseAdvice(new com.fasterxml.jackson.databind.ObjectMapper().findAndRegisterModules()), new CareerCatalogProblemHandler(),new ApiProblemHandler()).build();}
     @Test void returnsThePlannedNestedDtoWithStrongRevision() throws Exception {
         UUID id=UUID.randomUUID();var career=new Career(id,new Career.Data("C","Carrera",UUID.randomUUID(),LocalDate.now(),null),Career.Status.ACTIVE,1,UUID.randomUUID(),Instant.now(),false);
         when(service.getCareer(id)).thenReturn(career);
         mvc.perform(get("/careers/"+id)).andExpect(status().isOk()).andExpect(header().string("ETag","\"1\""))
-                .andExpect(jsonPath("$.data.code").value("C")).andExpect(jsonPath("$.status").value("ACTIVE"));
+                .andExpect(jsonPath("$.data.data.code").value("C")).andExpect(jsonPath("$.data.status").value("ACTIVE"));
     }
     @Test void requiresEtagBeforeUpdatingAndNeverExposesADeleteOperation() throws Exception {
         String path="/careers/"+UUID.randomUUID();

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 @Component
+@org.springframework.core.annotation.Order(org.springframework.core.Ordered.HIGHEST_PRECEDENCE + 10)
 public class CorrelationFilter extends OncePerRequestFilter {
     public static final String HEADER = "X-Correlation-ID";
     public static final String CORRELATION_ATTRIBUTE = CorrelationFilter.class.getName() + ".id";

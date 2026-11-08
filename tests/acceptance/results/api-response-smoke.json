@@ -1,0 +1,178 @@
+{
+  "executedAt": "2026-11-08T20:31:48.005Z",
+  "synthetic": true,
+  "passed": true,
+  "cases": [
+    {
+      "name": "sin autenticación",
+      "method": "GET",
+      "route": "/me",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "schemaValid": true,
+      "passed": true
+    },
+    {
+      "name": "validación de acceso",
+      "method": "POST",
+      "route": "/sessions",
+      "expectedStatus": 400,
+      "actualStatus": 400,
+      "schemaValid": true,
+      "passed": true
+    },
+    {
+      "name": "sesión sintética",
+      "method": "POST",
+      "route": "/sessions",
+      "expectedStatus": 201,
+      "actualStatus": 201,
+      "schemaValid": true,
+      "passed": true
+    },
+    {
+      "name": "crear unidad",
+      "method": "POST",
+      "route": "/academic-units",
+      "expectedStatus": 201,
+      "actualStatus": 201,
+      "schemaValid": true,
+      "passed": true
+    },
+    {
+      "name": "rechazo CSRF",
+      "method": "POST",
+      "route": "/careers",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "schemaValid": true,
+      "passed": true
+    },
+    {
+      "name": "crear carrera",
+      "method": "POST",
+      "route": "/careers",
+      "expectedStatus": 201,
+      "actualStatus": 201,
+      "schemaValid": true,
+      "passed": true
+    },
+    {
+      "name": "lectura persistida",
+      "method": "GET",
+      "route": "/careers/{careerId}",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "schemaValid": true,
+      "passed": true
+    },
+    {
+      "name": "duplicidad",
+      "method": "POST",
+      "route": "/careers",
+      "expectedStatus": 409,
+      "actualStatus": 409,
+      "schemaValid": true,
+      "passed": true
+    },
+    {
+      "name": "campos incompletos",
+      "method": "POST",
+      "route": "/careers",
+      "expectedStatus": 400,
+      "actualStatus": 400,
+      "schemaValid": true,
+      "passed": true
+    },
+    {
+      "name": "paginación",
+      "method": "GET",
+      "route": "/careers",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "schemaValid": true,
+      "passed": true
+    },
+    {
+      "name": "revisión requerida",
+      "method": "PATCH",
+      "route": "/careers/{careerId}",
+      "expectedStatus": 428,
+      "actualStatus": 428,
+      "schemaValid": true,
+      "passed": true
+    },
+    {
+      "name": "actualizar con revisión",
+      "method": "PATCH",
+      "route": "/careers/{careerId}",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "schemaValid": true,
+      "passed": true
+    },
+    {
+      "name": "revisión obsoleta",
+      "method": "PATCH",
+      "route": "/careers/{careerId}",
+      "expectedStatus": 412,
+      "actualStatus": 412,
+      "schemaValid": true,
+      "passed": true
+    },
+    {
+      "name": "recurso inexistente",
+      "method": "GET",
+      "route": "/careers/{careerId}",
+      "expectedStatus": 404,
+      "actualStatus": 404,
+      "schemaValid": true,
+      "passed": true
+    },
+    {
+      "name": "lector sintético",
+      "method": "POST",
+      "route": "/sessions",
+      "expectedStatus": 201,
+      "actualStatus": 201,
+      "schemaValid": true,
+      "passed": true
+    },
+    {
+      "name": "objeto ajeno",
+      "method": "GET",
+      "route": "/careers/{careerId}",
+      "expectedStatus": 404,
+      "actualStatus": 404,
+      "schemaValid": true,
+      "passed": true
+    },
+    {
+      "name": "capacidad insuficiente",
+      "method": "POST",
+      "route": "/careers",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "schemaValid": true,
+      "passed": true
+    },
+    {
+      "name": "logout sin cuerpo",
+      "method": "DELETE",
+      "route": "/sessions",
+      "expectedStatus": 204,
+      "actualStatus": 204,
+      "schemaValid": null,
+      "passed": true
+    },
+    {
+      "name": "sesión revocada",
+      "method": "GET",
+      "route": "/me",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "schemaValid": true,
+      "passed": true
+    }
+  ]
+}

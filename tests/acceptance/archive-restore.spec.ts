@@ -1,3 +1,4 @@
+import {unwrapApiResponse} from '../../scripts/api-response.mjs';
 import {expect, test, APIResponse, Page} from '@playwright/test';
 
 const processId = 'd7000000-0000-0000-0000-000000000003';
@@ -10,7 +11,7 @@ const actionTitle = 'Accion vencida conservada durante el cierre integral P16';
 
 async function body(response: APIResponse, status = 200) {
   expect(response.status(), await response.text()).toBe(status);
-  return response.json();
+  return response.json().then(unwrapApiResponse);
 }
 
 async function login(page: Page) {
@@ -71,7 +72,7 @@ test('AC-P16-01/02/03: blocks overdue closure, archives sealed history and prese
       data: {closurePolicyVersion: 'INTEGRAL_STRICT_V1', provenance, exceptionDecisionIds: []}
     });
     expect(rejected.status(), await rejected.text()).toBe(409);
-    expect((await rejected.json()).code).toBe('CLOSURE_BLOCKED');
+    expect((await rejected.json().then(unwrapApiResponse)).code).toBe('CLOSURE_BLOCKED');
 
     await login(page);
     await page.locator('#archive-process').selectOption(processId);
@@ -109,7 +110,7 @@ test('AC-P16-01/02/03: blocks overdue closure, archives sealed history and prese
       data: {closureSnapshotId: closure.id, retentionPolicyVersion: 'RETENTION_10Y', provenance}
     });
     expect(duplicate.status(), await duplicate.text()).toBe(409);
-    expect((await duplicate.json()).code).toBe('ARCHIVE_ALREADY_EXISTS');
+    expect((await duplicate.json().then(unwrapApiResponse)).code).toBe('ARCHIVE_ALREADY_EXISTS');
 
     await page.getByRole('button', {name: 'Actualizar', exact: true}).click();
     await expect(page.getByText('2 cierre(s) conservado(s).')).toBeVisible();
@@ -143,7 +144,7 @@ test('AC-P16-01/02/03: blocks overdue closure, archives sealed history and prese
       data: {closurePolicyVersion: 'INTEGRAL_STRICT_V1', provenance, exceptionDecisionIds: [exceptionDecision]}
     });
     expect(rejectedAgain.status(), await rejectedAgain.text()).toBe(409);
-    expect((await rejectedAgain.json()).code).toBe('CLOSURE_STATE_INVALID');
+    expect((await rejectedAgain.json().then(unwrapApiResponse)).code).toBe('CLOSURE_STATE_INVALID');
   } finally {
     await coordinator.dispose();
   }

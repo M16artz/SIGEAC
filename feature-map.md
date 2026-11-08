@@ -8,6 +8,31 @@ SIGEAC es una aplicación web para gestionar procesos de autoevaluación de carr
 
 ## 2. Aplicación web
 
+### Estado para la revisión ACD5 — 2026-11-08
+
+La presencia de una pantalla no prueba por sí sola el cierre de una feature.
+La clasificación siguiente separa el flujo demostrado de los incrementos que
+conservan evidencia histórica o aspectos institucionales pendientes.
+
+| Feature | Estado | Evidencia y límite |
+|---|---|---|
+| Acceso y permisos del flujo seleccionado | implementada | `ApiTransportIntegrationTest`: sesión, CSRF, capacidad y recurso ajeno con cadena HTTP real. No certifica todos los ámbitos del sistema. |
+| Alta y consulta de carreras | implementada | FR-043, 005/US1, AC-P02-01/02; alta, consulta persistente, duplicado, validación y paginación en la prueba anterior. |
+| Sobre de respuesta JSON | implementada | `ApiResponseAdviceTest`, `ApiTransportIntegrationTest` y adaptadores Angular/aceptación; [contrato vigente](docs/api/response-contract.qmd). |
+| Modelos y versiones | parcialmente implementada | Código y evidencia D2; contrato objetivo v2 y validación institucional no cerrados. |
+| Procesos y planificación | parcialmente implementada | Código y evidencia D3; competencias institucionales requieren validación. |
+| Evidencias, cobertura y revisión | parcialmente implementada | Código, pruebas y evidencia D4/D5; no se declara reejecutada toda su aceptación tras la migración HTTP. |
+| Seguimiento y cierre documental | parcialmente implementada | Código y evidencia D6; validaciones PostgreSQL y aceptación integral diferenciadas. |
+| Valoración, conciliación e informes | parcialmente implementada | Código y evidencia D7; no equivale a aceptación institucional. |
+| Mejora y archivo | parcialmente implementada | Código y evidencia D8; revisión de migraciones y recuperación productiva pendiente. |
+| OIDC y gateway de entrada | parcialmente implementada | Validadores, pruebas criptográficas, configuración y controles locales; faltan emisor y certificados reales para demostrar despliegue. |
+| Contrato objetivo v2 completo | especificada pero no implementada | Contrato 005 separa rutas vigentes de objetivos; no confundir YAML con disponibilidad. |
+| Competencias, vigencia normativa y designaciones | pendiente de clarificación | CL y decisiones institucionales en especificaciones; fixtures sintéticos no las resuelven. |
+| Integraciones institucionales y evaluación externa | prevista para un incremento posterior | Contratos y límite de paquete; no se afirma intercambio externo operativo. |
+
+La guía de [ACD5](docs/activities/acd5.qmd) relaciona esta clasificación con
+evidencias, demostración, observaciones y participación individual.
+
 Frontend Angular ubicado en `frontend/`. Las rutas descritas abajo corresponden a las vistas disponibles en la aplicación.
 
 ### Acceso y administración

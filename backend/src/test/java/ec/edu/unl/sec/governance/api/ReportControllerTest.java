@@ -53,7 +53,7 @@ class ReportControllerTest {
                 UUID.randomUUID(), actor, "Evaluador sintético", false, SessionService.sha256Hex(csrf))));
         mvc = MockMvcBuilders.standaloneSetup(new ReportController(findings, reports, failures,
                         () -> java.util.Optional.of(new CurrentActorPort.Actor(actor, false))))
-                .setControllerAdvice(new ApiProblemHandler(), new GovernanceProblemHandler())
+                .setControllerAdvice(new ec.edu.unl.sec.shared.api.ApiResponseAdvice(new com.fasterxml.jackson.databind.ObjectMapper().findAndRegisterModules()), new ApiProblemHandler(), new GovernanceProblemHandler())
                 .addFilters(new CorrelationFilter(),
                         new SessionAuthenticationFilter(sessions,
                                 new AccessProblemWriter(new ObjectMapper().findAndRegisterModules())))
@@ -90,8 +90,8 @@ class ReportControllerTest {
         mvc.perform(get("/processes/" + process + "/findings").cookie(session()))
                 .andExpect(status().isOk()).andExpect(header().string("ETag", "\"3\""))
                 .andExpect(header().string("Cache-Control", "no-store"))
-                .andExpect(jsonPath("$.items[0].data.type").value("WEAKNESS"))
-                .andExpect(jsonPath("$.totalElements").value(3));
+                .andExpect(jsonPath("$.data.items[0].data.type").value("WEAKNESS"))
+                .andExpect(jsonPath("$.meta.totalElements").value(3));
         verify(findings).findings(process, 0L, 20L);
     }
 
@@ -103,7 +103,7 @@ class ReportControllerTest {
                         .header("If-Match", "\"0\"").contentType(MediaType.APPLICATION_JSON)
                         .content(findRequest()))
                 .andExpect(status().isCreated()).andExpect(header().string("ETag", "\"1\""))
-                .andExpect(jsonPath("$.data.title").value("Debilidad crítica sustentada"));
+                .andExpect(jsonPath("$.data.data.title").value("Debilidad crítica sustentada"));
         mvc.perform(post("/processes/" + process + "/findings").cookie(session()).header("X-CSRF-TOKEN", csrf)
                         .contentType(MediaType.APPLICATION_JSON).content(findRequest()))
                 .andExpect(status().isPreconditionRequired());
@@ -126,8 +126,8 @@ class ReportControllerTest {
         mvc.perform(post("/processes/" + process + "/consolidations").cookie(session())
                         .header("X-CSRF-TOKEN", csrf).header("If-Match", "\"2\"")
                         .contentType(MediaType.APPLICATION_JSON).content(consolidationRequest()))
-                .andExpect(status().isPreconditionFailed()).andExpect(jsonPath("$.code").value("STALE_WORKFLOW"))
-                .andExpect(jsonPath("$.correlationId").isNotEmpty());
+                .andExpect(status().isPreconditionFailed()).andExpect(jsonPath("$.errors.code").value("STALE_WORKFLOW"))
+                .andExpect(jsonPath("$.errors.correlationId").isNotEmpty());
         verify(failures).recordAfterRollback(argThat(event -> event.action().equals("REPORT_CONSOLIDATION_REJECTED")
                 && event.outcome().equals("REJECTED") && event.reasonCode().equals("STALE_WORKFLOW")));
     }
@@ -140,8 +140,8 @@ class ReportControllerTest {
         when(reports.processingRevision(version)).thenReturn(2L);
         mvc.perform(get("/processes/" + process + "/report-versions").cookie(session()))
                 .andExpect(status().isOk()).andExpect(header().string("ETag", "\"5\""))
-                .andExpect(jsonPath("$.items[0].data.kind").value("PRELIMINARY"))
-                .andExpect(jsonPath("$.items[0].revision").value(2));
+                .andExpect(jsonPath("$.data.items[0].data.kind").value("PRELIMINARY"))
+                .andExpect(jsonPath("$.data.items[0].revision").value(2));
     }
 
     @Test
@@ -155,8 +155,8 @@ class ReportControllerTest {
                         .header("X-CSRF-TOKEN", csrf).header("If-Match", "\"0\"")
                         .contentType(MediaType.APPLICATION_JSON).content(issueRequest()))
                 .andExpect(status().isCreated()).andExpect(header().string("ETag", "\"0\""))
-                .andExpect(jsonPath("$.state").value("PRELIMINARY"))
-                .andExpect(jsonPath("$.data.kind").value("PRELIMINARY"));
+                .andExpect(jsonPath("$.data.state").value("PRELIMINARY"))
+                .andExpect(jsonPath("$.data.data.kind").value("PRELIMINARY"));
         mvc.perform(post("/processes/" + process + "/report-versions").cookie(session())
                         .header("X-CSRF-TOKEN", csrf).header("If-Match", "\"0\"")
                         .contentType(MediaType.APPLICATION_JSON).content(issueRequest().replace("}","\",extra\":1}")))
@@ -171,7 +171,7 @@ class ReportControllerTest {
                 ReportWorkflowService.DISCLAIMER));
         mvc.perform(get("/report-versions/" + version).cookie(session()))
                 .andExpect(status().isOk()).andExpect(header().string("ETag", "\"4\""))
-                .andExpect(jsonPath("$.state").value("UNDER_OBSERVATION"));
+                .andExpect(jsonPath("$.data.state").value("UNDER_OBSERVATION"));
     }
 
     @Test
@@ -183,13 +183,13 @@ class ReportControllerTest {
                         .header("X-CSRF-TOKEN", csrf).header("If-Match", "\"0\"")
                         .contentType(MediaType.APPLICATION_JSON).content(observationRequest()))
                 .andExpect(status().isCreated()).andExpect(header().string("ETag", "\"1\""))
-                .andExpect(jsonPath("$.revision").value(1))
-                .andExpect(jsonPath("$.data.sectionReference").value("Capítulo 3 de matrícula"));
+                .andExpect(jsonPath("$.data.revision").value(1))
+                .andExpect(jsonPath("$.data.data.sectionReference").value("Capítulo 3 de matrícula"));
         when(reports.observe(any(), anyLong(), any(), any())).thenThrow(new ConcurrencyFailureException("stale"));
         mvc.perform(post("/report-versions/" + version + "/observations").cookie(session())
                         .header("X-CSRF-TOKEN", csrf).header("If-Match", "\"0\"")
                         .contentType(MediaType.APPLICATION_JSON).content(observationRequest()))
-                .andExpect(status().isPreconditionFailed()).andExpect(jsonPath("$.code").value("STALE_WORKFLOW"));
+                .andExpect(status().isPreconditionFailed()).andExpect(jsonPath("$.errors.code").value("STALE_WORKFLOW"));
         verify(failures).recordAfterRollback(argThat(event -> event.action().equals("REPORT_OBSERVATION_REJECTED")
                 && event.outcome().equals("REJECTED") && event.reasonCode().equals("STALE_WORKFLOW")));
     }
@@ -203,7 +203,7 @@ class ReportControllerTest {
                         .header("X-CSRF-TOKEN", csrf).header("If-Match", "\"1\"")
                         .contentType(MediaType.APPLICATION_JSON).content(replyRequest()))
                 .andExpect(status().isCreated()).andExpect(header().string("ETag", "\"2\""))
-                .andExpect(jsonPath("$.data.correctedVersionId").value(version.toString()));
+                .andExpect(jsonPath("$.data.data.correctedVersionId").value(version.toString()));
     }
 
     @Test
@@ -216,7 +216,7 @@ class ReportControllerTest {
                         .header("X-CSRF-TOKEN", csrf).header("If-Match", "\"2\"")
                         .contentType(MediaType.APPLICATION_JSON).content(approvalRequest()))
                 .andExpect(status().isCreated()).andExpect(header().string("ETag", "\"3\""))
-                .andExpect(jsonPath("$.data.decision").value("APPROVED"));
+                .andExpect(jsonPath("$.data.data.decision").value("APPROVED"));
     }
 
     private String findRequest() {

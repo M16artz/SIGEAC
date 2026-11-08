@@ -1,0 +1,81 @@
+---
+title: "Instalación, ejecución y operación"
+---
+
+## Entorno declarado
+
+El [POM](../../backend/pom.xml) compila con release Java 21 y acepta JDK
+21–25 y Maven 3.9.x; CI usa JDK 25. El [package.json](../../frontend/package.json)
+fija Angular 22.2.3 y Node `^22.22.3 || ^24.15.0 || ^26.0.0`.
+PostgreSQL 18 es la referencia de CI. Quarto está disponible localmente en
+versión 1.10.19. Disponibilidad de herramientas no prueba arranque del sistema.
+
+## Preparar PostgreSQL y backend
+
+Crear previamente base y usuario propios con privilegios limitados. Establecer
+en la terminal `SEC_DB_URL`, `SEC_DB_USER`, `SEC_DB_PASSWORD` y `SEC_FILE_ROOT`.
+No se presupone que Spring cargue automáticamente archivos `.env`.
+La [configuración](../../backend/src/main/resources/application.yml) usa estas
+variables, ejecuta Flyway y valida el esquema mediante JPA.
+
+Desde la raíz en PowerShell:
+
+```powershell
+Set-Location backend
+.\mvnw.cmd spring-boot:run
+```
+
+En otra terminal desde la raíz:
+
+```powershell
+Set-Location frontend
+npm.cmd ci
+npm.cmd start
+```
+
+El proxy Angular reenvía `/api` al puerto 8080. Para un recorrido sintético sin
+PostgreSQL usar la [guía SQLite](../testing/sqlite.md), que requiere classpath
+de pruebas; no trasladar ese perfil a producción. Los comandos están
+contrastados con archivos y scripts, pero no ejecutados en esta auditoría.
+
+## Pruebas y documentación
+
+```powershell
+# Desde backend, con dependencias disponibles:
+.\mvnw.cmd verify
+# Desde frontend:
+npm.cmd test
+npm.cmd run contracts
+# Desde la raíz:
+quarto render
+quarto preview
+```
+
+Las pruebas PostgreSQL requieren `SEC_RUN_DATABASE_TESTS=true` y las variables
+`SEC_TEST_DB_URL`, `SEC_TEST_DB_USER`, `SEC_TEST_DB_PASSWORD`; véase el
+[workflow backend](../../.github/workflows/backend-ci.yml). No atribuir éxito a
+migraciones omitidas en SQLite. Los recorridos de API, Postman y rendimiento
+requieren una instancia sintética preparada; consultar [pruebas](testing.qmd).
+
+## Docker y despliegue
+
+**PENDIENTE:** [infrastructure/compose.yaml](../../infrastructure/compose.yaml)
+está vacío; no se identificó Dockerfile de aplicación. No hay un comando Docker
+reproducible del proyecto que deba recomendarse. Docker está instalado, pero
+eso no demuestra despliegue. CI configura un servicio PostgreSQL, no publica
+automáticamente la aplicación. Los workflows existentes usan `workflow_dispatch`;
+su presencia no demuestra una ejecución ni protección de cada pull request.
+
+En producción usar perfil `prod`, HTTPS en la terminación de red,
+`SEC_AUTH_HMAC_SECRET` estable administrado fuera del repositorio y directorio
+de archivos persistente. La configuración `prod` fuerza cookie segura y
+deshabilita datos demo y Swagger. Topología, TLS, restauración y monitorización
+operativa permanecen NO VERIFICADOS en esta revisión.
+
+## Disponibilidad y recuperación
+
+Actuator expone health e info bajo `/api/v1/actuator/`. El filtro de correlación
+y auditoría permiten seguir operaciones. Respaldar conjuntamente PostgreSQL y
+archivos, restaurar en un entorno aislado y verificar hashes y referencias.
+El archivo lógico de P16 no sustituye ese respaldo. Consultar la
+[evidencia histórica de restauración](../../tests/acceptance/results/p01-p16-restore.md).

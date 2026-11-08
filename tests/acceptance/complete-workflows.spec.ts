@@ -1,3 +1,4 @@
+import {unwrapApiResponse} from '../../scripts/api-response.mjs';
 import {expect, test, APIRequestContext, APIResponse} from '@playwright/test';
 import {readFileSync} from 'node:fs';
 import {randomUUID} from 'node:crypto';
@@ -13,7 +14,7 @@ const templates = JSON.parse(readFileSync(path.resolve('../tests/fixtures/models
 
 async function body(response: APIResponse, status = 200) {
   expect(response.status(), await response.text()).toBe(status);
-  return response.json();
+  return response.json().then(unwrapApiResponse);
 }
 const etag = (revision: number) => `"${revision}"`;
 const unique = () => `SYN-${randomUUID().slice(0, 12)}`;

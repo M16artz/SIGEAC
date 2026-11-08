@@ -62,7 +62,7 @@ class ProcessGovernanceControllerTest {
         var assignments = new ProcessAssignmentService(repository, actors, authorization, policy, audit, participants);
         mvc = MockMvcBuilders.standaloneSetup(new ProcessGovernanceController(planning),
                 new ProcessAssignmentController(assignments, planning))
-                .setControllerAdvice(new ProcessExceptionHandler(), new ApiProblemHandler()).build();
+                .setControllerAdvice(new ec.edu.unl.sec.shared.api.ApiResponseAdvice(new com.fasterxml.jackson.databind.ObjectMapper().findAndRegisterModules()), new ProcessExceptionHandler(), new ApiProblemHandler()).build();
     }
 
     @Test void createsTeamsAndMembershipsWithProcessEtagsAndRejectsStaleWrites() throws Exception {
@@ -75,16 +75,16 @@ class ProcessGovernanceControllerTest {
         mvc.perform(post(teams).header("If-Match", "\"1\"").contentType("application/json").content(body))
                 .andExpect(status().isCreated()).andExpect(header().string("ETag", "\"2\""));
         var team = repository.teams(process.id()).getFirst();
-        mvc.perform(get("/teams/" + team.id())).andExpect(status().isOk()).andExpect(jsonPath("$.name").value("Equipo"));
+        mvc.perform(get("/teams/" + team.id())).andExpect(status().isOk()).andExpect(jsonPath("$.data.name").value("Equipo"));
         mvc.perform(post(teams).header("If-Match", "\"1\"").contentType("application/json").content(body))
-                .andExpect(status().isPreconditionFailed()).andExpect(jsonPath("$.code").value("STALE_PROCESS"));
+                .andExpect(status().isPreconditionFailed()).andExpect(jsonPath("$.errors.code").value("STALE_PROCESS"));
         String memberships = "/teams/" + team.id() + "/memberships";
         String input = """
                 {"userId":"%s","roleAssignmentId":"%s","validFrom":"%s","validUntil":"%s"}
                 """.formatted(member, UUID.randomUUID(), from, until);
         mvc.perform(post(memberships).header("If-Match", "\"2\"").contentType("application/json").content(input))
                 .andExpect(status().isCreated()).andExpect(header().string("ETag", "\"3\""));
-        mvc.perform(get(memberships)).andExpect(status().isOk()).andExpect(jsonPath("$.length()").value(1));
+        mvc.perform(get(memberships)).andExpect(status().isOk()).andExpect(jsonPath("$.data.length()").value(1));
         assertThat(repository.teams(process.id())).hasSize(1);
     }
 
@@ -96,7 +96,7 @@ class ProcessGovernanceControllerTest {
         String detail = "/activities/" + activity.id();
         mvc.perform(patch(detail).header("If-Match", "\"2\"").contentType("application/json").content(activityInput("Corregida", "[]")))
                 .andExpect(status().isOk()).andExpect(header().string("ETag", "\"3\""))
-                .andExpect(jsonPath("$.revision").value(1));
+                .andExpect(jsonPath("$.data.revision").value(1));
         mvc.perform(patch(detail).header("If-Match", "\"2\"").contentType("application/json").content(activityInput("Obsoleta", "[]")))
                 .andExpect(status().isPreconditionFailed());
         assertThat(repository.findActivity(activity.id()).orElseThrow().title()).isEqualTo("Corregida");
@@ -110,19 +110,19 @@ class ProcessGovernanceControllerTest {
         var foreign = activity(foreignAssignment, "Ajena");
         as(member);
         mvc.perform(get("/processes/" + process.id() + "/activities")).andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(1)).andExpect(jsonPath("$[0].id").value(own.id().toString()));
+                .andExpect(jsonPath("$.data.length()").value(1)).andExpect(jsonPath("$.data[0].id").value(own.id().toString()));
         mvc.perform(get("/activities/" + own.id())).andExpect(status().isOk());
-        mvc.perform(get("/activities/" + foreign.id())).andExpect(status().isNotFound()).andExpect(jsonPath("$.code").value("PROCESS_NOT_FOUND"));
-        mvc.perform(get("/activities/" + UUID.randomUUID())).andExpect(status().isNotFound()).andExpect(jsonPath("$.code").value("PROCESS_NOT_FOUND"));
+        mvc.perform(get("/activities/" + foreign.id())).andExpect(status().isNotFound()).andExpect(jsonPath("$.errors.code").value("PROCESS_NOT_FOUND"));
+        mvc.perform(get("/activities/" + UUID.randomUUID())).andExpect(status().isNotFound()).andExpect(jsonPath("$.errors.code").value("PROCESS_NOT_FOUND"));
         mvc.perform(patch("/activities/" + own.id()).header("If-Match", "\"1\"")
                 .contentType("application/json").content(activityInput("No permitida", "[]"))).andExpect(status().isNotFound());
         assertThat(repository.findActivity(own.id())).contains(own);
         assertThat(repository.find(process.id()).orElseThrow().revision()).isEqualTo(1);
         as(stranger);
         mvc.perform(get("/processes/" + process.id() + "/activities")).andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.code").value("PROCESS_NOT_FOUND"));
+                .andExpect(jsonPath("$.errors.code").value("PROCESS_NOT_FOUND"));
         mvc.perform(get("/processes/" + UUID.randomUUID() + "/activities")).andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.code").value("PROCESS_NOT_FOUND"));
+                .andExpect(jsonPath("$.errors.code").value("PROCESS_NOT_FOUND"));
     }
 
     @Test void teamActivityAccessRequiresCurrentMembershipAndIndependentPermission() throws Exception {
@@ -167,7 +167,7 @@ class ProcessGovernanceControllerTest {
                 """.formatted(indicator, member, stranger, from, until);
         mvc.perform(post("/processes/" + process.id() + "/assignments").header("If-Match", "\"1\"")
                 .contentType("application/json").content(body))
-                .andExpect(status().isBadRequest()).andExpect(jsonPath("$.code").value("ASSIGNMENT_IDENTITY_CONFLICT"));
+                .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors.code").value("ASSIGNMENT_IDENTITY_CONFLICT"));
         assertThat(repository.activities(process.id())).isEmpty();
         assertThat(repository.assignments(process.id())).hasSize(1);
         assertThat(repository.find(process.id()).orElseThrow().revision()).isEqualTo(1);

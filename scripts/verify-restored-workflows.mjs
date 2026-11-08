@@ -1,3 +1,4 @@
+import {unwrapApiResponse} from './api-response.mjs';
 import {createRequire} from 'node:module';
 import {createHash} from 'node:crypto';
 import {appendFileSync} from 'node:fs';
@@ -15,14 +16,14 @@ try {
   }
   const root = `/api/v1/processes/${processId}`;
   const paths = [root, `${root}/closures`, `${root}/report-versions`, `${root}/findings`];
-  const closures = await contexts[0].get(paths[1]).then(r => r.json());
+  const closures = await contexts[0].get(paths[1]).then(r => r.json().then(unwrapApiResponse));
   assert.equal(closures.totalElements, 2);
-  for (const version of (await contexts[0].get(paths[2]).then(r => r.json())).items)
+  for (const version of (await contexts[0].get(paths[2]).then(r => r.json().then(unwrapApiResponse))).items)
     paths.push(`/api/v1/report-versions/${version.id}`);
   for (const path of paths) {
     const responses = await Promise.all(contexts.map(api => api.get(path)));
     for (const response of responses) assert.equal(response.status(), 200, path);
-    const values = await Promise.all(responses.map(r => r.json()));
+    const values = await Promise.all(responses.map(r => r.json().then(unwrapApiResponse)));
     assert.deepEqual(values[1], values[0], `restored API differs: ${path}`);
   }
   const closure = closures.items.find(c => c.type === 'INTEGRAL_CLOSURE');

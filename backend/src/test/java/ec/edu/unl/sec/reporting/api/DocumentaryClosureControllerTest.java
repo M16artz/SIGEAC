@@ -40,7 +40,7 @@ class DocumentaryClosureControllerTest {
         var mapper=new ObjectMapper().findAndRegisterModules();
         mvc=MockMvcBuilders.standaloneSetup(new DocumentaryClosureController(closures,failures,
                         ()->Optional.of(new CurrentActorPort.Actor(actor,false))))
-                .setControllerAdvice(new ApiProblemHandler(),new ReportingProblemHandler())
+                .setControllerAdvice(new ec.edu.unl.sec.shared.api.ApiResponseAdvice(new com.fasterxml.jackson.databind.ObjectMapper().findAndRegisterModules()), new ApiProblemHandler(),new ReportingProblemHandler())
                 .addFilters(new CorrelationFilter(),new SessionAuthenticationFilter(sessions,new AccessProblemWriter(mapper))).build();
     }
     @AfterEach
@@ -52,7 +52,7 @@ class DocumentaryClosureControllerTest {
                         .contentType(MediaType.APPLICATION_JSON).content(BODY))
                 .andExpect(status().isCreated()).andExpect(header().string("Location","/api/v1/documentary-closures/"+id))
                 .andExpect(header().string("ETag","\""+closure.sha256()+"\""))
-                .andExpect(jsonPath("$.data.state").value("DOCUMENTARY_CLOSED"));
+                .andExpect(jsonPath("$.data.data.state").value("DOCUMENTARY_CLOSED"));
     }
     @Test
     void returnsBlockersAndAuditsTheRejectedBoundaryAttempt() throws Exception {
@@ -60,7 +60,7 @@ class DocumentaryClosureControllerTest {
                 ReportingProblemException.Kind.CONFLICT,"CLOSURE_BLOCKED","Fuentes pendientes.",Map.of("sourceIds","synthetic-source")));
         mvc.perform(post(path()).cookie(cookie()).header("If-Match","\"7\"").header("X-CSRF-TOKEN",CSRF)
                         .contentType(MediaType.APPLICATION_JSON).content(BODY))
-                .andExpect(status().isConflict()).andExpect(jsonPath("$.details.sourceIds").value("synthetic-source"));
+                .andExpect(status().isConflict()).andExpect(jsonPath("$.errors.details.sourceIds").value("synthetic-source"));
         verify(failures).recordAfterRollback(argThat(event -> event.action().equals("DOCUMENTARY_CLOSURE_REJECTED")
                 && event.reasonCode().equals("CLOSURE_BLOCKED") && event.outcome().equals("REJECTED")));
     }
@@ -80,8 +80,8 @@ class DocumentaryClosureControllerTest {
         when(closures.get(id)).thenReturn(closure);
         mvc.perform(get("/documentary-closures/"+id).cookie(cookie())).andExpect(status().isOk())
                 .andExpect(header().string("Cache-Control","no-store"))
-                .andExpect(jsonPath("$.data.snapshotId").value(closure.content().snapshotId().toString()))
-                .andExpect(jsonPath("$.payloadJson").doesNotExist());
+                .andExpect(jsonPath("$.data.data.snapshotId").value(closure.content().snapshotId().toString()))
+                .andExpect(jsonPath("$.data.payloadJson").doesNotExist());
     }
     private String path() { return "/processes/"+process+"/documentary-close"; }
     private Cookie cookie() { return new Cookie(SessionCookie.NAME,"session"); }

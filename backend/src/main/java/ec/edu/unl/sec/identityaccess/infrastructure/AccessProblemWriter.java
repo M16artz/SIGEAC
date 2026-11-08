@@ -26,7 +26,8 @@ public class AccessProblemWriter {
             String detail)
             throws IOException {
         response.setStatus(status.value());
-        response.setContentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE);
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setHeader("Cache-Control", "no-store");
         var body = objectMapper.createObjectNode();
         body.put("type", URI.create("urn:sec-unl:problem:" + code.toLowerCase().replace('_', '-')).toString());
         body.put("title", status.getReasonPhrase());
@@ -37,6 +38,7 @@ public class AccessProblemWriter {
         Object correlation = request.getAttribute(CorrelationFilter.CORRELATION_ATTRIBUTE);
         body.put("correlationId", correlation == null ? "unavailable" : correlation.toString());
         body.putObject("details");
-        objectMapper.writeValue(response.getOutputStream(), body);
+        objectMapper.writeValue(response.getOutputStream(),
+                ec.edu.unl.sec.shared.api.ApiResponse.failure(detail, body));
     }
 }

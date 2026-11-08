@@ -132,6 +132,9 @@ comandos y fixtures se documentan en [sqlite.md](./sqlite.md).
 
 ## Cobertura explícita FR-041–FR-070
 
+**Nota de auditoría 2026-11-06:** esta sección conserva la planificación inicial. Los resultados técnicos posteriores se registran en la matriz de cierre al final; no son una ejecución actual ni aceptación institucional. FR-058 se clasifica en P13–P14 por ser consolidación, según la especificación 005.
+
+
 Las tareas de esta sección pertenecen exclusivamente a `specs/005-complete-evaluation-workflows/tasks.md`. Las historias US1–US10 también pertenecen a 005. Las relaciones son cobertura **de diseño**: las pruebas y resultados de ejecución siguen pendientes.
 
 | Requisito | Historias | Tareas planificadas | Escenarios de aceptación | Criterio de éxito |
@@ -288,8 +291,8 @@ FR corresponden a la matriz canónica 005.
 | P07–P08: FR-016–FR-020, FR-051/052/069 | AC-P07/P08, AC-X16 | PASS: fuentes explícitas, cuatro modalidades, carga/descarga, contenido inválido, remisión inmutable y snapshots tipados |
 | P09–P10: FR-021–FR-024, FR-055 | AC-P09/P10, AC-X06/07 | PASS: decisiones por fuente, auto revisión denegada, rectificación sin borrar historia y sucesoras sin aceptación heredada |
 | P11: FR-029–FR-034, FR-053/054/064/068 | AC-P11, AC-X08/09 | PASS: 75/50, cardinalidad, denominador cero con causas distintas y corte histórico conservado |
-| P12: FR-025–FR-028, FR-056–FR-058 | AC-P12, AC-X10/11 | PASS: juicio manual, cálculo 75/50, entradas verificadas, escala/regla exactas, discrepancias y pérdida de aceptación |
-| P13–P14: FR-059–FR-061 | AC-P13/P14, AC-X12 | PASS: hallazgos y vínculos exactos, consolidaciones, sin promedio arbitrario, devolución, aprobación y nueva corrección |
+| P12: FR-025–FR-028, FR-056–FR-057 | AC-P12, AC-X10/11 | PASS: juicio manual, cálculo 75/50, entradas verificadas, escala/regla exactas, discrepancias y pérdida de aceptación |
+| P13–P14: FR-058–FR-061 | AC-P13/P14, AC-X12 | PASS: hallazgos y vínculos exactos, consolidaciones, sin promedio arbitrario, devolución, aprobación y nueva corrección |
 | P15: FR-062/063 | AC-P15, AC-X13 | PASS: meta/plazo/medio, avances, revisión auditada, vencimiento y bloqueo de verificación sin avances |
 | P16: FR-064–FR-066 | AC-P16, AC-X14/15 | PASS: pendientes bloqueantes, hashes, archivo, reapertura y proceso nuevo sin cambiar el anterior |
 | Recuperación / RNF-011/016; SC-018 | `verify-complete-workflows-restore.ps1`, `verify-restored-workflows.mjs`, `IntegralClosureBytesTest` | [PASS](../../tests/acceptance/results/p01-p16-restore.md): 14 tablas / 30 archivos idénticos, seis respuestas API y descarga autenticada; bytes sellados conservados en PostgreSQL |
