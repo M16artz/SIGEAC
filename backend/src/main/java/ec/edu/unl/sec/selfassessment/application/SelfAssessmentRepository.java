@@ -15,7 +15,7 @@ public interface SelfAssessmentRepository {
     void save(SelfAssessmentProcess process, long expectedRevision);
     Optional<SelfAssessmentProcess> find(UUID id);
     default Optional<SelfAssessmentProcess> findForUpdate(UUID id) { throw new UnsupportedOperationException("Process locking required"); }
-    List<SelfAssessmentProcess> list();
+    List<SelfAssessmentProcess> list(UUID identityId, java.time.Instant at, long offset, int limit);
     void saveAssignment(ProcessAssignment assignment);
     List<ProcessAssignment> assignments(UUID processId);
     void saveTeam(ProcessTeam team);

@@ -37,4 +37,15 @@ describe('ProcessApi concurrency', () => {
     expect(client.post).toHaveBeenCalledWith('processes/p-1/authorizations',command,{'If-Match':'"4"'});
     expect(client.get).toHaveBeenCalledWith('processes/p-1');
   });
+  it('loads subsequent bounded pages so existing selectors keep all visible processes', () => {
+    const firstPage = Array.from({length: 100}, (_, index) => ({...process, id: `p-${index}`}));
+    client.get.mockReturnValueOnce(of(firstPage)).mockReturnValueOnce(of([{...process, id: 'last'}]));
+    let result: readonly ProcessView[] = [];
+    api.list().subscribe(items => result = items);
+    expect(result).toHaveLength(101);
+    expect(result[100].id).toBe('last');
+    expect(client.get.mock.calls).toEqual([
+      ['processes', {page: 0, size: 100}], ['processes', {page: 1, size: 100}]
+    ]);
+  });
 });

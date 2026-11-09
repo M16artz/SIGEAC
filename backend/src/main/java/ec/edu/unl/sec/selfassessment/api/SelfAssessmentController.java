@@ -27,7 +27,10 @@ public class SelfAssessmentController {
     public SelfAssessmentController(SelfAssessmentService service, ProcessTransitionService transitions) {
         this.service = service; this.transitions = transitions;
     }
-    @GetMapping("/processes") public List<SelfAssessmentProcess> list() { return service.list(); }
+    @GetMapping("/processes") public List<SelfAssessmentProcess> list(
+            @RequestParam(defaultValue="0") int page, @RequestParam(defaultValue="100") int size) {
+        return service.list(page,size);
+    }
 
     @PostMapping("/processes")
     public ResponseEntity<SelfAssessmentProcess> create(@Valid @RequestBody ProcessCommand command, HttpServletRequest request) {

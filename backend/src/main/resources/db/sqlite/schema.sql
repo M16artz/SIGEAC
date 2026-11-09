@@ -57,6 +57,7 @@ CREATE TABLE IF NOT EXISTS authentication_attempt (
     id TEXT PRIMARY KEY, subject_key TEXT NOT NULL, source_key TEXT NOT NULL, occurred_at TEXT NOT NULL,
     success INTEGER NOT NULL, correlation_id TEXT NOT NULL
 );
+CREATE INDEX IF NOT EXISTS ix_auth_attempt_subject_date ON authentication_attempt(subject_key,occurred_at DESC);
 CREATE TABLE IF NOT EXISTS institutional_actor (
     id TEXT PRIMARY KEY, identity_id TEXT NOT NULL REFERENCES access_identity(id), actor_type TEXT NOT NULL,
     valid_from TEXT NOT NULL, valid_to TEXT NOT NULL

@@ -16,9 +16,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class JpaIdentityAccessRepository implements IdentityAccessRepository {
     private final JdbcTemplate jdbc;
+    private final String attemptOrder;
 
     public JpaIdentityAccessRepository(JdbcTemplate jdbc) {
         this.jdbc = jdbc;
+        this.attemptOrder = Boolean.TRUE.equals(jdbc.execute(
+                (org.springframework.jdbc.core.ConnectionCallback<Boolean>) connection ->
+                        connection.getMetaData().getDatabaseProductName().contains("SQLite")))
+                ? "rowid" : "attempt_order";
     }
 
     @Override
@@ -41,10 +46,13 @@ public class JpaIdentityAccessRepository implements IdentityAccessRepository {
     @Override
     public long countFailures(String key, Instant since) {
         Long n = jdbc.queryForObject(
-                "select count(*) from authentication_attempt where subject_key=? and occurred_at>=? and not success",
+                "select count(*) from authentication_attempt where subject_key=? and occurred_at>=? and not success"
+                        + " and " + attemptOrder + " > coalesce((select max(" + attemptOrder
+                        + ") from authentication_attempt where subject_key=? and success),0)",
                 Long.class,
                 key,
-                Timestamp.from(since));
+                Timestamp.from(since),
+                key);
         return n == null ? 0 : n;
     }
 

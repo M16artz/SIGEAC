@@ -23,6 +23,14 @@ class SelfAssessmentControllerTest {
         when(service.get(process.id())).thenReturn(process);
         mvc.perform(get("/processes/"+process.id())).andExpect(status().isOk()).andExpect(header().string("ETag","\"0\""));
     }
+    @Test void forwardsBoundedPagination() throws Exception {
+        when(service.list(0,100)).thenReturn(List.of());
+        when(service.list(2,25)).thenReturn(List.of());
+        mvc.perform(get("/processes")).andExpect(status().isOk());
+        mvc.perform(get("/processes").param("page","2").param("size","25")).andExpect(status().isOk());
+        verify(service).list(0,100);
+        verify(service).list(2,25);
+    }
     @Test void missingEtagIs428AndUnquotedEtagIs400WithoutMutation() throws Exception {
         String path="/processes/"+UUID.randomUUID()+"/activate";
         mvc.perform(post(path)).andExpect(status().isPreconditionRequired()).andExpect(jsonPath("$.errors.code").value("PRECONDITION_REQUIRED"));

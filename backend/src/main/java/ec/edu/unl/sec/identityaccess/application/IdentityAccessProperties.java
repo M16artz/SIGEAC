@@ -11,6 +11,12 @@ public class IdentityAccessProperties {
     @NotNull private Duration sessionIdleTimeout=Duration.ofMinutes(30), failedAttemptWindow=Duration.ofMinutes(15);
     @Min(1) private int failedAttemptLimit=5; @Min(10) @Max(16) private int bcryptStrength=12;
     private boolean cookieSecure; @NotBlank private String subjectHmacSecret;
+    @Min(1) private int loginRequestsPerMinute = 60;
+    @Min(1) private int maxConcurrentLogins = 4;
+    public int getLoginRequestsPerMinute(){return loginRequestsPerMinute;}
+    public void setLoginRequestsPerMinute(int v){loginRequestsPerMinute=v;}
+    public int getMaxConcurrentLogins(){return maxConcurrentLogins;}
+    public void setMaxConcurrentLogins(int v){maxConcurrentLogins=v;}
     public Duration getSessionIdleTimeout(){return sessionIdleTimeout;} public void setSessionIdleTimeout(Duration v){sessionIdleTimeout=v;}
     public Duration getFailedAttemptWindow(){return failedAttemptWindow;} public void setFailedAttemptWindow(Duration v){failedAttemptWindow=v;}
     public int getFailedAttemptLimit(){return failedAttemptLimit;} public void setFailedAttemptLimit(int v){failedAttemptLimit=v;}

@@ -1,5 +1,5 @@
 ﻿import {Injectable, inject} from '@angular/core';
-import {Observable, switchMap} from 'rxjs';
+import {EMPTY, Observable, expand, reduce, switchMap} from 'rxjs';
 import {ApiClient} from '../../../core/http/api-client';
 export type ProcessState = 'DRAFT' | 'PREPARATION' | 'ACTIVE' | 'SUSPENDED' | 'DOCUMENTARY_CLOSED' | 'CLOSING' | 'CLOSED' | 'REOPENED';
 export interface ProcessAuthorization {id: string; authorityAssignmentId: string; legalBasis: string; documentReference: string; reason: string; authorizedBy: string; authorizedAt: string}
@@ -19,7 +19,14 @@ export interface ActivityCommand {title: string; indicatorId: string; requiredSo
 @Injectable({providedIn: 'root'})
 export class ProcessApi {
   private readonly api = inject(ApiClient);
-  list(): Observable<readonly ProcessView[]> { return this.api.get('processes'); }
+  list(): Observable<readonly ProcessView[]> {
+    const pageSize = 100;
+    const fetchPage = (page: number) => this.api.get<readonly ProcessView[]>('processes', {page, size: pageSize});
+    return fetchPage(0).pipe(
+      expand((items, index) => items.length === pageSize ? fetchPage(index + 1) : EMPTY, 1),
+      reduce((all, items) => [...all, ...items], [] as readonly ProcessView[])
+    );
+  }
   create(command: unknown): Observable<ProcessView> { return this.api.post('processes', command); }
   get(id: string): Observable<ProcessView> { return this.api.get(`processes/${id}`); }
   teams(id: string): Observable<readonly ProcessTeam[]> { return this.api.get(`processes/${id}/teams`); }
