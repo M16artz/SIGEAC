@@ -63,11 +63,13 @@ public class InMemoryIdentityAccessRepository implements IdentityAccessRepositor
 
     @Override
     public long countFailures(String subjectKey, Instant since) {
-        return attempts.stream()
-                .filter(attempt -> attempt.subject().equals(subjectKey))
-                .filter(attempt -> !attempt.at().isBefore(since))
-                .filter(attempt -> !attempt.success())
-                .count();
+        long failures = 0;
+        for (var attempt : attempts) {
+            if (!attempt.subject().equals(subjectKey)) continue;
+            if (attempt.success()) failures = 0;
+            else if (!attempt.at().isBefore(since)) failures++;
+        }
+        return failures;
     }
 
     @Override

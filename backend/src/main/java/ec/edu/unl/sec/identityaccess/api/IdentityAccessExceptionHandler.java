@@ -24,8 +24,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class IdentityAccessExceptionHandler {
     @ExceptionHandler(SessionService.AuthenticationRejected.class)
     ProblemDetail authenticationRejected(
-            SessionService.AuthenticationRejected exception, HttpServletRequest request) {
+            SessionService.AuthenticationRejected exception, HttpServletRequest request,
+            jakarta.servlet.http.HttpServletResponse response) {
         boolean limited = "AUTHENTICATION_LIMITED".equals(exception.code());
+        if (limited) response.setHeader("Retry-After", "60");
+        else response.setHeader("WWW-Authenticate", "Session realm=\"sec-unl\"");
         return problem(
                 limited ? HttpStatus.TOO_MANY_REQUESTS : HttpStatus.UNAUTHORIZED,
                 exception.code(),

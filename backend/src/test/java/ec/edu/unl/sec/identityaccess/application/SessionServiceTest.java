@@ -118,4 +118,73 @@ class SessionServiceTest {
                 .containsExactly("REJECTED", "REJECTED");
         assertThat(audit.rejected).isEmpty();
     }
+
+    @Test
+    void successfulLoginResetsConsecutiveFailuresEvenAtTheSameTimestamp() {
+        for (int attempt = 0; attempt < 4; attempt++) {
+            assertThatThrownBy(() -> sessions.login("admin", "wrong", "127.0.0.1", UUID.randomUUID()))
+                    .extracting("code").isEqualTo("AUTHENTICATION_FAILED");
+        }
+        sessions.login("admin", TestSupport.ADMIN_PASSWORD, "127.0.0.1", UUID.randomUUID());
+        for (int attempt = 0; attempt < 4; attempt++) {
+            assertThatThrownBy(() -> sessions.login("admin", "wrong", "127.0.0.1", UUID.randomUUID()))
+                    .extracting("code").isEqualTo("AUTHENTICATION_FAILED");
+        }
+        assertThatThrownBy(() -> sessions.login("admin", "wrong", "127.0.0.1", UUID.randomUUID()))
+                .extracting("code").isEqualTo("AUTHENTICATION_LIMITED");
+        clock.advance(Duration.ofMinutes(15).plusMillis(1));
+        assertThat(sessions.login("admin", TestSupport.ADMIN_PASSWORD, "127.0.0.1", UUID.randomUUID())).isNotNull();
+    }
+
+    @Test
+    void globalAdmissionRejectsDifferentAccountsAndSourcesBeforeRepositoryWork() {
+        var properties = TestSupport.properties();
+        properties.setLoginRequestsPerMinute(2);
+        var observed = org.mockito.Mockito.spy(repository);
+        sessions = new SessionService(observed, properties, new IdentityAccessAuditService(audit, clock), clock);
+        for (int attempt = 0; attempt < 2; attempt++) {
+            int number = attempt;
+            assertThatThrownBy(() -> sessions.login("missing-" + number, "wrong", "192.0.2." + number, UUID.randomUUID()))
+                    .extracting("code").isEqualTo("AUTHENTICATION_FAILED");
+        }
+        org.mockito.Mockito.clearInvocations(observed);
+        assertThatThrownBy(() -> sessions.login("another-account", "wrong", "198.51.100.1", UUID.randomUUID()))
+                .extracting("code").isEqualTo("AUTHENTICATION_LIMITED");
+        org.mockito.Mockito.verifyNoInteractions(observed);
+        clock.advance(Duration.ofSeconds(60));
+        assertThatThrownBy(() -> sessions.login("another-account", "wrong", "198.51.100.1", UUID.randomUUID()))
+                .extracting("code").isEqualTo("AUTHENTICATION_FAILED");
+    }
+
+    @Test
+    void boundsConcurrentLoginsAndReleasesAdmissionAfterFailure() throws Exception {
+        var properties = TestSupport.properties();
+        properties.setMaxConcurrentLogins(1);
+        var observed = org.mockito.Mockito.spy(repository);
+        var entered = new java.util.concurrent.CountDownLatch(1);
+        var release = new java.util.concurrent.CountDownLatch(1);
+        org.mockito.Mockito.doAnswer(call -> {
+            entered.countDown();
+            if (!release.await(5,java.util.concurrent.TimeUnit.SECONDS)) throw new AssertionError("Login did not resume");
+            return Optional.empty();
+        }).when(observed).findLogin("first");
+        sessions = new SessionService(observed,properties,new IdentityAccessAuditService(audit,clock),clock);
+        try (var executor = java.util.concurrent.Executors.newSingleThreadExecutor()) {
+            var first = executor.submit(() -> {
+                assertThatThrownBy(() -> sessions.login("first","wrong","192.0.2.1",UUID.randomUUID()))
+                        .extracting("code").isEqualTo("AUTHENTICATION_FAILED");
+            });
+            try {
+                assertThat(entered.await(5,java.util.concurrent.TimeUnit.SECONDS)).isTrue();
+                assertThatThrownBy(() -> sessions.login("second","wrong","192.0.2.2",UUID.randomUUID()))
+                        .extracting("code").isEqualTo("AUTHENTICATION_LIMITED");
+                org.mockito.Mockito.verify(observed,org.mockito.Mockito.never()).findLogin("second");
+            } finally {
+                release.countDown();
+            }
+            first.get(5,java.util.concurrent.TimeUnit.SECONDS);
+            assertThatThrownBy(() -> sessions.login("second","wrong","192.0.2.2",UUID.randomUUID()))
+                    .extracting("code").isEqualTo("AUTHENTICATION_FAILED");
+        }
+    }
 }

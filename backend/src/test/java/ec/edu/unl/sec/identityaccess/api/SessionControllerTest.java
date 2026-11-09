@@ -68,6 +68,7 @@ class SessionControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"username\":\"admin\",\"password\":\"Synthetic-Wrong-2026\"}"))
                 .andExpect(status().isUnauthorized())
+                .andExpect(header().string("WWW-Authenticate", "Session realm=\"sec-unl\""))
                 .andExpect(jsonPath("$.errors.code").value("AUTHENTICATION_FAILED"))
                 .andExpect(jsonPath("$.errors.correlationId").exists())
                 .andReturn()

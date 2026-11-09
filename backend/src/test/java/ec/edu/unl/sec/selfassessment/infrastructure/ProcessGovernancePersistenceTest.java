@@ -46,6 +46,69 @@ class ProcessGovernancePersistenceTest {
     private static final UUID ACTOR = identity("coordinador"), MEMBER = identity("responsable");
     private static final UUID INDICATOR = SyntheticPilotData.INDICATOR_A_ID;
 
+    @ParameterizedTest @MethodSource("databases")
+    void filtersScopeBeforeLimitingAndPagesInStableOrder(String database) throws Exception {
+        try (var f = new Fixture(database)) {
+            var p = f.process;
+            var hidden = new SelfAssessmentProcess(null,p.careerId(),"HIDDEN","Outside process scope",
+                    p.periodStart(),p.periodEnd(),p.modelVersionId(),p.modelVersionNumber(),ProcessState.PREPARATION,
+                    0,ACTOR,p.createdAt().plusSeconds(60),List.of());
+            f.repository.save(hidden,-1);
+            f.jdbc.update("update functional_assignment set process_id=? where identity_id=?",p.id(),ACTOR);
+            assertThat(f.repository.list(ACTOR,FROM,0,1)).containsExactly(p);
+            assertThat(f.repository.list(ACTOR,FROM,1,1)).isEmpty();
+            f.jdbc.update("update functional_assignment set process_id=null where identity_id=?",ACTOR);
+            assertThat(f.repository.list(ACTOR,FROM,0,1)).containsExactly(hidden);
+            assertThat(f.repository.list(ACTOR,FROM,1,1)).containsExactly(p);
+            assertThat(f.repository.list(UUID.randomUUID(),FROM,0,1)).isEmpty();
+            f.jdbc.update("update functional_assignment set revoked_at=? where identity_id=?",java.sql.Timestamp.from(FROM),ACTOR);
+            assertThat(f.repository.list(ACTOR,FROM,0,1)).isEmpty();
+        }
+    }
+
+    @ParameterizedTest @MethodSource("databases")
+    void countsOnlyFailuresAfterTheLastSuccessIncludingEqualTimestamps(String database) throws Exception {
+        try (var f = new Fixture(database)) {
+            var identities = new ec.edu.unl.sec.identityaccess.infrastructure.JpaIdentityAccessRepository(f.jdbc);
+            String subject = "a".repeat(64), other = "b".repeat(64), source = "c".repeat(64);
+            for (int i=0;i<4;i++) identities.recordAttempt(subject,source,FROM,false,UUID.randomUUID());
+            identities.recordAttempt(other,source,FROM,true,UUID.randomUUID());
+            assertThat(identities.countFailures(subject,FROM.minusSeconds(1))).isEqualTo(4);
+            identities.recordAttempt(subject,source,FROM,true,UUID.randomUUID());
+            assertThat(identities.countFailures(subject,FROM.minusSeconds(1))).isZero();
+            for (int i=0;i<5;i++) identities.recordAttempt(subject,source,FROM,false,UUID.randomUUID());
+            assertThat(identities.countFailures(subject,FROM.minusSeconds(1))).isEqualTo(5);
+            assertThat(identities.countFailures(subject,FROM.plusSeconds(1))).isZero();
+            assertThat(f.jdbc.queryForObject("select count(*) from authentication_attempt where subject_key=?",
+                    Long.class,subject)).isEqualTo(10);
+        }
+    }
+
+    @ParameterizedTest @MethodSource("databases")
+    void paginatesIndicatorScopesAndHonorsConflictExceptions(String database) throws Exception {
+        try (var f = new Fixture(database)) {
+            var p = f.process;
+            f.jdbc.update("update functional_assignment set process_id=?,indicator_id=? where identity_id=?",
+                    p.id(),INDICATOR,MEMBER);
+            assertThat(f.repository.list(MEMBER,FROM,0,1)).containsExactly(p);
+            f.jdbc.update("update functional_assignment set indicator_id=? where identity_id=?",UUID.randomUUID(),MEMBER);
+            assertThat(f.repository.list(MEMBER,FROM,0,1)).isEmpty();
+            f.jdbc.update("update functional_assignment set indicator_id=? where identity_id=?",INDICATOR,MEMBER);
+            f.jdbc.update("insert into functional_assignment(id,identity_id,function_id,career_id,process_id,indicator_id,"
+                    + "valid_from,valid_to,granted_by,granted_at,revision) select ?,?,function_id,career_id,process_id,indicator_id,"
+                    + "valid_from,valid_to,granted_by,granted_at,revision from functional_assignment where identity_id=?",
+                    UUID.randomUUID(),MEMBER,identity("revisor"));
+            assertThat(f.repository.list(MEMBER,FROM,0,1)).isEmpty();
+            var identities = new ec.edu.unl.sec.identityaccess.infrastructure.JpaIdentityAccessRepository(f.jdbc);
+            UUID policy = f.jdbc.queryForObject("select id from conflict_policy",(row,index)->JdbcValueSupport.uuid(row,1));
+            identities.createConflictException(new ec.edu.unl.sec.identityaccess.domain.ConflictException(
+                    UUID.randomUUID(),policy,MEMBER,new ec.edu.unl.sec.identityaccess.domain.AuthorizationScope(p.careerId(),p.id(),INDICATOR),
+                    "Synthetic authorized exception",FROM.minusSeconds(1),UNTIL,ACTOR,null));
+            assertThat(f.repository.list(MEMBER,FROM,0,1)).containsExactly(p);
+            assertThat(f.repository.list(MEMBER,UNTIL,0,1)).isEmpty();
+        }
+    }
+
     static Stream<String> databases() {
         return Boolean.parseBoolean(System.getenv().getOrDefault("SEC_RUN_GOVERNANCE_DATABASE_TESTS", "false"))
                 ? Stream.of("sqlite", "postgres") : Stream.of("sqlite");

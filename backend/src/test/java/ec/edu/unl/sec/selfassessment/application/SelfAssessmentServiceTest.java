@@ -1,6 +1,17 @@
 package ec.edu.unl.sec.selfassessment.application;
 import static org.assertj.core.api.Assertions.*;import static org.mockito.Mockito.*;import ec.edu.unl.sec.evaluationmodel.application.*;import ec.edu.unl.sec.identityaccess.application.*;import ec.edu.unl.sec.selfassessment.support.*;import java.time.*;import java.util.*;import org.junit.jupiter.api.Test;
 class SelfAssessmentServiceTest {
+    @Test void rejectsUnboundedPaginationBeforeReadingProcesses() {
+        var repository=mock(SelfAssessmentRepository.class);
+        var service=new SelfAssessmentService(repository,mock(ModelCatalogPort.class),mock(CurrentActorPort.class),
+                mock(AuthorizationPort.class),mock(SelfAssessmentAuditService.class),mock(InstitutionalAuthorityPort.class),
+                mock(CareerAdministrationService.class));
+        for (int[] paging:List.of(new int[]{-1,10},new int[]{0,0},new int[]{0,101},new int[]{Integer.MAX_VALUE,100})) {
+            assertThatThrownBy(()->service.list(paging[0],paging[1])).isInstanceOf(ProcessProblemException.class)
+                    .extracting("code").isEqualTo("INVALID_PAGINATION");
+        }
+        verifyNoInteractions(repository);
+    }
     @Test void unresolvedApplicabilityIsAProcessConflictAndPreservesPreparation() {
         var repo = new InMemorySelfAssessmentRepository();
         UUID actor=UUID.randomUUID(), version=UUID.randomUUID(), career=UUID.randomUUID();

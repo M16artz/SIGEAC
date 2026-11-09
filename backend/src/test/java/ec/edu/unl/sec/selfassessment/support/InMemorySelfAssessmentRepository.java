@@ -32,7 +32,12 @@ public class InMemorySelfAssessmentRepository implements SelfAssessmentRepositor
     }
 
     public Optional<SelfAssessmentProcess> find(UUID id) { return Optional.ofNullable(processes.get(id)); }
-    public List<SelfAssessmentProcess> list() { return List.copyOf(processes.values()); }
+    public List<SelfAssessmentProcess> list(UUID identityId, java.time.Instant at, long offset, int limit) {
+        return processes.values().stream()
+                .sorted(java.util.Comparator.comparing(SelfAssessmentProcess::createdAt).reversed()
+                        .thenComparing(SelfAssessmentProcess::id))
+                .skip(offset).limit(limit).toList();
+    }
     public void saveAssignment(ProcessAssignment assignment) { assigned.add(assignment); }
     public List<ProcessAssignment> assignments(UUID id) {
         return assigned.stream().filter(a -> a.processId().equals(id)).toList();

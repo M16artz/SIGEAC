@@ -83,7 +83,15 @@ public class SelfAssessmentService {
         audit.record(actor.identityId(), correlation, "PROCESS_AUTHORIZATION_RECORDED", changed, "SUCCESS", null);
         return changed;
     }
-    @Transactional(readOnly=true) public List<SelfAssessmentProcess> list(){var current=current();return repository.list().stream().filter(p->allowed(current,p)).map(p->visibleSnapshot(current,p)).toList();}
+    @Transactional(readOnly=true) public List<SelfAssessmentProcess> list() { return list(0,100); }
+    @Transactional(readOnly=true) public List<SelfAssessmentProcess> list(int page, int size) {
+        if (page < 0 || page > Integer.MAX_VALUE / 100 || size < 1 || size > 100)
+            throw problem(ProcessProblemException.Kind.INVALID,"INVALID_PAGINATION","Use page >= 0 y size entre 1 y 100.");
+        var current=current();
+        if (current.technical()) return List.of();
+        return repository.list(current.identityId(),Instant.now(),(long)page*size,size).stream()
+                .filter(p->allowed(current,p)).map(p->visibleSnapshot(current,p)).toList();
+    }
     @Transactional(readOnly=true) public SelfAssessmentProcess get(UUID id){var actor=current();var p=find(id);if(!allowed(actor,p))throw problem(ProcessProblemException.Kind.NOT_FOUND,"PROCESS_NOT_FOUND","El proceso no existe o no estÃ¡ visible.");return visibleSnapshot(actor,p);}
     private CurrentActorPort.Actor current(){return actors.currentActor().orElseThrow(()->problem(ProcessProblemException.Kind.UNAUTHORIZED,"AUTHENTICATION_REQUIRED","Se requiere autenticaciÃ³n."));}
     private boolean manages(CurrentActorPort.Actor actor, SelfAssessmentProcess p) {

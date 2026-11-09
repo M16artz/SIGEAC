@@ -26,6 +26,9 @@ public class AccessProblemWriter {
             String detail)
             throws IOException {
         response.setStatus(status.value());
+        if (status == HttpStatus.UNAUTHORIZED && !response.containsHeader("WWW-Authenticate")) {
+            response.setHeader("WWW-Authenticate", "Session realm=\"sec-unl\"");
+        }
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setHeader("Cache-Control", "no-store");
         var body = objectMapper.createObjectNode();

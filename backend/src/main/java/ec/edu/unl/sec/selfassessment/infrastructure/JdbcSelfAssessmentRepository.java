@@ -68,9 +68,37 @@ public class JdbcSelfAssessmentRepository implements SelfAssessmentRepository {
     }
 
     @Override
-    public List<SelfAssessmentProcess> list() {
-        return jdbc.query("select " + jsonColumn() + " from self_assessment_process order by created_at desc",
-                (result, row) -> decode(result.getString(1)));
+    public List<SelfAssessmentProcess> list(UUID identityId, Instant at, long offset, int limit) {
+        String visibility = """
+                 from self_assessment_process p where exists (
+                  select 1 from functional_assignment a
+                  join access_identity u on u.id=a.identity_id and u.active and u.identity_type='HUMAN'
+                  join process_function f on f.id=a.function_id and f.active
+                  join function_operation o on o.function_id=f.id
+                  left join process_indicator i on i.process_id=p.id
+                    and o.operation_code in ('EVIDENCE_COLLECT','PROGRESS_READ','EVIDENCE_REVIEW','INDICATOR_EVALUATE')
+                  where a.identity_id=? and a.revoked_at is null and a.valid_from<=? and a.valid_to>?
+                    and a.career_id=p.career_id and (a.process_id is null or a.process_id=p.id)
+                    and ((o.operation_code in ('PROCESS_MANAGE','PROCESS_COORDINATE','PROCESS_AUTHORIZE') and a.indicator_id is null)
+                      or (i.indicator_id is not null and (a.indicator_id is null or a.indicator_id=i.indicator_id)))
+                    and not exists (
+                      select 1 from conflict_policy c join functional_assignment b
+                        on b.identity_id=a.identity_id and b.revoked_at is null
+                        and b.valid_from<=? and b.valid_to>? and b.career_id=p.career_id
+                      where c.active and c.valid_from<=? and c.valid_to>?
+                        and ((a.function_id=c.left_function_id and b.function_id=c.right_function_id)
+                          or (a.function_id=c.right_function_id and b.function_id=c.left_function_id))
+                        and not exists (select 1 from conflict_exception e
+                          where e.policy_id=c.id and e.identity_id=a.identity_id and e.revoked_at is null
+                            and e.valid_from<=? and e.valid_to>? and e.career_id=p.career_id
+                            and (e.process_id is null or e.process_id=p.id)
+                            and (e.indicator_id is null or e.indicator_id=i.indicator_id)))
+                 ) order by p.created_at desc,p.id limit ? offset ?
+                """;
+        Timestamp now = Timestamp.from(at);
+        return jdbc.query("select " + jsonColumn() + visibility,
+                (result, row) -> decode(result.getString(1)), identityId, now, now, now, now, now, now, now, now,
+                limit, offset);
     }
 
     @Override
