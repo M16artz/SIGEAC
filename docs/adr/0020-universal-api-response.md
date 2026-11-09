@@ -6,7 +6,7 @@ configuración y comprobación. Esta decisión no se atribuye retrospectivamente
 
 ## Contexto y problema
 
-ACD5 exige `success/message/data/errors/meta`. La API devolvía DTO en éxitos,
+El contrato de respuesta requiere `success/message/data/errors/meta`. La API devolvía DTO en éxitos,
 Problem Details en errores y distintas formas de paginación. Los errores de
 seguridad ocurren antes de los controladores. Cambiar solo los DTO dejaría
 respuestas incompatibles y rompería consumidores.
@@ -61,7 +61,7 @@ de autenticación sin afirmar que se haya conectado un proveedor institucional.
 ## Trazabilidad y verificación
 
 Requisitos relacionados: FR-001/FR-002 de acceso, FR-043 de carreras y el contrato
-de respuesta solicitado en ACD5. Arquitectura: monolito existente, filtros de
+de respuesta común. Arquitectura: monolito existente, filtros de
 seguridad, capa HTTP común y gateway de entrada configurable.
 
 Consultar [contrato y operación](../api/response-contract.qmd) y las pruebas

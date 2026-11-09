@@ -8,7 +8,7 @@ SIGEAC es una aplicación web para gestionar procesos de autoevaluación de carr
 
 ## 2. Aplicación web
 
-### Estado para la revisión ACD5 — 2026-11-08
+### Estado de implementación — 2026-11-08
 
 La presencia de una pantalla no prueba por sí sola el cierre de una feature.
 La clasificación siguiente separa el flujo demostrado de los incrementos que
@@ -29,9 +29,6 @@ conservan evidencia histórica o aspectos institucionales pendientes.
 | Contrato objetivo v2 completo | especificada pero no implementada | Contrato 005 separa rutas vigentes de objetivos; no confundir YAML con disponibilidad. |
 | Competencias, vigencia normativa y designaciones | pendiente de clarificación | CL y decisiones institucionales en especificaciones; fixtures sintéticos no las resuelven. |
 | Integraciones institucionales y evaluación externa | prevista para un incremento posterior | Contratos y límite de paquete; no se afirma intercambio externo operativo. |
-
-La guía de [ACD5](docs/activities/acd5.qmd) relaciona esta clasificación con
-evidencias, demostración, observaciones y participación individual.
 
 Frontend Angular ubicado en `frontend/`. Las rutas descritas abajo corresponden a las vistas disponibles en la aplicación.
 

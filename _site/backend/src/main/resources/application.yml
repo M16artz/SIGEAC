@@ -50,6 +50,8 @@ sec:
     session-idle-timeout: PT30M
     failed-attempt-window: PT15M
     failed-attempt-limit: 5
+    login-requests-per-minute: ${SEC_LOGIN_REQUESTS_PER_MINUTE:60}
+    max-concurrent-logins: ${SEC_MAX_CONCURRENT_LOGINS:4}
     bcrypt-strength: 12
     cookie-secure: ${SEC_COOKIE_SECURE:false}
     subject-hmac-secret: ${SEC_AUTH_HMAC_SECRET:${random.value}}

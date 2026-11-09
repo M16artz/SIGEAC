@@ -37,7 +37,6 @@ website:
           - docs/audit/backend.qmd
           - docs/audit/api.qmd
           - docs/api/response-contract.qmd
-          - docs/activities/acd5.qmd
           - docs/audit/testing.qmd
           - docs/audit/operation.qmd
           - docs/audit/evolution.qmd
