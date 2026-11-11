@@ -15,18 +15,20 @@ export interface EvidenceIndicatorOption {
   template: `
     <fieldset [formGroup]="form">
       <legend>Datos de la evidencia</legend>
-      <label for="evidence-process">Proceso</label>
-      <input id="evidence-process" formControlName="processId" (change)="processSelected.emit(processValue())" required>
-      <label for="evidence-title">Título</label>
-      <input id="evidence-title" formControlName="title" maxlength="300" required>
-      <label for="evidence-description">Descripción</label>
-      <textarea id="evidence-description" formControlName="description" maxlength="8000" required></textarea>
-      <label for="evidence-provenance">Procedencia</label>
-      <textarea id="evidence-provenance" formControlName="provenance" maxlength="4000" required></textarea>
-      <label for="evidence-from">Desde</label>
-      <input id="evidence-from" type="date" formControlName="coveredFrom" required>
-      <label for="evidence-to">Hasta</label>
-      <input id="evidence-to" type="date" formControlName="coveredTo" required>
+      <div class="sigeac-form-grid">
+      <div class="sigeac-form-field"><label for="evidence-process">Proceso</label>
+      <input id="evidence-process" formControlName="processId" (change)="processSelected.emit(processValue())" required></div>
+      <div class="sigeac-form-field"><label for="evidence-title">Título</label>
+      <input id="evidence-title" formControlName="title" maxlength="300" required></div>
+      <div class="sigeac-form-field sigeac-form-wide"><label for="evidence-description">Descripción</label>
+      <textarea id="evidence-description" formControlName="description" maxlength="8000" required></textarea></div>
+      <div class="sigeac-form-field sigeac-form-wide"><label for="evidence-provenance">Procedencia</label>
+      <textarea id="evidence-provenance" formControlName="provenance" maxlength="4000" required></textarea></div>
+      <div class="sigeac-form-field"><label for="evidence-from">Desde</label>
+      <input id="evidence-from" type="date" formControlName="coveredFrom" required></div>
+      <div class="sigeac-form-field"><label for="evidence-to">Hasta</label>
+      <input id="evidence-to" type="date" formControlName="coveredTo" required></div>
+      </div>
     </fieldset>
     <fieldset>
       <legend>Indicadores</legend>

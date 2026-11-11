@@ -7,21 +7,19 @@
   Saltar al contenido principal
 </a>
 
+<div class="h-screen w-full overflow-hidden bg-institutional-bg">
+  <div class="relative h-full w-full">
 
-<div class="h-dvh overflow-hidden bg-institutional-bg p-3 sm:p-5">
-  <div class="relative mx-auto h-full w-full max-w-[1800px]">
+    <!-- PANEL PRINCIPAL -->
+    <main
+      #mainContent
+      id="main-content"
+      tabindex="-1"
+      class="main-panel absolute inset-0 z-0 flex h-full min-h-0 w-full flex-col overflow-hidden bg-institutional-bg"
+      [class.main-panel--with-sidebar]="!isLogin()"
+    >
 
-  >
-    <!-- PANEL PRINCIPAL BLANCO -->
-    
-      <main
-        #mainContent
-        id="main-content"
-        tabindex="-1"
-        class="main-panel absolute inset-0 z-0 flex h-full min-h-0 w-full flex-col overflow-hidden rounded-[26px] bg-white"
-        [class.main-panel--with-sidebar]="!isLogin()"
-      >
-
+      <!-- RUTA SUPERIOR -->
       @if (!isLogin()) {
         <div class="flex items-center gap-3 px-5 pt-5 sm:px-8 lg:px-10">
           <button
@@ -57,16 +55,13 @@
         </div>
       }
 
-      <!-- CONTENIDO DE LAS VISTAS -->
-      
+      <!-- CONTENIDO PRINCIPAL -->
       <div
         class="main-scroll min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-5 pb-8 pt-4 sm:px-8 lg:px-10"
       >
         <router-outlet />
       </div>
 
-
-      
     </main>
 
     <!-- NAVEGACION LATERAL -->
@@ -83,25 +78,21 @@
       }
 
       <aside
-        
-        class="app-sidebar fixed inset-y-0 left-0 z-50 flex w-[min(92vw,365px)] bg-institutional-blue lg:absolute lg:inset-y-0 lg:left-0 lg:z-20 lg:w-[365px]"
+        class="app-sidebar fixed inset-y-0 left-0 z-50 flex w-[min(92vw,365px)] bg-white lg:absolute lg:inset-y-0 lg:left-0 lg:z-20 lg:w-[365px]"
         [class.app-sidebar--open]="mobileOpen()"
         aria-label="Navegación principal"
       >
 
         <!-- PRIMERA COLUMNA: MODULOS -->
         <nav
-          
-          class="module-rail relative z-10 flex w-[72px] shrink-0 flex-col items-center justify-start gap-7 bg-[#063a61] py-8"
+          class="module-rail relative z-10 flex w-[72px] shrink-0 flex-col items-center justify-start gap-7 bg-institutional-blue py-8"
           aria-label="Módulos"
         >
 
           @for (module of modules(); track module.id) {
             <button
               type="button"
-              
               class="module-item relative grid h-[56px] w-full shrink-0 place-items-center transition-colors"
-
               [class.module-item--active]="activeModule()?.id === module.id"
               [attr.aria-pressed]="activeModule()?.id === module.id"
               [attr.aria-label]="module.label"
@@ -109,10 +100,8 @@
               (click)="openModule(module)"
             >
 
-              <!-- PESTANA BLANCA DEL MODULO ACTIVO -->
+              <!-- PESTAÑA BLANCA CURVA -->
               @if (activeModule()?.id === module.id) {
-
-              
                 <svg
                   class="module-tab"
                   viewBox="0 0 76 100"
@@ -134,8 +123,6 @@
                     fill="#ffffff"
                   />
                 </svg>
-
-
               }
 
               <!-- ICONO DEL MODULO -->
@@ -160,13 +147,14 @@
         <!-- SEGUNDA COLUMNA: SUBMENU -->
         <div class="flex min-h-0 min-w-0 flex-1 flex-col">
 
-          <!-- LOGO -->
+          <!-- LOGO INSTITUCIONAL -->
           <div
             class="relative flex shrink-0 flex-col items-center px-4 pb-4 pt-7"
           >
+            <!-- CERRAR MENU EN MOVIL -->
             <button
               type="button"
-              class="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-lg text-white/70 transition hover:bg-white/10 hover:text-white lg:hidden"
+              class="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-lg text-institutional-blue transition hover:bg-institutional-blue/10 lg:hidden"
               (click)="mobileOpen.set(false)"
               aria-label="Cerrar navegación"
             >
@@ -183,19 +171,16 @@
               </svg>
             </button>
 
-            <p
-              class="text-center text-[2.15rem] font-semibold leading-none tracking-tight text-white"
-            >
-              evaluar<span class="text-institutional-red">.</span>
-            </p>
+            <!-- IMAGEN ORIGINAL EVALUAR -->
+            <img
+              src="/images/logo-evaluar.png"
+              alt="Logo evaluar"
+              class="block h-auto w-full max-w-[175px] object-contain"
+            />
 
-            <p
-              class="mt-2 text-center text-[0.75rem] font-semibold uppercase tracking-[0.38em] text-white/60"
-            >
-              SIGEAC
-            </p>
-
-            <div class="mt-5 h-px w-full bg-white/15"></div>
+            <div
+              class="mt-5 h-px w-full bg-institutional-blue/15"
+            ></div>
           </div>
 
           <!-- OPCIONES DEL MODULO ACTIVO -->
@@ -206,15 +191,14 @@
             @if (activeModule(); as module) {
 
               <p
-                class="px-3 pb-2 text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-white/45"
+                class="px-3 pb-2 text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-institutional-blue/65"
               >
                 {{ module.label }}
               </p>
 
               @for (item of module.items; track item.path) {
                 <a
-                  
-                  class="submenu-link group relative mb-1 flex min-h-[45px] items-center gap-2.5 rounded-xl px-3 py-2 text-[0.95rem] font-medium text-white/80 transition-colors hover:bg-white/10 hover:text-white"
+                  class="submenu-link group relative mb-1 flex min-h-[45px] items-center gap-2.5 rounded-xl px-3 py-2 text-[0.95rem] font-medium text-institutional-blue/85 transition-colors hover:bg-institutional-blue/[0.06] hover:text-institutional-blue"
                   [routerLink]="item.path"
                   routerLinkActive="submenu-link--active"
                   [routerLinkActiveOptions]="{ exact: true }"
@@ -222,6 +206,7 @@
                   [title]="item.label"
                   (click)="mobileOpen.set(false)"
                 >
+
                   <svg
                     viewBox="0 0 24 24"
                     fill="none"
@@ -230,12 +215,14 @@
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     aria-hidden="true"
-                    class="h-[18px] w-[18px] shrink-0 text-white/70 group-hover:text-white"
+                    class="h-[18px] w-[18px] shrink-0 text-institutional-blue/65 group-hover:text-institutional-blue"
                   >
                     <path [attr.d]="item.icon" />
                   </svg>
 
-                  <span class="min-w-0 flex-1 whitespace-normal break-words leading-snug">
+                  <span
+                    class="min-w-0 flex-1 whitespace-normal break-words leading-snug"
+                  >
                     {{ item.label }}
                   </span>
 
@@ -245,34 +232,35 @@
             }
           </nav>
 
-          <!-- PERFIL DEL USUARIO -->
+          <!-- PERFIL INFERIOR DEL USUARIO -->
           <div
-            class="sidebar-profile relative shrink-0 border-t border-white/10 p-3"
+            class="sidebar-profile relative shrink-0 border-t border-institutional-blue/10 p-3"
           >
             <button
               type="button"
-              class="flex w-full items-center gap-3 rounded-2xl px-2 py-2 text-left transition hover:bg-white/10"
+              class="flex w-full items-center gap-3 rounded-2xl px-2 py-2 text-left transition hover:bg-institutional-blue/[0.06]"
               (click)="profileOpen.set(!profileOpen())"
               [attr.aria-expanded]="profileOpen()"
               aria-haspopup="menu"
             >
+
               <!-- AVATAR -->
               <span
-                class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/15 text-sm font-semibold uppercase text-white ring-1 ring-white/25"
+                class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-institutional-blue text-sm font-semibold uppercase text-white ring-1 ring-institutional-blue/10"
               >
                 {{ initials() }}
               </span>
 
-              <!-- INFORMACION -->
+              <!-- NOMBRE Y ROL -->
               <span class="min-w-0 flex-1">
                 <span
-                  class="block truncate text-[0.9rem] font-semibold text-white"
+                  class="block truncate text-[0.9rem] font-semibold text-institutional-blue"
                 >
                   {{ session.identity()?.displayName ?? 'Sesión no iniciada' }}
                 </span>
 
                 <span
-                  class="block truncate text-[0.72rem] text-white/60"
+                  class="block truncate text-[0.72rem] text-institutional-blue/60"
                 >
                   {{ roleLabel() || 'Sin rol asignado' }}
                 </span>
@@ -286,18 +274,19 @@
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 aria-hidden="true"
-                class="h-4 w-4 shrink-0 text-white/60"
+                class="h-4 w-4 shrink-0 text-institutional-blue/60"
               >
                 <path d="m6 9 6 6 6-6" />
               </svg>
             </button>
 
-            <!-- MENU DE PERFIL -->
+            <!-- MENU DESPLEGABLE DEL PERFIL -->
             @if (profileOpen()) {
               <div
                 class="absolute bottom-full left-3 right-3 z-30 mb-2 overflow-hidden rounded-2xl bg-white p-1 shadow-xl ring-1 ring-slate-900/5"
                 role="menu"
               >
+
                 <a
                   routerLink="/access"
                   class="block rounded-xl px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
@@ -315,6 +304,7 @@
                 >
                   Cerrar sesión
                 </button>
+
               </div>
             }
 

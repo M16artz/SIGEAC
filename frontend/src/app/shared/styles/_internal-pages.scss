@@ -1,0 +1,209 @@
+/* Opt-in: solo las vistas migradas; no alcanza al layout ni al login. */
+#main-content .sigeac-page {
+  min-width: 0;
+  margin: 0;
+
+  .sigeac-page-header,
+  .sigeac-page-body {
+    min-width: 0;
+    padding: clamp(1.25rem, 2.5vw, 2rem);
+    border: 1px solid #e5edf6;
+    border-radius: 1.5rem;
+    background: #fff;
+    box-shadow: 0 22px 50px -34px rgba(8, 72, 120, .32),
+      0 8px 20px -16px rgba(8, 72, 120, .14);
+  }
+
+  .sigeac-page-header { margin-bottom: 1.5rem; }
+  .sigeac-page-body { margin-bottom: 0; }
+
+  .sigeac-page-header h1,
+  .sigeac-page-header h2 {
+    margin: 1rem 0 .75rem;
+    color: #084878;
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -.03em;
+    overflow-wrap: anywhere;
+  }
+
+  .sigeac-page-header p { max-width: 48rem; margin: 0; }
+  .sigeac-page-header > .sigeac-badge {
+    padding: .375rem .75rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  .sigeac-page-body :is(section, article, form, details) {
+    min-width: 0;
+    margin: 1.5rem 0;
+    padding: 1.25rem;
+    border: 1px solid #e5edf6;
+    border-radius: 1.5rem;
+    background: #fff;
+  }
+
+  .sigeac-page-body :is(h3, h4, h5) {
+    color: #084878;
+    font-family: var(--font-accent);
+  }
+
+  .sigeac-page-body h3 {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    &::before {
+      content: '';
+      width: 2.5rem;
+      height: 2.5rem;
+      flex: none;
+      border-radius: 1rem;
+      background: #eaf2fa url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23084878' stroke-width='1.7' stroke-linecap='round'%3E%3Cpath d='M5 6h14M5 12h14M5 18h14'/%3E%3C/svg%3E") center no-repeat;
+    }
+  }
+
+  .sigeac-page-body :is(section, article, form) > :is(h3, h4, h5):first-child {
+    margin-top: 0;
+  }
+
+  input, select, textarea { box-sizing: border-box; min-width: 0; }
+  input:not([type=checkbox]):not([type=radio]), select, textarea {
+    display: block;
+    margin-bottom: 1rem;
+    padding: .625rem .75rem;
+    border-radius: .75rem;
+  }
+
+  input[type=checkbox], input[type=radio] {
+    width: 1rem;
+    height: 1rem;
+    margin: 0 .5rem 0 0;
+    padding: 0;
+    accent-color: #084878;
+    vertical-align: middle;
+  }
+
+  fieldset {
+    min-width: 0;
+    margin: 1.25rem 0;
+    padding: 1rem;
+    border: 1px solid #e5edf6;
+    border-radius: 1rem;
+  }
+  legend { padding: 0 .5rem; color: #084878; font-weight: 600; }
+  button { min-height: 2.75rem; border-radius: .75rem; }
+  :is(button, a, input, select, textarea, summary, .sigeac-table-scroll):focus-visible {
+    outline: 3px solid #084878;
+    outline-offset: 3px;
+  }
+  button:disabled:hover { background: #084878; }
+  button:is([data-remove-file], [data-remove-reference], [data-remove-coverage]) {
+    border-color: #f1c9cc;
+    background: #fdf2f2;
+    color: #b7353e;
+    &:hover:not(:disabled) { background: #fbe6e7; }
+  }
+  summary { cursor: pointer; color: #084878; font-weight: 600; }
+  nav { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; margin-top: 1rem; }
+  ul, ol { padding-left: 1.25rem; }
+  li { padding: .5rem 0; }
+  p, li, dd, code { overflow-wrap: anywhere; }
+  dl { padding: 1rem; border-radius: 1rem; background: #eaf2fa; }
+  dt { color: #084878; font-weight: 600; }
+  dd { margin: .25rem 0 1rem; }
+  [role=alert] { color: #b7353e; }
+
+  .sigeac-table-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border: 1px solid #e5edf6;
+    border-radius: 1rem;
+  }
+  table { min-width: 40rem; margin: 0; }
+  caption { padding: 1rem; }
+  thead th { padding: 1rem; background: #eaf2fa; color: #084878; }
+  tbody :is(th, td) { padding: 1rem; }
+
+  /* Opt-in para formularios reorganizados; no afecta a los grids aprobados. */
+  .sigeac-form-layout { container: sigeac-form / inline-size; }
+  .sigeac-form-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 1rem 1.25rem;
+  }
+  .sigeac-form-field {
+    display: grid;
+    align-content: start;
+    gap: .375rem;
+    min-width: 0;
+
+    label { margin: 0; font-size: .875rem; line-height: 1.5; }
+    input:not([type=checkbox]):not([type=radio]), select, textarea {
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      font-size: .875rem;
+      line-height: 1.5;
+    }
+    input:not([type=checkbox]):not([type=radio]), select { min-height: 2.75rem; }
+    textarea { resize: vertical; }
+    p { margin: 0; font-size: .8125rem; }
+  }
+  .sigeac-form-wide,
+  .sigeac-form-grid > :is(h3, h4, h5, p, fieldset, .sigeac-form-actions) {
+    grid-column: 1 / -1;
+  }
+  .sigeac-form-grid > :is(p, h3, h4, h5, fieldset) { margin: 0; }
+  .sigeac-form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: .5rem;
+    button { margin: 0; font-size: .875rem; }
+  }
+  .sigeac-form-check {
+    display: flex;
+    align-items: center;
+    gap: .625rem;
+    label { margin: 0; font-size: .875rem; }
+    input[type=checkbox] { order: -1; flex: none; margin: 0; }
+  }
+  .sigeac-form-field > label:has(input:not([type=checkbox])) {
+    display: grid;
+    gap: .375rem;
+  }
+  .sigeac-form-search {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: .75rem;
+    .sigeac-form-field { flex: 1 1 15rem; }
+    button { flex: 0 1 auto; margin: 0; }
+  }
+  @container sigeac-form (min-width: 34rem) {
+    .sigeac-form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @container sigeac-form (min-width: 54rem) {
+    .sigeac-form-grid--three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  &.sigeac-page--balanced {
+    table { min-width: 36rem; font-size: .875rem; }
+    thead th { font-size: .8125rem; letter-spacing: .03em; }
+    tbody :is(th, td) { padding: .75rem 1rem; vertical-align: middle; }
+    table:has(tbody td:last-child button) {
+      th:last-child, td:last-child { width: 1%; white-space: nowrap; }
+    }
+    nav { justify-content: flex-end; font-size: .875rem; }
+  }
+
+  @media (max-width: 640px) {
+    .sigeac-page-body :is(section, article, form, details) { padding: 1rem; }
+    button { max-width: 100%; white-space: normal; }
+  }
+}

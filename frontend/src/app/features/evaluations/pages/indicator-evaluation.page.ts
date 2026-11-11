@@ -20,20 +20,26 @@ import {AcademicEvaluationApi, ManualEvaluationView} from '../data-access/academ
     nav { background: transparent; padding: 1rem 0; color: inherit; } nav span { margin: 0 .5rem; }
   `],
   template: `
-    <section aria-labelledby="evaluation-title">
+    <div class="sigeac-page sigeac-page--balanced">
+    <header class="sigeac-page-header">
+      <span class="sigeac-badge">Valoración académica</span>
       <h2 id="evaluation-title">Valoración académica manual</h2>
       <p>La aceptación documental habilita sustentos; el juicio académico requiere una valoración independiente.
         Este registro apoya la autoevaluación y no constituye acreditación.</p>
-      <label for="evaluation-process">Proceso</label>
+    </header>
+    <section class="sigeac-page-body" aria-labelledby="evaluation-title">
+      <div class="sigeac-form-layout"><div class="sigeac-form-grid">
+      <div class="sigeac-form-field"><label for="evaluation-process">Proceso</label>
       <select id="evaluation-process" [ngModel]="processId" (ngModelChange)="selectProcess($event)" [disabled]="saving()">
         <option value="">Seleccione un proceso</option>
         @for (p of processes(); track p.id) { <option [value]="p.id">{{p.code}} · {{p.name}}</option> }
-      </select>
-      <label for="evaluation-indicator">Indicador</label>
+      </select></div>
+      <div class="sigeac-form-field"><label for="evaluation-indicator">Indicador</label>
       <select id="evaluation-indicator" [ngModel]="indicatorId" (ngModelChange)="selectIndicator($event)" [disabled]="saving()">
         <option value="">Seleccione un indicador</option>
         @for (i of indicators(); track i.id) { <option [value]="i.id">{{i.code}} · {{i.name}}</option> }
-      </select>
+      </select></div>
+      </div></div>
       @if (loading()) { <p role="status">Consultando valoraciones…</p> }
       @if (error()) { <p role="alert">{{error()}}</p> }
       @if (message()) { <p role="status">{{message()}}</p> }
@@ -42,24 +48,25 @@ import {AcademicEvaluationApi, ManualEvaluationView} from '../data-access/academ
         <p>Método de la versión publicada: {{v.method}}</p>
         <p>Modelo: {{v.modelVersionId}} · Estado del proceso: {{v.processState}}</p>
         @if (editable(v)) {
-          <form (ngSubmit)="save()">
-            <label for="evaluation-rating">Resultado según escala del indicador</label>
+          <form (ngSubmit)="save()" class="sigeac-form-layout"><div class="sigeac-form-grid">
+            <div class="sigeac-form-field"><label for="evaluation-rating">Resultado según escala del indicador</label>
             <select id="evaluation-rating" name="rating" [(ngModel)]="ratingOptionId" required [disabled]="saving()">
               <option value="">Seleccione una opción</option>
               @for (option of v.ratingOptions; track option.id) { <option [value]="option.id">{{option.label}}</option> }
-            </select>
+            </select></div>
             <fieldset [disabled]="saving()">
               <legend>Versiones aceptadas que sustentan este juicio</legend>
               @for (version of versions(); track version) {
                 <label><input type="checkbox" [checked]="selected.includes(version)" (change)="toggle(version)" /> {{supportTitle(v, version)}} · {{version}}</label>
               } @empty { <p>No hay sustentos documentales aceptados y vigentes.</p> }
             </fieldset>
-            <label for="evaluation-justification">Justificación</label>
-            <textarea id="evaluation-justification" name="justification" [(ngModel)]="justification" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea>
-            <label for="evaluation-limitations">Limitaciones y método aplicado</label>
-            <textarea id="evaluation-limitations" name="limitations" [(ngModel)]="limitations" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea>
+            <div class="sigeac-form-field"><label for="evaluation-justification">Justificación</label>
+            <textarea id="evaluation-justification" name="justification" [(ngModel)]="justification" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea></div>
+            <div class="sigeac-form-field"><label for="evaluation-limitations">Limitaciones y método aplicado</label>
+            <textarea id="evaluation-limitations" name="limitations" [(ngModel)]="limitations" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea></div>
             <p>Revisión propia: {{v.ownRevision}}. Guardar conserva el juicio anterior y crea una nueva revisión propia.</p>
-            <button type="submit" [disabled]="saving() || !valid()">Guardar valoración manual</button>
+            <div class="sigeac-form-actions"><button type="submit" [disabled]="saving() || !valid()">Guardar valoración manual</button></div>
+            </div>
           </form>
         } @else { <p>El proceso permite únicamente consultar el historial académico.</p> }
         <h3>Historial de juicios conservados</h3>
@@ -84,6 +91,7 @@ import {AcademicEvaluationApi, ManualEvaluationView} from '../data-access/academ
         </nav>
       }
     </section>
+    </div>
   `
 })
 export class IndicatorEvaluationPage implements OnInit, OnDestroy {

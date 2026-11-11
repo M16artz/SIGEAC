@@ -12,11 +12,15 @@ import {DocumentaryClosurePage, DocumentaryClosureView, ReportingApi} from '../d
   selector: 'sec-documentary-closure', standalone: true,
   imports: [DatePipe, FormsModule, RouterLink], changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section aria-labelledby="documentary-closure-title">
+    <div class="sigeac-page sigeac-page--balanced">
+    <header class="sigeac-page-header">
+      <span class="sigeac-badge">Seguimiento documental</span>
       <h2 id="documentary-closure-title">Cierre de fase documental</h2>
-      <p><a routerLink="/reporting">Consultar avance documental</a></p>
       <p>El cierre estricto exige aceptación suficiente de las fuentes obligatorias aplicables y archivos íntegros.
         Finaliza la recepción y revisión ordinarias. Las correcciones posteriores requieren reapertura autorizada.</p>
+    </header>
+    <section class="sigeac-page-body" aria-labelledby="documentary-closure-title">
+      <p><a routerLink="/reporting">Consultar avance documental</a></p>
       <label for="closure-process">Proceso</label>
       <select id="closure-process" [ngModel]="processId" (ngModelChange)="selectProcess($event)" [disabled]="closing()">
         <option value="">Seleccione un proceso</option>
@@ -29,16 +33,18 @@ import {DocumentaryClosurePage, DocumentaryClosureView, ReportingApi} from '../d
       @if (message()) { <p role="status">{{message()}}</p> }
       @if (current(); as process) {
         @if (process.state === 'ACTIVE') {
-          <form (ngSubmit)="close()">
-            <label for="closure-reason">Motivo del cierre</label>
-            <textarea id="closure-reason" name="reason" [(ngModel)]="reason" minlength="10" maxlength="2000" required [disabled]="closing()"></textarea>
-            <button type="submit" [disabled]="closing() || reason.trim().length < 10">Finalizar fase documental</button>
+          <form (ngSubmit)="close()" class="sigeac-form-layout"><div class="sigeac-form-grid">
+            <div class="sigeac-form-field sigeac-form-wide"><label for="closure-reason">Motivo del cierre</label>
+            <textarea id="closure-reason" name="reason" [(ngModel)]="reason" minlength="10" maxlength="2000" required [disabled]="closing()"></textarea></div>
+            <div class="sigeac-form-actions"><button type="submit" [disabled]="closing() || reason.trim().length < 10">Finalizar fase documental</button></div>
+            </div>
           </form>
         } @else {
           <p>El proceso debe estar activo para registrar un nuevo cierre documental.</p>
         }
       }
       @if (history(); as page) {
+        <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Cierres documentales conservados">
         <table>
           <caption>Cierres documentales conservados</caption>
           <thead><tr><th scope="col">Fecha</th><th scope="col">Motivo</th><th scope="col">Acción</th></tr></thead>
@@ -49,6 +55,7 @@ import {DocumentaryClosurePage, DocumentaryClosureView, ReportingApi} from '../d
             }
           </tbody>
         </table>
+        </div>
         <nav aria-label="Páginas de cierres">
           <button type="button" [disabled]="page.page === 0 || closing()" (click)="load(page.page - 1)">Anterior</button>
           <span>Página {{page.page + 1}}</span>
@@ -66,6 +73,7 @@ import {DocumentaryClosurePage, DocumentaryClosureView, ReportingApi} from '../d
         </section>
       }
     </section>
+    </div>
   `
 })
 export class DocumentaryClosurePageComponent implements OnInit, OnDestroy {

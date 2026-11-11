@@ -1,78 +1,3 @@
-
-:host {
-  display: block;
-}
-
-/* ========================================
-   PANEL PRINCIPAL BLANCO
-======================================== */
-
-.main-panel {
-  box-shadow:
-    0 18px 40px rgba(8, 72, 120, 0.12),
-    0 6px 18px rgba(8, 72, 120, 0.08);
-}
-
-/* Espacio para la barra lateral en escritorio */
-@media (min-width: 1024px) {
-  .main-panel--with-sidebar {
-    padding-left: 22.5rem;
-  }
-}
-
-/* ========================================
-   BARRA LATERAL GENERAL
-======================================== */
-
-.app-sidebar {
-  transform: translateX(-105%);
-  pointer-events: none;
-  overflow: hidden;
-  border-radius: 0 2rem 2rem 0;
-
-  box-shadow:
-    0 18px 36px rgba(8, 72, 120, 0.20),
-    0 6px 14px rgba(8, 72, 120, 0.10);
-
-  transition: transform 220ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.app-sidebar--open {
-  transform: translateX(0);
-  pointer-events: auto;
-}
-
-@media (min-width: 1024px) {
-  .app-sidebar {
-    transform: none;
-    pointer-events: auto;
-    border-radius: 2rem;
-
-    box-shadow:
-      0 20px 42px rgba(8, 72, 120, 0.18),
-      0 8px 18px rgba(8, 72, 120, 0.10);
-  }
-}
-
-/* ========================================
-   PRIMERA COLUMNA DE MODULOS
-======================================== */
-
-.module-rail {
-  gap: 1.1rem;
-  overflow: visible;
-
-  background: linear-gradient(
-    180deg,
-    #1164a6 0%,
-    #0b5a95 100%
-  );
-
-  box-shadow:
-    inset -1px 0 0 rgba(255, 255, 255, 0.05),
-    4px 0 12px rgba(3, 35, 65, 0.08);
-}
-
 /* ========================================
    BOTONES DE LOS MODULOS
 ======================================== */
@@ -156,13 +81,14 @@
 ======================================== */
 
 .submenu-link--active {
-  background: rgba(125, 195, 255, 0.18);
+  background: rgba(8, 72, 120, 0.095);
+  box-shadow: inset 3px 0 0 #b7353e;
+  color: #084878;
+  font-weight: 650;
+}
 
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.07),
-    0 6px 14px rgba(3, 35, 65, 0.08);
-
-  color: #ffffff;
+.submenu-link--active svg {
+  color: #084878;
 }
 
 /* ========================================
@@ -170,24 +96,32 @@
 ======================================== */
 
 .sidebar-profile {
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  background: #ffffff;
+  box-shadow: inset 0 1px 0 rgba(8, 72, 120, 0.05);
 }
 
 /* ========================================
    PANTALLAS DE POCA ALTURA
 ======================================== */
 
-@media (max-height: 680px) and (min-width: 1024px) {
-  .module-rail {
-    justify-content: flex-start;
-    overflow-y: auto;
-    padding-top: 0.9rem;
-    padding-bottom: 0.9rem;
-    scrollbar-width: none;
+/* ========================================
+   SEPARACION DEL CONTENIDO Y SIDEBAR
+======================================== */
+
+@media (min-width: 1024px) {
+  .main-panel--with-sidebar {
+    padding-left: 365px !important;
+    box-sizing: border-box;
   }
 
-  .module-rail::-webkit-scrollbar {
-    display: none;
+  .main-panel {
+    width: 100% !important;
+    min-width: 0;
   }
+}
+/* Esquinas externas rectas, tambien en escritorio. */
+.app-sidebar,
+.module-rail,
+.main-panel {
+  border-radius: 0;
 }

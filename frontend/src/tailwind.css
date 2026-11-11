@@ -9,7 +9,12 @@
   --color-institutional-blue: #084878;
   --color-institutional-red: #b7353e;
   --color-institutional-white: #ffffff;
-  --color-institutional-bg: #f3f7fc;
+  --color-institutional-bg: #eaeaf1;
+  --color-institutional-teal: #087e78;
+  --color-status-danger: #ef392e;
+  --color-status-info: #377cf5;
+  --color-status-success: #2ca653;
+  --color-status-warning: #f4b12d;
   --color-institutional-blue-soft: #eaf2fa;
 
   /* Akzidenz-Grotesk es una fuente comercial. Se declara primero para usar

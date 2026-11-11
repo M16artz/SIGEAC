@@ -58,15 +58,16 @@ export interface ReferenceDraft {
         </ul>
       }
       @if (!disabled()) {
-        <form (ngSubmit)="submitReference()" novalidate>
-          <label for="reference-uri">URI absoluta</label>
-          <input id="reference-uri" name="uri" maxlength="2048" [ngModel]="uri()" (ngModelChange)="uri.set($event)" />
-          <label for="reference-description">Descripción</label>
+        <form (ngSubmit)="submitReference()" novalidate class="sigeac-form-layout"><div class="sigeac-form-grid">
+          <div class="sigeac-form-field"><label for="reference-uri">URI absoluta</label>
+          <input id="reference-uri" name="uri" maxlength="2048" [ngModel]="uri()" (ngModelChange)="uri.set($event)" /></div>
+          <div class="sigeac-form-field"><label for="reference-description">Descripción</label>
           <input id="reference-description" name="description" maxlength="1000"
-            [ngModel]="description()" (ngModelChange)="description.set($event)" />
+            [ngModel]="description()" (ngModelChange)="description.set($event)" /></div>
           @if (invalid()) { <p role="alert">Indique una URI absoluta y una descripción de hasta 1000 caracteres.</p> }
-          <button type="submit" data-save-reference>{{editing() ? 'Guardar referencia' : 'Añadir referencia'}}</button>
+          <div class="sigeac-form-actions"><button type="submit" data-save-reference>{{editing() ? 'Guardar referencia' : 'Añadir referencia'}}</button>
           @if (editing()) { <button type="button" (click)="reset()">Cancelar</button> }
+          </div></div>
         </form>
       }
       @if (error()) { <p role="alert">{{error()}}</p> }

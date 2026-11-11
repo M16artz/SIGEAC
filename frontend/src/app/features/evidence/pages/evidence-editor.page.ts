@@ -14,12 +14,17 @@ import {EvidenceSourcesComponent, ReferenceDraft} from '../ui/evidence-sources.c
   imports: [ReactiveFormsModule, EvidenceMetadataFormComponent, EvidenceSourcesComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section>
+    <div class="sigeac-page">
+    <header class="sigeac-page-header">
+      <span class="sigeac-badge">Evidencias</span>
       <h2>{{versionId ? 'Editar borrador de evidencia' : 'Nueva evidencia'}}</h2>
-      <form [formGroup]="form" (ngSubmit)="save()" novalidate>
+      <p>Complete los datos del borrador y gestione sus fuentes documentales.</p>
+    </header>
+    <section class="sigeac-page-body">
+      <form [formGroup]="form" (ngSubmit)="save()" novalidate class="sigeac-form-layout">
         <sec-evidence-metadata-form [form]="form" [indicators]="indicators()"
           (processSelected)="selectProcess($event)" (indicatorToggled)="toggleIndicator($event.id, $event.selected)" />
-        <button type="submit">Guardar borrador</button>
+        <div class="sigeac-form-actions"><button type="submit">Guardar borrador</button></div>
       </form>
       @if (versionId) {
         <sec-evidence-sources [files]="files()" [references]="references()"
@@ -36,6 +41,7 @@ import {EvidenceSourcesComponent, ReferenceDraft} from '../ui/evidence-sources.c
         </section>
       }
     </section>
+    </div>
   `
 })
 export class EvidenceEditorPage implements OnInit {

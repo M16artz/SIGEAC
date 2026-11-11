@@ -26,10 +26,14 @@ const EMPTY_CONSOLIDATION = '00000000-0000-0000-0000-000000000000';
     .muted { color:#555; }
   `],
   template: `
-    <section aria-labelledby="reports-title">
+    <div class="sigeac-page sigeac-page--balanced">
+    <header class="sigeac-page-header">
+      <span class="sigeac-badge">Informes</span>
       <h2 id="reports-title">Hallazgos, consolidación y ciclo del informe</h2>
       <p class="muted">{{notice}} Las mutaciones exigen revisión previa del recurso (If-Match) y el
         contenido emitido permanece inmutable; solo la tramitación y sus versiones finales avanzan.</p>
+    </header>
+    <section class="sigeac-page-body" aria-labelledby="reports-title">
       <label for="reports-process">Proceso</label>
       <select id="reports-process" [ngModel]="processId" (ngModelChange)="selectProcess($event)" [disabled]="saving()">
         <option value="">Seleccione un proceso</option>
@@ -54,19 +58,19 @@ const EMPTY_CONSOLIDATION = '00000000-0000-0000-0000-000000000000';
           </article>
         } @empty { <p>Sin hallazgos registrados para este proceso.</p> }
 
-        <form (ngSubmit)="registerFinding()">
+        <form (ngSubmit)="registerFinding()" class="sigeac-form-layout"><div class="sigeac-form-grid">
           <h4>Registrar hallazgo</h4>
-          <label for="finding-type">Clase</label>
+          <div class="sigeac-form-field"><label for="finding-type">Clase</label>
           <select id="finding-type" name="type" [(ngModel)]="findingType" required [disabled]="saving()">
             <option value="">Seleccione la clase</option>
             <option value="STRENGTH">Fortaleza</option>
             <option value="WEAKNESS">Debilidad</option>
             <option value="OBSERVATION">Observación</option>
-          </select>
-          <label for="finding-title">Título</label>
-          <input id="finding-title" type="text" name="title" [(ngModel)]="findingTitle" required maxlength="300" [disabled]="saving()" />
-          <label for="finding-description">Descripción sustentada</label>
-          <textarea id="finding-description" name="description" [(ngModel)]="findingDescription" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea>
+          </select></div>
+          <div class="sigeac-form-field"><label for="finding-title">Título</label>
+          <input id="finding-title" type="text" name="title" [(ngModel)]="findingTitle" required maxlength="300" [disabled]="saving()" /></div>
+          <div class="sigeac-form-field sigeac-form-wide"><label for="finding-description">Descripción sustentada</label>
+          <textarea id="finding-description" name="description" [(ngModel)]="findingDescription" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea></div>
           <fieldset [disabled]="saving()">
             <legend>Indicadores que sustentan el hallazgo</legend>
             @for (indicator of indicators(); track indicator.id) {
@@ -74,32 +78,35 @@ const EMPTY_CONSOLIDATION = '00000000-0000-0000-0000-000000000000';
                 (change)="toggleSupport(indicator.id)" [disabled]="saving()" /> {{indicator.code}} · {{indicator.name}}</label>
             }
           </fieldset>
-          <button type="submit" [disabled]="saving() || !findingValid()">Registrar hallazgo</button>
+          <div class="sigeac-form-actions"><button type="submit" [disabled]="saving() || !findingValid()">Registrar hallazgo</button></div>
+          </div>
         </form>
 
-        <form (ngSubmit)="consolidate()">
+        <form (ngSubmit)="consolidate()" class="sigeac-form-layout"><div class="sigeac-form-grid">
           <h4>Consolidar hallazgos</h4>
           <p class="muted">La revisión previa (If-Match) es la revisión de la última consolidación; use 0 para el
             histórico vacío y actualice el valor tras cada registro.</p>
-          <label for="consolidation-revision">Revisión previa de la cadena</label>
-          <input id="consolidation-revision" type="text" name="expected" [(ngModel)]="expectedConsolidation" required inputmode="numeric" [disabled]="saving()" />
-          <label for="consolidation-rule">Regla validada (opcional)</label>
-          <input id="consolidation-rule" type="text" name="rule" [(ngModel)]="aggregationRuleId" [disabled]="saving()" />
-          <label for="consolidation-reason">Justificación</label>
-          <textarea id="consolidation-reason" name="reason" [(ngModel)]="consolidationReason" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea>
-          <button type="submit" [disabled]="saving() || selectedFindings().length === 0 || !consolidationValid()">Consolidar hallazgos</button>
+          <div class="sigeac-form-field"><label for="consolidation-revision">Revisión previa de la cadena</label>
+          <input id="consolidation-revision" type="text" name="expected" [(ngModel)]="expectedConsolidation" required inputmode="numeric" [disabled]="saving()" /></div>
+          <div class="sigeac-form-field"><label for="consolidation-rule">Regla validada (opcional)</label>
+          <input id="consolidation-rule" type="text" name="rule" [(ngModel)]="aggregationRuleId" [disabled]="saving()" /></div>
+          <div class="sigeac-form-field sigeac-form-wide"><label for="consolidation-reason">Justificación</label>
+          <textarea id="consolidation-reason" name="reason" [(ngModel)]="consolidationReason" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea></div>
+          <div class="sigeac-form-actions"><button type="submit" [disabled]="saving() || selectedFindings().length === 0 || !consolidationValid()">Consolidar hallazgos</button></div>
+          </div>
         </form>
 
         @if (consolidationId()) {
           <h3>Paso P14: versiones y tramitación del informe</h3>
-          <form (ngSubmit)="issue('PRELIMINARY')">
+          <form (ngSubmit)="issue('PRELIMINARY')" class="sigeac-form-layout"><div class="sigeac-form-grid">
             <h4>Emitir versión preliminar</h4>
             <p class="muted">El preliminar exige plantilla validada y una consolidación previa; sus bytes no se editarán;</p>
-            <label for="issue-template">Referencia de plantilla validada</label>
-            <input id="issue-template" type="text" name="template" [(ngModel)]="templateReference" required maxlength="500" [disabled]="saving()" />
-            <label for="issue-content">Contenido sustentado del informe</label>
-            <textarea id="issue-content" name="content" [(ngModel)]="issueContent" required minlength="10" maxlength="200000" [disabled]="saving()"></textarea>
-            <button type="submit" [disabled]="saving() || !issueValid()">Emitir preliminar</button>
+            <div class="sigeac-form-field"><label for="issue-template">Referencia de plantilla validada</label>
+            <input id="issue-template" type="text" name="template" [(ngModel)]="templateReference" required maxlength="500" [disabled]="saving()" /></div>
+            <div class="sigeac-form-field sigeac-form-wide"><label for="issue-content">Contenido sustentado del informe</label>
+            <textarea id="issue-content" name="content" [(ngModel)]="issueContent" required minlength="10" maxlength="200000" [disabled]="saving()"></textarea></div>
+            <div class="sigeac-form-actions"><button type="submit" [disabled]="saving() || !issueValid()">Emitir preliminar</button></div>
+            </div>
           </form>
         }
 
@@ -123,14 +130,15 @@ const EMPTY_CONSOLIDATION = '00000000-0000-0000-0000-000000000000';
               <p class="muted">{{socialization.occurredAt | date:'medium'}} ·
                 Participantes: {{socialization.participantAssignmentIds.length}} · {{socialization.recordReference}}</p>
             } @empty { <p class="muted">Sin socializaciones registradas.</p> }
-            <form (ngSubmit)="socialize()">
-              <label for="social-occurred">Fecha de la jornada</label>
-              <input id="social-occurred" type="datetime-local" name="occurredAt" [(ngModel)]="socializationAt" required [disabled]="saving()" />
-              <label for="social-assignments">Asignaciones participantes (separadas por coma)</label>
-              <input id="social-assignments" type="text" name="participants" [(ngModel)]="socializationParticipants" required maxlength="500" [disabled]="saving()" />
-              <label for="social-record">Referencia de la evidencia formal</label>
-              <input id="social-record" type="text" name="record" [(ngModel)]="socializationRecord" required maxlength="500" [disabled]="saving()" />
-              <button type="submit" [disabled]="saving()">Registrar socialización</button>
+            <form (ngSubmit)="socialize()" class="sigeac-form-layout"><div class="sigeac-form-grid sigeac-form-grid--three">
+              <div class="sigeac-form-field"><label for="social-occurred">Fecha de la jornada</label>
+              <input id="social-occurred" type="datetime-local" name="occurredAt" [(ngModel)]="socializationAt" required [disabled]="saving()" /></div>
+              <div class="sigeac-form-field"><label for="social-assignments">Asignaciones participantes (separadas por coma)</label>
+              <input id="social-assignments" type="text" name="participants" [(ngModel)]="socializationParticipants" required maxlength="500" [disabled]="saving()" /></div>
+              <div class="sigeac-form-field"><label for="social-record">Referencia de la evidencia formal</label>
+              <input id="social-record" type="text" name="record" [(ngModel)]="socializationRecord" required maxlength="500" [disabled]="saving()" /></div>
+              <div class="sigeac-form-actions"><button type="submit" [disabled]="saving()">Registrar socialización</button></div>
+              </div>
             </form>
             <h5>Observaciones</h5>
             @for (observation of observations(); track observation.id) {
@@ -139,61 +147,66 @@ const EMPTY_CONSOLIDATION = '00000000-0000-0000-0000-000000000000';
                 <p class="muted">Respuesta oficial: {{reply.response}}</p>
               }
             } @empty { <p class="muted">Sin observaciones.</p> }
-            <form (ngSubmit)="observe()">
-              <label for="observation-section">Sección observada</label>
-              <input id="observation-section" type="text" name="section" [(ngModel)]="observationSection" required maxlength="200" [disabled]="saving()" />
-              <label for="observation-text">Texto de la observación</label>
-              <textarea id="observation-text" name="text" [(ngModel)]="observationText" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea>
-              <button type="submit" [disabled]="saving()">Registrar observación</button>
+            <form (ngSubmit)="observe()" class="sigeac-form-layout"><div class="sigeac-form-grid">
+              <div class="sigeac-form-field"><label for="observation-section">Sección observada</label>
+              <input id="observation-section" type="text" name="section" [(ngModel)]="observationSection" required maxlength="200" [disabled]="saving()" /></div>
+              <div class="sigeac-form-field sigeac-form-wide"><label for="observation-text">Texto de la observación</label>
+              <textarea id="observation-text" name="text" [(ngModel)]="observationText" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea></div>
+              <div class="sigeac-form-actions"><button type="submit" [disabled]="saving()">Registrar observación</button></div>
+              </div>
             </form>
             @if (observations().length) {
-              <form (ngSubmit)="reply()">
+              <form (ngSubmit)="reply()" class="sigeac-form-layout"><div class="sigeac-form-grid">
                 <h5>Responder observación</h5>
-                <label for="reply-observation">Observación</label>
+                <div class="sigeac-form-field"><label for="reply-observation">Observación</label>
                 <select id="reply-observation" name="observation" [(ngModel)]="replyObservationId" [disabled]="saving()">
                   @for (o of observations(); track o.id) {
                     <option [value]="o.id">{{o.sectionReference}} · {{o.text}}</option>
                   }
-                </select>
-                <label for="reply-text">Respuesta oficial</label>
-                <textarea id="reply-text" name="response" [(ngModel)]="replyText" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea>
-                <label for="reply-correction">Versión de corrección (opcional)</label>
-                <input id="reply-correction" type="text" name="correction" [(ngModel)]="replyCorrectionId" [disabled]="saving()" />
-                <button type="submit" [disabled]="saving()">Registrar respuesta</button>
+                </select></div>
+                <div class="sigeac-form-field"><label for="reply-correction">Versión de corrección (opcional)</label>
+                <input id="reply-correction" type="text" name="correction" [(ngModel)]="replyCorrectionId" [disabled]="saving()" /></div>
+                <div class="sigeac-form-field sigeac-form-wide"><label for="reply-text">Respuesta oficial</label>
+                <textarea id="reply-text" name="response" [(ngModel)]="replyText" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea></div>
+                <div class="sigeac-form-actions"><button type="submit" [disabled]="saving()">Registrar respuesta</button></div>
+                </div>
               </form>
             }
             @if (d.state !== 'APPROVED') {
-              <form (ngSubmit)="issue('FINAL')">
+              <form (ngSubmit)="issue('FINAL')" class="sigeac-form-layout"><div class="sigeac-form-grid">
                 <h5>Emitir versión final (corrección)</h5>
-                <label for="final-content">Contenido sustentado de la corrección</label>
-                <textarea id="final-content" name="finalContent" [(ngModel)]="finalContent" required minlength="10" maxlength="200000" [disabled]="saving()"></textarea>
-                <button type="submit" [disabled]="saving() || finalContent.trim().length < 10">Emitir final encadenado</button>
+                <div class="sigeac-form-field sigeac-form-wide"><label for="final-content">Contenido sustentado de la corrección</label>
+                <textarea id="final-content" name="finalContent" [(ngModel)]="finalContent" required minlength="10" maxlength="200000" [disabled]="saving()"></textarea></div>
+                <div class="sigeac-form-actions"><button type="submit" [disabled]="saving() || finalContent.trim().length < 10">Emitir final encadenado</button></div>
+                </div>
               </form>
             }
-            <form (ngSubmit)="decide()">
+            <form (ngSubmit)="decide()" class="sigeac-form-layout"><div class="sigeac-form-grid">
               <h5>Decisión institucional</h5>
               <p class="muted">Requiere versión FINAL y asignación de autoridad competente; la decisión se registra
                 una sola vez y cierra la cadena.</p>
-              <label for="decision-value">Decisión</label>
+              <div class="sigeac-form-field"><label for="decision-value">Decisión</label>
               <select id="decision-value" name="decision" [(ngModel)]="decisionValue" required [disabled]="saving()">
                 <option value="">Seleccione la decisión</option>
                 <option value="APPROVED">APPROVED</option>
                 <option value="RETURNED">RETURNED</option>
-              </select>
-              <label for="decision-assignment">Asignación de autoridad</label>
-              <input id="decision-assignment" type="text" name="assignment" [(ngModel)]="decisionAssignmentId" required [disabled]="saving()" />
-              <label for="decision-legal">Base legal</label>
-              <input id="decision-legal" type="text" name="legal" [(ngModel)]="decisionLegalBasis" required maxlength="4000" [disabled]="saving()" />
-              <label for="decision-document">Referencia documental</label>
-              <input id="decision-document" type="text" name="document" [(ngModel)]="decisionDocumentReference" required maxlength="2000" [disabled]="saving()" />
-              <label for="decision-reason">Justificación</label>
-              <textarea id="decision-reason" name="reason" [(ngModel)]="decisionReason" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea>
-              <button type="submit" [disabled]="saving() || !decisionValid()">Registrar decisión</button>
+              </select></div>
+              <div class="sigeac-form-field"><label for="decision-assignment">Asignación de autoridad</label>
+              <input id="decision-assignment" type="text" name="assignment" [(ngModel)]="decisionAssignmentId" required [disabled]="saving()" /></div>
+              <div class="sigeac-form-field"><label for="decision-legal">Base legal</label>
+              <input id="decision-legal" type="text" name="legal" [(ngModel)]="decisionLegalBasis" required maxlength="4000" [disabled]="saving()" /></div>
+              <div class="sigeac-form-field"><label for="decision-document">Referencia documental</label>
+              <input id="decision-document" type="text" name="document" [(ngModel)]="decisionDocumentReference" required maxlength="2000" [disabled]="saving()" /></div>
+              <div class="sigeac-form-field sigeac-form-wide"><label for="decision-reason">Justificación</label>
+              <textarea id="decision-reason" name="reason" [(ngModel)]="decisionReason" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea></div>
+              <div class="sigeac-form-actions"><button type="submit" [disabled]="saving() || !decisionValid()">Registrar decisión</button></div>
+              </div>
             </form>
           </article>
         }
       }
     </section>
+    </div>
   `
 })
 export class ReportWorkflowPage implements OnInit, OnDestroy {
