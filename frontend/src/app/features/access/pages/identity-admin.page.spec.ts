@@ -20,6 +20,24 @@ function setup(fails = false) {
 }
 
 describe('IdentityAdminPageComponent assignment revocation', () => {
+  it('omits the type column while preserving service-account identification and original values', () => {
+    const {fixture} = setup();
+    const service = {...user, id: 'service', username: 'integration', technical: true};
+    fixture.componentInstance.users.set([user, service]); fixture.detectChanges();
+    const root = fixture.nativeElement as HTMLElement;
+    const headers = Array.from(root.querySelectorAll('.users-table thead th')).map(th => th.textContent?.trim());
+    expect(headers).toEqual(['Usuario', 'Nombre', 'Estado', 'Acciones']);
+    expect(root.querySelector('.users-table')?.textContent).not.toContain('Humana');
+    expect(root.querySelector('[data-user-id="service"]')?.textContent).toContain('Cuenta de servicio');
+    expect(root.querySelector('[data-user-id="user"]')?.textContent).not.toContain('Cuenta personal');
+    expect(root.querySelector('[aria-labelledby="assignments-title"]')?.textContent).toContain('Cuenta personal');
+    expect(fixture.componentInstance.users()[1].technical).toBe(true);
+    const select = root.querySelector('[data-user-id="service"] button') as HTMLButtonElement;
+    select.click(); fixture.detectChanges();
+    expect(fixture.componentInstance.selected()?.technical).toBe(true);
+    expect(root.querySelector('[aria-labelledby="assignments-title"]')?.textContent).toContain('Cuenta de servicio');
+  });
+
   it('requires a reason, sends the selected revision and refreshes active assignments after success', () => {
     const {fixture, api} = setup();
     const button = fixture.nativeElement.querySelector('[data-assignment-id="assignment"]') as HTMLButtonElement;

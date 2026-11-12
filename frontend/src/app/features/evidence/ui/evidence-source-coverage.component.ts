@@ -20,7 +20,7 @@ export interface CoverageDraft {
         <p role="status">La versión no tiene indicadores con fuentes requeridas.</p>
       } @else {
         <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Fuentes y cobertura declarada">
-        <table>
+        <table class="sigeac-table-layout sigeac-table-layout--coverage">
           <caption>Fuentes del modelo fijo del proceso vigente</caption>
           <thead>
             <tr><th scope="col">Fuente</th><th scope="col">Indicador</th><th scope="col">Tipo</th>

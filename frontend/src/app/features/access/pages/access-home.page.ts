@@ -9,7 +9,6 @@ import { RouterLink } from '@angular/router';
 import { AccessSessionService } from '../data-access/access-session.service';
 import { AssignmentView } from '../data-access/access.models';
 import { DisplayLabelPipe } from '../../../shared/labels/display-label.pipe';
-import { displayLabel } from '../../../shared/labels/display-labels';
 
 interface QuickLink {
   readonly path: string;
@@ -73,24 +72,6 @@ export class AccessHomePageComponent {
   readonly careerCount = computed(
     () => new Set(this.assignments().map((assignment) => assignment.careerId)).size
   );
-
-  readonly roleSummary = computed(() => {
-    const roles = [...new Set(this.assignments().map((assignment) => displayLabel(assignment.roleCode)))];
-    return roles.length > 0 ? roles.join(' · ') : 'Sin funciones vigentes';
-  });
-
-  readonly initials = computed(() => {
-    const name = this.identity()?.displayName?.trim() ?? '';
-    if (!name) {
-      return '—';
-    }
-    const parts = name.split(/\s+/);
-    const chosen = parts.length > 1 ? [parts[0], parts[parts.length - 1]] : parts;
-    return chosen
-      .map((part) => part.charAt(0))
-      .join('')
-      .toUpperCase();
-  });
 
   readonly quickLinks = computed<readonly QuickLink[]>(() => {
     const roles = new Set(this.assignments().map((assignment) => assignment.roleCode));

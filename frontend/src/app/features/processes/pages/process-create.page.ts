@@ -20,7 +20,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
     <section class="sigeac-page-body">
     @if (processes().length > 0) {
       <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Procesos visibles">
-      <table>
+      <table class="sigeac-table-layout sigeac-table-layout--processes">
         <caption>Procesos visibles en su ámbito</caption>
         <thead><tr><th scope="col">Código</th><th scope="col">Nombre</th><th scope="col">Estado</th><th scope="col">Acción</th></tr></thead>
         <tbody>

@@ -15,11 +15,11 @@ import {Component} from '@angular/core';
     <section class="evidence-audit sigeac-page-body" aria-labelledby="audit-title">
       <form class="filters sigeac-form-layout" aria-label="Filtros de auditoría"><div class="sigeac-form-grid">
         <div class="sigeac-form-field"><label>
-          Acción
+          Actividad
           <input type="text" name="action" />
         </label></div>
         <div class="sigeac-form-field"><label>
-          Correlación
+          Identificador de correlación
           <input type="text" name="correlationId" />
         </label></div>
         </div>

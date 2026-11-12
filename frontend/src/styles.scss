@@ -1,4 +1,5 @@
 @use './app/shared/styles/internal-pages';
+@use './app/shared/styles/table-layout';
 
 :root {
   color-scheme: light;
@@ -75,8 +76,9 @@ body {
   display: block;
   margin: 0.75rem 0 0.3rem;
   color: #334155;
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   font-weight: 600;
+  line-height: 1.5;
 }
 
 #main-content input,
@@ -90,6 +92,7 @@ body {
   background: #fff;
   color: #0f172a;
   font: inherit;
+  font-size: 0.875rem;
 }
 
 #main-content textarea {
@@ -104,6 +107,7 @@ body {
   background: #084878;
   color: #fff;
   font: inherit;
+  font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
 }
@@ -121,12 +125,13 @@ body {
   width: 100%;
   margin: 0.75rem 0 1rem;
   border-collapse: collapse;
-  font-size: 0.85rem;
+  font-size: 0.875rem;
 }
 
 #main-content caption {
   margin-bottom: 0.4rem;
-  color: #64748b;
+  color: #475569;
+  font-size: 0.8125rem;
   text-align: left;
 }
 
@@ -139,10 +144,14 @@ body {
 }
 
 #main-content thead th {
-  color: #475569;
-  font-size: 0.7rem;
-  letter-spacing: 0.04em;
+  background: #eaf2fa;
+  color: #084878;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  line-height: 1.4;
   text-transform: uppercase;
+  vertical-align: middle;
 }
 
 #main-content tbody tr:hover {
@@ -177,7 +186,7 @@ body {
   background: var(--color-institutional-blue-soft, #eaf2fa);
   padding: 0.25rem 0.625rem;
   color: #084878;
-  font-size: 0.6875rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   line-height: 1.4;
   white-space: nowrap;
@@ -185,7 +194,7 @@ body {
 
 .sigeac-badge--muted {
   background: #f1f5f9;
-  color: #64748b;
+  color: #526173;
 }
 
 .sigeac-badge--danger {
@@ -198,7 +207,8 @@ body {
   margin: 0;
   border-collapse: separate;
   border-spacing: 0;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
 
   caption {
     margin: 0;
@@ -218,17 +228,19 @@ body {
     padding: 0.75rem 1.25rem;
     background: var(--color-institutional-blue-soft, #eaf2fa);
     color: #084878;
-    font-size: 0.6875rem;
+    font-size: 0.8125rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.05em;
+    line-height: 1.4;
     text-transform: uppercase;
+    vertical-align: middle;
     white-space: nowrap;
   }
 
   tbody td {
     padding: 1rem 1.25rem;
     border-bottom: 1px solid #eef2f7;
-    color: #475569;
+    color: #334155;
   }
 
   tbody tr:last-child td {
@@ -276,8 +288,9 @@ body {
   display: block;
   margin: 0 0 0.375rem;
   color: #334155;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 600;
+  line-height: 1.5;
 }
 
 #main-content .sigeac-input {
@@ -310,15 +323,15 @@ body {
 
 #main-content .sigeac-help {
   margin: 0;
-  color: #64748b;
-  font-size: 0.75rem;
+  color: #526173;
+  font-size: 0.8125rem;
   line-height: 1.5;
 }
 
 #main-content .sigeac-field-error {
   margin: 0;
   color: #b7353e;
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   line-height: 1.5;
 }
@@ -326,6 +339,14 @@ body {
 .sigeac-required {
   margin-left: 0.15rem;
   color: #b7353e;
+}
+
+#main-content .sigeac-optional {
+  margin-left: 0.375rem;
+  color: #64748b;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
 }
 
 #main-content .sigeac-check {
@@ -338,7 +359,7 @@ body {
   border-radius: 0.75rem;
   background: #f8fbfe;
   color: #334155;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.5;
   cursor: pointer;
@@ -363,7 +384,7 @@ body {
   padding: 0.75rem 1rem;
   border: 1px solid transparent;
   border-radius: 0.75rem;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.55;
 }
 
@@ -392,8 +413,8 @@ body {
   gap: 0.5rem;
   padding: 2.5rem 1.5rem;
   text-align: center;
-  color: #64748b;
-  font-size: 0.875rem;
+  color: #526173;
+  font-size: 0.9375rem;
   line-height: 1.6;
 }
 
@@ -405,7 +426,7 @@ body {
 #main-content .sigeac-btn--sm {
   padding: 0.45rem 0.75rem;
   border-radius: 0.6rem;
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
 }
 
 #main-content .sigeac-btn--ghost {

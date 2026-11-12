@@ -46,7 +46,7 @@ interface CoverageOutcomeDraft {
         <p role="status">No hay versiones pendientes de revisión documental.</p>
       } @else if (entries().length > 0) {
         <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Bandeja de revisión">
-        <table>
+        <table class="sigeac-table-layout sigeac-table-layout--review-inbox">
           <caption>Bandeja del revisor: versiones más recientes remitidas por cada evidencia</caption>
           <thead>
             <tr><th scope="col">Título</th><th scope="col">Versión</th><th scope="col">Remisión</th>
@@ -125,7 +125,7 @@ interface CoverageOutcomeDraft {
         <section aria-labelledby="review-decision-history">
           <h3 id="review-decision-history">Historial de decisiones del proceso</h3>
           <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Historial de decisiones">
-          <table>
+          <table class="sigeac-table-layout sigeac-table-layout--review-history">
             <caption>Decisiones documentales con resultados por cobertura y rectificaciones (FR-021/FR-024)</caption>
             <thead>
               <tr><th scope="col">Versión</th><th scope="col">Decisión</th><th scope="col">Fecha</th>

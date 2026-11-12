@@ -71,7 +71,7 @@ import { DisplayLabelPipe } from '../../../shared/labels/display-label.pipe';
         </div>
 
         <div class="sigeac-field">
-          <label class="sigeac-label" for="processId">Proceso (opcional)</label>
+          <label class="sigeac-label" for="processId">Proceso <span class="sigeac-optional">Opcional</span></label>
           <input
             id="processId"
             class="sigeac-input"
@@ -83,7 +83,7 @@ import { DisplayLabelPipe } from '../../../shared/labels/display-label.pipe';
         </div>
 
         <div class="sigeac-field">
-          <label class="sigeac-label" for="indicatorId">Indicador (opcional)</label>
+          <label class="sigeac-label" for="indicatorId">Indicador <span class="sigeac-optional">Opcional</span></label>
           <input
             id="indicatorId"
             class="sigeac-input"
@@ -112,7 +112,7 @@ import { DisplayLabelPipe } from '../../../shared/labels/display-label.pipe';
         </div>
 
         <div class="sigeac-field">
-          <label class="sigeac-label" for="validUntil">Vigente hasta (opcional)</label>
+          <label class="sigeac-label" for="validUntil">Vigente hasta <span class="sigeac-optional">Opcional</span></label>
           <input
             id="validUntil"
             class="sigeac-input"
@@ -124,7 +124,7 @@ import { DisplayLabelPipe } from '../../../shared/labels/display-label.pipe';
       </div>
 
       <div class="sigeac-field">
-        <label class="sigeac-label" for="exceptionReason">Justificación de excepción (opcional)</label>
+        <label class="sigeac-label" for="exceptionReason">Justificación de excepción <span class="sigeac-optional">Opcional</span></label>
         <textarea
           id="exceptionReason"
           class="sigeac-input"

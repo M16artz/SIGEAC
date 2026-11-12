@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, ViewChild, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { filter, map } from 'rxjs';
@@ -69,6 +69,29 @@ export class AppLayoutComponent {
 
   readonly mobileOpen = signal(false);
   readonly profileOpen = signal(false);
+
+  @ViewChild('profileTrigger') private profileTrigger?: ElementRef<HTMLButtonElement>;
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    if (event.target instanceof Element && !event.target.closest('.app-profile')) {
+      this.profileOpen.set(false);
+    }
+  }
+
+  @HostListener('document:keydown.escape')
+  closeProfile(): void {
+    if (this.profileOpen()) {
+      this.profileOpen.set(false);
+      this.profileTrigger?.nativeElement.focus();
+    }
+  }
+
+  onProfileFocusOut(event: FocusEvent): void {
+    if (!(event.currentTarget as HTMLElement).contains(event.relatedTarget as Node | null)) {
+      this.profileOpen.set(false);
+    }
+  }
 
   openModule(module: NavModule): void {
     this.mobileOpen.set(false);

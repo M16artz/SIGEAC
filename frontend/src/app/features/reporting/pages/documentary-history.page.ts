@@ -41,7 +41,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
       }
       @if (history(); as page) {
         <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Cortes documentales guardados">
-        <table>
+        <table class="sigeac-table-layout sigeac-table-layout--documentary-history">
           <caption>Cortes guardados del proceso autorizado</caption>
           <thead><tr><th scope="col">Fecha</th><th scope="col">Motivo</th><th scope="col">Acción</th></tr></thead>
           <tbody>

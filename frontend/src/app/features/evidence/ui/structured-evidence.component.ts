@@ -24,7 +24,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
       }
       @if (snapshots().length > 0) {
         <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Datos estructurados conservados">
-        <table>
+        <table class="sigeac-table-layout sigeac-table-layout--structured">
           <caption>Snapshots registrados en la versión</caption>
           <thead>
             <tr><th scope="col">Fuente</th><th scope="col">Modalidad</th><th scope="col">Valor</th>
@@ -82,7 +82,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
                 (ngModelChange)="textValue.set($event)"></textarea></div>
             }
           }
-          <div class="sigeac-form-field"><label for="structured-unit">Unidad (opcional)</label>
+          <div class="sigeac-form-field"><label for="structured-unit">Unidad <span class="sigeac-optional">Opcional</span></label>
           <input id="structured-unit" name="unit" maxlength="100" [ngModel]="unit()" (ngModelChange)="unit.set($event)" /></div>
           <div class="sigeac-form-field"><label for="structured-period-start">Inicio del período</label>
           <input id="structured-period-start" name="periodStart" type="date"
@@ -90,7 +90,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
           <div class="sigeac-form-field"><label for="structured-period-end">Fin del período</label>
           <input id="structured-period-end" name="periodEnd" type="date"
             [ngModel]="periodEnd()" (ngModelChange)="periodEnd.set($event)" /></div>
-          <div class="sigeac-form-field sigeac-form-wide"><label for="structured-reference">Referencia (opcional)</label>
+          <div class="sigeac-form-field sigeac-form-wide"><label for="structured-reference">Referencia <span class="sigeac-optional">Opcional</span></label>
           <input id="structured-reference" name="reference" maxlength="2000"
             [ngModel]="reference()" (ngModelChange)="reference.set($event)" /></div>
           <div class="sigeac-form-actions"><button type="submit" data-register-snapshot>Registrar snapshot</button></div>

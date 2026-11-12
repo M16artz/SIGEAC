@@ -37,11 +37,11 @@ sec-career-catalog { display: block; }
   }
   .careers-section-copy {
     margin: .25rem 0 0;
-    color: #64748b;
-    font-size: .8125rem;
+    color: #526173;
+    font-size: .875rem;
     line-height: 1.5;
   }
-  .careers-id { display: block; overflow-wrap: anywhere; font-size: .75rem; }
-  .careers-date { white-space: nowrap; font-size: .8125rem; }
+  .careers-id { display: block; overflow-wrap: anywhere; color: #526173; font-size: .8125rem; line-height: 1.5; }
+  .careers-date { white-space: nowrap; color: #334155; font-size: .875rem; }
   .careers-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
 }

@@ -8,7 +8,7 @@
     <div class="relative z-10 flex flex-col gap-6 xl:flex-row xl:items-center xl:justify-between">
       <div class="max-w-2xl">
         <span
-          class="inline-flex items-center gap-2 rounded-full bg-institutional-blue-soft px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-institutional-blue"
+          class="inline-flex items-center gap-2 rounded-full bg-institutional-blue-soft px-3 py-1 text-[0.75rem] font-semibold uppercase tracking-[0.18em] text-institutional-blue"
         >
           <svg
             viewBox="0 0 24 24"
@@ -51,11 +51,11 @@
           </svg>
         </span>
         <span class="min-w-0">
-          <span class="block text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-slate-400">
+          <span class="block text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-slate-500">
             Eventos registrados
           </span>
           <span class="users-stat-value block">{{ loading() ? '—' : total() }}</span>
-          <span class="mt-0.5 block text-[0.7rem] text-slate-500">Página {{ page() + 1 }}</span>
+          <span class="mt-0.5 block text-[0.8125rem] text-slate-500">Página {{ page() + 1 }}</span>
         </span>
       </div>
     </div>
@@ -84,7 +84,7 @@
         </span>
         <div>
           <h2 id="audit-filter-title" class="users-section-title">Filtros de búsqueda</h2>
-          <p class="users-section-copy">Acote la consulta por tipo o identificador de objeto.</p>
+          <p class="users-section-copy">Acote la consulta por elemento o identificador.</p>
         </div>
       </div>
       <span class="sigeac-badge self-start sm:self-auto">Opcional</span>
@@ -93,13 +93,13 @@
     <form [formGroup]="filter" (ngSubmit)="search(0)" novalidate class="p-5 sm:p-6">
       <div class="flex flex-col gap-4 md:flex-row md:items-end">
         <div class="sigeac-field md:flex-1">
-          <label class="sigeac-label" for="objectType">Tipo de objeto (opcional)</label>
+          <label class="sigeac-label" for="objectType">Filtrar por elemento</label>
           <select
             id="objectType"
             class="sigeac-input"
             formControlName="objectType"
           >
-            <option value="">Todos los tipos de objeto</option>
+            <option value="">Todos los elementos</option>
             @for (type of objectTypes; track type) {
               <option [value]="type">{{ type | displayLabel }}</option>
             }
@@ -107,7 +107,7 @@
         </div>
 
         <div class="sigeac-field md:flex-1">
-          <label class="sigeac-label" for="objectId">Identificador de objeto (opcional)</label>
+          <label class="sigeac-label" for="objectId">Identificador del elemento</label>
           <input
             id="objectId"
             class="sigeac-input"
@@ -159,7 +159,7 @@
         </span>
         <div>
           <h2 id="audit-records-title" class="users-section-title">Registros de auditoría</h2>
-          <p class="users-section-copy">Eventos ordenados por fecha y correlación.</p>
+          <p class="users-section-copy">Eventos ordenados por fecha.</p>
         </div>
       </div>
       <span class="sigeac-badge self-start sm:self-auto">
@@ -221,63 +221,13 @@
         <span class="sigeac-help">Ajuste los filtros o consulte nuevamente sin criterios.</span>
       </div>
     } @else {
-      <div class="overflow-x-auto">
-        <table class="sigeac-table min-w-[58rem]">
-          <caption class="sr-only">Eventos de auditoría ordenados por fecha y correlación</caption>
-          <thead>
-            <tr>
-              <th scope="col">Fecha</th>
-              <th scope="col">Acción</th>
-              <th scope="col">Objeto</th>
-              <th scope="col">Resultado</th>
-              <th scope="col">Motivo</th>
-              <th scope="col">Correlación</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (event of events(); track event.id) {
-              <tr [attr.data-event-id]="event.id">
-                <td>
-                  <time class="users-date block" [attr.datetime]="event.occurredAt">
-                    {{ event.occurredAt | date: 'dd/MM/yyyy' }}
-                  </time>
-                  <span class="mt-0.5 block text-[0.7rem] text-slate-400">
-                    {{ event.occurredAt | date: 'HH:mm' }}
-                  </span>
-                </td>
-                <td>
-                  <span class="block text-sm font-semibold text-slate-800">{{ event.action | displayLabel }}</span>
-                </td>
-                <td>
-                  <span class="sigeac-badge">{{ event.objectType | displayLabel }}</span>
-                  <span class="users-id mt-1.5">{{ event.objectId }}</span>
-                </td>
-                <td>
-                  <span class="sigeac-badge" [class.sigeac-badge--danger]="event.outcome !== 'SUCCESS'">
-                    {{ event.outcome | displayLabel }}
-                  </span>
-                </td>
-                <td>
-                  @if (event.reasonCode) {
-                    <span class="sigeac-badge sigeac-badge--muted">{{ event.reasonCode | displayLabel }}</span>
-                  } @else {
-                    <span class="text-sm text-slate-400">—</span>
-                  }
-                </td>
-                <td>
-                  <span class="users-id">{{ event.correlationId }}</span>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
+      <sec-audit-events-table [events]="events()" />
 
       <div
         class="flex flex-col gap-3 border-t border-[#eef2f7] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
       >
         <p class="users-section-copy">
-          Página {{ page() + 1 }} · {{ total() }} {{ total() === 1 ? 'evento' : 'eventos' }}
+          Página {{ page() + 1 }} de {{ totalPages() }} · {{ total() }} {{ total() === 1 ? 'evento' : 'eventos' }}
         </p>
         <div class="flex flex-wrap gap-2">
           <button

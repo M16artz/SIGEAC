@@ -28,7 +28,7 @@ import {ProcessActivity, ProcessApi, ProcessView} from '../data-access/process-a
       }
       @if (activities().length) {
         <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Actividades del proceso">
-        <table>
+        <table class="sigeac-table-layout sigeac-table-layout--activities">
           <caption>Actividades visibles en su ámbito</caption>
           <thead><tr><th>Actividad</th><th>Indicador</th><th>Vencimiento (hora local)</th><th>Estado</th></tr></thead>
           <tbody>

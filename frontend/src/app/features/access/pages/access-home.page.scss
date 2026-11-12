@@ -24,7 +24,7 @@ sec-access-home {
 
   .access-hero-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr);
     gap: 2rem;
     align-items: end;
   }
@@ -39,9 +39,9 @@ sec-access-home {
     border-radius: 100px;
     background: #eaf2fa;
     color: var(--access-blue);
-    font-size: .7rem;
+    font-size: .75rem;
     font-weight: 700;
-    letter-spacing: .13em;
+    letter-spacing: .12em;
     text-transform: uppercase;
   }
 
@@ -63,18 +63,6 @@ sec-access-home {
     color: #526881;
     font-size: .9rem;
     line-height: 1.65;
-  }
-
-  .access-user-card {
-    display: flex;
-    align-items: center;
-    gap: .8rem;
-    width: min(100%, 19rem);
-    min-width: 0;
-    padding: .85rem 1rem;
-    border: 1px solid #dce8f3;
-    border-radius: 1.1rem;
-    background: #eaf2fa;
   }
 
   .access-metrics-grid {
@@ -111,8 +99,8 @@ sec-access-home {
 
   .access-card-copy {
     margin: .55rem 0 0;
-    color: var(--access-muted);
-    font-size: .78rem;
+    color: #526173;
+    font-size: .875rem;
     line-height: 1.55;
   }
 
@@ -138,8 +126,8 @@ sec-access-home {
 
   .access-section-copy {
     margin: .3rem 0 0;
-    color: var(--access-muted);
-    font-size: .82rem;
+    color: #526173;
+    font-size: .875rem;
     line-height: 1.6;
   }
 
@@ -150,14 +138,15 @@ sec-access-home {
   }
 
   .access-table-wrap table { margin: 0; }
-  .access-table-wrap thead { background: #edf4fa; }
+  .access-table-wrap thead { background: #eaf2fa; }
   .access-table-wrap thead th {
     color: var(--access-blue);
-    font-size: .68rem;
-    letter-spacing: .09em;
-    padding: 1rem .85rem;
+    font-size: .8125rem;
+    font-weight: 600;
+    letter-spacing: .05em;
+    line-height: 1.4;
+    vertical-align: middle;
   }
-  .access-table-wrap td { padding: 1rem .85rem; }
   .access-table-wrap tbody tr:last-child td { border-bottom: 0; }
 
   .access-links-grid {
@@ -207,7 +196,6 @@ sec-access-home {
     .access-home-header { padding: 1.5rem; }
     .access-data-section, .access-links-section { padding: 1.25rem; }
     .access-hero-title { font-size: 1.8rem; }
-    .access-user-card { width: 100%; }
     .access-metrics-grid, .access-links-grid { grid-template-columns: 1fr; }
     .access-stat-card { padding: 1.15rem; }
   }

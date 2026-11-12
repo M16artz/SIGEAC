@@ -1,0 +1,86 @@
+<div class="audit-events-scroll" tabindex="0" role="region" aria-label="Eventos de auditoría">
+  <table class="sigeac-table audit-events-table sigeac-table-layout sigeac-table-layout--audit">
+    <caption class="sr-only">Eventos de auditoría ordenados por fecha</caption>
+    <thead>
+      <tr>
+        <th scope="col">Fecha</th>
+        <th scope="col">Actividad</th>
+        <th scope="col">Resultado</th>
+        <th scope="col" class="audit-events-actions-heading">Detalles</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (event of events; track event.id) {
+        <tr [attr.data-event-id]="event.id">
+          <td class="audit-events-date">
+            <time [attr.datetime]="event.occurredAt">{{ event.occurredAt | date: 'dd/MM/yyyy' }}</time>
+            <span>{{ event.occurredAt | date: 'HH:mm' }}</span>
+          </td>
+          <td>
+            <span class="audit-events-activity">{{ event.action | displayLabel }}</span>
+          </td>
+          <td>
+            <span class="sigeac-badge" [class.sigeac-badge--danger]="event.outcome !== 'SUCCESS'">
+              {{ event.outcome | displayLabel }}
+            </span>
+          </td>
+          <td class="audit-events-actions">
+            <button
+              type="button"
+              class="sigeac-btn sigeac-btn--secondary sigeac-btn--sm audit-events-toggle"
+              [attr.aria-expanded]="isExpanded(event.id)"
+              [attr.aria-controls]="'audit-details-' + event.id"
+              [attr.aria-label]="(isExpanded(event.id) ? 'Ocultar detalles' : 'Ver detalles') + ' del evento del ' + (event.occurredAt | date: 'dd/MM/yyyy HH:mm')"
+              (click)="toggleDetails(event.id)"
+            >
+              {{ isExpanded(event.id) ? 'Ocultar detalles' : 'Ver detalles' }}
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                class="audit-events-chevron"
+                [class.audit-events-chevron--open]="isExpanded(event.id)"
+              >
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </button>
+          </td>
+        </tr>
+        @if (isExpanded(event.id)) {
+          <tr class="audit-events-details-row" [attr.id]="'audit-details-' + event.id">
+            <td colspan="4">
+              <dl class="audit-events-details">
+                <div class="audit-events-detail">
+                  <dt>Elemento afectado</dt>
+                  <dd>{{ event.objectType | displayLabel }}</dd>
+                </div>
+                <div class="audit-events-detail">
+                  <dt>Identificador del elemento</dt>
+                  <dd class="audit-events-id">{{ event.objectId }}</dd>
+                </div>
+                <div class="audit-events-detail">
+                  <dt>Motivo</dt>
+                  <dd>
+                    @if (event.reasonCode) {
+                      <span class="sigeac-badge sigeac-badge--muted">{{ event.reasonCode | displayLabel }}</span>
+                    } @else {
+                      <span class="audit-events-empty">Sin motivo registrado</span>
+                    }
+                  </dd>
+                </div>
+                <div class="audit-events-detail">
+                  <dt>Identificador de correlación</dt>
+                  <dd class="audit-events-id">{{ event.correlationId }}</dd>
+                </div>
+              </dl>
+            </td>
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+</div>

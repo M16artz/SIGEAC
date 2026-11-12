@@ -1,0 +1,106 @@
+:host {
+  display: block;
+}
+
+.audit-events-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+
+  &:focus-visible {
+    outline: 3px solid #084878;
+    outline-offset: 2px;
+  }
+}
+
+.audit-events-date {
+  white-space: nowrap;
+
+  time {
+    display: block;
+    color: #334155;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  span {
+    display: block;
+    margin-top: 0.125rem;
+    color: #64748b;
+    font-size: 0.8125rem;
+  }
+}
+
+.audit-events-activity {
+  display: block;
+  color: #1e293b;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.audit-events-toggle svg {
+  width: 0.875rem;
+  height: 0.875rem;
+  transition: transform 150ms ease;
+}
+
+.audit-events-chevron--open {
+  transform: rotate(180deg);
+}
+
+.audit-events-details-row > td {
+  padding: 0 !important;
+  background: #f8fbfe;
+}
+
+.audit-events-details {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem 1.5rem;
+  margin: 0;
+  padding: 1rem 1.25rem 1.25rem;
+  border-top: 1px solid #eef2f7;
+}
+
+.audit-events-detail {
+  min-width: 0;
+
+  dt {
+    margin: 0 0 0.25rem;
+    color: #526173;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  dd {
+    margin: 0;
+    color: #334155;
+    font-size: 0.875rem;
+    line-height: 1.55;
+  }
+}
+
+.audit-events-id {
+  overflow-wrap: anywhere;
+  font-family: ui-monospace, "SFMono-Regular", "Cascadia Code", Consolas, monospace;
+  font-size: 0.8125rem;
+  color: #475569;
+}
+
+.audit-events-empty {
+  color: #64748b;
+  font-size: 0.8125rem;
+}
+
+@media (min-width: 40rem) {
+  .audit-events-details {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .audit-events-details {
+    padding: 0.875rem 1rem 1rem;
+  }
+}

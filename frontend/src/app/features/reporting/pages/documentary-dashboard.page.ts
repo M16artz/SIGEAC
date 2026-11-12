@@ -54,7 +54,7 @@ import {displayLabel} from '../../../shared/labels/display-labels';
           Revisión = fuentes con cardinalidad aceptada / fuentes obligatorias aplicables × 100.</p>
         @if (sourceId) { <button type="button" (click)="focusSource('')">Ver todas las fuentes</button> }
         <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Fuentes del ámbito autorizado">
-        <table>
+        <table class="sigeac-table-layout sigeac-table-layout--documentary-sources">
           <caption>Fuentes del ámbito autorizado</caption>
           <thead><tr><th scope="col">Fuente</th><th scope="col">Aplicabilidad</th>
             <th scope="col">Cardinalidad mínima</th><th scope="col">Coberturas vigentes</th></tr></thead>

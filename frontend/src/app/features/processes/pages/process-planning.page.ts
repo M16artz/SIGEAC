@@ -103,7 +103,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
             <div class="sigeac-form-field"><label for="activity-assignment">Asignacion responsable</label><select id="activity-assignment" name="activityAssignment" [(ngModel)]="activityAssignment" required>
               <option value="">Seleccione una asignación</option>@for (a of activityAssignments(); track a.id) {<option [value]="a.id">{{a.function | displayLabel}} - {{a.indicatorId}}</option>}
             </select></div>
-            <div class="sigeac-form-field"><label for="activity-source">Fuente requerida (opcional, UUID)</label>
+            <div class="sigeac-form-field"><label for="activity-source">Fuente requerida <span class="sigeac-optional">Opcional · UUID</span></label>
             <input id="activity-source" name="activitySource" [(ngModel)]="activitySource"></div>
             <div class="sigeac-form-field"><label for="activity-due">Vencimiento</label><input id="activity-due" type="datetime-local" name="activityDue" [(ngModel)]="activityDue" required></div>
             <div class="sigeac-form-field"><label for="activity-dependencies">Dependencias (UUID separados por coma)</label><input id="activity-dependencies" name="activityDependencies" [(ngModel)]="activityDependencies"></div>

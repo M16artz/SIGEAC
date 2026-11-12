@@ -36,7 +36,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
         <p role="status">No hay evidencias en el proceso seleccionado.</p>
       } @else if (items().length > 0) {
         <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Evidencias del proceso">
-        <table>
+        <table class="sigeac-table-layout sigeac-table-layout--evidence">
           <caption>Evidencias visibles en su ámbito vigente</caption>
           <thead><tr><th scope="col">Título</th><th scope="col">Versión</th><th scope="col">Estado</th><th scope="col">Acciones</th></tr></thead>
           <tbody>
@@ -45,8 +45,8 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
                 <td>{{item.latestVersion.title}}</td>
                 <td>{{item.latestRevisionNumber}}</td>
                 <td>{{item.latestVersion.status | displayLabel}}</td>
-                <td><a [routerLink]="['versions', item.latestVersion.id, 'edit']">Editar</a>
-                  <a [routerLink]="['versions', item.latestVersion.id]">Cobertura</a></td>
+                <td><div class="sigeac-table-actions"><a [routerLink]="['versions', item.latestVersion.id, 'edit']">Editar</a>
+                  <a [routerLink]="['versions', item.latestVersion.id]">Cobertura</a></div></td>
               </tr>
             }
           </tbody>

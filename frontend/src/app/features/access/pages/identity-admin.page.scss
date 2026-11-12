@@ -143,27 +143,7 @@ sec-identity-admin {
     font-size: 0.875rem;
     line-height: 1.5;
 
-    th,
-    td { padding: 0.75rem 1rem; vertical-align: middle; }
-
-    thead th { font-size: 0.8125rem; letter-spacing: 0.04em; }
-  }
-
-  .users-table {
-    // Los datos largos pueden partirse; los estados y acciones conservan su ancho.
-    th:nth-child(1), td:nth-child(1) { width: 20%; min-width: 7rem; overflow-wrap: anywhere; }
-    th:nth-child(2), td:nth-child(2) { min-width: 10rem; overflow-wrap: anywhere; }
-    th:nth-child(3), td:nth-child(3),
-    th:nth-child(4), td:nth-child(4),
-    th:nth-child(5), td:nth-child(5) { width: 1%; white-space: nowrap; }
-
-    .users-actions { flex-wrap: nowrap; }
-  }
-
-  .users-assignments-table {
-    min-width: 52rem;
-    td:first-child { min-width: 11rem; }
-    td:last-child { width: 1%; white-space: nowrap; }
+    thead th { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.05em; }
   }
 
   .users-row--selected > td {

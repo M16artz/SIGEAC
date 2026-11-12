@@ -90,7 +90,7 @@ const EMPTY_CONSOLIDATION = '00000000-0000-0000-0000-000000000000';
             histórico vacío y actualice el valor tras cada registro.</p>
           <div class="sigeac-form-field"><label for="consolidation-revision">Revisión previa de la cadena</label>
           <input id="consolidation-revision" type="text" name="expected" [(ngModel)]="expectedConsolidation" required inputmode="numeric" [disabled]="saving()" /></div>
-          <div class="sigeac-form-field"><label for="consolidation-rule">Regla validada (opcional)</label>
+          <div class="sigeac-form-field"><label for="consolidation-rule">Regla validada <span class="sigeac-optional">Opcional</span></label>
           <input id="consolidation-rule" type="text" name="rule" [(ngModel)]="aggregationRuleId" [disabled]="saving()" /></div>
           <div class="sigeac-form-field sigeac-form-wide"><label for="consolidation-reason">Justificación</label>
           <textarea id="consolidation-reason" name="reason" [(ngModel)]="consolidationReason" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea></div>
@@ -166,7 +166,7 @@ const EMPTY_CONSOLIDATION = '00000000-0000-0000-0000-000000000000';
                     <option [value]="o.id">{{o.sectionReference}} · {{o.text}}</option>
                   }
                 </select></div>
-                <div class="sigeac-form-field"><label for="reply-correction">Versión de corrección (opcional)</label>
+                <div class="sigeac-form-field"><label for="reply-correction">Versión de corrección <span class="sigeac-optional">Opcional</span></label>
                 <input id="reply-correction" type="text" name="correction" [(ngModel)]="replyCorrectionId" [disabled]="saving()" /></div>
                 <div class="sigeac-form-field sigeac-form-wide"><label for="reply-text">Respuesta oficial</label>
                 <textarea id="reply-text" name="response" [(ngModel)]="replyText" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea></div>

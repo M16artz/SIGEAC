@@ -43,7 +43,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
    <div class="sigeac-form-field"><label for="career-id">Carrera (UUID)</label><input id="career-id" [(ngModel)]="careerId" name="careerId" required></div>
    <div class="sigeac-form-field"><label for="decision">Decisión</label><select id="decision" [(ngModel)]="decision" name="decision"><option value="APPLICABLE">Aplicable</option><option value="NOT_APPLICABLE">No aplicable</option><option value="EXPIRED">Vencida</option></select></div>
    <div class="sigeac-form-field"><label for="valid-from">Vigente desde</label><input id="valid-from" type="date" [(ngModel)]="validFrom" name="validFrom" required></div>
-   <div class="sigeac-form-field"><label for="valid-until">Vigente hasta (opcional)</label><input id="valid-until" type="date" [(ngModel)]="validUntil" name="validUntil"></div>
+   <div class="sigeac-form-field"><label for="valid-until">Vigente hasta <span class="sigeac-optional">Opcional</span></label><input id="valid-until" type="date" [(ngModel)]="validUntil" name="validUntil"></div>
    <div class="sigeac-form-field"><label for="authority">Autoridad competente</label><input id="authority" [(ngModel)]="authorityFunction" name="authorityFunction" required></div>
    <div class="sigeac-form-field"><label for="legal-basis">Base legal o decisión</label><input id="legal-basis" [(ngModel)]="legalBasis" name="legalBasis" required></div>
    <div class="sigeac-form-field sigeac-form-wide"><label for="decision-document">Documento de respaldo</label><input id="decision-document" [(ngModel)]="decisionDocument" name="decisionDocument" required></div>

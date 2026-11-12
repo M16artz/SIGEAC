@@ -8,7 +8,7 @@
     <div class="relative z-10 flex flex-col gap-6 xl:flex-row xl:items-center xl:justify-between">
       <div class="max-w-2xl">
         <span
-          class="inline-flex items-center gap-2 rounded-full bg-institutional-blue-soft px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-institutional-blue"
+          class="inline-flex items-center gap-2 rounded-full bg-institutional-blue-soft px-3 py-1 text-[0.75rem] font-semibold uppercase tracking-[0.18em] text-institutional-blue"
         >
           <svg
             viewBox="0 0 24 24"
@@ -51,11 +51,11 @@
           </svg>
         </span>
         <span class="min-w-0">
-          <span class="block text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-slate-400">
+          <span class="block text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-slate-500">
             Carreras visibles
           </span>
           <span class="careers-stat-value block">{{ careers()?.totalElements ?? '—' }}</span>
-          <span class="mt-0.5 block text-[0.7rem] text-slate-500">
+          <span class="mt-0.5 block text-[0.8125rem] text-slate-500">
             Página {{ (careers()?.page ?? 0) + 1 }}
           </span>
         </span>
@@ -217,7 +217,7 @@
           </div>
 
           <div class="sigeac-field">
-            <label class="sigeac-label" for="career-until">Vigente hasta (opcional)</label>
+            <label class="sigeac-label" for="career-until">Vigente hasta <span class="sigeac-optional">Opcional</span></label>
             <input
               id="career-until"
               class="sigeac-input"
@@ -404,8 +404,8 @@
           </span>
         </div>
       } @else {
-        <div class="overflow-x-auto">
-          <table class="sigeac-table min-w-[58rem]">
+        <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Carreras visibles">
+          <table class="sigeac-table sigeac-table-layout sigeac-table-layout--careers">
             <caption class="sr-only">Carreras visibles para su ámbito</caption>
             <thead>
               <tr>
@@ -436,7 +436,7 @@
                     <time class="careers-date block" [attr.datetime]="career.data.validFrom">
                       {{ formatDate(career.data.validFrom) }}
                     </time>
-                    <span class="mt-0.5 block text-[0.7rem] text-slate-400">
+                    <span class="mt-0.5 block text-[0.8125rem] text-slate-500">
                       hasta {{ career.data.validUntil ? formatDate(career.data.validUntil) : 'sin límite' }}
                     </span>
                   </td>
@@ -662,8 +662,8 @@
           <span class="sigeac-help">El historial aparecerá cuando la carrera tenga cambios.</span>
         </div>
       } @else {
-        <div class="overflow-x-auto">
-          <table class="sigeac-table min-w-[58rem]">
+        <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Historial de la carrera seleccionada">
+          <table class="sigeac-table sigeac-table-layout sigeac-table-layout--career-history">
             <caption class="sr-only">Revisiones de la carrera seleccionada</caption>
             <thead>
               <tr>
@@ -694,7 +694,7 @@
                     <time class="careers-date block" [attr.datetime]="row.data.validFrom">
                       {{ formatDate(row.data.validFrom) }}
                     </time>
-                    <span class="mt-0.5 block text-[0.7rem] text-slate-400">
+                    <span class="mt-0.5 block text-[0.8125rem] text-slate-500">
                       hasta {{ row.data.validUntil ? formatDate(row.data.validUntil) : 'sin límite' }}
                     </span>
                   </td>
@@ -1016,8 +1016,8 @@
           </span>
         </div>
       } @else {
-        <div class="overflow-x-auto">
-          <table class="sigeac-table min-w-[46rem]">
+        <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Unidades académicas">
+          <table class="sigeac-table sigeac-table-layout sigeac-table-layout--units">
             <caption class="sr-only">Unidades académicas disponibles</caption>
             <thead>
               <tr>

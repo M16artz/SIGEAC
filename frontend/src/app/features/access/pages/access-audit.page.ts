@@ -1,5 +1,4 @@
-import { DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { AccessApi } from '../data-access/access-api.service';
@@ -7,11 +6,12 @@ import { accessErrorMessage } from '../data-access/access.errors';
 import { AuditEventView } from '../data-access/access.models';
 import { DisplayLabelPipe } from '../../../shared/labels/display-label.pipe';
 import { AUDIT_OBJECT_TYPES } from '../../../shared/labels/audit-labels';
+import { AuditEventsTableComponent } from '../../../shared/ui/audit-events-table.component';
 
 @Component({
   selector: 'sec-access-audit',
   standalone: true,
-  imports: [ReactiveFormsModule, DatePipe, DisplayLabelPipe],
+  imports: [ReactiveFormsModule, DisplayLabelPipe, AuditEventsTableComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './access-audit.page.html',
@@ -28,6 +28,7 @@ export class AccessAuditPageComponent implements OnInit {
   readonly total = signal(0);
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
+  readonly totalPages = computed(() => Math.max(1, Math.ceil(this.total() / this.size())));
   readonly filter = this.fb.nonNullable.group({objectType: [''], objectId: ['']});
 
   ngOnInit(): void {

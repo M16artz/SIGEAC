@@ -29,7 +29,13 @@
     overflow-wrap: anywhere;
   }
 
-  .sigeac-page-header p { max-width: 48rem; margin: 0; }
+  .sigeac-page-header p {
+    max-width: 48rem;
+    margin: 0;
+    color: #475569;
+    font-size: .95rem;
+    line-height: 1.65;
+  }
   .sigeac-page-header > .sigeac-badge {
     padding: .375rem .75rem;
     letter-spacing: .12em;
@@ -122,9 +128,19 @@
     border: 1px solid #e5edf6;
     border-radius: 1rem;
   }
-  table { min-width: 40rem; margin: 0; }
-  caption { padding: 1rem; }
-  thead th { padding: 1rem; background: #eaf2fa; color: #084878; }
+  table { margin: 0; font-size: .875rem; }
+  caption { padding: 1rem; color: #475569; font-size: .8125rem; text-align: left; }
+  thead th {
+    padding: 1rem;
+    background: #eaf2fa;
+    color: #084878;
+    font-size: .8125rem;
+    font-weight: 600;
+    letter-spacing: .05em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    vertical-align: middle;
+  }
   tbody :is(th, td) { padding: 1rem; }
 
   /* Opt-in para formularios reorganizados; no afecta a los grids aprobados. */
@@ -141,7 +157,7 @@
     gap: .375rem;
     min-width: 0;
 
-    label { margin: 0; font-size: .875rem; line-height: 1.5; }
+    label { margin: 0; color: #334155; font-size: .875rem; font-weight: 600; line-height: 1.5; }
     input:not([type=checkbox]):not([type=radio]), select, textarea {
       width: 100%;
       max-width: none;
@@ -151,7 +167,7 @@
     }
     input:not([type=checkbox]):not([type=radio]), select { min-height: 2.75rem; }
     textarea { resize: vertical; }
-    p { margin: 0; font-size: .8125rem; }
+    p { margin: 0; color: #526173; font-size: .8125rem; line-height: 1.5; }
   }
   .sigeac-form-wide,
   .sigeac-form-grid > :is(h3, h4, h5, p, fieldset, .sigeac-form-actions) {
@@ -193,12 +209,9 @@
   }
 
   &.sigeac-page--balanced {
-    table { min-width: 36rem; font-size: .875rem; }
-    thead th { font-size: .8125rem; letter-spacing: .03em; }
+    table { font-size: .875rem; }
+    thead th { font-size: .8125rem; font-weight: 600; letter-spacing: .05em; }
     tbody :is(th, td) { padding: .75rem 1rem; vertical-align: middle; }
-    table:has(tbody td:last-child button) {
-      th:last-child, td:last-child { width: 1%; white-space: nowrap; }
-    }
     nav { justify-content: flex-end; font-size: .875rem; }
   }
 
