@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, input, output, signal} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RequiredSourceState, SourceCoverageView} from '../data-access/evidence.models';
+import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
 
 export interface CoverageDraft {
   readonly requiredSourceId: string;
@@ -10,7 +11,7 @@ export interface CoverageDraft {
 @Component({
   selector: 'sec-evidence-source-coverage',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, DisplayLabelPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section aria-labelledby="coverage-heading">
@@ -30,7 +31,7 @@ export interface CoverageDraft {
               <tr [attr.data-source-covered]="source.covered">
                 <td>{{source.code}} · {{source.name}}</td>
                 <td>{{source.indicatorCode}}</td>
-                <td>{{source.sourceType}}</td>
+                <td>{{source.sourceType | displayLabel}}</td>
                 <td>{{source.covered ? 'Cubierta' : 'Sin cobertura'}}</td>
                 <td>{{noteOf(source)}}</td>
                 <td>

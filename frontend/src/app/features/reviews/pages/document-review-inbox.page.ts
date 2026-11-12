@@ -8,6 +8,7 @@ import {
   ReviewInboxEntry,
   ReviewOutcomeCommand
 } from '../data-access/review.models';
+import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
 
 const OUTCOME_OPTIONS: ReviewOutcomeCommand['outcome'][] = ['ACCEPTED', 'OBSERVED', 'REJECTED'];
 
@@ -20,7 +21,7 @@ interface CoverageOutcomeDraft {
 @Component({
   selector: 'sec-document-review-inbox',
   standalone: true,
-  imports: [FormsModule, DatePipe],
+  imports: [FormsModule, DatePipe, DisplayLabelPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="sigeac-page sigeac-page--balanced">
@@ -81,7 +82,7 @@ interface CoverageOutcomeDraft {
                           [ngModelOptions]="{standalone: true}"
                           (ngModelChange)="setOutcome(draft, $event)">
                     @for (option of outcomeOptions; track option) {
-                      <option [value]="option">{{option}}</option>
+                      <option [value]="option">{{option | displayLabel}}</option>
                     }
                   </select></div>
                   @if (draft.outcome !== 'ACCEPTED') {
@@ -134,13 +135,13 @@ interface CoverageOutcomeDraft {
               @for (decision of decisions(); track decision.id) {
                 <tr>
                   <td>{{decision.versionId}}</td>
-                  <td>{{decision.decision}}</td>
+                  <td>{{decision.decision | displayLabel}}</td>
                   <td>{{decision.reviewedAt | date:'medium'}}</td>
                   <td>{{decision.revision}}</td>
                   <td>
                     <ul>
                       @for (outcome of decision.outcomes; track outcome.requiredSourceId) {
-                        <li>{{outcome.requiredSourceId}}: {{outcome.outcome}}</li>
+                        <li>{{outcome.requiredSourceId}}: {{outcome.outcome | displayLabel}}</li>
                       }
                     </ul>
                   </td>

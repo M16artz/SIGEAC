@@ -7,10 +7,11 @@ import {Subscription, switchMap, throwError} from 'rxjs';
 import {ApiProblemError} from '../../../core/http/api-client';
 import {ProcessApi, ProcessView} from '../../processes/data-access/process-api.service';
 import {DocumentarySnapshotPage, DocumentarySnapshotView, ReportingApi} from '../data-access/reporting-api.service';
+import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
 
 @Component({
   selector: 'sec-documentary-history', standalone: true,
-  imports: [DatePipe, DecimalPipe, FormsModule, RouterLink],
+  imports: [DatePipe, DecimalPipe, FormsModule, RouterLink, DisplayLabelPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="sigeac-page sigeac-page--balanced">
@@ -63,7 +64,7 @@ import {DocumentarySnapshotPage, DocumentarySnapshotView, ReportingApi} from '..
           <h3 id="saved-snapshot-title">Corte guardado · {{snapshot.header.createdAt | date:'medium'}}</h3>
           <p>{{snapshot.header.reason}}</p>
           <p>Huella SHA-256: <code>{{snapshot.header.sha256}}</code></p>
-          <p>Regla de cálculo: {{snapshot.data.progress.formulaVersion}}</p>
+          <p>Regla de cálculo: {{snapshot.data.progress.formulaVersion | displayLabel}}</p>
           @if (snapshot.data.progress.requiredSourceTotal > 0) {
             <p>Recopilación: {{(100 * snapshot.data.progress.registeredSourceTotal / snapshot.data.progress.requiredSourceTotal) | number:'1.2-2'}} %
               ({{snapshot.data.progress.registeredSourceTotal}} / {{snapshot.data.progress.requiredSourceTotal}}).</p>
@@ -78,7 +79,7 @@ import {DocumentarySnapshotPage, DocumentarySnapshotView, ReportingApi} from '..
               <li>{{source.code}} · {{source.name}} · {{source.applicable ? (source.required ? 'Obligatoria' : 'Opcional') : 'Excluida'}}
                 <ul>
                   @for (coverage of source.coverages; track coverage.versionId) {
-                    <li>Versión {{coverage.versionId}} · Decisión {{coverage.decisionId ?? 'pendiente de revisión'}}</li>
+                    <li>Versión {{coverage.versionId}} · Decisión {{coverage.decisionId ?? 'Pendiente de revisión'}}</li>
                   }
                 </ul>
               </li>

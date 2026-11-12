@@ -12,11 +12,12 @@ import {
 } from '../data-access/evidence.models';
 import {CoverageDraft, EvidenceSourceCoverageComponent} from '../ui/evidence-source-coverage.component';
 import {StructuredEvidenceComponent} from '../ui/structured-evidence.component';
+import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
 
 @Component({
   selector: 'sec-evidence-version-page',
   standalone: true,
-  imports: [EvidenceSourceCoverageComponent, StructuredEvidenceComponent],
+  imports: [EvidenceSourceCoverageComponent, StructuredEvidenceComponent, DisplayLabelPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="sigeac-page sigeac-page--balanced">
@@ -28,7 +29,7 @@ import {StructuredEvidenceComponent} from '../ui/structured-evidence.component';
     <section class="sigeac-page-body">
       @if (version(); as current) {
         <h2>Versión {{current.revisionNumber}} · {{current.title}}</h2>
-        <p><strong>Estado:</strong> {{current.status}} · <strong>Vigencia:</strong> {{current.coveredFrom}} → {{current.coveredTo}}</p>
+        <p><strong>Estado:</strong> {{current.status | displayLabel}} · <strong>Vigencia:</strong> {{current.coveredFrom}} → {{current.coveredTo}}</p>
         <dl>
           <dt>Procedencia</dt><dd>{{current.provenance}}</dd>
           <dt>Indicadores</dt><dd>{{current.indicatorIds.length}}</dd>

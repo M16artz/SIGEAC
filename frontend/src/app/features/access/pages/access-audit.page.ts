@@ -5,11 +5,13 @@ import { finalize } from 'rxjs';
 import { AccessApi } from '../data-access/access-api.service';
 import { accessErrorMessage } from '../data-access/access.errors';
 import { AuditEventView } from '../data-access/access.models';
+import { DisplayLabelPipe } from '../../../shared/labels/display-label.pipe';
+import { AUDIT_OBJECT_TYPES } from '../../../shared/labels/audit-labels';
 
 @Component({
   selector: 'sec-access-audit',
   standalone: true,
-  imports: [ReactiveFormsModule, DatePipe],
+  imports: [ReactiveFormsModule, DatePipe, DisplayLabelPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './access-audit.page.html',
@@ -20,6 +22,7 @@ export class AccessAuditPageComponent implements OnInit {
   private readonly api = inject(AccessApi);
 
   readonly events = signal<readonly AuditEventView[]>([]);
+  readonly objectTypes = AUDIT_OBJECT_TYPES;
   readonly page = signal(0);
   readonly size = signal(20);
   readonly total = signal(0);

@@ -3,8 +3,9 @@ import {FormsModule} from '@angular/forms';
 import {ModelApi} from '../data-access/model-api.service';
 import {ApplicabilityInput,ModelCareerApplicability,ModelConfiguration,ModelNode,ModelVersion} from '../data-access/model.models';
 import {PublicationPanel} from '../ui/publication-panel.component';
+import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
 @Component({
- selector:'sec-model-editor',standalone:true,imports:[FormsModule,PublicationPanel],changeDetection:ChangeDetectionStrategy.OnPush,
+ selector:'sec-model-editor',standalone:true,imports:[FormsModule,PublicationPanel,DisplayLabelPipe],changeDetection:ChangeDetectionStrategy.OnPush,
  template:`<div class="sigeac-page">
  <header class="sigeac-page-header">
  <span class="sigeac-badge">Modelos</span>
@@ -30,8 +31,8 @@ import {PublicationPanel} from '../ui/publication-panel.component';
  @if(version();as value){
  <section aria-labelledby="version-title">
   <h3 id="version-title">Versión cargada</h3>
-  <p role="status">v{{value.versionNumber}} · {{value.status}} · revisión {{value.revision}} · {{referenceCount(value)}} referencia(s), {{pendingCount(value)}} pendiente(s)</p>
-  @if(pendingCount(value)>0){<p role="alert">La activación institucional permanece bloqueada mientras existan referencias PENDING_VALIDATION.</p>}
+  <p role="status">v{{value.versionNumber}} · {{value.status | displayLabel}} · revisión {{value.revision}} · {{referenceCount(value)}} referencia(s), {{pendingCount(value)}} pendiente(s)</p>
+  @if(pendingCount(value)>0){<p role="alert">La activación institucional permanece bloqueada mientras existan referencias pendientes de validación.</p>}
   @if(value.status==='DRAFT'){<sec-publication-panel [version]="value" [configured]="true" (published)="published($event)"/>}
  </section>}
  @if(version();as value){@if(value.status!=='DRAFT'){
@@ -50,7 +51,7 @@ import {PublicationPanel} from '../ui/publication-panel.component';
    <div class="sigeac-form-actions"><button [disabled]="applicabilityBusy()">Registrar decisión</button></div>
   </div>
   </form>
-  @if(latestApplicability();as latest){<p role="status">Última decisión: {{latest.status}} · revisión {{latest.revision}} · desde {{latest.validFrom}}</p>}
+  @if(latestApplicability();as latest){<p role="status">Última decisión: {{latest.status | displayLabel}} · revisión {{latest.revision}} · desde {{latest.validFrom}}</p>}
  </section>}}
  @if(message()){<p role="alert">{{message()}}</p>}
  </section>

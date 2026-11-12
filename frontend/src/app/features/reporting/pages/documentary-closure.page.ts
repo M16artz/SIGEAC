@@ -7,10 +7,11 @@ import {Subscription, switchMap, throwError} from 'rxjs';
 import {ApiProblemError} from '../../../core/http/api-client';
 import {ProcessApi, ProcessView} from '../../processes/data-access/process-api.service';
 import {DocumentaryClosurePage, DocumentaryClosureView, ReportingApi} from '../data-access/reporting-api.service';
+import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
 
 @Component({
   selector: 'sec-documentary-closure', standalone: true,
-  imports: [DatePipe, FormsModule, RouterLink], changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [DatePipe, FormsModule, RouterLink, DisplayLabelPipe], changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="sigeac-page sigeac-page--balanced">
     <header class="sigeac-page-header">
@@ -66,7 +67,7 @@ import {DocumentaryClosurePage, DocumentaryClosureView, ReportingApi} from '../d
         <section aria-labelledby="saved-closure-title">
           <h3 id="saved-closure-title">Fase documental cerrada</h3>
           <p>{{closure.data.closedAt | date:'medium'}} · {{closure.data.reason}}</p>
-          <p>Política: {{closure.data.policyVersion}}</p>
+          <p>Política: {{closure.data.policyVersion | displayLabel}}</p>
           <p>Huella SHA-256: <code>{{closure.sha256}}</code></p>
           <a routerLink="/reporting/history" [queryParams]="{snapshotId: closure.data.snapshotId}">Consultar el corte conservado del cierre</a>
           <p>La valoración académica y el cierre integral se gestionan por separado.</p>

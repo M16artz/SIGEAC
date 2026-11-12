@@ -2,8 +2,9 @@ import {ChangeDetectionStrategy, Component, signal} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ModelApi} from '../data-access/model-api.service';
 import {ModelVersion} from '../data-access/model.models';
+import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
 
-@Component({selector: 'sec-model-history', standalone: true, imports: [FormsModule],
+@Component({selector: 'sec-model-history', standalone: true, imports: [FormsModule, DisplayLabelPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div class="sigeac-page">
     <header class="sigeac-page-header">
@@ -18,7 +19,7 @@ import {ModelVersion} from '../data-access/model.models';
     </div>
     @if (error()) { <p role="alert">{{error()}}</p> }
     <ol>@for (v of versions(); track v.id) {
-      <li>v{{v.versionNumber}} · {{v.status}} · fuente: {{v.source}}
+      <li>v{{v.versionNumber}} · {{v.status | displayLabel}} · fuente: {{v.source}}
         @if (v.status !== 'DRAFT') { <button (click)="successor(v)">Crear sucesora</button> }
       </li>
     }</ol>

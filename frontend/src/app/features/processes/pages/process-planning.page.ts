@@ -5,11 +5,12 @@ import {Observable, finalize, forkJoin} from 'rxjs';
 import {ProcessActivity, ProcessApi, ProcessAssignment, ProcessTeam, ProcessView, TeamMembership} from '../data-access/process-api.service';
 import {ProcessStateControls} from '../ui/process-state-controls.component';
 import {AccessSessionService} from '../../access/data-access/access-session.service';
+import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
 
 @Component({
   selector: 'sec-process-planning',
   standalone: true,
-  imports: [FormsModule, RouterLink, ProcessStateControls],
+  imports: [FormsModule, RouterLink, ProcessStateControls, DisplayLabelPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="sigeac-page sigeac-page--balanced">
@@ -22,7 +23,7 @@ import {AccessSessionService} from '../../access/data-access/access-session.serv
     <p><a routerLink="/processes">Volver a procesos</a></p>
     @if (error()) { <p role="alert">{{error()}}</p> }
     @if (process(); as current) {
-      <p><strong>{{current.code}} - {{current.name}}</strong> ({{current.state}})</p>
+      <p><strong>{{current.code}} - {{current.name}}</strong> ({{current.state | displayLabel}})</p>
       <p>Modelo fijado v{{current.modelVersionNumber}}. El proceso no puede iniciar sin autorizacion competente registrada.</p>
       <sec-process-state-controls [process]="current" (changed)="process.set($event); refresh($event)" />
 
@@ -40,7 +41,7 @@ import {AccessSessionService} from '../../access/data-access/access-session.serv
           </form>
         }
         <ul>@for (team of teams(); track team.id) {
-          <li>{{team.name}} - {{team.processRole}} ({{team.validFrom}} a {{team.validUntil}})
+          <li>{{team.name}} - {{team.processRole | displayLabel}} ({{team.validFrom}} a {{team.validUntil}})
             <ul>@for (member of memberships()[team.id] ?? []; track member.id) {
               <li>Miembro {{member.userId}} ({{member.validFrom}} a {{member.validUntil}})</li>
             }</ul>
@@ -77,7 +78,7 @@ import {AccessSessionService} from '../../access/data-access/access-session.serv
             </select></div>
             @if (assignSubject === 'PERSON') {<div class="sigeac-form-field"><label for="assign-identity">Identidad (UUID)</label><input id="assign-identity" name="assignIdentity" [(ngModel)]="assignIdentity" required></div>}
             @else {<div class="sigeac-form-field"><label for="assign-team">Equipo</label><select id="assign-team" name="assignTeam" [(ngModel)]="assignTeam" required><option value="">Seleccione un equipo</option>@for (team of teams(); track team.id) {<option [value]="team.id">{{team.name}}</option>}</select></div>}
-            <div class="sigeac-form-field"><label for="assign-function">Funcion</label><select id="assign-function" name="assignFunction" [(ngModel)]="assignFunction"><option>RESPONSIBLE</option><option>REVIEWER</option><option>EVALUATOR</option></select></div>
+            <div class="sigeac-form-field"><label for="assign-function">Función</label><select id="assign-function" name="assignFunction" [(ngModel)]="assignFunction"><option value="RESPONSIBLE">Responsable de evidencia</option><option value="REVIEWER">Revisor documental</option><option value="EVALUATOR">Evaluador académico</option></select></div>
             <div class="sigeac-form-field"><label for="assign-from">Desde</label><input id="assign-from" type="datetime-local" name="assignFrom" [(ngModel)]="assignFrom" required></div>
             <div class="sigeac-form-field"><label for="assign-until">Hasta</label><input id="assign-until" type="datetime-local" name="assignUntil" [(ngModel)]="assignUntil" required></div>
             <div class="sigeac-form-field sigeac-form-wide"><label for="assign-reason">Motivo</label><textarea id="assign-reason" name="assignReason" [(ngModel)]="assignReason" required maxlength="2000"></textarea></div>
@@ -86,7 +87,7 @@ import {AccessSessionService} from '../../access/data-access/access-session.serv
           </form>
         } @else {<p>Las asignaciones requieren un proceso activo.</p>}
         <ul>@for (a of assignments(); track a.id) {
-          <li>{{a.function}} - indicador {{a.indicatorId}} - {{a.identityId ? 'persona ' + a.identityId : 'equipo ' + a.teamId}}</li>
+          <li>{{a.function | displayLabel}} - indicador {{a.indicatorId}} - {{a.identityId ? 'persona ' + a.identityId : 'equipo ' + (a.teamId ?? '—')}}</li>
         }</ul>
       </section>
 
@@ -100,7 +101,7 @@ import {AccessSessionService} from '../../access/data-access/access-session.serv
               <option value="">Seleccione un indicador</option>@for (i of current.indicators; track i.id) {<option [value]="i.id">{{i.code}} - {{i.name}}</option>}
             </select></div>
             <div class="sigeac-form-field"><label for="activity-assignment">Asignacion responsable</label><select id="activity-assignment" name="activityAssignment" [(ngModel)]="activityAssignment" required>
-              <option value="">Seleccione una asignacion</option>@for (a of activityAssignments(); track a.id) {<option [value]="a.id">{{a.function}} - {{a.indicatorId}}</option>}
+              <option value="">Seleccione una asignación</option>@for (a of activityAssignments(); track a.id) {<option [value]="a.id">{{a.function | displayLabel}} - {{a.indicatorId}}</option>}
             </select></div>
             <div class="sigeac-form-field"><label for="activity-source">Fuente requerida (opcional, UUID)</label>
             <input id="activity-source" name="activitySource" [(ngModel)]="activitySource"></div>

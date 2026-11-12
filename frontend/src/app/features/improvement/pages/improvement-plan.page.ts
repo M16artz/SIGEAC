@@ -8,25 +8,16 @@ import {Finding, ReportApi, ReportVersion} from '../../reports/data-access/repor
 import {
   ActionCommand, ActionPage, ImprovementAction, ImprovementApi, ImprovementPlan, State, Transition
 } from '../data-access/improvement-api.service';
+import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
+import {displayLabel} from '../../../shared/labels/display-labels';
 
-const STATE_LABELS: Readonly<Record<State, string>> = {
-  PROPOSED: 'Propuesta', APPROVED: 'Aprobada', IN_PROGRESS: 'En ejecución',
-  PENDING_VERIFICATION: 'Pendiente de verificación', VERIFIED: 'Verificada'
-};
-
-const TRANSITIONS: readonly {value: Transition; label: string}[] = [
-  {value: 'APPROVE', label: 'Aprobar'},
-  {value: 'RETURN', label: 'Devolver a propuesta'},
-  {value: 'START', label: 'Iniciar ejecución'},
-  {value: 'SUBMIT_VERIFICATION', label: 'Enviar a verificación'},
-  {value: 'VERIFY', label: 'Verificar cumplimiento'},
-  {value: 'REQUEST_CORRECTION', label: 'Solicitar corrección'}
-];
+const TRANSITION_CODES: readonly Transition[] = ['APPROVE', 'RETURN', 'START', 'SUBMIT_VERIFICATION', 'VERIFY', 'REQUEST_CORRECTION'];
+const TRANSITIONS = TRANSITION_CODES.map(value => ({value, label: displayLabel(value, 'improvementTransition')}));
 
 @Component({
   selector: 'sec-improvement-plan-page',
   standalone: true,
-  imports: [FormsModule, DatePipe],
+  imports: [FormsModule, DatePipe, DisplayLabelPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [`
     section { max-width: 80rem; }
@@ -70,7 +61,7 @@ const TRANSITIONS: readonly {value: Transition; label: string}[] = [
           <select id="plan-report" name="planReport" [(ngModel)]="planReportVersionId" required [disabled]="saving()">
             <option value="">Seleccione la versión</option>
             @for (version of versions(); track version.id) {
-              <option [value]="version.id">{{version.data.kind}} · ETag {{version.revision}} · {{version.state ?? ''}}</option>
+              <option [value]="version.id">{{version.data.kind | displayLabel}} · Revisión {{version.revision}} · {{version.state | displayLabel}}</option>
             }
           </select></div>
           <div class="sigeac-form-field"><label for="plan-revision">Revisión previa de la cadena de planes</label>
@@ -114,7 +105,7 @@ const TRANSITIONS: readonly {value: Transition; label: string}[] = [
           <article>
             <strong>{{action.data.title}}</strong> · {{stateLabel(action.state)}}
             @if (action.overdue) { <span class="overdue"> · Vencida sin verificación</span> }
-            <p class="muted">ETag {{action.revision}} · Responsable {{action.data.responsibleAssignmentId}} ·
+            <p class="muted">Revisión {{action.revision}} · Responsable {{action.data.responsibleAssignmentId}} ·
               Plazo {{action.data.dueAt | date:'medium'}} · Hallazgos {{action.data.findingIds.length}} ·
               Avances {{action.progress.length}} · Decisiones {{action.decisions.length}}</p>
             <button type="button" (click)="selectAction(action.id)" [disabled]="saving()">Abrir seguimiento</button>
@@ -123,7 +114,7 @@ const TRANSITIONS: readonly {value: Transition; label: string}[] = [
 
         @if (detail(); as d) {
           <article aria-label="Seguimiento de la acción seleccionada">
-            <h4>{{d.data.title}} · ETag {{d.revision}} · {{stateLabel(d.state)}}</h4>
+            <h4>{{d.data.title}} · Revisión {{d.revision}} · {{stateLabel(d.state)}}</h4>
             @if (d.overdue) { <p class="overdue">Plazo vencido sin verificación satisfactoria; el historial se conserva.</p> }
             <p class="muted">Meta: {{d.data.target}} · Verificación: {{d.data.verificationMethod}}</p>
             <h5>Avances inmutables</h5>
@@ -132,7 +123,7 @@ const TRANSITIONS: readonly {value: Transition; label: string}[] = [
                 Evidencias {{entry.data.evidenceVersionIds.length}} · {{entry.data.description}}</p>
             } @empty { <p class="muted">Sin avances registrados.</p> }
             @for (decision of d.decisions; track decision.id) {
-              <p class="muted">{{decision.provenance.decidedAt | date:'medium'}} · {{decision.action}} ·
+              <p class="muted">{{decision.provenance.decidedAt | date:'medium'}} · {{decision.action | displayLabel}} ·
                 {{decision.provenance.documentReference}}</p>
             }
             @if (d.state !== 'VERIFIED') {
@@ -264,7 +255,7 @@ export class ImprovementPlanPage implements OnInit, OnDestroy {
   }
 
   stateLabel(state: State): string {
-    return STATE_LABELS[state];
+    return displayLabel(state, 'improvement');
   }
 
   planValid(): boolean {
@@ -374,7 +365,7 @@ export class ImprovementPlanPage implements OnInit, OnDestroy {
     const due = new Date(detail.data.dueAt);
     this.revisionDue = Number.isNaN(due.getTime()) ? '' : this.localInput(due);
     this.progressEvidence = detail.progress.at(-1)?.data.evidenceVersionIds.join(',') ?? '';
-    this.message.set(`Seguimiento de la acción · ETag ${detail.revision} · ${STATE_LABELS[detail.state]}`);
+    this.message.set(`Seguimiento de la acción · Revisión ${detail.revision} · ${displayLabel(detail.state, 'improvement')}`);
   }
 
   private localInput(date: Date): string {

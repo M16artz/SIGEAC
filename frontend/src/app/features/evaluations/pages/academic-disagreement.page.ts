@@ -6,11 +6,13 @@ import {ApiProblemError} from '../../../core/http/api-client';
 import {AccessSessionService} from '../../access/data-access/access-session.service';
 import {ProcessApi, ProcessView} from '../../processes/data-access/process-api.service';
 import {ReconciliationApi, ReconciliationView} from '../data-access/reconciliation-api.service';
+import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
+import {displayLabel} from '../../../shared/labels/display-labels';
 
 @Component({
   selector: 'sec-academic-disagreement-page',
   standalone: true,
-  imports: [FormsModule, DatePipe], changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FormsModule, DatePipe, DisplayLabelPipe], changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [`select,textarea {display:block;max-width:100%;margin:.4rem 0 1rem} textarea {width:100%;min-height:5rem}
     article {border-top:1px solid #ccc;padding:.8rem 0;overflow-wrap:anywhere} fieldset label {display:block;margin:.5rem 0}
     nav {background:transparent;color:inherit;padding:1rem 0} nav span {margin:0 .5rem}`],
@@ -65,7 +67,7 @@ import {ReconciliationApi, ReconciliationView} from '../data-access/reconciliati
           <label for="reconciliation-authority">Asignación autorizadora</label>
           <select id="reconciliation-authority" [(ngModel)]="assignmentId" [disabled]="busy()">
             <option value="">Seleccione una asignación competente</option>
-            @for (a of session.identity()?.assignments ?? []; track a.id) {<option [value]="a.id">{{a.roleName}} · {{a.id}}</option>}
+            @for (a of session.identity()?.assignments ?? []; track a.id) {<option [value]="a.id">{{a.roleCode | displayLabel}} · {{a.id}}</option>}
           </select>
           <details>
             <summary>Registrar o versionar procedimiento de conciliación</summary>
@@ -164,8 +166,8 @@ export class AcademicDisagreementPage implements OnInit, OnDestroy {
   open(): void {const v = this.view(); if (v && this.editable(v) && !this.busy() && this.disagreementReason.trim().length >= 10) this.perform(this.api.open(v, this.disagreementReason.trim()), 'Discrepancia y fundamentos originales conservados.');}
   resolve(): void {const v = this.view(); if (v && this.canResolve(v) && !this.busy() && this.assignmentId && this.selectedJudgement && this.resolutionReason.trim().length >= 10 && this.requiredParticipants(v).every(id => this.participants.includes(id)))
     this.perform(this.api.resolve(v, this.selectedJudgement, this.participants, this.resolutionReason.trim(), this.assignmentId), 'Resolución autorizada conservada; los juicios previos permanecen intactos.');}
-  statusText(status: string): string {return ({NO_EVALUATION: 'Sin valoraciones', UNCONSOLIDATED: 'Sin consolidar', PENDING_RECONCILIATION: 'Pendiente de conciliación', REQUIRES_REVIEW: 'Requiere revisión de juicios o sustentos', RESOLVED: 'Resolución aplicable'} as Record<string, string>)[status] ?? status;}
-  flagText(flag: string): string {return ({SUPERSEDED: 'Juicio sustituido por una revisión posterior del mismo evaluador.', SUPPORTS_INVALIDATED: 'Los sustentos documentales ya no coinciden con la aceptación vigente.', INPUTS_SUPERSEDED: 'Las variables tienen una revisión posterior; este cálculo es histórico.', RULE_MISMATCH: 'La regla o escala no coincide con el modelo fijado.'} as Record<string, string>)[flag] ?? flag;}
+  statusText(status: string): string {return displayLabel(status, 'reconciliation');}
+  flagText(flag: string): string {return displayLabel(flag, 'judgement');}
   private perform(operation: Observable<unknown>, message: string): void {this.request?.unsubscribe(); this.busy.set(true); this.error.set(''); this.message.set('');
     this.request = operation.pipe(switchMap(() => this.api.view(this.processId, this.indicatorId))).subscribe({next: v => {this.accept(v); this.message.set(message);}, error: e => this.fail(e)});}
   private accept(v: ReconciliationView): void {this.view.set(v); this.busy.set(false); this.participants = this.participants.filter(id => this.requiredParticipants(v).includes(id)); if (!v.current.some(j => j.id === this.selectedJudgement)) this.selectedJudgement = '';}

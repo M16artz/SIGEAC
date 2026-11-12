@@ -12,11 +12,12 @@ import { AccessApi } from '../data-access/access-api.service';
 import { accessErrorMessage } from '../data-access/access.errors';
 import { AssignmentView, UserView } from '../data-access/access.models';
 import { AssignmentFormComponent } from '../ui/assignment-form.component';
+import { DisplayLabelPipe } from '../../../shared/labels/display-label.pipe';
 
 @Component({
   selector: 'sec-identity-admin',
   standalone: true,
-  imports: [ReactiveFormsModule, AssignmentFormComponent],
+  imports: [ReactiveFormsModule, AssignmentFormComponent, DisplayLabelPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './identity-admin.page.html',

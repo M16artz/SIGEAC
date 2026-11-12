@@ -5,6 +5,7 @@ import { filter, map } from 'rxjs';
 import { AccessSessionService } from '../../features/access/data-access/access-session.service';
 import type { CurrentIdentity } from '../../features/access/data-access/access.models';
 import { NAV_MODULES, NavModule } from './app-layout.navigation';
+import { displayLabel } from '../../shared/labels/display-labels';
 
 @Component({
   selector: 'sec-app-layout',
@@ -51,7 +52,7 @@ export class AppLayoutComponent {
     if (identity.assignments.length === 0) {
       return identity.technical ? 'Cuenta técnica' : 'Sin rol asignado';
     }
-    const names = [...new Set(identity.assignments.map((assignment) => assignment.roleName))];
+    const names = [...new Set(identity.assignments.map((assignment) => displayLabel(assignment.roleCode)))];
     return names.length > 1 ? `${names[0]} +${names.length - 1}` : names[0];
   });
 

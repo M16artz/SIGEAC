@@ -5,11 +5,12 @@ import {Subscription, switchMap} from 'rxjs';
 import {ApiProblemError} from '../../../core/http/api-client';
 import {ProcessApi, ProcessView} from '../../processes/data-access/process-api.service';
 import {AcademicEvaluationApi, ManualEvaluationView} from '../data-access/academic-evaluation-api.service';
+import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
 
 @Component({
   selector: 'sec-indicator-evaluation-page',
   standalone: true,
-  imports: [FormsModule, DatePipe],
+  imports: [FormsModule, DatePipe, DisplayLabelPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [`
     section { max-width: 70rem; }
@@ -46,7 +47,7 @@ import {AcademicEvaluationApi, ManualEvaluationView} from '../data-access/academ
       @if (processId && indicatorId) { <button type="button" (click)="load()" [disabled]="loading() || saving()">Recargar valoración</button> }
       @if (view(); as v) {
         <p>Método de la versión publicada: {{v.method}}</p>
-        <p>Modelo: {{v.modelVersionId}} · Estado del proceso: {{v.processState}}</p>
+        <p>Modelo: {{v.modelVersionId}} · Estado del proceso: {{v.processState | displayLabel}}</p>
         @if (editable(v)) {
           <form (ngSubmit)="save()" class="sigeac-form-layout"><div class="sigeac-form-grid">
             <div class="sigeac-form-field"><label for="evaluation-rating">Resultado según escala del indicador</label>

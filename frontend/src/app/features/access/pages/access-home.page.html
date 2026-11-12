@@ -181,9 +181,9 @@
                 @for (assignment of assignments(); track assignment.id) {
                   <tr>
                     <td>
-                      <span class="block text-sm font-semibold text-slate-800">{{ assignment.roleName }}</span>
+                      <span class="block text-sm font-semibold text-slate-800">{{ assignment.roleCode | displayLabel }}</span>
                       <span class="mt-1 block text-[0.68rem] uppercase tracking-[0.08em] text-slate-400">
-                        {{ assignment.roleCode }}
+                        {{ assignment.roleCode | displayLabel }}
                       </span>
                     </td>
                     <td>

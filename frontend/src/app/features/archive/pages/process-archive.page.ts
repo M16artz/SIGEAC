@@ -7,11 +7,12 @@ import {ProcessApi, ProcessView} from '../../processes/data-access/process-api.s
 import {
   ArchiveApi, ClosurePage, ClosurePreview, ClosureRecord, ProvenanceCommand
 } from '../data-access/archive-api.service';
+import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
 
 @Component({
   selector: 'sec-process-archive-page',
   standalone: true,
-  imports: [FormsModule, DatePipe],
+  imports: [FormsModule, DatePipe, DisplayLabelPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [`
     section { max-width: 80rem; }
@@ -29,14 +30,14 @@ import {
       <p>Consulte los cierres conservados y gestione su archivo e integridad.</p>
     </header>
     <section class="sigeac-page-body" aria-labelledby="archive-title">
-      <p class="muted">La previsualizaci��n informa los bloqueadores vigentes. El cierre integral conserva una
-        instant��nea inmutable y el archivo verifica su integridad antes de registrarlo.</p>
+      <p class="muted">La previsualización informa los bloqueadores vigentes. El cierre integral conserva una
+        instantánea inmutable y el archivo verifica su integridad antes de registrarlo.</p>
       <div class="sigeac-form-search">
       <div class="sigeac-form-field"><label for="archive-process">Proceso</label>
       <select id="archive-process" [ngModel]="processId" (ngModelChange)="selectProcess($event)" [disabled]="saving()">
         <option value="">Seleccione un proceso</option>
         @for (process of processes(); track process.id) {
-          <option [value]="process.id">{{process.code}} �� {{process.name}}</option>
+          <option [value]="process.id">{{process.code}} · {{process.name}}</option>
         }
       </select></div>
       <button type="button" (click)="refresh()" [disabled]="!processId || loading() || saving()">Actualizar</button>
@@ -48,17 +49,17 @@ import {
       @if (preview(); as p) {
         <article aria-label="Vista previa del cierre integral">
           <h3>Paso P16: cierre integral</h3>
-          <p><strong>{{p.eligible ? 'Elegible para cierre' : 'No elegible para cierre'}}</strong> ��
-            Pol��tica {{p.policyVersion}} �� ETag {{p.revision}}</p>
+          <p><strong>{{p.eligible ? 'Elegible para cierre' : 'No elegible para cierre'}}</strong> ·
+            Política {{p.policyVersion | displayLabel}} · Revisión {{p.revision}}</p>
           @for (blocker of p.blockers; track blocker) { <p class="blocked">{{blocker}}</p> }
           @for (warning of p.warnings; track warning) { <p class="muted">{{warning}}</p> }
           @if (p.blockers.length === 0) { <p class="muted">No hay bloqueadores vigentes.</p> }
 
           <form (ngSubmit)="closeIntegral()" class="sigeac-form-layout"><div class="sigeac-form-grid">
             <h4>Cerrar integralmente</h4>
-            <div class="sigeac-form-field"><label for="closure-policy">Pol��tica de cierre</label>
+            <div class="sigeac-form-field"><label for="closure-policy">Política de cierre</label>
             <input id="closure-policy" name="closurePolicy" [(ngModel)]="policyVersion" required maxlength="100" [disabled]="saving()" /></div>
-            <div class="sigeac-form-field"><label for="closure-assignment">Asignaci��n con competencia</label>
+            <div class="sigeac-form-field"><label for="closure-assignment">Asignación con competencia</label>
             <input id="closure-assignment" name="closureAssignment" [(ngModel)]="authorityAssignmentId" required [disabled]="saving()" /></div>
             <div class="sigeac-form-field"><label for="closure-legal">Fundamento normativo</label>
             <input id="closure-legal" name="closureLegal" [(ngModel)]="legalBasis" required maxlength="4000" [disabled]="saving()" /></div>
@@ -66,7 +67,7 @@ import {
             <input id="closure-document" name="closureDocument" [(ngModel)]="documentReference" required maxlength="2000" [disabled]="saving()" /></div>
             <div class="sigeac-form-field sigeac-form-wide"><label for="closure-reason">Motivo</label>
             <textarea id="closure-reason" name="closureReason" [(ngModel)]="reason" required minlength="10" maxlength="4000" [disabled]="saving()"></textarea></div>
-            <div class="sigeac-form-field sigeac-form-wide"><label for="closure-exceptions">Decisiones de excepci��n (separadas por coma)</label>
+            <div class="sigeac-form-field sigeac-form-wide"><label for="closure-exceptions">Decisiones de excepción (separadas por coma)</label>
             <input id="closure-exceptions" name="closureExceptions" [(ngModel)]="exceptionText" [disabled]="saving()" /></div>
             <div class="sigeac-form-actions"><button type="submit" [disabled]="saving() || !closureValid()">Cerrar integralmente</button></div>
             </div>
@@ -78,11 +79,11 @@ import {
       @if (history(); as page) {
         <p class="muted">{{page.totalElements}} cierre(s) conservado(s).</p>
         @for (closure of page.items; track closure.id) {
-          <article [attr.aria-label]="'Cierre ' + closure.type">
-            <strong>{{closure.type === 'INTEGRAL_CLOSURE' ? 'Cierre integral' : 'Cierre documental'}}</strong>
-            �� {{closure.policyVersion}} �� {{closure.createdAt | date:'medium'}}
+          <article [attr.aria-label]="'Cierre ' + (closure.type | displayLabel)">
+            <strong>{{closure.type | displayLabel}}</strong>
+            · {{closure.policyVersion | displayLabel}} · {{closure.createdAt | date:'medium'}}
             <p class="muted">SHA-256 <code>{{closure.sha256}}</code></p>
-            <p class="muted">Excepciones {{closure.exceptionDecisionIds.length}} �� Pendientes {{closure.pendingIds.length}}</p>
+            <p class="muted">Excepciones {{closure.exceptionDecisionIds.length}} · Pendientes {{closure.pendingIds.length}}</p>
             @if (closure.type === 'INTEGRAL_CLOSURE') {
               <button type="button" (click)="selectClosure(closure)" [disabled]="saving()">Seleccionar para archivar</button>
             }
@@ -94,7 +95,7 @@ import {
         <form (ngSubmit)="archiveClosure()" class="sigeac-form-layout"><div class="sigeac-form-grid">
           <h4>Archivar cierre seleccionado</h4>
           <p class="muted"><code>{{closure.id}}</code></p>
-          <div class="sigeac-form-field"><label for="archive-retention">Pol��tica de retenci��n</label>
+          <div class="sigeac-form-field"><label for="archive-retention">Política de retención</label>
           <input id="archive-retention" name="archiveRetention" [(ngModel)]="retentionPolicyVersion" required maxlength="100" [disabled]="saving()" /></div>
           <div class="sigeac-form-actions"><button type="submit" [disabled]="saving() || retentionPolicyVersion.trim().length === 0">Archivar cierre</button></div>
           </div>
@@ -182,7 +183,7 @@ export class ProcessArchivePage implements OnInit, OnDestroy {
       closurePolicyVersion: this.policyVersion.trim(),
       provenance: this.provenance(),
       exceptionDecisionIds: this.exceptionIds()
-    }), 'Cierre integral registrado con su instant��nea inmutable.');
+    }), 'Cierre integral registrado con su instantánea inmutable.');
   }
 
   archiveClosure(): void {
@@ -227,6 +228,6 @@ export class ProcessArchivePage implements OnInit, OnDestroy {
     this.loading.set(false);
     this.saving.set(false);
     this.error.set(error instanceof ApiProblemError ? error.message
-      : 'No se pudo completar la operaci��n de cierre o archivo. Recargue antes de continuar.');
+      : 'No se pudo completar la operación de cierre o archivo. Recargue antes de continuar.');
   }
 }

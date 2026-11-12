@@ -1,4 +1,4 @@
-import {Injectable,inject} from '@angular/core';import {Observable} from 'rxjs';import {ApiClient} from '../../../core/http/api-client';import {ApplicabilityInput,ConfiguredVersionDraft,EvaluationModel,ModelCareerApplicability,ModelComparison,ModelVersion,NormativeReference,VersionDraft} from './model.models';
+import {Injectable,inject} from '@angular/core';import {Observable} from 'rxjs';import {ApiClient} from '../../../core/http/api-client';import {AuditEventView} from '../../access/data-access/access.models';import {ApplicabilityInput,ConfiguredVersionDraft,EvaluationModel,ModelCareerApplicability,ModelComparison,ModelVersion,NormativeReference,VersionDraft} from './model.models';
 @Injectable({providedIn:'root'}) export class ModelApi {
  private readonly api=inject(ApiClient);
  models():Observable<readonly EvaluationModel[]>{return this.api.get('models')}
@@ -19,5 +19,5 @@ import {Injectable,inject} from '@angular/core';import {Observable} from 'rxjs';
  references(versionId:string):Observable<readonly NormativeReference[]>{return this.api.get(`model-versions/${versionId}/normative-references`)}
  applicability(versionId:string):Observable<readonly ModelCareerApplicability[]>{return this.api.get(`model-versions/${versionId}/applicability-decisions`)}
  decideApplicability(versionId:string,revision:number,input:ApplicabilityInput):Observable<ModelCareerApplicability>{return this.api.post(`model-versions/${versionId}/applicability-decisions`,input,{'If-Match':`"${revision}"`})}
- audit(versionId?:string):Observable<{items:readonly unknown[];total:number}>{return this.api.get('model-audit-events',versionId?{versionId}:{})}
+ audit(versionId?:string):Observable<{items:readonly AuditEventView[];total:number}>{return this.api.get('model-audit-events',versionId?{versionId}:{})}
 }

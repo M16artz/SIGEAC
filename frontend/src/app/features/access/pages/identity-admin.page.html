@@ -537,8 +537,7 @@
               @for (assignment of assignments(); track assignment.id) {
                 <tr>
                   <td>
-                    <span class="block text-sm font-semibold text-slate-800">{{ assignment.roleName }}</span>
-                    <span class="sigeac-badge mt-1.5">{{ assignment.roleCode }}</span>
+                    <span class="block text-sm font-semibold text-slate-800">{{ assignment.roleCode | displayLabel }}</span>
                   </td>
                   <td>
                     <span class="users-id">{{ assignment.careerId }}</span>

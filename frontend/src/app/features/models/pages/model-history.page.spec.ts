@@ -14,7 +14,8 @@ describe('ModelHistoryPage', () => {
     TestBed.configureTestingModule({imports: [ModelHistoryPage], providers: [{provide: ModelApi, useValue: api}]});
     const fixture = TestBed.createComponent(ModelHistoryPage);
     fixture.componentInstance.modelId = 'model'; fixture.componentInstance.load(); fixture.detectChanges();
-    expect(fixture.nativeElement.textContent).toContain('PUBLISHED');
+    expect(fixture.nativeElement.textContent).toContain('Publicado');
+    expect(fixture.nativeElement.textContent).not.toContain('PUBLISHED');
     const buttons = fixture.nativeElement.querySelectorAll('button') as NodeListOf<HTMLButtonElement>;
     buttons[1].click();
     expect(api.configuredSuccessor).toHaveBeenCalledWith('v1');

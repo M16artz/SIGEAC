@@ -99,7 +99,8 @@ describe('ReportWorkflowPage', () => {
     expect(api.version).toHaveBeenCalledWith('version');
     expect(component.selectedRevision()).toBe(0);
     expect(component.socializations()).toEqual([]);
-    expect(component.message()).toContain('PRELIMINARY');
+    expect(component.message()).toContain('Preliminar');
+    expect(component.message()).not.toContain('PRELIMINARY');
   });
   it('filters replies for their observation', () => {
     const {component} = page();

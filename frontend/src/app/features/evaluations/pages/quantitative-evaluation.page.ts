@@ -6,8 +6,9 @@ import {Observable, Subscription, switchMap} from 'rxjs';
 import {ApiProblemError} from '../../../core/http/api-client';
 import {ProcessApi, ProcessView} from '../../processes/data-access/process-api.service';
 import {CaptureVariables, QuantitativeApi, QuantitativeView} from '../data-access/quantitative-api.service';
+import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
 
-@Component({selector: 'sec-quantitative-evaluation', standalone: true, imports: [FormsModule, DatePipe, RouterLink],
+@Component({selector: 'sec-quantitative-evaluation', standalone: true, imports: [FormsModule, DatePipe, RouterLink, DisplayLabelPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [`select, textarea, input[type=date] {display:block; margin:.4rem 0 1rem; max-width:100%} textarea {width:100%;min-height:5rem}
     article {border-top:1px solid #ccc; padding:1rem 0; overflow-wrap:anywhere} fieldset {margin:1rem 0} fieldset label {display:block;margin:.5rem 0}
@@ -38,7 +39,7 @@ import {CaptureVariables, QuantitativeApi, QuantitativeView} from '../data-acces
       @if (processId && indicatorId) {<button type="button" (click)="load()" [disabled]="busy()">Recargar variables</button>}
       @if (view(); as v) {
         <p>Método: {{v.rule.methodDefinition}}</p>
-        <p>Fórmula publicada: {{v.rule.formulaDefinition}} · Estrategia: {{v.rule.strategyKey}} / {{v.rule.strategyVersion}}</p>
+        <p>Fórmula publicada: {{v.rule.formulaDefinition}} · Estrategia: {{v.rule.strategyKey | displayLabel}} / {{v.rule.strategyVersion}}</p>
         @if (editable(v)) {
           <form (ngSubmit)="capture()" class="sigeac-form-layout"><div class="sigeac-form-grid">
             <div class="sigeac-form-field"><label for="quant-period-start">Inicio del período de variables</label>
@@ -50,7 +51,7 @@ import {CaptureVariables, QuantitativeApi, QuantitativeView} from '../data-acces
                 <legend>{{variable.code}} · {{variable.name}} · {{variable.unit}}</legend>
                 <div class="sigeac-form-field"><label [for]="'quant-value-' + variable.code">Valor {{variable.code}}</label>
                 <input [id]="'quant-value-' + variable.code" [name]="variable.code" [(ngModel)]="values[variable.code]" inputmode="decimal" maxlength="19" required /></div>
-                <p>Tipo: {{variable.dataType}} · Restricción publicada: {{variable.validationDefinition}}</p>
+                <p>Tipo: {{variable.dataType | displayLabel}} · Restricción publicada: {{variable.validationDefinition}}</p>
                 <p>Sustentos aceptados de esta variable:</p>
                 @for (version of versions(); track version.id) {
                   <label><input type="checkbox" [checked]="selected[variable.code]?.includes(version.id)" (change)="toggle(variable.code, version.id)" /> {{version.title}} · {{version.id}}</label>
@@ -92,9 +93,9 @@ import {CaptureVariables, QuantitativeApi, QuantitativeView} from '../data-acces
           <article>
             <h4>Resultado: {{run.result}} % · {{run.ratingLabel}}</h4>
             <p>{{run.executedAt | date:'medium'}} · {{run.executedBy}}</p>
-            <p>Fórmula: {{run.rule.formulaDefinition}} · {{run.rule.strategyKey}} / {{run.rule.strategyVersion}} · {{run.arithmetic}}</p>
+            <p>Fórmula: {{run.rule.formulaDefinition}} · {{run.rule.strategyKey | displayLabel}} / {{run.rule.strategyVersion}} · {{run.arithmetic}}</p>
             <p>Umbral conservado: {{run.threshold.lowerBound ?? 'sin límite inferior'}} a {{run.threshold.upperBound ?? 'sin límite superior'}}.
-              Inclusión inferior: {{run.threshold.lowerInclusive}} · superior: {{run.threshold.upperInclusive}}</p>
+              Inclusión inferior: {{run.threshold.lowerInclusive | displayLabel}} · superior: {{run.threshold.upperInclusive | displayLabel}}</p>
             <p>{{run.justification}}</p><p>Limitaciones: {{run.limitations}}</p>
             @for (variable of run.inputs.variables; track variable.code) {
               <p>{{variable.code}} = {{variable.value}} {{variable.unit}} · {{run.inputs.periodStart}} a {{run.inputs.periodEnd}}</p>

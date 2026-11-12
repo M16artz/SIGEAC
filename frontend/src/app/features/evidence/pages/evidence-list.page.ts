@@ -4,11 +4,12 @@ import {RouterLink} from '@angular/router';
 import {ProcessApi, ProcessView} from '../../processes/data-access/process-api.service';
 import {EvidenceApi} from '../data-access/evidence-api.service';
 import {EvidenceView} from '../data-access/evidence.models';
+import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
 
 @Component({
   selector: 'sec-evidence-list',
   standalone: true,
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, DisplayLabelPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="sigeac-page sigeac-page--balanced">
@@ -43,7 +44,7 @@ import {EvidenceView} from '../data-access/evidence.models';
               <tr>
                 <td>{{item.latestVersion.title}}</td>
                 <td>{{item.latestRevisionNumber}}</td>
-                <td>{{item.latestVersion.status}}</td>
+                <td>{{item.latestVersion.status | displayLabel}}</td>
                 <td><a [routerLink]="['versions', item.latestVersion.id, 'edit']">Editar</a>
                   <a [routerLink]="['versions', item.latestVersion.id]">Cobertura</a></td>
               </tr>

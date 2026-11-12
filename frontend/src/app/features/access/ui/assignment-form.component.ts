@@ -4,11 +4,12 @@ import { finalize } from 'rxjs';
 import { AccessApi } from '../data-access/access-api.service';
 import { accessErrorMessage } from '../data-access/access.errors';
 import { AssignmentCommand, PILOT_CAREER_ID, PILOT_ROLES } from '../data-access/access.models';
+import { DisplayLabelPipe } from '../../../shared/labels/display-label.pipe';
 
 @Component({
   selector: 'sec-assignment-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, DisplayLabelPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="grid gap-4">
@@ -47,7 +48,7 @@ import { AssignmentCommand, PILOT_CAREER_ID, PILOT_ROLES } from '../data-access/
           </label>
           <select id="roleCode" class="sigeac-input" formControlName="roleCode" required>
             @for (role of roles; track role.code) {
-              <option [value]="role.code">{{ role.name }}</option>
+              <option [value]="role.code">{{ role.code | displayLabel }}</option>
             }
           </select>
         </div>

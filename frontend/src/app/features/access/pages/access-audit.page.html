@@ -94,14 +94,16 @@
       <div class="flex flex-col gap-4 md:flex-row md:items-end">
         <div class="sigeac-field md:flex-1">
           <label class="sigeac-label" for="objectType">Tipo de objeto (opcional)</label>
-          <input
+          <select
             id="objectType"
             class="sigeac-input"
-            type="text"
             formControlName="objectType"
-            autocomplete="off"
-            placeholder="ACCESS_IDENTITY"
           >
+            <option value="">Todos los tipos de objeto</option>
+            @for (type of objectTypes; track type) {
+              <option [value]="type">{{ type | displayLabel }}</option>
+            }
+          </select>
         </div>
 
         <div class="sigeac-field md:flex-1">
@@ -244,20 +246,20 @@
                   </span>
                 </td>
                 <td>
-                  <span class="block text-sm font-semibold text-slate-800">{{ event.action }}</span>
+                  <span class="block text-sm font-semibold text-slate-800">{{ event.action | displayLabel }}</span>
                 </td>
                 <td>
-                  <span class="sigeac-badge">{{ event.objectType }}</span>
+                  <span class="sigeac-badge">{{ event.objectType | displayLabel }}</span>
                   <span class="users-id mt-1.5">{{ event.objectId }}</span>
                 </td>
                 <td>
                   <span class="sigeac-badge" [class.sigeac-badge--danger]="event.outcome !== 'SUCCESS'">
-                    {{ event.outcome }}
+                    {{ event.outcome | displayLabel }}
                   </span>
                 </td>
                 <td>
                   @if (event.reasonCode) {
-                    <span class="sigeac-badge sigeac-badge--muted">{{ event.reasonCode }}</span>
+                    <span class="sigeac-badge sigeac-badge--muted">{{ event.reasonCode | displayLabel }}</span>
                   } @else {
                     <span class="text-sm text-slate-400">—</span>
                   }

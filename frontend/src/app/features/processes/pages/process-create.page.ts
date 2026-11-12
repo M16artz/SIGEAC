@@ -3,11 +3,12 @@ import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {ProcessApi, ProcessView} from '../data-access/process-api.service';
 import {Career, CareerApi} from '../../careers/data-access/career-api.service';
+import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
 
 @Component({
   selector: 'sec-process-create',
   standalone: true,
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, DisplayLabelPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="sigeac-page sigeac-page--balanced">
@@ -24,7 +25,7 @@ import {Career, CareerApi} from '../../careers/data-access/career-api.service';
         <thead><tr><th scope="col">Código</th><th scope="col">Nombre</th><th scope="col">Estado</th><th scope="col">Acción</th></tr></thead>
         <tbody>
           @for (item of processes(); track item.id) {
-            <tr><td>{{item.code}}</td><td>{{item.name}}</td><td>{{item.state}}</td>
+            <tr><td>{{item.code}}</td><td>{{item.name}}</td><td>{{item.state | displayLabel}}</td>
               <td><a [routerLink]="[item.id]">Abrir</a></td></tr>
           }
         </tbody>
@@ -52,7 +53,7 @@ import {Career, CareerApi} from '../../careers/data-access/career-api.service';
       </div>
     </form>
     @if (created(); as process) {
-      <p role="status">{{process.code}} · {{process.state}} · modelo v{{process.modelVersionNumber}}</p>
+      <p role="status">{{process.code}} · {{process.state | displayLabel}} · modelo v{{process.modelVersionNumber}}</p>
       <a [routerLink]="[process.id]">Administrar proceso</a>
     }
     @if (error()) { <p role="alert">{{error()}}</p> }

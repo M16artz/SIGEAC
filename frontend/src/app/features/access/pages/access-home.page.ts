@@ -8,6 +8,8 @@ import {
 import { RouterLink } from '@angular/router';
 import { AccessSessionService } from '../data-access/access-session.service';
 import { AssignmentView } from '../data-access/access.models';
+import { DisplayLabelPipe } from '../../../shared/labels/display-label.pipe';
+import { displayLabel } from '../../../shared/labels/display-labels';
 
 interface QuickLink {
   readonly path: string;
@@ -40,7 +42,7 @@ const QUICK_LINKS: readonly QuickLink[] = [
 @Component({
   selector: 'sec-access-home',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, DisplayLabelPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './access-home.page.html',
@@ -73,7 +75,7 @@ export class AccessHomePageComponent {
   );
 
   readonly roleSummary = computed(() => {
-    const roles = [...new Set(this.assignments().map((assignment) => assignment.roleName))];
+    const roles = [...new Set(this.assignments().map((assignment) => displayLabel(assignment.roleCode)))];
     return roles.length > 0 ? roles.join(' · ') : 'Sin funciones vigentes';
   });
 

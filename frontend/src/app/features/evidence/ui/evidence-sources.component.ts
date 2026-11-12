@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, input, output, signal} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ExternalReferenceView, FileMetadataView} from '../data-access/evidence.models';
+import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
 
 export interface ReferenceDraft {
   readonly id: string | null;
@@ -11,7 +12,7 @@ export interface ReferenceDraft {
 @Component({
   selector: 'sec-evidence-sources',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, DisplayLabelPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section aria-labelledby="files-heading">
@@ -25,7 +26,7 @@ export interface ReferenceDraft {
               <span>{{file.originalName}}</span>
               <span> · {{file.detectedMediaType}} · {{file.sizeBytes}} bytes</span>
               <span> · SHA-256 {{file.sha256.slice(0, 12)}}…</span>
-              <span> · {{file.status}}</span>
+              <span> · {{file.status | displayLabel}}</span>
               <button type="button" data-remove-file [disabled]="disabled()" (click)="removeFile.emit(file.id)">Quitar</button>
             </li>
           }

@@ -3,8 +3,9 @@ import {FormsModule} from '@angular/forms';
 import {Observable, finalize} from 'rxjs';
 import {AuthorizationCommand, ProcessApi, ProcessState, ProcessView} from '../data-access/process-api.service';
 import {AccessSessionService} from '../../access/data-access/access-session.service';
-@Component({selector: 'sec-process-state-controls', standalone: true, imports: [FormsModule], changeDetection: ChangeDetectionStrategy.OnPush, template: `
-  <section><h3>Estado del proceso</h3><p>{{process().state}}</p>
+import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
+@Component({selector: 'sec-process-state-controls', standalone: true, imports: [FormsModule, DisplayLabelPipe], changeDetection: ChangeDetectionStrategy.OnPush, template: `
+  <section><h3>Estado del proceso</h3><p>{{process().state | displayLabel}}</p>
     @if(error()){<p role="alert">{{error()}}</p>}
     @if(process().state==='PREPARATION' || process().state==='DRAFT') {
       @if(!process().authorization) {
@@ -14,7 +15,7 @@ import {AccessSessionService} from '../../access/data-access/access-session.serv
           <div class="sigeac-form-field"><label for="authority-assignment">Asignación autorizadora propia</label>
           <select id="authority-assignment" name="authorityAssignment" [(ngModel)]="authorityAssignmentId" required>
             <option value="">Seleccione una asignación</option>
-            @for(a of session.identity()?.assignments ?? []; track a.id){<option [value]="a.id">{{a.roleName}} · {{a.careerId}}</option>}
+            @for(a of session.identity()?.assignments ?? []; track a.id){<option [value]="a.id">{{a.roleCode | displayLabel}} · {{a.careerId}}</option>}
           </select></div>
           <div class="sigeac-form-field"><label for="authorization-document">Referencia al documento de autorización</label><input id="authorization-document" name="documentReference" [(ngModel)]="documentReference" required maxlength="2000"></div>
           <div class="sigeac-form-field"><label for="legal-basis">Fundamento normativo de la competencia</label><textarea id="legal-basis" name="legalBasis" [(ngModel)]="legalBasis" required maxlength="4000"></textarea></div>
@@ -30,7 +31,7 @@ import {AccessSessionService} from '../../access/data-access/access-session.serv
       <div class="sigeac-form-field"><label for="transition-authority">Asignación autorizadora propia</label>
       <select id="transition-authority" [(ngModel)]="authorityAssignmentId" required>
         <option value="">Seleccione una asignación</option>
-        @for(a of session.identity()?.assignments ?? []; track a.id){<option [value]="a.id">{{a.roleName}} · {{a.careerId}}</option>}
+        @for(a of session.identity()?.assignments ?? []; track a.id){<option [value]="a.id">{{a.roleCode | displayLabel}} · {{a.careerId}}</option>}
       </select></div>
       <div class="sigeac-form-field"><label for="transition-document">Referencia a la constancia de la decisión</label>
       <input id="transition-document" [(ngModel)]="documentReference" required maxlength="2000"></div>

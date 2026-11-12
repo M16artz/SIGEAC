@@ -6,6 +6,7 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {Subscription} from 'rxjs';
 import {ProcessApi, ProcessView} from '../../processes/data-access/process-api.service';
 import {DocumentaryProgressView, ReportingApi} from '../data-access/reporting-api.service';
+import {displayLabel} from '../../../shared/labels/display-labels';
 
 @Component({
   selector: 'sec-documentary-dashboard',
@@ -137,9 +138,6 @@ export class DocumentaryDashboardPage implements OnInit, OnDestroy {
   }
 
   outcomeLabel(outcome: string): string {
-    const labels: Record<string, string> = {
-      ACCEPTED: 'Aceptada', OBSERVED: 'Observada', REJECTED: 'Rechazada', PENDING_REVIEW: 'Pendiente de revisión'
-    };
-    return labels[outcome] ?? 'Pendiente de revisión';
+    return displayLabel(outcome, 'coverage');
   }
 }

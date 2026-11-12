@@ -5,6 +5,7 @@ import {
   StructuredSourceCommand,
   StructuredSourceView
 } from '../data-access/evidence.models';
+import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
 
 /**
  * AC-X16 / FR-069: editor for structured-data and institutional-reference
@@ -13,7 +14,7 @@ import {
 @Component({
   selector: 'sec-structured-evidence',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, DisplayLabelPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section aria-labelledby="structured-heading">
@@ -33,7 +34,7 @@ import {
             @for (snapshot of snapshots(); track snapshot.id) {
               <tr>
                 <td>{{sourceName(snapshot.requiredSourceId)}}</td>
-                <td>{{snapshot.kind}}</td>
+                <td>{{snapshot.kind | displayLabel}}</td>
                 <td>{{snapshot.value}}</td>
                 <td>{{snapshot.unit ?? '—'}}</td>
                 <td>{{snapshot.periodStart}} → {{snapshot.periodEnd}}</td>
@@ -51,7 +52,7 @@ import {
             (ngModelChange)="selectedSourceId.set($event)">
             <option value="">Seleccione una fuente</option>
             @for (source of candidates(); track source.id) {
-              <option [value]="source.id">{{source.code}} · {{source.name}} ({{source.sourceType}})</option>
+              <option [value]="source.id">{{source.code}} · {{source.name}} ({{source.sourceType | displayLabel}})</option>
             }
           </select></div>
           <div class="sigeac-form-field"><label for="value-type">Tipo de valor</label>

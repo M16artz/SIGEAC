@@ -1,16 +1,17 @@
 import {CommonModule} from '@angular/common';
 import {Component, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
+import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
 
 @Component({
   selector: 'sec-evidence-history-timeline',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, DisplayLabelPipe],
   template: `
     <ol class="timeline" aria-label="Línea de tiempo">
       @for (version of versions; track version.id) {
         <li>
-          <a [routerLink]="['/evidences/versions', version.id]">v{{version.revisionNumber}} - {{version.status}}</a>
+          <a [routerLink]="['/evidences/versions', version.id]">v{{version.revisionNumber}} - {{version.status | displayLabel}}</a>
         </li>
       }
     </ol>

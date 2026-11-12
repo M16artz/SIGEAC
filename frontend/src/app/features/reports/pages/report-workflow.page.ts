@@ -5,6 +5,8 @@ import {Observable, Subscription, catchError, forkJoin, of, switchMap} from 'rxj
 import {ApiProblemError} from '../../../core/http/api-client';
 import {ProcessApi, ProcessView} from '../../processes/data-access/process-api.service';
 import {ApprovalEvent, Finding, FindingData, FindingPage, Observation, ReportApi, ReportVersion, Reply, Socialization, VersionPage} from '../data-access/report-api.service';
+import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
+import {displayLabel} from '../../../shared/labels/display-labels';
 
 const DISCLAIMER_NOTICE = 'Este informe apoya la autoevaluación y no constituye acreditación.';
 const EMPTY_CONSOLIDATION = '00000000-0000-0000-0000-000000000000';
@@ -12,7 +14,7 @@ const EMPTY_CONSOLIDATION = '00000000-0000-0000-0000-000000000000';
 @Component({
   selector: 'sec-report-workflow-page',
   standalone: true,
-  imports: [FormsModule, DatePipe],
+  imports: [FormsModule, DatePipe, DisplayLabelPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [`
     section { max-width: 80rem; }
@@ -30,7 +32,7 @@ const EMPTY_CONSOLIDATION = '00000000-0000-0000-0000-000000000000';
     <header class="sigeac-page-header">
       <span class="sigeac-badge">Informes</span>
       <h2 id="reports-title">Hallazgos, consolidación y ciclo del informe</h2>
-      <p class="muted">{{notice}} Las mutaciones exigen revisión previa del recurso (If-Match) y el
+      <p class="muted">{{notice}} Las mutaciones exigen la revisión previa del recurso y el
         contenido emitido permanece inmutable; solo la tramitación y sus versiones finales avanzan.</p>
     </header>
     <section class="sigeac-page-body" aria-labelledby="reports-title">
@@ -84,7 +86,7 @@ const EMPTY_CONSOLIDATION = '00000000-0000-0000-0000-000000000000';
 
         <form (ngSubmit)="consolidate()" class="sigeac-form-layout"><div class="sigeac-form-grid">
           <h4>Consolidar hallazgos</h4>
-          <p class="muted">La revisión previa (If-Match) es la revisión de la última consolidación; use 0 para el
+          <p class="muted">La revisión previa es la de la última consolidación; use 0 para el
             histórico vacío y actualice el valor tras cada registro.</p>
           <div class="sigeac-form-field"><label for="consolidation-revision">Revisión previa de la cadena</label>
           <input id="consolidation-revision" type="text" name="expected" [(ngModel)]="expectedConsolidation" required inputmode="numeric" [disabled]="saving()" /></div>
@@ -112,8 +114,8 @@ const EMPTY_CONSOLIDATION = '00000000-0000-0000-0000-000000000000';
 
         @for (item of versions(); track item.id) {
           <article>
-            <strong>{{item.data.kind}} · ETag {{item.revision}}</strong>
-            @if (item.state) { <span> · Estado: {{item.state}}</span> }
+            <strong>{{item.data.kind | displayLabel}} · Revisión {{item.revision}}</strong>
+            @if (item.state) { <span> · Estado: {{item.state | displayLabel}}</span> }
             <p class="muted">Emitido {{item.createdAt | date:'medium'}} · Plantilla: {{item.data.templateReference}}</p>
             @if (item.state !== 'APPROVED') {
               <button type="button" (click)="viewDetail(item)" [disabled]="saving()">Seleccionar para tramitar</button>
@@ -123,7 +125,7 @@ const EMPTY_CONSOLIDATION = '00000000-0000-0000-0000-000000000000';
 
         @if (detail(); as d) {
           <article aria-label="Tramitación de la versión seleccionada">
-            <h4>Versión en tramitación · ETag {{selectedRevision()}} · Estado {{d.state ?? d.data.kind}}</h4>
+            <h4>Versión en tramitación · Revisión {{selectedRevision()}} · Estado {{(d.state ?? d.data.kind) | displayLabel}}</h4>
             <p>{{notice}}</p>
             <h5>Socializaciones</h5>
             @for (socialization of socializations(); track socialization.id) {
@@ -268,8 +270,7 @@ export class ReportWorkflowPage implements OnInit, OnDestroy {
   ngOnDestroy(): void { this.request?.unsubscribe(); this.listing?.unsubscribe(); }
 
   typeLabel(finding: Finding): string {
-    return finding.data.type === 'STRENGTH' ? 'Fortaleza'
-      : finding.data.type === 'WEAKNESS' ? 'Debilidad' : 'Observación';
+    return displayLabel(finding.data.type);
   }
 
   indicators(): readonly {id: string; code: string; name: string}[] {
@@ -447,7 +448,7 @@ export class ReportWorkflowPage implements OnInit, OnDestroy {
     this.observations.set(detail.observations ?? []);
     this.replies.set(detail.replies ?? []);
     this.decisions.set(detail.decisions ?? []);
-    this.message.set(`Tramitando versión ${detail.state ?? detail.data.kind} · ETag ${detail.revision}`);
+    this.message.set(`Tramitando versión ${displayLabel(detail.state ?? detail.data.kind)} · Revisión ${detail.revision}`);
   }
 
   private selectedId(): string {
