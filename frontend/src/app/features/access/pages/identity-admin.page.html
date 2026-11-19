@@ -1,97 +1,37 @@
 <section class="users-admin" aria-labelledby="users-title">
-  <header
-    class="relative overflow-hidden rounded-[1.75rem] border border-[#e3edf7] bg-white px-6 py-8 shadow-[0_30px_70px_-50px_rgba(8,72,120,0.55)] sm:px-8 sm:py-9"
-  >
-    <div class="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full border-[30px] border-institutional-blue/[0.05]"></div>
-    <div class="pointer-events-none absolute -bottom-28 right-1/3 h-56 w-56 rounded-full bg-institutional-blue/[0.04] blur-2xl"></div>
-
-    <div class="relative z-10 flex flex-col gap-6 xl:flex-row xl:items-center xl:justify-between">
-      <div class="max-w-2xl">
-        <span
-          class="inline-flex items-center gap-2 rounded-full bg-institutional-blue-soft px-3 py-1 text-[0.75rem] font-semibold uppercase tracking-[0.18em] text-institutional-blue"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.7"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-            class="h-3.5 w-3.5"
-          >
-            <path d="M12 3.5 19 6.3v5.2c0 4.2-2.9 7.7-7 9-4.1-1.3-7-4.8-7-9V6.3L12 3.5Z M9.2 12l2 2 3.8-4" />
-          </svg>
-          Acceso
-        </span>
-
-        <h1 id="users-title" class="users-hero-title">Usuarios y asignaciones</h1>
-        <p class="users-hero-copy max-w-xl">
-          Administre identidades sintéticas y asigne funciones con ámbito y vigencia explícitos.
-        </p>
+  <header class="users-header">
+    <div class="users-heading-row">
+      <div class="users-heading-copy">
+        <h1 id="users-title" class="users-page-title">Usuarios y asignaciones</h1>
+        <p class="users-intro">Registre usuarios y gestione sus funciones y periodos de acceso.</p>
       </div>
-
-      <div
-        class="flex w-full max-w-xs items-center gap-4 rounded-2xl border border-[#e3edf7] bg-institutional-bg px-4 py-3 md:w-auto"
-      >
-        <span
-          class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-white text-institutional-blue shadow-sm"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.7"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-            class="h-6 w-6"
-          >
-            <path d="M16 19.5a5 5 0 0 0-10 0 M11 12a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z M17.5 12.5a3 3 0 1 0 0-6 M19 19.5a4.5 4.5 0 0 0-2.4-3.9" />
-          </svg>
-        </span>
-        <span class="min-w-0">
-          <span class="block text-[0.8125rem] font-semibold uppercase tracking-[0.08em] text-slate-500">
-            Usuarios registrados
-          </span>
-          <span class="users-stat-value block">{{ loading() ? '—' : total() }}</span>
-          <span class="mt-0.5 block text-[0.8125rem] text-slate-500">Página {{ page() + 1 }}</span>
-        </span>
-      </div>
+      <p class="users-total" [attr.aria-busy]="loading()">
+        <svg class="users-total-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M15 20v-1a5 5 0 0 0-10 0v1 M10 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7 M18 5a3 3 0 0 1 0 6 M19 15a4 4 0 0 1 3 4v1" />
+        </svg>
+        <strong>{{ loading() ? '—' : total() }}</strong>
+        <span>{{ total() === 1 ? 'usuario registrado' : 'usuarios registrados' }}</span>
+      </p>
     </div>
+    <p class="users-demo-note"><strong>Entorno de demostración.</strong> Utilice únicamente datos sintéticos.</p>
   </header>
 
-  <section class="sigeac-card mt-6 overflow-hidden" aria-labelledby="create-user-title">
-    <div
-      class="flex flex-col gap-3 border-b border-[#eef2f7] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
-    >
-      <div class="flex items-start gap-3">
-        <span
-          class="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-institutional-blue-soft text-institutional-blue"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.7"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-            class="h-5 w-5"
-          >
-            <path d="M15 19.5a6 6 0 0 0-12 0 M9 11.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z M18 8v6 M15 11h6" />
+  <section class="sigeac-card users-panel" aria-labelledby="create-user-title">
+    <div class="users-section-heading">
+      <div class="users-section-intro">
+        <h2 id="create-user-title" class="users-section-title">
+          <svg class="users-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M15 20v-1a6 6 0 0 0-12 0v1 M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7 M18 8v6 M15 11h6" />
           </svg>
-        </span>
-        <div>
-          <h2 id="create-user-title" class="users-section-title">Registrar usuario</h2>
-          <p class="users-section-copy">Cree una identidad sintética con credenciales iniciales.</p>
-        </div>
+          Registrar usuario
+        </h2>
+        <p class="users-section-copy">Datos de la cuenta y contraseña inicial.</p>
       </div>
-      <span class="sigeac-badge self-start sm:self-auto">Campos * obligatorios</span>
+      <p class="users-required-note">Los campos con * son obligatorios.</p>
     </div>
 
-    <form [formGroup]="createForm" (ngSubmit)="createUser()" novalidate class="p-5 sm:p-6">
-      <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+    <form [formGroup]="createForm" (ngSubmit)="createUser()" novalidate class="users-create-form" aria-labelledby="create-user-title" [attr.aria-busy]="creating()">
+      <div class="users-create-grid">
         <div class="sigeac-field">
           <label class="sigeac-label" for="newUsername">
             Usuario <span class="sigeac-required" aria-hidden="true">*</span>
@@ -104,15 +44,16 @@
             autocomplete="off"
             required
             [attr.aria-invalid]="createForm.controls.username.touched && createForm.controls.username.invalid ? 'true' : null"
+            [attr.aria-describedby]="createForm.controls.username.touched && createForm.controls.username.invalid ? 'new-username-error' : null"
           >
           @if (createForm.controls.username.touched && createForm.controls.username.invalid) {
-            <p class="sigeac-field-error">Ingrese un usuario de 3 a 100 caracteres.</p>
+            <p id="new-username-error" class="sigeac-field-error">Ingrese un nombre de usuario de 3 a 100 caracteres.</p>
           }
         </div>
 
         <div class="sigeac-field">
           <label class="sigeac-label" for="newDisplayName">
-            Nombre visible <span class="sigeac-required" aria-hidden="true">*</span>
+            Nombre para mostrar <span class="sigeac-required" aria-hidden="true">*</span>
           </label>
           <input
             id="newDisplayName"
@@ -121,9 +62,10 @@
             formControlName="displayName"
             required
             [attr.aria-invalid]="createForm.controls.displayName.touched && createForm.controls.displayName.invalid ? 'true' : null"
+            [attr.aria-describedby]="createForm.controls.displayName.touched && createForm.controls.displayName.invalid ? 'new-name-error' : null"
           >
           @if (createForm.controls.displayName.touched && createForm.controls.displayName.invalid) {
-            <p class="sigeac-field-error">Ingrese el nombre visible (máximo 200 caracteres).</p>
+            <p id="new-name-error" class="sigeac-field-error">Ingrese el nombre que se mostrará en el sistema (máximo 200 caracteres).</p>
           }
         </div>
 
@@ -139,21 +81,22 @@
             autocomplete="new-password"
             required
             [attr.aria-invalid]="createForm.controls.initialPassword.touched && createForm.controls.initialPassword.invalid ? 'true' : null"
+            [attr.aria-describedby]="createForm.controls.initialPassword.touched && createForm.controls.initialPassword.invalid ? 'new-password-help new-password-error' : 'new-password-help'"
           >
-          <p class="sigeac-help">Mínimo 12 caracteres.</p>
+          <p id="new-password-help" class="sigeac-help">Mínimo 12 caracteres.</p>
           @if (createForm.controls.initialPassword.touched && createForm.controls.initialPassword.invalid) {
-            <p class="sigeac-field-error">Ingrese una contraseña de 12 a 256 caracteres.</p>
+            <p id="new-password-error" class="sigeac-field-error">Ingrese una contraseña de 12 a 256 caracteres.</p>
           }
         </div>
       </div>
 
-      <div class="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <label class="sigeac-check">
+      <div class="users-create-footer">
+        <label class="users-service-option">
           <input class="sigeac-checkbox" type="checkbox" formControlName="technical">
           <span>
             <span class="block font-semibold text-slate-700">Cuenta de servicio</span>
             <span class="mt-0.5 block text-[0.8125rem] font-normal text-slate-500">
-              Identidad sin acceso interactivo, destinada a integraciones.
+              Para integraciones, sin inicio de sesión.
             </span>
           </span>
         </label>
@@ -207,38 +150,15 @@
   </section>
 
   <section
-    class="sigeac-card mt-6 overflow-hidden"
+    class="sigeac-card users-panel users-list-panel"
     aria-labelledby="users-list-title"
     [attr.aria-busy]="loading()"
   >
-    <div
-      class="flex flex-col gap-3 border-b border-[#eef2f7] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
-    >
-      <div class="flex items-start gap-3">
-        <span
-          class="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-institutional-blue-soft text-institutional-blue"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.7"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-            class="h-5 w-5"
-          >
-            <path d="M4 6.5h16 M4 12h16 M4 17.5h16" />
-          </svg>
-        </span>
-        <div>
-          <h2 id="users-list-title" class="users-section-title">Usuarios registrados</h2>
-          <p class="users-section-copy">Identidades visibles para la administración funcional.</p>
-        </div>
+    <div class="users-section-heading users-list-heading">
+      <div class="users-section-intro">
+        <h2 id="users-list-title" class="users-section-title">Usuarios registrados</h2>
+        <p class="users-section-copy">Consulte sus asignaciones o cambie el estado de una cuenta.</p>
       </div>
-      <span class="sigeac-badge self-start sm:self-auto">
-        {{ loading() ? 'Cargando…' : total() + (total() === 1 ? ' usuario' : ' usuarios') }}
-      </span>
     </div>
 
     @if (listError()) {
@@ -291,7 +211,7 @@
     } @else {
       <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Usuarios registrados">
         <table class="sigeac-table users-table sigeac-table-layout sigeac-table-layout--users">
-          <caption class="sr-only">Usuarios visibles para la administración funcional</caption>
+          <caption class="sr-only">Usuarios registrados y acciones disponibles para cada cuenta</caption>
           <thead>
             <tr>
               <th scope="col">Usuario</th>
@@ -368,10 +288,8 @@
         </table>
       </div>
 
-      <div
-        class="flex flex-col gap-3 border-t border-[#eef2f7] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
-      >
-        <p class="sigeac-help">Página {{ page() + 1 }} · {{ total() }} usuarios</p>
+      <div class="users-pagination">
+        <p class="sigeac-help">Página {{ page() + 1 }}</p>
         <div class="flex gap-2">
           <button
             type="button"
@@ -419,32 +337,12 @@
   </section>
 
   @if (selected(); as user) {
-    <section class="sigeac-card mt-6 overflow-hidden" aria-labelledby="assignments-title">
-      <div
-        class="flex flex-col gap-3 border-b border-[#eef2f7] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
-      >
-        <div class="flex items-start gap-3">
-          <span
-            class="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-institutional-blue-soft text-institutional-blue"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.7"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-              class="h-5 w-5"
-            >
-              <path d="M14 7.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z M10.5 11v9 M7 15.5h7 M17.5 8.5l2 2 3-3.5" />
-            </svg>
-          </span>
-          <div>
-            <h2 id="assignments-title" class="users-section-title">Asignaciones de {{ user.displayName }}</h2>
-            <p class="users-section-copy">Funciones y ámbitos vigentes de la identidad seleccionada.</p>
-            <p class="sigeac-help">{{ user.technical ? 'Cuenta de servicio' : 'Cuenta personal' }}</p>
-          </div>
+    <section class="sigeac-card users-panel" aria-labelledby="assignments-title">
+      <div class="users-section-heading users-assignment-heading">
+        <div>
+          <h2 id="assignments-title" class="users-section-title">Asignaciones de {{ user.displayName }}</h2>
+          <p class="users-section-copy">Funciones, carreras y periodos de acceso.</p>
+          <p class="sigeac-help">{{ user.technical ? 'Cuenta de servicio' : 'Cuenta personal' }}</p>
         </div>
         <div class="flex flex-wrap gap-2">
           <span class="sigeac-badge">{{ user.username }}</span>
@@ -511,7 +409,7 @@
           </span>
           <span class="block font-semibold text-slate-700">Sin asignaciones registradas.</span>
           <span class="sigeac-help">
-            {{ user.active && !user.technical ? 'Use el formulario inferior para registrar la primera asignación.' : 'La identidad no admite nuevas asignaciones funcionales.' }}
+            {{ user.active && !user.technical ? 'Registre la primera asignación con el formulario inferior.' : 'Esta cuenta no admite nuevas asignaciones.' }}
           </span>
         </div>
       } @else {
@@ -588,7 +486,7 @@
           </table>
         </div>
 
-        <div class="border-t border-[#eef2f7] px-5 py-4 sm:px-6">
+        <div class="users-revocation">
           <div class="sigeac-field max-w-2xl">
             <label class="sigeac-label" for="revocation-reason">
               Motivo de revocación <span class="sigeac-required" aria-hidden="true">*</span>
@@ -601,21 +499,23 @@
               minlength="10"
               maxlength="1000"
               placeholder="Describa el motivo de la revocación"
+              [attr.aria-invalid]="revocationReason.touched && revocationReason.invalid ? 'true' : null"
+              [attr.aria-describedby]="revocationReason.touched && revocationReason.invalid ? 'revocation-help revocation-error' : 'revocation-help'"
             ></textarea>
-            <p class="sigeac-help">Mínimo 10 caracteres. El motivo se conserva en el historial.</p>
+            <p id="revocation-help" class="sigeac-help">Mínimo 10 caracteres. El motivo se conserva en el historial.</p>
             @if (revocationReason.touched && revocationReason.invalid) {
-              <p class="sigeac-field-error">Ingrese un motivo de al menos 10 caracteres.</p>
+              <p id="revocation-error" class="sigeac-field-error">Ingrese un motivo de al menos 10 caracteres.</p>
             }
           </div>
         </div>
       }
 
       @if (user.active && !user.technical) {
-        <div class="border-t border-[#eef2f7] bg-[#f8fbfe] px-5 py-5 sm:px-6">
+        <div class="users-assignment-editor">
           <sec-assignment-form [userId]="user.id" (saved)="reloadAssignments()" />
         </div>
       } @else {
-        <div class="border-t border-[#eef2f7] px-5 py-5 sm:px-6">
+        <div class="users-account-note">
           <p class="sigeac-alert sigeac-alert--info">
             <svg
               viewBox="0 0 24 24"

@@ -12,36 +12,16 @@ import { DisplayLabelPipe } from '../../../shared/labels/display-label.pipe';
   imports: [ReactiveFormsModule, DisplayLabelPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="grid gap-4">
-      <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-        <div class="flex items-start gap-3">
-          <span
-            class="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-white text-institutional-blue shadow-sm"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.7"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-              class="h-4 w-4"
-            >
-              <path d="M12 5v14 M5 12h14" />
-            </svg>
-          </span>
-          <div>
-            <h3 class="users-form-title">Nueva asignación</h3>
-            <p class="users-section-copy">
-              Defina la función, el ámbito y la vigencia del permiso para esta identidad.
-            </p>
-          </div>
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="users-assignment-form" aria-labelledby="new-assignment-title" [attr.aria-busy]="submitting()">
+      <div class="users-assignment-form-heading">
+        <div>
+          <h3 id="new-assignment-title" class="users-form-title">Nueva asignación</h3>
+          <p class="users-section-copy">Elija la función y especifique dónde y durante cuánto tiempo se aplicará.</p>
         </div>
-        <span class="sigeac-badge self-start sm:self-auto">Campos * obligatorios</span>
+        <p class="users-required-note">Los campos con * son obligatorios.</p>
       </div>
 
-      <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <div class="users-assignment-grid">
         <div class="sigeac-field">
           <label class="sigeac-label" for="roleCode">
             Función <span class="sigeac-required" aria-hidden="true">*</span>
@@ -55,7 +35,7 @@ import { DisplayLabelPipe } from '../../../shared/labels/display-label.pipe';
 
         <div class="sigeac-field">
           <label class="sigeac-label" for="careerId">
-            Carrera (UUID sintético) <span class="sigeac-required" aria-hidden="true">*</span>
+            Carrera <span class="sigeac-required" aria-hidden="true">*</span>
           </label>
           <input
             id="careerId"
@@ -64,9 +44,11 @@ import { DisplayLabelPipe } from '../../../shared/labels/display-label.pipe';
             formControlName="careerId"
             required
             [attr.aria-invalid]="form.controls.careerId.touched && form.controls.careerId.invalid ? 'true' : null"
+            [attr.aria-describedby]="form.controls.careerId.touched && form.controls.careerId.invalid ? 'assignment-career-help assignment-career-error' : 'assignment-career-help'"
           >
+          <p id="assignment-career-help" class="sigeac-help">Identificador de la carrera (UUID de demostración).</p>
           @if (form.controls.careerId.touched && form.controls.careerId.invalid) {
-            <p class="sigeac-field-error">Ingrese la carrera a la que aplica la asignación.</p>
+            <p id="assignment-career-error" class="sigeac-field-error">Ingrese la carrera a la que aplica la asignación.</p>
           }
         </div>
 
@@ -77,9 +59,10 @@ import { DisplayLabelPipe } from '../../../shared/labels/display-label.pipe';
             class="sigeac-input"
             type="text"
             formControlName="processId"
-            placeholder="UUID del proceso"
+            placeholder="Identificador del proceso"
+            aria-describedby="assignment-process-help"
           >
-          <p class="sigeac-help">Déjelo vacío para aplicar a todos los procesos.</p>
+          <p id="assignment-process-help" class="sigeac-help">Use su UUID o déjelo vacío para todos los procesos.</p>
         </div>
 
         <div class="sigeac-field">
@@ -89,9 +72,10 @@ import { DisplayLabelPipe } from '../../../shared/labels/display-label.pipe';
             class="sigeac-input"
             type="text"
             formControlName="indicatorId"
-            placeholder="UUID del indicador"
+            placeholder="Identificador del indicador"
+            aria-describedby="assignment-indicator-help"
           >
-          <p class="sigeac-help">Requiere un proceso indicado.</p>
+          <p id="assignment-indicator-help" class="sigeac-help">Use su UUID. Primero debe indicar un proceso.</p>
         </div>
 
         <div class="sigeac-field">
@@ -105,9 +89,10 @@ import { DisplayLabelPipe } from '../../../shared/labels/display-label.pipe';
             formControlName="validFrom"
             required
             [attr.aria-invalid]="form.controls.validFrom.touched && form.controls.validFrom.invalid ? 'true' : null"
+            [attr.aria-describedby]="form.controls.validFrom.touched && form.controls.validFrom.invalid ? 'assignment-from-error' : null"
           >
           @if (form.controls.validFrom.touched && form.controls.validFrom.invalid) {
-            <p class="sigeac-field-error">Seleccione el inicio de vigencia.</p>
+            <p id="assignment-from-error" class="sigeac-field-error">Seleccione el inicio de vigencia.</p>
           }
         </div>
 
@@ -118,8 +103,9 @@ import { DisplayLabelPipe } from '../../../shared/labels/display-label.pipe';
             class="sigeac-input"
             type="datetime-local"
             formControlName="validUntil"
+            aria-describedby="assignment-until-help"
           >
-          <p class="sigeac-help">Debe ser posterior al inicio de vigencia.</p>
+          <p id="assignment-until-help" class="sigeac-help">Debe ser posterior al inicio de vigencia.</p>
         </div>
       </div>
 

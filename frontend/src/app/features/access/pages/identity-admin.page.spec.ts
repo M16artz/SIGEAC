@@ -12,6 +12,8 @@ const assignment: AssignmentView = {id: 'assignment', roleCode: 'RESPONSIBLE', r
 function setup(fails = false) {
   const api = {listUsers: vi.fn().mockReturnValue(of({items: [user], page: 0, size: 20, total: 1})),
     listAssignments: vi.fn().mockReturnValueOnce(of([assignment])).mockReturnValue(of([])),
+    createUser: vi.fn().mockReturnValue(of({id: 'new-user', version: 0, status: 'CREATED'})),
+    assign: vi.fn().mockReturnValue(of({id: 'new-assignment', version: 0, status: 'CREATED'})),
     revokeAssignment: vi.fn().mockReturnValue(fails ? throwError(() => new Error('Forbidden')) : of({id: assignment.id, version: 8, status: 'REVOKED'}))};
   TestBed.configureTestingModule({imports: [IdentityAdminPageComponent], providers: [{provide: AccessApi, useValue: api}]});
   const fixture = TestBed.createComponent(IdentityAdminPageComponent);
@@ -20,6 +22,63 @@ function setup(fails = false) {
 }
 
 describe('IdentityAdminPageComponent assignment revocation', () => {
+  it('keeps the demonstration notice and uses small contextual icons selectively', () => {
+    const {fixture} = setup();
+    const root = fixture.nativeElement as HTMLElement;
+    expect(root.querySelector('h1')?.textContent).toBe('Usuarios y asignaciones');
+    expect(root.querySelector('.users-demo-note')?.textContent).toContain('datos sintéticos');
+    expect(root.querySelector('.users-total')?.textContent).toContain('1');
+    expect(root.querySelector('.users-total')?.textContent).toContain('usuario registrado');
+    expect(root.querySelectorAll('.users-total .users-total-icon[aria-hidden="true"]').length).toBe(1);
+    expect(root.querySelectorAll('#create-user-title .users-title-icon[aria-hidden="true"]').length).toBe(1);
+    expect(root.querySelectorAll('.users-list-heading svg, .users-assignment-form-heading svg').length).toBe(0);
+    expect(root.querySelector('.users-section-copy')?.textContent).toContain('Datos de la cuenta');
+    expect(root.querySelector('.users-table button svg')).not.toBeNull();
+  });
+
+  it('keeps errors hidden initially and while an untouched username is being entered', () => {
+    const {fixture} = setup();
+    const root = fixture.nativeElement as HTMLElement;
+    expect(root.querySelectorAll('.sigeac-field-error').length).toBe(0);
+    expect(root.querySelectorAll('[aria-invalid="true"]').length).toBe(0);
+    fixture.componentInstance.createForm.controls.username.setValue('a');
+    fixture.detectChanges();
+    expect(root.querySelector('#new-username-error')).toBeNull();
+    fixture.componentInstance.createForm.controls.username.markAsTouched();
+    fixture.detectChanges();
+    expect(root.querySelector('#new-username-error')).not.toBeNull();
+    expect(root.querySelector('#newUsername')?.getAttribute('aria-describedby')).toBe('new-username-error');
+    fixture.componentInstance.createForm.controls.username.setValue('usuario.valido');
+    fixture.detectChanges();
+    expect(root.querySelector('#new-username-error')).toBeNull();
+    expect(root.querySelector('#newUsername')?.getAttribute('aria-invalid')).toBeNull();
+  });
+
+  it('shows required-field errors only after an invalid submit without sending a request', () => {
+    const {fixture, api} = setup();
+    fixture.componentInstance.createUser();
+    fixture.detectChanges();
+    const root = fixture.nativeElement as HTMLElement;
+    expect(root.querySelectorAll('.users-create-form .sigeac-field-error').length).toBe(3);
+    expect(api.createUser).not.toHaveBeenCalled();
+    expect(root.querySelector('#newPassword')?.getAttribute('aria-describedby')).toContain('new-password-error');
+    expect(fixture.componentInstance.createForm.controls.initialPassword.hasError('required')).toBe(true);
+  });
+
+  it('retains password length limits and the creation payload', () => {
+    const {fixture, api} = setup();
+    fixture.componentInstance.createForm.setValue({username: 'demo.usuario', displayName: 'Persona de demostración', initialPassword: '12345678901', technical: false});
+    fixture.componentInstance.createUser();
+    expect(api.createUser).not.toHaveBeenCalled();
+    expect(fixture.componentInstance.createForm.controls.initialPassword.hasError('minlength')).toBe(true);
+    fixture.componentInstance.createForm.controls.initialPassword.setValue('x'.repeat(257));
+    expect(fixture.componentInstance.createForm.controls.initialPassword.hasError('maxlength')).toBe(true);
+    fixture.componentInstance.createForm.controls.initialPassword.setValue('ClaveDemostracion123');
+    fixture.componentInstance.createUser();
+    expect(api.createUser).toHaveBeenCalledWith({username: 'demo.usuario', displayName: 'Persona de demostración', initialPassword: 'ClaveDemostracion123', technical: false});
+    expect(fixture.componentInstance.createForm.untouched).toBe(true);
+  });
+
   it('omits the type column while preserving service-account identification and original values', () => {
     const {fixture} = setup();
     const service = {...user, id: 'service', username: 'integration', technical: true};

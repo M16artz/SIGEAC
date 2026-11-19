@@ -151,7 +151,10 @@ sec-access-login {
     transition: border-color 160ms ease, box-shadow 160ms ease;
 
     &::placeholder { color: #607a90; opacity: 1; }
-    &:focus { border-color: #084878; outline: 0; box-shadow: 0 0 0 4px rgba(8, 72, 120, .09); }
+    &:focus-visible {
+      outline: 3px solid var(--color-institutional-blue);
+      outline-offset: 3px;
+    }
     &[aria-invalid=true] { border-color: #b7353e; }
   }
   .login-input--password { padding-right: 60px; }
@@ -214,7 +217,13 @@ sec-access-login {
   .login-security svg { width: 17px; height: 17px; flex-shrink: 0; }
   .login-back { display: inline-block; margin-top: 12px; color: #526c83; font-size: 13px; line-height: 1.5; text-decoration: none; }
   .login-back:hover { color: #084878; text-decoration: underline; }
-  .login-password-toggle:focus-visible, .login-submit:focus-visible, .login-back:focus-visible { outline: 3px solid #084878; outline-offset: 4px; }
+  .login-password-toggle:focus-visible, .login-submit:focus-visible, .login-back:focus-visible { outline: 3px solid var(--color-institutional-blue); outline-offset: 4px; }
+
+  @media (forced-colors: active) {
+    :is(.login-input, .login-password-toggle, .login-submit, .login-back):focus-visible {
+      outline-color: Highlight;
+    }
+  }
 
   @media (max-width: 700px) {
     &.login-screen { padding: 24px; }

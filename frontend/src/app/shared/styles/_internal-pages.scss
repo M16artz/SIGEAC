@@ -20,13 +20,14 @@
   .sigeac-page-header h1,
   .sigeac-page-header h2 {
     margin: 1rem 0 .75rem;
-    color: #084878;
+    color: var(--color-institutional-blue);
     font-family: var(--font-display);
-    font-size: clamp(1.75rem, 3vw, 2.5rem);
-    font-weight: 800;
-    line-height: 1.12;
-    letter-spacing: -.03em;
-    overflow-wrap: anywhere;
+    font-size: clamp(1.75rem, 1.5rem + .75vw, 2.25rem);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: normal;
+    min-width: 0;
+    overflow-wrap: break-word;
   }
 
   .sigeac-page-header p {
@@ -38,37 +39,49 @@
   }
   .sigeac-page-header > .sigeac-badge {
     padding: .375rem .75rem;
-    letter-spacing: .12em;
-    text-transform: uppercase;
+    letter-spacing: normal;
+    text-transform: none;
   }
 
   .sigeac-page-body :is(section, article, form, details) {
     min-width: 0;
     margin: 1.5rem 0;
-    padding: 1.25rem;
-    border: 1px solid #e5edf6;
-    border-radius: 1.5rem;
-    background: #fff;
+  }
+
+  /* Una sola superficie exterior; las regiones internas se separan sin cajas. */
+  .sigeac-page-body :is(section, article) + :is(section, article) {
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--sigeac-divider);
+  }
+
+  .sigeac-page-body > :first-child { margin-top: 0; }
+  .sigeac-page-body > :last-child { margin-bottom: 0; }
+
+  /* Se conservan las agrupaciones semánticas y las alertas que sí necesitan contención. */
+  .sigeac-page-body details {
+    padding: .75rem 0;
+    border-block: 1px solid var(--sigeac-divider);
+  }
+  .sigeac-page-body :is(section, article)[role=alert] {
+    padding: 1rem;
+    border-inline-start: 3px solid var(--color-institutional-red);
+    background: var(--color-institutional-white);
   }
 
   .sigeac-page-body :is(h3, h4, h5) {
-    color: #084878;
+    color: var(--color-institutional-blue);
     font-family: var(--font-accent);
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: normal;
   }
 
   .sigeac-page-body h3 {
-    display: flex;
-    align-items: center;
-    gap: .75rem;
-    &::before {
-      content: '';
-      width: 2.5rem;
-      height: 2.5rem;
-      flex: none;
-      border-radius: 1rem;
-      background: #eaf2fa url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23084878' stroke-width='1.7' stroke-linecap='round'%3E%3Cpath d='M5 6h14M5 12h14M5 18h14'/%3E%3C/svg%3E") center no-repeat;
-    }
+    margin: 1.75rem 0 .75rem;
+    font-size: 1.125rem;
   }
+  .sigeac-page-body h4 { font-size: 1rem; }
+  .sigeac-page-body h5 { font-size: .9375rem; }
 
   .sigeac-page-body :is(section, article, form) > :is(h3, h4, h5):first-child {
     margin-top: 0;
@@ -87,7 +100,7 @@
     height: 1rem;
     margin: 0 .5rem 0 0;
     padding: 0;
-    accent-color: #084878;
+    accent-color: var(--color-institutional-blue);
     vertical-align: middle;
   }
 
@@ -95,28 +108,21 @@
     min-width: 0;
     margin: 1.25rem 0;
     padding: 1rem;
-    border: 1px solid #e5edf6;
-    border-radius: 1rem;
+    border: 1px solid var(--sigeac-divider);
+    border-radius: .5rem;
   }
   legend { padding: 0 .5rem; color: #084878; font-weight: 600; }
   button { min-height: 2.75rem; border-radius: .75rem; }
   :is(button, a, input, select, textarea, summary, .sigeac-table-scroll):focus-visible {
-    outline: 3px solid #084878;
+    outline: 3px solid var(--color-institutional-blue);
     outline-offset: 3px;
-  }
-  button:disabled:hover { background: #084878; }
-  button:is([data-remove-file], [data-remove-reference], [data-remove-coverage]) {
-    border-color: #f1c9cc;
-    background: #fdf2f2;
-    color: #b7353e;
-    &:hover:not(:disabled) { background: #fbe6e7; }
   }
   summary { cursor: pointer; color: #084878; font-weight: 600; }
   nav { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; margin-top: 1rem; }
   ul, ol { padding-left: 1.25rem; }
   li { padding: .5rem 0; }
   p, li, dd, code { overflow-wrap: anywhere; }
-  dl { padding: 1rem; border-radius: 1rem; background: #eaf2fa; }
+  dl { padding: 1rem 0; border-block: 1px solid var(--sigeac-divider); }
   dt { color: #084878; font-weight: 600; }
   dd { margin: .25rem 0 1rem; }
   [role=alert] { color: #b7353e; }
@@ -136,9 +142,9 @@
     color: #084878;
     font-size: .8125rem;
     font-weight: 600;
-    letter-spacing: .05em;
+    letter-spacing: normal;
     line-height: 1.4;
-    text-transform: uppercase;
+    text-transform: none;
     vertical-align: middle;
   }
   tbody :is(th, td) { padding: 1rem; }
@@ -210,13 +216,18 @@
 
   &.sigeac-page--balanced {
     table { font-size: .875rem; }
-    thead th { font-size: .8125rem; font-weight: 600; letter-spacing: .05em; }
+    thead th { font-size: .8125rem; font-weight: 600; letter-spacing: normal; }
     tbody :is(th, td) { padding: .75rem 1rem; vertical-align: middle; }
     nav { justify-content: flex-end; font-size: .875rem; }
   }
 
   @media (max-width: 640px) {
-    .sigeac-page-body :is(section, article, form, details) { padding: 1rem; }
     button { max-width: 100%; white-space: normal; }
+  }
+
+  @media (forced-colors: active) {
+    :is(button, a, input, select, textarea, summary, .sigeac-table-scroll):focus-visible {
+      outline-color: Highlight;
+    }
   }
 }
