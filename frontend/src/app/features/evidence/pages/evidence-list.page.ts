@@ -45,8 +45,8 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
                 <td>{{item.latestVersion.title}}</td>
                 <td>{{item.latestRevisionNumber}}</td>
                 <td>{{item.latestVersion.status | displayLabel}}</td>
-                <td><div class="sigeac-table-actions"><a [routerLink]="['versions', item.latestVersion.id, 'edit']">Editar</a>
-                  <a [routerLink]="['versions', item.latestVersion.id]">Cobertura</a></div></td>
+                <td><div class="sigeac-table-actions"><a class="sigeac-btn sigeac-btn--warning-soft sigeac-btn--sm" [routerLink]="['versions', item.latestVersion.id, 'edit']">Editar</a>
+                  <a class="sigeac-btn sigeac-btn--success-soft sigeac-btn--sm" [routerLink]="['versions', item.latestVersion.id]">Cobertura</a></div></td>
               </tr>
             }
           </tbody>

@@ -11,6 +11,7 @@ const assignment: AssignmentView = {id: 'assignment', roleCode: 'RESPONSIBLE', r
 
 function setup(fails = false) {
   const api = {listUsers: vi.fn().mockReturnValue(of({items: [user], page: 0, size: 20, total: 1})),
+    updateUserState: vi.fn().mockReturnValue(of({id: user.id, version: 1, status: 'UPDATED'})),
     listAssignments: vi.fn().mockReturnValueOnce(of([assignment])).mockReturnValue(of([])),
     createUser: vi.fn().mockReturnValue(of({id: 'new-user', version: 0, status: 'CREATED'})),
     assign: vi.fn().mockReturnValue(of({id: 'new-assignment', version: 0, status: 'CREATED'})),
@@ -22,6 +23,29 @@ function setup(fails = false) {
 }
 
 describe('IdentityAdminPageComponent assignment revocation', () => {
+  it('preserves state changes and assignment selection from the compact registry actions', () => {
+    const {fixture, api} = setup();
+    const root = fixture.nativeElement as HTMLElement;
+    (root.querySelector('.users-table .sigeac-btn--danger-soft') as HTMLButtonElement).click();
+    expect(api.updateUserState).toHaveBeenCalledWith(user.id, false, user.revision);
+    fixture.componentInstance.users.set([{...user, active: false}]); fixture.detectChanges();
+    (root.querySelector('.users-table .sigeac-btn--success-soft') as HTMLButtonElement).click();
+    expect(api.updateUserState).toHaveBeenLastCalledWith(user.id, true, user.revision);
+    const select = root.querySelector('.users-table button[aria-pressed]') as HTMLButtonElement;
+    select.click(); fixture.detectChanges();
+    expect(fixture.componentInstance.selected()).toBeNull();
+    select.click(); fixture.detectChanges();
+    expect(fixture.componentInstance.selected()?.id).toBe(user.id);
+  });
+  it('distinguishes deactivation and activation visually without changing the available action', () => {
+    const {fixture} = setup();
+    const root = fixture.nativeElement as HTMLElement;
+    expect(root.querySelector('.users-table .sigeac-btn--danger-soft')?.textContent).toContain('Desactivar');
+    fixture.componentInstance.users.set([{...user, active: false}]);
+    fixture.detectChanges();
+    expect(root.querySelector('.users-table .sigeac-btn--success-soft')?.textContent).toContain('Activar');
+    expect(root.querySelector('.users-table .sigeac-btn--danger-soft')).toBeNull();
+  });
   it('keeps the demonstration notice and uses small contextual icons selectively', () => {
     const {fixture} = setup();
     const root = fixture.nativeElement as HTMLElement;
@@ -32,8 +56,18 @@ describe('IdentityAdminPageComponent assignment revocation', () => {
     expect(root.querySelectorAll('.users-total .users-total-icon[aria-hidden="true"]').length).toBe(1);
     expect(root.querySelectorAll('#create-user-title .users-title-icon[aria-hidden="true"]').length).toBe(1);
     expect(root.querySelectorAll('.users-list-heading svg, .users-assignment-form-heading svg').length).toBe(0);
-    expect(root.querySelector('.users-section-copy')?.textContent).toContain('Datos de la cuenta');
+    expect(root.querySelector('#create-user-title')?.closest('.users-section-heading')?.querySelector('.users-section-copy')?.textContent).toContain('Datos de la cuenta');
     expect(root.querySelector('.users-table button svg')).not.toBeNull();
+  });
+
+  it('prioritizes the registry before registration without hiding either workflow', () => {
+    const {fixture} = setup();
+    const root = fixture.nativeElement as HTMLElement;
+    const registry = root.querySelector('[aria-labelledby="users-list-title"]')!;
+    const registration = root.querySelector('[aria-labelledby="create-user-title"]')!;
+    expect(registry.compareDocumentPosition(registration) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(root.querySelector('.users-create-form [formControlName="username"]')).not.toBeNull();
+    expect(root.querySelector('.users-table .users-actions')).not.toBeNull();
   });
 
   it('keeps errors hidden initially and while an untouched username is being entered', () => {
@@ -85,7 +119,11 @@ describe('IdentityAdminPageComponent assignment revocation', () => {
     fixture.componentInstance.users.set([user, service]); fixture.detectChanges();
     const root = fixture.nativeElement as HTMLElement;
     const headers = Array.from(root.querySelectorAll('.users-table thead th')).map(th => th.textContent?.trim());
-    expect(headers).toEqual(['Usuario', 'Nombre', 'Estado', 'Acciones']);
+    expect(headers).toEqual(['Cuenta', 'Estado', 'Acciones']);
+    const account = root.querySelector('[data-user-id="user"] td')!;
+    expect(account.querySelector('.users-account-name')?.textContent).toBe(user.displayName);
+    expect(account.querySelector('.users-account-username')?.textContent).toBe(user.username);
+    expect(root.querySelector('[data-user-id="user"] .users-actions')?.querySelectorAll('button')).toHaveLength(2);
     expect(root.querySelector('.users-table')?.textContent).not.toContain('Humana');
     expect(root.querySelector('[data-user-id="service"]')?.textContent).toContain('Cuenta de servicio');
     expect(root.querySelector('[data-user-id="user"]')?.textContent).not.toContain('Cuenta personal');

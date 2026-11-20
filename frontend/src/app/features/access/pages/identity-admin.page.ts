@@ -21,7 +21,7 @@ import { DisplayLabelPipe } from '../../../shared/labels/display-label.pipe';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './identity-admin.page.html',
-  styleUrl: './identity-admin.page.scss'
+  styleUrls: ['./identity-admin.page.scss', './identity-registry.scss']
 })
 export class IdentityAdminPageComponent implements OnInit {
   private readonly fb = inject(FormBuilder);

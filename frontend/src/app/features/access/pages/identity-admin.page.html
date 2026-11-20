@@ -1,11 +1,12 @@
-<section class="users-admin" aria-labelledby="users-title">
-  <header class="users-header">
+<section class="users-admin access-workspace" aria-labelledby="users-title">
+  <header class="users-header access-page-header">
     <div class="users-heading-row">
-      <div class="users-heading-copy">
-        <h1 id="users-title" class="users-page-title">Usuarios y asignaciones</h1>
-        <p class="users-intro">Registre usuarios y gestione sus funciones y periodos de acceso.</p>
+      <div class="users-heading-copy access-heading-copy">
+        <span class="access-eyebrow">Acceso</span>
+        <h1 id="users-title" class="users-page-title access-page-title">Usuarios y asignaciones</h1>
+        <p class="users-intro access-page-intro">Registre usuarios y gestione sus funciones y periodos de acceso.</p>
       </div>
-      <p class="users-total" [attr.aria-busy]="loading()">
+      <p class="users-total access-total" [attr.aria-busy]="loading()">
         <svg class="users-total-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M15 20v-1a5 5 0 0 0-10 0v1 M10 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7 M18 5a3 3 0 0 1 0 6 M19 15a4 4 0 0 1 3 4v1" />
         </svg>
@@ -13,24 +14,424 @@
         <span>{{ total() === 1 ? 'usuario registrado' : 'usuarios registrados' }}</span>
       </p>
     </div>
-    <p class="users-demo-note"><strong>Entorno de demostración.</strong> Utilice únicamente datos sintéticos.</p>
+    <p class="users-demo-note mt-5 border-t border-slate-200 pt-3.5 text-[0.8125rem] text-slate-500"><strong>Entorno de demostración.</strong> Utilice únicamente datos sintéticos.</p>
   </header>
 
-  <section class="sigeac-card users-panel" aria-labelledby="create-user-title">
-    <div class="users-section-heading">
+  <section
+    class="sigeac-card users-panel users-list-panel access-panel"
+    aria-labelledby="users-list-title"
+    [attr.aria-busy]="loading()"
+  >
+    <div class="users-section-heading users-list-heading access-section-heading">
       <div class="users-section-intro">
-        <h2 id="create-user-title" class="users-section-title">
+        <h2 id="users-list-title" class="users-section-title access-section-title">Usuarios registrados</h2>
+        <p class="users-section-copy access-section-copy">Consulte sus asignaciones o cambie el estado de una cuenta.</p>
+      </div>
+      <a class="sigeac-btn sigeac-btn--secondary users-create-link" href="#create-user-title">Registrar usuario</a>
+    </div>
+
+    @if (listError()) {
+      <div class="px-5 pt-4 sm:px-6">
+        <p class="sigeac-alert sigeac-alert--error" role="alert">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="mt-0.5 h-4 w-4 shrink-0"
+          >
+            <path d="M12 3.5 21 20H3L12 3.5Z M12 9.5v4 M12 17h.01" />
+          </svg>
+          <span>{{ listError() }}</span>
+        </p>
+      </div>
+    }
+
+    @if (loading()) {
+      <div class="sigeac-empty" aria-live="polite">
+        <svg class="h-6 w-6 animate-spin text-institutional-blue" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" opacity="0.25" />
+          <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        <span>Cargando usuarios…</span>
+      </div>
+    } @else if (users().length === 0) {
+      <div class="sigeac-empty">
+        <span class="grid h-12 w-12 place-items-center rounded-2xl bg-institutional-blue-soft text-institutional-blue">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="h-5 w-5"
+          >
+            <path d="M15 19.5a6 6 0 0 0-12 0 M9 11.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z M17 8l4 4 M21 8l-4 4" />
+          </svg>
+        </span>
+        <span class="block font-semibold text-slate-700">No hay usuarios registrados.</span>
+        <span class="sigeac-help">Registre el primer usuario con el formulario al final de esta página.</span>
+      </div>
+    } @else {
+      <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Usuarios registrados">
+        <table class="sigeac-table users-table sigeac-table-layout sigeac-table-layout--users" role="table">
+          <caption class="sr-only">Usuarios registrados y acciones disponibles para cada cuenta</caption>
+          <thead role="rowgroup">
+            <tr role="row">
+              <th scope="col">Cuenta</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody role="rowgroup">
+            @for (user of users(); track user.id) {
+              <tr role="row" [attr.data-user-id]="user.id" [class.users-row--selected]="selected()?.id === user.id">
+                <td role="cell">
+                  <span class="users-account-name">{{ user.displayName }}</span>
+                  <span class="users-account-username">{{ user.username }}</span>
+                  @if (user.technical) {
+                    <span class="sigeac-badge sigeac-badge--muted mt-1">Cuenta de servicio</span>
+                  }
+                </td>
+                <td role="cell">
+                  <span class="users-mobile-label">Estado</span>
+                  <span class="sigeac-badge" [class.sigeac-badge--danger]="!user.active">
+                    {{ user.active ? 'Activa' : 'Desactivada' }}
+                  </span>
+                </td>
+                <td role="cell">
+                  <span class="users-mobile-label">Acciones</span>
+                  <div class="users-actions">
+                    <button
+                      type="button"
+                      class="sigeac-btn sigeac-btn--secondary sigeac-btn--sm"
+                      (click)="select(user)"
+                      [attr.aria-pressed]="selected()?.id === user.id"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                        class="h-3.5 w-3.5"
+                      >
+                        <path d="M4 7h16 M4 12h16 M4 17h10" />
+                      </svg>
+                      Asignaciones
+                    </button>
+                    <button
+                      type="button"
+                      class="sigeac-btn sigeac-btn--sm"
+                      [class.sigeac-btn--danger-soft]="user.active"
+                      [class.sigeac-btn--success-soft]="!user.active"
+                      (click)="toggle(user)"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                        class="h-3.5 w-3.5"
+                      >
+                        <path d="M12 3.5v8 M6.3 6.5a8 8 0 1 0 11.4 0" />
+                      </svg>
+                      {{ user.active ? 'Desactivar' : 'Activar' }}
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="users-pagination access-pagination">
+        <p class="sigeac-help">Página {{ page() + 1 }}</p>
+        <div class="flex gap-2">
+          <button
+            type="button"
+            class="sigeac-btn sigeac-btn--secondary sigeac-btn--sm"
+            (click)="load(page() - 1)"
+            [disabled]="page() === 0"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              class="h-3.5 w-3.5"
+            >
+              <path d="M19 12H5 M11 6l-6 6 6 6" />
+            </svg>
+            Anterior
+          </button>
+          <button
+            type="button"
+            class="sigeac-btn sigeac-btn--secondary sigeac-btn--sm"
+            (click)="load(page() + 1)"
+            [disabled]="(page() + 1) * size() >= total()"
+          >
+            Siguiente
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              class="h-3.5 w-3.5"
+            >
+              <path d="M5 12h14 M13 6l6 6-6 6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    }
+  </section>
+
+  @if (selected(); as user) {
+    <section class="sigeac-card users-panel users-assignments-panel access-panel" aria-labelledby="assignments-title">
+      <div class="users-section-heading users-assignment-heading access-section-heading">
+        <div>
+          <h2 id="assignments-title" class="users-section-title access-section-title">Asignaciones de {{ user.displayName }}</h2>
+          <p class="users-section-copy access-section-copy">Funciones, carreras y periodos de acceso.</p>
+          <p class="sigeac-help">{{ user.technical ? 'Cuenta de servicio' : 'Cuenta personal' }}</p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <span class="sigeac-badge">{{ user.username }}</span>
+          <span class="sigeac-badge" [class.sigeac-badge--danger]="!user.active">
+            {{ user.active ? 'Activa' : 'Desactivada' }}
+          </span>
+        </div>
+      </div>
+
+      @if (assignmentError()) {
+        <div class="px-5 pt-4 sm:px-6">
+          <p class="sigeac-alert sigeac-alert--error" role="alert">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              class="mt-0.5 h-4 w-4 shrink-0"
+            >
+              <path d="M12 3.5 21 20H3L12 3.5Z M12 9.5v4 M12 17h.01" />
+            </svg>
+            <span>{{ assignmentError() }}</span>
+          </p>
+        </div>
+      }
+      @if (assignmentMessage()) {
+        <div class="px-5 pt-4 sm:px-6">
+          <p class="sigeac-alert sigeac-alert--success" role="status">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              class="mt-0.5 h-4 w-4 shrink-0"
+            >
+              <path d="M12 3.5 20 7v5c0 4.5-3.2 8.2-8 9.5-4.8-1.3-8-5-8-9.5V7l8-3.5Z M9 12l2 2 4-4.5" />
+            </svg>
+            <span>{{ assignmentMessage() }}</span>
+          </p>
+        </div>
+      }
+
+      @if (assignments().length === 0) {
+        <div class="sigeac-empty">
+          <span class="grid h-12 w-12 place-items-center rounded-2xl bg-institutional-blue-soft text-institutional-blue">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              class="h-5 w-5"
+            >
+              <path d="M9 4.5h6 M8 6H5.5v14.5h13V6H16 M8.5 12l2.5 2.5 4.5-5" />
+            </svg>
+          </span>
+          <span class="block font-semibold text-slate-700">Sin asignaciones registradas.</span>
+          <span class="sigeac-help">
+            {{ user.active && !user.technical ? 'Registre la primera asignación con el formulario inferior.' : 'Esta cuenta no admite nuevas asignaciones.' }}
+          </span>
+        </div>
+      } @else {
+        <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Asignaciones del usuario seleccionado">
+          <table class="sigeac-table users-assignments-table sigeac-table-layout sigeac-table-layout--assignments">
+            <caption class="sr-only">Asignaciones del usuario seleccionado</caption>
+            <thead>
+              <tr>
+                <th scope="col">Función</th>
+                <th scope="col">Carrera</th>
+                <th scope="col">Proceso</th>
+                <th scope="col">Indicador</th>
+                <th scope="col">Vigencia</th>
+                <th scope="col">Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (assignment of assignments(); track assignment.id) {
+                <tr>
+                  <td>
+                    <span class="block text-sm font-semibold text-slate-800">{{ assignment.roleName || (assignment.roleCode | displayLabel) }}</span>
+                    <details>
+                      <summary class="min-h-12 cursor-pointer py-3 text-sm text-institutional-blue">Identificadores</summary>
+                      <span class="users-id">Asignación: {{ assignment.id }}</span>
+                      <span class="users-id">Función: {{ assignment.roleCode }}</span>
+                    </details>
+                  </td>
+                  <td>
+                    <details>
+                      <summary class="min-h-12 cursor-pointer py-3 text-sm text-institutional-blue">Ver carrera</summary>
+                      <span class="users-id">{{ assignment.careerId }}</span>
+                    </details>
+                  </td>
+                  <td>
+                    @if (assignment.processId) {
+                      <details>
+                        <summary class="min-h-12 cursor-pointer py-3 text-sm text-institutional-blue">Ver proceso</summary>
+                        <span class="users-id">{{ assignment.processId }}</span>
+                      </details>
+                    } @else {
+                      <span class="sigeac-badge sigeac-badge--muted">Todos</span>
+                    }
+                  </td>
+                  <td>
+                    @if (assignment.indicatorId) {
+                      <details>
+                        <summary class="min-h-12 cursor-pointer py-3 text-sm text-institutional-blue">Ver indicador</summary>
+                        <span class="users-id">{{ assignment.indicatorId }}</span>
+                      </details>
+                    } @else {
+                      <span class="sigeac-badge sigeac-badge--muted">Todos</span>
+                    }
+                  </td>
+                  <td>
+                    <time class="users-date block whitespace-nowrap" [attr.datetime]="assignment.validFrom">
+                      {{ formatDate(assignment.validFrom) }}
+                    </time>
+                    <span class="mt-0.5 block text-[0.8125rem] text-slate-500">
+                      hasta {{ formatDate(assignment.validTo) }}
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      class="sigeac-btn sigeac-btn--danger-soft sigeac-btn--sm"
+                      [attr.data-assignment-id]="assignment.id"
+                      [disabled]="revoking() || revocationReason.invalid"
+                      (click)="revoke(assignment)"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                        class="h-3.5 w-3.5"
+                      >
+                        <path d="M5 7h14 M9 7V5.5h6V7 M7 7l.8 12.5h8.4L17 7 M10 11v5 M14 11v5" />
+                      </svg>
+                      {{ revoking() ? 'Revocando…' : 'Revocar' }}
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <div class="users-revocation">
+          <div class="sigeac-field max-w-2xl">
+            <label class="sigeac-label" for="revocation-reason">
+              Motivo de revocación <span class="sigeac-required" aria-hidden="true">*</span>
+            </label>
+            <textarea
+              id="revocation-reason"
+              class="sigeac-input"
+              [formControl]="revocationReason"
+              required
+              minlength="10"
+              maxlength="1000"
+              placeholder="Describa el motivo de la revocación"
+              [attr.aria-invalid]="revocationReason.touched && revocationReason.invalid ? 'true' : null"
+              [attr.aria-describedby]="revocationReason.touched && revocationReason.invalid ? 'revocation-help revocation-error' : 'revocation-help'"
+            ></textarea>
+            <p id="revocation-help" class="sigeac-help">Mínimo 10 caracteres. El motivo se conserva en el historial.</p>
+            @if (revocationReason.touched && revocationReason.invalid) {
+              <p id="revocation-error" class="sigeac-field-error">Ingrese un motivo de al menos 10 caracteres.</p>
+            }
+          </div>
+        </div>
+      }
+
+      @if (user.active && !user.technical) {
+        <div class="users-assignment-editor">
+          <sec-assignment-form [userId]="user.id" (saved)="reloadAssignments()" />
+        </div>
+      } @else {
+        <div class="users-account-note">
+          <p class="sigeac-alert sigeac-alert--info">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              class="mt-0.5 h-4 w-4 shrink-0"
+            >
+              <path d="M12 3.5 21 20H3L12 3.5Z M12 9.5v4 M12 17h.01" />
+            </svg>
+            <span>Las cuentas de servicio o desactivadas no admiten nuevas asignaciones funcionales.</span>
+          </p>
+        </div>
+      }
+    </section>
+  }
+  <section class="sigeac-card users-panel users-create-panel access-panel" aria-labelledby="create-user-title">
+    <div class="users-section-heading users-create-heading access-section-heading">
+      <div class="users-section-intro">
+        <h2 id="create-user-title" class="users-section-title access-section-title flex items-center gap-2.5" tabindex="-1">
           <svg class="users-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M15 20v-1a6 6 0 0 0-12 0v1 M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7 M18 8v6 M15 11h6" />
           </svg>
           Registrar usuario
         </h2>
-        <p class="users-section-copy">Datos de la cuenta y contraseña inicial.</p>
+        <p class="users-section-copy access-section-copy">Datos de la cuenta y contraseña inicial.</p>
       </div>
-      <p class="users-required-note">Los campos con * son obligatorios.</p>
+      <p class="users-required-note access-required-note">Los campos con * son obligatorios.</p>
     </div>
 
-    <form [formGroup]="createForm" (ngSubmit)="createUser()" novalidate class="users-create-form" aria-labelledby="create-user-title" [attr.aria-busy]="creating()">
+    <form [formGroup]="createForm" (ngSubmit)="createUser()" novalidate class="users-create-form access-form" aria-labelledby="create-user-title" [attr.aria-busy]="creating()">
       <div class="users-create-grid">
         <div class="sigeac-field">
           <label class="sigeac-label" for="newUsername">
@@ -148,391 +549,4 @@
       }
     </form>
   </section>
-
-  <section
-    class="sigeac-card users-panel users-list-panel"
-    aria-labelledby="users-list-title"
-    [attr.aria-busy]="loading()"
-  >
-    <div class="users-section-heading users-list-heading">
-      <div class="users-section-intro">
-        <h2 id="users-list-title" class="users-section-title">Usuarios registrados</h2>
-        <p class="users-section-copy">Consulte sus asignaciones o cambie el estado de una cuenta.</p>
-      </div>
-    </div>
-
-    @if (listError()) {
-      <div class="px-5 pt-4 sm:px-6">
-        <p class="sigeac-alert sigeac-alert--error" role="alert">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.8"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-            class="mt-0.5 h-4 w-4 shrink-0"
-          >
-            <path d="M12 3.5 21 20H3L12 3.5Z M12 9.5v4 M12 17h.01" />
-          </svg>
-          <span>{{ listError() }}</span>
-        </p>
-      </div>
-    }
-
-    @if (loading()) {
-      <div class="sigeac-empty" aria-live="polite">
-        <svg class="h-6 w-6 animate-spin text-institutional-blue" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" opacity="0.25" />
-          <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-        </svg>
-        <span>Cargando usuarios…</span>
-      </div>
-    } @else if (users().length === 0) {
-      <div class="sigeac-empty">
-        <span class="grid h-12 w-12 place-items-center rounded-2xl bg-institutional-blue-soft text-institutional-blue">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.7"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-            class="h-5 w-5"
-          >
-            <path d="M15 19.5a6 6 0 0 0-12 0 M9 11.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z M17 8l4 4 M21 8l-4 4" />
-          </svg>
-        </span>
-        <span class="block font-semibold text-slate-700">No hay usuarios registrados.</span>
-        <span class="sigeac-help">Registre el primer usuario con el formulario superior.</span>
-      </div>
-    } @else {
-      <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Usuarios registrados">
-        <table class="sigeac-table users-table sigeac-table-layout sigeac-table-layout--users">
-          <caption class="sr-only">Usuarios registrados y acciones disponibles para cada cuenta</caption>
-          <thead>
-            <tr>
-              <th scope="col">Usuario</th>
-              <th scope="col">Nombre</th>
-              <th scope="col">Estado</th>
-              <th scope="col">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (user of users(); track user.id) {
-              <tr [attr.data-user-id]="user.id" [class.users-row--selected]="selected()?.id === user.id">
-                <td>
-                  <span class="block text-sm font-semibold text-slate-800">{{ user.username }}</span>
-                </td>
-                <td>
-                  <span class="block text-sm text-slate-700">{{ user.displayName }}</span>
-                  @if (user.technical) {
-                    <span class="sigeac-badge sigeac-badge--muted mt-1">Cuenta de servicio</span>
-                  }
-                </td>
-                <td>
-                  <span class="sigeac-badge" [class.sigeac-badge--danger]="!user.active">
-                    {{ user.active ? 'Activa' : 'Desactivada' }}
-                  </span>
-                </td>
-                <td>
-                  <div class="users-actions">
-                    <button
-                      type="button"
-                      class="sigeac-btn sigeac-btn--secondary sigeac-btn--sm"
-                      (click)="select(user)"
-                      [attr.aria-pressed]="selected()?.id === user.id"
-                    >
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        aria-hidden="true"
-                        class="h-3.5 w-3.5"
-                      >
-                        <path d="M4 7h16 M4 12h16 M4 17h10" />
-                      </svg>
-                      Asignaciones
-                    </button>
-                    <button
-                      type="button"
-                      class="sigeac-btn sigeac-btn--sm"
-                      [class.sigeac-btn--danger-soft]="user.active"
-                      [class.sigeac-btn--secondary]="!user.active"
-                      (click)="toggle(user)"
-                    >
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        aria-hidden="true"
-                        class="h-3.5 w-3.5"
-                      >
-                        <path d="M12 3.5v8 M6.3 6.5a8 8 0 1 0 11.4 0" />
-                      </svg>
-                      {{ user.active ? 'Desactivar' : 'Activar' }}
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-
-      <div class="users-pagination">
-        <p class="sigeac-help">Página {{ page() + 1 }}</p>
-        <div class="flex gap-2">
-          <button
-            type="button"
-            class="sigeac-btn sigeac-btn--secondary sigeac-btn--sm"
-            (click)="load(page() - 1)"
-            [disabled]="page() === 0"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-              class="h-3.5 w-3.5"
-            >
-              <path d="M19 12H5 M11 6l-6 6 6 6" />
-            </svg>
-            Anterior
-          </button>
-          <button
-            type="button"
-            class="sigeac-btn sigeac-btn--secondary sigeac-btn--sm"
-            (click)="load(page() + 1)"
-            [disabled]="(page() + 1) * size() >= total()"
-          >
-            Siguiente
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-              class="h-3.5 w-3.5"
-            >
-              <path d="M5 12h14 M13 6l6 6-6 6" />
-            </svg>
-          </button>
-        </div>
-      </div>
-    }
-  </section>
-
-  @if (selected(); as user) {
-    <section class="sigeac-card users-panel" aria-labelledby="assignments-title">
-      <div class="users-section-heading users-assignment-heading">
-        <div>
-          <h2 id="assignments-title" class="users-section-title">Asignaciones de {{ user.displayName }}</h2>
-          <p class="users-section-copy">Funciones, carreras y periodos de acceso.</p>
-          <p class="sigeac-help">{{ user.technical ? 'Cuenta de servicio' : 'Cuenta personal' }}</p>
-        </div>
-        <div class="flex flex-wrap gap-2">
-          <span class="sigeac-badge">{{ user.username }}</span>
-          <span class="sigeac-badge" [class.sigeac-badge--danger]="!user.active">
-            {{ user.active ? 'Activa' : 'Desactivada' }}
-          </span>
-        </div>
-      </div>
-
-      @if (assignmentError()) {
-        <div class="px-5 pt-4 sm:px-6">
-          <p class="sigeac-alert sigeac-alert--error" role="alert">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-              class="mt-0.5 h-4 w-4 shrink-0"
-            >
-              <path d="M12 3.5 21 20H3L12 3.5Z M12 9.5v4 M12 17h.01" />
-            </svg>
-            <span>{{ assignmentError() }}</span>
-          </p>
-        </div>
-      }
-      @if (assignmentMessage()) {
-        <div class="px-5 pt-4 sm:px-6">
-          <p class="sigeac-alert sigeac-alert--success" role="status">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-              class="mt-0.5 h-4 w-4 shrink-0"
-            >
-              <path d="M12 3.5 20 7v5c0 4.5-3.2 8.2-8 9.5-4.8-1.3-8-5-8-9.5V7l8-3.5Z M9 12l2 2 4-4.5" />
-            </svg>
-            <span>{{ assignmentMessage() }}</span>
-          </p>
-        </div>
-      }
-
-      @if (assignments().length === 0) {
-        <div class="sigeac-empty">
-          <span class="grid h-12 w-12 place-items-center rounded-2xl bg-institutional-blue-soft text-institutional-blue">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.7"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-              class="h-5 w-5"
-            >
-              <path d="M9 4.5h6 M8 6H5.5v14.5h13V6H16 M8.5 12l2.5 2.5 4.5-5" />
-            </svg>
-          </span>
-          <span class="block font-semibold text-slate-700">Sin asignaciones registradas.</span>
-          <span class="sigeac-help">
-            {{ user.active && !user.technical ? 'Registre la primera asignación con el formulario inferior.' : 'Esta cuenta no admite nuevas asignaciones.' }}
-          </span>
-        </div>
-      } @else {
-        <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Asignaciones del usuario seleccionado">
-          <table class="sigeac-table users-assignments-table sigeac-table-layout sigeac-table-layout--assignments">
-            <caption class="sr-only">Asignaciones del usuario seleccionado</caption>
-            <thead>
-              <tr>
-                <th scope="col">Función</th>
-                <th scope="col">Carrera</th>
-                <th scope="col">Proceso</th>
-                <th scope="col">Indicador</th>
-                <th scope="col">Vigencia</th>
-                <th scope="col">Acción</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (assignment of assignments(); track assignment.id) {
-                <tr>
-                  <td>
-                    <span class="block text-sm font-semibold text-slate-800">{{ assignment.roleCode | displayLabel }}</span>
-                  </td>
-                  <td>
-                    <span class="users-id">{{ assignment.careerId }}</span>
-                  </td>
-                  <td>
-                    @if (assignment.processId) {
-                      <span class="users-id">{{ assignment.processId }}</span>
-                    } @else {
-                      <span class="sigeac-badge sigeac-badge--muted">Todos</span>
-                    }
-                  </td>
-                  <td>
-                    @if (assignment.indicatorId) {
-                      <span class="users-id">{{ assignment.indicatorId }}</span>
-                    } @else {
-                      <span class="sigeac-badge sigeac-badge--muted">Todos</span>
-                    }
-                  </td>
-                  <td>
-                    <time class="users-date block" [attr.datetime]="assignment.validFrom">
-                      {{ formatDate(assignment.validFrom) }}
-                    </time>
-                    <span class="mt-0.5 block text-[0.8125rem] text-slate-500">
-                      hasta {{ formatDate(assignment.validTo) }}
-                    </span>
-                  </td>
-                  <td>
-                    <button
-                      type="button"
-                      class="sigeac-btn sigeac-btn--danger-soft sigeac-btn--sm"
-                      [attr.data-assignment-id]="assignment.id"
-                      [disabled]="revoking() || revocationReason.invalid"
-                      (click)="revoke(assignment)"
-                    >
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        aria-hidden="true"
-                        class="h-3.5 w-3.5"
-                      >
-                        <path d="M5 7h14 M9 7V5.5h6V7 M7 7l.8 12.5h8.4L17 7 M10 11v5 M14 11v5" />
-                      </svg>
-                      {{ revoking() ? 'Revocando…' : 'Revocar' }}
-                    </button>
-                  </td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        </div>
-
-        <div class="users-revocation">
-          <div class="sigeac-field max-w-2xl">
-            <label class="sigeac-label" for="revocation-reason">
-              Motivo de revocación <span class="sigeac-required" aria-hidden="true">*</span>
-            </label>
-            <textarea
-              id="revocation-reason"
-              class="sigeac-input"
-              [formControl]="revocationReason"
-              required
-              minlength="10"
-              maxlength="1000"
-              placeholder="Describa el motivo de la revocación"
-              [attr.aria-invalid]="revocationReason.touched && revocationReason.invalid ? 'true' : null"
-              [attr.aria-describedby]="revocationReason.touched && revocationReason.invalid ? 'revocation-help revocation-error' : 'revocation-help'"
-            ></textarea>
-            <p id="revocation-help" class="sigeac-help">Mínimo 10 caracteres. El motivo se conserva en el historial.</p>
-            @if (revocationReason.touched && revocationReason.invalid) {
-              <p id="revocation-error" class="sigeac-field-error">Ingrese un motivo de al menos 10 caracteres.</p>
-            }
-          </div>
-        </div>
-      }
-
-      @if (user.active && !user.technical) {
-        <div class="users-assignment-editor">
-          <sec-assignment-form [userId]="user.id" (saved)="reloadAssignments()" />
-        </div>
-      } @else {
-        <div class="users-account-note">
-          <p class="sigeac-alert sigeac-alert--info">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-              class="mt-0.5 h-4 w-4 shrink-0"
-            >
-              <path d="M12 3.5 21 20H3L12 3.5Z M12 9.5v4 M12 17h.01" />
-            </svg>
-            <span>Las cuentas de servicio o desactivadas no admiten nuevas asignaciones funcionales.</span>
-          </p>
-        </div>
-      }
-    </section>
-  }
 </section>

@@ -26,7 +26,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
         <tbody>
           @for (item of processes(); track item.id) {
             <tr><td>{{item.code}}</td><td>{{item.name}}</td><td>{{item.state | displayLabel}}</td>
-              <td><a [routerLink]="[item.id]">Abrir</a></td></tr>
+              <td><a class="sigeac-btn sigeac-btn--success-soft sigeac-btn--sm" [routerLink]="[item.id]">Abrir</a></td></tr>
           }
         </tbody>
       </table>

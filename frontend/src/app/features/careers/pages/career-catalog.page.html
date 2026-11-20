@@ -450,7 +450,7 @@
                       @if (canManage()) {
                         <button
                           type="button"
-                          class="sigeac-btn sigeac-btn--secondary sigeac-btn--sm"
+                          class="sigeac-btn sigeac-btn--warning-soft sigeac-btn--sm"
                           [disabled]="busy()"
                           [attr.aria-label]="'Editar carrera ' + career.data.code"
                           (click)="editCareer(career)"
@@ -473,7 +473,7 @@
                           type="button"
                           class="sigeac-btn sigeac-btn--sm"
                           [class.sigeac-btn--danger-soft]="career.status === 'ACTIVE'"
-                          [class.sigeac-btn--secondary]="career.status !== 'ACTIVE'"
+                          [class.sigeac-btn--success-soft]="career.status !== 'ACTIVE'"
                           [disabled]="busy() || reason.trim().length < 10"
                           [attr.aria-label]="(career.status === 'ACTIVE' ? 'Desactivar carrera ' : 'Reactivar carrera ') + career.data.code"
                           (click)="changeCareerState(career)"
@@ -499,7 +499,7 @@
                       }
                       <button
                         type="button"
-                        class="sigeac-btn sigeac-btn--secondary sigeac-btn--sm"
+                        class="sigeac-btn sigeac-btn--success-soft sigeac-btn--sm"
                         [attr.aria-label]="'Consultar historial de ' + career.data.code"
                         (click)="showHistory(career)"
                       >
@@ -1046,7 +1046,7 @@
                       @if (canManage()) {
                         <button
                           type="button"
-                          class="sigeac-btn sigeac-btn--secondary sigeac-btn--sm"
+                          class="sigeac-btn sigeac-btn--warning-soft sigeac-btn--sm"
                           [disabled]="busy()"
                           [attr.aria-label]="'Editar unidad ' + unit.data.code"
                           (click)="editUnit(unit)"
@@ -1069,7 +1069,7 @@
                           type="button"
                           class="sigeac-btn sigeac-btn--sm"
                           [class.sigeac-btn--danger-soft]="unit.status === 'ACTIVE'"
-                          [class.sigeac-btn--secondary]="unit.status !== 'ACTIVE'"
+                          [class.sigeac-btn--success-soft]="unit.status !== 'ACTIVE'"
                           [disabled]="busy() || reason.trim().length < 10"
                           [attr.aria-label]="(unit.status === 'ACTIVE' ? 'Desactivar unidad ' : 'Reactivar unidad ') + unit.data.code"
                           (click)="changeUnitState(unit)"

@@ -6,6 +6,15 @@
   --sigeac-text-muted: #526173;
   --sigeac-control-border: #64748b;
   --sigeac-divider: #e5edf6;
+  /* Jerarquía tomada de Catálogo de carreras; sin sustituir las fuentes de marca. */
+  --sigeac-heading-font: var(--font-display);
+  --sigeac-heading-weight: 800;
+  --sigeac-subheading-weight: 700;
+  --sigeac-action-success-ink: #166534;
+  --sigeac-action-success-bg: #f0fdf4;
+  --sigeac-action-warning-ink: #854d0e;
+  --sigeac-action-warning-bg: #fffbeb;
+  --sigeac-action-danger-bg: #fff4f4;
   color-scheme: light;
   font-family: var(--font-sans, "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif);
   line-height: 1.5;
@@ -58,7 +67,8 @@ body {
    para no interferir con la navegación del layout. */
 #main-content h2 {
   margin: 0 0 0.4rem;
-  color: #084878;
+  color: var(--color-institutional-blue);
+  font-family: var(--sigeac-heading-font);
   font-size: 1.45rem;
   font-weight: 700;
   letter-spacing: -0.01em;
@@ -66,16 +76,18 @@ body {
 
 #main-content h3 {
   margin: 1.4rem 0 0.5rem;
-  color: #123b5c;
+  color: var(--color-institutional-blue);
+  font-family: var(--sigeac-heading-font);
   font-size: 1.05rem;
-  font-weight: 650;
+  font-weight: var(--sigeac-subheading-weight);
 }
 
 #main-content h4 {
   margin: 1rem 0 0.4rem;
-  color: #1e293b;
+  color: var(--color-institutional-blue);
+  font-family: var(--sigeac-heading-font);
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: var(--sigeac-subheading-weight);
 }
 
 #main-content p {
@@ -250,8 +262,8 @@ body {
     padding: 0.75rem 1.25rem;
     background: var(--color-institutional-blue-soft, #eaf2fa);
     color: #084878;
-    font-size: 0.8125rem;
-    font-weight: 600;
+    font-size: 0.875rem;
+    font-weight: 700;
     letter-spacing: normal;
     line-height: 1.4;
     text-transform: none;
@@ -269,7 +281,8 @@ body {
     border-bottom: 0;
   }
 
-  tbody tr:hover {
+  tbody tr:hover,
+  tbody tr:focus-within {
     background: #f8fbfe;
   }
 }
@@ -455,9 +468,27 @@ body {
 }
 
 #main-content .sigeac-btn--danger-soft {
-  --sigeac-button-bg: var(--color-institutional-white);
+  --sigeac-button-bg: var(--sigeac-action-danger-bg);
   --sigeac-button-ink: var(--color-institutional-red);
   --sigeac-button-border: var(--color-institutional-red);
+}
+
+/* Variantes explícitas: el color refuerza la etiqueta y el icono, no los sustituye. */
+#main-content .sigeac-btn.sigeac-btn--success-soft {
+  --sigeac-button-bg: var(--sigeac-action-success-bg);
+  --sigeac-button-ink: var(--sigeac-action-success-ink);
+  --sigeac-button-border: color-mix(in srgb, var(--sigeac-action-success-ink) 70%, var(--color-institutional-white));
+}
+
+#main-content .sigeac-btn.sigeac-btn--warning-soft {
+  --sigeac-button-bg: var(--sigeac-action-warning-bg);
+  --sigeac-button-ink: var(--sigeac-action-warning-ink);
+  --sigeac-button-border: color-mix(in srgb, var(--sigeac-action-warning-ink) 70%, var(--color-institutional-white));
+}
+
+#main-content table .sigeac-btn--secondary {
+  --sigeac-button-bg: var(--color-institutional-blue-soft);
+  --sigeac-button-border: color-mix(in srgb, var(--color-institutional-blue) 70%, var(--color-institutional-white));
 }
 
 /* La función de la acción se expresa por su contexto o variante, nunca por su texto. */

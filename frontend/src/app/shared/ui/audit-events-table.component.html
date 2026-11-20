@@ -27,7 +27,7 @@
           <td class="audit-events-actions">
             <button
               type="button"
-              class="sigeac-btn sigeac-btn--secondary sigeac-btn--sm audit-events-toggle"
+              class="sigeac-btn sigeac-btn--success-soft sigeac-btn--sm audit-events-toggle"
               [attr.aria-expanded]="isExpanded(event.id)"
               [attr.aria-controls]="'audit-details-' + event.id"
               [attr.aria-label]="(isExpanded(event.id) ? 'Ocultar detalles' : 'Ver detalles') + ' del evento del ' + (event.occurredAt | date: 'dd/MM/yyyy HH:mm')"

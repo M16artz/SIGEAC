@@ -32,6 +32,7 @@ describe('AuditEventsTableComponent', () => {
     expect(fixture.nativeElement.textContent).not.toContain('corr-123');
 
     const button = fixture.nativeElement.querySelector('.audit-events-toggle') as HTMLButtonElement;
+    expect(button.classList.contains('sigeac-btn--success-soft')).toBe(true);
     expect(button.getAttribute('aria-expanded')).toBe('false');
 
     button.click();

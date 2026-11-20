@@ -6,9 +6,9 @@ $layouts: (
   users: (52rem, (14%, 32%, 18%, 36%)),
   assignments: (56rem, (20%, 16%, 16%, 16%, 18%, 14%)),
   scopes: (52rem, (20%, 16%, 16%, 16%, 16%, 16%)),
-  careers: (60rem, (11%, 21%, 17%, 17%, 16%, 18%)),
+  careers: (60rem, (9%, 19%, 13%, 15%, 14%, 30%)),
   career-history: (54rem, (13%, 12%, 23%, 17%, 17%, 18%)),
-  units: (46rem, (16%, 34%, 20%, 30%)),
+  units: (52rem, (14%, 30%, 20%, 36%)),
   audit: (42rem, (18%, 34%, 20%, 28%)),
   processes: (36rem, (19%, 36%, 25%, 20%)),
   activities: (42rem, (30%, 22%, 26%, 22%)),
@@ -37,14 +37,14 @@ $layouts: (
     > thead > tr > th,
     > tbody > tr > :is(th, td) {
       box-sizing: border-box;
-      padding: .75rem 1rem;
+      padding: .875rem 1rem;
       text-align: left;
       vertical-align: middle;
       white-space: normal;
       overflow-wrap: anywhere;
     }
 
-    > thead > tr > th { line-height: 1.4; }
+    > thead > tr > th { font-size: .875rem; font-weight: 700; line-height: 1.4; }
 
     /* En celdas de tabla, height establece un mínimo: las filas pueden crecer. */
     > tbody > tr > :is(th, td) { height: 3.25rem; }
@@ -59,20 +59,29 @@ $layouts: (
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: .5rem;
+      gap: .625rem;
     }
 
     :is(button, .sigeac-btn) {
       max-width: 100%;
       margin: 0;
+      min-height: 2.75rem;
+      font-size: .875rem;
       white-space: normal;
-      overflow-wrap: anywhere;
+      overflow-wrap: normal;
       flex-shrink: 0;
       svg { flex-shrink: 0; }
     }
 
+    /* Los controles pueden pasar de fila, pero no partir palabras ni iconos. */
+    :is(.users-actions, .careers-actions, .sigeac-table-actions) :is(button, .sigeac-btn) { white-space: nowrap; }
+
     /* Las listas de resultados no añaden márgenes verticales a cada fila. */
     td > :is(p, ul, ol) { margin: .25rem 0; }
+  }
+
+  @media (max-width: 640px), (pointer: coarse) {
+    table.sigeac-table-layout :is(button, .sigeac-btn) { min-height: 3rem; }
   }
 
   @each $name, $layout in $layouts {

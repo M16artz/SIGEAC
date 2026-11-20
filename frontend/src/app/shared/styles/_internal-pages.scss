@@ -21,9 +21,9 @@
   .sigeac-page-header h2 {
     margin: 1rem 0 .75rem;
     color: var(--color-institutional-blue);
-    font-family: var(--font-display);
+    font-family: var(--sigeac-heading-font);
     font-size: clamp(1.75rem, 1.5rem + .75vw, 2.25rem);
-    font-weight: 700;
+    font-weight: var(--sigeac-heading-weight);
     line-height: 1.25;
     letter-spacing: normal;
     min-width: 0;
@@ -70,8 +70,8 @@
 
   .sigeac-page-body :is(h3, h4, h5) {
     color: var(--color-institutional-blue);
-    font-family: var(--font-accent);
-    font-weight: 600;
+    font-family: var(--sigeac-heading-font);
+    font-weight: var(--sigeac-subheading-weight);
     line-height: 1.5;
     letter-spacing: normal;
   }
@@ -111,7 +111,7 @@
     border: 1px solid var(--sigeac-divider);
     border-radius: .5rem;
   }
-  legend { padding: 0 .5rem; color: #084878; font-weight: 600; }
+  legend { padding: 0 .5rem; color: #084878; font-family: var(--sigeac-heading-font); font-weight: var(--sigeac-subheading-weight); }
   button { min-height: 2.75rem; border-radius: .75rem; }
   :is(button, a, input, select, textarea, summary, .sigeac-table-scroll):focus-visible {
     outline: 3px solid var(--color-institutional-blue);
@@ -140,8 +140,8 @@
     padding: 1rem;
     background: #eaf2fa;
     color: #084878;
-    font-size: .8125rem;
-    font-weight: 600;
+    font-size: .875rem;
+    font-weight: 700;
     letter-spacing: normal;
     line-height: 1.4;
     text-transform: none;
@@ -216,7 +216,7 @@
 
   &.sigeac-page--balanced {
     table { font-size: .875rem; }
-    thead th { font-size: .8125rem; font-weight: 600; letter-spacing: normal; }
+    thead th { font-size: .875rem; font-weight: 700; letter-spacing: normal; }
     tbody :is(th, td) { padding: .75rem 1rem; vertical-align: middle; }
     nav { justify-content: flex-end; font-size: .875rem; }
   }

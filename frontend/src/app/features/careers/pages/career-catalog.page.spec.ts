@@ -28,4 +28,16 @@ describe('Career catalog',()=>{
     page.editCareer(career);api.saveCareer.mockReturnValue(throwError(()=>new Error('stale')));page.saveCareer();
     expect(page.editingCareer()).toEqual(career);expect(page.error()).not.toBe('');expect(page.busy()).toBe(false);
   });
+  it('uses explicit semantic action variants without changing state restrictions',()=>{
+    const fixture=TestBed.createComponent(CareerCatalogPage);fixture.detectChanges();
+    const root=fixture.nativeElement as HTMLElement;
+    expect(root.querySelector('[aria-label="Editar carrera C"]')?.classList.contains('sigeac-btn--warning-soft')).toBe(true);
+    expect(root.querySelector('[aria-label="Consultar historial de C"]')?.classList.contains('sigeac-btn--success-soft')).toBe(true);
+    const deactivate=root.querySelector<HTMLButtonElement>('[aria-label="Desactivar carrera C"]')!;
+    expect(deactivate.classList.contains('sigeac-btn--danger-soft')).toBe(true);
+    expect(deactivate.disabled).toBe(true);
+    fixture.componentInstance.careers.update(value=>({...value!,items:[{...career,status:'DISABLED'}]}));fixture.detectChanges();
+    expect(root.querySelector('[aria-label="Reactivar carrera C"]')?.classList.contains('sigeac-btn--success-soft')).toBe(true);
+    expect(root.querySelector('[aria-label="Editar unidad U"]')?.classList.contains('sigeac-btn--warning-soft')).toBe(true);
+  });
 });

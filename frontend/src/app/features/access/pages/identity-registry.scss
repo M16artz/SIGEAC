@@ -1,0 +1,40 @@
+/* Hallmark · shape: app screen · theme: brand SIGEAC · genre: modern-minimal · scope: user registry table.
+   Pre-emit critique: P4 H4 E4 S4 R4 V4. Weakest: density; group account identity and keep both actions visible on mobile.
+   Existing shell, form and assignment table are preserved. */
+#main-content .users-admin {
+  table.users-table.sigeac-table-layout--users {
+    min-width: 0;
+    > thead > tr > th {
+      white-space: nowrap;
+      &:nth-child(1) { width: 48%; }
+      &:nth-child(2) { width: 18%; }
+      &:nth-child(3) { width: 34%; }
+    }
+    > tbody > tr > td { padding-block: 1rem; }
+    > thead > tr > th:first-child,
+    > tbody > tr > td:first-child { padding-inline-start: 2rem; }
+    .sigeac-btn:not([aria-pressed="true"]) { border-color: transparent; background: transparent; box-shadow: none; }
+    .sigeac-btn:hover, .sigeac-btn:active { text-decoration: underline; }
+    .users-actions { gap: .25rem; flex-wrap: nowrap; }
+  }
+  .users-account-name { display: block; font-size: .9375rem; font-weight: 600; }
+  .users-account-username { display: block; margin-block-start: .25rem; color: var(--sigeac-text-muted); font-size: .8125rem; }
+  .users-mobile-label { display: none; }
+
+  @container access-page (max-width: 44rem) {
+    table.users-table.sigeac-table-layout--users {
+      display: block;
+      thead { display: none; }
+      tbody { display: block; }
+      tbody > tr { display: block; padding: 1.25rem 1.5rem; border-block-end: 1px solid var(--sigeac-divider); }
+      tbody > tr:last-child { border-block-end: 0; }
+      tbody > tr > td { display: block; height: auto; padding: 0; border: 0; }
+      tbody > tr > td:first-child { padding-inline-start: 0; }
+      tbody > tr > td + td { padding-block-start: .75rem; }
+      .users-actions { flex-wrap: wrap; }
+      .sigeac-btn { min-height: 3rem; }
+    }
+    .users-mobile-label { display: block; margin-block-end: .25rem; color: var(--sigeac-text-muted); font-size: .8125rem; }
+    .users-row--selected { background: var(--color-institutional-blue-soft); }
+  }
+}
