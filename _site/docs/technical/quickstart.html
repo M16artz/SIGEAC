@@ -205,12 +205,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/activities/acd5.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">ACD5 — Demostración técnica y estándares web</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../docs/audit/testing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Pruebas: inventario estático, comandos y límites</span></a>
   </div>
@@ -613,6 +607,14 @@ SEC_DEMO_DATA=true</code></pre>
 <section id="revisión-interactiva-de-la-api" class="level2">
 <h2 class="anchored" data-anchor-id="revisión-interactiva-de-la-api">Revisión interactiva de la API</h2>
 <p>Con el backend local iniciado, abrir Swagger UI en <code>http://localhost:8080/api/v1/swagger-ui/index.html</code>. El documento OpenAPI se sirve en <code>http://localhost:8080/api/v1/v3/api-docs</code>. Las rutas de documentación son públicas en desarrollo; las operaciones de negocio siguen requiriendo una sesión y permisos. En producción, OpenAPI permanece desactivado.</p>
+<p>Para ejecutar los GET desde Swagger:</p>
+<ol type="1">
+<li>Abra <code>POST /sessions</code>, pulse <strong>Try it out</strong>, introduzca su usuario y contraseña y pulse <strong>Execute</strong>.</li>
+<li>Compruebe que la respuesta sea <code>201</code>. El navegador guardará la cookie de sesión <code>SEC_SESSION</code>.</li>
+<li>Ejecute <code>GET /me</code> para verificar la sesión y después el GET que desea consultar.</li>
+<li>Use siempre el mismo host para Swagger y la API: <code>localhost</code> y <code>127.0.0.1</code> tienen cookies distintas.</li>
+</ol>
+<p>La cookie <code>HttpOnly</code> la administra el navegador; no se introduce manualmente en <strong>Authorize</strong>. Un <code>401</code> indica que necesita iniciar sesión de nuevo. Un <code>403</code>, un <code>404</code> por ámbito o un listado vacío pueden indicar que el usuario no tiene permisos sobre ese recurso.</p>
 </section>
 <section id="preparación-sin-docker" class="level2">
 <h2 class="anchored" data-anchor-id="preparación-sin-docker">Preparación sin Docker</h2>

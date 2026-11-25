@@ -127,5 +127,3 @@ la ejecución autorizada con las dependencias resolvió ese bloqueo.
   comprobar un emisor institucional real con su configuración y provisión de sujetos.
 - El cambio de JSON rompe el transporte anterior de v1: migrar consumidores
   externos o publicar versión nueva si v1 ya está disponible fuera del equipo.
-- Las participaciones y defensas individuales de ACD5 deben registrarse por el
-  equipo; las pruebas automatizadas no las sustituyen.

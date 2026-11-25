@@ -36,6 +36,7 @@ La [guía SQLite](docs/testing/sqlite.md) permite pruebas sintéticas sin Postgr
 
 - Backend, desde `backend/`: `.\mvnw.cmd verify`.
 - Frontend, desde `frontend/`: `npm.cmd test` y `npm.cmd run contracts`.
+- API con Postman: `npm.cmd --prefix frontend run test:api`; [colección y configuración](tests/postman/README.md).
 - Portal, desde la raíz con Quarto: `quarto render` o `quarto preview`.
 
 Comandos contrastados con el repositorio; resultados y límites en
@@ -44,7 +45,11 @@ no hay despliegue Docker reproducible definido.
 
 ## Fuentes principales
 
-- [Contrato de respuesta, HTTPS y OIDC](docs/api/response-contract.qmd) y [demostración ACD5](docs/activities/acd5.qmd).
+-levantar quarto 
+    quarto preview --port 4201
+    http://localhost:4201/
+
+- [Contrato de respuesta, HTTPS y OIDC](docs/api/response-contract.qmd).
 
 - [Portal Quarto](index.qmd), [operación](docs/audit/operation.qmd), [API](docs/audit/api.qmd) y [pruebas](docs/audit/testing.qmd).
 - `backend/`: Spring Boot, seguridad, JPA/JDBC y Flyway; `frontend/`: Angular.
@@ -52,3 +57,11 @@ no hay despliegue Docker reproducible definido.
 - `tests/`: aceptación y evidencia histórica.
 
 Una especificación o contrato planificado no acredita implementación.
+
+| Usuario | Contraseña |
+|---|---|
+| admin | Synthetic-Admin-2026 |
+| coordinador | Synthetic-User-2026 |
+| responsable | Synthetic-User-2026 |
+| revisor | Synthetic-User-2026 |
+| evaluador | Synthetic-User-2026 |

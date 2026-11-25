@@ -1,0 +1,59 @@
+{
+  "collectedAt": "2026-11-13T21:44:50.738108+00:00",
+  "contracts": {
+    "command": "node scripts/validate-contracts.mjs",
+    "exitCode": 0,
+    "openapiDocuments": 6,
+    "asyncapiValid": true,
+    "warningsPresent": true
+  },
+  "http": {
+    "passed": 19,
+    "total": 19,
+    "report": "semana5-http.json"
+  },
+  "documentation": {
+    "checkedAt": "2026-11-13T21:45:51.154137+00:00",
+    "localLinksChecked": 106,
+    "brokenLocalLinks": [],
+    "latexEnvironments": {
+      "AA5.tex": {
+        "environments": 32,
+        "balanced": true
+      },
+      "ACD5.tex": {
+        "environments": 31,
+        "balanced": true
+      }
+    },
+    "quarto": {
+      "status": "PASS",
+      "exitCode": 0,
+      "pages": [
+        "aa5.html",
+        "acd5.html",
+        "contribuciones.html",
+        "evidencia.html",
+        "index.html",
+        "observaciones.html"
+      ],
+      "mode": "documentation snapshot; unchanged sources and project configuration",
+      "fullOriginalProjectRendered": false,
+      "sourceSha256": {
+        "docs/semana5/aa5.qmd": "4ba7b29353bc139f00a57cb3e458ed1d20b64ef120a8ecc742d69fc726a90dd6",
+        "docs/semana5/acd5.qmd": "378e84198e6221d56a40b4ab7f5968b83e7b692258953d72062346b5d0ba8a5b",
+        "docs/semana5/contribuciones.md": "44e0f8ec991c73ef8a1ed54ab425dbc3bde43c4e53bc85168e03959ef74efb00",
+        "docs/semana5/evidencia.md": "b6a92a4c4dbbfa952ddcd31e0e553d95b652237b384031910b2ea2f229cfdca0",
+        "docs/semana5/index.qmd": "8684c05b59c2ff8c99765af482dd9c098d8dfe969b1c43c84e7c5d49ae2b20da",
+        "docs/semana5/latex/AA5.tex": "f52d04fb019e916eed0ce6dad370b9f8e1ce29dbd8e6451391b6031f3171b0ff",
+        "docs/semana5/latex/ACD5.tex": "3985dc04da53066603bcad60938731e6240f12d7306b4a78cba1d781f43b27c4",
+        "docs/semana5/latex/README.md": "2312aec92c5d19f48cdf9efe201dd298bce3057ddb915dc60278a6880ef2c6ad",
+        "docs/semana5/observaciones.md": "d728485c09457d5290cac907b0ca22a6ad76002816e214ec499c0b0a9109db1b"
+      }
+    }
+  },
+  "latex": {
+    "compiled": false,
+    "reason": "No local LaTeX compiler; original JPEG assets unavailable"
+  }
+}

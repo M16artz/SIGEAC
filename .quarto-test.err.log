@@ -1,0 +1,35 @@
+Terminating existing preview server....DONE
+
+Preparing to preview
+
+Watching files for changes
+Browse at http://localhost:4201/
+Listening on http://127.0.0.1:4201/
+GET: /
+GET: /
+pandoc 
+  to: html
+  output-file: context.html
+  standalone: true
+  title-prefix: SEC-UNL — Documentación
+  section-divs: true
+  html-math-method: mathjax
+  wrap: none
+  default-image-extension: png
+  toc: true
+  
+metadata
+  document-css: false
+  link-citations: true
+  date-format: long
+  lang: en
+  title: Contexto, actores y alcance real
+  
+[1/4] index.qmd
+[2/4] feature-map.md
+[3/4] docs\adr\0020-universal-api-response.md
+[4/4] tests\acceptance\results\api-response-hardening.md
+
+GET: /
+GET: /
+GET: /

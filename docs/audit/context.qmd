@@ -13,20 +13,101 @@ El [catálogo P01–P16](../requirements/process-flows.md) define participantes 
 alternativas; las [reglas](../requirements/domain-rules.md) definen competencias,
 estados y denominadores. Esta página orienta la lectura, sin reemplazarlos.
 
-| Actor | Responsabilidad y límite |
+## Perfiles, funciones y asignaciones
+
+**Revisión del código: 9 de noviembre de 2026.** La especificación general enumera
+8 actores y la especificación ampliada 005 contiene **14 entradas de actores**.
+El catálogo sintético implementa **6 funciones**. Son niveles distintos: los
+perfiles describen responsabilidades y las funciones agrupan permisos efectivos.
+Los recuentos no representan usuarios registrados ni asignaciones vigentes de una
+instancia; no se consultó la base de datos para esta revisión.
+
+| Concepto | Significado en el proyecto |
 |---|---|
-| Administrador funcional | Configurar carreras, modelos y asignaciones autorizadas. |
-| Responsable documental | Preparar y remitir evidencia dentro del ámbito asignado. |
-| Revisor documental | Decidir por cobertura; no emitir valoración académica implícita. |
-| Evaluador | Justificar valoración o validar variables y cálculos autorizados. |
-| Coordinador y autoridad competente | Planificar y registrar autorizaciones, decisiones y cierres según asignación. |
-| Consultor o archivista | Consultar el historial autorizado. |
-| Cuenta técnica | Operar tareas explícitas; no adoptar decisiones humanas. |
+| Actor o perfil de negocio | Persona, instancia o participante que asume una responsabilidad en los procesos P01–P16. |
+| Rol o función | Conjunto de operaciones permitidas. El código lo representa mediante `ProcessFunction`; las asignaciones de la API utilizan un código de rol. |
+| Asignación | Vincula una identidad con una función, un ámbito de carrera, proceso o indicador y un período de vigencia. Puede revocarse. |
+| Identidad técnica | Tipo de cuenta `TECHNICAL`, separado de las funciones humanas; no equivale al perfil de administrador técnico. |
+
+Una persona puede recibir varias funciones compatibles. La autorización funcional
+comprueba identidad humana activa, asignación vigente, ámbito, operación y ausencia
+de conflictos sin excepción. Pertenecer a un comité o comisión no concede permisos
+automáticamente: las actuaciones se atribuyen a identidades individuales.
+
+### Funciones del catálogo sintético
+
+Estas seis funciones se registran cuando está habilitada la carga sintética
+`sec.demo-data`. El catálogo es configurable; seis no es un límite del modelo ni
+una certificación de competencias institucionales.
+
+| Función | Capacidades principales definidas en la carga sintética |
+|---|---|
+| `FUNCTIONAL_ADMIN` — Administrador funcional | Administrar carreras, usuarios, asignaciones y excepciones; gestionar modelos y procesos; autorizar aplicabilidad de modelos y consultar auditoría. No implica acceso irrestricto fuera del ámbito asignado. |
+| `COORDINATOR` — Coordinador de autoevaluación | Coordinar procesos, publicar modelos, consultar progreso, generar cortes y cierres; consolidar resultados, elaborar/socializar/aprobar informes y gestionar decisiones de mejora. Concentra responsabilidades de varios perfiles. |
+| `RESPONSIBLE` — Responsable de evidencia | Recopilar evidencias, consultar informes y registrar avances y ejecución de acciones de mejora. |
+| `REVIEWER` — Revisor documental | Revisar evidencia e informes, registrar observaciones y verificar acciones de mejora. La aceptación documental no constituye valoración académica. |
+| `EVALUATOR` — Evaluador académico | Valorar indicadores y consultar u observar informes dentro de sus permisos. |
+| `PROCESS_AUTHORITY` — Autoridad del proceso | Autorizar inicio y aplicabilidad de modelos; consultar procesos y archivo, escribir archivo y realizar cierre integral según los controles del servicio. |
+
+En una base sintética vacía se crean cinco usuarios de demostración: `admin`,
+`coordinador`, `responsable`, `revisor` y `evaluador`. `PROCESS_AUTHORITY` se registra
+sin asignarlo automáticamente a una persona. No existe equivalencia entre el
+número de funciones y el número de usuarios.
+
+Las migraciones también incorporan permisos. Por ejemplo, V024 concede
+`REPORT_APPROVE` a `PROCESS_AUTHORITY` y escritura de informes a `REVIEWER`;
+la carga sintética concede `REPORT_APPROVE` a `COORDINATOR`. Los permisos efectivos
+dependen del catálogo persistido y del orden de inicialización; esta tabla describe
+la carga sintética, no sustituye la consulta de la instancia.
+
+Fuentes: [carga sintética](../../backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/SyntheticAccessData.java),
+[autorización por ámbito](../../backend/src/main/java/ec/edu/unl/sec/identityaccess/application/ScopeAuthorizationService.java),
+[administración de asignaciones](../../backend/src/main/java/ec/edu/unl/sec/identityaccess/application/IdentityAdministrationService.java)
+y [migración V024](../../backend/src/main/resources/db/migration/V024__findings_reports.sql).
+
+### Correspondencia con los perfiles de la especificación completa
+
+La siguiente correspondencia describe dónde están las capacidades actuales;
+no declara que los catorce perfiles estén implementados como roles independientes.
+
+| Perfil documentado en 005 | Representación actual y límite |
+|---|---|
+| Administrador técnico | Responsabilidad operativa sin función exclusiva entre las seis. Las cuentas técnicas son un tipo de identidad y la autorización funcional común las rechaza. |
+| Administrador funcional | Función `FUNCTIONAL_ADMIN`, con asignaciones y ámbito. |
+| Administrador de modelos | Capacidades de preparación y gestión en `FUNCTIONAL_ADMIN`; sin función exclusiva. |
+| Revisor metodológico | Sin función exclusiva. `COORDINATOR` tiene publicación de modelos; ese permiso por sí solo no garantiza una revisión metodológica independiente. |
+| Director de carrera | Las capacidades de autorización del proceso se representan mediante `PROCESS_AUTHORITY`. La designación institucional debe validarse. |
+| Decanato e instancias de calidad | Sin función exclusiva; su participación requiere asignaciones y constancias de competencia. Esta entrada explica la diferencia entre la lista resumida de 13 perfiles y las 14 entradas de 005. |
+| Coordinador de autoevaluación | Función `COORDINATOR`, que además agrupa capacidades de informes, mejora y archivo. |
+| Responsable documental | Función `RESPONSIBLE` para recopilar y remitir evidencias dentro del ámbito. |
+| Revisor documental | Función `REVIEWER` para decisiones documentales. |
+| Comité evaluador | Capacidad individual de valoración mediante `EVALUATOR`; la pertenencia al comité no reemplaza la asignación. |
+| Comisión de evaluación | Consolidación e informes concentrados en `COORDINATOR`; V024 también concede escritura de informes a `REVIEWER`. Sin función exclusiva de comisión. |
+| Autoridad aprobadora | Se comprueba una asignación con la operación requerida. Para informes, V024 habilita `PROCESS_AUTHORITY` y la carga sintética también habilita `COORDINATOR`; no existe un rol exclusivo de aprobador. |
+| Responsable de mejora | Ejecución y avances en `RESPONSIBLE`; gestión y decisiones en `COORDINATOR`, verificación en `REVIEWER`. |
+| Consultor, auditor o archivista autorizado | Una entrada agrupada en 005. Los permisos de consulta, auditoría y archivo están distribuidos entre funciones; sin función exclusiva para cada perfil. |
+
+### Separación de responsabilidades pendiente
+
+La separación de perfiles está implementada parcialmente. El catálogo sintético
+concentra en `COORDINATOR` elaboración y aprobación de informes. El servicio de
+informes comprueba permiso, ámbito, asignación de autoridad y procedencia de la
+decisión, pero no compara expresamente al aprobador con el autor del informe.
+Por ello, la independencia entre elaboración y aprobación no queda garantizada
+solo por los nombres de los perfiles.
+
+El [adaptador de autoridad](../../backend/src/main/java/ec/edu/unl/sec/identityaccess/infrastructure/InstitutionalAuthorityAdapter.java)
+valida la asignación y la operación, sin exigir un código de función específico.
+La [decisión sobre informes](../../backend/src/main/java/ec/edu/unl/sec/governance/application/ReportWorkflowService.java)
+y la [revisión de accesos](../technical/actores-accesos-riesgos.md) documentan la
+evidencia y los límites. Quedan pendientes la separación de capacidades que exija
+la política institucional y la validación de competencias y designaciones.
 
 ## Estado por capacidad
 
 | Capacidad | Estado observado | Evidencia y límite |
 |---|---|---|
+| Perfiles y autorización | IMPLEMENTADO PARCIALMENTE respecto de 005 | Seis funciones sintéticas con permisos y asignaciones por ámbito/vigencia; los catorce perfiles no tienen funciones independientes y la separación de responsabilidades tiene los límites descritos arriba. |
 | P01–P06: identidad, catálogo, modelos y procesos | IMPLEMENTADO | Módulos `identityaccess`, `evaluationmodel`, `selfassessment`; aceptación institucional NO VERIFICADA. |
 | P07–P11: evidencia, revisión y seguimiento | IMPLEMENTADO | `evidence`, `filestorage`, `documentreview`, `reporting`; ejecución actual NO VERIFICADA. |
 | P12–P16: valoración, informes, mejora y archivo | IMPLEMENTADO | `academicevaluation`, `governance`, `improvement`, `archive`; no equivale a cierre institucional aceptado. |

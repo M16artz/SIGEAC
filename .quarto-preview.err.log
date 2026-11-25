@@ -1,23 +1,13 @@
-Preparing to preview
+ERROR: PermissionDenied: Access is denied. (os error 5): stat 'C:\Users\Det-Pc\OneDrive\Desktop\New folder (2)\SIGEAC\backend\target\pdf-tools\pypdf'
 
-Watching files for changes
-Browse at http://localhost:4201/
-Listening on http://127.0.0.1:4201/
-GET: /
-GET: /docs/architecture/complete-workflows.html
-GET: /docs/user/index.html
-GET: /
-GET: /
-GET: /docs/architecture/complete-workflows.html
-GET: /docs/requirements/spec.html
-GET: /docs/requirements/domain-rules.html
-GET: /docs/planning/plan.html
-GET: /docs/planning/next-steps.html
-GET: /docs/architecture/research.html
-GET: /docs/architecture/data-model.html
-GET: /docs/architecture/complete-workflows.html
-GET: /docs/requirements/spec.html
-GET: /docs/architecture/research.html
-GET: /docs/architecture/complete-workflows.html
-GET: /docs/adr/0017-source-coverage-and-process-governance.html
-GET: /docs/user/d1-careers.html
+Stack trace:
+    at Object.statSync (ext:deno_fs/30_fs.js:432:3)
+    at createWalkEntrySync (file:///C:/Program Files/Quarto/bin/quarto.js:2817:22)
+    at walkSync (file:///C:/Program Files/Quarto/bin/quarto.js:2944:11)
+    at walkSync.next (<anonymous>)
+    at walkSync (file:///C:/Program Files/Quarto/bin/quarto.js:2983:14)
+    at walkSync.next (<anonymous>)
+    at walkSync (file:///C:/Program Files/Quarto/bin/quarto.js:2983:14)
+    at walkSync.next (<anonymous>)
+    at walkSync (file:///C:/Program Files/Quarto/bin/quarto.js:2983:14)
+    at walkSync.next (<anonymous>)

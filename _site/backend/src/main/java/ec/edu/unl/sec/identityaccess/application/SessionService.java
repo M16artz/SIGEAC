@@ -29,6 +29,8 @@ public class SessionService {
     private final BCryptPasswordEncoder encoder;
     private final String dummyHash;
     private final SecureRandom random = new SecureRandom();
+    private final java.util.ArrayDeque<Instant> loginAdmissions = new java.util.ArrayDeque<>();
+    private final java.util.concurrent.Semaphore loginSlots;
 
     @Autowired
     public SessionService(
@@ -47,12 +49,33 @@ public class SessionService {
         this.properties = properties;
         this.audit = audit;
         this.clock = clock;
+        this.loginSlots = new java.util.concurrent.Semaphore(properties.getMaxConcurrentLogins());
         this.encoder = new BCryptPasswordEncoder(properties.getBcryptStrength());
         this.dummyHash = encoder.encode("constant-time-authentication-placeholder");
     }
 
     @Transactional(noRollbackFor = AuthenticationRejected.class)
     public CreatedSession login(String username, String password, String source, UUID correlationId) {
+        if (!admitLogin()) throw new AuthenticationRejected("AUTHENTICATION_LIMITED");
+        try {
+            return loginAdmitted(username, password, source, correlationId);
+        } finally {
+            loginSlots.release();
+        }
+    }
+
+    // shortcut: admission is per JVM; use a shared gateway limit when deploying multiple instances.
+    private synchronized boolean admitLogin() {
+        Instant now = clock.instant();
+        while (!loginAdmissions.isEmpty() && !loginAdmissions.peekFirst().isAfter(now.minusSeconds(60))) {
+            loginAdmissions.removeFirst();
+        }
+        if (loginAdmissions.size() >= properties.getLoginRequestsPerMinute() || !loginSlots.tryAcquire()) return false;
+        loginAdmissions.addLast(now);
+        return true;
+    }
+
+    private CreatedSession loginAdmitted(String username, String password, String source, UUID correlationId) {
         Instant now = clock.instant();
         String normalized = AccessIdentity.normalize(username);
         String subject = hmac(normalized);
@@ -60,7 +83,8 @@ public class SessionService {
 
         if (repository.countFailures(subject, now.minus(properties.getFailedAttemptWindow()))
                 >= properties.getFailedAttemptLimit()) {
-            audit.rejection(
+            // AuthenticationRejected commits this transaction, including its rejection audit.
+            audit.record(
                     IdentityAccessAuditService.SYSTEM_ACTOR,
                     correlationId,
                     "SESSION_LOGIN_LIMITED",
@@ -68,6 +92,7 @@ public class SessionService {
                     null,
                     null,
                     null,
+                    "REJECTED",
                     "AUTHENTICATION_LIMITED",
                     Map.of("subjectKey", subject));
             throw new AuthenticationRejected("AUTHENTICATION_LIMITED");
@@ -83,7 +108,7 @@ public class SessionService {
         if (!valid) {
             UUID actor = found.map(IdentityAccessRepository.LoginRecord::identityId)
                     .orElse(IdentityAccessAuditService.SYSTEM_ACTOR);
-            audit.rejection(
+            audit.record(
                     actor,
                     correlationId,
                     "SESSION_LOGIN_FAILED",
@@ -91,11 +116,12 @@ public class SessionService {
                     found.map(IdentityAccessRepository.LoginRecord::identityId).orElse(null),
                     null,
                     null,
+                    "REJECTED",
                     "AUTHENTICATION_FAILED",
                     Map.of("subjectKey", subject));
             if (repository.countFailures(subject, now.minus(properties.getFailedAttemptWindow()))
                     >= properties.getFailedAttemptLimit()) {
-                audit.rejection(
+                audit.record(
                         IdentityAccessAuditService.SYSTEM_ACTOR,
                         correlationId,
                         "SESSION_LOGIN_LIMITED",
@@ -103,6 +129,7 @@ public class SessionService {
                         found.map(IdentityAccessRepository.LoginRecord::identityId).orElse(null),
                         null,
                         null,
+                        "REJECTED",
                         "AUTHENTICATION_LIMITED",
                         Map.of("subjectKey", subject));
                 throw new AuthenticationRejected("AUTHENTICATION_LIMITED");

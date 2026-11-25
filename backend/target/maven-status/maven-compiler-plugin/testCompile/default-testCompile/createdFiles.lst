@@ -27,6 +27,7 @@ ec\edu\unl\sec\documentreview\domain\CompleteDocumentReviewTest.class
 ec\edu\unl\sec\evidence\application\EvidenceIntegrityServiceTest.class
 ec\edu\unl\sec\evidence\domain\EvidenceSuccessorTest.class
 ec\edu\unl\sec\selfassessment\infrastructure\ProcessGovernancePersistenceTest.class
+ec\edu\unl\sec\identityaccess\infrastructure\SessionCookieTest.class
 ec\edu\unl\sec\migration\ProcessGovernanceMigrationTest.class
 ec\edu\unl\sec\selfassessment\infrastructure\TeamAssignmentAccessTest.class
 ec\edu\unl\sec\reporting\api\DocumentaryProgressControllerTest.class
@@ -62,6 +63,7 @@ ec\edu\unl\sec\academicevaluation\api\QuantitativeEvaluationControllerTest.class
 ec\edu\unl\sec\evidence\api\EvidenceSubmissionControllerTest.class
 ec\edu\unl\sec\evidence\api\StructuredEvidenceControllerTest.class
 ec\edu\unl\sec\archive\application\ClosureReopeningPolicyTest.class
+ec\edu\unl\sec\identityaccess\infrastructure\AccessProblemWriterTest.class
 ec\edu\unl\sec\academicevaluation\api\AcademicReconciliationControllerTest.class
 ec\edu\unl\sec\filestorage\infrastructure\ContentInspectionServiceTest.class
 ec\edu\unl\sec\filestorage\infrastructure\FilePersistenceTest.class

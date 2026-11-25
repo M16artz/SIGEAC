@@ -32,6 +32,17 @@ sirve en `http://localhost:8080/api/v1/v3/api-docs`. Las rutas de documentación
 son públicas en desarrollo; las operaciones de negocio siguen requiriendo una
 sesión y permisos. En producción, OpenAPI permanece desactivado.
 
+Para ejecutar los GET desde Swagger:
+
+1. Abra `POST /sessions`, pulse **Try it out**, introduzca su usuario y contraseña y pulse **Execute**.
+2. Compruebe que la respuesta sea `201`. El navegador guardará la cookie de sesión `SEC_SESSION`.
+3. Ejecute `GET /me` para verificar la sesión y después el GET que desea consultar.
+4. Use siempre el mismo host para Swagger y la API: `localhost` y `127.0.0.1` tienen cookies distintas.
+
+La cookie `HttpOnly` la administra el navegador; no se introduce manualmente en **Authorize**.
+Un `401` indica que necesita iniciar sesión de nuevo. Un `403`, un `404` por ámbito
+o un listado vacío pueden indicar que el usuario no tiene permisos sobre ese recurso.
+
 ## Preparación sin Docker
 
 1. Crear base y usuario local con privilegios limitados.

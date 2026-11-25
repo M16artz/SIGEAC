@@ -13,6 +13,7 @@
     "test:watch": "ng test",
     "contracts": "node ../scripts/validate-contracts.mjs",
     "contracts:postman": "node ../scripts/run-postman-contracts.mjs",
+    "test:api": "node ../scripts/run-postman-api.mjs",
     "test:acceptance": "playwright test --config=playwright.config.ts ../tests/acceptance",
     "test:d1": "node ../scripts/run-d1-acceptance.mjs",
     "test:d3": "node ../scripts/run-d3-acceptance.mjs",

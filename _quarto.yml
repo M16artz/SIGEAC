@@ -12,6 +12,8 @@ project:
     - tests/fixtures/**/*.md
     - .specify/memory/constitution.md
   resources:
+    - docs/semana5/latex/*.tex
+    - tests/acceptance/results/semana5-*.json
     - feature-map.md
     - graphify-out/GRAPH_REPORT.md
     - securityOutputs/run-1/*.md
@@ -28,6 +30,14 @@ website:
   sidebar:
     contents:
       - index.qmd
+      - section: "Semana 5 · ACD5 y AA5"
+        contents:
+          - docs/semana5/index.qmd
+          - docs/semana5/acd5.qmd
+          - docs/semana5/aa5.qmd
+          - docs/semana5/evidencia.md
+          - docs/semana5/observaciones.md
+          - docs/semana5/contribuciones.md
       - section: "Guía técnica y auditoría"
         contents:
           - docs/audit/index.qmd
@@ -37,7 +47,6 @@ website:
           - docs/audit/backend.qmd
           - docs/audit/api.qmd
           - docs/api/response-contract.qmd
-          - docs/activities/acd5.qmd
           - docs/audit/testing.qmd
           - docs/audit/operation.qmd
           - docs/audit/evolution.qmd

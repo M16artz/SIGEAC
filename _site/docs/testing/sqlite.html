@@ -207,12 +207,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/activities/acd5.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">ACD5 — Demostración técnica y estándares web</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../docs/audit/testing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Pruebas: inventario estático, comandos y límites</span></a>
   </div>
@@ -567,7 +561,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#ejecutar-la-suite" id="toc-ejecutar-la-suite" class="nav-link" data-scroll-target="#ejecutar-la-suite">Ejecutar la suite</a></li>
   <li><a href="#levantar-el-backend-con-sqlite" id="toc-levantar-el-backend-con-sqlite" class="nav-link" data-scroll-target="#levantar-el-backend-con-sqlite">Levantar el backend con SQLite</a></li>
-  <li><a href="#datos-sintéticos-disponibles" id="toc-datos-sintéticos-disponibles" class="nav-link" data-scroll-target="#datos-sintéticos-disponibles">Datos sintéticos disponibles</a></li>
+  <li><a href="#datos-sintéticos-disponibles" id="toc-datos-sintéticos-disponibles" class="nav-link" data-scroll-target="#datos-sintéticos-disponibles">Datos sintéticos disponibles</a>
+  <ul class="collapse">
+  <li><a href="#ingresos-rechazados-y-auditoría" id="toc-ingresos-rechazados-y-auditoría" class="nav-link" data-scroll-target="#ingresos-rechazados-y-auditoría">Ingresos rechazados y auditoría</a></li>
+  </ul></li>
   <li><a href="#qué-debe-seguir-probándose-con-postgresql" id="toc-qué-debe-seguir-probándose-con-postgresql" class="nav-link" data-scroll-target="#qué-debe-seguir-probándose-con-postgresql">Qué debe seguir probándose con PostgreSQL</a></li>
   </ul></li>
   </ul>
@@ -646,7 +643,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <p>Usuarios: <code>admin</code>, <code>coordinador</code>, <code>responsable</code>, <code>revisor</code> y <code>evaluador</code>. El usuario <code>responsable</code> tiene asignación vigente sobre ambos indicadores del proceso sintético, de modo que puede usarse en las pruebas de evidencia.</p>
 <p>Los cargadores son idempotentes: reiniciar el backend conserva el archivo y no duplica los fixtures.</p>
+<section id="ingresos-rechazados-y-auditoría" class="level3">
+<h3 class="anchored" data-anchor-id="ingresos-rechazados-y-auditoría">Ingresos rechazados y auditoría</h3>
+<p>El perfil SQLite usa una sola conexión. <code>SessionService.login</code> conserva los intentos fallidos mediante <code>noRollbackFor = AuthenticationRejected.class</code>; sus eventos <code>REJECTED</code> se registran en esa misma transacción para no solicitar otra conexión mientras la primera sigue ocupada. Los demás rechazos mantienen su auditoría independiente. No se omite la auditoría ni se altera el límite de intentos.</p>
+<p>Tras actualizar el código, reinicie el backend para cargar la corrección, conservando el archivo SQLite. No es necesario borrar datos ni restablecer contraseñas. Las claves de la tabla anterior son las de la carga inicial y no sobrescriben credenciales modificadas posteriormente.</p>
+<p>Regresión específica (desde <code>backend/</code>):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./mvnw</span> <span class="at">-Dtest</span><span class="op">=</span>SessionServiceTest,SqliteApplicationContextTest test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>El catálogo incluye además <code>PROCESS_AUTHORITY</code>, sin asignación automática. Para probar la creación de nuevos procesos, el administrador debe asignar esa función en el ámbito piloto a una identidad humana. Esa identidad registra el inicio con su asignación, fundamento y referencia documental; después un gestor activa el proceso. El proceso activo precargado es un fixture legado, no una autorización institucional real. Véase <a href="../../docs/testing/implementation-review.html">revisión de implementación</a>.</p>
+</section>
 </section>
 <section id="qué-debe-seguir-probándose-con-postgresql" class="level2">
 <h2 class="anchored" data-anchor-id="qué-debe-seguir-probándose-con-postgresql">Qué debe seguir probándose con PostgreSQL</h2>

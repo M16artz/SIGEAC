@@ -84,9 +84,11 @@ C:\Users\Det-Pc\OneDrive\Desktop\New folder (2)\SIGEAC\backend\src\test\java\ec\
 C:\Users\Det-Pc\OneDrive\Desktop\New folder (2)\SIGEAC\backend\src\test\java\ec\edu\unl\sec\identityaccess\application\SessionServiceTest.java
 C:\Users\Det-Pc\OneDrive\Desktop\New folder (2)\SIGEAC\backend\src\test\java\ec\edu\unl\sec\identityaccess\application\TeamMembershipPolicyTest.java
 C:\Users\Det-Pc\OneDrive\Desktop\New folder (2)\SIGEAC\backend\src\test\java\ec\edu\unl\sec\identityaccess\domain\AccessScopeRulesTest.java
+C:\Users\Det-Pc\OneDrive\Desktop\New folder (2)\SIGEAC\backend\src\test\java\ec\edu\unl\sec\identityaccess\infrastructure\AccessProblemWriterTest.java
 C:\Users\Det-Pc\OneDrive\Desktop\New folder (2)\SIGEAC\backend\src\test\java\ec\edu\unl\sec\identityaccess\infrastructure\HttpBoundaryFilterTest.java
 C:\Users\Det-Pc\OneDrive\Desktop\New folder (2)\SIGEAC\backend\src\test\java\ec\edu\unl\sec\identityaccess\infrastructure\InstitutionalAuthorityAdapterTest.java
 C:\Users\Det-Pc\OneDrive\Desktop\New folder (2)\SIGEAC\backend\src\test\java\ec\edu\unl\sec\identityaccess\infrastructure\OidcResourceServerConfigurationTest.java
+C:\Users\Det-Pc\OneDrive\Desktop\New folder (2)\SIGEAC\backend\src\test\java\ec\edu\unl\sec\identityaccess\infrastructure\SessionCookieTest.java
 C:\Users\Det-Pc\OneDrive\Desktop\New folder (2)\SIGEAC\backend\src\test\java\ec\edu\unl\sec\identityaccess\support\InMemoryIdentityAccessRepository.java
 C:\Users\Det-Pc\OneDrive\Desktop\New folder (2)\SIGEAC\backend\src\test\java\ec\edu\unl\sec\identityaccess\support\TestSupport.java
 C:\Users\Det-Pc\OneDrive\Desktop\New folder (2)\SIGEAC\backend\src\test\java\ec\edu\unl\sec\improvement\api\ImprovementControllerTest.java

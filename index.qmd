@@ -15,4 +15,4 @@ Los requisitos, planes y tareas conservan sus fuentes originales. Los
 resultados históricos se presentan con su fecha; no se confunden con las
 [verificaciones actuales](docs/audit/validation.qmd).
 
-Actualización del 8 de noviembre: [contrato de respuesta y controles HTTP](docs/api/response-contract.qmd), [ACD5](docs/activities/acd5.qmd) y [resultados ejecutados](tests/acceptance/results/api-response-hardening.md).
+Actualización del 8 de noviembre: [contrato de respuesta y controles HTTP](docs/api/response-contract.qmd) y [resultados ejecutados](tests/acceptance/results/api-response-hardening.md).

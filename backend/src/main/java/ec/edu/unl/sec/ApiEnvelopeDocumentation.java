@@ -16,11 +16,17 @@ final class ApiEnvelopeDocumentation {
     static void apply(OpenAPI api, boolean oidc) {
         if (api.getComponents() == null) api.setComponents(new io.swagger.v3.oas.models.Components());
         api.getComponents().addSecuritySchemes("sessionCookie", new io.swagger.v3.oas.models.security.SecurityScheme()
-                .type(io.swagger.v3.oas.models.security.SecurityScheme.Type.APIKEY).in(io.swagger.v3.oas.models.security.SecurityScheme.In.COOKIE).name("SEC_SESSION"));
+                .type(io.swagger.v3.oas.models.security.SecurityScheme.Type.APIKEY).in(io.swagger.v3.oas.models.security.SecurityScheme.In.COOKIE).name("SEC_SESSION")
+                .description("Ejecute POST /sessions con sus credenciales y luego GET /me para comprobar la sesion. "
+                        + "El navegador guarda y envia la cookie HttpOnly automaticamente en los GET. "
+                        + "Abra Swagger y la API con el mismo host; no mezcle localhost y 127.0.0.1."));
         if (oidc) api.getComponents().addSecuritySchemes("bearerAuth", new io.swagger.v3.oas.models.security.SecurityScheme()
                 .type(io.swagger.v3.oas.models.security.SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT"));
         api.getPaths().forEach((path, item) -> item.readOperationsMap().forEach((method, operation) -> {
             boolean login = path.equals("/sessions") && method == io.swagger.v3.oas.models.PathItem.HttpMethod.POST;
+            if (login) operation.setDescription("Inicie sesion aqui antes de ejecutar los GET protegidos. "
+                    + "Use Try it out y Execute con sus credenciales; una respuesta 201 guarda SEC_SESSION en el navegador. "
+                    + "Compruebe la sesion ejecutando GET /me y consulte los recursos permitidos para su usuario.");
             operation.setSecurity(login ? List.of() : oidc ? List.of(
                     new io.swagger.v3.oas.models.security.SecurityRequirement().addList("sessionCookie"),
                     new io.swagger.v3.oas.models.security.SecurityRequirement().addList("bearerAuth"))

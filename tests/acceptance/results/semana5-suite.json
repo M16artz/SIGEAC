@@ -1,0 +1,1078 @@
+{
+  "collectedAt": "2026-11-13T21:44:50.738108+00:00",
+  "baseCommit": "17c3239d",
+  "worktreeModified": true,
+  "command": "mvnw.cmd --batch-mode test",
+  "build": "FAILURE",
+  "totals": {
+    "tests": 591,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 17,
+    "successful": 573
+  },
+  "suites": [
+    {
+      "name": "ec.edu.unl.sec.academicevaluation.api.AcademicEvaluationControllerTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.academicevaluation.api.AcademicReconciliationControllerTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.academicevaluation.api.QuantitativeEvaluationControllerTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.academicevaluation.application.AcademicCalculationServiceTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.academicevaluation.application.AcademicEvaluationServiceTest",
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.academicevaluation.application.AcademicReconciliationServiceTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.academicevaluation.domain.IndicatorValuationRuleTest",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.academicevaluation.infrastructure.ManualEvaluationPersistenceTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.architecture.ModuleArchitectureTest",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.archive.application.ArchiveServiceTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.archive.application.ClosureReopeningPolicyTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.archive.domain.IntegralClosurePolicyTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.archive.infrastructure.IntegralClosureBytesTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "name": "ec.edu.unl.sec.contract.ApiTransportIntegrationTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.contract.OidcTransportIntegrationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.contract.OpenApiContractTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.documentreview.api.DocumentReviewControllerTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.documentreview.application.CoverageReviewProjectionTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.documentreview.application.DocumentReviewServiceTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.documentreview.domain.CompleteDocumentReviewTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.documentreview.infrastructure.DocumentReviewPersistenceTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evaluationmodel.api.EvaluationModelControllerTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evaluationmodel.application.CompleteModelPublicationTest",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evaluationmodel.application.EvaluationModelAuditTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evaluationmodel.application.FiveModelConfigurationTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evaluationmodel.application.LegacyModelCompatibilityTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evaluationmodel.application.ModelComparisonServiceTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evaluationmodel.application.ModelSuccessionServiceTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evaluationmodel.application.NormativeApplicabilityTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evaluationmodel.application.NormativeVerificationManifestTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evaluationmodel.domain.FlexibleModelHierarchyTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evaluationmodel.domain.FormulaValidatorTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evaluationmodel.domain.ModelVersionTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evaluationmodel.domain.PublicationValidatorTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evaluationmodel.domain.RequiredSourceTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evaluationmodel.domain.ValuationRuleTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evaluationmodel.infrastructure.FlexibleModelPersistenceTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evaluationmodel.infrastructure.NormativeReferencePersistenceTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evidence.api.EvidenceDraftControllerTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evidence.api.EvidenceHistoryControllerTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evidence.api.EvidenceSourceControllerTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evidence.api.EvidenceSourceCoverageControllerTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evidence.api.EvidenceSubmissionControllerTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evidence.api.StructuredEvidenceControllerTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evidence.application.ApplicabilityDecisionServiceTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evidence.application.CreateEvidenceSuccessorServiceTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evidence.application.EvidenceDownloadServiceTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evidence.application.EvidenceDraftServiceTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evidence.application.EvidenceIntegrityServiceTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evidence.application.EvidenceSourceServiceTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evidence.application.StructuredEvidenceServiceTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evidence.application.SubmitEvidenceServiceTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evidence.domain.EvidenceDraftTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evidence.domain.EvidenceSourceTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evidence.domain.EvidenceSuccessorTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evidence.domain.SourceCoverageTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evidence.infrastructure.EvidenceConcurrencyIntegrationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "name": "ec.edu.unl.sec.evidence.infrastructure.EvidenceSourcePersistenceTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.evidence.infrastructure.SubmittedEvidenceImmutabilityTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "name": "ec.edu.unl.sec.filestorage.application.FileReconciliationServiceTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.filestorage.domain.FileAssetTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.filestorage.domain.FileRecoveryOperationTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.filestorage.domain.FileValidationPolicyTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.filestorage.infrastructure.ContentInspectionServiceTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.filestorage.infrastructure.FilePersistenceTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.filestorage.infrastructure.JpaFileValidationPolicyRepositoryTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.filestorage.infrastructure.LocalFileStorageAdapterTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "name": "ec.edu.unl.sec.filestorage.infrastructure.RecoveryClaimContentionTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.governance.api.ReportControllerTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.governance.application.FindingServiceTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.governance.application.IssuedReportImmutabilityTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.governance.application.ReportWorkflowServiceTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.governance.domain.FindingTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.governance.infrastructure.IssuedReportImmutabilityTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.identityaccess.api.SessionControllerTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.identityaccess.application.CompleteWorkflowAuthorizationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.identityaccess.application.IdentityAccessAuditTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.identityaccess.application.IdentityAdministrationServiceTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.identityaccess.application.ScopeAuthorizationServiceTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.identityaccess.application.SessionServiceTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.identityaccess.application.TeamMembershipPolicyTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.identityaccess.domain.AccessScopeRulesTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.identityaccess.infrastructure.AccessProblemWriterTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.identityaccess.infrastructure.HttpBoundaryFilterTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.identityaccess.infrastructure.InstitutionalAuthorityAdapterTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.identityaccess.infrastructure.OidcResourceServerConfigurationTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.identityaccess.infrastructure.SessionCookieTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.improvement.api.ImprovementControllerTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.improvement.application.PostClosureImprovementTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.improvement.domain.ImprovementActionTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.improvement.infrastructure.ImprovementPersistenceTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.migration.CareerCatalogMigrationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "name": "ec.edu.unl.sec.migration.CareerCatalogStartupTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "name": "ec.edu.unl.sec.migration.CleanDatabaseMigrationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "name": "ec.edu.unl.sec.migration.CompleteWorkflowMigrationTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 2
+    },
+    {
+      "name": "ec.edu.unl.sec.migration.EvaluationModelMigrationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "name": "ec.edu.unl.sec.migration.EvidenceMigrationTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "name": "ec.edu.unl.sec.migration.IdentityAccessMigrationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "name": "ec.edu.unl.sec.migration.ProcessGovernanceMigrationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "name": "ec.edu.unl.sec.migration.ProcessPreparationMigrationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "name": "ec.edu.unl.sec.migration.SelfAssessmentMigrationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "name": "ec.edu.unl.sec.reporting.api.DocumentaryClosureControllerTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.reporting.api.DocumentaryProgressControllerTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.reporting.api.DocumentarySnapshotControllerTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.reporting.application.DocumentaryClosureServiceTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.reporting.application.DocumentaryProgressQueryTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.reporting.application.DocumentarySnapshotSemanticsTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.reporting.application.DocumentarySnapshotServiceTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.reporting.domain.DocumentaryProgressCalculatorTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.reporting.infrastructure.DocumentaryClosureConcurrencyTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "name": "ec.edu.unl.sec.reporting.infrastructure.DocumentaryProgressPersistenceTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.reporting.infrastructure.DocumentarySnapshotPersistenceTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "name": "ec.edu.unl.sec.selfassessment.api.CareerControllerTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.selfassessment.api.ProcessGovernanceControllerTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.selfassessment.api.SelfAssessmentControllerTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.selfassessment.application.CareerAdministrationServiceTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.selfassessment.application.ProcessAssignmentServiceTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.selfassessment.application.ProcessPlanningServiceTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.selfassessment.application.ProcessTransitionServiceTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.selfassessment.application.SelfAssessmentAuditServiceTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.selfassessment.application.SelfAssessmentAuditTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.selfassessment.application.SelfAssessmentServiceTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.selfassessment.application.TeamPlanningIntegrityTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.selfassessment.domain.AuthorizedProcessLifecycleTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.selfassessment.domain.CareerTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.selfassessment.domain.FixedModelSnapshotTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.selfassessment.domain.ProcessStateMachineTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.selfassessment.infrastructure.ProcessGovernancePersistenceTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.selfassessment.infrastructure.TeamAssignmentAccessTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.shared.api.ApiProblemHandlerTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.shared.api.ApiResponseAdviceTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.shared.api.EntityTagSupportTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.shared.api.EntityTagValidationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.support.CompleteWorkflowPerformanceDataTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.support.SqliteApplicationContextTest",
+      "tests": 11,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ec.edu.unl.sec.support.SqliteSyntheticDataTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "nonpassing": [
+    {
+      "suite": "ec.edu.unl.sec.archive.infrastructure.IntegralClosureBytesTest",
+      "test": "postgresRoundTripPreservesSealedUtf8BytesIncludingWhitespaceAndKeyOrder",
+      "result": "skipped",
+      "message": "Environment variable [SEC_RUN_FILE_DATABASE_TESTS] does not exist"
+    },
+    {
+      "suite": "ec.edu.unl.sec.evidence.infrastructure.EvidenceConcurrencyIntegrationTest",
+      "test": "preventsDuplicateSuccessorUnderRace",
+      "result": "skipped",
+      "message": "Environment variable [SEC_RUN_FILE_DATABASE_TESTS] does not exist"
+    },
+    {
+      "suite": "ec.edu.unl.sec.evidence.infrastructure.SubmittedEvidenceImmutabilityTest",
+      "test": "submittedVersionsAndChildrenCannotBeMutated",
+      "result": "skipped",
+      "message": "Environment variable [SEC_RUN_FILE_DATABASE_TESTS] does not exist"
+    },
+    {
+      "suite": "ec.edu.unl.sec.filestorage.infrastructure.LocalFileStorageAdapterTest",
+      "test": "rejectsSymbolicLinksAtRootAndAtObjectPaths",
+      "result": "skipped",
+      "message": ""
+    },
+    {
+      "suite": "ec.edu.unl.sec.migration.CareerCatalogMigrationTest",
+      "test": "upgradesV007PreservingUnknownReferencesAndImmutableHistory",
+      "result": "skipped",
+      "message": ""
+    },
+    {
+      "suite": "ec.edu.unl.sec.migration.CareerCatalogStartupTest",
+      "test": "bootMigratesBeforeJpaValidationAndSeedsTheCatalogOnPostgres",
+      "result": "skipped",
+      "message": ""
+    },
+    {
+      "suite": "ec.edu.unl.sec.migration.CleanDatabaseMigrationTest",
+      "test": "appliesEveryMigrationToDedicatedCleanPostgresDatabase",
+      "result": "skipped",
+      "message": ""
+    },
+    {
+      "suite": "ec.edu.unl.sec.migration.CompleteWorkflowMigrationTest",
+      "test": "migratesFromEachPreviousDelivery(String)",
+      "result": "skipped",
+      "message": "Environment variable [SEC_RUN_FILE_DATABASE_TESTS] does not exist"
+    },
+    {
+      "suite": "ec.edu.unl.sec.migration.CompleteWorkflowMigrationTest",
+      "test": "migratesFromCleanPostgresToV026",
+      "result": "skipped",
+      "message": "Environment variable [SEC_RUN_FILE_DATABASE_TESTS] does not exist"
+    },
+    {
+      "suite": "ec.edu.unl.sec.migration.EvaluationModelMigrationTest",
+      "test": "createsEvaluationModelSchemaFromCleanDatabase",
+      "result": "skipped",
+      "message": ""
+    },
+    {
+      "suite": "ec.edu.unl.sec.migration.EvidenceMigrationTest",
+      "test": "migratesV006OnDisposablePostgres",
+      "result": "skipped",
+      "message": ""
+    },
+    {
+      "suite": "ec.edu.unl.sec.migration.IdentityAccessMigrationTest",
+      "test": "createsIdentitySchemaWithChecksAndAuditAppendOnlyGuard",
+      "result": "skipped",
+      "message": ""
+    },
+    {
+      "suite": "ec.edu.unl.sec.migration.ProcessGovernanceMigrationTest",
+      "test": "upgradesV009WithoutInventingLegacyDecisionsOrChangingAssignmentSubjects",
+      "result": "skipped",
+      "message": "Environment variable [SEC_RUN_GOVERNANCE_DATABASE_TESTS] does not exist"
+    },
+    {
+      "suite": "ec.edu.unl.sec.migration.ProcessPreparationMigrationTest",
+      "test": "upgradesDraftWithoutInventingAuthorityAndPersistsAuthorizedActivation",
+      "result": "skipped",
+      "message": ""
+    },
+    {
+      "suite": "ec.edu.unl.sec.migration.SelfAssessmentMigrationTest",
+      "test": "migratesCleanDatabaseThroughI2",
+      "result": "skipped",
+      "message": ""
+    },
+    {
+      "suite": "ec.edu.unl.sec.reporting.infrastructure.DocumentaryClosureConcurrencyTest",
+      "test": "closureLockSerializesAndRejectsLateDocumentaryWrites(String)",
+      "result": "skipped",
+      "message": "Environment variable [SEC_RUN_FILE_DATABASE_TESTS] does not exist"
+    },
+    {
+      "suite": "ec.edu.unl.sec.reporting.infrastructure.DocumentarySnapshotPersistenceTest",
+      "test": "concurrentReservationsOfTheSameRevisionCommitOnlyOnceOnPostgres",
+      "result": "skipped",
+      "message": "Environment variable [SEC_RUN_FILE_DATABASE_TESTS] does not exist"
+    },
+    {
+      "suite": "ec.edu.unl.sec.support.SqliteApplicationContextTest",
+      "test": "rejectedLoginsCommitAttemptsAndAuditWithOneConnection",
+      "result": "failure",
+      "message": "\nexpected: 1\n but was: 0"
+    }
+  ]
+}
