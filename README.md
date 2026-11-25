@@ -45,6 +45,10 @@ no hay despliegue Docker reproducible definido.
 
 ## Fuentes principales
 
+-levantar quarto 
+    quarto preview --port 4201
+    http://localhost:4201/
+
 - [Contrato de respuesta, HTTPS y OIDC](docs/api/response-contract.qmd).
 
 - [Portal Quarto](index.qmd), [operación](docs/audit/operation.qmd), [API](docs/audit/api.qmd) y [pruebas](docs/audit/testing.qmd).
@@ -53,3 +57,11 @@ no hay despliegue Docker reproducible definido.
 - `tests/`: aceptación y evidencia histórica.
 
 Una especificación o contrato planificado no acredita implementación.
+
+| Usuario | Contraseña |
+|---|---|
+| admin | Synthetic-Admin-2026 |
+| coordinador | Synthetic-User-2026 |
+| responsable | Synthetic-User-2026 |
+| revisor | Synthetic-User-2026 |
+| evaluador | Synthetic-User-2026 |

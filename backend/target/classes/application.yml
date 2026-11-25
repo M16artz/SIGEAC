@@ -32,6 +32,7 @@ springdoc:
     doc-expansion: none
     default-models-expand-depth: -1
     try-it-out-enabled: true
+    with-credentials: true
 sec:
   oidc:
     enabled: ${SEC_OIDC_ENABLED:false}
