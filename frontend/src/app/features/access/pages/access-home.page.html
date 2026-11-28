@@ -1,39 +1,50 @@
-<section class="access-home access-workspace" aria-labelledby="access-title">
+<section id="inicio" class="access-home access-workspace" aria-labelledby="access-title">
   @if (identity()) {
-    <div class="access-overview">
-    <header class="access-page-header access-home-context">
-      <div class="access-heading-copy">
-        <h1 id="access-title" class="access-page-title">Acceso y ámbitos autorizados</h1>
-        <p class="access-page-intro">
-          Sus funciones y permisos, en un solo lugar.
-        </p>
-        <p class="access-session-label access-eyebrow">Acceso de <strong>{{ identity()?.displayName }}</strong></p>
-      </div>
-    </header>
+    <div class="access-dashboard">
+    <div class="access-dashboard-main">
+      <header class="access-welcome">
+        <div class="access-heading-copy">
+          <h1 id="access-title" class="access-page-title">Inicio</h1>
+          <p class="access-welcome-name">Le damos la bienvenida, {{ identity()?.displayName }}.</p>
+          <p class="access-page-intro">Consulte sus funciones y gestione los accesos de SIGEAC.</p>
+          @if (quickLinks().length > 0) {
+            <a href="#access-tools" class="access-welcome-link">Ver accesos rápidos</a>
+          }
+        </div>
+        <svg class="access-academic-art" viewBox="0 0 180 140" fill="none" aria-hidden="true" focusable="false">
+          <path class="academic-paper" d="M24 36h53l13 9 13-9h53v87h-53l-13 7-13-7H24Z"/>
+          <path d="M90 45v85M37 55h26M37 68h33M37 81h26M37 94h33M108 69h33M108 82h26M108 95h33"/>
+          <path class="academic-cap" d="m90 10 47 18-47 18-47-18 47-18Z M62 36v15c18 12 38 12 56 0V36M137 28v28"/>
+          <circle class="academic-accent" cx="137" cy="60" r="4"/>
+        </svg>
+      </header>
       <dl class="access-session-summary" aria-label="Resumen de la sesión actual">
         <div class="access-session-stat">
-          <dt class="access-stat-label">Tus funciones</dt>
-          <dd class="access-card-value">{{ roleCount() }}</dd>
-          <dd class="access-card-copy">Funciones distintas asignadas a esta sesión.</dd>
+          <dt class="access-stat-label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M22 21v-2a4 4 0 0 0-3-3.9"/><circle cx="9" cy="7" r="4"/><path d="M16 3a4 4 0 0 1 0 8"/></svg>Usuarios registrados</dt>
+          <dd class="access-card-value" [attr.aria-busy]="usersCount().state === 'loading'">{{ usersCount().state === 'loading' ? '…' : (usersCount().value ?? 'N/D') }}</dd>
+          <dd class="access-card-copy">{{ usersCount().state === 'ready' ? 'Total del registro de usuarios.' : usersCount().state === 'loading' ? 'Consultando el registro…' : usersCount().state === 'error' ? 'No se pudo consultar.' : 'No disponible para esta sesión.' }}</dd>
         </div>
         <div class="access-session-stat">
-          <dt class="access-stat-label">Ámbitos de acceso</dt>
-          <dd class="access-card-value">{{ scopeCount() }}</dd>
-          <dd class="access-card-copy">Carrera, proceso e indicador.</dd>
+          <dt class="access-stat-label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5H5v16h14V5h-4M9 3h6v4H9ZM8 14l3 3 5-6"/></svg>Funciones asignadas</dt>
+          <dd class="access-card-value">{{ assignments().length }}</dd>
+          <dd class="access-card-copy">En su sesión, {{ roleCount() }} {{ roleCount() === 1 ? 'función distinta' : 'funciones distintas' }}.</dd>
         </div>
         <div class="access-session-stat">
-          <dt class="access-stat-label">Carreras a tu alcance</dt>
-          <dd class="access-card-value">{{ careerCount() }}</dd>
-          <dd class="access-card-copy">Con al menos una función asignada.</dd>
+          <dt class="access-stat-label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m2 9 10-5 10 5-10 5L2 9ZM6 11v6c4 3 8 3 12 0v-6M22 9v8"/></svg>Carreras configuradas</dt>
+          <dd class="access-card-value" [attr.aria-busy]="configuredCareers().state === 'loading'">{{ configuredCareers().state === 'loading' ? '…' : (configuredCareers().value ?? 'N/D') }}</dd>
+          <dd class="access-card-copy">{{ configuredCareers().state === 'ready' ? 'En su catálogo autorizado.' : configuredCareers().state === 'loading' ? 'Consultando el catálogo…' : configuredCareers().state === 'error' ? 'No se pudo consultar.' : 'Catálogo no disponible en esta sesión.' }}</dd>
         </div>
       </dl>
-    </div>
+      @if (usersCount().state === 'error' || configuredCareers().state === 'error' || (!identity()?.technical && configuredCareers().state === 'unavailable')) {
+        <p class="access-count-feedback" role="status">Algunos indicadores no están disponibles. <button type="button" (click)="retryCounts()">Volver a consultar</button></p>
+      }
 
     <section class="access-panel access-assignments" aria-labelledby="assignments-title">
       <div class="access-section-heading">
         <div>
           <h2 id="assignments-title" class="access-section-title">Tus asignaciones</h2>
           <p class="access-section-copy">Consulta el ámbito y la vigencia de cada función.</p>
+          <p class="access-scope-summary">{{ scopeCount() }} {{ scopeCount() === 1 ? 'ámbito' : 'ámbitos' }} en {{ careerCount() }} {{ careerCount() === 1 ? 'carrera asignada' : 'carreras asignadas' }}.</p>
         </div>
         <span class="sigeac-badge self-start sm:self-auto">
           {{ assignments().length }} {{ assignments().length === 1 ? 'registro' : 'registros' }}
@@ -59,7 +70,6 @@
           <p class="access-section-copy">No tiene asignaciones funcionales vigentes.</p>
         </div>
       } @else {
-          <p class="access-scroll-hint">Desplace la tabla para consultar todos los ámbitos y fechas.</p>
           <div class="sigeac-table-scroll" tabindex="0" role="region" aria-labelledby="assignments-title">
             <table class="sigeac-table sigeac-table-layout sigeac-table-layout--scopes">
               <caption class="sr-only">Funciones y ámbitos vigentes de la sesión actual</caption>
@@ -77,48 +87,32 @@
                 @for (assignment of assignments(); track assignment.id) {
                   <tr>
                     <td>
-                      <span class="block text-sm font-semibold text-slate-800">{{ assignment.roleName || (assignment.roleCode | displayLabel) }}</span>
-                      <details class="access-scope-details">
-                        <summary>Ver identificadores</summary>
-                        <dl>
-                          <dt>Asignación</dt><dd>{{ assignment.id }}</dd>
-                          <dt>Código de función</dt><dd>{{ assignment.roleCode }}</dd>
-                        </dl>
-                      </details>
+                      <span class="block text-sm font-semibold text-institutional-blue">{{ (assignment.roleName || assignment.roleCode) | displayLabel }}</span>
                     </td>
                     <td>
-                      <details class="access-scope-details">
-                        <summary>Carrera asignada</summary>
-                        <dl><dt>Identificador de carrera</dt><dd>{{ assignment.careerId }}</dd></dl>
-                      </details>
+                      {{ names.career(assignment.careerId) }}
                     </td>
                     <td>
                       @if (assignment.processId) {
-                        <details class="access-scope-details">
-                          <summary>Proceso asignado</summary>
-                          <dl><dt>Identificador de proceso</dt><dd>{{ assignment.processId }}</dd></dl>
-                        </details>
+                        {{ names.process(assignment.processId) }}
                       } @else {
                         <span class="sigeac-badge sigeac-badge--muted">Todos</span>
                       }
                     </td>
                     <td>
                       @if (assignment.indicatorId) {
-                        <details class="access-scope-details">
-                          <summary>Indicador asignado</summary>
-                          <dl><dt>Identificador de indicador</dt><dd>{{ assignment.indicatorId }}</dd></dl>
-                        </details>
+                        {{ names.indicator(assignment.indicatorId) }}
                       } @else {
                         <span class="sigeac-badge sigeac-badge--muted">Todos</span>
                       }
                     </td>
                     <td>
-                      <time class="whitespace-nowrap text-sm text-slate-600" [attr.datetime]="assignment.validFrom">
+                      <time class="text-sm text-slate-600" [attr.datetime]="assignment.validFrom">
                         {{ formatDate(assignment.validFrom) }}
                       </time>
                     </td>
                     <td>
-                      <time class="whitespace-nowrap text-sm text-slate-600" [attr.datetime]="assignment.validTo">
+                      <time class="text-sm text-slate-600" [attr.datetime]="assignment.validTo">
                         {{ formatDate(assignment.validTo) }}
                       </time>
                     </td>
@@ -129,12 +123,33 @@
           </div>
       }
     </section>
+    </div>
 
-    @if (quickLinks().length > 0) {
-      <section class="access-panel access-quick-links" aria-labelledby="quick-links-title">
+    <div class="access-dashboard-side">
+      <section class="access-panel access-calendar" aria-labelledby="calendar-title">
+        <div class="access-section-heading"><h2 id="calendar-title" class="access-section-title">Calendario</h2><span class="access-calendar-note">Informativo</span></div>
+        <div class="access-calendar-nav">
+          <button type="button" aria-label="Mes anterior" (click)="changeMonth(-1)" [disabled]="shownMonth() <= 1200"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button>
+          <p id="calendar-month" aria-live="polite" aria-atomic="true">{{ monthLabel() }}</p>
+          <button type="button" aria-label="Mes siguiente" (click)="changeMonth(1)" [disabled]="shownMonth() >= 119999"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button>
+        </div>
+        <table class="access-calendar-grid" aria-labelledby="calendar-title calendar-month">
+          <thead><tr>@for (weekday of weekdays; track weekday; let index = $index) {<th scope="col"><abbr [title]="weekdayNames[index]"><span class="calendar-weekday-long">{{ weekday }}</span><span class="calendar-weekday-short">{{ shortWeekdays[index] }}</span></abbr></th>}</tr></thead>
+          <tbody>
+            @for (week of calendarWeeks(); track $index) {
+              <tr>@for (date of week; track $index) {
+                <td>@if (date) {<time [attr.datetime]="date.iso" [attr.aria-current]="date.current ? 'date' : null" [class.calendar-today]="date.current">{{ date.day }}</time>}</td>
+              }</tr>
+            }
+          </tbody>
+        </table>
+        <p class="access-calendar-today">Hoy, {{ todayLabel() }}</p>
+      </section>
+
+      <section id="access-tools" class="access-panel access-quick-links" aria-labelledby="quick-links-title">
         <div class="access-section-heading">
           <div>
-            <h2 id="quick-links-title" class="access-section-title">Herramientas de acceso</h2>
+            <h2 id="quick-links-title" class="access-section-title">Accesos rápidos</h2>
             <p class="access-section-copy">Accesos disponibles según tus funciones.</p>
           </div>
         </div>
@@ -166,8 +181,12 @@
             </a>
           }
         </div>
+        @if (quickLinks().length === 0) {
+          <p class="access-section-copy">No hay herramientas de administración disponibles para sus funciones.</p>
+        }
       </section>
-    }
+    </div>
+    </div>
   } @else {
     <div class="sigeac-card px-6 py-10 text-center">
       <p class="access-section-copy">Cargando identidad…</p>

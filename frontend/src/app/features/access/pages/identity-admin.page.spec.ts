@@ -1,4 +1,7 @@
 import {TestBed} from '@angular/core/testing';
+import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
+import {NotificationService} from '../../../shared/notifications/notification.service';
 import {of, throwError} from 'rxjs';
 import {describe, expect, it, vi} from 'vitest';
 import {AccessApi} from '../data-access/access-api.service';
@@ -16,7 +19,7 @@ function setup(fails = false) {
     createUser: vi.fn().mockReturnValue(of({id: 'new-user', version: 0, status: 'CREATED'})),
     assign: vi.fn().mockReturnValue(of({id: 'new-assignment', version: 0, status: 'CREATED'})),
     revokeAssignment: vi.fn().mockReturnValue(fails ? throwError(() => new Error('Forbidden')) : of({id: assignment.id, version: 8, status: 'REVOKED'}))};
-  TestBed.configureTestingModule({imports: [IdentityAdminPageComponent], providers: [{provide: AccessApi, useValue: api}]});
+  TestBed.configureTestingModule({imports: [IdentityAdminPageComponent], providers: [provideHttpClient(), provideHttpClientTesting(), {provide: AccessApi, useValue: api}]});
   const fixture = TestBed.createComponent(IdentityAdminPageComponent);
   fixture.detectChanges(); fixture.componentInstance.select(user); fixture.detectChanges();
   return {fixture, api};
@@ -46,11 +49,11 @@ describe('IdentityAdminPageComponent assignment revocation', () => {
     expect(root.querySelector('.users-table .sigeac-btn--success-soft')?.textContent).toContain('Activar');
     expect(root.querySelector('.users-table .sigeac-btn--danger-soft')).toBeNull();
   });
-  it('keeps the demonstration notice and uses small contextual icons selectively', () => {
+  it('omits the per-page demonstration notice and uses contextual icons selectively', () => {
     const {fixture} = setup();
     const root = fixture.nativeElement as HTMLElement;
     expect(root.querySelector('h1')?.textContent).toBe('Usuarios y asignaciones');
-    expect(root.querySelector('.users-demo-note')?.textContent).toContain('datos sintéticos');
+    expect(root.querySelector('.users-demo-note')).toBeNull();
     expect(root.querySelector('.users-total')?.textContent).toContain('1');
     expect(root.querySelector('.users-total')?.textContent).toContain('usuario registrado');
     expect(root.querySelectorAll('.users-total .users-total-icon[aria-hidden="true"]').length).toBe(1);
@@ -143,7 +146,8 @@ describe('IdentityAdminPageComponent assignment revocation', () => {
     button.click(); fixture.detectChanges();
     expect(api.revokeAssignment).toHaveBeenCalledWith('user', 'assignment', 7, 'Retiro sintetico de competencia vigente');
     expect(fixture.componentInstance.assignments()).toEqual([]);
-    expect(fixture.nativeElement.querySelector('[role="status"]').textContent).toContain('Asignación revocada');
+    expect(TestBed.inject(NotificationService).notifications()).toEqual([expect.objectContaining({kind: 'success', title: 'Asignación revocada'})]);
+    expect(fixture.nativeElement.querySelector('[role="status"]')).toBeNull();
     expect(fixture.nativeElement.querySelector('[data-assignment-id="assignment"]')).toBeNull();
   });
 
@@ -154,6 +158,7 @@ describe('IdentityAdminPageComponent assignment revocation', () => {
     expect(api.revokeAssignment).toHaveBeenCalledTimes(1);
     expect(fixture.componentInstance.assignments()).toEqual([assignment]);
     expect(fixture.componentInstance.assignmentMessage()).toBeNull();
-    expect(fixture.nativeElement.querySelector('[role="alert"]').textContent).toContain('No fue posible');
+    expect(TestBed.inject(NotificationService).notifications()).toEqual([expect.objectContaining({kind: 'error', title: 'No se pudo revocar la asignación'})]);
+    expect(fixture.nativeElement.querySelector('[role="alert"]')).toBeNull();
   });
 });

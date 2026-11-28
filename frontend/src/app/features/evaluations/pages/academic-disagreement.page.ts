@@ -1,18 +1,22 @@
 import {DatePipe} from '@angular/common';
 import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, inject, signal} from '@angular/core';
+import {NotificationService} from '../../../shared/notifications/notification.service';
 import {FormsModule} from '@angular/forms';
 import {Observable, Subscription, switchMap} from 'rxjs';
-import {ApiProblemError} from '../../../core/http/api-client';
 import {AccessSessionService} from '../../access/data-access/access-session.service';
 import {ProcessApi, ProcessView} from '../../processes/data-access/process-api.service';
 import {ReconciliationApi, ReconciliationView} from '../data-access/reconciliation-api.service';
 import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
 import {displayLabel} from '../../../shared/labels/display-labels';
+import {EntityNamesService} from '../../../shared/labels/entity-names.service';
+import {userErrorMessage} from '../../../shared/labels/user-error-message';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'sec-academic-disagreement-page',
   standalone: true,
-  imports: [FormsModule, DatePipe, DisplayLabelPipe], changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [EntityNamesService],
+  imports: [FormsModule, DatePipe, DisplayLabelPipe, RouterLink], changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [`select,textarea {display:block;max-width:100%;margin:.4rem 0 1rem} textarea {width:100%;min-height:5rem}
     article {border-top:1px solid #ccc;padding:.8rem 0;overflow-wrap:anywhere} fieldset label {display:block;margin:.5rem 0}
     nav {background:transparent;color:inherit;padding:1rem 0} nav span {margin:0 .5rem}`],
@@ -37,21 +41,20 @@ import {displayLabel} from '../../../shared/labels/display-labels';
       </select></div>
       </div></div>
       @if (error()) {<p role="alert">{{error()}}</p>}
-      @if (message()) {<p role="status">{{message()}}</p>}
       @if (processId && indicatorId) {<button type="button" (click)="load()" [disabled]="busy()">Recargar conciliación</button>}
       @if (view(); as v) {
         <h3>Estado: {{statusText(v.status)}}</h3>
-        @if (v.result; as result) {<p>Resultado seleccionado aplicable: {{result.ratingLabel}} · Juicio {{result.id}}</p>}
+        @if (v.result; as result) {<p>Resultado seleccionado aplicable: {{result.ratingLabel}}</p>}
         @else {<p>No hay una resolución aplicable que consolide estos juicios.</p>}
         <h3>Juicios actuales por evaluador</h3>
         @for (j of v.current; track j.id) {
           <article>
             <h4>{{j.ratingLabel}} @if (j.result !== null) {· {{j.result}} %}</h4>
-            <p>Evaluador: {{j.authorId}} · {{j.recordedAt | date:'medium'}} · {{j.id}}</p>
+            <p>Evaluador: {{names.user(j.authorId)}} · {{j.recordedAt | date:'medium'}}</p>
             <p>{{j.justification}}</p><p>Limitaciones: {{j.limitations}}</p><p>Método: {{j.method}}</p>
             @for (flag of j.flags; track flag) {<p role="note">{{flagText(flag)}}</p>}
             <ul>@for (support of j.supports; track support.evidenceVersionId + support.requiredSourceId) {
-              <li>{{support.title}} · Versión {{support.evidenceVersionId}} · Decisión {{support.reviewDecisionId}}</li>
+              <li><a [routerLink]="['/evidence/versions', support.evidenceVersionId]">{{support.title}}</a></li>
             }</ul>
           </article>
         } @empty {<p>No hay valoraciones registradas.</p>}
@@ -67,7 +70,7 @@ import {displayLabel} from '../../../shared/labels/display-labels';
           <label for="reconciliation-authority">Asignación autorizadora</label>
           <select id="reconciliation-authority" [(ngModel)]="assignmentId" [disabled]="busy()">
             <option value="">Seleccione una asignación competente</option>
-            @for (a of session.identity()?.assignments ?? []; track a.id) {<option [value]="a.id">{{a.roleCode | displayLabel}} · {{a.id}}</option>}
+            @for (a of session.identity()?.assignments ?? []; track a.id) {<option [value]="a.id">{{a.roleCode | displayLabel}} · {{names.career(a.careerId)}}</option>}
           </select>
           <details>
             <summary>Registrar o versionar procedimiento de conciliación</summary>
@@ -91,11 +94,11 @@ import {displayLabel} from '../../../shared/labels/display-labels';
             <div class="sigeac-form-field sigeac-form-wide"><label for="reconciliation-selected">Juicio existente seleccionado</label>
             <select id="reconciliation-selected" name="selected" [(ngModel)]="selectedJudgement" required [disabled]="busy()">
               <option value="">Seleccione un juicio vigente</option>
-              @for (j of v.current; track j.id) {<option [value]="j.id">{{j.ratingLabel}} · {{j.authorId}} · {{j.id}}</option>}
+              @for (j of v.current; track j.id) {<option [value]="j.id">{{j.ratingLabel}} · {{names.user(j.authorId)}} · {{j.recordedAt | date:'short'}}</option>}
             </select></div>
             <fieldset [disabled]="busy()"><legend>Participantes cuya intervención se registra</legend>
               @for (participant of requiredParticipants(v); track participant) {
-                <label><input type="checkbox" [checked]="participants.includes(participant)" (change)="toggle(participant)" /> {{participant}}</label>
+                <label><input type="checkbox" [checked]="participants.includes(participant)" (change)="toggle(participant)" /> {{names.user(participant)}}</label>
               }
             </fieldset>
             <div class="sigeac-form-field sigeac-form-wide"><label for="reconciliation-resolution-reason">Fundamento de la resolución</label>
@@ -106,11 +109,11 @@ import {displayLabel} from '../../../shared/labels/display-labels';
         }
         <h3>Historial de juicios y sustentos</h3>
         @for (j of v.history; track j.id) {
-          <article><h4>{{j.ratingLabel}} · {{j.id}}</h4><p>Evaluador: {{j.authorId}} · {{j.recordedAt | date:'medium'}}</p>
+          <article><h4>{{j.ratingLabel}}</h4><p>Evaluador: {{names.user(j.authorId)}} · {{j.recordedAt | date:'medium'}}</p>
             <p>{{j.justification}}</p><p>Limitaciones: {{j.limitations}}</p><p>Método conservado: {{j.method}}</p>
             @for (flag of j.flags; track flag) {<p>{{flagText(flag)}}</p>}
             <details><summary>Sustentos conservados de este juicio</summary><ul>
-              @for (support of j.supports; track support.evidenceVersionId + support.requiredSourceId) {<li>{{support.title}} · Versión {{support.evidenceVersionId}} · Decisión {{support.reviewDecisionId}}</li>}
+              @for (support of j.supports; track support.evidenceVersionId + support.requiredSourceId) {<li><a [routerLink]="['/evidence/versions', support.evidenceVersionId]">{{support.title}}</a></li>}
             </ul></details>
           </article>
         }
@@ -123,14 +126,14 @@ import {displayLabel} from '../../../shared/labels/display-labels';
           <article>
             <p>Discrepancia {{item.disagreement.revision}} · {{item.disagreement.reason}}</p>
             <details><summary>Fundamentos originales de los evaluadores</summary>
-              @for (j of item.disagreement.judgements; track j.id) {<p>{{j.authorId}} · {{j.ratingLabel}} · {{j.justification}}</p>}
+              @for (j of item.disagreement.judgements; track j.id) {<p>{{names.user(j.authorId)}} · {{j.ratingLabel}} · {{j.justification}}</p>}
             </details>
             @if (item.resolution; as resolution) {
               <p>Resolución conservada: {{resolution.reason}}</p>
-              <p>Juicio seleccionado: {{resolution.selectedJudgement.id}} · {{resolution.selectedJudgement.ratingLabel}}</p>
+              <p>Juicio seleccionado: {{resolution.selectedJudgement.ratingLabel}}</p>
               <p>Procedimiento conservado: {{resolution.policy.procedureReference}} · {{resolution.policy.documentReference}}</p>
-              <p>Autoridad: {{resolution.resolvedBy}} · Asignación: {{resolution.authorityAssignmentId}}</p>
-              <p>Participantes: {{resolution.participants.join(', ')}}</p>
+              <p>Autoridad: {{names.user(resolution.resolvedBy)}}</p>
+              <p>Participantes: @for (participant of resolution.participants; track participant; let last = $last) {<span>{{names.user(participant)}}{{last ? '' : ', '}}</span>}</p>
               <p>{{item.applicable ? 'Aplicable a los juicios actuales.' : 'Histórica; no consolida los juicios actuales.'}}</p>
             } @else {<p>Sin resolución conservada.</p>}
           </article>
@@ -145,6 +148,8 @@ import {displayLabel} from '../../../shared/labels/display-labels';
   `
 })
 export class AcademicDisagreementPage implements OnInit, OnDestroy {
+  readonly names = inject(EntityNamesService);
+  private readonly notifications = inject(NotificationService);
   private readonly api = inject(ReconciliationApi); private readonly processApi = inject(ProcessApi); readonly session = inject(AccessSessionService);
   private request?: Subscription; private listing?: Subscription;
   readonly processes = signal<readonly ProcessView[]>([]); readonly indicators = signal<ProcessView['indicators']>([]);
@@ -169,8 +174,8 @@ export class AcademicDisagreementPage implements OnInit, OnDestroy {
   statusText(status: string): string {return displayLabel(status, 'reconciliation');}
   flagText(flag: string): string {return displayLabel(flag, 'judgement');}
   private perform(operation: Observable<unknown>, message: string): void {this.request?.unsubscribe(); this.busy.set(true); this.error.set(''); this.message.set('');
-    this.request = operation.pipe(switchMap(() => this.api.view(this.processId, this.indicatorId))).subscribe({next: v => {this.accept(v); this.message.set(message);}, error: e => this.fail(e)});}
+    this.request = operation.pipe(switchMap(() => this.api.view(this.processId, this.indicatorId))).subscribe({next: v => {this.accept(v); this.message.set(message); this.notifications.success('Conciliación actualizada', message);}, error: e => {this.fail(e); this.error.set('Recargue el historial antes de continuar.'); this.notifications.error('No se pudo completar la conciliación', 'Revise el procedimiento, los fundamentos y sus permisos.');}});}
   private accept(v: ReconciliationView): void {this.view.set(v); this.busy.set(false); this.participants = this.participants.filter(id => this.requiredParticipants(v).includes(id)); if (!v.current.some(j => j.id === this.selectedJudgement)) this.selectedJudgement = '';}
   private reset(): void {this.request?.unsubscribe(); this.view.set(null); this.busy.set(false); this.error.set(''); this.message.set(''); this.disagreementReason = ''; this.assignmentId = ''; this.procedure = ''; this.legalBasis = ''; this.documentReference = ''; this.selectedJudgement = ''; this.resolutionReason = ''; this.participants = [];}
-  private fail(e: unknown): void {this.view.set(null); this.busy.set(false); this.error.set(e instanceof ApiProblemError ? e.message : 'No se completó la operación. Recargue el historial antes de repetirla.');}
+  private fail(e: unknown): void {this.view.set(null); this.busy.set(false); this.error.set(userErrorMessage(e, 'No se completó la operación. Recargue el historial antes de repetirla.'));}
 }

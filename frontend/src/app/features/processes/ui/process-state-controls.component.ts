@@ -1,4 +1,6 @@
-import {ChangeDetectionStrategy, Component, input, output, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input, output, signal} from '@angular/core';
+import {NotificationService} from '../../../shared/notifications/notification.service';
+import {EntityNamesService} from '../../../shared/labels/entity-names.service';
 import {FormsModule} from '@angular/forms';
 import {Observable, finalize} from 'rxjs';
 import {AuthorizationCommand, ProcessApi, ProcessState, ProcessView} from '../data-access/process-api.service';
@@ -15,7 +17,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
           <div class="sigeac-form-field"><label for="authority-assignment">Asignación autorizadora propia</label>
           <select id="authority-assignment" name="authorityAssignment" [(ngModel)]="authorityAssignmentId" required>
             <option value="">Seleccione una asignación</option>
-            @for(a of session.identity()?.assignments ?? []; track a.id){<option [value]="a.id">{{a.roleCode | displayLabel}} · {{a.careerId}}</option>}
+            @for(a of session.identity()?.assignments ?? []; track a.id){<option [value]="a.id">{{a.roleCode | displayLabel}} · {{names.career(a.careerId)}}</option>}
           </select></div>
           <div class="sigeac-form-field"><label for="authorization-document">Referencia al documento de autorización</label><input id="authorization-document" name="documentReference" [(ngModel)]="documentReference" required maxlength="2000"></div>
           <div class="sigeac-form-field"><label for="legal-basis">Fundamento normativo de la competencia</label><textarea id="legal-basis" name="legalBasis" [(ngModel)]="legalBasis" required maxlength="4000"></textarea></div>
@@ -31,7 +33,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
       <div class="sigeac-form-field"><label for="transition-authority">Asignación autorizadora propia</label>
       <select id="transition-authority" [(ngModel)]="authorityAssignmentId" required>
         <option value="">Seleccione una asignación</option>
-        @for(a of session.identity()?.assignments ?? []; track a.id){<option [value]="a.id">{{a.roleCode | displayLabel}} · {{a.careerId}}</option>}
+        @for(a of session.identity()?.assignments ?? []; track a.id){<option [value]="a.id">{{a.roleCode | displayLabel}} · {{names.career(a.careerId)}}</option>}
       </select></div>
       <div class="sigeac-form-field"><label for="transition-document">Referencia a la constancia de la decisión</label>
       <input id="transition-document" [(ngModel)]="documentReference" required maxlength="2000"></div>
@@ -48,6 +50,8 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
     }
   </section>`})
 export class ProcessStateControls {
+  readonly names = inject(EntityNamesService);
+  private readonly notifications = inject(NotificationService);
   readonly process = input.required<ProcessView>(); readonly changed = output<ProcessView>();
   readonly error = signal(''); readonly busy = signal(false);
   reason = ''; authorityAssignmentId = ''; legalBasis = ''; documentReference = '';
@@ -77,7 +81,7 @@ export class ProcessStateControls {
   private run(request: Observable<ProcessView>): void {
     if(this.busy()) return;
     this.busy.set(true); this.error.set('');
-    request.pipe(finalize(() => this.busy.set(false))).subscribe({next: value => this.changed.emit(value),
-      error: () => this.error.set('No se pudo realizar la operación. Verifique competencia, estado y revisión; recargue si otro usuario modificó el proceso.')});
+    request.pipe(finalize(() => this.busy.set(false))).subscribe({next: value => { this.notifications.success('Proceso actualizado', 'La actuación autorizada se registró correctamente.'); this.changed.emit(value); },
+      error: () => this.notifications.error('No se pudo actualizar el proceso', 'Verifique competencia, estado y revisión; recargue si otro usuario modificó el proceso.')});
   }
 }

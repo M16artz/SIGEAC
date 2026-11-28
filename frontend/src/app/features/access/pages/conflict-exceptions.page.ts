@@ -2,12 +2,16 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, signal }
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { AccessApi } from '../data-access/access-api.service';
-import { accessErrorMessage } from '../data-access/access.errors';
-import { ConflictExceptionCommand, PILOT_CAREER_ID, PILOT_CONFLICT_POLICY_ID } from '../data-access/access.models';
+import {NotificationService} from '../../../shared/notifications/notification.service';
+import {EntityNamesService} from '../../../shared/labels/entity-names.service';
+import {environment} from '../../../../environments/environment';
+import { ConflictExceptionCommand, PILOT_CONFLICT_POLICY_ID } from '../data-access/access.models';
+import {CONFLICT_POLICY_OPTIONS} from '../../../core/config/conflict-policy-options';
 
 @Component({
   selector: 'sec-conflict-exceptions',
   standalone: true,
+  providers: [EntityNamesService],
   imports: [ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -15,22 +19,28 @@ import { ConflictExceptionCommand, PILOT_CAREER_ID, PILOT_CONFLICT_POLICY_ID } f
   styleUrl: './conflict-exceptions.page.scss'
 })
 export class ConflictExceptionsPageComponent {
+  readonly policies = inject(CONFLICT_POLICY_OPTIONS);
+  readonly names = inject(EntityNamesService);
   private readonly fb = inject(FormBuilder);
   private readonly api = inject(AccessApi);
+  private readonly notifications = inject(NotificationService);
 
   readonly submitting = signal(false);
   readonly error = signal<string | null>(null);
   readonly createdId = signal<string | null>(null);
   readonly form = this.fb.nonNullable.group({
-    policyId: [PILOT_CONFLICT_POLICY_ID, Validators.required],
+    policyId: [environment.demonstration ? PILOT_CONFLICT_POLICY_ID : '', Validators.required],
     targetUserId: ['', Validators.required],
-    careerId: [PILOT_CAREER_ID, Validators.required],
+    careerId: ['', Validators.required],
     processId: [''],
     indicatorId: [''],
     justification: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]],
     validFrom: [localDateTime(new Date()), Validators.required],
     validTo: [localDateTime(new Date(Date.now() + 86_400_000)), Validators.required]
   });
+
+  availableProcesses() { return this.names.processes().filter(item => item.careerId === this.form.controls.careerId.value); }
+  availableIndicators() { return this.availableProcesses().find(item => item.id === this.form.controls.processId.value)?.indicators ?? []; }
 
   submit(): void {
     if (this.form.invalid) {
@@ -66,9 +76,10 @@ export class ConflictExceptionsPageComponent {
     this.api.createConflictException(command).pipe(finalize(() => this.submitting.set(false))).subscribe({
       next: (resource) => {
         this.createdId.set(resource.id);
+        this.notifications.success('Excepción registrada', 'La excepción temporal se guardó con su ámbito y vigencia.');
         this.form.patchValue({justification: ''});
       },
-      error: (error: unknown) => this.error.set(accessErrorMessage(error))
+      error: () => this.notifications.error('No se pudo registrar la excepción', 'Revise sus permisos, el ámbito y la vigencia antes de reintentar.')
     });
   }
 }

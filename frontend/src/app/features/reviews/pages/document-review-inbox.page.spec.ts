@@ -1,4 +1,6 @@
 import {TestBed} from '@angular/core/testing';
+import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
 import {provideRouter} from '@angular/router';
 import {of} from 'rxjs';
 import {beforeEach, describe, expect, it, vi} from 'vitest';
@@ -48,7 +50,7 @@ describe('DocumentReviewInboxPage', () => {
     processes.list.mockReturnValue(of([]));
     TestBed.configureTestingModule({
       imports: [DocumentReviewInboxPage],
-      providers: [
+      providers: [provideHttpClient(), provideHttpClientTesting(),
         provideRouter(REVIEW_ROUTES),
         {provide: ReviewApi, useValue: api},
         {provide: ProcessApi, useValue: processes}

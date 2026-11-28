@@ -1,0 +1,26 @@
+
+# Dependencias
+node_modules/
+
+# Archivos generados
+dist/
+target/
+.angular/
+*.tsbuildinfo
+
+# Variables de entorno privadas
+.env
+.env.*
+!.env.example
+
+# Archivos generados
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.angular/
+/backend/target/
+*.tsbuildinfo
+
+# Credenciales privadas
+.env
+.env.*
+!.env.example

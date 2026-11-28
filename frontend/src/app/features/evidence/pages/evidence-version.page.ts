@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit, inject, signal} from '@angular/core';
+import {NotificationService} from '../../../shared/notifications/notification.service';
 import {ActivatedRoute} from '@angular/router';
 import {ApiProblemError} from '../../../core/http/api-client';
 import {EvidenceApi} from '../data-access/evidence-api.service';
@@ -61,7 +62,6 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
         @if (current.status !== 'SUBMITTED') {
           <button type="button" data-submit-version [disabled]="working()" (click)="submitVersion()">Remitir evidencia</button>
         }
-        @if (message()) { <p role="status">{{message()}}</p> }
         @if (stale()) {
           <section role="alert">
             <p>El borrador cambió mientras se registraba la cobertura. Recargue y reintente.</p>
@@ -78,6 +78,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
   `
 })
 export class EvidenceVersionPage implements OnInit {
+  private readonly notifications = inject(NotificationService);
   private readonly api = inject(EvidenceApi);
   private readonly route = inject(ActivatedRoute);
 
@@ -140,6 +141,7 @@ export class EvidenceVersionPage implements OnInit {
     this.api.declareCoverage(versionId, draft, etag).subscribe({
       next: () => {
         this.message.set('Cobertura registrada.');
+        this.notifications.success('Cobertura registrada', 'La fuente quedó asociada a esta versión.');
         this.reload();
       },
       error: (failure: unknown) => this.handleFailure(failure)
@@ -157,6 +159,7 @@ export class EvidenceVersionPage implements OnInit {
     this.api.removeCoverage(versionId, coverageId, etag).subscribe({
       next: () => {
         this.message.set('Cobertura retirada.');
+        this.notifications.success('Cobertura retirada', 'La cobertura se quitó del borrador.');
         this.reload();
       },
       error: (failure: unknown) => this.handleFailure(failure)
@@ -174,6 +177,7 @@ export class EvidenceVersionPage implements OnInit {
     this.api.registerStructuredSource(versionId, command, etag).subscribe({
       next: () => {
         this.message.set('Snapshot registrado.');
+        this.notifications.success('Datos estructurados registrados', 'La instantánea de la fuente se guardó correctamente.');
         this.reload();
       },
       error: (failure: unknown) => this.handleFailure(failure)
@@ -191,6 +195,7 @@ export class EvidenceVersionPage implements OnInit {
     this.api.submit(versionId, etag).subscribe({
       next: () => {
         this.message.set('Evidencia remitida.');
+        this.notifications.success('Evidencia remitida', 'La versión se envió para su revisión.');
         this.reload();
       },
       error: (failure: unknown) => this.handleFailure(failure)
@@ -216,6 +221,7 @@ export class EvidenceVersionPage implements OnInit {
         anchor.click();
         URL.revokeObjectURL(url);
         this.message.set(`Archivo descargado y verificado: ${file.originalName}.`);
+        this.notifications.success('Archivo descargado', 'Se verificó la integridad del archivo antes de descargarlo.');
       },
       error: (failure: unknown) => this.handleDownloadFailure(failure, file)
     });
@@ -227,7 +233,7 @@ export class EvidenceVersionPage implements OnInit {
       this.error.set('El archivo no supera la verificación de integridad; no se descargó.');
       return;
     }
-    this.error.set(`No fue posible descargar ${file.originalName}.`);
+    this.notifications.error('No se pudo descargar el archivo', 'Intente nuevamente o consulte sus permisos de acceso.');
   }
 
   private begin(): void {
@@ -244,13 +250,13 @@ export class EvidenceVersionPage implements OnInit {
       return;
     }
     if (failure instanceof ApiProblemError && failure.problem.code === 'COVERAGE_REQUIRED') {
-      this.error.set('Se requiere al menos una cobertura de fuente antes de remitir.');
+      this.notifications.warning('Falta declarar la cobertura', 'Registre al menos una cobertura de fuente antes de remitir.');
       return;
     }
     if (failure instanceof ApiProblemError && failure.problem.code === 'STRUCTURED_SOURCE_NOT_COVERED') {
-      this.error.set('La fuente requiere cobertura declarada antes del snapshot.');
+      this.notifications.warning('Falta declarar la cobertura', 'Declare la cobertura de la fuente antes de registrar sus datos estructurados.');
       return;
     }
-    this.error.set('La operación no se pudo completar.');
+    this.notifications.error('No se pudo completar la operación', 'Revise los datos y recargue la versión antes de reintentar.');
   }
 }

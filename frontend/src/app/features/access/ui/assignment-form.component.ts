@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject, input, output, signal } from '@angular/core';
+import {EntityNamesService} from '../../../shared/labels/entity-names.service';
+import {NotificationService} from '../../../shared/notifications/notification.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { AccessApi } from '../data-access/access-api.service';
-import { accessErrorMessage } from '../data-access/access.errors';
-import { AssignmentCommand, PILOT_CAREER_ID, PILOT_ROLES } from '../data-access/access.models';
+import { AssignmentCommand, PILOT_ROLES } from '../data-access/access.models';
 import { DisplayLabelPipe } from '../../../shared/labels/display-label.pipe';
 
 @Component({
@@ -37,16 +38,18 @@ import { DisplayLabelPipe } from '../../../shared/labels/display-label.pipe';
           <label class="sigeac-label" for="careerId">
             Carrera <span class="sigeac-required" aria-hidden="true">*</span>
           </label>
-          <input
+          <select
             id="careerId"
             class="sigeac-input"
-            type="text"
             formControlName="careerId"
+            (change)="form.patchValue({processId: '', indicatorId: ''})"
             required
             [attr.aria-invalid]="form.controls.careerId.touched && form.controls.careerId.invalid ? 'true' : null"
             [attr.aria-describedby]="form.controls.careerId.touched && form.controls.careerId.invalid ? 'assignment-career-help assignment-career-error' : 'assignment-career-help'"
-          >
-          <p id="assignment-career-help" class="sigeac-help">Identificador de la carrera (UUID de demostración).</p>
+          ><option value="">Seleccione una carrera</option>
+            @for (career of names.careers(); track career.id) {<option [value]="career.id">{{career.data.name}}</option>}
+          </select>
+          <p id="assignment-career-help" class="sigeac-help">{{ names.loading() ? 'Consultando carreras…' : names.careers().length ? '' : 'No hay carreras disponibles para su acceso.' }}</p>
           @if (form.controls.careerId.touched && form.controls.careerId.invalid) {
             <p id="assignment-career-error" class="sigeac-field-error">Ingrese la carrera a la que aplica la asignación.</p>
           }
@@ -54,28 +57,29 @@ import { DisplayLabelPipe } from '../../../shared/labels/display-label.pipe';
 
         <div class="sigeac-field">
           <label class="sigeac-label" for="processId">Proceso <span class="sigeac-optional">Opcional</span></label>
-          <input
+          <select
             id="processId"
             class="sigeac-input"
-            type="text"
             formControlName="processId"
-            placeholder="Identificador del proceso"
+            (change)="form.patchValue({indicatorId: ''})"
             aria-describedby="assignment-process-help"
-          >
-          <p id="assignment-process-help" class="sigeac-help">Use su UUID o déjelo vacío para todos los procesos.</p>
+          ><option value="">Todos</option>
+            @for (process of availableProcesses(); track process.id) {<option [value]="process.id">{{process.name}}</option>}
+          </select>
+          <p id="assignment-process-help" class="sigeac-help">Limite la asignación a un proceso si corresponde.</p>
         </div>
 
         <div class="sigeac-field">
           <label class="sigeac-label" for="indicatorId">Indicador <span class="sigeac-optional">Opcional</span></label>
-          <input
+          <select
             id="indicatorId"
             class="sigeac-input"
-            type="text"
             formControlName="indicatorId"
-            placeholder="Identificador del indicador"
             aria-describedby="assignment-indicator-help"
-          >
-          <p id="assignment-indicator-help" class="sigeac-help">Use su UUID. Primero debe indicar un proceso.</p>
+          ><option value="">Todos</option>
+            @for (indicator of availableIndicators(); track indicator.id) {<option [value]="indicator.id">{{indicator.name}}</option>}
+          </select>
+          <p id="assignment-indicator-help" class="sigeac-help">Seleccione primero un proceso para limitar sus indicadores.</p>
         </div>
 
         <div class="sigeac-field">
@@ -137,23 +141,6 @@ import { DisplayLabelPipe } from '../../../shared/labels/display-label.pipe';
           <span>{{ error() }}</span>
         </p>
       }
-      @if (success()) {
-        <p class="sigeac-alert sigeac-alert--success" role="status">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.8"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-            class="mt-0.5 h-4 w-4 shrink-0"
-          >
-            <path d="M12 3.5 20 7v5c0 4.5-3.2 8.2-8 9.5-4.8-1.3-8-5-8-9.5V7l8-3.5Z M9 12l2 2 4-4.5" />
-          </svg>
-          <span>Asignación registrada correctamente.</span>
-        </p>
-      }
 
       <div class="flex justify-end">
         <button type="submit" class="sigeac-btn w-full sm:w-auto" [disabled]="submitting()">
@@ -170,24 +157,29 @@ import { DisplayLabelPipe } from '../../../shared/labels/display-label.pipe';
   `
 })
 export class AssignmentFormComponent {
+  readonly names = inject(EntityNamesService);
   readonly userId = input.required<string>();
   readonly saved = output<void>();
 
   private readonly fb = inject(FormBuilder);
   private readonly api = inject(AccessApi);
+  private readonly notifications = inject(NotificationService);
   readonly roles = PILOT_ROLES;
   readonly submitting = signal(false);
   readonly error = signal<string | null>(null);
   readonly success = signal(false);
   readonly form = this.fb.nonNullable.group({
     roleCode: [PILOT_ROLES[0].code, Validators.required],
-    careerId: [PILOT_CAREER_ID, [Validators.required]],
+    careerId: ['', [Validators.required]],
     processId: [''],
     indicatorId: [''],
     validFrom: [localDateTime(new Date()), Validators.required],
     validUntil: [''],
     exceptionReason: ['']
   });
+
+  availableProcesses() { return this.names.processes().filter(item => item.careerId === this.form.controls.careerId.value); }
+  availableIndicators() { return this.availableProcesses().find(item => item.id === this.form.controls.processId.value)?.indicators ?? []; }
 
   submit(): void {
     if (this.form.invalid) {
@@ -222,10 +214,11 @@ export class AssignmentFormComponent {
     this.api.assign(this.userId(), command).pipe(finalize(() => this.submitting.set(false))).subscribe({
       next: () => {
         this.success.set(true);
+        this.notifications.success('Asignación registrada', 'La función y su periodo de acceso se guardaron correctamente.');
         this.form.patchValue({exceptionReason: '', validUntil: ''});
         this.saved.emit();
       },
-      error: (error: unknown) => this.error.set(accessErrorMessage(error))
+      error: () => this.notifications.error('No se pudo registrar la asignación', 'Revise sus permisos, la vigencia y los posibles conflictos.')
     });
   }
 }

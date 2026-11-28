@@ -1,15 +1,21 @@
 import {TestBed} from '@angular/core/testing';
+import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
+import {NotificationService} from '../../../shared/notifications/notification.service';
 import {of, Subject, throwError} from 'rxjs';
 import {describe, expect, it, vi} from 'vitest';
 import {AccessApi} from '../data-access/access-api.service';
 import {ConflictExceptionsPageComponent} from './conflict-exceptions.page';
+import {CONFLICT_POLICY_OPTIONS, ConflictPolicyOption} from '../../../core/config/conflict-policy-options';
 
-function setup() {
+function setup(policies: readonly ConflictPolicyOption[] = [{id: 'policy-id', label: 'Política autorizada de prueba'}]) {
   const api = {createConflictException: vi.fn().mockReturnValue(of({id: 'synthetic-exception'}))};
-  TestBed.configureTestingModule({imports: [ConflictExceptionsPageComponent], providers: [{provide: AccessApi, useValue: api}]});
+  TestBed.configureTestingModule({imports: [ConflictExceptionsPageComponent], providers: [provideHttpClient(), provideHttpClientTesting(), {provide: CONFLICT_POLICY_OPTIONS, useValue: policies}, {provide: AccessApi, useValue: api}]});
   const fixture = TestBed.createComponent(ConflictExceptionsPageComponent);
   fixture.detectChanges();
   const page = fixture.componentInstance;
+  page.form.controls.careerId.setValue('career-id');
+  page.form.controls.policyId.setValue('policy-id');
   return {fixture, page, api, root: fixture.nativeElement as HTMLElement};
 }
 
@@ -37,13 +43,33 @@ describe('ConflictExceptionsPageComponent', () => {
   it('keeps the form in the workspace and associates persistent field guidance', () => {
     const {root} = setup();
     expect(root.querySelector('.conflicts-workbench form')).not.toBeNull();
-    for (const id of ['policyId', 'targetUserId', 'indicatorId', 'justification']) {
+    for (const id of ['targetUserId', 'indicatorId', 'justification']) {
       const control = root.querySelector(`#${id}`)!;
       const help = control.getAttribute('aria-describedby');
       expect(help).toBeTruthy();
       expect(root.querySelector(`#${help}`)?.textContent?.trim()).toBeTruthy();
     }
     expect(root.querySelector('a[href="#conflict-form-title"]')?.textContent).toBe('Registrar excepción');
+  });
+
+  it('uses a named policy selector with unchanged identifiers and no technical disclosure', () => {
+    const {root, page} = setup([{id: 'policy-id', label: 'Responsable y revisor documental'}]);
+    expect(root.querySelector('details, summary')).toBeNull();
+    expect(root.querySelector('#policyId')?.tagName).toBe('SELECT');
+    expect(root.querySelector('#policyId')?.textContent).toContain('Responsable y revisor documental');
+    expect(root.textContent).not.toContain('policy-id');
+    expect(page.form.controls.policyId.value).toBe('policy-id');
+  });
+
+  it('shows a non-editable unavailable state rather than inventing a policy or exposing an ID', () => {
+    const {root, page, api} = setup([]);
+    page.form.controls.policyId.setValue('');
+    const policy = root.querySelector<HTMLInputElement>('#policyId')!;
+    expect(policy.readOnly).toBe(true);
+    expect(policy.value).toBe('Sin política disponible');
+    page.submit();
+    expect(api.createConflictException).not.toHaveBeenCalled();
+    expect(root.querySelector('details, summary')).toBeNull();
   });
 
   it('groups fields semantically and preserves their DOM and keyboard order', () => {
@@ -74,7 +100,9 @@ describe('ConflictExceptionsPageComponent', () => {
     page.submit(); fixture.detectChanges();
     expect(api.createConflictException).toHaveBeenCalledWith({...raw, processId: 'process-uuid', indicatorId: null,
       validFrom: new Date(raw.validFrom).toISOString(), validTo: new Date(raw.validTo).toISOString()});
-    expect(root.querySelector('[role="status"]')?.textContent).toContain('synthetic-exception');
+    expect(page.createdId()).toBe('synthetic-exception');
+    expect(TestBed.inject(NotificationService).notifications()).toEqual([expect.objectContaining({kind: 'success', title: 'Excepción registrada'})]);
+    expect(root.textContent).not.toContain('synthetic-exception');
   });
 
   it('preserves loading and error states', () => {
@@ -86,7 +114,8 @@ describe('ConflictExceptionsPageComponent', () => {
     pending.complete();
     api.createConflictException.mockReturnValueOnce(throwError(() => new Error('Failed')));
     page.submit(); fixture.detectChanges();
-    expect(root.querySelector('[role="alert"]')).not.toBeNull();
+    expect(TestBed.inject(NotificationService).notifications()).toEqual([expect.objectContaining({kind: 'error'})]);
+    expect(root.querySelector('[role="alert"]')).toBeNull();
     expect(page.submitting()).toBe(false);
   });
 });

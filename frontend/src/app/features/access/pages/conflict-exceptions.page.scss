@@ -11,18 +11,18 @@ sec-conflict-exceptions { display: block; }
   }
 
   .access-form { container: exception-form / inline-size; padding: 1.5rem; }
-  .access-form-groups { display: grid; gap: 1.5rem; }
+  .access-form-groups { display: grid; gap: 1rem; }
   .access-form-group {
     min-width: 0;
     & + .access-form-group {
-      padding-block-start: 1.5rem;
+      padding-block-start: 1rem;
       border-block-start: 1px solid var(--sigeac-divider);
     }
   }
   .access-form-group fieldset { min-inline-size: 0; margin: 0; padding: 0; border: 0; }
   .access-form-group legend {
     width: 100%;
-    margin: 0 0 1.25rem;
+    margin: 0 0 .75rem;
     padding: 0;
     font-size: 1.0625rem;
     overflow-wrap: break-word;
@@ -31,19 +31,18 @@ sec-conflict-exceptions { display: block; }
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     align-items: start;
-    gap: 1.25rem 1.5rem;
+    gap: 1rem 1.5rem;
   }
-  .sigeac-field { gap: .5rem; }
+  .sigeac-field { display: grid; grid-template-rows: auto auto; gap: .5rem; }
+  .sigeac-label { min-block-size: 1.5rem; line-height: 1.5; }
+  .sigeac-input { inline-size: 100%; max-inline-size: none; min-block-size: 3rem; margin: 0; border: 1px solid var(--sigeac-control-border); background: var(--access-surface); color: var(--color-institutional-blue); font-family: var(--font-sans); }
+  .sigeac-input[readonly] { background: var(--color-institutional-blue-soft); color: var(--sigeac-text-muted); }
+  textarea.sigeac-input { min-block-size: 7rem; resize: vertical; }
   :is(.sigeac-help, .sigeac-field-error) { margin: 0; }
   .access-form-actions { display: flex; justify-content: flex-end; margin-block-start: 1.5rem; }
 
   @container exception-form (min-width: 38rem) {
-    .access-field-grid--dates { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  }
-  /* Los UUID necesitan más anchura que las fechas. Carrera ocupa la fila
-     completa; proceso e indicador comparten la siguiente solo si caben. */
-  @container exception-form (min-width: 48rem) {
-    :is(.access-field-grid--destination, .access-field-grid--scope) {
+    :is(.access-field-grid--dates, .access-field-grid--destination, .access-field-grid--scope) {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     .access-field--career { grid-column: 1 / -1; }

@@ -13,6 +13,6 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
    <div class="sigeac-form-field"><label for="to">Hasta</label><input id="to" [(ngModel)]="to"></div>
    <div class="sigeac-form-actions"><button (click)="compare()">Comparar</button></div>
   </div></div>
-  <ul>@for(c of result()?.changes??[];track c.key){<li>{{c.kind | displayLabel}} · {{c.key}}</li>}</ul>
+   <ul>@for(c of result()?.changes??[];track c.key){<li>{{c.kind | displayLabel}} · {{c.to?.name ?? c.from?.name ?? 'Denominación no disponible'}}</li>}</ul>
  </section>
 </div>`})export class ModelComparePage{from='';to='';readonly result=signal<ModelComparison|null>(null);constructor(private readonly api:ModelApi){}compare(){this.api.compare(this.from,this.to).subscribe(v=>this.result.set(v))}}

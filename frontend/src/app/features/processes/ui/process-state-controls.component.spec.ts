@@ -1,4 +1,7 @@
 import {TestBed} from '@angular/core/testing';
+import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
+import {NotificationService} from '../../../shared/notifications/notification.service';
 import {of, Subject, throwError} from 'rxjs';
 import {beforeEach, describe, expect, it, vi} from 'vitest';
 import {AccessSessionService} from '../../access/data-access/access-session.service';
@@ -11,13 +14,14 @@ describe('Process state decisions', () => {
     modelVersionNumber:1,state:'ACTIVE',revision:4,indicators:[]};
   const command = {authorityAssignmentId:'a-1',legalBasis:'Designacion',
     documentReference:'fixture://decision',reason:'Decision justificada'};
-  const api = {transition:vi.fn(),reopen:vi.fn()};
+   const api = {transition:vi.fn(),reopen:vi.fn(),list:vi.fn()};
 
   beforeEach(() => {
-    vi.resetAllMocks();
+     vi.resetAllMocks();
+     api.list.mockReturnValue(of([]));
     api.transition.mockReturnValue(of({...process,state:'SUSPENDED',revision:5}));
     api.reopen.mockReturnValue(of({...process,state:'REOPENED',revision:5}));
-    TestBed.configureTestingModule({imports:[ProcessStateControls],providers:[
+    TestBed.configureTestingModule({imports:[ProcessStateControls],providers:[provideHttpClient(), provideHttpClientTesting(),
       {provide:ProcessApi,useValue:api},
       {provide:AccessSessionService,useValue:{identity:() => ({assignments:[{id:'a-1',roleName:'Autoridad',careerId:'c-1'}]})}}
     ]});
@@ -66,7 +70,7 @@ describe('Process state decisions', () => {
     Object.assign(controls,command);
     api.transition.mockReturnValue(throwError(() => new Error('denied')));
     controls.move('SUSPENDED');
-    expect(controls.error()).not.toBe('');
+    expect(TestBed.inject(NotificationService).notifications()).toEqual([expect.objectContaining({kind: 'error', title: 'No se pudo actualizar el proceso'})]);
     expect(controls.busy()).toBe(false);
     expect(controls.documentReference).toBe(command.documentReference);
   });

@@ -1,4 +1,7 @@
 import {TestBed} from '@angular/core/testing';
+import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
+import {provideRouter} from '@angular/router';
 import {Subject, of, throwError} from 'rxjs';
 import {describe, beforeEach, it, expect, vi} from 'vitest';
 import {AcademicEvaluationApi, ManualEvaluationView} from '../data-access/academic-evaluation-api.service';
@@ -13,7 +16,7 @@ describe('IndicatorEvaluationPage', () => {
   const api = {view: vi.fn(), save: vi.fn()};
   beforeEach(() => {
     api.view.mockReset().mockReturnValue(of(view)); api.save.mockReset().mockReturnValue(of({}));
-    TestBed.configureTestingModule({imports: [IndicatorEvaluationPage], providers: [
+    TestBed.configureTestingModule({imports: [IndicatorEvaluationPage], providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([]),
       {provide: AcademicEvaluationApi, useValue: api}, {provide: ProcessApi, useValue: {list: () => of([])}}
     ]});
   });
@@ -24,7 +27,7 @@ describe('IndicatorEvaluationPage', () => {
   }
   it('shows the published method, accepted supports and independent academic meaning', () => {
     const {fixture} = page(); const text = (fixture.nativeElement as HTMLElement).textContent;
-    expect(text).toContain('Juicio cualitativo publicado'); expect(text).toContain('version');
+    expect(text).toContain('Juicio cualitativo publicado'); expect(text).not.toContain('modelVersionId');
     expect(text).toContain('Sustento sintético');
     expect(text).toContain('no constituye acreditación'); expect(text).toContain('Revisión propia: 2');
   });

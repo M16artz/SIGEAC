@@ -1,5 +1,7 @@
 import {provideZonelessChangeDetection} from '@angular/core';
 import {TestBed} from '@angular/core/testing';
+import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
 import {of} from 'rxjs';
 import {describe, beforeEach, expect, it, vi} from 'vitest';
 import {ProcessApi} from '../../processes/data-access/process-api.service';
@@ -47,7 +49,7 @@ describe('ImprovementPlanPage', () => {
     reports.versions.mockReset().mockReturnValue(of({items: [version], page: 0, size: 100, totalElements: 1}));
     reports.findings.mockReset().mockReturnValue(of({items: [finding], page: 0, size: 100, totalElements: 1}));
     vi.clearAllMocks();
-    TestBed.configureTestingModule({imports: [ImprovementPlanPage], providers: [
+    TestBed.configureTestingModule({imports: [ImprovementPlanPage], providers: [provideHttpClient(), provideHttpClientTesting(),
       provideZonelessChangeDetection(),
       {provide: ImprovementApi, useValue: api},
       {provide: ReportApi, useValue: reports},

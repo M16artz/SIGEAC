@@ -1,4 +1,5 @@
 import {TestBed} from '@angular/core/testing';
+import {NotificationService} from '../../../shared/notifications/notification.service';
 import {of,throwError} from 'rxjs';
 import {beforeEach,describe,expect,it,vi} from 'vitest';
 import {CareerApi,Career,AcademicUnit} from '../data-access/career-api.service';
@@ -17,6 +18,7 @@ describe('Career catalog',()=>{
     const fixture=TestBed.createComponent(CareerCatalogPage);fixture.detectChanges();const page=fixture.componentInstance;
     page.editCareer(career);page.careerForm.controls.name.setValue('Nombre actualizado');page.saveCareer();
     expect(api.saveCareer).toHaveBeenCalledWith({...career.data,name:'Nombre actualizado'},career);expect(page.editingCareer()).toBeNull();
+    expect(TestBed.inject(NotificationService).notifications()).toEqual([expect.objectContaining({kind:'success',title:'Catálogo actualizado'})]);
   });
   it('hides mutation forms for a read-only actor',()=>{
     api.access.mockReturnValue(of({canManage:false}));const fixture=TestBed.createComponent(CareerCatalogPage);fixture.detectChanges();
@@ -26,7 +28,8 @@ describe('Career catalog',()=>{
     const fixture=TestBed.createComponent(CareerCatalogPage);fixture.detectChanges();const page=fixture.componentInstance;
     page.changeCareerState(career);expect(api.careerState).not.toHaveBeenCalled();
     page.editCareer(career);api.saveCareer.mockReturnValue(throwError(()=>new Error('stale')));page.saveCareer();
-    expect(page.editingCareer()).toEqual(career);expect(page.error()).not.toBe('');expect(page.busy()).toBe(false);
+    expect(page.editingCareer()).toEqual(career);expect(page.busy()).toBe(false);
+    expect(TestBed.inject(NotificationService).notifications()).toEqual([expect.objectContaining({kind:'error'})]);
   });
   it('uses explicit semantic action variants without changing state restrictions',()=>{
     const fixture=TestBed.createComponent(CareerCatalogPage);fixture.detectChanges();

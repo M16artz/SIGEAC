@@ -1,4 +1,6 @@
 import {TestBed} from '@angular/core/testing';
+import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
 import {provideRouter} from '@angular/router';
 import {of, Subject, throwError} from 'rxjs';
 import {beforeEach, describe, expect, it, vi} from 'vitest';
@@ -17,7 +19,7 @@ describe('QuantitativeEvaluationPage', () => {
   beforeEach(() => {
     for (const fn of Object.values(api)) fn.mockReset(); api.view.mockReturnValue(of(view)); api.capture.mockReturnValue(of(inputs));
     api.verify.mockReturnValue(of({})); api.calculate.mockReturnValue(of({}));
-    TestBed.configureTestingModule({imports: [QuantitativeEvaluationPage], providers: [provideRouter([]),
+    TestBed.configureTestingModule({imports: [QuantitativeEvaluationPage], providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting(),
       {provide: ProcessApi, useValue: {list: () => of([])}}, {provide: QuantitativeApi, useValue: api}]});
   });
   function page() {const fixture = TestBed.createComponent(QuantitativeEvaluationPage); fixture.detectChanges(); const component = fixture.componentInstance;

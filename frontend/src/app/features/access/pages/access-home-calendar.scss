@@ -1,0 +1,36 @@
+/* Hallmark · component: informational calendar · genre: modern-minimal · theme: brand SIGEAC · v2.0.0
+   Critique: real dates with restrained current-day emphasis; navigation reflows rather than clipping at text zoom.
+   Tokens and focus ring are declared by access-home.page.scss; scope is exclusively Inicio. */
+#inicio {
+  .access-calendar-note { color: var(--access-muted); font-size: .75rem; }
+  .access-calendar-nav { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: var(--space-xs); margin-block-end: var(--space-sm); }
+  .access-calendar-nav p { min-inline-size: 0; margin: 0; color: var(--access-ink); font-size: .875rem; font-weight: 600; text-align: center; overflow-wrap: anywhere; }
+  .access-calendar-nav button {
+    --sigeac-button-bg: var(--access-soft);
+    --sigeac-button-ink: var(--access-ink);
+    display: grid; place-items: center;
+    inline-size: 2.75rem; block-size: 2.75rem; margin: 0; padding: var(--space-xs); border-radius: .75rem;
+  }
+  .access-calendar-nav button:disabled { opacity: .55; cursor: not-allowed; }
+  .access-calendar-nav svg { inline-size: 1rem; block-size: 1rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .access-calendar-grid { inline-size: 100%; table-layout: fixed; border-collapse: collapse; font-size: .8125rem; font-variant-numeric: tabular-nums; }
+  .access-calendar-grid :is(th, td) { padding: .125rem 0; border: 0; text-align: center; color: var(--access-ink); }
+  .access-calendar-grid th { block-size: 2rem; font-weight: 600; background: var(--access-soft); }
+  .access-calendar-grid abbr { text-decoration: none; }
+  .calendar-weekday-short { display: none; }
+  .access-calendar-grid td { block-size: 2.25rem; }
+  .access-calendar-grid time { display: grid; place-items: center; inline-size: 2rem; max-inline-size: 100%; block-size: 2rem; margin: auto; border-radius: .625rem; }
+  .access-calendar-grid .calendar-today { background: var(--access-ink); color: var(--access-surface); font-weight: 700; }
+  .access-calendar-today { margin: var(--space-md) 0 0; padding-block-start: var(--space-sm); border-block-start: 1px solid var(--access-rule); color: var(--access-muted); font-size: .8125rem; }
+  @container access-page (max-width: 24rem) {
+    .calendar-weekday-long { display: none; }
+    .calendar-weekday-short { display: inline; }
+    .access-calendar-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .access-calendar-nav p { grid-column: 1 / -1; grid-row: 1; }
+    .access-calendar-nav button { grid-row: 2; }
+    .access-calendar-nav button:last-child { justify-self: end; }
+  }
+  @media (pointer: coarse) {
+    .access-calendar-nav button { inline-size: 3rem; block-size: 3rem; }
+  }
+}

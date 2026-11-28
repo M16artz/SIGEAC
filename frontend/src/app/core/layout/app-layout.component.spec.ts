@@ -6,6 +6,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { AccessSessionService } from '../../features/access/data-access/access-session.service';
 import { CurrentIdentity } from '../../features/access/data-access/access.models';
 import { AppLayoutComponent } from './app-layout.component';
+import {NotificationService} from '../../shared/notifications/notification.service';
 
 @Component({ standalone: true, template: '' })
 class EmptyPage {}
@@ -83,5 +84,16 @@ describe('AppLayoutComponent profile', () => {
     const {fixture, router} = await setup();
     await router.navigateByUrl('/access/login'); fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.app-heading')).toBeNull();
+    expect(fixture.nativeElement.querySelector('sec-toast-container')).toBeNull();
+  });
+  it('keeps notifications across authenticated navigation and clears them on login', async () => {
+    const {fixture, router} = await setup(); const service = TestBed.inject(NotificationService);
+    service.error('No se pudo guardar', 'Revise los datos.'); fixture.detectChanges();
+    await router.navigateByUrl('/access?section=users'); fixture.detectChanges();
+    expect(service.notifications()).toHaveLength(1);
+    expect(fixture.nativeElement.querySelector('.toast-error')).not.toBeNull();
+    await router.navigateByUrl('/access/login'); fixture.detectChanges();
+    expect(service.notifications()).toHaveLength(0);
+    expect(fixture.nativeElement.querySelector('sec-toast-container')).toBeNull();
   });
 });

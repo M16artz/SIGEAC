@@ -1,7 +1,8 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit, signal, ViewEncapsulation} from '@angular/core';
+import {NotificationService} from '../../../shared/notifications/notification.service';
+import {userErrorMessage} from '../../../shared/labels/user-error-message';
 import {FormsModule, ReactiveFormsModule, FormBuilder, Validators} from '@angular/forms';
 import {finalize, forkJoin, Observable} from 'rxjs';
-import {ApiProblemError} from '../../../core/http/api-client';
 import {AcademicUnit, Career, CareerApi, CatalogPage} from '../data-access/career-api.service';
 @Component({
   selector: 'sec-career-catalog',
@@ -13,6 +14,7 @@ import {AcademicUnit, Career, CareerApi, CatalogPage} from '../data-access/caree
   styleUrl: './career-catalog.page.scss'
 })
 export class CareerCatalogPage implements OnInit {
+  private readonly notifications = inject(NotificationService);
   private readonly api=inject(CareerApi); private readonly fb=inject(FormBuilder);
   readonly careers=signal<CatalogPage<Career>|null>(null); readonly units=signal<CatalogPage<AcademicUnit>|null>(null);
   readonly editingCareer=signal<Career|null>(null); readonly editingUnit=signal<AcademicUnit|null>(null); readonly history=signal<CatalogPage<Career>|null>(null);
@@ -60,11 +62,11 @@ export class CareerCatalogPage implements OnInit {
   }
   unitLabel(id: string): string {
     const unit=this.units()?.items.find(item=>item.id===id);
-    return unit ? `${unit.data.code} · ${unit.data.name}` : id;
+    return unit ? `${unit.data.code} · ${unit.data.name}` : 'Unidad académica no disponible';
   }
   private mutate(request: Observable<unknown>,message: string,reset=()=>{}): void {
     if(this.busy())return;this.busy.set(true);this.error.set('');this.message.set('');
-    request.pipe(finalize(()=>this.busy.set(false))).subscribe({next:()=>{reset();this.message.set(message);this.history.set(null);this.loadCareers(this.careers()?.page??0);this.loadUnits(this.units()?.page??0);},error:error=>this.fail(error)});
+    request.pipe(finalize(()=>this.busy.set(false))).subscribe({next:()=>{reset();this.notifications.success('Catálogo actualizado',message);this.history.set(null);this.loadCareers(this.careers()?.page??0);this.loadUnits(this.units()?.page??0);},error:()=>this.notifications.error('No se pudieron guardar los cambios','Revise los datos y sus permisos. Si el catálogo cambió, recárguelo antes de reintentar.')});
   }
-  private fail(error: unknown): void {this.error.set(error instanceof ApiProblemError ? `${error.message} Si hubo un cambio concurrente, recargue el catálogo antes de editar.` : 'No fue posible consultar o modificar el catálogo.');}
+  private fail(error: unknown): void {this.error.set(userErrorMessage(error, 'No fue posible consultar o modificar el catálogo. Recargue antes de editar.'));}
 }

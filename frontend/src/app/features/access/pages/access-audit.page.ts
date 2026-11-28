@@ -15,7 +15,7 @@ import { AuditEventsTableComponent } from '../../../shared/ui/audit-events-table
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './access-audit.page.html',
-  styleUrl: './access-audit.page.scss'
+  styleUrls: ['./access-audit.page.scss', './access-tables.scss']
 })
 export class AccessAuditPageComponent implements OnInit {
   private readonly fb = inject(FormBuilder);

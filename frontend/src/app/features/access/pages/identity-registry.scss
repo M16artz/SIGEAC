@@ -6,13 +6,8 @@
     min-width: 0;
     > thead > tr > th {
       white-space: nowrap;
-      &:nth-child(1) { width: 48%; }
-      &:nth-child(2) { width: 18%; }
-      &:nth-child(3) { width: 34%; }
     }
     > tbody > tr > td { padding-block: 1rem; }
-    > thead > tr > th:first-child,
-    > tbody > tr > td:first-child { padding-inline-start: 2rem; }
     .sigeac-btn:not([aria-pressed="true"]) { border-color: transparent; background: transparent; box-shadow: none; }
     .sigeac-btn:hover, .sigeac-btn:active { text-decoration: underline; }
     .users-actions { gap: .25rem; flex-wrap: nowrap; }

@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges, inject, signal} from '@angular/core';
+import {NotificationService} from '../../../shared/notifications/notification.service';
 import {DatePipe} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {ProcessApi, ProcessView} from '../../processes/data-access/process-api.service';
@@ -9,6 +10,8 @@ import {
   ReviewOutcomeCommand
 } from '../data-access/review.models';
 import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
+import {EvidenceReferenceComponent} from '../../../shared/labels/evidence-reference.component';
+import {RouterLink} from '@angular/router';
 
 const OUTCOME_OPTIONS: ReviewOutcomeCommand['outcome'][] = ['ACCEPTED', 'OBSERVED', 'REJECTED'];
 
@@ -21,7 +24,7 @@ interface CoverageOutcomeDraft {
 @Component({
   selector: 'sec-document-review-inbox',
   standalone: true,
-  imports: [FormsModule, DatePipe, DisplayLabelPipe],
+  imports: [FormsModule, DatePipe, DisplayLabelPipe, EvidenceReferenceComponent, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="sigeac-page sigeac-page--balanced">
@@ -76,7 +79,7 @@ interface CoverageOutcomeDraft {
               <legend>Resultado por cobertura</legend>
               @for (draft of drafts(); track draft.requiredSourceId) {
                 <div class="sigeac-form-grid">
-                  <div class="sigeac-form-field"><label [for]="'outcome-' + draft.requiredSourceId">Cobertura {{draft.requiredSourceId}}</label>
+                  <div class="sigeac-form-field"><label [for]="'outcome-' + draft.requiredSourceId"><sec-evidence-reference [versionId]="entry.versionId" [sourceId]="draft.requiredSourceId" /></label>
                   <select [id]="'outcome-' + draft.requiredSourceId"
                           [ngModel]="draft.outcome"
                           [ngModelOptions]="{standalone: true}"
@@ -126,7 +129,7 @@ interface CoverageOutcomeDraft {
           <h3 id="review-decision-history">Historial de decisiones del proceso</h3>
           <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Historial de decisiones">
           <table class="sigeac-table-layout sigeac-table-layout--review-history">
-            <caption>Decisiones documentales con resultados por cobertura y rectificaciones (FR-021/FR-024)</caption>
+            <caption>Decisiones documentales y resultados por fuente</caption>
             <thead>
               <tr><th scope="col">Versión</th><th scope="col">Decisión</th><th scope="col">Fecha</th>
                   <th scope="col">Revisión</th><th scope="col">Resultados</th></tr>
@@ -134,14 +137,14 @@ interface CoverageOutcomeDraft {
             <tbody>
               @for (decision of decisions(); track decision.id) {
                 <tr>
-                  <td>{{decision.versionId}}</td>
+                  <td><a [routerLink]="['/evidence/versions', decision.versionId]"><sec-evidence-reference [versionId]="decision.versionId" /></a></td>
                   <td>{{decision.decision | displayLabel}}</td>
                   <td>{{decision.reviewedAt | date:'medium'}}</td>
                   <td>{{decision.revision}}</td>
                   <td>
                     <ul>
                       @for (outcome of decision.outcomes; track outcome.requiredSourceId) {
-                        <li>{{outcome.requiredSourceId}}: {{outcome.outcome | displayLabel}}</li>
+                        <li><sec-evidence-reference [versionId]="decision.versionId" [sourceId]="outcome.requiredSourceId" />: {{outcome.outcome | displayLabel}}</li>
                       }
                     </ul>
                   </td>
@@ -157,6 +160,7 @@ interface CoverageOutcomeDraft {
   `
 })
 export class DocumentReviewInboxPage implements OnInit, OnChanges {
+  private readonly notifications = inject(NotificationService);
   @Input() processId = '';
   private readonly api = inject(ReviewApi);
   private readonly processApi = inject(ProcessApi);
@@ -252,12 +256,13 @@ export class DocumentReviewInboxPage implements OnInit, OnChanges {
     }, '"0"').subscribe({
       next: () => {
         this.deciding.set(false);
+        this.notifications.success('Decisión registrada', 'La revisión documental se guardó con sus fundamentos.');
         this.cancel();
         this.load();
       },
       error: () => {
         this.deciding.set(false);
-        this.decisionError.set('No fue posible registrar la decisión; verifique la revisión vigente.');
+        this.notifications.error('No se pudo registrar la decisión', 'Verifique la revisión vigente y sus permisos antes de reintentar.');
       }
     });
   }

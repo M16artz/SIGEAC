@@ -1,8 +1,9 @@
 import {DatePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject, signal} from '@angular/core';
+import {NotificationService} from '../../../shared/notifications/notification.service';
 import {FormsModule} from '@angular/forms';
 import {Observable, Subscription, catchError, forkJoin, of, switchMap} from 'rxjs';
-import {ApiProblemError} from '../../../core/http/api-client';
+import {userErrorMessage} from '../../../shared/labels/user-error-message';
 import {ProcessApi, ProcessView} from '../../processes/data-access/process-api.service';
 import {ApprovalEvent, Finding, FindingData, FindingPage, Observation, ReportApi, ReportVersion, Reply, Socialization, VersionPage} from '../data-access/report-api.service';
 import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
@@ -43,11 +44,11 @@ const EMPTY_CONSOLIDATION = '00000000-0000-0000-0000-000000000000';
       </select>
       @if (loading()) { <p role="status">Consultando hallazgos e informe…</p> }
       @if (error()) { <p role="alert">{{error()}}</p> }
-      @if (message()) { <p role="status">{{message()}}</p> }
+      @if (contextMessage()) { <p>{{contextMessage()}}</p> }
 
       @if (processId) {
         <h3>Paso P13: hallazgos y consolidación académica</h3>
-        @if (consolidationId()) { <p class="muted">Consolidación previa disponible: {{consolidationId()}}</p> }
+        @if (consolidationId()) { <p class="muted">Hay una consolidación previa disponible.</p> }
         @else { <p class="muted">Registre y consolide hallazgos antes de emitir versiones del informe.</p> }
         @for (finding of findings(); track finding.id) {
           <article>
@@ -212,6 +213,8 @@ const EMPTY_CONSOLIDATION = '00000000-0000-0000-0000-000000000000';
   `
 })
 export class ReportWorkflowPage implements OnInit, OnDestroy {
+  private readonly notifications = inject(NotificationService);
+  readonly contextMessage = signal('');
   private readonly api = inject(ReportApi);
   private readonly processApi = inject(ProcessApi);
   private request?: Subscription;
@@ -286,6 +289,7 @@ export class ReportWorkflowPage implements OnInit, OnDestroy {
     this.selectedFindings.set([]);
     this.findingSupports.set([]);
     this.detail.set(null);
+    this.contextMessage.set('');
     this.socializations.set([]);
     this.observations.set([]);
     this.replies.set([]);
@@ -417,8 +421,9 @@ export class ReportWorkflowPage implements OnInit, OnDestroy {
         this.versions.set(result.versions.items);
         this.saving.set(false);
         this.message.set(message);
+        this.notifications.success('Informe actualizado', message);
       },
-      error: e => this.fail(e)
+      error: e => { this.fail(e); this.error.set('Recargue el informe y su historial antes de continuar.'); this.notifications.error('No se pudo actualizar el informe', 'Revise el estado, los fundamentos y sus permisos.'); }
     });
   }
 
@@ -449,6 +454,7 @@ export class ReportWorkflowPage implements OnInit, OnDestroy {
     this.replies.set(detail.replies ?? []);
     this.decisions.set(detail.decisions ?? []);
     this.message.set(`Tramitando versión ${displayLabel(detail.state ?? detail.data.kind)} · Revisión ${detail.revision}`);
+    this.contextMessage.set(this.message());
   }
 
   private selectedId(): string {
@@ -457,7 +463,6 @@ export class ReportWorkflowPage implements OnInit, OnDestroy {
 
   private fail(error: unknown): void {
     this.saving.set(false); this.loading.set(false);
-    this.error.set(error instanceof ApiProblemError ? error.message
-      : 'No se pudo completar la operación del ciclo del informe. Recargue antes de continuar.');
+    this.error.set(userErrorMessage(error, 'No se pudo completar la operación del ciclo del informe. Recargue antes de continuar.'));
   }
 }

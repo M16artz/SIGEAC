@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, OnDestroy, OnInit, inject, signal} from '@angular/core';
+import {NotificationService} from '../../../shared/notifications/notification.service';
 import {DatePipe, DecimalPipe} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, RouterLink} from '@angular/router';
@@ -8,10 +9,11 @@ import {ApiProblemError} from '../../../core/http/api-client';
 import {ProcessApi, ProcessView} from '../../processes/data-access/process-api.service';
 import {DocumentarySnapshotPage, DocumentarySnapshotView, ReportingApi} from '../data-access/reporting-api.service';
 import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
+import {EvidenceReferenceComponent} from '../../../shared/labels/evidence-reference.component';
 
 @Component({
   selector: 'sec-documentary-history', standalone: true,
-  imports: [DatePipe, DecimalPipe, FormsModule, RouterLink, DisplayLabelPipe],
+  imports: [DatePipe, DecimalPipe, FormsModule, RouterLink, DisplayLabelPipe, EvidenceReferenceComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="sigeac-page sigeac-page--balanced">
@@ -30,7 +32,6 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
         }
       </select>
       @if (error()) { <p role="alert">{{error()}}</p> }
-      @if (message()) { <p role="status">{{message()}}</p> }
       @if (processId) {
         <form (ngSubmit)="create()" class="sigeac-form-layout"><div class="sigeac-form-grid">
           <div class="sigeac-form-field sigeac-form-wide"><label for="snapshot-reason">Motivo del corte</label>
@@ -79,7 +80,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
               <li>{{source.code}} · {{source.name}} · {{source.applicable ? (source.required ? 'Obligatoria' : 'Opcional') : 'Excluida'}}
                 <ul>
                   @for (coverage of source.coverages; track coverage.versionId) {
-                    <li>Versión {{coverage.versionId}} · Decisión {{coverage.decisionId ?? 'Pendiente de revisión'}}</li>
+                     <li><a [routerLink]="['/evidence/versions', coverage.versionId]"><sec-evidence-reference [versionId]="coverage.versionId" /></a> · {{coverage.decisionId ? 'Con decisión documental' : 'Pendiente de revisión'}}</li>
                   }
                 </ul>
               </li>
@@ -92,6 +93,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
   `
 })
 export class DocumentaryHistoryPage implements OnInit, OnDestroy {
+  private readonly notifications = inject(NotificationService);
   private readonly api = inject(ReportingApi);
   private readonly processApi = inject(ProcessApi);
   private readonly destroyRef = inject(DestroyRef);
@@ -177,9 +179,11 @@ export class DocumentaryHistoryPage implements OnInit, OnDestroy {
         this.load();
         this.selected.set(snapshot);
         this.message.set('Corte guardado. El proceso continúa activo.');
+        this.notifications.success('Corte guardado', 'El proceso continúa activo.');
       },
       error: error => {
         this.creating.set(false);
+        this.notifications.error('No se pudo guardar el corte', 'Verifique que el proceso esté activo y tenga permiso sobre el proceso completo.');
         this.history.set(null);
         this.selected.set(null);
         this.error.set(error instanceof ApiProblemError && error.problem.status === 412

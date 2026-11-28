@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, OnDestroy, OnInit, inject, signal} from '@angular/core';
+import {NotificationService} from '../../../shared/notifications/notification.service';
 import {DatePipe} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
@@ -31,7 +32,6 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
       </select>
       @if (error()) { <p role="alert">{{error()}}</p> }
       @if (blockers()) { <p>{{blockers()}}</p> }
-      @if (message()) { <p role="status">{{message()}}</p> }
       @if (current(); as process) {
         @if (process.state === 'ACTIVE') {
           <form (ngSubmit)="close()" class="sigeac-form-layout"><div class="sigeac-form-grid">
@@ -78,6 +78,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
   `
 })
 export class DocumentaryClosurePageComponent implements OnInit, OnDestroy {
+  private readonly notifications = inject(NotificationService);
   private readonly api = inject(ReportingApi);
   private readonly processApi = inject(ProcessApi);
   private readonly destroyRef = inject(DestroyRef);
@@ -135,9 +136,11 @@ export class DocumentaryClosurePageComponent implements OnInit, OnDestroy {
         if (this.processId !== id) return;
         this.load(); this.selected.set(closure); this.reason = '';
         this.message.set('Fase documental cerrada. El corte y las verificaciones quedaron conservados.');
+        this.notifications.success('Fase documental cerrada', 'El corte y las verificaciones quedaron conservados.');
       },
       error: error => {
         this.closing.set(false); this.selected.set(null); this.history.set(null);
+        this.notifications.error('No se pudo cerrar la fase documental', 'Revise las fuentes pendientes y consulte de nuevo el avance.');
         this.error.set(error instanceof ApiProblemError && error.problem.status === 412
           ? 'El proceso cambió. Revise el avance antes de volver a cerrar.'
           : 'No fue posible cerrar. Revise las fuentes, los archivos, el estado activo y sus permisos.');

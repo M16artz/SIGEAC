@@ -66,6 +66,6 @@ export class ProcessActivitiesPage implements OnInit {
 
   indicatorName(id: string): string {
     const indicator = this.process()?.indicators.find(value => value.id === id);
-    return indicator ? `${indicator.code} · ${indicator.name}` : id;
+    return indicator ? `${indicator.code} · ${indicator.name}` : 'Indicador no disponible';
   }
 }

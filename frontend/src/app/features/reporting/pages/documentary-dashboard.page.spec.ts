@@ -1,4 +1,6 @@
 import {TestBed} from '@angular/core/testing';
+import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
 import {provideRouter} from '@angular/router';
 import {Subject, of, throwError} from 'rxjs';
 import {beforeEach, describe, expect, it, vi} from 'vitest';
@@ -23,7 +25,7 @@ describe('DocumentaryDashboardPage', () => {
   beforeEach(() => {
     api.progress.mockReset().mockReturnValue(of(view));
     processes.list.mockReset().mockReturnValue(of([]));
-    TestBed.configureTestingModule({imports: [DocumentaryDashboardPage], providers: [
+    TestBed.configureTestingModule({imports: [DocumentaryDashboardPage], providers: [provideHttpClient(), provideHttpClientTesting(),
       provideRouter([]), {provide: ReportingApi, useValue: api}, {provide: ProcessApi, useValue: processes}
     ]});
   });

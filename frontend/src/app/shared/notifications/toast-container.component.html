@@ -1,0 +1,29 @@
+<div class="toast-announcements" aria-label="Avisos de notificaciones">
+  <div role="status" aria-live="polite" aria-atomic="true">{{ polite() }}</div>
+  <div role="alert" aria-live="assertive" aria-atomic="true">{{ urgent() }}</div>
+</div>
+<div #stack popover="manual" class="sigeac-toasts" [class.toast-fallback]="fallback()"
+  role="region" aria-label="Notificaciones" [style.--toast-top]="top() + 'px'" [style.--toast-right]="right() + 'px'">
+  @for (item of service.notifications(); track item.id) {
+    <article class="toast-card" [class]="'toast-card toast-' + item.kind" [class.toast-closing]="item.closing"
+      [attr.data-toast-id]="item.id" [attr.aria-labelledby]="'toast-title-' + item.id"
+      (mouseenter)="service.pause(item.id, 'pointer')" (mouseleave)="service.resume(item.id, 'pointer')"
+      (focusin)="service.pause(item.id, 'focus')" (focusout)="focusOut(item.id, $event)">
+      <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        @switch (item.kind) {
+          @case ('success') { <circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/> }
+          @case ('error') { <circle cx="12" cy="12" r="9"/><path d="m9 9 6 6m0-6-6 6"/> }
+          @case ('warning') { <path d="m12 3 10 18H2L12 3Z M12 9v4m0 4h.01"/> }
+          @case ('info') { <circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10h.01"/> }
+        }
+      </svg>
+      <div class="toast-copy">
+        <h2 class="toast-title" [id]="'toast-title-' + item.id">{{ item.title }}</h2>
+        <p class="toast-description">{{ item.description }}</p>
+      </div>
+      <button type="button" class="toast-close" [disabled]="item.closing" [attr.aria-label]="'Cerrar notificación: ' + item.title" (click)="close(item)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+      </button>
+    </article>
+  }
+</div>

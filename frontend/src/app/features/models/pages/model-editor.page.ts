@@ -1,16 +1,19 @@
-﻿import {ChangeDetectionStrategy,Component,signal} from '@angular/core';
+﻿import {ChangeDetectionStrategy,Component,inject,signal} from '@angular/core';
+import {NotificationService} from '../../../shared/notifications/notification.service';
 import {FormsModule} from '@angular/forms';
 import {ModelApi} from '../data-access/model-api.service';
 import {ApplicabilityInput,ModelCareerApplicability,ModelConfiguration,ModelNode,ModelVersion} from '../data-access/model.models';
 import {PublicationPanel} from '../ui/publication-panel.component';
 import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
+import {environment} from '../../../../environments/environment';
+import {EntityNamesService} from '../../../shared/labels/entity-names.service';
 @Component({
- selector:'sec-model-editor',standalone:true,imports:[FormsModule,PublicationPanel,DisplayLabelPipe],changeDetection:ChangeDetectionStrategy.OnPush,
+ selector:'sec-model-editor',standalone:true,providers:[EntityNamesService],imports:[FormsModule,PublicationPanel,DisplayLabelPipe],changeDetection:ChangeDetectionStrategy.OnPush,
  template:`<div class="sigeac-page">
  <header class="sigeac-page-header">
  <span class="sigeac-badge">Modelos</span>
  <h2>Modelo de evaluación versionado</h2>
- <p>Use únicamente datos sintéticos; jerarquías, fuentes, reglas y referencias no constituyen decisiones institucionales.</p>
+  <p>Configure la jerarquía, las fuentes y las reglas del modelo de evaluación.</p>
  </header>
  <section class="sigeac-page-body">
  <form (ngSubmit)="createModel()" class="sigeac-form-layout"><div class="sigeac-form-grid">
@@ -40,7 +43,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
   <h3 id="applicability-title">Aplicabilidad institucional por carrera</h3>
   <p>La publicación no infiere vigencia. Registre una decisión explícita con procedencia.</p>
   <form (ngSubmit)="decide(value)" class="sigeac-form-layout"><div class="sigeac-form-grid">
-   <div class="sigeac-form-field"><label for="career-id">Carrera (UUID)</label><input id="career-id" [(ngModel)]="careerId" name="careerId" required></div>
+   <div class="sigeac-form-field"><label for="career-id">Carrera</label><select id="career-id" [(ngModel)]="careerId" name="careerId" required><option value="">Seleccione una carrera</option>@for(career of names.careers();track career.id){<option [value]="career.id">{{career.data.name}}</option>}</select></div>
    <div class="sigeac-form-field"><label for="decision">Decisión</label><select id="decision" [(ngModel)]="decision" name="decision"><option value="APPLICABLE">Aplicable</option><option value="NOT_APPLICABLE">No aplicable</option><option value="EXPIRED">Vencida</option></select></div>
    <div class="sigeac-form-field"><label for="valid-from">Vigente desde</label><input id="valid-from" type="date" [(ngModel)]="validFrom" name="validFrom" required></div>
    <div class="sigeac-form-field"><label for="valid-until">Vigente hasta <span class="sigeac-optional">Opcional</span></label><input id="valid-until" type="date" [(ngModel)]="validUntil" name="validUntil"></div>
@@ -57,11 +60,13 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
  </section>
  </div>`})
 export class ModelEditorPage{
- name='Modelo Piloto Sintético';
- description='Configuración demostrativa sin valor institucional';
- source='Fuente sintética versionada con referencias pendientes';
- nodesJson=JSON.stringify(defaultNodes(),null,2);
- configurationJson=JSON.stringify(defaultConfiguration(),null,2);
+ readonly names=inject(EntityNamesService);
+ private readonly notifications=inject(NotificationService);
+ name=environment.demonstration?'Modelo Piloto Sintético':'';
+ description=environment.demonstration?'Configuración demostrativa sin valor institucional':'';
+ source=environment.demonstration?'Fuente sintética versionada con referencias pendientes':'';
+ nodesJson=environment.demonstration?JSON.stringify(defaultNodes(),null,2):'';
+ configurationJson=environment.demonstration?JSON.stringify(defaultConfiguration(),null,2):'';
  readonly modelId=signal('');
  readonly version=signal<ModelVersion|null>(null);
  readonly message=signal('');
@@ -72,14 +77,14 @@ export class ModelEditorPage{
  validFrom=new Date().toISOString().slice(0,10);
  validUntil='';
  authorityFunction='Dirección de Carrera';
- legalBasis='CL-011 (decisión sintética)';
- decisionDocument='fixture://decisions/cl-011';
- decisionReason='Solo prueba de software';
+  legalBasis=environment.demonstration?'CL-011 (decisión sintética)':'';
+  decisionDocument=environment.demonstration?'fixture://decisions/cl-011':'';
+  decisionReason=environment.demonstration?'Solo prueba de software':'';
  constructor(private readonly api:ModelApi){}
- createModel(){this.api.createModel(this.name,this.description).subscribe({next:m=>{this.modelId.set(m.id);this.message.set('Modelo creado.');},error:()=>this.message.set('No fue posible crear el modelo.')});}
- createConfigured(){const nodes=this.parse<readonly ModelNode[]>(this.nodesJson,'jerarquía');const configuration=this.parse<ModelConfiguration>(this.configurationJson,'configuración');if(!nodes||!configuration)return;this.api.createConfiguredVersion(this.modelId(),{source:this.source,nodes,configuration}).subscribe({next:v=>{this.version.set(v);this.message.set('Borrador configurable creado.');},error:()=>this.message.set('No fue posible crear el borrador configurable.')});}
+ createModel(){this.api.createModel(this.name,this.description).subscribe({next:m=>{this.modelId.set(m.id);this.notifications.success('Modelo creado','El modelo está disponible para configurar sus versiones.');},error:()=>this.notifications.error('No se pudo crear el modelo','Revise los datos y sus permisos.')});}
+ createConfigured(){const nodes=this.parse<readonly ModelNode[]>(this.nodesJson,'jerarquía');const configuration=this.parse<ModelConfiguration>(this.configurationJson,'configuración');if(!nodes||!configuration)return;this.api.createConfiguredVersion(this.modelId(),{source:this.source,nodes,configuration}).subscribe({next:v=>{this.version.set(v);this.notifications.success('Borrador creado','La configuración se guardó correctamente.');},error:()=>this.notifications.error('No se pudo crear el borrador','Revise la configuración e inténtelo nuevamente.')});}
  published(version:ModelVersion){this.version.set(version);this.api.applicability(version.id).subscribe({next:values=>this.applicability.set(values),error:()=>this.applicability.set([])});}
- decide(version:ModelVersion){if(!this.careerId){this.message.set('Indique la carrera.');return;}this.applicabilityBusy.set(true);const revision=this.latestApplicability()?.revision??0;const input:ApplicabilityInput={careerId:this.careerId,decision:this.decision,validFrom:this.validFrom,validUntil:this.validUntil||null,provenance:{authorityFunction:this.authorityFunction,legalBasis:this.legalBasis,documentReference:this.decisionDocument,reason:this.decisionReason}};this.api.decideApplicability(version.id,revision,input).subscribe({next:value=>{this.applicability.set([...this.applicability(),value]);this.applicabilityBusy.set(false);this.message.set('Decisión de aplicabilidad registrada.');},error:error=>{this.applicabilityBusy.set(false);this.message.set(error?.problem?.detail??'No fue posible registrar la decisión.');}});}
+ decide(version:ModelVersion){if(!this.careerId){this.message.set('Indique la carrera.');return;}this.applicabilityBusy.set(true);const revision=this.latestApplicability()?.revision??0;const input:ApplicabilityInput={careerId:this.careerId,decision:this.decision,validFrom:this.validFrom,validUntil:this.validUntil||null,provenance:{authorityFunction:this.authorityFunction,legalBasis:this.legalBasis,documentReference:this.decisionDocument,reason:this.decisionReason}};this.api.decideApplicability(version.id,revision,input).subscribe({next:value=>{this.applicability.set([...this.applicability(),value]);this.applicabilityBusy.set(false);this.notifications.success('Decisión registrada','La aplicabilidad se actualizó con su fundamento.');},error:()=>{this.applicabilityBusy.set(false);this.notifications.error('No se pudo registrar la decisión','Revise la carrera, la vigencia y sus permisos.');}});}
  latestApplicability():ModelCareerApplicability|null{const values=this.applicability().filter(value=>value.careerId===this.careerId);return values.length?values[values.length-1]:null;}
  referenceCount(version:ModelVersion){return version.configuration?.indicators.reduce((total,indicator)=>total+(indicator.normativeReferences?.length??0),0)??0;}
  pendingCount(version:ModelVersion){return version.configuration?.indicators.reduce((total,indicator)=>total+(indicator.normativeReferences?.filter(reference=>reference.verificationStatus==='PENDING_VALIDATION').length??0),0)??0;}

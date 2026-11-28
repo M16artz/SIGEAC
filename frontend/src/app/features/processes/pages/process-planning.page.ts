@@ -1,4 +1,6 @@
-﻿import {ChangeDetectionStrategy, Component, OnInit, signal} from '@angular/core';
+﻿import {ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject, signal} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {NotificationService} from '../../../shared/notifications/notification.service';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {Observable, finalize, forkJoin} from 'rxjs';
@@ -6,11 +8,16 @@ import {ProcessActivity, ProcessApi, ProcessAssignment, ProcessTeam, ProcessView
 import {ProcessStateControls} from '../ui/process-state-controls.component';
 import {AccessSessionService} from '../../access/data-access/access-session.service';
 import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
+import {EntityNamesService} from '../../../shared/labels/entity-names.service';
+import {PersonPickerComponent} from '../../../shared/labels/person-picker.component';
+import {AccessApi} from '../../access/data-access/access-api.service';
+import {AssignmentView} from '../../access/data-access/access.models';
 
 @Component({
   selector: 'sec-process-planning',
   standalone: true,
-  imports: [FormsModule, RouterLink, ProcessStateControls, DisplayLabelPipe],
+  providers: [EntityNamesService],
+  imports: [FormsModule, RouterLink, ProcessStateControls, DisplayLabelPipe, PersonPickerComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="sigeac-page sigeac-page--balanced">
@@ -43,7 +50,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
         <ul>@for (team of teams(); track team.id) {
           <li>{{team.name}} - {{team.processRole | displayLabel}} ({{team.validFrom}} a {{team.validUntil}})
             <ul>@for (member of memberships()[team.id] ?? []; track member.id) {
-              <li>Miembro {{member.userId}} ({{member.validFrom}} a {{member.validUntil}})</li>
+              <li>{{names.user(member.userId)}} ({{member.validFrom}} a {{member.validUntil}})</li>
             }</ul>
           </li>
         }</ul>
@@ -54,9 +61,13 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
             <div class="sigeac-form-field"><label for="member-team">Equipo</label><select id="member-team" name="memberTeam" [(ngModel)]="memberTeam" required>
               <option value="">Seleccione un equipo</option>@for (team of teams(); track team.id) {<option [value]="team.id">{{team.name}}</option>}
             </select></div>
-            <div class="sigeac-form-field"><label for="member-user">Usuario (UUID)</label><input id="member-user" name="memberUser" [(ngModel)]="memberUser" required></div>
-            <div class="sigeac-form-field sigeac-form-wide"><label for="member-role">Asignacion de rol del integrante (UUID)</label>
-            <input id="member-role" name="memberRole" [(ngModel)]="memberRole" required></div>
+            <div class="sigeac-form-field"><label for="member-user">Persona</label><sec-person-picker controlId="member-user" [value]="memberUser" (valueChange)="selectMember($event)" /></div>
+            <div class="sigeac-form-field sigeac-form-wide"><label for="member-role">Función del integrante</label>
+            <select id="member-role" name="memberRole" [(ngModel)]="memberRole" [required]="!memberRole"><option value="">Seleccione una función</option>
+              @for (role of memberRoles(); track role.id) {<option [value]="role.id">{{(role.roleName || role.roleCode) | displayLabel}} · {{names.career(role.careerId)}}</option>}
+            </select>
+            @if (memberRoles().length === 0) {<details><summary>Usar una referencia de designación autorizada</summary><label for="member-role-reference">Referencia de la designación</label><input id="member-role-reference" name="memberRoleReference" [(ngModel)]="memberRole"></details>}
+            </div>
             <div class="sigeac-form-field"><label for="member-from">Desde</label><input id="member-from" type="datetime-local" name="memberFrom" [(ngModel)]="memberFrom" required></div>
             <div class="sigeac-form-field"><label for="member-until">Hasta</label><input id="member-until" type="datetime-local" name="memberUntil" [(ngModel)]="memberUntil" required></div>
             <div class="sigeac-form-actions"><button [disabled]="busy() || !memberTeam">Agregar integrante</button></div>
@@ -76,7 +87,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
             <div class="sigeac-form-field"><label for="assign-subject">Asignar a</label><select id="assign-subject" name="assignSubject" [(ngModel)]="assignSubject">
               <option value="PERSON">Persona</option><option value="TEAM">Equipo</option>
             </select></div>
-            @if (assignSubject === 'PERSON') {<div class="sigeac-form-field"><label for="assign-identity">Identidad (UUID)</label><input id="assign-identity" name="assignIdentity" [(ngModel)]="assignIdentity" required></div>}
+            @if (assignSubject === 'PERSON') {<div class="sigeac-form-field"><label for="assign-identity">Persona</label><sec-person-picker controlId="assign-identity" [(value)]="assignIdentity" /></div>}
             @else {<div class="sigeac-form-field"><label for="assign-team">Equipo</label><select id="assign-team" name="assignTeam" [(ngModel)]="assignTeam" required><option value="">Seleccione un equipo</option>@for (team of teams(); track team.id) {<option [value]="team.id">{{team.name}}</option>}</select></div>}
             <div class="sigeac-form-field"><label for="assign-function">Función</label><select id="assign-function" name="assignFunction" [(ngModel)]="assignFunction"><option value="RESPONSIBLE">Responsable de evidencia</option><option value="REVIEWER">Revisor documental</option><option value="EVALUATOR">Evaluador académico</option></select></div>
             <div class="sigeac-form-field"><label for="assign-from">Desde</label><input id="assign-from" type="datetime-local" name="assignFrom" [(ngModel)]="assignFrom" required></div>
@@ -87,7 +98,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
           </form>
         } @else {<p>Las asignaciones requieren un proceso activo.</p>}
         <ul>@for (a of assignments(); track a.id) {
-          <li>{{a.function | displayLabel}} - indicador {{a.indicatorId}} - {{a.identityId ? 'persona ' + a.identityId : 'equipo ' + (a.teamId ?? '—')}}</li>
+          <li>{{a.function | displayLabel}} - {{indicatorName(a.indicatorId)}} - {{a.identityId ? names.user(a.identityId) : teamNameFor(a.teamId)}}</li>
         }</ul>
       </section>
 
@@ -101,13 +112,13 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
               <option value="">Seleccione un indicador</option>@for (i of current.indicators; track i.id) {<option [value]="i.id">{{i.code}} - {{i.name}}</option>}
             </select></div>
             <div class="sigeac-form-field"><label for="activity-assignment">Asignacion responsable</label><select id="activity-assignment" name="activityAssignment" [(ngModel)]="activityAssignment" required>
-              <option value="">Seleccione una asignación</option>@for (a of activityAssignments(); track a.id) {<option [value]="a.id">{{a.function | displayLabel}} - {{a.indicatorId}}</option>}
+              <option value="">Seleccione una asignación</option>@for (a of activityAssignments(); track a.id) {<option [value]="a.id">{{a.function | displayLabel}} - {{indicatorName(a.indicatorId)}}</option>}
             </select></div>
-            <div class="sigeac-form-field"><label for="activity-source">Fuente requerida <span class="sigeac-optional">Opcional · UUID</span></label>
-            <input id="activity-source" name="activitySource" [(ngModel)]="activitySource"></div>
+            <div class="sigeac-form-field"><details><summary>Asociar una fuente requerida</summary><label for="activity-source">Referencia de la fuente</label>
+            <input id="activity-source" name="activitySource" [(ngModel)]="activitySource"></details></div>
             <div class="sigeac-form-field"><label for="activity-due">Vencimiento</label><input id="activity-due" type="datetime-local" name="activityDue" [(ngModel)]="activityDue" required></div>
-            <div class="sigeac-form-field"><label for="activity-dependencies">Dependencias (UUID separados por coma)</label><input id="activity-dependencies" name="activityDependencies" [(ngModel)]="activityDependencies"></div>
-            <div class="sigeac-form-field"><label for="activity-authority">Asignacion autorizadora de la excepcion</label><input id="activity-authority" name="activityAuthority" [(ngModel)]="activityAuthority"></div>
+            <div class="sigeac-form-field"><label for="activity-dependencies">Actividades previas</label><select id="activity-dependencies" name="activityDependencies" multiple [ngModel]="dependencySelection()" (ngModelChange)="activityDependencies = $event.join(',')">@for (activity of activities(); track activity.id) {<option [value]="activity.id">{{activity.title}}</option>}</select></div>
+            <div class="sigeac-form-field"><label for="activity-authority">Asignación autorizadora de la excepción</label><select id="activity-authority" name="activityAuthority" [(ngModel)]="activityAuthority"><option value="">Seleccione una asignación</option>@for (role of session.identity()?.assignments ?? []; track role.id) {<option [value]="role.id">{{(role.roleName || role.roleCode) | displayLabel}} · {{names.career(role.careerId)}}</option>}</select></div>
             <div class="sigeac-form-field sigeac-form-wide"><label for="activity-exception">Motivo de excepcion de plazo (si vence fuera del periodo)</label><textarea id="activity-exception" name="activityException" [(ngModel)]="activityException" maxlength="4000"></textarea></div>
             <div class="sigeac-form-field sigeac-form-wide"><label for="activity-basis">Fundamento de la excepcion</label><textarea id="activity-basis" name="activityBasis" [(ngModel)]="activityBasis" maxlength="4000"></textarea></div>
             <div class="sigeac-form-actions">
@@ -119,7 +130,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
         }
         <ul>@for (activity of activities(); track activity.id) {
           <li>{{activity.title}} - vence {{activity.dueAt}} - revision {{activity.revision}}
-            @if (activity.dependencyIds.length) {<span> - depende de {{activity.dependencyIds.join(', ')}}</span>}
+            @if (activity.dependencyIds.length) {<span> - depende de @for (dependency of activity.dependencyIds; track dependency; let last = $last) {<span>{{activityName(dependency)}}{{last ? '' : ', '}}</span>}</span>}
             @if (activity.deadlineExceptionReason) {<span> - excepcion de plazo autorizada</span>}
             @if (current.state === 'PREPARATION' || current.state === 'ACTIVE') {
               <button type="button" (click)="editActivity(activity)">Editar</button>
@@ -133,6 +144,22 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
   `
 })
 export class ProcessPlanningPage implements OnInit {
+  readonly names = inject(EntityNamesService);
+  private readonly accessApi = inject(AccessApi);
+  private readonly destroyRef = inject(DestroyRef);
+  readonly memberRoles = signal<readonly AssignmentView[]>([]);
+  selectMember(id: string): void {
+    this.memberUser = id; this.memberRole = ''; this.memberRoles.set([]);
+    if (id === this.session.identity()?.id) { this.memberRoles.set(this.session.identity()?.assignments ?? []); return; }
+    if (this.names.users().some(user => user.id === id)) this.accessApi.listAssignments(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: roles => { if (this.memberUser === id) this.memberRoles.set(roles); }, error: () => {}
+    });
+  }
+  dependencySelection(): string[] { return this.activityDependencies.split(',').map(id => id.trim()).filter(Boolean); }
+  indicatorName(id: string): string { return this.process()?.indicators.find(item => item.id === id)?.name ?? 'Indicador no disponible'; }
+  teamNameFor(id: string | null): string { return this.teams().find(item => item.id === id)?.name ?? 'Equipo no disponible'; }
+  activityName(id: string): string { return this.activities().find(item => item.id === id)?.title ?? 'Actividad no disponible'; }
+  private readonly notifications = inject(NotificationService);
   readonly process = signal<ProcessView | null>(null);
   readonly teams = signal<readonly ProcessTeam[]>([]);
   readonly assignments = signal<readonly ProcessAssignment[]>([]);
@@ -267,8 +294,8 @@ export class ProcessPlanningPage implements OnInit {
     if (this.busy()) return;
     this.busy.set(true); this.error.set('');
     request.pipe(finalize(() => this.busy.set(false))).subscribe({
-      next: process => { this.process.set(process); this.refresh(process); this.cancelEdit(); },
-      error: () => this.error.set(message)
+      next: process => { this.process.set(process); this.notifications.success('Planificación actualizada', 'Los cambios del equipo, la asignación o la actividad se guardaron.'); this.refresh(process); this.cancelEdit(); },
+      error: () => this.notifications.error('No se pudo actualizar la planificación', message)
     });
   }
 

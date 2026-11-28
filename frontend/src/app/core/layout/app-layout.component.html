@@ -21,7 +21,7 @@
 
       <!-- RUTA SUPERIOR -->
       @if (!isLogin()) {
-        <div class="app-heading px-5 pt-5 sm:px-8 lg:px-10">
+        <div #notificationAnchor class="app-heading px-5 pt-5 sm:px-8 lg:px-10">
           <div class="app-breadcrumb">
             <button
               type="button"
@@ -83,12 +83,16 @@
             }
           </div>
         </div>
+        <sec-toast-container [anchor]="notificationAnchor" [suspended]="profileOpen() || mobileOpen()" />
       }
 
       <!-- CONTENIDO PRINCIPAL -->
       <div
         class="main-scroll min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-5 pb-8 pt-4 sm:px-8 lg:px-10"
       >
+        @if (demonstration && !isLogin()) {
+          <p class="mb-3 text-xs text-slate-500">Entorno de demostración. Utilice únicamente datos sintéticos.</p>
+        }
         <router-outlet />
       </div>
 

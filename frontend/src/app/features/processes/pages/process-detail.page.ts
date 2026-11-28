@@ -4,10 +4,12 @@ import {ActivatedRoute, RouterLink} from '@angular/router';
 import {ProcessApi, ProcessView} from '../data-access/process-api.service';
 import {ProcessStateControls} from '../ui/process-state-controls.component';
 import {ProcessAssignmentForm} from '../ui/process-assignment-form.component';
+import {EntityNamesService} from '../../../shared/labels/entity-names.service';
 
 @Component({
   selector: 'sec-process-detail',
   standalone: true,
+  providers: [EntityNamesService],
   imports: [FormsModule, RouterLink, ProcessStateControls, ProcessAssignmentForm],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -21,10 +23,10 @@ import {ProcessAssignmentForm} from '../ui/process-assignment-form.component';
     <p><a routerLink="/processes">Volver a procesos</a></p>
     @if (error()) { <p role="alert">{{error()}}</p> }
     @if (process(); as current) {
-      <p><strong>{{current.code}} Â· {{current.name}}</strong></p>
-      <p>Modelo fijado: {{current.modelVersionId}} Â· v{{current.modelVersionNumber}}</p>
+      <p><strong>{{current.code}} · {{current.name}}</strong></p>
+      <p>Versión del modelo: {{current.modelVersionNumber}}</p>
       <ul>@for (indicator of current.indicators; track indicator.id) {
-        <li>{{indicator.code}} Â· {{indicator.name}}</li>
+        <li>{{indicator.code}} · {{indicator.name}}</li>
       }</ul>
       <p><a [routerLink]="['/processes', current.id, 'planning']">Autorizacion y planificacion</a></p>
       <p><a [routerLink]="['/processes', current.id, 'activities']">Consultar actividades</a></p>

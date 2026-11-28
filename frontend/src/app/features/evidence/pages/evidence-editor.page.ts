@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild, inject, signal} from '@angular/core';
+import {NotificationService} from '../../../shared/notifications/notification.service';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {ApiProblemError} from '../../../core/http/api-client';
@@ -32,7 +33,6 @@ import {EvidenceSourcesComponent, ReferenceDraft} from '../ui/evidence-sources.c
           (upload)="uploadFile($event)" (removeFile)="removeFile($event)"
           (saveReference)="saveReference($event)" (removeReference)="removeReference($event)" />
       }
-      @if (message()) { <p role="status">{{message()}}</p> }
       @if (error()) { <p role="alert">{{error()}}</p> }
       @if (stale()) {
         <section role="alert">
@@ -45,6 +45,7 @@ import {EvidenceSourcesComponent, ReferenceDraft} from '../ui/evidence-sources.c
   `
 })
 export class EvidenceEditorPage implements OnInit {
+  private readonly notifications = inject(NotificationService);
   private readonly fb = inject(FormBuilder);
   private readonly api = inject(EvidenceApi);
   private readonly processes = inject(ProcessApi);
@@ -119,6 +120,7 @@ export class EvidenceEditorPage implements OnInit {
         this.files.set(resource.body.files);
         this.references.set(resource.body.externalReferences);
         this.message.set('Borrador guardado.');
+        this.notifications.success('Borrador guardado', 'Los datos de la evidencia se guardaron correctamente.');
       },
       error: (failure: unknown) => this.handleFailure(failure)
     });
@@ -185,6 +187,7 @@ export class EvidenceEditorPage implements OnInit {
     call(this.versionId).subscribe({
       next: () => {
         this.message.set(success);
+        this.notifications.success('Fuentes actualizadas', success);
         this.loadVersion(this.versionId!);
         this.working.set(false);
         this.uploadProgress.set(null);
@@ -212,7 +215,7 @@ export class EvidenceEditorPage implements OnInit {
         return;
       }
     }
-    this.sourcesError.set(fallback);
+    this.notifications.error('No se pudieron actualizar las fuentes', fallback);
   }
 
   private handleFailure(failure: unknown): void {
@@ -221,6 +224,6 @@ export class EvidenceEditorPage implements OnInit {
       queueMicrotask(() => this.staleReload?.nativeElement.focus());
       return;
     }
-    this.error.set('No fue posible guardar el borrador.');
+    this.notifications.error('No se pudo guardar el borrador', 'Revise los datos y sus permisos antes de reintentar.');
   }
 }

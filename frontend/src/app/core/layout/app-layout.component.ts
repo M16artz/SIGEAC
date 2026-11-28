@@ -6,16 +6,19 @@ import { AccessSessionService } from '../../features/access/data-access/access-s
 import type { CurrentIdentity } from '../../features/access/data-access/access.models';
 import { NAV_MODULES, NavModule } from './app-layout.navigation';
 import { displayLabel } from '../../shared/labels/display-labels';
+import {ToastContainerComponent} from '../../shared/notifications/toast-container.component';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'sec-app-layout',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, RouterOutlet],
+  imports: [RouterLink, RouterLinkActive, RouterOutlet, ToastContainerComponent],
   templateUrl: './app-layout.component.html',
   styleUrl: './app-layout.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppLayoutComponent {
+  readonly demonstration = environment.demonstration;
   private readonly router = inject(Router);
   readonly session = inject(AccessSessionService);
 

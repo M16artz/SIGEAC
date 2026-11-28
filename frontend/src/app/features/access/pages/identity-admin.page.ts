@@ -13,19 +13,25 @@ import { accessErrorMessage } from '../data-access/access.errors';
 import { AssignmentView, UserView } from '../data-access/access.models';
 import { AssignmentFormComponent } from '../ui/assignment-form.component';
 import { DisplayLabelPipe } from '../../../shared/labels/display-label.pipe';
+import {NotificationService} from '../../../shared/notifications/notification.service';
+import {EntityNamesService} from '../../../shared/labels/entity-names.service';
+import {accessDate} from '../../../shared/labels/access-date';
 
 @Component({
   selector: 'sec-identity-admin',
   standalone: true,
+  providers: [EntityNamesService],
   imports: [ReactiveFormsModule, AssignmentFormComponent, DisplayLabelPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './identity-admin.page.html',
-  styleUrls: ['./identity-admin.page.scss', './identity-registry.scss']
+  styleUrls: ['./identity-admin.page.scss', './identity-registry.scss', './access-tables.scss']
 })
 export class IdentityAdminPageComponent implements OnInit {
+  readonly names = inject(EntityNamesService);
   private readonly fb = inject(FormBuilder);
   private readonly api = inject(AccessApi);
+  private readonly notifications = inject(NotificationService);
 
   readonly users = signal<readonly UserView[]>([]);
   readonly assignments = signal<readonly AssignmentView[]>([]);
@@ -84,18 +90,19 @@ export class IdentityAdminPageComponent implements OnInit {
     this.api.createUser(this.createForm.getRawValue()).pipe(finalize(() => this.creating.set(false))).subscribe({
       next: () => {
         this.createMessage.set('Usuario registrado correctamente.');
+        this.notifications.success('Usuario registrado correctamente', 'La cuenta se creó con éxito.');
         this.createForm.reset({username: '', displayName: '', initialPassword: '', technical: false});
         this.load(0);
       },
-      error: (error: unknown) => this.createError.set(accessErrorMessage(error))
+      error: () => this.notifications.error('No se pudo registrar el usuario', 'Revise los datos de la cuenta e inténtelo nuevamente.')
     });
   }
 
   toggle(user: UserView): void {
     this.listError.set(null);
     this.api.updateUserState(user.id, !user.active, user.revision).subscribe({
-      next: () => this.load(this.page()),
-      error: (error: unknown) => this.listError.set(accessErrorMessage(error))
+      next: () => { this.notifications.success(user.active ? 'Cuenta desactivada' : 'Cuenta activada', 'El estado de la cuenta se actualizó.'); this.load(this.page()); },
+      error: () => this.notifications.error('No se pudo cambiar el estado', 'Revise sus permisos y vuelva a intentarlo.')
     });
   }
 
@@ -132,16 +139,16 @@ export class IdentityAdminPageComponent implements OnInit {
           if (this.selected()?.id !== user.id) return;
           this.revocationReason.reset();
           this.assignmentMessage.set('Asignación revocada. El historial se conserva y el permiso deja de estar vigente.');
+          this.notifications.success('Asignación revocada', 'El historial se conserva y el permiso deja de estar vigente.');
           this.reloadAssignments();
         },
-        error: (error: unknown) => {
-          if (this.selected()?.id === user.id) this.assignmentError.set(accessErrorMessage(error));
+        error: () => {
+          if (this.selected()?.id === user.id) this.notifications.error('No se pudo revocar la asignación', 'Revise sus permisos y recargue las asignaciones antes de reintentar.');
         }
       });
   }
 
   formatDate(value: string): string {
-    const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(value);
-    return match ? `${match[3]}/${match[2]}/${match[1]}` : value;
+    return accessDate(value);
   }
 }

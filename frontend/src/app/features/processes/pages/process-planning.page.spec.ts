@@ -1,4 +1,6 @@
 import {TestBed} from '@angular/core/testing';
+import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
 import {ActivatedRoute, convertToParamMap, provideRouter} from '@angular/router';
 import {of} from 'rxjs';
 import {beforeEach, describe, expect, it, vi} from 'vitest';
@@ -27,7 +29,7 @@ describe('Process planning integrity', () => {
     api.createActivity.mockReturnValue(of({...process,revision:5}));
     api.updateActivity.mockReturnValue(of({...process,revision:5}));
     api.addMember.mockReturnValue(of({...process,revision:5}));
-    TestBed.configureTestingModule({imports:[ProcessPlanningPage],providers:[provideRouter([]),
+    TestBed.configureTestingModule({imports:[ProcessPlanningPage],providers:[provideRouter([]), provideHttpClient(), provideHttpClientTesting(),
       {provide:ActivatedRoute,useValue:{snapshot:{paramMap:convertToParamMap({processId:process.id})}}},
       {provide:ProcessApi,useValue:api}, {provide:AccessSessionService,useValue:{identity:() => null}}
     ]});

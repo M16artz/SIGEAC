@@ -1,4 +1,5 @@
-import {ChangeDetectionStrategy, Component, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
+import {NotificationService} from '../../../shared/notifications/notification.service';
 import {FormsModule} from '@angular/forms';
 import {ModelApi} from '../data-access/model-api.service';
 import {ModelVersion} from '../data-access/model.models';
@@ -26,6 +27,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
     </section>
     </div>`})
 export class ModelHistoryPage {
+  private readonly notifications = inject(NotificationService);
   modelId = '';
   readonly versions = signal<readonly ModelVersion[]>([]);
   readonly error = signal('');
@@ -38,7 +40,7 @@ export class ModelHistoryPage {
   successor(version: ModelVersion): void {
     this.error.set('');
     const request = version.configuration ? this.api.configuredSuccessor(version.id) : this.api.successor(version.id);
-    request.subscribe({next: () => this.load(),
-      error: () => this.error.set('No fue posible crear la sucesora. Revise permisos y estado de la versión.')});
+    request.subscribe({next: () => { this.notifications.success('Nueva versión creada', 'La versión anterior permanece conservada.'); this.load(); },
+      error: () => this.notifications.error('No se pudo crear la nueva versión', 'Revise sus permisos y el estado de la versión actual.')});
   }
 }

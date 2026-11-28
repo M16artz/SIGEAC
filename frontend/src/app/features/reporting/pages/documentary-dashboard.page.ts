@@ -7,11 +7,12 @@ import {Subscription} from 'rxjs';
 import {ProcessApi, ProcessView} from '../../processes/data-access/process-api.service';
 import {DocumentaryProgressView, ReportingApi} from '../data-access/reporting-api.service';
 import {displayLabel} from '../../../shared/labels/display-labels';
+import {EvidenceReferenceComponent} from '../../../shared/labels/evidence-reference.component';
 
 @Component({
   selector: 'sec-documentary-dashboard',
   standalone: true,
-  imports: [FormsModule, DatePipe, DecimalPipe, RouterLink],
+  imports: [FormsModule, DatePipe, DecimalPipe, RouterLink, EvidenceReferenceComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="sigeac-page sigeac-page--balanced">
@@ -67,7 +68,7 @@ import {displayLabel} from '../../../shared/labels/display-labels';
                 <td>
                   @if (source.coverages.length === 0) { Sin remisiones }
                   @for (coverage of source.coverages; track coverage.versionId) {
-                    <p>Versión {{coverage.versionId}} · {{outcomeLabel(coverage.outcome)}}</p>
+                    <p><a [routerLink]="['/evidence/versions', coverage.versionId]"><sec-evidence-reference [versionId]="coverage.versionId" /></a> · {{outcomeLabel(coverage.outcome)}}</p>
                   }
                 </td>
               </tr>

@@ -1,4 +1,6 @@
 import {TestBed} from '@angular/core/testing';
+import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
 import {provideRouter} from '@angular/router';
 import {Subject, of, throwError} from 'rxjs';
 import {beforeEach, describe, expect, it, vi} from 'vitest';
@@ -23,7 +25,7 @@ describe('DocumentaryHistoryPage', () => {
     api.createSnapshot.mockReset().mockReturnValue(of(snapshot));
     processes.list.mockReset().mockReturnValue(of([]));
     processes.get.mockReset().mockReturnValue(of({id: 'process', state: 'ACTIVE', revision: 7}));
-    TestBed.configureTestingModule({imports: [DocumentaryHistoryPage], providers: [provideRouter([]),
+    TestBed.configureTestingModule({imports: [DocumentaryHistoryPage], providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting(),
       {provide: ReportingApi, useValue: api}, {provide: ProcessApi, useValue: processes}]});
   });
 

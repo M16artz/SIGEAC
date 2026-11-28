@@ -1,9 +1,11 @@
-import {ChangeDetectionStrategy, Component, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, inject, signal} from '@angular/core';
+import {NotificationService} from '../../../shared/notifications/notification.service';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {ProcessApi, ProcessView} from '../data-access/process-api.service';
 import {Career, CareerApi} from '../../careers/data-access/career-api.service';
 import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'sec-process-create',
@@ -62,11 +64,12 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
   `
 })
 export class ProcessCreatePage implements OnInit {
+  private readonly notifications = inject(NotificationService);
   careerId = '';
   careerQuery = '';
   readonly careers = signal<readonly Career[]>([]);
-  code = 'PROC-SYN-1';
-  name = 'Proceso sintético';
+  code = environment.demonstration ? 'PROC-SYN-1' : '';
+  name = environment.demonstration ? 'Proceso sintético' : '';
   start = '2026-01-01';
   end = '2026-12-31';
   modelVersionId = '';
@@ -92,8 +95,8 @@ export class ProcessCreatePage implements OnInit {
       careerId: this.careerId, code: this.code, name: this.name,
       periodStart: this.start, periodEnd: this.end, modelVersionId: this.modelVersionId
     }).subscribe({
-      next: process => { this.created.set(process); this.load(); },
-      error: () => this.error.set('No fue posible crear el proceso.')
+      next: process => { this.created.set(process); this.notifications.success('Proceso creado', 'El proceso está disponible para preparar su planificación.'); this.load(); },
+      error: () => this.notifications.error('No se pudo crear el proceso', 'Revise los datos, las fechas y sus permisos.')
     });
   }
 }

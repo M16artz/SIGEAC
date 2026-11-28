@@ -1,4 +1,5 @@
 import {TestBed} from '@angular/core/testing';
+import {NotificationService} from '../../../shared/notifications/notification.service';
 import {ActivatedRoute, convertToParamMap, provideRouter} from '@angular/router';
 import {of, throwError} from 'rxjs';
 import {beforeEach, describe, expect, it, vi} from 'vitest';
@@ -53,6 +54,7 @@ describe('EvidenceEditorPage', () => {
     expect(fixture.componentInstance.form.invalid).toBe(true);
     expect(fixture.componentInstance.form.controls.indicatorIds.hasError('required')).toBe(true);
     expect(api.create).not.toHaveBeenCalled();
+    expect(TestBed.inject(NotificationService).notifications()).toHaveLength(0);
   });
 
   it('loads indicator choices from the process and preserves selection', () => {
@@ -77,6 +79,7 @@ describe('EvidenceEditorPage', () => {
 
     expect(api.update).toHaveBeenCalledWith(versionId, expect.any(Object), '"0"');
     expect(fixture.componentInstance.etag()).toBe('"1"');
+    expect(TestBed.inject(NotificationService).notifications()).toEqual([expect.objectContaining({kind: 'success', title: 'Borrador guardado'})]);
   });
 
   it('does not retry stale writes and moves keyboard focus to the recovery action', async () => {
@@ -102,6 +105,7 @@ describe('EvidenceEditorPage', () => {
     expect(api.update).toHaveBeenCalledTimes(1);
     expect(fixture.componentInstance.stale()).toBe(true);
     expect(document.activeElement).toBe(recovery);
+    expect(TestBed.inject(NotificationService).notifications()).toHaveLength(0);
   });
 
   function configure(currentVersionId: string | null): void {

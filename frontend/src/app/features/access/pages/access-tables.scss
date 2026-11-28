@@ -1,0 +1,66 @@
+/* Acceso: tablas con márgenes uniformes, filas diferenciadas y datos legibles.
+   Alcance local: no modifica las tablas de otros módulos ni el shell. */
+#main-content :is(.access-home, .users-admin, .audit-page) {
+  --access-table-paper: var(--color-institutional-white);
+  --access-table-stripe: color-mix(in srgb, var(--color-institutional-blue-soft) 45%, var(--color-institutional-white));
+  --access-table-heading: var(--color-institutional-blue-soft);
+  --access-table-rule: color-mix(in srgb, var(--color-institutional-blue) 18%, var(--color-institutional-white));
+  --access-table-ink: var(--color-institutional-blue);
+  --access-table-selected: color-mix(in srgb, var(--color-institutional-blue-soft) 85%, var(--color-institutional-white));
+
+  :is(.sigeac-table-scroll, .audit-events-scroll) {
+    border: 1px solid var(--access-table-rule);
+    border-radius: .75rem;
+    max-inline-size: 100%;
+    overflow-x: auto;
+  }
+  :is(.users-list-panel, .users-assignments-panel) > .sigeac-table-scroll,
+  .audit-records .audit-events-scroll {
+    margin-inline: 2rem;
+    margin-block-end: 1.5rem;
+  }
+  table.sigeac-table {
+    > thead > tr > th {
+      padding-block: 1rem;
+      background: var(--access-table-heading);
+      color: var(--access-table-ink);
+      border-block-end: 2px solid var(--access-table-rule);
+      font-family: var(--font-sans);
+      font-size: .875rem;
+      font-weight: 700;
+      letter-spacing: normal;
+      text-transform: none;
+    }
+    > tbody > tr { --access-table-row: var(--access-table-paper); }
+    > tbody > tr:nth-child(even) { --access-table-row: var(--access-table-stripe); }
+    > tbody > tr.users-row--selected { --access-table-row: var(--access-table-selected); }
+    > tbody > tr > td {
+      padding-block: 1rem;
+      background: var(--access-table-row);
+      border-block-end: 1px solid var(--access-table-rule);
+      line-height: 1.6;
+    }
+    > tbody > tr > td:first-child { background: var(--access-table-row); }
+    > tbody > tr:last-child > td { border-block-end: 0; }
+    > tbody > tr:focus-within > td { --access-table-row: var(--access-table-selected); }
+  }
+
+  /* La fila de detalle de auditoría no altera el ritmo de los eventos. */
+  .audit-events-table > tbody > tr[data-event-id] { --access-table-row: var(--access-table-paper); }
+  .audit-events-table > tbody > tr[data-event-id]:nth-child(even of [data-event-id]) { --access-table-row: var(--access-table-stripe); }
+  .audit-events-table > tbody > tr.audit-events-details-row { --access-table-row: var(--access-table-stripe); }
+
+  @container access-page (max-width: 44rem) {
+    table.users-table > tbody > tr {
+      background: var(--access-table-row);
+      border-block-end: 1px solid var(--access-table-rule);
+      padding: 1.25rem 1rem;
+    }
+    table.users-table > tbody > tr > td { padding: 0; border: 0; }
+    table.users-table > tbody > tr > td + td { padding-block-start: .75rem; }
+  }
+  @container access-page (max-width: 38rem) {
+    :is(.users-list-panel, .users-assignments-panel) > .sigeac-table-scroll,
+    .audit-records .audit-events-scroll { margin-inline: 1rem; }
+  }
+}

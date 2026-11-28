@@ -28,19 +28,30 @@
             <legend class="access-form-title">Destino y política</legend>
             <div class="access-field-grid access-field-grid--destination">
               <div class="sigeac-field">
-                <label class="sigeac-label" for="policyId">Política de conflicto <span class="sigeac-required" aria-hidden="true">*</span></label>
-                <input id="policyId" class="sigeac-input" type="text" formControlName="policyId" autocomplete="off" required aria-describedby="exception-policy-help"
-                  [attr.aria-invalid]="form.controls.policyId.touched && form.controls.policyId.invalid ? 'true' : null">
-                <p id="exception-policy-help" class="sigeac-help">UUID sintético de la política base.</p>
-                @if (form.controls.policyId.touched && form.controls.policyId.invalid) {
-                  <p class="sigeac-field-error">Ingrese la política de conflicto.</p>
+                <label class="sigeac-label" for="policyId">Política de incompatibilidad <span class="sigeac-required" aria-hidden="true">*</span></label>
+                @if (policies.length) {
+                  <select id="policyId" class="sigeac-input" formControlName="policyId" required
+                    [attr.aria-describedby]="form.controls.policyId.touched && form.controls.policyId.invalid ? 'exception-policy-error' : null"
+                    [attr.aria-invalid]="form.controls.policyId.touched && form.controls.policyId.invalid ? 'true' : null">
+                    <option value="">Seleccione una política</option>
+                    @for (policy of policies; track policy.id) {<option [value]="policy.id">{{policy.label}}</option>}
+                  </select>
+                  @if (form.controls.policyId.touched && form.controls.policyId.invalid) {
+                    <p id="exception-policy-error" class="sigeac-field-error">Seleccione una política de incompatibilidad.</p>
+                  }
+                } @else {
+                  <input id="policyId" class="sigeac-input" value="Sin política disponible" readonly aria-describedby="exception-policy-help">
+                  <p id="exception-policy-help" class="sigeac-help">Solicite al administrador la configuración de las políticas disponibles.</p>
                 }
               </div>
               <div class="sigeac-field">
                 <label class="sigeac-label" for="targetUserId">Usuario destino <span class="sigeac-required" aria-hidden="true">*</span></label>
-                <input id="targetUserId" class="sigeac-input" type="text" formControlName="targetUserId" autocomplete="off" required aria-describedby="exception-target-help"
+                <select id="targetUserId" class="sigeac-input" formControlName="targetUserId" required [attr.aria-describedby]="!names.users().length ? 'exception-target-help' : null"
                   [attr.aria-invalid]="form.controls.targetUserId.touched && form.controls.targetUserId.invalid ? 'true' : null">
-                <p id="exception-target-help" class="sigeac-help">Identidad que recibe la excepción.</p>
+                  <option value="">Seleccione un usuario</option>
+                  @for (user of names.users(); track user.id) {<option [value]="user.id">{{user.displayName}} ({{user.username}})</option>}
+                </select>
+                @if (!names.users().length) {<p id="exception-target-help" class="sigeac-help">No hay usuarios disponibles para su acceso.</p>}
                 @if (form.controls.targetUserId.touched && form.controls.targetUserId.invalid) {
                   <p class="sigeac-field-error">Ingrese el usuario destino.</p>
                 }
@@ -55,20 +66,29 @@
             <div class="access-field-grid access-field-grid--scope">
               <div class="sigeac-field access-field--career">
                 <label class="sigeac-label" for="careerId">Carrera <span class="sigeac-required" aria-hidden="true">*</span></label>
-                <input id="careerId" class="sigeac-input" type="text" formControlName="careerId" autocomplete="off" required
+                <select id="careerId" class="sigeac-input" formControlName="careerId" required (change)="form.patchValue({processId: '', indicatorId: ''})"
                   [attr.aria-invalid]="form.controls.careerId.touched && form.controls.careerId.invalid ? 'true' : null">
+                  <option value="">Seleccione una carrera</option>
+                  @for (career of names.careers(); track career.id) {<option [value]="career.id">{{career.data.name}}</option>}
+                </select>
                 @if (form.controls.careerId.touched && form.controls.careerId.invalid) {
                   <p class="sigeac-field-error">Ingrese la carrera.</p>
                 }
               </div>
               <div class="sigeac-field">
                 <label class="sigeac-label" for="processId">Proceso <span class="sigeac-optional">Opcional</span></label>
-                <input id="processId" class="sigeac-input" type="text" formControlName="processId" autocomplete="off">
+                <select id="processId" class="sigeac-input" formControlName="processId" (change)="form.patchValue({indicatorId: ''})">
+                  <option value="">Todos</option>
+                  @for (process of availableProcesses(); track process.id) {<option [value]="process.id">{{process.name}}</option>}
+                </select>
               </div>
               <div class="sigeac-field">
                 <label class="sigeac-label" for="indicatorId">Indicador <span class="sigeac-optional">Opcional</span></label>
-                <input id="indicatorId" class="sigeac-input" type="text" formControlName="indicatorId" autocomplete="off" aria-describedby="exception-indicator-help">
-                <p id="exception-indicator-help" class="sigeac-help">Requiere informar un proceso.</p>
+                <select id="indicatorId" class="sigeac-input" formControlName="indicatorId" [attr.aria-describedby]="!form.controls.processId.value ? 'exception-indicator-help' : null">
+                  <option value="">Todos</option>
+                  @for (indicator of availableIndicators(); track indicator.id) {<option [value]="indicator.id">{{indicator.name}}</option>}
+                </select>
+                @if (!form.controls.processId.value) {<p id="exception-indicator-help" class="sigeac-help">Seleccione un proceso para limitar sus indicadores.</p>}
               </div>
             </div>
           </fieldset>
@@ -116,11 +136,6 @@
 
           @if (error()) {
             <p class="sigeac-alert sigeac-alert--error mt-5" role="alert">{{ error() }}</p>
-          }
-          @if (createdId()) {
-            <p class="sigeac-alert sigeac-alert--success mt-5" role="status">
-              <span>Excepción registrada con identificador <span class="font-semibold break-all">{{ createdId() }}</span>.</span>
-            </p>
           }
           <div class="access-form-actions">
             <button type="submit" class="sigeac-btn w-full sm:w-auto" [disabled]="submitting()">

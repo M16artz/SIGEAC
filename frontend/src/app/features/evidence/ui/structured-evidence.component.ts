@@ -25,7 +25,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
       @if (snapshots().length > 0) {
         <div class="sigeac-table-scroll" tabindex="0" role="region" aria-label="Datos estructurados conservados">
         <table class="sigeac-table-layout sigeac-table-layout--structured">
-          <caption>Snapshots registrados en la versión</caption>
+          <caption>Datos registrados en la versión</caption>
           <thead>
             <tr><th scope="col">Fuente</th><th scope="col">Modalidad</th><th scope="col">Valor</th>
               <th scope="col">Unidad</th><th scope="col">Período</th><th scope="col">Referencia</th></tr>
@@ -93,7 +93,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
           <div class="sigeac-form-field sigeac-form-wide"><label for="structured-reference">Referencia <span class="sigeac-optional">Opcional</span></label>
           <input id="structured-reference" name="reference" maxlength="2000"
             [ngModel]="reference()" (ngModelChange)="reference.set($event)" /></div>
-          <div class="sigeac-form-actions"><button type="submit" data-register-snapshot>Registrar snapshot</button></div>
+          <div class="sigeac-form-actions"><button type="submit" data-register-snapshot>Registrar datos</button></div>
           @if (formError()) { <p role="alert">{{formError()}}</p> }
           </div>
         </form>
@@ -126,7 +126,7 @@ export class StructuredEvidenceComponent {
 
   sourceName(sourceId: string): string {
     const source = this.sources().find(item => item.id === sourceId);
-    return source ? `${source.code} · ${source.name}` : sourceId;
+    return source ? `${source.code} · ${source.name}` : 'Fuente no disponible';
   }
 
   registerSnapshot(): void {

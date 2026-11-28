@@ -25,7 +25,12 @@
                 {"type": "anyComponentStyle", "maximumWarning": "8kB", "maximumError": "12kB"}
               ]
             },
-            "development": {"optimization": false, "sourceMap": true}
+            "development": {"optimization": false, "sourceMap": true},
+            "demonstration": {
+              "optimization": false,
+              "sourceMap": true,
+              "fileReplacements": [{"replace": "src/environments/environment.ts", "with": "src/environments/environment.demonstration.ts"}]
+            }
           },
           "defaultConfiguration": "production"
         },
@@ -34,7 +39,8 @@
           "options": {"proxyConfig": "proxy.conf.json"},
           "configurations": {
             "production": {"buildTarget": "sec-unl-web:build:production"},
-            "development": {"buildTarget": "sec-unl-web:build:development"}
+            "development": {"buildTarget": "sec-unl-web:build:development"},
+            "demonstration": {"buildTarget": "sec-unl-web:build:demonstration"}
           },
           "defaultConfiguration": "development"
         },

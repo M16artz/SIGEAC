@@ -3,9 +3,9 @@
 /* Anchos según la función de las columnas, no según la longitud del primer
    registro. Las tablas densas desplazan dentro de su contenedor, no la página. */
 $layouts: (
-  users: (52rem, (14%, 32%, 18%, 36%)),
-  assignments: (56rem, (20%, 16%, 16%, 16%, 18%, 14%)),
-  scopes: (52rem, (20%, 16%, 16%, 16%, 16%, 16%)),
+  users: (52rem, (48%, 18%, 34%)),
+  assignments: (44rem, (20%, 18%, 17%, 17%, 16%, 12%)),
+  scopes: (28rem, (18%, 22%, 15%, 15%, 15%, 15%)),
   careers: (60rem, (9%, 19%, 13%, 15%, 14%, 30%)),
   career-history: (54rem, (13%, 12%, 23%, 17%, 17%, 18%)),
   units: (52rem, (14%, 30%, 20%, 36%)),
@@ -23,6 +23,8 @@ $layouts: (
 
 #main-content {
   :is(.sigeac-table-scroll, .audit-events-scroll) {
+    box-sizing: border-box;
+    container: table-region / inline-size;
     min-width: 0;
     max-width: 100%;
     overflow-x: auto;
@@ -32,6 +34,8 @@ $layouts: (
   table.sigeac-table-layout {
     width: 100%;
     table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
     line-height: 1.5;
 
     > thead > tr > th,
@@ -78,6 +82,16 @@ $layouts: (
 
     /* Las listas de resultados no añaden márgenes verticales a cada fila. */
     td > :is(p, ul, ol) { margin: .25rem 0; }
+  }
+
+  /* Compact six-column session ledger: no pinned cells, no second table layout.
+     Keep every value visible; only narrow containers need horizontal scrolling. */
+  table.sigeac-table-layout.sigeac-table-layout--scopes {
+    > thead > tr > th, > tbody > tr > td { padding: .75rem .375rem; }
+    time { white-space: normal; font-size: inherit; }
+  }
+  @container table-region (max-width: 40rem) {
+    table.sigeac-table-layout--scopes { font-size: .8125rem; }
   }
 
   @media (max-width: 640px), (pointer: coarse) {

@@ -1,8 +1,9 @@
 import {DatePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject, signal} from '@angular/core';
+import {NotificationService} from '../../../shared/notifications/notification.service';
 import {FormsModule} from '@angular/forms';
 import {Observable, Subscription, catchError, forkJoin, of, switchMap} from 'rxjs';
-import {ApiProblemError} from '../../../core/http/api-client';
+import {userErrorMessage} from '../../../shared/labels/user-error-message';
 import {ProcessApi, ProcessView} from '../../processes/data-access/process-api.service';
 import {Finding, ReportApi, ReportVersion} from '../../reports/data-access/report-api.service';
 import {
@@ -10,6 +11,7 @@ import {
 } from '../data-access/improvement-api.service';
 import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
 import {displayLabel} from '../../../shared/labels/display-labels';
+import {EntityNamesService} from '../../../shared/labels/entity-names.service';
 
 const TRANSITION_CODES: readonly Transition[] = ['APPROVE', 'RETURN', 'START', 'SUBMIT_VERIFICATION', 'VERIFY', 'REQUEST_CORRECTION'];
 const TRANSITIONS = TRANSITION_CODES.map(value => ({value, label: displayLabel(value, 'improvementTransition')}));
@@ -17,6 +19,7 @@ const TRANSITIONS = TRANSITION_CODES.map(value => ({value, label: displayLabel(v
 @Component({
   selector: 'sec-improvement-plan-page',
   standalone: true,
+  providers: [EntityNamesService],
   imports: [FormsModule, DatePipe, DisplayLabelPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [`
@@ -44,10 +47,10 @@ const TRANSITIONS = TRANSITION_CODES.map(value => ({value, label: displayLabel(v
       </select>
       @if (loading()) { <p role="status">Consultando planes y acciones…</p> }
       @if (error()) { <p role="alert">{{error()}}</p> }
-      @if (message()) { <p role="status">{{message()}}</p> }
+      @if (contextMessage()) { <p>{{contextMessage()}}</p> }
 
       @if (processId) {
-        <h3>Paso P15: plan y acciones medibles</h3>
+        <h3>Plan y acciones medibles</h3>
         @if (plans().length > 0) {
           <p class="muted">Planes creados en esta sesión: {{plans().length}}.</p>
         }
@@ -105,7 +108,7 @@ const TRANSITIONS = TRANSITION_CODES.map(value => ({value, label: displayLabel(v
           <article>
             <strong>{{action.data.title}}</strong> · {{stateLabel(action.state)}}
             @if (action.overdue) { <span class="overdue"> · Vencida sin verificación</span> }
-            <p class="muted">Revisión {{action.revision}} · Responsable {{action.data.responsibleAssignmentId}} ·
+            <p class="muted">Revisión {{action.revision}} · Responsable: {{names.assignment(action.data.responsibleAssignmentId)}} ·
               Plazo {{action.data.dueAt | date:'medium'}} · Hallazgos {{action.data.findingIds.length}} ·
               Avances {{action.progress.length}} · Decisiones {{action.decisions.length}}</p>
             <button type="button" (click)="selectAction(action.id)" [disabled]="saving()">Abrir seguimiento</button>
@@ -185,6 +188,9 @@ const TRANSITIONS = TRANSITION_CODES.map(value => ({value, label: displayLabel(v
   `
 })
 export class ImprovementPlanPage implements OnInit, OnDestroy {
+  readonly names = inject(EntityNamesService);
+  private readonly notifications = inject(NotificationService);
+  readonly contextMessage = signal('');
   private readonly processesApi = inject(ProcessApi);
   private readonly reportsApi = inject(ReportApi);
   private readonly api = inject(ImprovementApi);
@@ -241,6 +247,7 @@ export class ImprovementPlanPage implements OnInit, OnDestroy {
     this.plans.set([]);
     this.actions.set([]);
     this.detail.set(null);
+    this.contextMessage.set('');
     this.versions.set([]);
     this.findings.set([]);
     this.actionFindings.set([]);
@@ -366,6 +373,7 @@ export class ImprovementPlanPage implements OnInit, OnDestroy {
     this.revisionDue = Number.isNaN(due.getTime()) ? '' : this.localInput(due);
     this.progressEvidence = detail.progress.at(-1)?.data.evidenceVersionIds.join(',') ?? '';
     this.message.set(`Seguimiento de la acción · Revisión ${detail.revision} · ${displayLabel(detail.state, 'improvement')}`);
+    this.contextMessage.set(this.message());
   }
 
   private localInput(date: Date): string {
@@ -391,8 +399,9 @@ export class ImprovementPlanPage implements OnInit, OnDestroy {
         if (result.detail) this.detail.set(result.detail);
         this.saving.set(false);
         this.message.set(message);
+        this.notifications.success('Plan de mejora actualizado', message);
       },
-      error: e => this.fail(e)
+      error: e => { this.fail(e); this.error.set('Recargue el plan de mejora antes de continuar.'); this.notifications.error('No se pudo actualizar el plan de mejora', 'Revise los datos, la revisión vigente y sus permisos.'); }
     });
   }
 
@@ -426,7 +435,6 @@ export class ImprovementPlanPage implements OnInit, OnDestroy {
 
   private fail(error: unknown): void {
     this.saving.set(false); this.loading.set(false);
-    this.error.set(error instanceof ApiProblemError ? error.message
-      : 'No se pudo completar la operación de mejora. Recargue antes de continuar.');
+    this.error.set(userErrorMessage(error, 'No se pudo completar la operación de mejora. Recargue antes de continuar.'));
   }
 }

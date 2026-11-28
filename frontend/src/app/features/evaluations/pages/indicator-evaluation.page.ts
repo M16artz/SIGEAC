@@ -1,16 +1,20 @@
 import {DatePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject, signal} from '@angular/core';
+import {NotificationService} from '../../../shared/notifications/notification.service';
 import {FormsModule} from '@angular/forms';
 import {Subscription, switchMap} from 'rxjs';
-import {ApiProblemError} from '../../../core/http/api-client';
 import {ProcessApi, ProcessView} from '../../processes/data-access/process-api.service';
 import {AcademicEvaluationApi, ManualEvaluationView} from '../data-access/academic-evaluation-api.service';
 import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
+import {EntityNamesService} from '../../../shared/labels/entity-names.service';
+import {userErrorMessage} from '../../../shared/labels/user-error-message';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'sec-indicator-evaluation-page',
   standalone: true,
-  imports: [FormsModule, DatePipe, DisplayLabelPipe],
+  providers: [EntityNamesService],
+  imports: [FormsModule, DatePipe, DisplayLabelPipe, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [`
     section { max-width: 70rem; }
@@ -43,11 +47,10 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
       </div></div>
       @if (loading()) { <p role="status">Consultando valoraciones…</p> }
       @if (error()) { <p role="alert">{{error()}}</p> }
-      @if (message()) { <p role="status">{{message()}}</p> }
       @if (processId && indicatorId) { <button type="button" (click)="load()" [disabled]="loading() || saving()">Recargar valoración</button> }
       @if (view(); as v) {
         <p>Método de la versión publicada: {{v.method}}</p>
-        <p>Modelo: {{v.modelVersionId}} · Estado del proceso: {{v.processState | displayLabel}}</p>
+        <p>Estado del proceso: {{v.processState | displayLabel}}</p>
         @if (editable(v)) {
           <form (ngSubmit)="save()" class="sigeac-form-layout"><div class="sigeac-form-grid">
             <div class="sigeac-form-field"><label for="evaluation-rating">Resultado según escala del indicador</label>
@@ -58,7 +61,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
             <fieldset [disabled]="saving()">
               <legend>Versiones aceptadas que sustentan este juicio</legend>
               @for (version of versions(); track version) {
-                <label><input type="checkbox" [checked]="selected.includes(version)" (change)="toggle(version)" /> {{supportTitle(v, version)}} · {{version}}</label>
+                <label><input type="checkbox" [checked]="selected.includes(version)" (change)="toggle(version)" /> {{supportTitle(v, version)}}</label>
               } @empty { <p>No hay sustentos documentales aceptados y vigentes.</p> }
             </fieldset>
             <div class="sigeac-form-field"><label for="evaluation-justification">Justificación</label>
@@ -74,13 +77,13 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
         @for (item of v.items; track item.id) {
           <article>
             <h4>{{item.ratingLabel}} · revisión {{item.revision}}</h4>
-            <p>{{item.evaluatedAt | date:'medium'}} · Evaluador: {{item.evaluatorId}}</p>
+            <p>{{item.evaluatedAt | date:'medium'}} · Evaluador: {{names.user(item.evaluatorId)}}</p>
             <p>{{item.justification}}</p><p>Limitaciones: {{item.limitations}}</p>
             <p>Método conservado: {{item.method}}</p>
-            @if (item.predecessorId) { <p>Juicio anterior: {{item.predecessorId}}</p> }
+            @if (item.predecessorId) { <p>Conserva una valoración anterior en el historial.</p> }
             <ul>
               @for (support of item.supports; track support.requiredSourceId + support.evidenceVersionId) {
-                <li>{{support.title}} · Versión: {{support.evidenceVersionId}} · Fuente: {{support.requiredSourceId}} · Decisión: {{support.reviewDecisionId}}</li>
+                <li><a [routerLink]="['/evidence/versions', support.evidenceVersionId]">{{support.title}}</a></li>
               }
             </ul>
           </article>
@@ -96,6 +99,8 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
   `
 })
 export class IndicatorEvaluationPage implements OnInit, OnDestroy {
+  readonly names = inject(EntityNamesService);
+  private readonly notifications = inject(NotificationService);
   private readonly api = inject(AcademicEvaluationApi);
   private readonly processApi = inject(ProcessApi);
   private request?: Subscription;
@@ -137,7 +142,7 @@ export class IndicatorEvaluationPage implements OnInit, OnDestroy {
     this.request = this.api.save(v, {ratingOptionId: this.ratingOptionId, evidenceVersionIds: this.selected,
       justification: this.justification.trim(), limitations: this.limitations.trim(), predecessorId: v.ownLatestId}).pipe(
       switchMap(() => this.api.view(v.processId, v.indicatorId))
-    ).subscribe({next: updated => { this.accept(updated); this.saving.set(false); this.message.set('Valoración conservada con sus sustentos y método.'); }, error: e => this.fail(e)});
+    ).subscribe({next: updated => { this.accept(updated); this.saving.set(false); this.message.set('Valoración conservada con sus sustentos y método.'); this.notifications.success('Valoración guardada', 'Se conservaron sus sustentos y método.'); }, error: e => { this.fail(e); this.error.set('Recargue la valoración antes de continuar.'); this.notifications.error('No se pudo guardar la valoración', 'Revise el historial y sus permisos antes de repetir la operación.'); }});
   }
   private accept(v: ManualEvaluationView): void {
     this.view.set(v); this.versions.set([...new Set(v.acceptedSupports.map(s => s.evidenceVersionId))]);
@@ -150,6 +155,6 @@ export class IndicatorEvaluationPage implements OnInit, OnDestroy {
   }
   private fail(error: unknown): void {
     this.view.set(null); this.versions.set([]); this.loading.set(false); this.saving.set(false);
-    this.error.set(error instanceof ApiProblemError ? error.message : 'No se pudo consultar o guardar la valoración. Recargue antes de continuar.');
+    this.error.set(userErrorMessage(error, 'No se pudo consultar o guardar la valoración. Recargue antes de continuar.'));
   }
 }

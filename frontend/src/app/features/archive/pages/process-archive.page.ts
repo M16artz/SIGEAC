@@ -1,8 +1,9 @@
 import {DatePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject, signal} from '@angular/core';
+import {NotificationService} from '../../../shared/notifications/notification.service';
 import {FormsModule} from '@angular/forms';
 import {Observable, Subscription, catchError, forkJoin, of} from 'rxjs';
-import {ApiProblemError} from '../../../core/http/api-client';
+import {userErrorMessage} from '../../../shared/labels/user-error-message';
 import {ProcessApi, ProcessView} from '../../processes/data-access/process-api.service';
 import {
   ArchiveApi, ClosurePage, ClosurePreview, ClosureRecord, ProvenanceCommand
@@ -44,7 +45,6 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
       </div>
       @if (loading()) { <p role="status">Consultando cierres y bloqueadores...</p> }
       @if (error()) { <p role="alert">{{error()}}</p> }
-      @if (message()) { <p role="status">{{message()}}</p> }
 
       @if (preview(); as p) {
         <article aria-label="Vista previa del cierre integral">
@@ -94,7 +94,6 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
       @if (selectedClosure(); as closure) {
         <form (ngSubmit)="archiveClosure()" class="sigeac-form-layout"><div class="sigeac-form-grid">
           <h4>Archivar cierre seleccionado</h4>
-          <p class="muted"><code>{{closure.id}}</code></p>
           <div class="sigeac-form-field"><label for="archive-retention">Política de retención</label>
           <input id="archive-retention" name="archiveRetention" [(ngModel)]="retentionPolicyVersion" required maxlength="100" [disabled]="saving()" /></div>
           <div class="sigeac-form-actions"><button type="submit" [disabled]="saving() || retentionPolicyVersion.trim().length === 0">Archivar cierre</button></div>
@@ -106,6 +105,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
   `
 })
 export class ProcessArchivePage implements OnInit, OnDestroy {
+  private readonly notifications = inject(NotificationService);
   private readonly processesApi = inject(ProcessApi);
   private readonly api = inject(ArchiveApi);
   private request?: Subscription;
@@ -218,16 +218,16 @@ export class ProcessArchivePage implements OnInit, OnDestroy {
       next: () => {
         this.saving.set(false);
         this.message.set(message);
+        this.notifications.success('Operación registrada', message);
         this.refresh();
       },
-      error: (error: unknown) => this.fail(error)
+      error: (error: unknown) => { this.fail(error); this.error.set('Recargue los cierres y bloqueadores antes de continuar.'); this.notifications.error('No se pudo completar el cierre o archivo', 'Revise las condiciones de cierre, la integridad y sus permisos.'); }
     });
   }
 
   private fail(error: unknown): void {
     this.loading.set(false);
     this.saving.set(false);
-    this.error.set(error instanceof ApiProblemError ? error.message
-      : 'No se pudo completar la operación de cierre o archivo. Recargue antes de continuar.');
+    this.error.set(userErrorMessage(error, 'No se pudo completar la operación de cierre o archivo. Recargue antes de continuar.'));
   }
 }

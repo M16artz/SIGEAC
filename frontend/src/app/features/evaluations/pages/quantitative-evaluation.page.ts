@@ -1,14 +1,16 @@
 import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, inject, signal} from '@angular/core';
+import {NotificationService} from '../../../shared/notifications/notification.service';
 import {FormsModule} from '@angular/forms';
 import {DatePipe} from '@angular/common';
 import {RouterLink} from '@angular/router';
 import {Observable, Subscription, switchMap} from 'rxjs';
-import {ApiProblemError} from '../../../core/http/api-client';
 import {ProcessApi, ProcessView} from '../../processes/data-access/process-api.service';
 import {CaptureVariables, QuantitativeApi, QuantitativeView} from '../data-access/quantitative-api.service';
 import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
+import {EntityNamesService} from '../../../shared/labels/entity-names.service';
+import {userErrorMessage} from '../../../shared/labels/user-error-message';
 
-@Component({selector: 'sec-quantitative-evaluation', standalone: true, imports: [FormsModule, DatePipe, RouterLink, DisplayLabelPipe],
+@Component({selector: 'sec-quantitative-evaluation', standalone: true, providers: [EntityNamesService], imports: [FormsModule, DatePipe, RouterLink, DisplayLabelPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [`select, textarea, input[type=date] {display:block; margin:.4rem 0 1rem; max-width:100%} textarea {width:100%;min-height:5rem}
     article {border-top:1px solid #ccc; padding:1rem 0; overflow-wrap:anywhere} fieldset {margin:1rem 0} fieldset label {display:block;margin:.5rem 0}
@@ -35,11 +37,10 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
       </select></div>
       </div></div>
       @if (error()) {<p role="alert">{{error()}}</p>}
-      @if (message()) {<p role="status">{{message()}}</p>}
       @if (processId && indicatorId) {<button type="button" (click)="load()" [disabled]="busy()">Recargar variables</button>}
       @if (view(); as v) {
         <p>Método: {{v.rule.methodDefinition}}</p>
-        <p>Fórmula publicada: {{v.rule.formulaDefinition}} · Estrategia: {{v.rule.strategyKey | displayLabel}} / {{v.rule.strategyVersion}}</p>
+        <p>Fórmula publicada: {{v.rule.formulaDefinition}}</p>
         @if (editable(v)) {
           <form (ngSubmit)="capture()" class="sigeac-form-layout"><div class="sigeac-form-grid">
             <div class="sigeac-form-field"><label for="quant-period-start">Inicio del período de variables</label>
@@ -54,7 +55,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
                 <p>Tipo: {{variable.dataType | displayLabel}} · Restricción publicada: {{variable.validationDefinition}}</p>
                 <p>Sustentos aceptados de esta variable:</p>
                 @for (version of versions(); track version.id) {
-                  <label><input type="checkbox" [checked]="selected[variable.code]?.includes(version.id)" (change)="toggle(variable.code, version.id)" /> {{version.title}} · {{version.id}}</label>
+                  <label><input type="checkbox" [checked]="selected[variable.code]?.includes(version.id)" (change)="toggle(variable.code, version.id)" /> {{version.title}}</label>
                 } @empty {<p>Sin sustentos documentales aceptados.</p>}
               </fieldset>
             }
@@ -67,7 +68,7 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
             <h3>Variables conservadas · revisión {{inputs.revision}}</h3>
             <p>{{inputs.periodStart}} a {{inputs.periodEnd}} · {{inputs.capturedAt | date:'medium'}}</p>
             @for (variable of inputs.variables; track variable.code) {<p>{{variable.code}} = {{variable.value}} {{variable.unit}}</p>}
-            @if (v.verification; as verification) {<p>Verificadas por {{verification.verifiedBy}} · {{verification.reason}}</p>}
+            @if (v.verification; as verification) {<p>Verificadas por {{names.user(verification.verifiedBy)}} · {{verification.reason}}</p>}
             @else if (editable(v)) {
               <form (ngSubmit)="verify()" class="sigeac-form-layout"><div class="sigeac-form-grid">
                 <div class="sigeac-form-field sigeac-form-wide"><label for="quant-verification-reason">Fundamento de la verificación</label>
@@ -92,18 +93,18 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
         @for (run of v.items; track run.id) {
           <article>
             <h4>Resultado: {{run.result}} % · {{run.ratingLabel}}</h4>
-            <p>{{run.executedAt | date:'medium'}} · {{run.executedBy}}</p>
-            <p>Fórmula: {{run.rule.formulaDefinition}} · {{run.rule.strategyKey | displayLabel}} / {{run.rule.strategyVersion}} · {{run.arithmetic}}</p>
+            <p>{{run.executedAt | date:'medium'}} · {{names.user(run.executedBy)}}</p>
+            <p>Fórmula: {{run.rule.formulaDefinition}} · {{run.arithmetic}}</p>
             <p>Umbral conservado: {{run.threshold.lowerBound ?? 'sin límite inferior'}} a {{run.threshold.upperBound ?? 'sin límite superior'}}.
               Inclusión inferior: {{run.threshold.lowerInclusive | displayLabel}} · superior: {{run.threshold.upperInclusive | displayLabel}}</p>
             <p>{{run.justification}}</p><p>Limitaciones: {{run.limitations}}</p>
             @for (variable of run.inputs.variables; track variable.code) {
               <p>{{variable.code}} = {{variable.value}} {{variable.unit}} · {{run.inputs.periodStart}} a {{run.inputs.periodEnd}}</p>
               <ul>@for (support of variable.supports; track support.requiredSourceId + support.evidenceVersionId) {
-                <li>{{support.title}} · Versión: {{support.evidenceVersionId}} · Decisión: {{support.reviewDecisionId}}</li>
+                <li><a [routerLink]="['/evidence/versions', support.evidenceVersionId]">{{support.title}}</a></li>
               }</ul>
             }
-            <p>Verificación: {{run.verification.verifiedBy}} · {{run.verification.reason}}</p>
+            <p>Verificación: {{names.user(run.verification.verifiedBy)}} · {{run.verification.reason}}</p>
           </article>
         } @empty {<p>No hay cálculos registrados.</p>}
         <nav aria-label="Páginas de cálculos">
@@ -114,6 +115,8 @@ import {DisplayLabelPipe} from '../../../shared/labels/display-label.pipe';
     </section>
     </div>`})
 export class QuantitativeEvaluationPage implements OnInit, OnDestroy {
+  readonly names = inject(EntityNamesService);
+  private readonly notifications = inject(NotificationService);
   private readonly api = inject(QuantitativeApi); private readonly processApi = inject(ProcessApi);
   private request?: Subscription; private listing?: Subscription;
   readonly processes = signal<readonly ProcessView[]>([]); readonly indicators = signal<ProcessView['indicators']>([]);
@@ -140,7 +143,7 @@ export class QuantitativeEvaluationPage implements OnInit, OnDestroy {
   calculate(): void {const v = this.view(); if (v?.verification && this.editable(v) && !this.busy() && !this.alreadyCalculated(v) && this.justification.trim().length >= 10 && this.limitations.trim().length >= 10) this.perform(this.api.calculate(v, this.justification.trim(), this.limitations.trim()), 'Cálculo y fundamentos conservados.');}
   private perform(operation: Observable<unknown>, message: string): void {
     this.busy.set(true); this.error.set(''); this.message.set(''); this.request?.unsubscribe();
-    this.request = operation.pipe(switchMap(() => this.api.view(this.processId, this.indicatorId))).subscribe({next: v => {this.accept(v); this.message.set(message);}, error: e => this.fail(e)});
+    this.request = operation.pipe(switchMap(() => this.api.view(this.processId, this.indicatorId))).subscribe({next: v => {this.accept(v); this.message.set(message); this.notifications.success('Evaluación actualizada', message);}, error: e => {this.fail(e); this.error.set('Recargue la evaluación antes de continuar.'); this.notifications.error('No se pudo completar la evaluación', 'Revise el historial y sus permisos antes de repetir la operación.');}});
   }
   private accept(v: QuantitativeView): void {
     this.view.set(v); this.busy.set(false);
@@ -149,5 +152,5 @@ export class QuantitativeEvaluationPage implements OnInit, OnDestroy {
     for (const variable of v.rule.variables) this.selected[variable.code] = (this.selected[variable.code] ?? []).filter(id => this.versions().some(v => v.id === id));
   }
   private reset(): void {this.request?.unsubscribe(); this.view.set(null); this.versions.set([]); this.busy.set(false); this.error.set(''); this.message.set(''); this.values = {}; this.selected = {}; this.periodStart = ''; this.periodEnd = ''; this.reason = ''; this.justification = ''; this.limitations = '';}
-  private fail(e: unknown): void {this.view.set(null); this.versions.set([]); this.busy.set(false); this.error.set(e instanceof ApiProblemError ? e.message : 'No se completó la operación. Recargue y consulte el historial antes de repetirla.');}
+  private fail(e: unknown): void {this.view.set(null); this.versions.set([]); this.busy.set(false); this.error.set(userErrorMessage(e, 'No se completó la operación. Recargue y consulte el historial antes de repetirla.'));}
 }

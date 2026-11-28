@@ -1,4 +1,7 @@
 import {TestBed} from '@angular/core/testing';
+import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
+import {provideRouter} from '@angular/router';
 import {of, Subject, throwError} from 'rxjs';
 import {beforeEach, describe, expect, it, vi} from 'vitest';
 import {ProcessApi} from '../../processes/data-access/process-api.service';
@@ -16,7 +19,7 @@ describe('AcademicDisagreementPage', () => {
   const api = {view: vi.fn(), policy: vi.fn(), open: vi.fn(), resolve: vi.fn()};
   beforeEach(() => {
     for (const fn of Object.values(api)) fn.mockReset();api.view.mockReturnValue(of(view));api.resolve.mockReturnValue(of({}));api.policy.mockReturnValue(of({}));api.open.mockReturnValue(of({}));
-    TestBed.configureTestingModule({imports: [AcademicDisagreementPage], providers: [{provide: ReconciliationApi, useValue: api},
+    TestBed.configureTestingModule({imports: [AcademicDisagreementPage], providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([]), {provide: ReconciliationApi, useValue: api},
       {provide: ProcessApi, useValue: {list: () => of([])}}, {provide: AccessSessionService, useValue: {identity: () => ({assignments: [{id: 'assignment', roleName: 'Comité'}]})}}]});
   });
   function page() {const fixture = TestBed.createComponent(AcademicDisagreementPage);fixture.detectChanges();const component = fixture.componentInstance;
